@@ -1,0 +1,1255 @@
+link :- web https://takeuforward.org/data-structure/binary-search-explained/
+youtube : - https://www.youtube.com/playlist?list=PLgUwDviBIf0pMFMWuuvDNMAkoQFi-h0ZF
+in this everything works only on a sorted arrray
+
+
+lower bound ]
+def lowerBound(arr: [int], n: int, x: int) -> int:
+    high=n-1
+    low=0
+    ans=-1
+    ansx=0
+    while(high>=low):
+        mid= int((high+low)//2)
+        if(arr[mid]>=x):
+            ans = mid
+            high = mid-1
+        else:
+            low= mid+1
+            ansx=low
+    if(ans==-1):
+        return ansx
+    return ans
+
+take you forward ans
+
+def lowerBound(arr: [int], n: int, x: int) -> int:
+    for i in range(n):
+        if arr[i] >= x:
+            #lower bound found
+            return i
+    return n
+
+upper bound
+def upperBound(arr: [int], x: int, n: int) -> int:
+    high= n - 1
+    low = 0
+    ans = n
+    while(high>=low):
+        mid=int((high+low)/2)
+        if(arr[mid]>x):
+            ans = mid
+            high = mid - 1
+        else:
+            low = mid + 1
+    return ans
+
+
+binary search - 
+
+
+for inserting the number in right place in a array - ans is same as lower bound
+as same concept 
+def searchInsert(arr: [int], x: int) -> int:
+    n = len(arr)
+    high=n-1
+    low=0
+    ans=-1
+    ansx=0
+    while(high>=low):
+        mid= int((high+low)//2)
+        if(arr[mid]>=x):
+            ans = mid
+            high = mid-1
+        else:
+            low= mid+1
+            ansx=low
+    if(ans==-1):
+        return ansx
+    return ans
+
+
+for floorAND CEIL
+
+
+def getCeil(a,n,x):
+    high = n-1
+    low =0
+    ceil = -1
+    ceilx= 0
+    while(high>=low):
+        mid=int((high+low)//2)
+        if(a[mid]>=x):
+            ceil = a[mid]
+            high = mid-1
+        else:
+            low= mid+1
+    return ceil
+
+def getFloor(a,n,x):
+    highf= n -1
+    lowf= 0
+    floor = -1
+    while(highf>=lowf):
+        mid=int((highf+lowf)/2)
+        if(a[mid]<=x):
+            floor= a[mid]
+            lowf=mid+1
+        else:
+            highf=mid-1
+    return floor
+    
+def getFloorAndCeil(a, n, x):
+    f = getFloor(a,n,x)
+    c = getCeil(a,n,x)
+    return f,c
+
+
+first ans last occurence
+
+
+def upperBound(arr: [int], x: int, n: int) -> int:
+    high= n - 1
+    low = 0
+    ans = n
+    while(high>=low):
+        mid=int((high+low)/2)
+        if(arr[mid]>x):
+            ans = mid
+            high = mid - 1
+        else:
+            low = mid + 1
+    return ans
+
+def lowerBound(arr: [int], n: int, x: int) -> int:
+    high=n-1
+    low=0
+    ans=-1
+    while(high>=low):
+        mid= int((high+low)/2)
+        if(arr[mid]>=x):
+            ans = mid
+            high = mid-1
+        else:
+            low= mid+1
+    return ans
+
+def getFirstLast(arr,x,n):
+    # second method
+    def getLast(arr,n,x):
+        high = n - 1
+        low = 0
+        ans=-1
+        while(high>=low):
+            mid=int((high+low)/2)
+            if(arr[mid]==x):
+                ans=mid
+                low = mid + 1
+            elif(arr[mid]<x):
+                low = mid + 1
+            else:
+                high= mid - 1
+        return ans
+    first = lowerBound(arr,n,x)
+    last = upperBound(arr,x,n) - 1
+    if(first == n or arr[first]!=x):
+        print("first: ",-1,"last: ",-1) 
+    else:   
+        print("first: ",first,"last: ",last)
+        print("first: ",first,"last: ",getLast(arr,n,x))
+
+a = int(input("enter no of number: "))
+b = input("en: ")
+arr = b.split(" ")
+for i in range(a):
+    arr[i]=int(arr[i])
+
+
+c = True
+while(c):
+    print("type end or 0 to exit")
+    d = int(input("target: "))
+    if(c=="end"):
+        c=False
+    getFirstLast(arr,d,a) 
+    
+
+
+
+occurence or count  of x ina na array
+
+def upperBound(arr: [int], x: int, n: int) -> int:
+    high= n - 1
+    low = 0
+    ans = n
+    while(high>=low):
+        mid=int((high+low)/2)
+        if(arr[mid]>x):
+            ans = mid
+            high = mid - 1
+        else:
+            low = mid + 1
+    return ans
+
+def lowerBound(arr: [int], n: int, x: int) -> int:
+    high=n-1
+    low=0
+    ans=-1
+    while(high>=low):
+        mid= int((high+low)/2)
+        if(arr[mid]>=x):
+            ans = mid
+            high = mid-1
+        else:
+            low= mid+1
+    return ans
+
+
+def count(arr: [int], n: int, x: int) -> int:
+    first = lowerBound(arr,n,x)
+    last = upperBound(arr,x,n) - 1
+    if(first==-1):
+        return 0
+    count = last + 1 - first
+    return count
+
+
+search number in a rotated sorted array
+
+def search(arr, n, k):
+    high = n -1
+    low = 0
+    while(high>=low):
+        mid = int((high+low)/2)
+        if(arr[mid]==k):
+            return mid
+	#left side sorted
+        elif(arr[low]<=arr[mid]):
+            if(arr[low]<=k and arr[mid]>=k):
+                high= mid - 1
+            else:
+                low =  mid + 1
+	#right side sorted
+        else:
+            if(arr[mid]<=k and arr[high]>=k):
+                low= mid + 1
+            else:
+                high= mid - 1
+    return -1
+
+search number in a rotated sorted array but duplicate values
+
+
+
+def searchInARotatedSortedArrayII(A : List[int], key : int) -> bool:
+    n = len(A)
+    high = n - 1
+    low = 0
+    while(high>=low):
+        mid=int((high+low)/2)
+        if(A[mid]==key):
+            return True
+	#if low =mid = high we can't find the sorted side so trim down the search space
+        if(A[mid]==A[low] and A[mid]==A[high]):
+            low=low+1
+            high=high - 1
+            continue
+        elif(A[low]<=A[mid]):
+            if(A[low]<=key and A[mid]>=key):
+                high= mid - 1
+            else:
+                low = mid + 1
+        else:
+            if(A[mid]<key and A[high]>=key):
+                low = mid + 1
+            else:
+                high = mid - 1
+    return False
+
+note :- when solving question of duplicate try to solve sorted part or unique part  and eliminate the cases where it is failed
+
+
+find minimum in a rotated sorted array
+
+def findMin(arr: [int]):
+    n = len(arr)
+    high = n - 1
+    low = 0
+    ans = 999999999999999999
+    while(high>=low):
+        mid=int((high+low)/2)
+        if(arr[low]<=arr[mid]):
+            if(arr[low]<ans):
+                ans = arr[low]
+            low = mid + 1
+        else:
+            if(arr[mid]<ans):  # can use minmum function for input value ans,arr[mid] and in above ans , arr[low]
+                ans = arr[mid]
+            high = mid - 1
+    return ans
+
+find the number of time the array is rotated
+
+like a = [4 ,5 ,6 , 1, 2 ,3] ans  is 3 times 
+index     0  1  2   3  4  5   as you see the index of the minimum number is (ans) or the no of times array is rotated
+
+
+
+def findKRotation(arr : [int]) -> int:
+    n = len(arr)
+    high = n - 1
+    low = 0
+    ansValue = 999999999999999
+    ansIndex = 0
+    while(high>=low):
+        mid=int((high+low)/2)
+        if(arr[low]<=arr[mid]):
+            if(ansValue>arr[low]):
+                ansValue = arr[low]
+                ansIndex = low
+            low = mid + 1
+        else:
+            if(ansValue>arr[mid]):
+                ansValue = arr[mid]
+                ansIndex = mid
+            high = mid - 1
+    return ansIndex
+
+find non duplicate in a dupiclate array
+			
+			   e o e o e o   o e    e - even , o - odd	
+logic is - 		   0 1 2 3 4 5 6 7 8
+	example - array = [4,4,5,5,1,1,2,3,3]
+
+	even,odd index of a pair means - element is on right - eliminate left
+	odd,even index of a pair means - element is on left - eliminate right using this one 
+
+
+def singleNonDuplicate(arr):
+    n = len(arr)
+    high = n - 2
+    low = 1
+    if(n==1):
+        return arr[0]
+    if(arr[0]!=arr[1]):
+        return arr[0]
+    if(arr[n - 1]!=arr[n - 2]):
+        return arr[n - 1]
+    while(high>=low):
+        mid=int((high+low)/2)
+        if(arr[mid]!=arr[mid-1] and arr[mid]!=arr[mid+1]):
+            return arr[mid]
+        if(mid%2==0): #index even
+            if(arr[mid - 1]== arr[mid]): #left of even index is equal(mid - 1) means element is on left - eliminate right
+                high = mid - 1
+            else:
+                low = mid + 1
+        else: #index odd opposite of above
+            if(arr[mid - 1]== arr[mid]):
+                low = mid + 1
+            else:
+                high = mid - 1
+
+
+find the peak in the array 
+like a = [1,3 5,2] so here 5 is peak return there index and if there are two peak return only one peak index
+ans assume a[-1] and a[n] and negative infinty so if a = [7,4,3,1] here peak is 7 as 7(index: 0) is > 3 (index 1) and (index: -1) is negative so -1 < 7 (index: 0) vice versa for 
+  a = [2,5,8] 8 is peak
+
+how to find peak if    ans element is greater than preciues and the next element 
+
+
+def findPeakElement(arr: [int]) -> int:
+    n = len(arr)
+    low = 1
+    high = n - 2
+    if(n==1):
+        return 1
+    if(arr[0]>arr[1]):
+        return 0
+    if(arr[n - 1]>arr[n - 2]):
+        return n - 1
+    while(high>=low):
+        mid=int((high+low)/2)
+        if(arr[mid - 1]<arr[mid] and arr[mid]>arr[mid + 1]):
+            return mid
+        if(arr[mid - 1]<arr[mid]):
+            low = mid + 1
+        else:
+            high = mid - 1
+
+
+find the square root of a number with binary search
+ so let take high = n and low = 1 or 0 
+	now if mid*mid<= n then ans is on left - eliminate right - high = mid - 1
+	else ans in on right - eliminate left - low = mid + 1
+
+like n = 6 high = 6 low = 0 mid = 3 , mid*mid<=6 - 9<=6 false ,( else run ) high = 3 -1 = 2  - mid = 2/2 = 1 - 1*1<=6 store ans = 1 then - low = !+1 = 2 , mid = 2+2/2 = 2, 2*2<=6 ans 
+= 2 , low = 2+1 = 3 noe low crosses high loop end. (2>=3 false)
+
+here we take floor value
+
+def floorSqrt(n):
+   high = n
+   low = 1
+   ans=0
+   while(high>=low):
+      mid=int((high+low)/2)
+      if(mid*mid<=n):
+         ans = mid
+         low = mid + 1
+      else:
+         high = mid - 1
+   return ans
+
+
+
+n= int(input())
+print(floorSqrt(n))
+
+
+find nth root of the number
+input number - m and n - root 
+like n - 3, m - 27 answer is 3 
+				like this 1 , 8 , 27 , 64 ...
+high = m , low = 0
+in mid we check if 2*2*2 (with pow) <= m(number) we go right - eliminate left  else eliminate right if no solution return -1
+
+def NthRoot(n: int, m: int) -> int:
+    high = m
+    low = 0
+    while(high>=low):
+        mid=int((high+low)/2)
+        a = pow(mid,n)
+        if(a<=m):
+            if(a==m):
+                return mid
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1
+
+ koko eating banana 
+
+Problem statement
+A monkey is given ‘n’ piles of bananas, where the 'ith' pile has ‘a[i]’ bananas. An integer ‘h’ is also given, which denotes the time (in hours) in which all the bananas should be eaten.
+Each hour, the monkey chooses a non-empty pile of bananas and eats ‘m’ bananas. If the pile contains less than ‘m’ bananas, then the monkey consumes all the bananas and won’t eat any more bananas in that hour.
+Find the minimum number of bananas ‘m’ to eat per hour so that the monkey can eat all the bananas within ‘h’ hours.
+Example:
+
+Input: ‘n’ = 4, ‘a’ =  [3, 6, 2, 8] , ‘h’ = 7
+
+Output: 3
+
+Explanation: If ‘m’ = 3, then 
+The time taken to empty the 1st pile is 1 hour.
+The time taken to empty the 2nd pile is 2 hour.
+The time taken to empty the 3rd pile is 1 hour.
+The time taken to empty the 4th pile is 3 hour.
+Therefore a total of 7 hours is taken. It can be shown that if the rate of eating bananas is reduced, they can’t be eaten in 7 hours.
+
+link https://www.naukri.com/code360/problems/minimum-rate-to-eat-bananas_7449064?leftPanelTabValue=PROBLEM
+
+import math
+def minimumRateToEatBananas(v: [int], h: int) -> int:	
+    n = len(v)
+    high = maxOfArr(n,v)
+    low = 1
+    ans = 0
+    while(high>=low):
+        mid=int((high+low)/2)
+        if(timeReq(mid,v)<=h):
+            ans = mid
+            high = mid - 1
+        else:
+            low = mid + 1
+    return ans
+
+
+
+def timeReq(t,arr):
+    a = 0
+    for i in arr:
+        a = a + math.ceil(i/t)
+    # print(a)
+    return a
+
+def maxOfArr(n,arr):
+    ans = -1
+    for i in arr:
+        if(i>ans):
+            ans = i
+    return ans
+
+
+
+from typing import List
+def roseGarden(arr: List[int], r: int, b: int):
+    n = len(arr)
+    high = maxOfArr(n,arr)
+    low = minOfArr(n,arr)
+    ans = -1
+    if(r*b>n):
+        return -1
+    while(high>=low):
+        mid=int((high+low)/2)
+        a = possiableOnNDay(arr,r,b,mid)
+        if(mid<=high and a>=b):
+            if(mid<ans or ans==-1):
+                ans = mid
+                high = mid - 1
+        else:
+            low = mid + 1
+    return ans
+---------------------------------------------------------------------------------------------------------------------------------------------------------    
+Problem statement
+You are given 'n' roses and you are also given an array 'arr' where 'arr[i]' denotes that the 'ith' rose will bloom on the 'arr[i]th' day.
+
+
+
+You can only pick already bloomed roses that are adjacent to make a bouquet. You are also told that you require exactly 'k' adjacent bloomed roses to make a single bouquet.
+
+
+
+Find the minimum number of days required to make at least 'm' bouquets each containing 'k' roses. Return -1 if it is not possible.
+
+
+
+Example :
+Input: n = 9,  arr = [ 1, 2, 1, 2, 7, 2, 2, 3, 1 ], k = 3, m = 2
+
+Output: 3. 
+
+Explanation: This is because on the 3rd day: all the roses with 'arr[i]' less than equal to 3 have already bloomed, this means every rose except the 5th rose has bloomed. Now we can form the first bouquet from the first three roses and the second bouquet from the last three roses.
+Detailed explanation ( Input/output format, Notes, Images )
+Sample Input 1 :
+9
+1 2 1 2 7 2 2 3 1
+3 2
+Sample Output 1 :
+3
+Explanation For Sample Input 1 :
+We will return 3, because:
+All the roses with 'arr[i]' less than equal to 3 have already bloomed after 3 days, this means every rose except the 5th rose has bloomed. Now we can form the first bouquet from the first three roses and the second bouquet from the last three roses.
+Sample Input 2 :
+4
+1 1 1 1
+1 1
+Sample Output 2 :
+1
+Constraints :
+1 <= n <= 10^5
+1 <= arr[i] <= 10^9
+1 <= k <= n
+1 <= m <= 10^6
+
+Time limit: 1 sec
+
+----------------------------------------------------------
+def possiableOnNDay(arr,k,m,d): #k is flower,m is bouquet
+    ans=0
+    c =0
+    for i in arr:
+        if(i<=d):
+            c=c+1
+        else:
+            ans = ans + int(c/k)
+            c = 0
+    ans = ans + int(c/k)
+    # print(ans,d)
+    return ans
+
+def maxOfArr(n,arr):
+    ans = -1
+    for i in arr:
+        if(i>ans):
+            ans = i
+    return ans
+
+def minOfArr(n,arr):
+    ans = 999999999
+    for i in arr:
+        if(i<ans):
+            ans = i
+    return ans
+
+----------------------------------------------------------------
+
+find the smallest dvisor given a threshold
+https://www.naukri.com/code360/problems/smallest-divisor-with-the-given-limit_1755882?leftPanelTabValue=PROBLEM
+	
+	arr is given - smallest divisor is the number - we will divide number by all arr element (if decimal use ceil) and sum it - if less than thresold then might be the answer but try
+		to get a smallest number if possiable
+
+think eliminate - 
+-------------------------------------------
+from math import *
+
+def smallestDivisor(arr: [int], limit: int) -> int:
+    n = len(arr)
+    high = maxOfArr(n,arr)
+    low = 1
+    ans = 9999999999
+    while(high>=low):
+        mid=int((high+low)/2)
+        a = funFordivisor(n,arr,mid)
+        if(a<=limit and mid<ans):
+            ans = mid
+            high = mid - 1
+        else:
+            low = mid + 1
+    return ans
+        
+
+def funFordivisor(n,arr,div):
+    ans = 0
+    for i in arr:
+        ans = ans + ceil(i/div)
+    return ans
+
+
+def maxOfArr(n,arr):
+    ans = -1
+    for i in arr:
+        if(i>ans):
+            ans = i
+    return ans
+
+------------------
+capacity to ship in d days
+https://www.youtube.com/watch?v=MG-Ac4TAvTY&t=295s
+https://www.naukri.com/code360/problems/capacity-to-ship-packages-within-d-days_1229379?leftPanelTabValue=SUBMISSION
+
+answer is low do a dry run you will understand
+
+from math import *
+
+def leastWeightCapacity(weights, d):
+    n = len(weights) 
+    
+    low = maxOfArr(n,weights)
+    high = sumOfArr(n,weights)
+    while(high>=low):
+        mid=int((high+low)/2)
+        a = weightsMinDay(weights,mid)
+        if(a<=d):
+            ans = mid
+            high = mid - 1
+        else:
+            low = mid + 1
+    return low
+
+def weightsMinDay(arr,weight): #if array is sorted
+    ans = 1
+    temp = 0
+    for i in arr:
+        if(temp + i>weight):
+            ans = ans  + 1
+            temp = 0
+            temp =  i
+        else:
+            temp = temp + i
+    return ans 
+
+def maxOfArr(n,arr):
+    ans = -1
+    for i in arr:
+        if(i>ans):
+            ans = i
+    return ans
+
+def sumOfArr(n,arr):
+    ans = 0
+    for i in arr:
+        ans += i
+    return ans
+
+my answer no working -------------------------------
+from math import *
+
+def leastWeightCapacity(weights, d):
+    n = len(weights) 
+    # sorting the array
+    for i in range(n - 1):
+        for j in range(n - 1):
+            if(weights[j]>weights[j+1]):
+                temp = weights[j]
+                weights[j]=weights[j+1]
+                weights[j+1]=temp
+    # print(weights)
+    low = maxOfArr(n,weights)
+    high = sumOfArr(n,weights)
+    ans = high
+    while(high>=low):
+        mid=int((high+low)/2)
+        a = weightsMinDay(n,weights,mid)
+        if(a<=d and a<=ans):
+            ans = mid
+            high = mid - 1
+        else:
+            low = mid + 1
+    return low
+
+def weightsMinDay(n,arr,weight): #if array is sorted
+    ans = 1
+    temp = 0
+    # index = 0
+    for i in arr:
+        # index+=1
+        if(temp + i>weight):
+            ans = ans  + 1
+            temp = 0
+            temp =  i
+        else:
+            temp = temp + i
+            # ans = ans  + 1
+            # temp = 0
+        # if(index==n -1 and temp>0):
+        #     ans += 1
+    return ans 
+
+def maxOfArr(n,arr):
+    ans = -1
+    for i in arr:
+        if(i>ans):
+            ans = i
+    return ans
+
+def sumOfArr(n,arr):
+    ans = 0
+    for i in arr:
+        ans += i
+    # print(ans)
+    return ans
+-----------------------------------------------
+
+Kth Missing Positive Number
+You are given a strictly increasing array 'vec' and a positive integer 'k'.
+
+Find the 'kth' positive integer missing from 'vec'.
+
+we found that 
+
+from typing import *
+
+
+def missingK(vec: List[int], n: int, k: int) -> int:
+    high = n - 1
+    low = 0
+    if(vec[0]>k):
+        return k
+    while(high>=low):
+        mid=int((high+low)/2)
+        mis = vec[mid]- (mid+1) # to find no of missing number at this point
+        if(mis<k):
+            low  = mid + 1
+        else:
+            high = mid - 1
+    # high point to lower (in array) of missing number , low point to high of missing number
+    mis = vec[high]- (high+1)
+    return vec[high] + (k - mis) # answer is high in arr + no of missing number remaning
+
+
+-------------------
+--------------------------------\\\\\partilly correct below code\\\\\\\----------------
+
+Aggressive Cows
+Problem statement
+You are given an array 'arr' consisting of 'n' integers which denote the position of a stall.
+You are also given an integer 'k' which denotes the number of aggressive cows.
+You are given the task of assigning stalls to 'k' cows such that the minimum distance between any two of them is the maximum possible.
+Print the maximum possible minimum distance.
+Example:
+Input: 'n' = 3, 'k' = 2 and 'arr' = {1, 2, 3}
+Output: 2
+---------
+def aggressiveCows(stalls, k):
+    n = len(stalls)
+    stalls.sort()
+    high = stalls[n - 1] - stalls[0]
+    low = 1
+    while(high>=low):
+        mid=int((high+low)/2)
+        if(possiableToPlaceCows(stalls,n,mid,k) == True):
+            low = mid + 1
+        else:
+            high = mid - 1
+    return high
+
+def possiableToPlaceCows(stalls,n,dis,k):#dis is the minimum distance between the cow, k is no of cows to placed
+    last=stalls[0]
+    cowsPlaced=1
+    for i in range(1,n):
+        if(stalls[i]-last>=dis):
+            last=stalls[i]
+            cowsPlaced+=1
+        if(cowsPlaced>=k):
+            return True
+    return False    
+
+
+
+
+----------------------------------------------
+https://www.naukri.com/code360/problems/allocate-books_1090540
+https://www.youtube.com/watch?v=Z0hwjftStI4
+allocate books
+def findPages(arr: [int], n: int, m: int) -> int:
+    high = sumOfArr(n,arr)
+    low = maxOfArr(n,arr)
+    ans=99999999
+    if(m>n):
+        return -1
+    while(high>=low):
+        mid=int((high+low)/2)
+        a = possiable(arr,n,m,mid)
+        if(a<=m):
+            high = mid - 1
+        else:
+            low = mid + 1
+    return low
+
+
+def possiable(arr,n,student,pages):
+    studentAllocated=1
+    last=0
+    for i in arr:
+        if(i+last<=pages):
+            last+=i 
+        else:
+            last = i
+            studentAllocated+=1
+    return studentAllocated
+
+def maxOfArr(n,arr):
+    ans = 0
+    for i in arr:
+        if(i>ans):
+            ans = i
+    return ans
+
+def sumOfArr(n,arr):
+    ans = 0
+    for i in arr:
+        ans += i
+    return ans
+
+------------------
+code 48/50 test cases 
+def findLargestMinDistance(boards:list, k:int):
+    n = len(boards)
+    high = sumOfArr(n,boards)
+    low = 0
+    ans = 99999999
+    if(k>n):
+        return -1
+    if(n==k):
+        return maxOfArr(n,boards)
+    if(k==1):
+        return high
+    while(high>=low):
+        mid=int((high+low)/2)
+        # print(low,mid,high)
+        a = timeToPaint(n,boards,k,mid)
+        p = PainterUse(n,boards,k,mid)
+        if(p<=k):
+            high = mid - 1
+        else:
+            # if(a<ans and a!=-1):
+            #     ans = a
+            low = mid + 1
+        if(p==k and a<ans):
+            ans = a
+    return ans
+
+
+def timeToPaint(n,arr,painter,mid):
+    last = 0
+    painterUsed=1
+    maxunit=0
+    for i in arr:
+        if(last+i<mid):
+            last+=i
+        else:
+            painterUsed+=1
+            if(last>maxunit):
+                maxunit = last
+            last = i
+    if(last>maxunit):
+        maxunit = last
+    # print(maxunit,painterUsed)
+    if(painter>painterUsed):
+        return -1
+    return maxunit
+
+def PainterUse(n,arr,painter,mid):
+    last = 0
+    painterUsed=1
+    maxunit=0
+    for i in arr:
+        if(last+i<mid): #equal sign is missing
+            last+=i
+        else:
+            painterUsed+=1
+            if(last>maxunit):
+                maxunit = last
+            last = i
+    if(last>maxunit):
+        maxunit = last
+    # print(maxunit,painterUsed)
+    return painterUsed
+
+def sumOfArr(n,arr):
+    ans = 0
+    for i in arr:
+        ans += i
+    return ans):
+    ans = 0
+    for i in arr:
+        if(i>ans):
+            ans = i
+    return ans
+
+def maxOfArr(n,arr
+
+
+ans of painter patition -   dry run in more test cases
+
+
+def findLargestMinDistance(boards:list, k:int):
+    n = len(boards)
+    high = sumOfArr(n,boards)
+    low = maxOfArr(n,boards)
+    ans = 99999999
+    if(k>n):
+        return -1
+    while(high>=low):
+        mid=int((high+low)/2)
+        p = PainterUse(n,boards,k,mid)
+        if(p<=k):
+            high = mid - 1
+        else:
+            low = mid + 1
+    return low
+
+def PainterUse(n,arr,painter,mid):
+    last = 0
+    painterUsed=1
+    for i in arr:
+        if(last+i<=mid):
+            last+=i
+        else:
+            painterUsed+=1
+            last = i
+    return painterUsed
+
+def sumOfArr(n,arr):
+    ans = 0
+    for i in arr:
+        ans += i
+    return ans
+
+def maxOfArr(n,arr):
+    ans = 0
+    for i in arr:
+        if(i>ans):
+            ans = i
+    return ans
+
+
+
+ Largest Subarray Sum Minimized-----------------------------------------------------
+https://www.naukri.com/code360/problems/largest-subarray-sum-minimized_7461751?leftPanelTabValue=PROBLEM
+https://www.youtube.com/watch?v=thUd_WJn6wk&lc=UgxKhSn9--FojautS7d4AaABAg
+
+def largestSubarraySumMinimized(a: [int], k: int) -> int:
+    n = len(a)
+    high = sumOfArr(n,a)
+    low = maxOfArr(n,a)
+    while(high>=low):
+        mid=int((high+low)/2)
+        b = noOfSubArr(n,a,k,mid)
+        if(b<=k):
+            high = mid - 1
+        else:
+            low = mid + 1
+    return low
+
+def noOfSubArr(n,arr,split,mid):
+    last = 0
+    splitIn=1
+    for i in arr:
+        if(last+i<=mid):
+            last+=i
+        else:
+            splitIn+=1
+            last = i
+    return splitIn
+def sumOfArr(n,arr):
+    ans = 0
+    for i in arr:
+        ans+=i
+    return ans
+def maxOfArr(n,arr):
+    ans = 0
+    for i in arr:
+        if(i>ans):
+            ans = i 
+    return ans
+
+
+
+median of 2 array sorted 
+	if odd return mid value of new sorted array
+	if even return (n/2 + n/2-1 )/2
+ 
+
+def median(a: int, b: int) -> float:
+    i =0
+    j =0
+    n1 =len(a)
+    n2 = len(b)
+    n = n1 + n2
+    second = int(n/2)
+    first = int(n/2 - 1)
+    felement = -1
+    selement = -1
+    count =0
+    # print(count,first,second)
+    while(i <n1 and j < n2):
+        if(a[i]<b[j]):
+            if(count == first):
+                felement = a[i]
+            if(count == second):
+                selement = a[i]
+            # print(i,count,"i")
+            count+=1
+            i+=1
+        else:
+            if(count == first):
+                felement = b[j]
+            if(count == second):
+                selement = b[j]
+            # print(j,count,"j")
+            count+=1
+            j+=1
+    while(i < n1):
+        if(count == first):
+            felement = a[i]
+        if(count == second):
+            selement = a[i]
+        count+=1
+        i+=1
+    while(j < n2):
+        if(count == first):
+            felement = b[j]
+        if(count == second):
+            selement = b[j]
+        count+=1
+        j+=1
+    # print("element",felement,selement)
+    if(n%2==0):
+        return (felement + selement)/2.0
+    else:
+        return float(selement)
+
+answers solution with binary search 
+
+def median(a: int, b: int) -> float:
+    n1 = len(a)
+    n2 = len(b)
+    if(n1>n2):
+        return median(b,a)
+    n = n1 + n2
+    low = 0
+    high = n1
+    left = (n1 + n2 + 1)/2 
+    while(high>=low):
+        mid1 = int((low + high)/2)
+        mid2 = int(left - mid1)
+        l1 = -1
+        l2 = -1
+        r1 = 999999999
+        r2 = 999999999
+        if(mid1 < n1):
+            r1 = a[mid1]
+        if(mid2 < n2):
+            r2 = b[mid2]
+        if(mid1 - 1 >= 0):
+            l1 = a[mid1 - 1]
+        if(mid2 - 1 >= 0):
+            l2 = b[mid2 - 1]
+        if(l1<=r2 and l2<=r1):
+            if(n%2==1):
+                return float(max(l1,l2))
+            else:
+                return (max(l1,l2)+min(r1,r2))/2.0
+                
+        elif(l1>r2):
+            high = mid1 - 1
+        else:
+            low = mid1 + 1
+
+
+---------------------------
+ K-th Element of Two Sorted Arrays
+https://www.naukri.com/code360/problems/k-th-element-of-2-sorted-array_1164159?leftPanelTabValue=PROBLEM
+https://www.youtube.com/watch?v=D1oDwWCq50g
+
+
+
+def kthElement(arr1: [int], n: int, arr2: [int], m: int, k: int) -> int:
+    t = n + m
+    i = 0
+    j = 0
+    count = 0
+    while(i < n and j < m):
+        if(arr1[i]<arr2[j]):
+            if(count == k - 1):
+                return arr1[i]
+            count+=1
+            i+=1
+        else:
+            if(count == k - 1):
+                return arr2[j]
+            count+=1
+            j+=1
+
+#with binary sarch
+
+def kthElement(a: [int], n1: int, b: [int], n2: int, k: int) -> int:
+    if(n1>n2):
+        return kthElement(b,n2,a,n1,k)
+    n = n1 + n2
+    low = max(0,k-n2)
+    high = min(n1,k)
+    left = k
+    while(high>=low):
+        mid1 = int((low + high)/2)
+        mid2 = int(left - mid1)
+        l1 = -1
+        l2 = -1
+        r1 = 999999999
+        r2 = 999999999
+        if(mid1 < n1):
+            r1 = a[mid1]
+        if(mid2 < n2):
+            r2 = b[mid2]
+        if(mid1 - 1 >= 0):
+            l1 = a[mid1 - 1]
+        if(mid2 - 1 >= 0):
+            l2 = b[mid2 - 1]
+        if(l1<=r2 and l2<=r1):
+            return max(l1,l2)
+        elif(l1>r2):
+            high = mid1 - 1
+        else:
+            low = mid1 + 1 
+ 
+------------
+
+ Row with Maximum 1's
+https://www.youtube.com/watch?v=SCz-1TtYxDI
+
+from os import *
+from sys import *
+from collections import *
+from math import *
+def lowerBound(arr: [int], n: int, x: int) -> int:
+    high=n-1
+    low=0
+    ans=-1
+    while(high>=low):
+        mid= int((high+low)//2)
+        if(arr[mid]>=x):
+            ans = mid
+            high = mid-1
+        else:
+            low= mid+1
+    # print(ans)
+    return ans
+def rowMaxOnes(mat, n, m):
+    countStore=-1
+    indexStore=-1
+    index=0
+    for i in mat:
+        if(m==1):
+            if(i[0]==1):
+                if(1>countStore and indexStore<index):
+                    countStore = 1
+                    indexStore = index
+                index+=1
+
+        c = lowerBound(i,m,1)
+        # print(c,"bound")
+        if(c==-1):
+            continue
+        if(m - c>countStore and indexStore<index):
+            countStore = m - c
+            indexStore = index
+            # print(countStore,indexStore,"Asa")
+        index+=1
+    return indexStore
+
+
+
+--------------------------
+search in a 2d matrix a target sorted
+
+solve linear time complexcity - n*m
+solve by binary log n*m - by converting 2d in a 1d array and doing a binary search in brain only
+
+it is a martrix of n array 
+m is no of element in a array
+
+row = index/m
+colum = index%m
+
+------------link watch ----------------https://www.youtube.com/watch?v=9ZbB397jU4k
+question for search in a sorted matrix where row are sorted and an d col too check the video
+here we eliminate row or a  col 
+
+-------------
+
+question is to give a peak element in a 2D matrix here the in answer you have to return the row and col of that element , the element should be greater than left , right , top , bottom
+, return any one element index
+
+https://www.youtube.com/watch?v=nGGp5XBzC4g
+
+def findPeakGrid(g: [[int]]) -> [int]:
+    n = len(g)
+    m = len(g[0])
+    low = 0
+    high = m -1
+    # print(g,n,m)
+    while(high>=low):
+        mid = int((high+low)/2)
+        maxRowIndex = maxInColum(g,n,m,mid)
+        if(mid - 1 >= 0):
+            left = g[maxRowIndex][mid - 1]
+        else:
+            left = -1
+        if(mid + 1 < m):
+            right = g[maxRowIndex][mid + 1]
+        else:
+            right = -1
+        if(g[maxRowIndex][mid]> left and g[maxRowIndex][mid]> right):
+            return maxRowIndex,mid
+        elif(left>g[maxRowIndex][mid]):
+            high = mid - 1
+        else:
+            low = mid + 1
+    return -1,-1
+
+
+def maxInColum(mat,n,m,col):
+    maxEle=-1
+    index=-1
+    for i in range(n):
+        if(mat[i][col]>maxEle):
+            maxEle=mat[i][col]
+            index = i 
+    # print(maxEle,index,"max in col")
+    return index
+
+
