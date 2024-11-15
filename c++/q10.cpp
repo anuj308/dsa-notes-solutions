@@ -76,7 +76,6 @@ class multiplicationGame{
     void game(int n){
         int c=1;
         while(p<n){
-            
             p*=c;
             c++;
         }

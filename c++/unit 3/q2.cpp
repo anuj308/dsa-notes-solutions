@@ -56,7 +56,7 @@ class Complex{
         imagi = i;
     }
     void display(){
-        cout << "Sum of two complex numbers is " <<fixed << setprecision(1)<< real << " + " << imagi << "i" << endl;
+        cout << "Sum of two complex numbers is " << fixed << setprecision(1)<< real << " + " << imagi << "i" << endl;
     }
     void sum(Complex obj1, Complex obj2){
         real = obj1.real + obj2.real;

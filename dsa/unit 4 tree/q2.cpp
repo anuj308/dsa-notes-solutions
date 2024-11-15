@@ -55,7 +55,7 @@
 using namespace std;
 
 int powerOfHanoi(int n){
-    return pow(2,n) -1;
+    return pow(2,n) - 1;
 }
 
 int main(){
