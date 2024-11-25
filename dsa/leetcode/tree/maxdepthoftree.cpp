@@ -23,24 +23,24 @@ public:
     }
 };
 
-class Solution {
-  public:
-    void dfs(int node,vector<vector <int>> &adj, int vis[]){
-        vis[node] = 1;
-        for(auto it : adj[node]){
-            if(!vis[it]){
-                dfs(it,adj,vis);
-            }
-        }
+// class Solution {
+//   public:
+//     void dfs(int node,vector<vector <int>> &adj, int vis[]){
+//         vis[node] = 1;
+//         for(auto it : adj[node]){
+//             if(!vis[it]){
+//                 dfs(it,adj,vis);
+//             }
+//         }
         
-    }
-    int numProvinces(vector<vector<int>> adj, int V) {
-        int vis[n+1] = {0};
+//     }
+//     int numProvinces(vector<vector<int>> adj, int V) {
+//         int vis[n+1] = {0};
         
-        for(auto it : vis){
-            if(!vis[it]){
-                dfs(it,adj,vis);
-            }
-        }
-    }
-};
+//         for(auto it : vis){
+//             if(!vis[it]){
+//                 dfs(it,adj,vis);
+//             }
+//         }
+//     }
+// };
