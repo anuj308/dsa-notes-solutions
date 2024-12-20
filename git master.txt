@@ -1,0 +1,34 @@
+Linux basic
+touch first.txt - for creating a file
+mkdir first - to make a folder
+cd .. - to go one directory back
+git master
+
+git --version | for version
+git status | to know is the current folder is inisalized - it status
+git init | for inisalizing 
+git add . | to add all the files
+git add nameofthefile
+git commit -m "message"
+git config --global core.editor	"code --wait" | to change default editor to vscode
+git config --global user.name "anuj kumar sharma" | to add name 
+git config --global user.email "anujkumarsharma2023@gmail.com" | to add email
+git log 
+git log --oneline | to get log in oneline
+touch .gitignore | gitignore generator
+git branch | give which branch you are on - default on master, main
+git branch navbar | to make a new branch
+git checkout navbar | to change current branch to navbar
+git merge navbar | run this while in master branch
+git branch -d  navbar | delete the navbar branch
+git checkout -b footer | to create a branch and switch to it
+git diff --staged
+git switch footer | to change branch
+git stash | a temporay storage if do not want to staged or commit the changes and can switch branch also
+git stash pop | to bring back those changes from above and it is global so any one can get the change from stash across the code - means can get changes in other branch also
+git stash list | to get a list of the stash with name
+git stash apply | apply changes & keep them in stash
+--- use stash carefully as it store global
+git checkout commitId | to get to that commit
+git checkout main | to get back from after above line
+git reflog | to go back to branch you came form
