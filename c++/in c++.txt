@@ -1,0 +1,5126 @@
+in c++
+
+print -  count << "" << endl ;
+@0Af19cfb5cc1
+@123
+
+
+CPP syllabus - Concepts and Basics of C++ Programming : Reading and writing data using cin and cout,
+Creating classes, Class objects, Accessing class members, Differences between Structures, Unions,
+Enumerations and Classes, Inline and Non-inline member functions, Static data members and static
+member functions, Differences between procedural and object oriented programming paradigms,
+Features of Input/output Streams
+Functions : Functions with Default parameters/arguments, Inline Functions, Manipulator Functions,
+Function overloading and Scope rules, Friend of a class (friend function and friend class), Reference
+variables, Differences between Call by value, Call by address and call by reference, Recursion
+(Function, Member Function)
+Unit II
+Pointers, Reference Variables, Arrays and String Concepts : Void pointer, Pointer arithmetic,
+Pointer to pointer, Possible problems with the use of pointers - Dangling pointer, Wild pointer, Null
+pointer assignment, Classes containing pointers, Pointer to objects, this pointer, Array of objects, The
+Standard C++ string class-defining and assigning string objects, Member functions, Modifiers of string
+class, Differences between pointer and reference variables, Array declaration and processing of
+multidimensional arrays(inside main and inside class), Pointer to data member
+
+DSA syllabus - Unit I
+Introduction : Basic Concepts and Notations, Complexity analysis: time space and trade off, Omega
+Notation, Theta Notation, Big O notation, Basic Data Structures.
+Arrays : Linear arrays: memory representation, Array operations: traversal, insertion, deletion,
+sorting, searching and merging and their complexity analysis.
+Sorting and Searching : Selection sort, Searching: Linear Search and Binary Search, Bubble sort,
+Insertion sort
+Unit II
+Linked Lists : Introduction, Memory representation, Allocation, Traversal, Insertion, Deletion, Header
+linked lists: Grounded and Circular, Two-way lists: operations on two way linked lists
+in dsa
+
+static - array
+
+O(N+1)
+
+O(constant) == O(1)
+
+
+in time complexity  allway pick the highest power
+
+
+// Online C++ compiler to run C++ program online
+#include <iostream>
+using namespace std ;
+
+int main()
+{
+/* 1
+*
+**
+***
+****
+*****
+*/
+
+/* 2
+* // 4
+** // 3
+*** // 2
+**** // 1
+***** // 0
+*/
+
+// for(int i=1 ; i<=5 ; i++)
+// {
+// for()
+// for(int j=1 ; j<=5 ; j++)
+// {
+// if(j <= 5-i) cout << " " ;
+// else cout << "*" ;
+// }
+// cout << endl ;
+// }
+
+
+
+// WHILE LOOP
+
+// int i=1 ;
+// while( i <= 5)
+// {
+// cout << "HELLO" << endl ;
+
+// i++ ;
+
+// }
+
+
+
+// do - while loop
+
+
+// int i=1 ;
+// do
+// {
+// cout << i << endl ;
+// // i = i+1 ;
+// }
+// while(i++ < 5);
+
+
+
+// Time Complexity
+
+
+// for(int i=1 ; i<=n ; i++) // n+
+// {
+// cout << "abc" ;
+// }
+
+// TC = O(N+1) = O(N)
+
+
+// int n = 10 ; // O(1)
+// cout << n ; // O(1)
+
+
+
+// for(int i=0 ; i<n ; i++) // n
+// {
+// for(int j=0 ; j<n ; j++) // n
+// {
+// for(int k=0 ; k<n ; k++) // n
+// {
+// // statement
+// }
+// }
+// }
+// TC = O(N^3)
+
+
+// O( CONSTANT ) = O(1)
+// O(2) = O(1)
+// O(20000) == O(1)
+
+
+
+// for(int i=1 ; i<=n ; i++)
+// {
+// for(int j=1 ; j<=i ; j++)
+// {
+// // random
+// }
+// }
+
+
+// 1 + 2 + 3 + .... + n = n*(n+1)/2
+
+// TC = O(n*(n+1)/2) = O(n*(n+1)) = O(n*n) = O(n^2)
+
+
+
+}
+
+
+array - int arr[3] ={1,2,3};
+
+print - arr[2] and same result 2[arr]
+
+int arr[5] = {1,2,3,4,5};
+    
+    cout << arr[2] << endl;
+    cout << 2[arr] << endl;
+    cout << *(arr +2) << endl;
+    cout << *(2 + arr) << endl
+
+max function in c++
+
+
+proterty of xor
+
+1 - same - 0
+2 diff - 1
+3 
+
+reversing an array -----------------------------
+
+  int n = 6;
+    int arr[n]={1,2,3,4,5,6};
+    
+        for(int i=0; i<n/2; i++,n--){
+            int temp = arr[i];
+            arr[i]=arr[n-1];
+            arr[n-1]=temp;
+        }
+        
+     n = 6;
+    for(int i=0;i<n;i++){
+        cout << arr[i] << " ";
+    }
+    
+    int i= 6;
+    int j = i - 1;
+    while(j>i){
+        swap(arr[i++],arr[j--]);
+    }
+    
+     for(int i=0;i<n;i++){
+        cout << arr[i] << " ";
+    }
+------------21 aug 2024
+
+
+// int arr[5] = {2,3,5,7,11} ;
+
+// // (x * y) ==> 'x' 1D arrays are present and size of each array is 'y'.
+// int matrix[x][y] ;
+
+// int grid[x][y][z] ;
+// // 'x' 2D matrices are present and the dimensions of each matrices are (y * z).
+
+// int grid[2][a][3][c][6] ; // 2*a*3*c*6 = 36ac
+
+
+// int array[5] = {2,3,4,5,6};
+
+// cout << *array << endl ;
+// cout << array << endl ;
+
+
+
+
+int arr[3][2] = { {1,2} ,
+{3,4} ,
+{5,6} };
+
+// int arr[2][2][2] = {1,2,3,4,5,6,7,8} ;
+
+// // cout << arr[2] << endl ;
+
+// [x][y][z]
+
+int arr[2][2][2] = {
+{ {1,2},
+{3,4}
+},
+
+{ {6,7},
+{8,9}
+}
+} ;
+
+int grid[x][y][z] = { { {}, {} }, {{}, {}, {}}, {{}, {}} } ;
+
+// cout << arr[1][1][1] << endl ;
+// cout << arr[1][1] << endl ;
+// cout << arr[1] << endl ;
+// cout << arr << endl ;
+
+n*(n+1)/2 for summation of first n narual number
+
+time complecity = avg time complexxciy but we take worst case
+
+linear search
+ int n;
+    cin >> n;
+    
+   int arr[n];
+   
+   for(int i=0;i<n;i++){
+       cin >> arr[i];
+   }
+   int s;
+   cout << "element to search = ";
+   cin >> s;
+   
+
+   
+   for(int i=0;i<n;i++){
+       if(arr[i]==s){
+           cout << "it is present ar index " << i;
+           break;
+       }
+   }
+
+binary search 
+1) sorted array
+2) data is accesable by index
+
+two pointer needed and one half is neglected or eliminated
+
+first pointer 0th
+last pointer (n-1)th
+
+
+// Binary Search
+/*
+i.) The container should in sorted manner(ascending or descending)
+ii.) The data elements is accessable by index
+*/
+
+int n = 6 ;
+int arr[n] = {1,2,3,4,5,6} ;
+
+// Two points are needed and we neglect any one half of the current operation length --> Binary
+
+// First Pointer --> 0th
+// Last Pointer --> (n-1)th
+
+
+
+int low = 0, high = n-1 ;
+int target = 5 ;
+
+while(low <= high)
+{
+int mid = (low + high)/2 ; // 2
+
+if(arr[mid] == target)
+{
+cout << "Found the element at: " << mid << endl ;
+goto go ;
+}
+else if(arr[mid] < target)
+{
+low = mid+1 ;
+}
+else
+{
+high = mid-1 ;
+}
+}
+
+cout << "Not Found: " << -1 << endl ;
+go: cout << endl ;
+
+
+0-----------
+int main() {
+string x = "10" ;
+
+// cout << x << endl ;
+
+string *ptr = &x ; // Referencing
+
+// *ptr // Dereferencing
+
+cout << *ptr << " " << ptr << endl ;
+cout << x << " " << &x << endl ;
+
+cout << endl ;
+
+x = "AUG\0UST" ;
+
+cout << *ptr << " " << ptr << endl ;
+cout << x << " " << &x << endl ;
+
+cout << endl ;
+
+(*ptr) = "ABC" ;
+
+cout << *ptr << " " << ptr << endl ;
+cout << x << " " << &x << endl ;
+
+
+  int x = 15 ;
+int *ptr1 = &x ;
+
+cout << ptr1 << " " << &ptr1 << " " << x << " " << &x << endl ;
+
+int **ptr2 = &ptr1 ;
+
+cout << *ptr2 << " " << ptr2 << " " << **ptr2 << " " << endl ;
+
+
+// Different Binary Search
+// i.) One Pointer
+// ii.) Two loops(For and While)
+
+int n = 7 ;
+int arr[n] = {10,16,29,50,66,68,70} ;
+int target = 68 ;
+
+int x = 0 ;
+
+for(int ptr = n/2 ; ptr >= 1 ; ptr = ptr/2)
+{
+while((x+ptr) < n && arr[x+ptr] <= target)
+{
+x = x+ptr ;
+}
+}
+
+if(arr[x] == target) cout << "FOUND " << x << endl ;
+else cout << "NOT FOUND" << endl ;
+
+
+void *v = &v;
+
+cout << *(int *)v ;
+
+int x = 10 ;
+
+int *p = &x ;
+
+cout << *p << " " << p << endl ;
+
+// char *ch = &x ; // ERROR
+// cout << *ch << " " << ch << endl ;
+
+// Typecasting in pointer ---> Void Pointer
+
+void *v = &x ;
+
+cout << *(int *)v << " " << v << endl ;
+
+char ch = '@' ;
+v = &ch ;
+
+cout << *(char *)v << " " << v << endl ;
+
+ternary search
+
+
+
+
+int n = 5;
+
+int arr[n] = {2,3,5,7,11} ;
+// Sub array ---> Continuous elements of array
+// Power Set( Subset ) ---> No need for any continuous parts, and the order should same
+
+// n ---> n*(n+1)/2
+
+// Q.) Write an algorithm for generate all the subarrays.
+
+Guna wants to write a program that counts the number of occurrences of a specific character in a given string. 
+
+
+
+He decided to create a class called Occurrence to handle this task. In the class, a string and character are its private attributes. Initialize the variables using a member function. Define a member function countOccurrence() to count the number of times the character occurs in the string.
+
+
+
+Note: This is a sample question asked in a Capgemini interview.
+
+Input format :
+The first line of input consists of a string, str.
+
+The second line of input consists of a single character, ch, which represents the character to be counted for its occurrence in the string.
+
+Output format :
+The output displays a single integer representing the count of occurrences of the character ch in the given input string str.
+
+Code constraints :
+Use the small-case alphabet (a–z), numbers, and special characters.
+
+Sample test cases :
+Input 1 :
+utter
+t
+Output 1 :
+2
+Input 2 :
+453vgft
+5
+Output 2 :
+1
+Input 3 :
+ftf@fdfd@
+@
+Output 3 :
+2
+Note :
+The program will be evaluated only after the “Submit Code” is clicked.
+Extra spaces and new line characters in the program output will result in the failure of the test case.
+Marks : 10
+Negative Marks : 0
+
+
+// You are using GCC
+#include <iostream>
+using namespace std;
+
+int main(){
+    class Occurrence{
+        public:
+            string word;
+            char k;
+        void countOccurrence(){
+            int n = word.length();
+            int count=0;
+            for(int i=0;i<n;i++){
+                char c = word[i];
+                if(c==k){
+                    count++;
+                }
+            }
+            cout<< count;
+        };
+    };
+    
+    Occurrence obj;
+    cin >> obj.word;
+    cin >> obj.k;
+    obj.countOccurrence();
+    return 0;
+}
+    
+Ragu wants to create a program to store and display personal information about individuals. He decided to create a class called Person to represent a person's details with a name, age and gender as their private attributes. Initialize and display the same using member functions. The name and gender should be displayed in uppercase letters.
+
+
+
+Note: This is a sample question asked in an Infosys interview.
+
+// You are using GCC
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Person{
+    private:
+        string name;
+        string gender;
+        int age;
+    public:
+        void setName(string str){
+            for(char& c : str){
+                c = toupper(c);
+            }
+            name = str;
+        }
+        void setAge(int ag){
+            age = ag;
+        }
+        void setGender(string gen){
+            for(char& s : gen){
+                s = toupper(s);
+            }
+            gender = gen;
+        }
+        void displayDetails(){
+            
+            cout << name << " "<< age << " "<< gender;
+        };
+};
+int main(){
+    Person obj;
+    int ag;
+    string nam;
+    string gen;
+    
+    cin >> nam;
+    cin >> ag;
+    cin >> gen;
+    
+    obj.setGender(gen);
+    obj.setAge(ag);
+    obj.setName(nam);
+    obj.displayDetails();
+    return 0;
+}
+
+----------------------
+You have multiple arrays containing student grades for different subjects. You want to merge these arrays and calculate the average grade for each student. Write a function that takes these arrays as input and returns an array with the average grades.
+
+Input format :
+The first line of input contains the number of students n.
+
+The second line of input contains the number of subjects m.
+
+The next n lines contain m space-separated integers that represent the grades for each student.
+
+Output format :
+The output displays the average grades for each student in separate lines, as a double value rounded off to one decimal place.
+-------------------------
+
+
+// You are using GCC
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+float avg(int arr[],int n,int sub){
+    int sum = 0;
+    int size = sub;
+    for(int i=n;i<n+sub;i++){
+        sum+=arr[i];
+    }
+    float ans = static_cast<float>(sum)/size;
+    
+    return ans;
+}
+
+int main(){
+    
+    int n;
+    int sub;
+    
+    cin >> n;
+    cin >> sub;
+    
+    int arr[9999];
+    int x=0;
+    
+    for(int i=0;i<n;i++){
+        for(int j=0;j<sub;j++){
+            cin >> arr[x];
+            x++;
+        }
+    }
+    
+    for(int i=0;i<n;i++){
+        float ans = avg(arr,i*sub,sub);
+        cout << "Student " << i+1 << ": "<< fixed << setprecision(1)<< ans << endl;// for printing like 10.0 for one decimal place
+    }
+    
+    
+}
+
+
+-------------to input a line -------------
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    string str1, str2, str3;
+
+    cout << "Enter the first string: ";
+    getline(cin, str1);
+
+    cout << "Enter the second string: ";
+    getline(cin, str2);
+
+    cout << "Enter the third string: ";
+    getline(cin, str3);
+
+    cout << "You entered:\n";
+    cout << str1 << endl;
+    cout << str2 << endl;
+    cout << str3 << endl;
+
+    return 0;
+}
+---------------------
+
+to input lines , sring in a loop form vector
+
+
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int main() {
+    int numLines;
+    cout << "Enter the number of lines: ";
+    cin >> numLines;
+
+    cin.ignore(); // Ignore the newline character after reading numLines
+
+    vector<string> lines(numLines); // Create a vector to store the lines
+
+    for (int i = 0; i < numLines; i++) {
+        cout << "Enter line " << i + 1 << ": ";
+        getline(cin, lines[i]);
+    }
+
+    cout << "\nYou entered:\n";
+    for (const string& line : lines) {
+        cout << line << endl;
+    }
+
+    return 0;
+}
+--------------------
+Problem Statement   using vector but an be other way
+
+
+
+In a library, there are two arrays representing different sections of books: one for fiction books and another for non-fiction books. Combine these two arrays to create a unified catalog that lists all the books available in the library, regardless of genre.
+
+Input format :
+The first line of input contains an integer n, which represents the number of fiction books.
+
+The next n lines contain the titles of the fiction books.
+
+The next line contains an integer m, which represents the number of non-fiction books.
+
+The next m lines contain the titles of the non-fiction books.
+
+Output format :
+The output displays the merged catalog, which is a combination of fiction and non-fiction books in the order of input.
+--------------
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+int main(){
+    
+    int n1;
+    cin >> n1;
+    
+    cin.ignore();
+    vector<string> lines(n1);
+    int index=0;
+    
+    for(int i=0;i< n1;i++){
+        getline(cin,lines[i]);
+        index++;
+    }
+    
+    int n2;
+    cin >> n2;
+    
+    cin.ignore();
+    vector<string> lines1(n2);
+    
+    for(int i=0;i<n2;i++){
+        getline(cin,lines1[i]);
+    }
+    
+    for(const string& line : lines){
+        cout << line << endl;
+    }
+    for(const string& line : lines1){
+        cout << line << endl;
+    }
+    
+    
+    
+    return 0;
+}
+
+-------------
+
+Banu wants to find the number of elements less than or equal to a given key in a sorted array. 
+
+
+
+Help her write a program that takes the array, the size of the array, and the key as input and returns the count of such elements, using the binary search technique.
+
+
+
+Company Tags: Accenture
+
+Input format :
+The first line of input consists of the integer n, the size of the array.
+
+The second line consists of n space-separated integers, representing the elements of the sorted array.
+
+The third line consists of an integer k.
+
+Output format :
+The output prints the count of elements in the array that are less than or equal to the given value k.
+
+
+--------
+
+#include <iostream>
+using namespace std;
+
+int main(){
+    
+    int n;
+    cin >> n;
+    
+    int arr[n];
+    for(int i=0;i<n;i++){
+        cin >> arr[i];
+    }
+    
+    int x;
+    cin >> x;
+    
+    int high = n-1;
+    int low = 0;
+    int ans=-1;
+    
+    while(high>=low){
+        int mid = (high+low)/2;
+        if(arr[mid]<=x){
+            ans = mid;
+            low = mid+1;
+        }else{
+            high = mid - 1;
+        }
+        }
+        
+    cout << ans +1;
+    return 0;
+}
+--------------------
+
+
+Henry needs a program to determine the correct position to insert a new song into a sorted playlist based on its duration. The program should read the size of the playlist, the sorted durations of the existing songs, and the duration of the new song. 
+
+
+
+Using binary search, it should insert the new song at the appropriate index and output the index of the same while maintaining the sorted order.
+
+Input format :
+The first line of input consists of N, representing the size of the music playlist.
+
+The second line contains the N integers, representing the duration of the songs separated by spaces.
+
+The third line contains an integer M, representing the duration of the new song to be inserted.
+
+Output format :
+If the song with the specified duration is already present in the playlist, the output will return the index of that duration.
+
+If the song is not found in the playlist, the output will return the index where the song is inserted to maintain the ascending order of the playlist.
+
+---------------
+#include <iostream>
+using namespace std;
+
+int bifun(int arr[],int x,int n){
+    int high = n-1;
+    int low = 0;
+    int ans=-1;
+    
+    if(arr[n-1]<x){
+        return n;
+    }
+    while(high>=low){
+        int mid = (high+low)/2;
+        if(arr[mid]==x){
+            return mid;
+        }else if(arr[mid]<x){
+            low = mid + 1;
+        }else{
+            ans = mid;
+            high = mid - 1;
+        }
+    }
+    return ans;
+}
+
+int main(){
+    
+    int n;
+    cin >>n;
+    int arr[n];
+    
+    for(int i=0;i<n;i++){
+        cin >> arr[i];
+    }
+    int x;
+    cin >> x;
+    
+    int ans = bifun(arr,x,n);
+    cout << ans;
+    
+    return 0;
+}
+----------------
+power set is set 
+
+all the sub set range n^2
+
+ int n=5;
+    int arr[5]={1,2,3,4,5};
+
+    for(int i=0;i<n;i++){
+        for(int j=i;j<n;j++){
+            cout << i << j <<endl;
+        }
+        cout << endl;
+    }
+
+print all the sub array
+
+  int n=5;
+    int arr[5]={1,2,3,4,5};
+
+    for(int i=0;i<n;i++){
+        for(int j=i;j<n;j++){
+            for(int x=i;x<j;x++){
+             cout << arr[x] << " ";
+            }
+        cout << endl;
+        }
+    }
+
+----------------------
+string need "" double quote
+char need " single quote
+string are dynamic and mutable
+
+input a string - but it will only take first word or till whitespace as because of null char
+to input a whole line - use getline(cin,str)
+string s="sdnfi";
+string s1 ="d";
+s.clear() to clear a string
+s.append(s1);
+strcat()
+stcpy()
+s.assign(s1); or s=s1;
+s.compare(s1) if == 0 then same, if == +ve s is greater, else -ve
+s.empty() true - 1 false 0
+s.length()
+s.insert()
+s.find("s") return index
+to find a char in a string cout nt---- frequency = count(text.begin(), text.end(), targetChar);
+s.substr(start,end)
+s.sort(s.begin(),s.end())
+s.reverse(s.rbegin(),s.)
+
+askey value of A a is 67 97
+(char)A+32 = a
+for upper to lower in charater
+ char s = 'S';
+    char d = tolower(s);
+    cout << d;
+
+lower string to upper
+string s;
+cin>>s;
+int n=s.length();
+for(int i=0; i<n; i++){
+cout<<char(int(s[i])-32);
+}
+sir------------------
+
+// char arr vs String
+// i.) char arr does not contains '\0', but string does
+// ii.) we need know the size of arr, but not for string
+// iii.) char arr is static, string is dynamic
+
+// string abcd12(500, 'r') ;
+// string s = "rrrrr" ;
+
+// cout << abcd12 << endl << s ;
+
+
+// string st = "abcdef" ;
+// cout << st[2] << endl ;
+
+// string st ; // string st = ""
+// cout << st ;
+
+
+
+// Input
+
+// string s ;
+// // cin >> s ;
+// getline(cin, s) ;
+// cout << s << endl ;
+
+
+// clear() ;
+
+// string s = "raj" ;
+// s.clear() ;
+// cout << s ;
+
+
+
+// append()
+// string s1 = "xyz", s2 = "pqr" ;
+// // s1 = s1+s2 ;
+// s1.append(s2) ;
+// cout << "S1 : " << s1 << endl ;
+// cout << s1 + s2 << endl ;
+
+
+// assign()
+
+// string s1 = "xyz", s2 = "pqr" ;
+// // s1 = s2 ;
+// s2.assign(s1) ;
+// cout << s1 << " " << s2 ;
+
+
+// compare()
+// string s1 = "abc", s2 = "abb" ;
+
+// if(s1.compare(s2) > 0) cout << "s1 is Greater" ;
+// else if(s1.compare(s2) == 0) cout << "SAME" ;
+// else cout << "s1 is smaller" ;
+
+// if(s1 > s2) cout << "s1 is Greater" ;
+// else if(s1 == s2) cout << "SAME" ;
+// else cout << "s1 is smaller" ;
+
+// empty()
+// string s1 = "", s2 = "abb" ;
+
+// if(s1.empty()) // string is empty--> 1
+// {
+// cout << "EMPTY" ;
+// }
+// else
+// {
+// cout << "Not empty" ;
+// }
+
+
+// length(), size()
+
+// string s = "dfghs" ;
+// cout << s.length() << " " << s.size() << endl ;
+
+
+// erase(start Index, length)
+
+// string s = "Sachin" ;
+
+// s.erase(2, 3) ;
+// cout << s << endl ;
+
+
+
+// insert(start Index, "string")
+// string s = "Sachin" ;
+// s.insert(2, "tel") ;
+// cout << s << endl ;
+
+
+
+// find(), count()
+
+// string s = "pasfsavanava;;;ava" ;
+
+// int freq = count(s.begin(), s.end(), ';') ;
+
+// cout << s.find("ava") << endl << freq ;
+
+
+// string s = "123456abc" ;
+
+// cout << s.substr(2) ; // Whole string from the start index
+// cout << s.substr(1,3) ; // 3 length string form 1st index
+
+
+// Q.) Write an algorithm, you are give a string, where all the chars are in small letters, you need this to capital letters.
+
+// abc
+
+// ABC
+// string s = "abcefdg" ;
+// int n = s.length() ;
+
+// for(int i=0 ; i<n ; i++) {
+// s[i] = s[i]-32 ;
+// }
+
+// cout << s ;
+
+
+// tolower(), toupper()
+// cout << tolower('A') ;
+
+
+string s = "abtabcsd" ;
+
+// sort()
+// sort(s.begin(), s.end()) ;
+// sort(s.rbegin(), s.rend()) ;
+
+// reverse()
+reverse(s.rbegin(), s.rend()) ;
+reverse(s.begin(), s.end()) ;
+
+cout << s << endl ;
+
+----------------------------------------------------
+
+
+Imagine you are developing a program for a scientific research project. The project requires sorting a collection of experimental data represented by floating-point numbers. Your task is to implement a program that can sort the data using the Bubble Sort algorithm.
+
+
+
+As the Bubble Sort algorithm progresses, the program should display intermediate results after each iteration, showing the partially sorted data and finally, the program should display the fully sorted array.
+
+Input format :
+The first line of input consists of an integer n, representing the number of floating-point numbers to be sorted. The The second line of input consists of n space-separated floating-point numbers, representing the collection of experimental data.
+
+Output format :
+The output displays "After iteration X:", where X is the iteration number, followed by the partially sorted array for each iteration.
+
+The last line of output displays "Sorted array:" followed by the final sorted floating-point numbers.
+
+
+-----
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+    int n;
+    cin >> n;
+    float arr[n];
+    
+    for(int i=0;i<n;i++){
+        cin >> arr[i];
+    }
+    int count = 0;
+    
+    for(int i=0;i<n-1;i++){
+        for(int j=0;j<n-i-1;j++){
+            if(arr[j]>arr[j+1]){
+                float temp = arr[j+1];
+                arr[j+1]=arr[j];
+                arr[j]=temp;
+                count++;
+            }
+        }
+        if(count==0){//if no changes are there so break the loop
+            break;
+        }
+        count =0;
+        cout << "After iteration "<< i+1<<": ";
+        for(int i=0;i<n;i++){
+            cout << fixed << setprecision(2) << arr[i] << " ";
+        }
+        cout << endl;
+    }
+    cout << "Sorted array: ";
+    
+    for(int i=0;i<n;i++){
+        cout <<fixed << setprecision(2)<< arr[i] << " ";
+    }
+    return 0;
+}
+--------------
+You are developing a sports analytics system for a basketball team. As part of the system, you need to implement a feature that finds the second largest player's height from a given array of player heights.
+
+
+
+Write a program that takes user input for the number of players and their respective heights. The program should use the selection sort algorithm to sort the player heights in non-increasing order. After sorting, it should display the sorted array of player heights and display the second largest player's height from the sorted list.
+
+Input format :
+The first line of input consists of an integer n, representing the number of players.
+
+The second line of input consists of n space-separated integers, representing the heights of the players.
+
+Output format :
+The first line of output displays "Sorted array:" followed by n space-separated integers, representing the sorted array of player heights.
+
+The second line of output displays "The second largest element is " followed by an integer, representing the second largest player's height.
+-----------#include <bits/stdc++.h>
+using namespace std;
+
+
+int main(){
+    
+    int n;
+    cin >> n;
+    int arr[n];
+    
+    for(int i=0;i<n;i++){
+        cin >> arr[i];
+    }
+    
+    for(int i=0;i<n-1;i++){
+        for(int j=0;j<n-i-1;j++){
+            if(arr[j]<arr[j+1]){
+                int temp = arr[j+1];
+                arr[j+1]=arr[j];
+                arr[j]=temp;
+                    
+            }
+        }
+    }
+    
+    cout << "Sorted array: ";
+    for(int i=0;i<n;i++){
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+    cout << "The second largest element is " << arr[1];
+    return 0;
+}
+-----------------
+
+You are working on a ticketing system for a popular event. As part of the system, you need to implement a feature that finds the kth smallest ticket price among all the available tickets.
+
+
+
+Write a program that takes user input for the number of tickets and their respective prices. The program should use the selection sort algorithm to sort the ticket prices in non-decreasing order. After sorting, it should display the sorted order of the ticket prices and display the kth smallest ticket price from the sorted list.
+
+
+
+Company Tags: Capgemini 
+
+Input format :
+The first line of input consists of an integer n, representing the number of tickets.
+
+The second line of input consists of n space-separated integers, representing the prices of the tickets.
+
+The third line of input consists of an integer k, representing the position of the ticket price to find (1-indexed).
+
+Output format :
+The first line of output displays "Sorted order: " followed by n space-separated integers, representing the sorted array of ticket prices.
+
+The second line of output displays "The kth smallest element is: " followed by an integer, representing the kth smallest ticket price.
+-------------
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+    
+    int n;
+    cin >> n;
+    int arr[n];
+    
+    for(int i=0;i<n;i++){
+        cin >> arr[i];
+    }
+    int x;
+    cin >> x;
+    
+    for(int i=0;i<n;i++){
+        int min = i;
+        for(int j=i;j<n;j++){
+            if(arr[min]>arr[j]){
+                min = j;
+            }
+        }
+        if(min!=i){
+            int temp = arr[i];
+            arr[i]=arr[min];
+            arr[min]=temp;
+        }
+    }
+    
+    cout <<"Sorted order: ";
+    for(int i=0;i<n;i++){
+        cout << arr[i] <<" ";
+    }
+    cout << endl;
+    cout << "The kth smallest element is: "<< arr[x-1];
+    
+    return 0;
+}
+-----------
+Problem Statement
+
+
+
+You are a teacher at a school, and you have recently conducted an exam for your students. The exam grades of the students are represented as an array of integers. You want to determine the number of inversions in the list of grades.
+
+
+
+Given an array of integers, find the inversion count in the array using insertion sort. 
+
+
+
+Inversion Count: For an array, the inversion count indicates how far (or close) the array is from being sorted. If the array is already sorted, then the inversion count is 0. If an array is sorted in reverse order, then the inversion count is the maximum. 
+
+
+
+Formally, two elements arr[i] and arr[j] form an inversion if arr[i] > arr[j] and i < j.
+
+ 
+
+Example 1
+
+
+
+Input:
+
+N = 5
+
+arr[] = {20, 45, 19, 37, 58}
+
+Output:
+
+3
+
+Explanation:
+
+Sequences 20, 45, 19, 37, and 58 have three inversions (20, 19), (45, 19), and (45, 37).
+
+
+
+Example 2
+
+
+
+Input:
+
+N = 4
+
+arr[] = {8, 4, 2, 1}
+
+Output:
+
+6
+
+Explanation:
+
+The sequence has six inversions (8, 4), (4, 2), (8, 2), (8, 1), (4, 1), (2, 1).
+
+
+
+Example 3
+
+
+
+Input:
+
+N = 5
+
+arr[] = {29, 37, 42, 54, 61}
+
+Output:
+
+0
+
+Explanation:
+
+As the sequence is already sorted, there is no inversion count.
+
+
+
+Example 4
+
+
+
+Input:
+
+N = 3
+
+arr[] = {100, 100, 100}
+
+Output:
+
+0
+
+Explanation:
+
+As all the elements of the array are the same, there is no inversion count.
+
+
+
+Company Tags: Amazon, Microsoft, Flipkart
+------------
+#include <bits/stdc++.h>
+using namespace std;
+
+
+int main(){
+    
+    int n;
+    cin >> n;
+    int arr[n];
+    
+    for(int i=0;i<n;i++){
+        cin >> arr[i];
+    }
+    
+    int i,j,key,count=0;
+    for(int i=1;i<n;i++){
+        key = arr[i];
+        j=i-1;
+        while(arr[j]>key && j>=0){
+            count++;
+            arr[j+1]=arr[j];
+            j=j-1;
+        }
+        arr[j+1]=key;
+    }
+    
+    cout << count;
+    return 0;
+}
+--------
+You're managing the inventory levels of different items in a warehouse. The inventory levels are stored in an array of integers, where each integer represents the quantity of a specific item. 
+
+
+
+You will perform the following operations:
+
+1.	Traversal: Go through the list of inventory quantities to verify the stock levels.
+
+2.	Insertion: Add a new item to the inventory, updating the quantity.
+
+3.	Deletion: Remove an item from the inventory when it is out of stock.
+
+Input format :
+The first line of input contains an integer x, representing the number of items in the inventory.
+
+The second line contains x space-separated integers, each representing the quantity of an item in the inventory.
+
+The third line contains an integer n, representing the number of items to be newly added.
+
+The fourth line contains n space-separated integers, each representing the quantity of a new item to be added to the inventory.
+
+The fifth line contains an integer m, representing the number of items to be removed.
+
+The sixth line contains m space-separated integers, each representing the quantity of an item to be removed from the inventory.
+
+Output format :
+The first line of output prints "Inventory List: " followed by the quantities of the items in the inventory, separated by spaces.
+
+After each insertion:
+
+Print "Inserting Item: " followed by the quantity of the new item being added.
+Print "Inventory List: " followed by the updated inventory quantities, separated by spaces.
+After each deletion:
+
+Print "Removing Item: " followed by the quantity of the item being removed.
+Print "Inventory List: " followed by the updated inventory quantities, separated by spaces.
+-------------// You are using GCC
+#include <iostream>
+using namespace std;
+
+#define MAX_SIZE 100
+
+void traverseInventory(int inventory[], int size) {
+    cout << "Inventory List: ";
+    for(int i=0;i<size;i++){
+        cout << inventory[i] << " ";
+    }
+    cout << endl;
+}
+
+void insertItem(int inventory[], int &size, int item) {
+    cout<<"Inserting Item: " << item;
+    inventory[size]=item;
+    size++;
+    cout << endl;
+    traverseInventory(inventory,size);
+}
+
+void removeItem(int inventory[], int &size, int item) {
+    cout << "Removing Item: "<< item;
+    int index=-1;
+    for(int i=0;i<size;i++){
+        if(inventory[i]==item){
+            index=i;
+        }
+        if(index!=-1){
+            inventory[i]=inventory[i+1];
+        }
+    }
+    size--;
+    cout << endl;
+    traverseInventory(inventory,size);
+}
+
+int main() {
+    int inventory[MAX_SIZE];
+    int size, n, m;
+    int newItems[MAX_SIZE];
+    int deleteItems[MAX_SIZE];
+
+    cin >> size;
+
+    for (int i = 0; i < size; i++) {
+        cin >> inventory[i];
+    }
+
+    traverseInventory(inventory, size);
+
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        cin >> newItems[i];
+    }
+    for (int i = 0; i < n; i++) {
+        insertItem(inventory, size, newItems[i]);
+    }
+
+    cin >> m;
+    for (int i = 0; i < m; i++) {
+        cin >> deleteItems[i];
+    }
+    for (int i = 0; i < m; i++) {
+        int s = size - i;
+        removeItem(inventory, s, deleteItems[i]);
+    }
+
+    return 0;
+}
+---------
+
+Problem Statement
+
+
+
+﻿You're managing employee records for a company. The employee IDs from two different departments are stored in two separate arrays, both sorted in ascending order. Your task is to merge these two sorted arrays into a single sorted array, ensuring that the order is maintained.
+
+Input format :
+The first line of input contains an integer n, representing the number of employees in the first department.
+
+The second line contains n space-separated integers, each representing a sorted employee ID from the first department.
+
+The third line contains an integer m, representing the number of employees in the second department.
+
+The fourth line contains m space-separated integers, each representing a sorted employee ID from the second department.
+
+Output format :
+The output prints the merged sorted employee IDs from both departments.
+
+
+---------
+#include <bits/stdc++.h>
+using namespace std;
+
+
+int main(){
+    
+    int n1;
+    cin >> n1;
+    int arr1[n1];
+    
+    for(int i=0;i<n1;i++){
+        cin >> arr1[i];
+    }
+    int n2;
+    cin >> n2;
+    int arr2[n2];
+    if(n2!=0){
+        for(int i=0;i<n2;i++){
+            cin >> arr2[i];
+        }
+    }
+    
+    int i = 0;
+    int j = 0;
+    int c = 0;
+    int ans[n1+n2];
+   
+        while(i<n1 && j<n2){
+            if(arr1[i]<arr2[j]){
+                ans[c]=arr1[i];
+                c++;
+                i++;
+            }else{
+                ans[c]=arr2[j];
+                c++;
+             j++;
+            }
+        }
+    
+    
+    if(i<n1){
+        for(int k=i;k<n1;k++){
+            ans[c]=arr1[k];
+            c++;
+        }
+    }
+    if(j<n2){
+        for(int i=j;i<n2;i++){
+            ans[c]=arr2[i];
+            c++;
+        }
+    }
+    
+    for(int i=0;i<n1+n2;i++){
+        cout << ans[i] << " ";
+    }
+    
+    return 0;
+}
+
+---------
+
+void bubbleSort(int scores[], int n) {
+    for(int i=0;i<n-1;i++){
+        for(int j=0;j<n-i-1;j++){
+            if(scores[j]>scores[j+1]){
+                swap(scores[j],scores[j+1]);
+            }
+        }
+    }
+    
+}
+
+void selectionSort(int scores[], int n) {
+    for(int i=0;i<n;i++){
+        int min = i;
+        for(int k=i;k<n;k++){
+            if(scores[min]>scores[k]){
+                min =k;
+            }
+        }
+        if(min!=i){
+            swap(scores[min],scores[i]);
+        }
+    }
+    
+}
+----
+        int i,j=0,key;
+        for(int i=1;i<n;i++){
+            key = arr[i];
+            j=i-1;
+            while(arr[j]>key && j>=0){
+                arr[j+1]=arr[j];
+                j= j - 1;
+            }
+            arr[j+1]=key;
+        }
+----
+
+
+// Prototype ---> We can able to define our functions at any where of our code, but the header of the function should stay at the top of from where the function is called.
+	
+
+// Functions -->
+// i.) User define functions
+//ii.) Built-in functions
+
+-
+ string a="ladnklmdo";
+    sort(a.begin(),a.end());
+   cout << a;
+
+#include <iostream>
+#include <cmath>
+#include <algorithm>
+#include <cstdlib>
+#include <ctime>
+
+// pow(), sqrt(), sort(), reverse(), rand()
+
+using namespace std;
+
+int main()
+{
+// int x = pow(2, 8) ; // (a, b) --> a^b
+// cout << x ;
+// string s = "zctsbcdq" ;
+
+// sort(s.begin(), s.end());
+// cout << s ;
+
+// int x ;
+// cout << x ;
+
+// cout << rand() ;
+
+
+// time_t curr_time = time(0) ;
+// cout << "Current Time: " << ctime(&curr_time) << endl ;
+
+
+// int x = rand() ;
+
+// 0 ---- 9999
+// cout << x%10000 ;
+-------------
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+
+function<int(int,int)> powerxyz = [&](int a, int b) -> int {
+int x = pow(a,b) ;
+return x ;
+};
+
+
+int a = 3, b = 4 ;
+cout << powerxyz(a, b);
+}
+
+#include <iostream>
+using namespace std;
+
+
+/*
+Access Modifiers:
+1.) Private ---> Able to access inside of the class itself
+
+2.) Public ---> If we declare some properties/ methods, we can able to acces it through out the code
+
+3.) Protected --> We can able to acces it only inside of the class or its parent/children
+
+*/
+
+
+// class employee
+// {
+// private:
+// int account = 1234567 ;
+// int ifsc ;
+
+// public:
+// string name = "Manoj" ;
+// string id = "&65qw12" ;
+
+// // Setter
+// void setAccount(int accNum)
+// {
+// account = accNum ;
+// }
+
+// // Getter
+// int getAccount()
+// {
+// return account ;
+// }
+// };
+
+
+// create func(method) inside of class,
+// as well as create class insode of func
+// int func()
+// {
+// class employee
+// {
+// public:
+// string name = "Random" ;
+// };
+
+// employee emp1 ;
+
+// // emp1.setAccount(7890) ;
+
+// cout << emp1.name << endl ;
+// // cout << emp1.getAccount() << endl ;
+
+// return 8685857;
+// }
+
+
+// Every time , whenever we called or we define any object,
+// a constructor is called by default by the compiler
+
+
+int main() {
+
+func() ;
+
+
+}
+---------------
+
+
+// Constructor
+// 1.) Non-parameterized Constructor
+// 2.) Parameterized Constructor
+// 3.) Copy Constructor
+
+
+// Constructor Overloading
+class teacher
+{
+int value ;
+public:
+teacher() // Non-parameterized Constructor
+{
+cout << "HEY" ;
+}
+
+teacher(int val) // Parameterized Constructor
+{
+cout << val << endl ;
+value = val ;
+}
+
+};
+
+int main() {
+teacher t2 ;
+teacher t1(9) ;//copy constructor
+-------
+
+// Constructor
+// 1.) Non-parameterized Constructor
+// 2.) Parameterized Constructor
+// 3.) Copy Constructor
+
+
+// 'this' --> 'this' is a special pointer in C++, that points to the current object of the class.
+
+// Constructor Overloading
+class teacher
+{
+private:
+int val ;
+
+public:
+teacher(int val) // Parameterized
+{
+this->val = val + 1 ;
+
+cout << val << " " << (this->val) << endl ;
+}
+
+// Copy Constructor
+// teacher(teacher &obj)
+// {
+// cout << obj.value << endl ;
+// value = (obj.value) + 1 ;
+// }
+
+};
+
+int main() {
+teacher t1(10) ;
+// cout << t1.val << endl ;
+
+// teacher t2(t1) ;
+
+// cout << t2.value ;
+
+}
+-----------------------
+#include <iostream>
+using namespace std;
+
+void name(int x)
+{
+// Base case
+if(x==0) return ;
+
+cout << x << " " ;
+
+name(x-1) ;
+}
+
+// Disadvantages of recursion
+// 1.) Take more stack space
+// 2.) Takes little bit greater time
+
+// Advantage
+// 1.) The code is very easy
+
+int main() {
+
+int x = 5 ;
+name(x) ;
+}
+-----------------------
+#include <iostream>
+using namespace std ;
+
+// Constructor
+// 1.) Non-parameterized Constructor
+// 2.) Parameterized Constructor
+// 3.) Copy Constructor
+
+class Student
+{
+public:
+string name;
+int age;
+string dept ;
+int roll ;
+
+// Non-parameterized constructor
+// Student()
+// {
+// cout << "NO Parameter" << endl ;
+// }
+
+// Parameterized Constructor
+Student(string name, int age, string dept, int roll)
+{
+// cout << name << " -> " << (*this).name << " <- " << endl ;
+
+// cout << "Parameterized Constructor\n" ;
+this->name = name ;
+this->age = age ;
+this->dept = dept ;
+this->roll = roll ;
+// cout << name << " " << (*this).name << endl ;
+}
+
+// Copy Constructor
+Student(Student &obj)
+{
+cout << "COPY Constructor\n" ;
+this->name = obj.name ;
+this->dept = obj.dept ;
+this->roll = obj.roll ;
+this->age = obj.age ;
+}
+};
+
+int main()
+{
+// Student s ;
+Student s1("Ram", 99, "IT", 12345) ;
+
+Student s2(s1) ;
+
+cout << s1.dept << " " << s2.age << " " << s2.name << " "
+<< s2.roll << endl;
+}
+-------
+
+// Main 4 pillers are
+/*
+1.) Encapsulation ---> Wrapping up of attributes and methods inside of class.
+** Used for privacy or data hiding according to our choises
+
+2.) Inheritance ---> For code reusibility from parent/base class to child/derived class
+** Code reusibility
+
+3.) Abstraction
+4.) Polymorphism
+
+*/
+
+// class Student
+// {
+// // public:
+// // private:
+// protected:
+
+// int roll;
+// int age ;
+// string name ;
+// string dept ;
+
+// void func1()
+// {
+
+// }
+
+// void func2(int x, int y)
+// {
+
+// }
+// };
+
+
+class Parent
+{
+public:
+string add ;
+int members;
+
+};
+
+class Child : public Parent
+{
+public:
+int pin ;
+
+void getInfo()
+{
+cout << add << endl ;
+cout << members << endl ;
+cout << pin << endl ;
+}
+};
+
+
+int main()
+{
+Child c1 ;
+
+c1.add = "J&K" ;
+c1.members = 4 ;
+c1.pin = 786543 ;
+
+cout << c1.add << endl ;
+
+c1.getInfo() ;
+------------------
+
+int add(int m){
+if(m==0){
+return 0;
+}
+return m+add(m-1);
+}
+int main()
+{
+int m;
+cin>>m;
+cout<<add(m)<<endl;
+return 0;
+}
+-------------------
+#include <iostream>
+using namespace std ;
+
+// 1.) Factorial in Iterative method --> Done
+// 2.) Factorial in Recursion method --> Done
+// 3.) Find nCr
+
+// N! = 1 * 2 * 3 * ... * (N-1) * N
+// nCr = n!/(r! * (n-r)!)
+
+// n*(n-1)*(n-2)*.....(n-r+1)*(n-r)*(n-r-1)*...3*2*1
+// _____________________________________________________
+// [r*(r-1)*(r-2)*..3*2*1] * (n-r)*(n-r-1)*....3*2*1
+
+// n*(n-1)*(n-2)*.....(n-(r-1))
+// = ---------------------------------
+// [r*(r-1)*(r-2)*...3*2*1]
+
+int main() {
+int n, r ;
+cin >> n >> r ;
+
+// TC = O(R), SC = O(1)
+
+int ncr = 1 ;
+
+for(int i=0 ; i<r ; i++)
+{
+ncr = ncr*(n-i) ;
+ncr = ncr/(i+1) ;
+}
+
+cout << ncr << endl;
+}
+
+
+
+
+
+
+| |
+| 1 |
+| --------- |
+| 2 |
+| --------- |
+| 3 |
+____________|
+
+
+return 6
+n = 3
+
+3 * 2
+
+
+
+
+n = 2
+
+2 *1
+
+
+if(base)
+#include <iostream>
+using namespace std ;
+
+// 1.) Factorial in Iterative method --> Done
+// 2.) Factorial in Recursion method --> Done
+// 3.) Find nCr --> Done(Brute Force, Optimal)
+// 4.) Fibinnachi Series
+
+// N! = 1 * 2 * 3 * ... * (N-1) * N
+// nCr = n!/(r! * (n-r)!)
+
+// n*(n-1)*(n-2)*.....(n-r+1)*(n-r)*(n-r-1)*...3*2*1
+// _____________________________________________________
+// [r*(r-1)*(r-2)*..3*2*1] * (n-r)*(n-r-1)*....3*2*1
+
+// n*(n-1)*(n-2)*.....(n-(r-1))
+// = ---------------------------------
+// [r*(r-1)*(r-2)*...3*2*1]
+
+
+
+
+// a b c
+// 0 1 1 2 3 5 8 13 21 34 55 ...
+// a b c
+
+
+
+
+int fibo(int n)
+{
+if(n == 1 || n == 0) return n ;
+return fibo(n-1) + fibo(n-2) ;
+}
+
+
+
+
+int main() {
+// cout << fibo(10) ;
+int n = 10 ;
+int a = 0, b = 1, c=0 ;
+
+for(int i=1 ; i<=n ; i++)
+{
+c = a+b ;
+a = b ;
+b = c ;
+}
+
+cout << a ;
+}
+---------------
+
+#include <bits/stdc++.h>
+using namespace std ;
+
+/*
+** Types of Inheritance
+i.) Single Inheritance [ Parent -----> Student ]
+
+*/
+
+
+
+// class Person
+// {
+// public:
+// string name ;
+// int age ;
+
+// Person() {
+// cout << "Person Constructor\n" ;
+// }
+
+// };
+
+// class Student: public Person
+// {
+// public:
+// int roll = 19 ;
+
+// Student() {
+// cout << "Student Constructor\n" ;
+// }
+// };
+
+
+
+
+
+
+class Person
+{
+public:
+string name ;
+int age ;
+
+// Parameterized Constructor
+Person(string name, int age) {
+cout << "Person Constructor\n" ;
+
+this->name = name ;
+this->age = age ;
+}
+};
+
+class Student: public Person
+{
+public:
+int roll ;
+
+// Parameterized Constructor
+Student(string name, int age, int roll): Person(name, 1010)
+{
+cout << "Student Constructor\n" ;
+
+this->roll = roll ;
+}
+};
+
+int main() {
+
+// Student s1 ;
+// cout << s1.age << " " << s1.roll ;
+
+Student s1("Rame", 100, 10) ;
+
+}
+----------------------
+when the program is going to end the program will delete all memory in stack , but any memory in heap has to be delete by me
+--------------------------
+#include <bits/stdc++.h>
+using namespace std ;
+
+/*
+** Types of Inheritance
+i.) Single Inheritance [ Parent -----> Student ]
+
+*/
+
+
+/*
+Stack ---> Static Memory are stay
+
+Heap ---> Dynamic Memories are creates --> 'new' keyword
+*/
+
+
+class Person
+{
+public:
+string name ;
+int age ;
+
+// Constructor
+Person() {
+cout << "Person Constructor\n" ;
+}
+
+// Destructor
+~Person()
+{
+cout << "Person Destructor\n" ;
+}
+};
+
+class Student: public Person
+{
+public:
+int roll ;
+Student() {
+cout << "Student Constructor\n" ;
+}
+
+// Destructor
+~Student()
+{
+cout << "Student Destructor\n" ;
+}
+};
+
+int main() {
+
+Student s1 ;
+}
+--------------------
+#include <bits/stdc++.h>
+using namespace std ;
+
+/*
+** Types of Inheritance
+i.) Single Inheritance [ Parent -----> Child ]
+ii.) Multi-level Inheritance [ Parent_1 ---> Parent_2 ---> ..... ----> Parent_n ---> Child ]
+
+*/
+
+
+/*
+Stack ---> Static Memory are stay
+
+Heap ---> Dynamic Memories are creates --> 'new' keyword
+*/
+
+
+class Person1
+{
+public:
+string name ;
+int age ;
+
+Person1(string name , int age)
+{
+this->name = name ;
+this->age = age ;
+}
+};
+
+class Person2: public Person1
+{
+public:
+int roll ;
+
+Person2(string name, int age, int roll): Person1(name, age)
+{
+this->roll = roll ;
+}
+};
+
+class Child: public Person2
+{
+public:
+int salary ;
+
+Child(string name, int age, int roll, int salary): Person2(name, age, roll)
+{
+this->salary = salary ;
+}
+
+void getInfo()
+{
+cout << name << endl ;
+cout << age << endl ;
+cout << roll << endl ;
+cout << salary << endl ;
+}
+};
+
+int main() {
+Child ch("NTR", 48, 111, 80000) ;
+
+ch.getInfo();
+}
+----------------------------
+
+Sharukh needs to calculate the distance and midpoint of a line segment given its endpoints. Write a program to help Sharukh that reads the coordinates of two endpoints of a line segment, computes the distance between them, and finds the midpoint of the segment. 
+
+Input format :
+The first line contains the coordinates of the first endpoint as integers represented as x1 and y1.
+
+The second line contains the coordinates of the second endpoint as integers represented as x2 and y2.
+
+Output format :
+The first line prints "Distance: " followed by the distance between the two points, as a float value rounded to two decimal places.
+
+The second line prints"Midpoint: " followed by the midpoint coordinates, as float values rounded to two decimal places.
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct st1{
+    int x1;
+    int y1;
+};
+
+struct st2{
+    int x2;
+    int y2;
+};
+
+int main(){
+    st1 s1;
+    st2 s2;
+    
+    cin >> s1.x1;
+    cin >> s1.y1;
+    cin >> s2.x2;
+    cin >> s2.y2;
+    
+    float midpoint1 = (s1.x1 + s2.x2)/2.0;
+    float midpoint2 = (s1.y1 + s2.y2)/2.0;
+    
+    double dis = sqrt(pow(s2.x2 - s1.x1,2) + pow(s2.y2 - s1.y1,2));
+    
+    cout << "Distance: "<< fixed << setprecision(2) << dis << endl;
+    cout << "Midpoint: "<< fixed << setprecision(2)<< midpoint1 << " " << midpoint2;
+    return 0;
+}
+-----------------
+#include <bits/stdc++.h>
+using namespace std ;
+
+/*
+I.) Single Inheritance [ Parent ----> Child ]
+II.) Multi-Level Inheritance [ Parent_1 --> Parent_2 --> Parent_3 ----> ..... Parent_n -----> Child ]
+
+III.) Multiple Inheritance [ Parent_1 ---> Child,
+Parent_2 ---> Child,
+..................,
+Parent_n ---> Child]
+
+*/
+
+class Person_1
+{
+public:
+string name = "Rahul" ;
+int age ;
+};
+
+class Person_2: protected Person_1
+{
+public:
+string hairType ;
+};
+
+class Child: public Person_2
+{
+public:
+int roll ;
+
+void getInfo()
+{
+cout << age << " " << name << " " << hairType << " " << roll << endl ;
+}
+};
+
+
+int main() {
+Child c1 ;
+
+c1.hairType = "Curly" ;
+
+cout << c1.hairType << endl ;
+
+
+c1.getInfo() ;
+}
+----------------------------
+#include <bits/stdc++.h>
+using namespace std ;
+
+/*
+I.) Single Inheritance [ Parent ----> Child ]
+II.) Multi-Level Inheritance [ Parent_1 --> Parent_2 --> Parent_3 ----> ..... Parent_n -----> Child ]
+
+III.) Multiple Inheritance [ Parent_1 ---> Child,
+Parent_2 ---> Child,
+..................,
+Parent_n ---> Child]
+
+*/
+
+class Person_1
+{
+public:
+string name ;
+int age ;
+
+Person_1(string name, int age)
+{
+this->name = name ;
+this->age = age ;
+}
+};
+
+class Person_2
+{
+public:
+string hairType ;
+string hairColor ;
+
+Person_2(string hairType, string hairColor)
+{
+this->hairType = hairType ;
+this->hairColor = hairColor ;
+}
+};
+
+class Child: public Person_1, public Person_2
+{
+public:
+string is_any_Toy ;
+
+Child(string name, int age, string hairType, string hairColor, string toy): Person_1(name, age), Person_2(hairType, hairColor)
+{
+is_any_Toy = toy ;
+}
+
+void getInfo()
+{
+cout << name << endl ;
+cout << age << endl ;
+cout << hairType << endl ;
+cout << hairColor << endl ;
+}
+};
+-------
+/*
+1.) Single
+2.) Multi-level
+3.) Multiple
+4.) Hierarchial [ 1 Parent and multiple Child ]
+
+Parent
+Child_1 Child_2 Child_3 ...... Child_n
+
+5.) Hybrid ( Single + Multi-Level + Multiple + Hierarchial )
+/* (Single / Multi-level)
+|-----------------> Parent1 ----------------------> Child1
+| \---------------
+MainParent ---->| (Hierarchial) \
+| \(Multiple)
+|-----------------> Parent2 --------> Child2
+
+*/
+
+
+
+#include<bits/stdc++.h>
+using namespace std ;
+
+
+// Hybrid Inheritance
+
+class MainParent // Hierarchial
+{
+public:
+int pro_1 ;
+
+MainParent(int p1)
+{
+pro_1 = p1 ;
+}
+};
+
+class Parent_1: public MainParent
+{
+public:
+int pro_2 ;
+
+Parent_1(int p1, int p2): MainParent(p1)
+{
+pro_2 = p2 ;
+}
+};
+
+class Parent_2: public MainParent
+{
+public:
+int pro_3 ;
+
+Parent_2(int p1, int p3): MainParent(p1)
+{
+pro_3 = p3 ;
+}
+};
+
+
+class Child_1: public Parent_1 // Single
+{
+public:
+int pro_4 ;
+};
+
+
+class Child_2: public Parent_1 , public Parent_2 // Multiple
+{
+public:
+int pro_5 ; // pro_5, pro_2, pro_1, pro_3
+
+Child_2(int p1, int p2, int p3, int p5): Parent_1(p1, p2), Parent_2(p1, p3)
+{
+pro_5 = p5 ;
+}
+
+
+void getInfo()
+{
+cout << pro_1 << "\n" ;
+cout << pro_2 << "\n" ;
+cout << pro_3 << "\n" ;
+cout << pro_5 << "\n" ;
+}
+};
+
+int main()
+{
+Child_2 c2(1,2,3,5) ;
+}
+------ my code  example of hirecical
+// Online C++ compiler to run C++ program online
+#include <iostream>
+using namespace std;
+
+class  CAR{
+    public:
+        string company = "Tata Motor";
+        int total_car = 6;
+};
+
+class nexon: public CAR{
+    public:
+        string carName = "Nexon";
+        string feature = "";
+        string design = "n";
+};
+
+class tigor: public CAR{
+    public:
+        string carName = "tigor";
+        string feature = "";
+        string design = "t";
+};
+
+class curvv: public nexon,public tigor{
+     public:
+        string carName = "curvv";
+        string feature = "";
+        string design = "c";
+     void info(){
+        cout << "carName: " << carName << endl;
+        cout << "design: " << design << endl;
+    }
+};
+
+class punch: public nexon{
+     public:
+        string carName = "punch";
+        string feature = "";
+        string design = "p";
+};
+
+class newcar: public punch{
+     public:
+        string carName = "newcar";
+        string feature = "";
+        string design = "n" ;
+    void info(){
+        cout << "carName: " << carName << endl;
+        cout << "design: " << design << endl;
+    }
+};
+
+int main(){
+    
+    newcar c1;
+    curvv cv;
+    cv.info();
+    c1.info();
+    
+    return 0;
+}
+
+
+int main() {
+Child c1("Arjun", 37, "Straight", "Gray", "Yes") ;
+
+c1.getInfo() ;
+
+}
+
+------
+#include <bits/stdc++.h>
+using namespace std ;
+
+/*
+I.) Single Inheritance [ Parent ----> Child ]
+II.) Multi-Level Inheritance [ Parent_1 --> Parent_2 --> Parent_3 ----> ..... Parent_n -----> Child ]
+
+III.) Multiple Inheritance [ Parent_1 ---> Child,
+Parent_2 ---> Child,
+..................,
+Parent_n ---> Child]
+
+IV.) Hierarchial Inheritance [ Parent ---> Child_1,
+Parent ---> Child_2,
+..................,
+Parent ---> Child_n]
+*/
+
+// Parent Class
+class Person
+{
+public:
+string name ;
+int age ;
+
+// Person(string name, int age)
+// {
+// this->name = name ;
+// this->age = age ;
+// }
+};
+
+// Child Class
+class Child_1: public Person
+{
+public:
+string degree ;
+};
+
+// Child Class
+class Child_2: public Person
+{
+public:
+int salary ;
+};
+
+
+class Child_3: public Person
+{
+public:
+int salary ;
+};
+
+
+int main() {
+
+Child_3 c3 ;
+
+Child_1 c1 ;
+
+c1.age = 10 ;
+c3.age = 40 ;
+
+
+cout << c3.age << endl << c1.age ;
+}
+----------
+
+void recursion(int arr[], int s, int e)
+{
+if(s >= e) return ;
+
+swap(arr[s], arr[e]) ;
+
+recursion(arr, s+1, e-1) ;
+}
+
+void reverse_array(int arr[], int n) {
+
+recursion(arr, 0, n-1) ;
+}
+
+
+
+
+
+int main() {
+
+int n = 7 ;
+int arr[n] = {1,6,2,-8,0,3,11} ;
+
+reverse_array(arr, n) ;
+
+for(int i=0 ; i<n ; i++) {
+cout << arr[i] << " " ;
+}
+cout << endl ;
+----------
+#include <iostream>
+using namespace std;
+
+   inline int gcd(int x,int y){
+       while(y!=0){
+           int temp = y;
+           y = x % y;
+           x = temp;
+       }
+       return x;
+   }
+
+int main(){
+    int x,y;
+    cin >> x;
+    cin >> y;
+    
+    cout << gcd(x,y);
+    return 0;
+}
+-------
+
+neo ode
+#include <bits/stdc++.h>
+using namespace std;
+
+inline int sumOfSquaresEven(int x){
+    int c = x;
+    int ans =0;
+    for(int i=1;i<=1000;i++){
+        if(i%2==0){
+            ans += pow(i,2);
+            c--;
+        }
+        if(c==0){
+            break;
+        }
+    }
+    return ans;
+}
+
+inline int sumOfSquaresOdd(int x){
+    int c = x;
+    int ans = 0;
+    for(int i=1;i<=1000;i++){
+        if(i%2!=0){
+            ans += pow(i,2);
+            c--;
+        }
+        if(c==0){
+            break;
+        }
+    }
+    return ans;
+}
+
+int main(){
+    int n;
+    cin >>n;
+    
+    cout << sumOfSquaresEven(n) << endl;
+    cout << sumOfSquaresOdd(n) << endl;
+    
+    return 0;
+}
+--------
+
+Mansi, a cashier at a grocery store, needs to format transaction IDs so they always appear as 9-digit numbers with leading zeros. Write a program that helps Selsi by taking an integer as input and displaying it with leading zeros to ensure the total width is 9 digits.
+
+
+
+Note: Use the setfill and setw manipulators to achieve this formatting.
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+
+int main(){
+    
+    int n;
+    cin >> n;
+    
+    cout << setw(9) << setfill('0') << n;
+  
+    return 0;
+}
+
+-------------
+#include <iostream>
+using namespace std;
+
+class Operation{
+  public:
+    int n1;
+    int n2;
+    
+    Operation(int x1,int x2){
+        n1 = x1;
+        n2 = x2;
+    }
+    inline void add(){
+        int a = n1+n2;
+        cout << "Addition of two numbers: " << a << endl;
+    }
+    inline void diff(){
+        int a = n1-n2;
+        cout << "Difference of two numbers: " << a << endl;
+    }
+    inline void pro(){
+        int a = n1*n2;
+        cout << "Product of two numbers: " << a << endl;
+    }
+    inline void divi(){
+        int a = n1/n2;
+        cout << "Division of two numbers: " << a << endl;
+    }
+    inline void mod(){
+        int a = n1%n2;
+        cout << "Modulus of two numbers: " << a << endl;
+    }
+};
+
+int main(){
+    
+    int n1,n2;
+    cin >> n1;
+    cin >> n2;
+    
+    Operation o(n1,n2);
+    
+    o.add();
+    o.diff();
+    o.pro();
+    o.divi();
+    o.mod();
+    
+    return 0;
+}
+-----------
+#include <iostream>
+using namespace std ;
+
+// Selection Sort
+/*
+
+1.) Existing Space used
+
+
+2.) Auxiliary Space used (Extra)
+*/
+
+// TC = O(N^2) & SC = O(1)
+
+void func_sort(int *arr, int n)
+{
+for(int i=0 ; i<n ; i++)
+{
+for(int j=i; j<n ; j++)
+{
+if(arr[i] > arr[j]) {
+swap(arr[i], arr[j]) ;
+}
+}
+}
+}
+
+int main() {
+
+int n = 8 ;
+int arr[n] = {2,4,1,-6,15,0,22,7} ;
+// -6,0,1,2,4,7,15,22
+
+func_sort(arr, n) ;
+
+for(int i=0 ; i<n ; i++) {
+cout << arr[i] << " " ;
+}
+cout << endl ;
+}
+-------------------
+it is right or not check it - not by me
+#include<iostream>
+using namespace std;
+void bub(int arr[], int n){
+if(n==0){
+return;
+}
+for(int i=0; i<n-1; i++){
+if(arr[i]>arr[i+1]){
+swap(arr[i],arr[i+1]);
+}
+}
+bub(arr, n-1);
+}
+int main(){
+int n=5;
+int arr[]={3,5,2,6,4};
+bub(arr, n);
+for(int i=0; i<n; i++){
+cout<<arr[i]<<" ";
+}
+-------
+neo
+Problem Statement
+
+
+
+A research institute is analyzing the properties of integers for a mathematical study. They need to compute the sum of all divisors of each number from 1 to a given number n. This calculation helps in understanding patterns and characteristics of divisors in a range of numbers using reference variables.
+
+
+
+The institute requires a tool to calculate the total sum of all divisors for every integer from 1 to n. The tool should read the integer n from the user, compute the required sum, and output it.
+
+
+
+Function Name: int divisorSum(int& n)
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int divisorSum(int n){
+    int sum=0;
+    
+    for(int i=1;i<=n;i++){
+        if(n%i==0){
+            sum+=i;
+            
+        }
+    }
+    return sum;
+}
+
+
+
+int main(){
+    
+    int n;
+    cin >> n;
+    
+    int ans=0;
+    for(int i=1;i<=n;i++){
+        ans += divisorSum(i);
+    }
+    cout << ans;
+    return 0;
+}
+---
+
+A company needs a utility to calculate the total revenue from a set of sales transactions. Each transaction amount is input one by one. The system should compute the total revenue by summing up all the individual transaction amounts using the call-by-value function.
+
+
+
+The system should read the number of transactions from the user. Then, for each transaction, it will read the amount and keep a running total. Finally, it should output the total revenue.
+
+
+
+Function Specifications: int sum(int n)
+
+
+
+Note: This is a sample question asked in Capgemini recruitment.
+
+Input format :
+The first line consists of the input starting with an integer n indicating the number of transactions.
+
+The second line consists of the n-space-separated integers, each representing a transaction amount.
+
+-
+Single File Programming Question
+Problem statement
+
+
+
+In a manufacturing plant, Kishore is building a system to track the dimensions of three key components, labeled x, y, and z. The system needs to:
+
+		i) Rotate the dimensions as follows:
+
+x becomes y
+y becomes z
+z becomes the original x
+		ii) Identify the smallest dimension after the rotation.
+
+
+
+Write a program that reads three integer values (for x, y, and z), performs the rotation, and then finds and displays the smallest dimension among the three.
+
+
+
+Function Specifications:
+
+void rotate(int& a, int& b, int& c)
+
+int& getSmallest(int& a, int& b, int& c)
+
+
+
+Note: This is a sample question asked in TCS recruitment.
+
+Input format :
+The input consists of the three integers x, y, and z, representing the initial dimension of the first, second, an
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+int main(){
+    int x,y,z;
+    
+    cin >> x;
+    cin >> y;
+    cin >> z;
+    
+    int ans;
+    if(x<y && x<z){
+        ans = x;
+    }else if(y<x && y<z){
+        ans = y;
+    }else{
+        ans = z;
+    }
+    cout << "Before Rotation: x: " << x << " y: " << y << " z: " << z << endl;
+    cout << "After Rotation: x: " << y << " y: " << z << " z: " << x << endl;
+    cout << "The smallest value among x, y, z: " << ans ;
+    
+    return 0;
+}
+------
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+int main(){
+    
+    int n;
+    cin >> n;
+   
+    int arr[n]={0};
+    
+    for(int i=0;i<n;i++){
+        cin >> arr[i];
+    }
+    
+    int s=0;
+   for(int i=0;i<n;i++){
+       s+=arr[i];
+  
+   }
+   
+    cout << s;
+    
+    return 0;
+}
+
+-0
+
+------
+
+Guna is developing a banking application that allows customers to deposit money into their accounts. The bank provides each customer with an initial balance of 50 rupees. To facilitate the deposit process, Guna has created a class called AddAmount.
+
+
+
+This class represents a transaction to add a specific amount of money to a customer's account. After the transaction is completed, the total amount in the customer's account is printed.
+
+Input format :
+The input consists of a single integer, representing the additional amount to be deposited into the customer's account (the deposit amount).
+
+Output format :
+The output displays the total amount in the customer's account after the deposit.
+
+
+
+Refer to the sample output for formatting specifications.
+#include <bits/stdc++.h>
+using namespace std;
+
+class AddAmount{
+    public:
+        int balance=50;
+        
+        void add(int n){
+            balance+=n;
+            cout << balance;
+        }
+};
+
+int main(){
+    int n;
+    cin >>n;
+    
+    AddAmount a;
+    
+    a.add(n);
+    
+    
+    
+    return 0;
+}
+
+
+------
+#include <bits/stdc++.h>
+using namespace std;
+
+int count(int arr[],int n){
+    int v=0;
+    for(int i=0;i<n;i++){
+        if(arr[i]==n){
+            v++;
+        }
+    }
+    return v;
+}
+
+int ye(int arr[],int n,int tr){
+    
+    for(int i=0;i<n;i++){
+        if(arr[i]==tr){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main(){
+    
+    int n;
+    cin >> n;
+    
+    // for(int i
+    int c=0;
+    int arr[20]={0};
+    int i=0;
+    while(n!=0){
+        int temp = n%10;
+        arr[i]=temp;
+        i++;
+        c++;
+        n/=10;
+    }
+    
+    int narr[30]={0};
+    int y=0;
+    for(int l=0;l<c;l++){
+        if(ye(arr,c,arr[l])){
+            
+        narr[y]=arr[l];
+        }
+       
+       
+    }
+    
+    for(int k=0;k<c;k++){
+        
+        cout << setw(2) << "Digit " << narr[k] << ":   " << count(arr,c) << "times" << endl;
+    }
+    return 0;
+}
+-------------
+#include <bits/stdc++.h>
+using namespace std;
+
+void inner_recursion(int *arr, int n, int i, int j)
+{
+if(j >= n-i) return ;
+
+if(arr[j] > arr[j+1]) {
+swap(arr[j], arr[j+1]) ;
+}
+
+inner_recursion(arr, n, i, j+1) ;
+}
+
+void bubble_sort_func_outer(int *arr, int n, int i)
+{
+if(i>=n) return ;
+
+inner_recursion(arr, n, i, 0) ;
+bubble_sort_func_outer(arr, n, i+1) ;
+}
+
+int main()
+{
+int n = 9 ;
+int arr[n] = {9,6,4,2,3,5,7,0,1} ;
+bubble_sort_func_outer(arr, n, 1) ;
+
+for(int i=0 ; i<n ; i++) {
+cout << arr[i] << " " ;
+}
+}
+--------------
+#include <bits/stdc++.h>
+using namespace std ;
+
+/*
+Polymorphism:
+i.) Compile time Poly---> Overloading
+
+ii.) Runtime Poly ----> Overriding ( Runtime, compile time)
+
+*/
+
+/*
+Encapsulation ----> Data hiding
+Inheritance ------> Code reuse
+Polymorphism -----> Flexibility & Dynamic behavior
+Data Abstraction -> Providing a structure of base class to other derived/child classes for object
+*/
+
+
+/*
+*** Virtual Function
+
+*/
+
+
+class Parent
+{
+public:
+int parent_val = 1 ;
+
+virtual void getInfo() {
+cout << "Parent Value: " << parent_val << endl ;
+}
+};
+
+class Child: public Parent
+{
+public:
+int child_val = 1 ;
+
+void getInfo() {
+cout << "Child Value: " << child_val << endl ;
+}
+};
+
+
+int main() {
+Parent p1 ;
+Child c1 ;
+
+Parent *parent_ptr ;
+
+parent_ptr = &c1 ;
+
+parent_ptr->getInfo() ;
+
+}
+--------------------
+#include <bits/stdc++.h>
+using namespace std ;
+
+/*
+Polymorphism:
+i.) Compile time Poly---> Overloading
+
+ii.) Runtime Poly ----> Overriding ( Runtime, compile time)
+
+*/
+
+/*
+Encapsulation ----> Data hiding
+Inheritance ------> Code reuse
+Polymorphism -----> Flexibility & Dynamic behavior
+Data Abstraction -> Providing a structure of base class to other derived/child classes for object
+*/
+
+
+/*
+Data Abstraction:
+
+i.) We are not able to create object
+ii.) For create any class as abstracted, we need to declare atleast one function as "Pure Virtual".
+
+*/
+
+
+
+/*
+*** Virtual Function
+*** Data Abstraction
+*/
+
+
+class Shape
+{
+public:
+int radius = 2 ;
+int length = 2 ;
+int width = 3 ;
+double degree ;
+
+virtual void get_area() = 0 ; // Pure Virtual Function
+};
+
+class Circle: public Shape
+{
+public:
+
+void get_area() {
+cout << "Child area: " << (3.14*radius*radius) << endl ;
+}
+};
+
+
+int main() {
+
+// Shape s ;
+
+
+Circle c1 ;
+
+Shape *shapePtr ;
+shapePtr = &c1 ;
+
+shapePtr->get_area() ;
+}
+-------------
+#include <bits/stdc++.h>
+using namespace std ;
+
+
+// Shallow Copy ----> Shallow copy just simply copies all the member values(Properties , member functions) from one object to another object.
+
+// Deep Copy ----> Deep Copy not only copies all the member values but also make copies of dynamically allocated memory.
+
+
+class Student
+{
+public:
+string name ;
+double *cgpa ;
+
+// Parameterized Constructor
+Student(string name, double cgpa) {
+this->name = name ;
+auto address = new double(cgpa) ;
+this->cgpa = address ;
+}
+
+// Copy Constructor
+Student(Student &obj) {
+this->name = obj.name ;
+this->cgpa = new double(*obj.cgpa) ;
+}
+
+void getInfo() {
+cout << "Name : " << name << endl ;
+cout << "Cgpa: " << (*cgpa) << endl ;
+}
+};
+
+
+
+int main() {
+Student S1("RAM", 9.9) ;
+Student S2(S1) ;
+
+S1.getInfo() ;
+S2.getInfo() ;
+cout << endl ;
+
+*(S2.cgpa) = 10 ;
+
+S1.getInfo() ;
+S2.getInfo() ;
+
+}
+--------------
+/*
+We Completed:
+
+1.) All the basics of DSA
+2.) Arrays
+3.) Strings
+4.) Search(Linear & Binary)
+5.) Sorting(By today)
+
+*/
+
+
+
+/* Today ----->
+1.) How to merge 2 sorted arrays
+2.) Merge Sort
+3.) Quick Sort
+
+
+*/
+
+#include <bits/stdc++.h>
+using namespace std ;
+
+int main() {
+int n = 3, m = 6 ;
+
+int arr1[n] = {3,12,19} ;
+int arr2[m] = {2,3,5,7,11,13} ;
+
+int ans[n+m] ;
+
+int idx=0 ;
+int i=0, j=0 ;
+
+
+while(i<n && j<m)
+{
+if(arr1[i] < arr2[j]) {
+ans[idx++] = arr1[i++] ;
+}
+else {
+ans[idx++] = arr2[j++] ;
+}
+}
+
+while(i<n) {
+ans[idx++] = arr1[i++] ;
+}
+
+while(j<n) {
+ans[idx++] = arr2[j++] ;
+}
+
+for(int i=0 ; i<(n+m) ; i++)
+{
+cout << ans[i] << " " ;
+}
+}
+--------------
+#include <bits/stdc++.h>
+using namespace std ;
+
+void merge_two_sorted_part(int arr[], int start, int mid, int end)
+{
+int n = mid-start+1 ;
+int m = end-mid ;
+
+int arr1[n], arr2[m] ;
+
+int idx = start ;
+for(int i=0 ; i<n ; i++)
+{
+arr1[i] = arr[idx] ;
+idx++ ;
+}
+for(int i=0 ; i<m ; i++)
+{
+arr2[i] = arr[idx] ;
+idx++ ;
+}
+
+int i=0, j=0 ;
+idx = start ;
+
+while(i<n && j<m)
+{
+if(arr1[i] < arr2[j]) {
+arr[idx++] = arr1[i++] ;
+}
+else {
+arr[idx++] = arr2[j++] ;
+}
+}
+
+while(i<n) {
+arr[idx++] = arr1[i++] ;
+}
+
+while(j<m) {
+arr[idx++] = arr2[j++] ;
+}
+}
+
+void mergeSort(int arr[], int start, int end)
+{
+// Base Case
+if(start == end) return ;
+
+int mid = (start+end)/2 ;
+
+mergeSort(arr, start, mid) ;
+
+mergeSort(arr, mid+1, end) ;
+
+merge_two_sorted_part(arr, start, mid, end) ;
+}
+
+int main() {
+int n = 8 ;
+// S M E
+int arr[n] = {4,-6,1,55,0,23,19,1} ;
+
+mergeSort(arr, 0, n-1) ;
+
+for(int i=0 ; i<n ; i++) {
+cout << arr[i] << " " ;
+}
+cout << endl ;
+
+}
+
+
+
+----merge sort
+
+// Online C++ compiler to run C++ program online
+#include <bits/stdc++.h>
+using namespace std ;
+
+class Node
+{
+public:
+int data ;
+Node *next ;
+
+Node(int data)
+{
+this->data = data ;
+this->next = NULL ;
+}
+
+// Destructor is by default
+~Node()
+{
+delete next ;
+cout << data << " Destructor\n" ;
+}
+};
+
+// Static Node
+// Node func()
+// {
+// Node n1(10), n2(20), n3(30), n4(40) ;
+
+// n1.next = &n2 ;
+// n2.next = &n3 ;
+// n3.next = &n4 ;
+
+// return n1 ;
+// }
+
+// Dynamic Node
+
+// n1 ------> n2 -------> n3 -------> n4 -------> NULL
+Node *func()
+{
+Node *n1 = new Node(10) ;
+Node *n2 = new Node(20) ;
+Node *n3 = new Node(30) ;
+Node *n4 = new Node(40) ;
+
+n1->next = n2 ;
+n2->next = n3 ;
+n3->next = n4 ;
+
+return n1 ;
+}
+
+int main() {
+
+Node *head = func() ;
+
+
+cout << head->next->next->next->data << endl ;
+delete head ;
+
+
+
+
+
+
+
+
+// cout << (head.next)->next->next->data<<endl;
+
+
+// Node *head = new Node(10) ; // Dynamic Memory Allocation
+
+// Node head(10) ; // Static Memory Allocation
+
+
+}
+-----------------
+// Online C++ compiler to run C++ program online
+#include <bits/stdc++.h>
+using namespace std ;
+
+class Node
+{
+public:
+int data ;
+Node *next ;
+
+Node(int data)
+{
+this->data = data ;
+this->next = NULL ;
+}
+
+~Node()
+{
+delete next ;
+cout << data << " Destructor\n" ;
+}
+};
+
+/*
+Head Tail
+Temp---> Node1---> Node2 ---> Node3---> X
+
+*/
+
+
+
+
+
+void insertAtHead(Node *&head, int value)
+{
+Node *temp = new Node(value) ;
+
+temp->next = head ;
+head = temp ;
+}
+
+
+
+void insertAtTail(Node *&tail, int value)
+{
+Node *temp = new Node(value) ;
+
+tail->next = temp ;
+tail = temp ;
+}
+
+void printLL(Node *head)
+{
+while(head != NULL)
+{
+cout << head->data << " " ;
+head = head->next ;
+}
+cout << endl ;
+}
+
+// 6 7 8 9 10 X
+
+int main() {
+
+Node *head = new Node(6) ;
+Node *tail = head ;
+
+insertAtTail(tail, 7) ;
+insertAtTail(tail, 8) ;
+insertAtTail(tail, 9) ;
+insertAtTail(tail, 10) ;
+
+
+
+insertAtHead(head, 5) ;
+insertAtHead(head, 4) ;
+insertAtHead(head, 3) ;
+insertAtHead(head, 2) ;
+insertAtHead(head, 1) ;
+
+printLL(head) ;
+// printLL(head) ;
+}
+----------------- 
+#include <bits/stdc++.h>
+using namespace std ;
+
+/*
+MAT ANS
+
+1 2 3 7 4 1
+4 5 6 ----> 8 5 2
+7 8 9 9 6 3
+*/
+
+int main() {
+int n = 3 ;
+int mat[n][n] = {{1,2,3}, {4,5,6}, {7,8,9}} ;
+
+int ans[n][n] ;
+
+for(int i=0 ; i<n ; i++) // Row
+{
+for(int j=0 ; j<n ; j++) // Column
+{
+ans[j][n-i-1] = mat[i][j] ;
+}
+}
+
+for(int i=0 ; i<n ; i++)
+{
+for(int j=0 ; j<n ; j++)
+{
+cout << ans[i][j] << " " ;
+}
+cout << endl;
+}
+
+#include <bits/stdc++.h>
+using namespace std ;
+
+class Node
+{
+public:
+int data ;
+Node *next;
+
+Node(int val) {
+data = val ;
+next = NULL ; // nullptr
+}
+};
+
+// Insertion is done
+// Singly LL == Grounded LL
+
+// Can we write a function where if we pass the position and value, the node will be assign there
+
+void printLL(Node*& head)
+{
+Node* temp = head ;
+
+while(temp != NULL)
+{
+cout << temp -> data << " " ;
+temp = temp -> next ;
+}
+cout << endl ;
+}
+
+
+void insertatHead(Node* &head , int d)
+{
+Node* temp = new Node(d) ;
+
+temp -> next = head ;
+head = temp ;
+}
+
+void insertatTail(Node* &tail , int d)
+{
+Node* temp = new Node(d) ;
+
+tail -> next = temp ;
+tail = temp ;
+}
+
+
+void insertAtAnyPosition(Node *&head, Node *&tail, int data, int pos)
+{
+if(pos == 1) // 1st Edge case
+{
+insertatHead(head, data) ;
+return ;
+}
+
+Node *temp = new Node(data) ;
+Node *copyHead = head ;
+
+int count = 1 ;
+
+while(count <= pos-2)
+{
+count++ ;
+copyHead = copyHead->next ;
+}
+
+temp->next = copyHead->next ;
+copyHead->next = temp ;
+
+if(temp->next == NULL) tail = temp ; // 2nd Edge case
+}
+
+int main() {
+
+Node *head = new Node(5) ;
+Node *tail = head ;
+
+insertatTail(tail, 6) ;
+insertatTail(tail, 7) ;
+insertatHead(head, 4) ;
+
+printLL(head) ;
+// printLL(head) ;
+
+insertAtAnyPosition(head, tail, 8, 4) ;
+printLL(head) ;
+
+insertAtAnyPosition(head, tail, 1, 1) ;
+printLL(head) ;
+
+insertAtAnyPosition(head, tail, 10, 7) ;
+printLL(head) ;
+
+cout << head->data << " " << tail->data << endl;
+
+}
+
+/*
+H T
+4 --->1 ---> 5 ---> 6 --->8 ---> 7 ---> X
+
+*/
+
+
+// // n1---> n2 --->Temp--> n3 --->n4---> X
+// 1 ------> -1
+// 2 ------> 0
+// 4 ------> 2
+// 5 ------> 3
+
+// Temp-->X, pos = 4
+
+// H T
+// n1---> n2 ---> n3 --->n4---> X
+// cpy
+
+
+
+// temp->next = n3 ;
+// n2->next = temp ;
+
+#include <iostream>
+#include <vector> // STL
+using namespace std;
+
+// Char ===> 0 ----> 255
+
+int main() {
+
+// vector<datatype> Identifier ;
+
+/* Contiguous memory location
+__________________________________
+| 1 2 3 4 5
+|_________________________________
+
+X ----> 2X
+
+2X---> 4X
+
+*/
+
+
+// push_back(), emplace_back() --> TC = O(1)
+
+vector<int>vec ;
+
+vec.push_back(10) ;
+vec.push_back(9) ;
+vec.push_back(-5) ;
+vec.emplace_back(6) ;
+
+cout << vec.front() << " -> " << vec.back() << endl ;
+
+// Size
+int n = vec.size() ;
+
+cout << vec[n/2] << endl ;
+
+
+
+// Declaration of vector
+// vector<int>vec(5, 77) ;
+
+
+
+// Take Input
+// for(int i=0 ; i<5 ; i++)
+// {
+// int x ;
+// cin >> x ;
+// vec[i] = x ;
+// // vec.push_back(x) ;
+// }
+
+// Simple out
+for(int i=0 ; i<4 ; i++) {
+cout << vec[i] << " " ;
+}
+
+
+
+
+
+// pair<datatype, datatype>Identifier ;
+// pair<string , char>pr = {"STRNAME", 'c'} ;
+// cout << pr.first << " " << pr.second ;
+}
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// 1234569 - 1234565
+
+int main() {
+// 1D
+vector<int>v1 ;
+
+// 2D
+vector<vector<int>>vec = { {1,2}, {2}, {3,1,2,3,4,56,7}} ;
+
+
+// 3D
+vector<vector<vector<int>>>grid ;
+
+
+for(auto it : vec)
+{
+for(auto i : it)
+{
+cout << i << " " ;
+}
+cout << endl ;
+}
+
+// = {2,-1,7,3,8,7,1} ;
+// vector<int>v2 = {8,7,1} ;
+
+// // v1.swap(v2) ;
+// swap(v1, v2) ;
+
+// for(auto it : v1) cout << it << ' ' ;
+// cout << endl ;
+// for(auto it : v2) cout << it << ' ' ;
+
+
+
+// int target = 80 ;
+
+// auto it = find(v.begin(), v.end(), target) - v.end() ;
+
+// cout << it << endl ;
+
+// cout << (v.end() - v.begin()) ;
+
+}
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// 1234569 - 1234565
+
+int main() {
+vector<int>v1 = {2,-1,7,3,8,7,1} ;
+vector<int>v2 = {8,7,1} ;
+
+// v1.swap(v2) ;
+swap(v1, v2) ;
+
+for(auto it : v1) cout << it << ' ' ;
+cout << endl ;
+for(auto it : v2) cout << it << ' ' ;
+
+
+
+// int target = 80 ;
+
+// auto it = find(v.begin(), v.end(), target) - v.end() ;
+
+// cout << it << endl ;
+
+// cout << (v.end() - v.begin()) ;
+
+}
+
+
+
+
+-----
+#include <bits/stdc++.h>
+using namespace std;
+
+// pair, vector, list, deque, stack, queue, priority_queue
+
+int main() {
+// Queue --> pop(), push(), front()
+
+// priority_queue ---> Satck + sorting
+
+priority_queue<int>pq;
+pq.push(1) ;
+pq.push(0) ;
+pq.push(9) ;
+pq.push(-6) ;
+
+while(!pq.empty())
+{
+cout << pq.top() << " " ;
+pq.pop() ;
+}
+
+
+// 9
+// 1
+// 0
+// -6
+
+
+
+
+
+
+
+
+
+
+
+
+// queue<int>q ;
+
+
+// q.push(4) ;
+// q.push(5) ;
+// q.push(8) ;
+// q.push(2) ;
+
+
+// cout << q.front() << endl ;
+
+// q.pop() ; // pop from the front
+
+// cout << q.front() << endl ;
+
+// while(q.empty() == false)
+// {
+// cout <<q .front() << ' ' ;
+// q.pop() ;
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// stack --> Monotonic stack --> push, pop, top
+
+// stack<int>st ;
+
+// st.push(10) ;
+// st.push(13) ;
+// st.push(19) ;
+
+// // cout << st.top() ;
+
+// while(st.empty() == false)
+// {
+// cout << st.top() << " " ;
+// st.pop() ;
+// }
+
+
+// // for(auto it : st)
+// // {
+// // cout << it << " " ;
+// // }
+
+
+// vector<int>vec = {1,2,3,4,5} ;
+// // Q.) Reverse vector using stack?
+
+// stack<int>st ;
+
+// for(auto it : vec) {
+// st.push(it) ;
+// }
+
+// int idx=0 ;
+// while(st.empty() == false)
+// {
+// vec[idx++] = st.top() ;
+// st.pop() ;
+
+// // idx++ ;
+// }
+
+// for(auto it : vec) {
+// cout << it << " " ;
+// }
+
+}
+
+/*
+Insert: 10 13 19
+
+| 51 |
+| 4 |
+| 13 |
+| -2 |
+| 1 |
+____________
+
+
+51
+13
+4
+1
+-2
+
+** Stack --> LIFO --> Last in first out
+
+** Queue --> FIFO --> First in firs out
+*/
+
+// Queue
+// front -------------------- back
+
+// 5 8 2
+
+// ---------------------
+
+
+------------------------------------------------------
+1 4 8 9 10 		1 7 9 10 
+lower_bound of 8 is 8 or nearest greater this 9 in second array
+upper_bound of 8 is 9 - give the element greater than the input one
+
+-----------------
+#include <bits/stdc++.h>
+using namespace std ;
+
+// Priority-Queue, Set, Unordered-Set, Multiset, Map, Unordered-Map, Multimap
+
+int main()
+{
+// Sorted + Duplicates
+multimap<int,int>mm ;
+
+mm.insert({1,2}) ;
+mm.insert({1,2}) ;
+mm.insert({-1,2}) ;
+mm.insert({3,113}) ;
+
+for(auto it : mm) {
+cout << it.first << " " << it.second << endl ;
+}
+
+
+
+
+
+
+// Unordered-Map -----> Unique + Not Sorted
+
+
+// unordered_map<int,int>mp ;
+// // vector<int>vec = {5,7,2,5,7,2,2,5,5,7,1,5,9,0,3,1,0} ;
+
+// vector<int>vec = {-4,-2,0,3,5,9} ;
+
+// // -9 -5 -3 0 2 4
+
+// for(auto it : vec) mp[it]++ ;
+
+// // cout << (*mp.begin()).first << endl ;
+// // cout << (*mp.rbegin()).first << endl ;
+
+
+
+// for(auto it : mp) {
+// cout << (it.first) << " " << it.second << endl ;
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Map ---> {key, value}
+// Unique + Sorted(Ascending order)
+
+// map<int, int>mp ;
+// vector<int>vec = {5,7,2,5,7,2,2,5,5,7} ;
+
+// for(auto it : vec) mp[it]++ ;
+
+// if(mp.find(2) != mp.end()) // O(LogN)
+// {
+// cout << "Found\n" ;
+// }
+// else {
+// cout << "Not Found\n" ;
+// }
+
+
+
+
+
+
+
+
+
+// int i=0 ;
+// for(auto it : vec)
+// {
+// // it --> Key
+// // mp[it] --> value
+
+// if(mp[it] == 0)
+// cout << it << " " << i << "\n" ;
+
+// mp[it] = mp[it] + 1 ;
+// i++ ;
+// }
+
+// // for(auto it : mp)
+// // {
+// // cout << it.first << " " << mp[it.first] << " " << it.second << endl ;
+// // }
+
+
+
+
+
+
+
+
+
+
+
+// multiset ---> Sorted + Not Unique
+
+// multiset<int>mst ;
+
+// mst.insert(1) ;
+// mst.insert(1) ;
+// mst.insert(2) ;
+// mst.insert(1) ;
+// mst.insert(3) ;
+// mst.insert(-1) ;
+// mst.insert(5) ;
+// mst.insert(2) ;
+
+// auto it1 = mst.lower_bound(-1) ;
+// auto it2 = mst.upper_bound(-1) ;
+
+// cout << *it1 << " -> " << *it2 << endl ;
+
+// count()
+
+// int cnt = mst.count(10) ;
+// cout << cnt << endl ;
+
+// for(auto it : mst) {
+// cout << it << ' ' ;
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// unordered_set --> Not sorted + Unique
+
+// unordered_set<int>ust ;
+
+// ust.insert(1) ;
+// ust.insert(-4) ;
+// ust.insert(2) ;
+// ust.insert(5) ;
+// ust.insert(3) ;
+// ust.insert(1) ;
+// ust.insert(1) ;
+// ust.insert(1) ;
+
+// for(auto it : ust) {
+// cout << it << " " ;
+// }
+// cout << endl ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Set --> sorted(Ascending) + Unique // Each operatio, TC = O(LogN)
+
+// set<int>st ;
+
+// st.insert(1) ;
+// st.insert(-1) ;
+// st.insert(1) ;
+// st.insert(10) ;
+// st.insert(-57) ;
+// st.insert(29) ;
+
+// // st.erase(1) ; // Data or address
+
+// // st.erase(st.begin()+3) ; // Error
+
+// // lower bound of X
+
+// // lower_bound(X) >= X
+// // upper_bound(X) > X
+
+// // X = 6 ;
+
+// // 1 3 8 9 10
+
+// // auto it = st.begin() ;
+
+// // // it = it+1 ;
+// // it++ ;
+// // // ++it ;
+
+// // cout << *it << endl ;
+
+// for(auto it : st) {
+// cout << it << " " ;
+// }
+
+// cout << endl ;
+
+// auto it1 = st.lower_bound(290) ;
+
+// auto it2 = st.upper_bound(290) ;
+
+// cout << *it1 << " -> " << *it2 ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// priority_queue<int,vector<int>,greater<int> >priority_queue ;
+
+// priority_queue.push(1) ;
+// priority_queue.push(5) ;
+// priority_queue.push(2) ;
+// priority_queue.push(-3) ;
+
+// while(!priority_queue.empty())
+// {
+// cout << priority_queue.top() << " " ;
+// priority_queue.pop() ;
+// }
+
+}
+
+// | |
+// | 5 |
+// | 2 |
+// | 1
+// -3 |
+// ---------------
+// PQ
+------------------------------------
+// STL
+/*
+
+Pair, Vector, List, Stack, Queue, priority-Queu, Deque, Map, Multimap, Unordered-Map, Set, MultiSet, Unordered-Set
+
+X = 99
+Vector ---> {1,2,3, 4,5,6,7}
+
+
+*/
+
+
+#include <bits/stdc++.h>
+using namespace std ;
+
+
+int main() {
+// Length of vec ==> vec.size() // O(1)
+// Length of str ==> str.length() // O(1)
+
+// vec.insert(vec.begin()+3, 99) ;//TC = O(N)
+// vec.erase(vec.begin()+3) ; // TC = O(N)
+
+// map<int,int>mp ;
+// for each element ---> insert, erase, update ---> TC = O(LogN)
+
+// unordered_map<int,int>ump ;
+// for each element ---> insert, erase, update ---> TC = O(1) {for best or avg}
+// TC = O(N) {for worst case --> collision happens}
+
+
+// Compiler takes integer --> 5
+
+// 11--> 11%5 = 1
+// 7--> 7%5 = 2
+// 8 --> 8%5 = 3
+// 6 ---> 6%5 = 1
+// 16 --> 16%5 = 1
+
+// 0 |
+// 1 | 11---> 6----> 16 --> 21 ---> 26---> 31
+// 2 |
+// 3 |
+// 4 |
+
+
+// 0 ---> (X-1)
+// If X = 5
+
+// ele%X ==> [0, 4]
+
+
+
+
+// set<int>st ; All operations --> O(LogN)
+// unordered_set<int>ust; All operations --> O(1)
+
+// stack<int>s ;
+// Push, pop, top, empty, size --> O(1)
+
+// queue<int>q ;
+// push, pop, front, size, empty ===> O(1)
+
+// priority_queue<int>pq ;
+// push, pop, top ==> O(LogN)
+// empty, size ==> O(1)
+
+
+// Similar to vec TC
+deque<int>dq ;
+list<int>li ;
+
+
+
+
+}
+
+
+----------
+#include <bits/stdc++.h>
+using namespace std ;
+// Queue
+
+// Q.) Implement Queue using array
+/*
+F B
+__________________
+39 2 -4 5
+__________________
+0 1 2 3 4 5
+*/
+
+class Queue
+{
+public:
+int *arr ;
+int size ;
+int front ;
+int back ;
+
+Queue(int size) {
+this->size = size ;
+arr = new int[size] ;
+front=0 ;
+back=0 ;
+}
+
+void enque(int ele) {
+
+if(len >= size) {
+cout << "Queue is full" ;
+return ;
+}
+
+arr[back] = ele ;
+back++ ;
+}
+
+void deque() {
+if(front == back) {
+cout << "Queue is empty already" ;
+return ;
+}
+
+front++ ;
+}
+
+int sizeOfQ() {
+return (back - front) ;
+}
+
+bool isEmpty() {
+if(front == back) return true ;
+return false ;
+}
+
+bool isFull() {
+int len = back-front ;
+if(len == size) return true ;
+return false;
+}
+
+int frontEle() {
+
+if(front == back) {
+cout << "Queue is empty\n" ;
+return -1 ;
+}
+
+return arr[front] ;
+}
+
+int backEle() {
+if(front == back) {
+cout << "Queue is empty\n" ;
+return -1 ;
+}
+
+return arr[back-1] ;
+}
+};
+
+
+int main() {
+Queue q(5) ;
+
+q.enque(10) ;
+q.enque(11) ;
+q.enque(12) ;
+q.enque(13) ;
+q.enque(14) ;
+
+q.deque() ;
+cout << q.frontEle() << endl ;
+
+q.enque(10);
+
+
+// cout << q.frontEle() << endl ;
+
+// cout << q.sizeOfQ() << endl ;
+
+// if(q.isEmpty()) {
+// cout << "Queue is empty\n" ;
+// }
+// else {
+// cout << "Queue is not empty\n" ;
+// }
+
+// if(q.isFull()) {
+// cout << "Queue is full" << endl ;
+// }
+// else {
+// cout << "Queue is not full\n" ;
+// }
+
+// cout << q.backEle() << endl ;
+}
+
+
+
+
+
+
+
+
+
+
+// enque --> push
+// deque --> pop
+// front ---> front
+// size --> size
+// empty --> empty
+----------
+https://leetcode.com/problems/minimum-number-of-swaps-to-make-the-string-balanced/description/
+https://leetcode.com/problems/valid-parentheses/description/
+https://leetcode.com/problems/implement-stack-using-queues/description/	
+
+---------tree -----------------------
+--pre order root left right
+--in order traversal left root right
+--post order traversal left right root
+#include <bits/stdc++.h>
+using namespace std ;
+
+class Node
+{
+public:
+int data ;
+Node *left ;
+Node *right ;
+
+Node(int valueOfNode) {
+this->data = valueOfNode ;
+this->left = NULL ;
+this->right = NULL ;
+}
+};
+
+// // Static Method ---> Data Leakcage/ Lost
+// Node createNode() {
+
+// Node root(10) ;
+// Node leftChild(11), rightChild(12) ;
+
+// root.left = &leftChild ;
+// root.right = &rightChild ;
+
+// return root ;
+// }
+
+int main()
+{
+Node *root = new Node(10) ;
+
+root->left = new Node(11) ;
+root->right = new Node(12) ;
+
+root->left->left = new Node(13) ;
+root->left->right = new Node(14) ;
+root->right->left = new Node(15) ;
+root->right->right = new Node(16) ;
+
+
+cout << root->data ;
+}----------------
+
+post pre in code ----imp
+
+// Online C++ compiler to run C++ program online
+#include <bits/stdc++.h>
+using namespace std;
+
+class Node{
+  public:
+    int data;
+    Node *left;
+    Node *right;
+    Node(int d){
+        this->data=d;
+        this->left=NULL;
+        this->right=NULL;
+    }
+};
+
+void pre(Node *root){
+    if(root == NULL) return;
+    
+    cout << root->data << " ";
+    pre(root->left);
+    pre(root->right);
+}
+
+void in(Node *root){
+    if(root == NULL) return;
+    
+    in(root->left);
+    cout << root->data << " ";
+    in(root->right);
+}
+
+void post(Node *root){
+    if(root == NULL) return;
+    
+    post(root->left);
+    post(root->right);
+    cout << root->data << " ";
+}
+
+int main() {
+   Node *root = new Node(10);
+    root->left = new Node(11);
+    root->right = new Node(12);
+    root->left->left = new Node(13);
+    root->left->right = new Node(14);
+    root->right->left = new Node(15);
+    root->right->right = new Node(16);
+    
+    
+    pre(root);
+    cout << endl;
+     in(root);
+      cout << endl;
+      post(root);
+    return 0;
+}
+
+----------
+tower of hanobi 
+#include <iostream>
+using namespace std ;
+
+void towerOfHanoi(int n, int s, int h, int d)
+{
+if(n==1)
+{
+cout << "Disk " << n << " is moved from " << s << " to " << d << endl ;
+return ;
+}
+
+towerOfHanoi(n-1, s, d, h) ;
+
+cout << "Disk " << n << " is moved from " << s << " to " << d << endl ;
+
+towerOfHanoi(n-1, h, s, d) ;
+}
+
+int main() {
+
+int n = 3 ;
+
+towerOfHanoi(n, 1, 2, 3) ;
+}
+-----------------
+#include <fstream>
+using namespace std;
+
+/* Important Classes present:
+
+1.) fstreambase --> Base class
+2.) ifstream --> derived form fstreambase ----> Read a file
+3.) ofstream --> derived from fstreambase ----> Write inside of a file
+
+*/
+
+// We can read & write by 2 process
+
+int main()
+{
+// 1st process
+/* Read Process
+
+string st ;
+ifstream inRead("read.cpp") ;
+// inRead >> st ;
+getline(inRead, st) ;
+cout << st ;
+*/
+
+// Write Process
+/*
+string str = "This is write file !!!!!!!!!!!";
+ofstream outWrite("write.cpp");
+outWrite << str;
+*/
+
+
+
+
+// 2nd Process
+// Read a file
+/*
+string st ;
+ifstream in ;
+in.open("read.cpp") ;
+
+// in >> st ;
+// getline(in, st) ;
+
+while(in.eof() == false) // eof ---> end of file
+{
+getline(in, st) ;
+cout << st << endl ;
+}
+in.close() ;
+// cout << st ;
+*/
+
+// Write a file
+
+string str = "23-10-2924" ;
+
+ofstream out ;
+
+out.open("write.cpp") ;
+
+out << str ;
+
+out.close() ;
+---------------------
+File Handling :
+Types of files: Based of file access
+
+1.) Sequential File
+2.) Random access File
+
+Sequential File Random access File
+
+i.) Data store and read i.) Data read and
+sequentially randomly.
+
+ii.) For accessing takes ii.) Less time
+More time
+
+iii.) To read a file it iii.) We can directly
+is required to read found or read
+all the previous files
+
+iv.) Linear search occur iv.) Main is machenism is
+Hashing.
+
+
+
+
+
+
+
+
+
+
+
+// // Online C++ compiler to run C++ program online
+// #include <iostream>
+
+// int main() {
+// // Write C++ code here
+// std::cout << "Try programiz.pro";
+
+// return 0;
+// }
+--------
+Types of files: Based of file storage
+
+1.) Text File
+2.) Binary File
+
+Text File Binary File
+
+i.) When data moved from i.) Binary file takes
+Main memory(RAM) to less space.
+secondary memory(HD)
+then it takes more space
+
+ii.) Human readble file ii.) Non-human readble file
+
+iii.) This is inefficient iii.) It is efficient to
+to store large files store large amount
+of file
+--------------
+
+67 binary
+
+
+class Solution {
+public:
+string addBinary(string a, string b) {
+string ans = "" ;
+int n = a.length(), m = b.length() ;
+n--, --m ;
+int carry = 0 ;
+
+while(n>=0 || m>=0 || carry>0)
+{
+int sum = carry ;
+
+if(n>=0) sum += a[n--]-'0' ;
+if(m>=0) sum += b[m--]-'0' ;
+
+int rem = sum%2 ;
+int digit = sum/2 ;
+carry = digit ;
+
+ans.push_back(rem+'0') ;
+}
+reverse(ans.begin(), ans.end()) ;
+return ans ;
+}
+};
+
+=----------------------------------------------------------------
+class NumMatrix {
+public:
+vector<vector<int>>pre ;
+NumMatrix(vector<vector<int>>& matrix) {
+int row = matrix.size(), col = matrix[0].size() ;
+
+pre.resize(row+1, vector<int>(col+1, 0)) ;
+
+for(int i=0 ; i<col ; i++)
+{
+for(int j=0 ; j<row ; j++)
+{
+pre[j+1][i+1] = pre[j][i+1] + matrix[j][i] ;
+}
+}
+
+for(int i=2 ; i<=col ; i++)
+{
+for(int j=1 ; j<=row ; j++)
+{
+pre[j][i] += pre[j][i-1] ;
+}
+}
+}
+
+int sumRegion(int row1, int col1, int row2, int col2) {
+row1++, col1++, row2++, col2++ ;
+
+int ans = pre[row2][col2] - (pre[row1-1][col2] + pre[row2][col1-1]) + pre[row1-1][col1-1] ;
+
+return ans ;
+}
+};
+
+/**
+* Your NumMatrix object will be instantiated and called as such:
+* NumMatrix* obj = new NumMatrix(matrix);
+* int param_1 = obj->sumRegion(row1,col1,row2,col2);
+*/
+---------------
+void update_Segment_Tree(int segInd, int low, int high, int update_Ind, int val) // TC = O(LogN)
+{
+if(low == high)
+{
+seg[segInd] = val ;
+return ;
+}
+
+int mid = (low + high)/2;
+
+if(update_Ind <= mid)
+update_Segment_Tree(2*segInd+1, low, mid, update_Ind, val);
+else
+update_Segment_Tree(2*segInd+2, mid+1, high, update_Ind, val);
+
+seg[segInd] = min(seg[2*segInd+1], seg[2*segInd+2]) ;
+}
+--------------
+Q.1) https://cses.fi/problemset/task/1646
+
+Q.2)
+https://cses.fi/problemset/task/1647
+
+Q.3) https://cses.fi/problemset/task/1650
+
+Q.4) Find Maximum from a range using segment tree
+-------------------
+
+
+#include <iostream>
+#include <vector>
+using namespace std ;
+
+int main() {
+
+int n , m ;
+cout << "Enter the value of Vertex/Node : " ;
+cin >> n ;
+cout << "Enter the value of Edges : " ;
+cin >> m ;
+
+vector<int>adj[n] ;
+
+for(int i=0 ; i<m ; i++)
+{
+int node1, node2 ;
+cin >> node1 >> node2 ;
+
+adj[node1].push_back(node2) ;
+adj[node2].push_back(node1) ;
+}
+
+
+for(int i=0 ; i<n ; i++)
+{
+cout << i << ": " ;
+
+for(auto v : adj[i])
+{
+cout << v << " " ;
+}
+
+cout << endl ;
+}
+
+}
+
+----------
+https://www.geeksforgeeks.org/problems/depth-first-traversal-for-a-graph/1
+https://www.geeksforgeeks.org/problems/print-adjacency-list-1587115620/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=print-adjacency-list
+https://www.geeksforgeeks.org/problems/graph-and-vertices/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=graph-and-vertices
+
+https://leetcode.com/problems/flood-fill/description/
+https://leetcode.com/problems/rotting-oranges/description/
+https://leetcode.com/problems/number-of-provinces/description/
+
+https://leetcode.com/problems/course-schedule-ii/description/
+https://leetcode.com/problems/number-of-enclaves/description/
+https://leetcode.com/problems/surrounded-regions/description/
+https://leetcode.com/problems/rotting-oranges/description/
+https://leetcode.com/problems/flood-fill/description/
+
+-------------
+/ Online C++ compiler to run C++ program online
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+
+int n, m; // n --> number of node, m --> edges
+cin >> n >> m;
+vector<int> adj[n + 1];
+
+for (int i = 0; i < m; i++)
+{
+int u, v;
+cin >> u >> v;
+adj[u].push_back(v);
+adj[v].push_back(u);
+}
+
+// BFS
+queue<int> q;
+vector<bool> vis(n, false);
+
+int start = 0;
+
+q.push(start);
+vis[start] = true;
+
+while (!q.empty())
+{
+int front = q.front();
+q.pop();
+
+cout << front << " ";
+
+for (int neighbourNode : adj[front])
+{
+if (vis[neighbourNode] == false)
+{
+vis[neighbourNode] = true;
+q.push(neighbourNode);
+}
+}
+}
+}
+
+class Solution {
+public:
+bool isInsideOfGrid(int newR, int newC, int n, int m) {
+return (newR>=0 && newR<n && newC>=0 && newC<m) ;
+}
+
+vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+int n = image.size(), m = image[0].size() ;
+queue<pair<int,int>>q ;
+q.push({sr,sc}) ;
+vector<vector<bool>>vis(n, vector<bool>(m, false)) ;
+
+int initialValue = image[sr][sc] ;
+image[sr][sc] = color ;
+vis[sr][sc] = true ;
+
+int xArr[] = {-1,0,+1,0} ;
+int yArr[] = {0,+1,0,-1} ;
+
+while(!q.empty())
+{
+int row = q.front().first ;
+int col = q.front().second ;
+q.pop() ;
+
+for(int idx=0 ; idx<4 ; idx++)
+{
+int dr = row+xArr[idx] ;
+int dc = col+yArr[idx] ;
+
+if(isInsideOfGrid(dr,dc,n,m) && image[dr][dc] == initialValue && !vis[dr][dc])
+{
+vis[dr][dc] = true ;
+image[dr][dc] = color ;
+q.push({dr,dc}) ;
+}
+}
+}
+
+return image ;
+}
+};

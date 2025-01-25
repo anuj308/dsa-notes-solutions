@@ -1,0 +1,109 @@
+pakages - search
+squares of numbers using a function: square
+
+creating a packages
+
+create or replace package math_pkg
+As
+function square(num number) return number;
+end math_pkg
+-------------------------
+-package body
+create or replace package body math_pkg
+As
+function square(num number) return number
+Is
+begin
+return num*num;
+end square;
+end math_pkg;
+
+-----------
+-calling of packages
+
+declare
+result number;
+begin
+result:=math_pkg.square(5)
+dbms_output.put_line(result);
+end;
+
+---
+select * from employee; eid ename deptid salary
+
+create or replace package employee_pkg
+As
+#function to retrive the name
+function get_name(emp_id number) return varchar2();
+#procedure to update the salary
+procedure increase_salary(emp_id number,amount number);
+end math_pkg
+----------------
+#package body
+create or replace package body employee_pkg
+As
+#function to retrive the name
+function  get_name(emp_id number) return varchar2
+Is
+emp_name varchar2(100);
+BEGIN
+select ename into emp_name from employee where eid=emp_id;
+return emp_name;
+END get_name;
+
+procedure increase_salary(emp_id number, amount number)
+Is
+begin
+update employee set salary=salary+amount where eid=emp_id;
+end increase_salary;
+end;
+-------------
+--package calling
+declare
+
+begin
+result:=employee_pkg.get_name(101);
+dbms_output.put_line(result);
+employee_pkg.increase_salary(101,500);
+dbms_output.put_line('salary increased by 500);
+end;
+
+
+
+#triggers - is automatic updation of database when dml query runs
+
+--before insert triggers
+#trigger to create their must be some value in dept id and salary
+create or replace trigger trg_before_insert
+BEFORE INSERT ON employee
+for each row
+begin--check if dept id is provided or not
+if :NEW.DEPTID is NULL then
+raise_application_error(-2002,'department id must be provided');
+end if;
+--ensure that there should be minimum salary of 30000
+if :NEW.salary is NULL then
+:NEW.SALARY:=3000;
+end if;
+end;
+
+-----------------------------
+CREATE TABLE department_summary (
+dept_id NUMBER PRIMARY KEY,
+total_employees NUMBER DEFAULT 0,
+total_salary NUMBER DEFAULT 0
+);
+
+
+-------------------
+create or replace trigger try_after_insert
+AFTER INSERT ON employee
+for each row
+declare
+emp_count number;
+begin
+select count(*) into emp_count from department_summary where dept_id=:NEWdeptid;
+if emp_count>0 then
+update department_summary set total_employees=total_employees+1,
+total_salary=total_salary+:NEW
+not complete ...

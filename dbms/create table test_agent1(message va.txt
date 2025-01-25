@@ -1,0 +1,440 @@
+create table test_agent1(message varchar2(20));
+
+describe test_agent1;
+
+insert into test_agent1 values('this is a test');
+
+select * from test_agent1;
+
+create table student789(
+rollno integer not null,
+name char(20) not null,
+PRIMARY KEY(rollno)
+);
+
+insert into student789 values(2,'bb');
+insert into student789 values(3,'cc');
+
+insert into student789 values(4,'dd')
+
+select * from student789;
+
+alter table student789 add(email_id varchar(20));
+
+alter table student789 MODIFY email_id DEFAULT 'CSE@gmail.com';
+
+rename student789 to student5656;
+
+rename student5656 to st123;
+
+truncate table student5656;
+
+insert into st123 values(1,'AA','aa@gmail.com')
+insert into st123 values(2,'BB','bb@gmail.com')
+insert into st123 values(3,'CC','gg@gmail.com')
+
+update st123 set name='AARTI' where rollno=1;
+select * from st123;
+
+update st123 set stu_name='BHARTI',email='bharti@gmail.com' where rollno=3;
+select * from st123;
+
+update st123 set email='cse@gmail.com'
+select * from st123;
+
+
+create table product1(product_id integer not null, price integer not null, product_type char(30) not null, PRIMARY KEY(product_id));
+
+delete from product;
+
+truncate table product;
+
+select * from product1;
+
+insert into product1 values(100,400,'books');
+insert into product1 values(102,1000,'laptops charger');
+insert into product1 values(103,900,'earbuds');
+
+insert into product1 values(109,300,'mouse');
+
+select * from product1;
+
+select * from product1 where product_id=109;
+select * from product1 where product_type='mouse';
+select price, product_type from product1;
+
+select product_type from product1 where price>=400 order by price asc;
+select product_type from product1 where price>=400 order by price desc;
+select product_type, price from product1 where price>=400 order by price desc;
+
+select price as product_price from product1;
+
+select price,price-(price*0.1) from product1;
+select price,price-(price*0.1) as modified_price from product1;
+select price,price-(price*0.1) as modified_price from product1 where price-(price*0.1)>400;
+
+
+wildcard %,_
+
+
+
+select product_type from product1 where product_type like 'B%';
+select product_type from product1 where product_type like 'm%';
+select product_type from product1 where product_type like 'e_r%';
+select product_type from product1 where product_type like 'l%';
+select product_type from product1 where product_type like 'b__k%';
+
+not work because product_type data type is char - last letter is null, but in varchar2 answer will come as it only use the no of letter provided   
+select product_type from product1 where product_type like 'b%s';
+
+select * from product1 where price in (300,4900);
+select * from product1 where price not in (300,400);
+select * from product1 where price between 300 and 900;
+
+select product_type from product1 where product_type like 'b%' and product_id=100;
+select product_type from product1 where product_type like 'b%' or product_id=101;
+
+aggregate function
+
+create table studentagg(rollno int primary key,name char(30) not null , city varchar(30) not null
+,marks int not null);
+
+insert into studentagg values(1,'anuj','rourkela',77);
+insert into studentagg values(5,'anuj','rourkela',77);
+insert into studentagg values(2,'anusdsdsdj','rosdsdvdurkela',87);
+insert into studentagg values(3,'anusdsj','rourkecdcdla',47);
+insert into studentagg values(4,'ansduj','rourkcdcdela',97);
+
+select * from studentagg;
+
+select count(*) as student_count from studentagg where city='rourkela';
+
+select count(distinct city) as student_count from studentagg;
+
+select sum(marks) as total_marks from studentagg;
+
+select min(marks) as Min_marks from  studentagg;
+
+select max(marks) as Max_marks from studentagg;
+
+select avg(marks) as Avg_marks from studentagg;
+
+select city,count(*) as number_of_students from studentagg  group by city;  
+
+select rollno ,count(*) from studentagg where city='rourkela' group by rollno; 
+
+
+select  count(rollno),city from studentagg group by city where count(rollno)>1; error can't use where clause in aggregate function
+
+select count(rollno),city from studentagg group by city having count(rollno)>1;
+
+group by can be used for not reading dublicate values	
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+data and time function
+
+select sysdate from dual;
+select current_date from dual;
+
+select months_between(to_Date('1-mar-2024','DD-MM-YYYY'),to_Date('1-aug-2024','DD-MM-YYYY')) as result from dual;
+
+select extract(month from to_date('1-mar-2024','DD-MM-YYYY')) from dual;
+select extract(year from to_date('1-mar-2024','DD-MM-YYYY')) from dual;
+select extract(day from to_date('1-mar-2024','DD-MM-YYYY')) from dual;
+
+select last_Day(to_date('1-mar-2024','DD-MM-YYYY')) as result from dual;
+
+select next_Day(to_date('1-mar-2024','DD-MM-YYYY'),'tuesday') as result from dual;
+
+select min(fine_amount) from bill where fine_amount>(select min(fine_amount) from the bill);
+
+select concat('hello','world') from dual;
+select 'hello'||'world' from dual;
+
+select initcap('welcome  to all') from dual;
+select length('welcome to all') from dual;
+
+select ltrim('       hello') from dual;
+select rtrim('hello        ') from dual;
+
+select lpad('hello',8,'h') from dual;
+select lpad('hello',3) from dual;
+
+select rpad('hello',8,'h') from dual;
+
+select lower('HELLO') from dual;
+select upper('hello') from dual; 
+
+select lower('HELLO') from dual;
+select upper('hello') from dual;
+
+select concat(concat('hello' ,'-'),'world') from dual;
+
+select instr('welcome','e') from dual;
+select instr('welcome','e',1,2) from dual;
+
+select substr('welcome students',7) from dual;
+select substr('welcome to students',1,7) from dual;
+select substr('welcome students',2,7) from dual;
+
+
+------------------------------------------------------------------------------------------
+22 feb
+
+order> - order
+
+
+create table orders(
+orderid int,
+customerid int,
+orderdate date
+);
+
+insert into orders values(1000,210,to_date('2024-02-15','YYYY-MM-DD'));
+insert into orders values(1001,211,to_date('2024-02-16','YYYY-MM-DD'));
+insert into orders values(1002,211,to_date('2024-02-17','YYYY-MM-DD'));
+insert into orders values(1003,212,to_date('2024-02-18','YYYY-MM-DD'));
+
+select * from orders;
+
+create table customer(
+customerid int,
+customername char(20),
+contact number(10),
+country varchar(20)
+);
+
+insert into customer values(1000,'anuj',6786678778,'India');
+insert into customer values(1002,'mohit',8765437345,'Nepal');
+insert into customer values(2093,'pri',7654567839,'India');
+insert into customer values(3456,'papa',6753456788,'sri lanka');
+
+select * from orders inner join customer on orders.orderid=customer.customerid;
+
+select * from orders left join customer on orders.orderid=customer.customerid;
+select * from orders right join customer on orders.orderid=customer.customerid;
+
+select * from orders full join customer on orders.orderid=customer.customerid;
+select * from orders cross join customer;
+
+create view v1 as select customerid,customername from customer;
+select * from v1;
+
+drop table v1;
+
+
+select orders.customerid,customer.customername,customer.country from orders inner join customer on orders.orderid=customer.customerid;
+
+create view v2 as select orders.customerid,customer.customername,customer.country from orders inner join customer on orders.orderid=customer.customerid;
+
+-------------------------------------------
+in
+select * from orders where customerid in(select customerid from customers);
+
+
+
+
+-----------------------------------------------------------------------------------------
+
+unit - 3 and  unit 4 completed but not understand make proper revise notes of it 
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+unit - 5 --------- date :- april 9 2024
+
+DECLARE
+a varchar(20):='HELLO';
+BEGIN
+dbms_output.put_line('message is= ' || a);
+END;
+
+
+SET SERVEROUTPUT ON;
+DECLARE
+a number:=10;
+b number:=20;
+c number;
+BEGIN
+c:=a+b;
+dbms_output.put_line('message is= ' || c);
+END;
+
+--get the date it is a single line comment
+/*multi line
+comment*/
+
+SET SERVEROUTPUT ON;
+DECLARE
+current_date DATE;
+BEGIN
+--get the date it is a single line comment
+/*multi line
+comment*/
+current_date:=SYSDATE;
+
+dbms_output.put_line('message is= ' || current_date);
+dbms_output.put_line('message is= ' || to_char(current_date,'DD-MON-YYYY'));
+END;
+
+
+DECLARE
+x number:=10;
+y number:=20;
+BEGIN
+if x>y then
+dbms_output.put_line('a is greater');
+else if x=10 then
+dbms_output.put_line('a is equal to 10');
+else
+dbms_output.put_line('b is greater');
+end if;
+END;
+
+
+
+
+SET SERVEROUTPUT ON;
+DECLARE
+x number:=10;
+y number:=20;
+z number:=30;
+greatest number;
+BEGIN
+if x>y and x>z then
+greatest:=x;
+elsif y>z and y>x then
+greatest:=y;
+elsif z>x and z>y then
+greatest:=z;
+
+end if;
+dbms_output.put_line('greastest number ' || greatest);
+END;
+
+
+SET SERVEROUTPUT ON;
+DECLARE
+x number:=10;
+y number:=20;
+z number:=30;
+greatest number;
+BEGIN
+if x>y and x>z then
+greatest:=x;
+else
+if y>z and y>x then
+greatest:=y;
+elsif z>x and z>y then
+greatest:=z;
+end if;
+end if;
+dbms_output.put_line('greastest number:= ' || greatest);
+END;
+
+
+
+SET SERVEROUTPUT ON;
+DECLARE
+x number:=3;
+BEGIN
+case
+when x=1 then
+dbms_output.put_line(' x value is 1');
+when x=2 then
+dbms_output.put_line(' x value is 2');
+else
+dbms_output.put_line(' x value is 3');
+end case;
+END;
+
+
+SET SERVEROUTPUT ON;
+DECLAREi number:=1;
+begin
+loop
+exit when i>=10;
+dbms_output.put_line(i);
+i:=i+1;
+end loop;
+end;
+
+SET SERVEROUTPUT ON;
+DECLARE
+i number:=1;
+begin
+while i<=10 loop
+dbms_output.put_line(i);
+i:=i+1;
+end loop;
+end;
+
+
+SET SERVEROUTPUT ON;
+DECLARE
+i number:=1;
+n number:=5;
+fact number:=1;
+begin
+while i<-n loop
+fact:=fact*i;
+i:=i+1;
+end loop
+dbms_output.put_line(fact);
+end;
+
+SET SERVEROUTPUT ON;
+DECLARE
+i number:=2;
+begin
+for p in 1..10 loop
+dbms_output.put_line(i*p);
+
+end loop
+end;
+
+syntax for procedure
+
+create or replace procedure sum1(a in number,b in number,c out number)
+
+is 
+begin
+c:=a+b;
+dbms_output.put_line('sum is:=' || c);
+end;
+
+
+greatest between three numbers
+
+
+
+select * from customers
+
+count the number of rows from the table customers though function
+
+create or replace funcion totalcustomer
+retun total;
+end;
+
+declare
+c number;
+begin
+c:=totalcustomer();
+dbms_ouput.put_line('total number of customer= ' || c);
+end;
+
+
+implicit cursor
+
+select * from employee
+Eid Nname deptid salary
+
+declare 
+emp_record emlpoyee%rowtype;
+begin
+select * into emp_record from employee where eid=101;
+dbms_output.put_line(emp_record.ename || emp_record.deptid emp_record.salary)
+end;
+
+
+

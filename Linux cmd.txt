@@ -1,0 +1,337 @@
+Linux cmd
+in a pdf file do all the exercise - question an screenshot of the execution 
+sudo apt gcc install
+
+sudo su to login as root
+su username to login as user
+toad user sudo newuser username
+to add group sudo newgroup groupname
+
+create a symbolic link that point to target_file
+ln -s target_file link_name
+
+$SHLVL - SHELL NUMBER
+to create a Shell - bash
+export b=10 - the variable is available in all shell(global)
+nano shell.sh (sh is for shell)
+ctrl+s to save
+xtrl+x to exit the file
+
+echo is for print
+$ is need when use a variable 
+
+read -p "enter value " a
+echo $a or echo "$a is the enterd value"
+
+c=$((a+b)) in math operation 2 bracket are needed
+
+file.c - here file is name and c is file descriptor
+write(where = fd, what , size)
+
+fd - 0 = std input / like keyboard
+      1 = std output / like monitor
+     2  = error
+
+man 1 write - defination
+man 2 write - 
+
+fork() getpid() getppid()
+get directory 
+change directory
+
+read -p "enter any value" num
+if [[ a gt 0 ]];
+then
+echo "positive"
+else
+echo "negative"
+fi
+read -p "enter any value" num
+for (( i=1;i<10;i++ ))
+do
+res=$(($num * $i))
+echo "$num * $i = $res"
+done
+
+read -p "enter any value" num
+rem=0
+res=0
+while [[ $num -gt 0 ]]
+do
+rem=$((num % 10))
+res=$((res * 10 + rem))
+num=$((num/10))
+done
+echo "reverse of given number is $res"
+
+read -p "enter any value" num
+case $num in
+1) echo "Sunday";;
+2) echo "monday";;
+3) echo "Tuesday";;
+4) echo "wednesday";;
+5) echo "Thursday";;
+6) echo "Friday";;
+7) echo "Saturday";;
+*) echo "plz enter values between 1 to 7":;
+esac
+
+
+
+------------------------------
+some cmd of ep -1
+
+aks@Anuj:/home/Project$ cd ..
+aks@Anuj:/home$ ls
+Project  aks  lab
+aks@Anuj:/home$ sudo touch original_file.txt
+aks@Anuj:/home$ sudo chmod 777 original_file.txt
+aks@Anuj:/home$ cat > original_file.txt
+hi this is a original file.
+^C
+aks@Anuj:/home$ sudo ln -s original_file.txt
+ln: failed to create symbolic link './original_file.txt': File exists
+aks@Anuj:/home$ sudo ln -s original_file.txt symlink_to_original
+aks@Anuj:/home$ sudo ln original_file.txt hardlink_to_original
+aks@Anuj:/home$ ls
+Project  aks  hardlink_to_original  lab  original_file.txt  symlink_to_original
+aks@Anuj:/home$ ./hardlink_to_original
+./hardlink_to_original: line 1: hi: command not found
+aks@Anuj:/home$ ./symlink_to_original
+./symlink_to_original: line 1: hi: command not found
+aks@Anuj:/home$ ls -li
+total 20
+41489 drwxr-xr-x 3 root root 4096 Sep  2 23:33 Project
+  696 drwxr-xr-x 5 aks  aks  4096 Sep  2 22:35 aks
+41529 -rwxrwxrwx 2 root root   28 Sep  2 23:35 hardlink_to_original
+ 1516 drwxr-xr-x 3 root root 4096 Aug 27 12:49 lab
+41529 -rwxrwxrwx 2 root root   28 Sep  2 23:35 original_file.txt
+41530 lrwxrwxrwx 1 root root   17 Sep  2 23:37 symlink_to_original -> original_file.txt
+aks@Anuj:/home$ sudo cat << original_file.txt
+> 323
+> ^C
+aks@Anuj:/home$ ./original_file.txt
+./original_file.txt: line 1: hi: command not found
+aks@Anuj:/home$ cat original_file.txt
+hi this is a original file.
+aks@Anuj:/home$ sudo cat < original_file.txt
+hi this is a original file.
+aks@Anuj:/home$ sudo cat < original_file.txt
+hi this is a original file.
+aks@Anuj:/home$ sudo cat << original_file.txt
+> jasnoid
+> nsdima
+> asdk
+> ^C
+aks@Anuj:/home$ sudo cat << original_file.txt
+> ^C
+aks@Anuj:/home$ sudo cat < original_file.txt
+hi this is a original file.
+aks@Anuj:/home$ sudo cat << original_file.txt
+> sda
+> aosm
+> ^C
+aks@Anuj:/home$ sudo cat < original_file.txt
+hi this is a original file.
+aks@Anuj:/home$ sudo cat -a original_file.txt << adding text
+> ading
+> ^C
+aks@Anuj:/home$ sudo cat < original_file.txt
+hi this is a original file.
+aks@Anuj:/home$ sudo cat -a original_file.txt <<EOF
+> adding text
+> EOF
+cat: invalid option -- 'a'
+Try 'cat --help' for more information.
+aks@Anuj:/home$ sudo cat >> original_file.txt
+adidng text
+^C
+aks@Anuj:/home$ sudo cat < original_file.txt
+hi this is a original file.
+adidng text
+aks@Anuj:/home$ ls
+Project  aks  hardlink_to_original  lab  original_file.txt  symlink_to_original
+aks@Anuj:/home$ sudo cat hardlink_to_original
+hi this is a original file.
+adidng text
+aks@Anuj:/home$ sudo cat symlink_to_original
+hi this is a original file.
+adidng text
+aks@Anuj:/home$ ls
+Project  aks  hardlink_to_original  lab  original_file.txt  symlink_to_original
+aks@Anuj:/home$ sudo rm original_file.txt
+aks@Anuj:/home$ ls
+Project  aks  hardlink_to_original  lab  symlink_to_original
+aks@Anuj:/home$ sudo cat hardlink_to_original
+hi this is a original file.
+adidng text
+aks@Anuj:/home$ sudo cat symlink_to_original
+cat: symlink_to_original: No such file or directory
+aks@Anuj:/home$ sudo mkdir grep_pratice
+aks@Anuj:/home$ ls
+Project  aks  grep_pratice  hardlink_to_original  lab  symlink_to_original
+aks@Anuj:/home$ cd grep_pratice/
+aks@Anuj:/home/grep_pratice$ sudo touch sample.txt
+aks@Anuj:/home/grep_pratice$ sudo chmod 777 sample.txt
+aks@Anuj:/home/grep_pratice$ sudo nano sample.txt
+aks@Anuj:/home/grep_pratice$ sudo grep "linux" sample.txt
+linux jasndl
+nsjands 'aiks msa linux
+ndim idmls ps sld linux
+asnld jncpmd linux
+difn linux odnpfc
+linuxudn odncod
+csj linux odnc
+linux
+linux ajndo
+linux oid
+linux d
+aks@Anuj:/home/grep_pratice$ sudo nano sample.txt
+aks@Anuj:/home/grep_pratice$ sudo grep "Linux" sample.txt
+Linux
+Linux sd
+aks@Anuj:/home/grep_pratice$ sudo grep -i "Linux" sample.txt
+linux jasndl
+nsjands 'aiks msa linux
+ndim idmls ps sld linux
+asnld jncpmd linux
+Linux
+difn linux odnpfc
+linuxudn odncod
+Linux sd
+csj linux odnc
+linux
+linux ajndo
+linux oid
+linux d
+aks@Anuj:/home/grep_pratice$ sudo grep -i "linux" sample.txt
+linux jasndl
+nsjands 'aiks msa linux
+ndim idmls ps sld linux
+asnld jncpmd linux
+Linux
+difn linux odnpfc
+linuxudn odncod
+Linux sd
+csj linux odnc
+linux
+linux ajndo
+linux oid
+linux d
+aks@Anuj:/home/grep_pratice$ sudo grep -n "Linux" sample.txt
+8:Linux
+18:Linux sd
+aks@Anuj:/home/grep_pratice$ sudo grep -v "Linux" sample.txt
+linux jasndl
+nsjands 'aiks msa linux
+jnsdim dimpomd
+sdcdhs uinoimvcsd
+ndim idmls ps sld linux
+asnld jncpmd linux
+nladiml mdi
+ns
+ id
+dispdm[wd
+ndics
+docnc
+j ufnps
+difn linux odnpfc
+linuxudn odncod
+odnicnsd
+ csd
+cd cs
+dcsd c
+sdcj sdc
+ dcis
+csjd c
+sdcdnc
+s cid
+csj linux odnc
+'d
+linux
+idns
+sidcpsdn
+csdcnsd
+csdncsd
+csdocn
+dcns'dc
+
+sidn
+pcos
+docms
+domc
+d cds
+omc32947y40
+linux ajndo
+cosdnc
+linux oid
+ sidpfomd
+
+domfsd
+linux d
+d
+aks@Anuj:/home/grep_pratice$ sudo grep -c "Linux" sample.txt
+2
+aks@Anuj:/home/grep_pratice$ cd ..
+aks@Anuj:/home$ ls
+Project  aks  grep_pratice  hardlink_to_original  lab  symlink_to_original
+aks@Anuj:/home$ sudo touch permissions_file.txt
+aks@Anuj:/home$ sudo chmod 704 permissions_file.txt
+aks@Anuj:/home$ ls -l
+total 20
+drwxr-xr-x 3 root root 4096 Sep  2 23:33 Project
+drwxr-xr-x 5 aks  aks  4096 Sep  2 22:35 aks
+drwxr-xr-x 2 root root 4096 Sep  2 23:53 grep_pratice
+-rwxrwxrwx 1 root root   40 Sep  2 23:45 hardlink_to_original
+drwxr-xr-x 3 root root 4096 Aug 27 12:49 lab
+-rwx---r-- 1 root root    0 Sep  2 23:56 permissions_file.txt
+lrwxrwxrwx 1 root root   17 Sep  2 23:37 symlink_to_original -> original_file.txt
+aks@Anuj:/home$ sudo newuser:newgroup permissions_file.txt
+sudo: newuser:newgroup: command not found
+aks@Anuj:/home$ ls -li
+total 20
+41489 drwxr-xr-x 3 root root 4096 Sep  2 23:33 Project
+  696 drwxr-xr-x 5 aks  aks  4096 Sep  2 22:35 aks
+41531 drwxr-xr-x 2 root root 4096 Sep  2 23:53 grep_pratice
+41529 -rwxrwxrwx 1 root root   40 Sep  2 23:45 hardlink_to_original
+ 1516 drwxr-xr-x 3 root root 4096 Aug 27 12:49 lab
+41533 -rwx---r-- 1 root root    0 Sep  2 23:56 permissions_file.txt
+41530 lrwxrwxrwx 1 root root   17 Sep  2 23:37 symlink_to_original -> original_file.txt
+aks@Anuj:/home$ sudo newuser:newgroup permissions_file.txt
+sudo: newuser:newgroup: command not found
+aks@Anuj:/home$ sudo chown newuser:newgroup permissions_file.txt
+chown: invalid user: ‘newuser:newgroup’
+aks@Anuj:/home$ su newuser
+su: user newuser does not exist
+aks@Anuj:/home$ sudo useradd newuser
+aks@Anuj:/home$ sudo groupadd newgroup
+aks@Anuj:/home$ sudo chown newuser:newgroup permissions_file.txt
+aks@Anuj:/home$ ls -li
+total 20
+41489 drwxr-xr-x 3 root    root     4096 Sep  2 23:33 Project
+  696 drwxr-xr-x 5 aks     aks      4096 Sep  2 22:35 aks
+41531 drwxr-xr-x 2 root    root     4096 Sep  2 23:53 grep_pratice
+41529 -rwxrwxrwx 1 root    root       40 Sep  2 23:45 hardlink_to_original
+ 1516 drwxr-xr-x 3 root    root     4096 Aug 27 12:49 lab
+41533 -rwx---r-- 1 newuser newgroup    0 Sep  2 23:56 permissions_file.txt
+41530 lrwxrwxrwx 1 root    root       17 Sep  2 23:37 symlink_to_original -> original_file.txt
+aks@Anuj:/home$ cd ..
+aks@Anuj:/$ cd home
+aks@Anuj:/home$ ls
+Project  aks  grep_pratice  hardlink_to_original  lab  permissions_file.txt  symlink_to_original
+aks@Anuj:/home$ cd lab
+aks@Anuj:/home/lab$ ls
+add.sh  ep-2  lab1.txt  posneg.sh  r.txt  sa.sh  table.sh  whi.sh
+aks@Anuj:/home/lab$ cd ep-2
+aks@Anuj:/home/lab/ep-2$ ls
+3Q.sh  Q6case.sh  fatorial.sh  tableQ2.sh
+aks@Anuj:/home/lab/ep-2$ sudo cat 3Q.sh
+echo "Enter the directory path:"
+read directory_path
+
+ for file in "$directory_path"/*; do
+    if [[ -f "$file" ]]; then
+      echo "$file"
+    fi
+
+

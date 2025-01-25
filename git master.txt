@@ -32,3 +32,14 @@ git stash apply | apply changes & keep them in stash
 git checkout commitId | to get to that commit
 git checkout main | to get back from after above line
 git reflog | to go back to branch you came form
+git commit -am "message" | shortcut to add and commit at the same time
+git rebase master | not to use this in main branch - it will rewrite the history - changes from side branch will come to main/master branch
+-to push code below cmds
+git branch -M main | to change branch name from master to main
+git remote -v | to check does the repository is there in server
+git remote add origin url | to add remote repository to the folder (in pc) or connect folder with server
+git push origin main | to push current code to server(GitHub) - origin is server name & main is branch in pc
+git push -u origin main | -u setup an upstream that allow you to run future command
+git push | now will push code directly to GitHub as we have set with above line (cmd) -u 
+git clone urlhttps | to clone the git repository
+git fetch, pull

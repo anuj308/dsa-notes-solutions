@@ -1,0 +1,27 @@
+body{
+    margin:0px;
+    background-color: aqua;
+}
+h2{
+    text-align: center;
+}
+#main-section{
+    background-color: aqua;
+}
+.learnings-boxes{
+    background-color: azure;
+}
+.question{
+    background-color: azure;
+    padding: 10px 30px;
+}
+.answer{
+    background-color: azure;
+    padding: 10px 30px;
+}
+pre code {
+    background-color: #eee;
+    border: 1px solid #999;
+    display: block;
+    padding: 20px;
+  }
