@@ -27,7 +27,7 @@ public class vending {
 
 // 
 
-import java.util.Scanner;
+// import java.util.Scanner;
 public class VendingMachine{
 
     public static void showMenu(){
