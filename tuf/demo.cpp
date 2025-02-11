@@ -1,424 +1,266 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 // ctrl shift b
-void printpartten1(int n){
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            cout << "*";
-        }
-        cout << endl;
-    }
-}
-void printpartten2(int n){
-    for(int i=0;i<n;i++){
-        for(int j=0;j<i;j++){
-            cout << "*";
-        }
-        cout << endl;
-    }
-}
-void printpartten3(int n) {
-	for(int i=1;i<=n;i++){
-		for(int j=1;j<=i;j++){
-			cout << j << " ";
-		}
-		cout << endl;
-	}
-}
-void printpartten4(int n) {
-	for(int i=1;i<=n;i++){
-		for(int j=1;j<=i;j++){
-			cout << i << " ";
-		}
-		cout << endl;
-	}
-}
-void printpartten5(int n) {
-	for(int i=n;i>0;i--){
-		for(int j=i;j>0;j--){
-			cout << "* ";
-		}
-		cout << endl;
-	}
-}
-void printpartten6(int n) {
-    for(int i=n;i>0;i--){
-        for(int j=1;j<=i;j++){
-            cout << j << " ";
-        }
-        cout << endl;
-    }
-}
-void printpartten7(int n) {
-    // https://www.naukri.com/code360/problems/star-triangle_6573671?leftPanelTabValue=SUBMISSION
-    int t=1;
-    int r=n;
-    for(int i=0;i<n;i++){
 
-        for(int j=0;j<r-1;j++){
-            cout << " ";
-        }
-        for(int k=0;k<t;k++){
-            cout << "*";
-        }
-        for(int j=0;j<r-1;j++){
-            cout << " ";
-        }
-        cout << endl;
-        t+=2;
-        r--;
-    }
-}
-void printpartten8(int n) {
-    int star = 2*n-1;
-    int space = 0;
-    for(int i=0;i<n;i++){
+void explainPair()
+{
+    pair<int, int> p = {1, 3};
 
-        for(int j=0;j<space;j++){
-            cout << " ";
-        }
-        for(int t=0;t<star;t++){
-            cout << "*";
-        }
-        for(int j=0;j<space;j++){
-            cout << " ";
-        }        
-        space++;
-        star-=2;
-        cout << endl;
-    }
-}
-void printpartten9(int n) {
-    int space=n-1;
-    int star= 1;
-    for(int i=0;i<n;i++){
-        
-        for(int j=0;j<space;j++){
-            cout << " ";
-        }
-        for(int t=0;t<star;t++){
-            cout << "*";
-        }
-        for(int j=0;j<space;j++){
-            cout << " ";
-        }
-        space--;
-        star+=2;
-        cout << endl;
-    }
-    space = 0;
-    star = 2*n - 1;
-    for(int i=0;i<n;i++){
-        
-        for(int j=0;j<space;j++){
-            cout << " ";
-        }
-        for(int t=0;t<star;t++){
-            cout << "*";
-        }
-        for(int j=0;j<space;j++){
-            cout << " ";
-        }
-        space++;
-        star-=2;
-        cout << endl;
-    }
-}
-void printpartten10(int n) {
-    
-    for(int i=0;i<n;i++){
-        for(int j=0;j<=n;j++){
-            if(j<=i){
-                cout << "*";
-            }else{
-                cout << " ";
-            }
-        }
-        cout << endl;
-    }
-    for(int i=n-1;i>0;i--){
-        for(int j=n;j>0;j--){
-            if(j>n-i){
-                cout << "*";
-            }else{
-                cout << " ";
-            }
-        }
-        cout << endl;
-    }
-}
-void printpartten11(int n) {
-    int b= 0;
-    for(int i=0;i<n;i++){
-        for(int j=0;j<=i;j++){
+    cout << p.first << " " << p.second << endl;
 
-            if(i%2==0 && j==0){
-                b=1;
-                // cout << "change to 1 " << endl;
-            }else if(i%2!=0 && j==0){
-                b=0;
-                // cout << "change to 0 " << endl;
-            }
+    pair<int, pair<int, int>> p1 = {1, {2, 3}};
 
-            cout << b  << " ";
-            if(b==0){
-                b=1;
-                // cout << b << endl;
-            }else{
-                b=0;
-                // cout << b << endl;
-            }
-            // cout << b << "over a cycle" << endl;
-        }
-        cout << endl;
-    }
-}
-void printpartten12(int n) {
-    int t = 2*n;
-    int space = 0;
-    for(int i=0;i<n;i++){
-        for(int j=0;j<=i;j++){
-            cout << j+1 << " ";
-        }
-        space = t-2*(i+1);
-        for(int j=0;j<=t-2*(i+1);j++){
-            cout << " ";
-        }
-        // cout << "t: " << t << " space : " << space << endl;
-        
-        for(int j=t-(i+1) - space - 1;j>=0;j--){
-            cout << j+1 << " ";
-        }
-        // cout << "t: " << t << " space : " << space << endl;
-        cout << endl;
-    }
-}
-void printpartten13(int n) {
-    int number = 1;
-    for(int i=0;i<n;i++){
-        for(int j=0;j<=i;j++){
-            cout << number << " ";
-            number+=1;
-        }
-        cout << endl;
-    }
-}
-void printpartten14(int n) {
-    char alpha = 'A';
-    for(int i=0;i<n;i++){
-        for(int j=0;j<=i;j++){
-            char newAlpha = alpha + j;
-            cout << newAlpha << " ";
-        }
-        cout << endl;
-    }
-}
-void printpartten15(int n) {   
-    char alpha = 'A';
-    for(int i=n;i>0;i--){
-        for(int j=0;j<i;j++){
-            char newAlpha = alpha + j;
-            cout << newAlpha << " ";
-        }
-        cout << endl;
-    }
-}
-void printpartten16(int n) {
-   char alpha = 'A';
-    for(int i=0;i<n;i++){
-        char newAlpha = alpha + i;
-        for(int j=0;j<=i;j++){
-            cout << newAlpha << " ";  
-        }
-        cout << endl;
-    }
-}
-void printpartten17(int n) {
-    int t = 2*n -1;
-    int star = 1;
-    char alpha = 'A';
-    for(int i=0;i<n;i++){
-        for(int j=0;j<(t-star)/2;j++){
-            cout << "  ";
-        }
-        for(int j=0;j<=star/2;j++){
-            char newAlpha = alpha + j;
-            cout << newAlpha << " ";
-        }
-        for(int j=star/2;j>0;j--){
-            char newAlpha = alpha + (j - 1);
-            cout << newAlpha << " ";
-        }
-        for(int j=0;j<(t-star)/2;j++){
-            cout << "  ";
-        }
-        star+=2;
-        cout << endl;
-    }
-}
-void printpartten18(int n) {
-    char alpha = 'A';
-    for(int i=0;i<n;i++){
-        for(int j=n-1;j>=n-1-i;j--){
-            char newAlpha = alpha + j;
-            cout << newAlpha << " ";
-        }
-        cout << endl;
-    }
-}
-void printpartten19(int n) {
-    int t = n*2;
-    int star = n;
-    int space = 0;
-    for(int i=0;i<n;i++){
-        for(int j=0;j<star;j++){
-            cout << "* ";
-        }
-        for(int j=0;j<space;j++){
-            cout << " ";
-        }
-        for(int j=0;j<star;j++){
-            cout << "* ";
-        }
-        star-=1;
-        space+=2;
-        cout << endl;
-    }
-    star=1;
-    space=n+1;
-    for(int i=0;i<n;i++){
-        for(int j=0;j<star;j++){
-            cout << "* ";
-        }
-        for(int j=0;j<space;j++){
-            cout << " ";
-        }
-        for(int j=0;j<star;j++){
-            cout << "* ";
-        }
-        star+=1;
-        space-=2;
-        cout << endl;
-    }
-}
-void printpartten20(int n) {
-    int t = 2*n;
-    int star =1;
-    int space = n+1;
-    for(int i=0;i<n;i++){
-        for(int j=0;j<star;j++){
-            cout << "* ";
-        }
-        for(int j=0;j<space;j++){
-            cout << " ";
-        }
-        for(int j=0;j<star;j++){
-            cout << "* ";
-        }
-        space-=2;
-        star+=1;
-        cout << endl;
-    }
-    space=2;
-    star=n-1;
-    for(int i=0;i<n;i++){
-        for(int j=0;j<star;j++){
-            cout << "* ";
-        }
-        for(int j=0;j<space;j++){
-            cout << " ";
-        }
-        for(int j=0;j<star;j++){
-            cout << "* ";
-        }
-        space+=2;
-        star-=1;
-        cout << endl;
-    }
-}
-void printpartten21(int n) {
-    // Write your code here.
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            if(i==0 || j==0 || j==n-1 || i==n-1){
-                cout << "*";
-            }else{
-                cout << " ";
-            }
-        }
-        cout << endl;
-    }
-}
-void printpartten22(int n) {
-    int num = n;
-    for(int i=n;i>0;i--){
-        for(int j=n;j>0;j--){
-            if(i==n || j==n){
-                cout << n;
-            }else if(j>=num){
-                cout << j;
-            }else{
-                cout << num;
-            }
-        }
-        // num=n;
-        for(int j=2;j<=n;j++){
-            if(i==n || j==n){
-                cout << n;
-            }else if(j>=num){
-                cout << j;
-            }else{
-                cout << num;
-            }
-        }
+    cout << p1.first << " " << p1.second.first << " " << p1.second.second << endl;
+    pair<int, int> arr[] = {{1, 2}, {3, 4}, {5, 6}};
 
-        num-=1;
-        cout << endl;
-    }
-    num=2;
-    for(int i=n;i>1;i--){
-        for(int j=n;j>0;j--){
-            if(i==1 || j==n){
-                cout << n;
-            }else if(j>=num){
-                cout << j;
-            }else{
-                cout << num;
-            }
-        }
-        for(int j=2;j<=n;j++){
-            if(i==1 || j==n){
-                cout << n;
-            }else if(j>=num){
-                cout << j;
-            }else{
-                cout << num;
-            }
-        }
-
-        num+=1;
-        cout << endl;
-    }
+    cout << arr[1].second << endl;
 }
 
-int main(){
-    // cout << "partten questions";
-    // steps 
-    // for the outer loops, count the no of lines
-    // for the inner loop,focus on the columns, and connect them somehow to the rows
-    // Print them "*" inside the innner for loop
-    // observe symmetry [optional]
-    // https://www.youtube.com/watch?v=tNm_NNSB3_w&list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz&index=5
-    // ****https://www.naukri.com/code360/problems/star-triangle_6573671?leftPanelTabValue=SUBMISSION
-    // ****
-    // ****
-    // ****
-    int t;
-    cin >> t;
-    for(int k=0;k<t;k++){
-        int n;
-        cin >> n;
-        printpartten2(n);
+void explainVector()
+{
+    vector<int> v;
+    v.push_back(1);
+    v.emplace_back(2); // same as push_back but faster
+    vector<pair<int, int>> vp;
+    vp.push_back({1, 2});
+    vp.emplace_back(5, 6); // syntax is different
+
+    vector<int> v1(5, 100); // 0 to 5 all index values are 100
+
+    vector<int> v2(5); // size is 5 and values depend on container
+
+    vector<int> v3(v2); // to copy v2 to v3
+
+    cout << v1.back() << endl;
+
+    for (vector<int>::iterator it = v1.begin(); it != v1.end(); it++)
+    {
+        cout << *(it) << " ";
     }
+    cout << endl;
+    // auto - auto assiging like int,double etc
+    for (auto it = v1.begin(); it != v1.end(); it++)
+    {
+        cout << *(it) << " ";
+    }
+    cout << endl;
+
+    for (auto it : v1)
+    {
+        cout << it << " ";
+    }
+    cout << endl;
+
+    v1.erase(v1.begin() + 1); // will delete  1 index and reshuffle the vector
+
+    v1.erase(v1.begin() + 2, v1.begin() + 4); // start , end
+
+    v1.insert(v1.begin(), 300);       // insert 300 at 0 index
+    v1.insert(v1.begin() + 1, 2, 10); // insert 10 10 at index 1 & 2
+
+    cout << v1.size();
+    v.pop_back(); // pop the front element
+
+    v1.swap(v2);
+    v1.clear(); // erase the entire vector
+
+    cout << v.empty() << endl;
+}
+
+void explainList()
+{
+    list<int> ls;
+    ls.push_back(2);
+    ls.emplace_back(4);
+
+    ls.push_front(5);
+
+    // ls.emplace_front();
+    // rest are same as vector
+}
+
+void explainDeque()
+{
+    deque<int> dq;
+    dq.push_back(1);
+    dq.emplace_back(2);
+    dq.push_front(4);
+    dq.emplace_front(3);
+
+    dq.pop_back();
+    dp.pop_front();
+
+    // rest are same as vector
+}
+
+void explainStack()
+{
+    // LIFO
+    stack<int> st;
+    st.push(1);
+    st.push(2);
+    st.push(3);
+    st.emplace(4);
+
+    st.pop();
+    cout << st.top() << endl;
+    cout << st.size() << endl;
+    cout << st.empty() << endl;
+
+    stack<int> st1;
+    st1.swap(st);
+}
+
+void explainQueue()
+{
+    // FIFO
+    queue<int> q;
+    q.push(1);    //{1}
+    q.push(2);    // {1,2}
+    q.emplace(4); // {1,2,4}
+
+    q.back() += 5;     //{1,2,9}
+    cout << q.back();  // print 9
+    cout << q.front(); // print 1
+
+    q.pop();           //{2,9}
+    cout << q.front(); // pirnt 2
+}
+
+void explainPriorityQueue()
+{
+    // max heap below
+    priority_queue<int> pq;
+
+    pq.push(5);  // {5}
+    pq.push(2);  // {5,2}
+    pq.push(8);  // {8,5,2}
+    pq.push(10); // {10,8,5,2}
+
+    cout << pq.top(); // print 10
+
+    // size swap empty are same as others
+
+    // minimum heap
+    priority_queue<int, vector<int>, greater<int>> pq;
+    pq.push(5);     //{5}
+    pq.push(2);     // {2,5}
+    pq.push(8);     // {2,5,8}
+    pq.emplace(10); // {2,5,8,10}
+
+    cout << pq.top(); // print 2
+}
+
+void explainSet()
+{
+    //  sorted and unique
+    set<int> st;
+    st.insert(1);  // {1}
+    st.emplace(2); // {1,2}
+    st.insert(4);  // {1,2,4}
+    st.insert(3);  // {1,2,3,4}
+
+    // begin(), end(), rbegin(), rend(), size(), empty() & swap() are same as others
+
+    auto it = st.find(3); // return an iterator
+    // {1,2,3,4}
+    auto it = st.find(6); // retrun st.end() as 6 is not present in the set
+
+    st.erase(4); // erase 4 & maintain the sorted order
+
+    int c = st.count(1); // if 1 is there it will return 1 or 0
+
+    auto it = st.find(3);
+    st.erase(it); // can give iterator also
+
+    // {1,2,3,4}
+    auto it1 = st.find(2);
+    auto it2 = st.find(4);
+    st.erase(it1, it2); // after erase {1,4}  (first,end)
+
+    // lower_bound()  and upper_bound()
+
+    // {1,2,4}
+    auto it3 = st.lower_bound(2); // will return 2 iterator
+    auto it3 = st.lower_bound(3); // will return 2 iterator as 3 is not there 2 is less than 3 and closest
+
+    auto it4 = st.upper_bound(3);  // will retrun 4 iterator as 3 is not there and 4 is more than 3 and closest
+}
+
+void explainMultiSet(){
+    // everything is same as set
+    // only stores duplicate element also
+
+    multiset<int>ms;
+    ms.insert(1); // {1}
+    ms.insert(1); // {1,1}
+    ms.insert(1); // {1,1,1}
+
+    ms.erase(1);// all 1's erased
+
+    int cnt = ms.count(1);
+
+    ms.erase(ms.find(1));// only a single one erased
+
+    ms.erase(ms.find(1),ms.find(1)+2);
+
+    // rest all function are same
+}
+
+void explainUnOrderedSet(){
+    // unique and unOrder
+    unordered_set<int> st;
+    // lower_bound and upper_bound function
+    // does not works, rest all functions are same
+    // as above, it does not stores in any particular order it has a better complexity than set in most cases, except some when collision happen
+}
+
+void explainMap(){
+    // unique key , store in key values which can be any data type
+    // it stores unique keys in storted order
+    map<int,int> mp;
+    map<pair<int, int>, int> mpp;
+
+    mp[1]=2;
+    mp[3]=7;
+    // mp.emplace({3,1});
+
+    mp.insert({2,4});
+    mpp[{1,2}] =10;
+
+    for(auto it : mpp){
+        cout <<  it.second << " " << it.first << endl;
+    }
+
+    cout << mp[1];
+
+    auto it = mp.find(3);
+    cout << *(it).second;
+
+    auto it1 = mp.find(5);
+
+    auto it2 = mp.lower_bound(1);
+    auto it3 = mp.upper_bound(3);
+
+    // erase, swap, size, empty, are same as above
+
+}
+
+void explainMultiMap(){
+    // everything same as map,only it can store multiple keys or duplicate keys
+    // only mpp[key] cannot be used here
+}
+
+void explainUnorderedMap(){
+    // unordered keys only difference
+}
+ 
+
+int main()
+{
+    cout << "anuj";
+    explainPair();
+    explainVector();
+    explainList();
     return 0;
 }
