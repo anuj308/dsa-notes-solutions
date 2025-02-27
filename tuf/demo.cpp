@@ -5,6 +5,6 @@ int main()
 {
     // ctrl + shift + b
     // for sublime ctrl + b
-    
+   
     return 0;
 }
