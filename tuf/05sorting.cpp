@@ -105,6 +105,65 @@ void quickSort(vector<int>& arr, int low, int high) {
     }
 }
 
+
+int largestElement(vector<int> &arr, int n) {
+    int ans =0;
+    for(int i=0;i<n;i++){
+        if(arr[i]>ans){
+            ans = arr[i];
+        }
+    }
+    return ans;
+}
+
+void countingSort(vector<int> &arr, int n){
+    int max = largestElement(arr,n);
+    // cout << max << endl;
+    // counting sort
+
+    // vector<int> arr = {7,8 ,9,2 ,3};
+    // int n = arr.size();
+    // n = max;
+    vector<int> arr1(max+1,0);
+
+     // for(int i=1;i<n;i++){
+    //     cout << arr[i] << " ";
+    // }
+    // cout << endl;
+
+    for(int i=1;i<n;i++){
+        arr1[arr[i]]+=1;
+    }
+
+    // for(int i=1;i<max+1;i++){
+    //     cout << arr1[i] << " ";
+    // }
+    
+    // cout << endl;
+    for(int i=1;i<max+1;i++){
+        arr1[i]+=arr1[i-1];
+    }
+    // cout << endl;
+    // for(int i=1;i<max+1;i++){
+    //     cout << i << " " << arr1[i] << endl;
+    // }
+    // cout << endl;
+    vector<int> arr2(max+1,0);
+
+    for(int i=n-1;i>0;i--){
+        int a = arr2[arr1[arr[i]]];
+        if(a!=0){
+            arr2[arr1[arr[i]]-1] = arr[i];
+        }else{
+            arr2[arr1[arr[i]]]=arr[i];
+        }
+    }
+
+    for(int i=1;i<=n;i++){
+        arr[i]=arr2[i];
+    }
+}
+
 int main()
 {
     // ctrl + shift + b
@@ -162,15 +221,27 @@ int main()
     // }
 
     // quick sort
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    for(int i=0;i<n;i++) cin >> arr[i];
+    // int n;
+    // cin >> n;
+    // vector<int> arr(n);
+    // for(int i=0;i<n;i++) cin >> arr[i];
    
-    quickSort(arr,0,n-1);
-    // time -  O(nlog n) 
-    // space - O(1) 
-    for(int i=0;i<n;i++){
+    // quickSort(arr,0,n-1);
+    // // time -  O(nlog n) 
+    // // space - O(1) 
+    // for(int i=0;i<n;i++){
+    //     cout << arr[i] << " ";
+    // }
+
+    vector<int> arr = {0,7,8 ,9,2 ,3};
+    int n = arr.size();
+    int max = largestElement(arr,n);
+    cout << max << endl;
+    // counting sort
+
+    countingSort(arr,n);
+
+    for(int i=1;i<n;i++){
         cout << arr[i] << " ";
     }
     return 0;

@@ -1,1 +1,4 @@
 9
+2 3 7 8 9 
+secondLargest: 8
+secondSmallest: 2
