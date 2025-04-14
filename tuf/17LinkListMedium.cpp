@@ -393,6 +393,234 @@ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
     }
     return ans->next;
 }
+ListNode* removeElements(ListNode* head, int val) {
+    if(head==NULL) return head;
+    ListNode* mover = head;
+    while(mover!=NULL){
+        if(mover->next!=NULL && mover->next->val==val){
+            ListNode* start = mover;
+            ListNode* temp = mover->next;
+            if(mover->next->next!=NULL) mover->next = mover->next->next;
+            else mover->next = NULL;
+            delete temp;
+            while(mover->next!=NULL && mover->next->val==val){
+                ListNode* temp = mover->next;
+                if(mover->next->next!=NULL) start->next=mover->next->next;
+                else start->next=NULL;
+                delete temp;
+                mover = start;
+            }
+        }
+        mover=mover->next;
+    }
+    if(head->val==val) return head->next;
+    return head;
+} // beats 5% tc - O(N)
+ListNode* removeElements(ListNode* head, int val) {
+    if(head==NULL) return head;
+    ListNode* mover = head;
+    ListNode* start = head;
+
+    while(mover->next!=NULL){
+        if(mover->next->val==val){
+            ListNode* temp = mover->next;
+            if(mover->next->next!=NULL) start->next=mover->next->next;
+            else start->next=NULL;
+            delete temp;
+            mover = start;
+        }else{
+            mover=mover->next;
+            start=start->next;
+        }
+    }
+    if(head->val==val) return head->next;
+    return head;
+} // beats 100% more optimised from the above one tc = O(n)
+Node * deleteAllOccurrences(Node* head, int k) {
+    while(head!=NULL && head->data==k){
+        Node* temp = head;
+        head = head->next;
+        if(head) head->prev = NULL;
+        delete temp;
+    }
+
+    Node* mover = head;
+    while(mover!=NULL && mover->next!=NULL){
+        if(mover->next->data==k){
+            Node* temp = mover->next;
+            if(mover->next->next!=NULL){
+                mover->next = mover->next->next;
+                mover->next->next->prev = mover;
+            }
+            else mover->next = NULL;
+            delete temp;
+        }else{
+            mover=mover->next;
+        }
+    }
+    return head;
+}
+vector<pair<int, int>> findPairsWithGivenSum(Node *head, int target)
+    {
+    Node* start = head;
+    Node* end = head;
+    int s=0;
+    int e=0;
+    while(end->next!=NULL){
+        e++;
+        end = end->next;
+    }
+    vector<pair<int,int>> ans;
+    while(s<e){
+        if(start->data+end->data == target){
+            ans.push_back({start->data,end->data});
+            start=start->next;
+            s++;
+            end=end->prev;
+            e--;
+        }
+        else if(start->data+end->data > target){
+            e--;
+            end= end->prev;
+        }else{
+            s++;
+            start=start->next;
+        }
+    }
+    return ans;
+}
+Node * removeDuplicates(struct Node *head)
+{
+    // Your code here
+    if(head==NULL || head->next==NULL){
+        return head;
+    }
+
+    Node* mover = head;
+    while(mover!=NULL && mover->next!=NULL){
+        if(mover->data==mover->next->data){
+            Node* temp = mover->next;
+            mover->next=mover->next->next;
+            if(mover->next!=NULL) mover->next->prev = mover;
+            temp->prev=NULL;
+            temp->next=NULL;
+            delete temp;
+        }else{
+            mover=mover->next;
+        }
+    }
+    return head;
+}
+ListNode* reverseKGroup(ListNode* head, int k) {
+    int c=1;
+    ListNode* mover = head;
+    ListNode* m2 = new ListNode(0);
+    head = m2;
+    vector<ListNode*> store;
+    while(mover!=NULL){
+        store.push_back(mover);
+        mover=mover->next;
+        if(store.size()==k){
+            while(!store.empty()){
+                ListNode* temp = store.back();
+                store.pop_back();
+                m2->next = temp;
+                m2 = m2->next;
+                m2->next = NULL; // very imp 
+            }
+        }
+        c++;
+    }
+    int s = store.size();
+    c=0;
+    while(c<s){ // node left in store add them
+        ListNode* temp = store[c];
+        m2->next = temp;
+        m2 = m2->next;
+        m2->next=NULL;
+        c++;
+    }
+    return head->next;
+} // tc - O(n), sc - O(1)
+ListNode* rotateRight(ListNode* head, int k) {
+    if(head==NULL || head->next==NULL || k==0) return head;
+    int c=0;
+    ListNode* mover = head;
+    ListNode* end;
+    while(mover!=NULL){
+        if(mover->next==NULL) end = mover;
+        mover=mover->next;
+        c++;
+    }
+    int st;
+    if(c>k) st = c - k;
+    if(k%c==0) return head;
+    if(k>=c) {
+        st = k % c;
+        st = c - st;
+    }
+    c=1;
+    mover = head;
+    while(mover!=NULL){
+        if(c==st){
+            ListNode* temp = mover->next;
+            mover->next=NULL;
+            end->next = head;
+            head = temp;
+            break;
+        }
+        mover=mover->next;
+        c++;
+    }
+    return head;
+}
+Node* flattenLinkedList(Node* head) 
+{
+	
+	Node* mover = head;
+	vector<int> store;
+	while(mover!=NULL){
+		Node* m2 = mover;
+		while(m2!=NULL){
+			store.push_back(m2->data);
+			m2=m2->child;
+		}
+		mover=mover->next;
+	}
+	mover = head;
+	sort(store.begin(),store.end());
+	for(auto h : store){
+		mover->child = new Node(h);
+		mover=mover->child;
+	}
+	return head->child;
+}
+Node* copyRandomList(Node* head) {
+    Node* m = new Node(0);
+    Node* ans = m;
+    Node* mover = head;
+    vector<Node*> store; // for new nodes
+    unordered_map<Node*,int> mpp; // original nodes
+    int c=0;
+    while(mover!=NULL){
+        Node* temp = new Node(mover->val);
+        ans->next = temp;
+        ans=ans->next;
+        store.push_back(temp);
+        mpp[mover]=c;
+        c++;
+        mover=mover->next;
+    }
+    mover = head;
+    ans=m->next;
+    while(mover!=NULL){
+        if(mover->random==NULL) ans->random = NULL;
+        else ans->random = store[mpp[mover->random]]; // seraching for index of random nodes and then putting random node of new nodes for store with new nodes
+        ans=ans->next;
+        mover=mover->next;
+    }
+    return m->next;
+}
 int main(){
     return 0;
 }
