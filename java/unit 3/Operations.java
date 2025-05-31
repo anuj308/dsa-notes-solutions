@@ -761,7 +761,7 @@ class Triangle extends Shape {
                 System.out.println("Not a Triangle");
             }
         }
-        
+         
         private boolean isValidTriangle(){
             return (s1 + s2 > s3) && ( s2+s3 >s1) && (s3+s1>s2);
         }

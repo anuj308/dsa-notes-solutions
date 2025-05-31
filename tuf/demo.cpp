@@ -119,6 +119,267 @@ long long countGoodIntegers(int n, int k) {
         }
         return ans;
     } // time limit exceded O(N^4) 
+    int numRabbits(vector<int>& answers) {
+        unordered_map<int,int> mpp;
+        for(auto i : answers){
+            if(mpp.find(i)!=mpp.end()){
+                if(mpp[i]!=0) mpp[i]--;
+                else mpp[i]=i;
+            }else{
+                mpp[i]=i;
+            }
+        }
+        int ans = 0;
+        ans+=answers.size();
+        for(auto i : mpp){
+            ans+=i.second;
+        }
+        return ans;
+    } // tc - O(2N) sc -O(N)  
+     int numberOfArrays(vector<int>& differences, int lower, int upper) {
+        int ans = 0;
+        // brutr force tc - O(n^2) , sc - O(1)
+        for(int i=lower;i<=upper;i++){
+            int val=i;
+            bool pos=true;
+            for(int j=0;j<differences.size();j++){
+                val = val + differences[j];
+                if(val < lower || val > upper){
+                    pos=false;
+                    break;
+                }
+            }
+            if(pos){
+                ans++;q
+            }
+        }
+        return ans;
+    }  
+    bool possiable(vector<int>& differences,int value,int lower,int upper){ // O(differences) O(n)
+        int val=value;
+        bool pos=true;
+        for(int j=0;j<differences.size();j++){
+            val = val + differences[j];
+            if(val < lower || val > upper){
+                pos=false;
+                break;
+            }
+        }
+        if(pos) return true;
+        return false;
+    }
+    int numberOfArrays(vector<int>& differences, int lower, int upper) {
+        int ans = 0;
+        int first=INT_MIN; 
+        int last=INT_MAX;
+        for(int i=lower;i<=upper;i++){ // finding first possible 
+            if(possiable(differences,i,lower,upper)){
+                first = i;
+                break;
+            }
+        }
+        for(int i=upper;i>=lower;i--){ // finding last possiable
+            if(possiable(differences,i,lower,upper)){
+                last = i;
+                break;
+            }
+        }
+        // cout << first << last;
+        if(first==INT_MIN && last==INT_MAX) return 0;
+        return (last - first) + 1;
+    } // tc - O((Upper−Lower+1)∗N)
+
+    int numEquivDominoPairs(vector<vector<int>>& dominoes) {
+        int n = dominoes.size();
+        int ans = 0;
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                if((dominoes[i][0]== dominoes[j][0] && dominoes[i][1]==dominoes[j][1]) ||
+                 (dominoes[i][0]==dominoes[j][1] && dominoes[i][1]==dominoes[j][0])){
+                    ans++;
+                }
+            }
+        } // tc = O(N^2) , sc - O(1);
+        return ans;
+    }
+    int numEquivDominoPairs(vector<vector<int>>& dominoes) {
+        int n = dominoes.size();
+        int ans = 0;
+        map<int,int> mpp;
+        for(int i=0;i<n;i++){
+            int a = dominoes[i][0];
+            int b = dominoes[i][1];
+            int v = (a<=b) ? a*10+b : b*10+a;
+            mpp[v]++;
+        }
+        for(auto h : mpp){
+            ans += h.second * (h.second - 1)/2;
+        }
+
+        return ans;
+    }
+
+     bool threeConsecutiveOdds(vector<int>& arr) {
+        bool ans = false;
+        int n = arr.size();
+        int c=0;
+        for(int i=0;i<n;i++){
+            if(c==3) return true;
+            if(arr[i]%2!=0){
+                c++;
+            }else{
+                c=0;
+            }
+        }
+        if(c==3) return true;
+        return false;
+    }//https://leetcode.com/problems/three-consecutive-odds/
+
+    int minDeletion(string s, int k) { //3545. Minimum Deletions for At Most K Distinct Characters
+        int n = s.length();
+        map<char,int> mpp;
+        for(int i=0;i<n;i++){
+            mpp[s[i]]++;
+        }
+        vector<pair<char,int>> vec(mpp.begin(),mpp.end());
+        
+        sort(vec.begin(),vec.end(),[](const auto &a,const auto &b){
+            return a.second < b.second;
+        });
+        
+        // for(auto i : vec){
+        //     cout << i.first << " " << i.second << endl;
+        // }
+        
+        int dist = vec.size();
+        int deleteCount = 0;
+        int ind = 0;
+        for(auto p : vec){
+            if(dist==k) break;
+            deleteCount += p.second;
+            ind++;
+            dist--; 
+        }
+            
+        return deleteCount;
+    }
+
+     vector<int> findEvenNumbers(vector<int>& digits) {
+        // tc - O(N^3) + O(log n) , sc = O(n)
+        int n = digits.size();
+        set<int> ans;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                for(int k=0;k<n;k++){
+                    if(i!=j && j!=k && k!=i && digits[i]!=0 && digits[k]%2==0){
+                        int num = digits[i];
+                        num= num*10 + digits[j];
+                        num= num*10 + digits[k];
+                        ans.insert(num); // log n
+                    }
+                }
+            }
+        }
+        vector<int> vec(ans.begin(),ans.end());
+        return vec;
+    }
+
+    int lengthAfterTransformations(string s, int t) {
+        string ans = "";
+        for(int i=0;i<t;i++){
+            for(auto c : s){
+                if(c=='z'){
+                    ans+="ab";
+                }else{
+                    ans+= (c+1);
+                }
+                // cout << ans << endl;
+            }
+            s = ans;
+            ans = "";
+        }
+        // brute force tc - O(t*n) - O(10^10) - TLE
+        // cout << s.length();
+        return s.length() % (int)(1e9 + 7);
+    }//   https://leetcode.com/problems/total-characters-in-string-after-transformations-i/
+     const int mod = 1e9+7;
+    int lengthAfterTransformations(string s, int t) {
+        int n = s.length();
+        unordered_map<char,int> freq;
+        for(int i=0;i<n;i++) freq[s[i]]++;
+        // tc - O(n) , sc - O(1)
+        for(int i=0;i<t;i++){
+            int zfreq = freq['z'];
+            freq['z']=0;
+            for(char c='y'; c>='a'; c--){ // 26
+                freq[c+1] += freq[c];
+                freq[c]=0;
+            }
+            freq['a']+=zfreq;
+            freq['a']%=mod; // as it increment exponentily
+            freq['b']+=zfreq;
+            freq['b']%=mod;
+        }
+        int ans=0;
+        for(auto it : freq){
+            ans+=it.second;
+            ans %= mod;
+        }
+        return ans;
+    } //https://www.youtube.com/watch?v=RFF_xGZ_Cmc
+
+    class Solution {
+public:
+    vector<string> getWordsInLongestSubsequence(vector<string>& words, vector<int>& groups) {
+        vector<vector<string>> ans;
+        int n = words.size();
+        for(int i=0;i<n;i++){
+            for(int t=i+1;t<n;t++){
+            vector<string> temp;
+            temp.push_back(words[i]);
+            int last = i;
+                for(int j=t;j<n;j++){
+
+                if(groups[last]!=groups[j] && temp.back().length()==words[j].length()){
+                    int unequalLetter = 0;
+                    int l = words[j].length();
+                    cout << temp.back() << " " << words[j] << endl;
+                    for(int k=0;k<l;k++){
+                        // cout << temp.back()[k] <<  " " << words[j][k] << endl;
+                        if(temp.back()[k]!=words[j][k]){
+                            unequalLetter++;
+                        }
+                    }
+                    cout << last << " " << unequalLetter ;
+                    if(unequalLetter==1){
+                        last = j;
+                        temp.push_back(words[j]);
+                    }
+                }
+            }
+            ans.push_back(temp);
+            }
+        }
+
+        pair<int,int> longSub = {-1,-1}; // longest , index
+        for(int i=0;i<ans.size();i++){
+            cout << "----------"<< endl;
+            for(string s : ans[i]){
+                cout << s << " " ;
+            }
+            cout << endl;
+            int m = ans[i].size();
+            if(m > longSub.first){
+                longSub.first = m;
+                longSub.second = i;
+            }
+        }
+        if(longSub.second==-1){
+            return words;
+        }
+        return ans[longSub.second];
+    }
+}; // woring solution trying 
 int main()
 {
     // ctrl + shift + b

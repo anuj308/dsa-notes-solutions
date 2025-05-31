@@ -7,7 +7,7 @@ void fun1(int i,int c){
     }
     cout << "anuj" << endl; 
     i++;
-    fun1(i,c);
+    fun1(i,c);  
 }
 
 void fun2(int i,int n){
