@@ -499,3 +499,22 @@ string minWindow(string s, string t) {
     string ansStr = s.substr(ans.first,ans.second - ans.first + 1);
     return ansStr;
 }
+
+
+// 209 by me
+int minSubArrayLen(int target, vector<int>& nums) {
+    int n = nums.size();
+    int ans = INT_MAX;
+    int sum = 0;
+    int left = 0; // tc _O(n)
+    for(int right=0;right<n;right++){
+        sum+=nums[right];
+        while(sum>=target){
+            ans=min(ans,right-left+1);
+            sum-=nums[left];
+            left++;
+        }
+    }
+    if(ans==INT_MAX) return 0;
+    return ans;
+}

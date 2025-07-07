@@ -425,3 +425,19 @@ int main()
 
     return 0;
 }
+
+
+int countPrimes(int n) {
+    vector<int> prime(n+1,1);
+    int ans =0;
+    for(long long i=2;i<n;i++){
+        if(prime[i]){
+            ans++;
+            for(long long j=i*i;j<n;j+=i){
+                prime[j]=0;
+            }
+        }
+    }
+    // Sieve of Eratosthenes - for prime no less than n;
+    return ans;
+}
