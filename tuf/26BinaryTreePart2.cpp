@@ -53,3 +53,30 @@ vector<int> bottomView(Node *root) {
         }
         return nans;
     }
+// https://leetcode.com/problems/binary-tree-paths/
+    void ans(TreeNode* root,vector<string>& ansv,string path){
+        if(!root) return;
+        string val = to_string(root->val);
+        if(path.length()==0) path+=val;
+        else path+= "->" + val;
+        if(!root->left && !root->right) ansv.push_back(path);
+        ans(root->left,ansv,path);
+        ans(root->right,ansv,path);
+    }
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> ansv;
+        string path = "";
+        ans(root,ansv,path);
+        return ansv;
+    }
+
+//  Children Sum Property
+bool isParentSum(Node *root){
+    if(!root) return true;
+    if(!root->left && !root->right) return true;
+    int val = 0;
+    if(root->left) val+=root->left->data;
+    if(root->right) val+=root->right->data;
+    if(root->data!=val) return false;
+    return isParentSum(root->left) && isParentSum(root->right);
+}
