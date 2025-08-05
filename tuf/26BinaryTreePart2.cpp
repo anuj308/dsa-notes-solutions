@@ -80,3 +80,100 @@ bool isParentSum(Node *root){
     if(root->data!=val) return false;
     return isParentSum(root->left) && isParentSum(root->right);
 }
+
+
+// https://www.geeksforgeeks.org/problems/burning-tree/1    
+// https://leetcode.com/problems/amount-of-time-for-binary-tree-to-be-infected/
+
+void graph(TreeNode* root,TreeNode* parent,unordered_map<int,vector<int>>& mpp){
+        if(!root) return;
+        vector<int> temp;
+        if(mpp.find(root->val)==mpp.end()) mpp[root->val]=temp;
+        if(parent!=NULL) mpp[root->val].push_back(parent->val);
+        if(root->left) mpp[root->val].push_back(root->left->val);
+        if(root->right) mpp[root->val].push_back(root->right->val);
+        graph(root->left,root,mpp);
+        graph(root->right,root,mpp);
+    }
+    int dfs(int node,int parent,unordered_map<int,vector<int>>& mpp){
+        bool run = false;
+        int t = 0;
+        for(auto it : mpp[node]){
+            if(it!=parent){
+                run=true;
+                t=max(t,dfs(it,node,mpp));
+            }
+        }
+        if(run) return t+1;
+        return t;
+    }
+    int amountOfTime(TreeNode* root, int start) {
+        unordered_map<int,vector<int>> mpp;
+        graph(root,NULL,mpp);
+        return dfs(start,INT_MAX,mpp);
+    }
+
+    // morris  inorder transversal 
+     vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> ans;
+        TreeNode* curr = root;
+        while(curr!=NULL){
+            if(curr->left==NULL){
+                ans.push_back(curr->val);
+                curr=curr->right;
+            }else{
+                // inorder predecessor
+                TreeNode* ip = curr->left;
+                while(ip->right!=NULL && ip->right!=curr){
+                    ip=ip->right;
+                }
+                if(ip->right==NULL){
+                    ip->right=curr;// created thread
+                    curr=curr->left;
+                }else{
+                    ip->right=NULL; // delete thread
+                    ans.push_back(curr->val);
+                    curr=curr->right;
+                }
+            }
+        }
+        return ans;
+    }
+
+    // preorder
+    vector<int> preorderTraversal(TreeNode* root) {
+        TreeNode* curr = root;
+        vector<int> ans;
+        while(curr!=NULL){
+            if(curr->left==NULL){
+                ans.push_back(curr->val);
+                curr=curr->right;
+            }else{
+                TreeNode* pp = curr->left;
+                while(pp->right!=NULL && pp->right!=curr){
+                    pp=pp->right;
+                }
+                if(pp->right==NULL){
+                    ans.push_back(curr->val);
+                    pp->right=curr; // create thread
+                    curr=curr->left;
+                }else{
+                    pp->right=NULL; // delete thread
+                    curr=curr->right;
+                }
+            }
+        }
+        return ans;
+
+
+    // https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
+    TreeNode* nextRight = NULL;
+    void flatten(TreeNode* root) {
+       if(root==NULL) return;
+       flatten(root->right);
+       flatten(root->left);
+
+       root->left=NULL;
+       root->right=nextRight;
+       nextRight = root;
+    }
