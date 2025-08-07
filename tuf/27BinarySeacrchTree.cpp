@@ -111,3 +111,83 @@ int findMax(Node *root) {
         }
         return ans;
     }
+
+// https://leetcode.com/problems/insert-into-a-binary-search-tree/
+    TreeNode* insertIntoBST(TreeNode* root, int val) {
+        TreeNode* ans = new TreeNode(val);
+        if(root==NULL) return ans;
+
+        TreeNode* mover = root;
+        while(mover!=NULL){
+            if(mover->val<val){
+                if(mover->right==NULL){ 
+                    mover->right=ans;
+                    break;
+                }
+                mover = mover->right;
+            }else{
+                if(mover->left==NULL){
+                    mover->left=ans;
+                    break;
+                }
+                mover = mover->left;
+            }
+        }
+
+        return root;
+    }
+
+
+// https://leetcode.com/problems/delete-node-in-a-bst/submissions/1726777351/
+    TreeNode* deleteNode(TreeNode* root, int key) {
+       if(root==NULL) return root;
+       if(root->val==key) return helper(root);
+       TreeNode* mover = root;
+       while(mover!=NULL){
+            if(mover->val>key){
+                if(mover->left!=NULL && mover->left->val==key){
+                    mover->left = helper(mover->left);
+                }else{
+                    mover = mover->left;
+                }
+            }else{
+                if(mover->right!=NULL && mover->right->val==key){
+                    mover->right = helper(mover->right);
+                }else{
+                    mover = mover->right;
+                }
+            }
+       }
+       return root;
+    }
+    TreeNode* helper(TreeNode* root){
+        if(root->left==NULL) return root->right;
+        if(root->right==NULL) return root->left;
+        TreeNode* rightChild = root->right;
+        TreeNode* lastRight = lastRightOfLeft(root->left);
+        lastRight->right = rightChild;
+        return root->left;
+    }
+    TreeNode* lastRightOfLeft(TreeNode* root){
+        if(root->right==NULL) return root;
+        return lastRightOfLeft(root->right);
+    }
+    //   https://leetcode.com/problems/kth-smallest-element-in-a-bst/
+    // brute forces
+    int kthSmallest(TreeNode* root, int k) {
+        vector<int> ans;
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty()){
+            int n = q.size();
+            for(int i=0;i<n;i++){
+                TreeNode* temp = q.front();
+                q.pop();
+                ans.push_back(temp->val);
+                if(temp->left) q.push(temp->left);
+                if(temp->right) q.push(temp->right);
+            }
+        }
+        sort(ans.begin(),ans.end());
+        return ans[k-1];
+    }
