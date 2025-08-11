@@ -349,3 +349,105 @@ public:
         return !s.empty();
     }
 };
+
+// https://leetcode.com/problems/recover-binary-search-tree/
+
+class Solution {
+public:
+    void in(TreeNode* root,vector<int>& ans){
+        if(!root) return;
+        in(root->left,ans);
+        ans.push_back(root->val);
+        in(root->right,ans);
+    }
+    void recover(TreeNode* root,vector<int>& ans){
+        if(!root) return;
+        recover(root->left,ans);
+        root->val = ans[ans.size()-1];
+        ans.erase(ans.end());
+        recover(root->right,ans);
+    }
+    void recoverTree(TreeNode* root) {
+        vector<int> ans;
+        in(root,ans);
+        sort(ans.begin(),ans.end());
+        reverse(ans.begin(),ans.end());
+        recover(root,ans);
+    }
+};
+
+//  sc-O(1) solution
+ void in(TreeNode*& root,TreeNode*& parent,TreeNode*& first,TreeNode*&  second,TreeNode*& third){
+        if(!root) return;
+        in(root->left,parent,first,second,third);
+        if(first!=NULL && parent!=NULL && root->val<parent->val) third = root;
+
+        if(first==NULL && parent!=NULL && root->val<parent->val){
+            first = parent;
+            second = root;
+        }
+        parent = root;
+        in(root->right,parent,first,second,third);
+    }
+    void recoverTree(TreeNode* root) {
+        TreeNode* first = NULL;
+        TreeNode* second = NULL;
+        TreeNode* third = NULL;
+        TreeNode* parent = NULL;
+        in(root,parent,first,second,third);
+        if(third==NULL){
+            int temp = first->val;
+            first->val = second->val;
+            second->val = temp;
+        }else{
+            int temp = first->val;
+            first->val = third->val;
+            third->val = temp;
+        }
+    }
+
+// https://www.geeksforgeeks.org/problems/largest-bst/1
+    int isBST(Node* root,int low,int high){
+        if(!root) return true;
+        if(root->data<=low || root->data>=high){
+            return false;
+        }
+        return isBST(root->left,low,root->data) && isBST(root->right,root->data,high);
+    }
+    int size(Node* root){
+        if(!root) return 0;
+        return 1 +  size(root->left) + size(root->right);
+    }
+    int largestBst(Node *root) {
+        
+        if(isBST(root,INT_MIN,INT_MAX)) return size(root);
+        return max(largestBst(root->left),largestBst(root->right));
+        
+    }
+// https://leetcode.com/problems/maximum-sum-bst-in-binary-tree/
+     struct Info{
+        bool isBst;
+        int minVal;
+        int maxVal;
+        int sum;
+    };
+    int ans = 0;
+    Info dfs(TreeNode* root){
+        if(!root){
+            return {true,INT_MAX,INT_MIN,0};
+        }
+        
+        auto left = dfs(root->left);
+        auto right = dfs(root->right);
+
+        if(left.isBst && right.isBst && root->val>left.maxVal && root->val<right.minVal){
+            int sum = left.sum + right.sum + root->val;
+            ans = max(ans,sum);
+            return {true,min(root->val,left.minVal),max(root->val,right.maxVal),sum};
+        }
+        return {false,0,0,0};
+    }
+    int maxSumBST(TreeNode* root) {
+       dfs(root);
+       return ans;
+    }
