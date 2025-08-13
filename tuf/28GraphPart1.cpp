@@ -119,8 +119,8 @@ vector<vector<int>> getComponents(int V, vector<vector<int>> &edges)
     return ans;
 }
 
-//https://leetcode.com/problems/count-the-number-of-complete-components/
-// found it while searching for other
+// https://leetcode.com/problems/count-the-number-of-complete-components/
+//  found it while searching for other
 void dfs(int node, vector<int> &vis, vector<int> adj[], int &ne, int &nn)
 {
     for (auto v : adj[node])
@@ -161,5 +161,127 @@ int countCompleteComponents(int n, vector<vector<int>> &edges)
     return ans;
 }
 
-
 // https://leetcode.com/problems/rotting-oranges/description/
+int orangesRotting(vector<vector<int>> &grid)
+{
+    int n = grid.size();
+    int m = grid[0].size();
+    int ans = 0;
+    int freshOranges = 0;
+    queue<pair<int, int>> q;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (grid[i][j] == 1)
+                freshOranges++;
+            if (grid[i][j] == 2)
+                q.push({i, j});
+        }
+    }
+    if (freshOranges == 0)
+        return 0;
+    while (!q.empty())
+    { // contain rotten oranges
+        int nq = q.size();
+        for (int i = 0; i < nq; i++)
+        {
+            int row = q.front().first;
+            int col = q.front().second;
+            q.pop();
+            for (int x = -1; x <= 1; x++)
+            { // in four direction oranges will rote
+                int nrow = row + x;
+                int ncol = col + x;
+                if (nrow >= 0 && nrow < n && col >= 0 && col < m && grid[nrow][col] == 1)
+                {
+                    freshOranges--;
+                    grid[nrow][col] = 2; // rotten
+                    q.push({nrow, col});
+                }
+                if (row >= 0 && row < n && ncol >= 0 && ncol < m && grid[row][ncol] == 1)
+                {
+                    freshOranges--;
+                    grid[row][ncol] = 2; // rotten
+                    q.push({row, ncol});
+                }
+            }
+        }
+        ans++;
+    }
+
+    if (freshOranges != 0)
+        return -1;
+    return ans - 1;
+}
+// https://leetcode.com/problems/flood-fill/
+void dfs(int row, int col, vector<vector<int>> &image, int &from, int &color, int &n, int &m)
+{
+    for (int x = -1; x <= 1; x++)
+    {
+        int nrow = row + x;
+        int ncol = col + x;
+        if (nrow >= 0 && nrow < n && col >= 0 && col < m && image[nrow][col] == from)
+        {
+            image[nrow][col] = color;
+            dfs(nrow, col, image, from, color, n, m);
+        }
+        if (row >= 0 && row < n && ncol >= 0 && ncol < m && image[row][ncol] == from)
+        {
+            image[row][ncol] = color;
+            dfs(row, ncol, image, from, color, n, m);
+        }
+    }
+    return;
+}
+vector<vector<int>> floodFill(vector<vector<int>> &image, int sr, int sc, int color)
+{
+    int n = image.size();
+    int m = image[0].size();
+    int from = image[sr][sc]; // change from to color
+    if (from == color)
+        return image;
+    dfs(sr, sc, image, from, color, n, m);
+    return image;
+}
+
+// https://www.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1
+void dfs(bool &ans, int v, vector<int> adj[], vector<bool> &vis, int prev)
+{
+    for (auto vertex : adj[v])
+    {
+        if (!vis[vertex])
+        {
+            vis[vertex] = true;
+            dfs(ans, vertex, adj, vis, v);
+        }
+        else if (vertex != prev)
+        {
+            ans = true;
+            return;
+        }
+    }
+}
+bool isCycle(int V, vector<vector<int>> &edges)
+{
+    vector<int> adj[V];
+    vector<bool> vis(V, false);
+    for (auto e : edges)
+    {
+        adj[e[0]].push_back(e[1]);
+        adj[e[1]].push_back(e[0]);
+    }
+
+    bool ans = false;
+    for (int v = 0; v < V; v++)
+    {
+        if (!vis[v])
+        {
+            vis[v] = true;
+            dfs(ans, v, adj, vis, -1);
+            if (ans)
+                return ans;
+        }
+    }
+    return ans;
+}
