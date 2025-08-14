@@ -1,2 +1,0 @@
-sql
-i will build it today only first complete lms then react native then x and youtube frontend for all backend project with app also
