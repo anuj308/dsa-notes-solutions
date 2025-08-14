@@ -21,20 +21,26 @@ This repo contains my solutions, notes, and experiments while practicing Data St
 
 ---
 
-## 📂 Folder Structure
+## 📂 Folder Structure (top-level)
 
 dsac-/
-┣ c++/ # Early DSA practice in C++
-┣ java/ # Java programs and DSA solutions
-┣ dbms/ # SQL queries + DBMS notes
-┣ tuf/ # TUF Sheet solutions (Graphs, DP, BFS, DFS, etc.)
-┣ dsa/ # Other practice problems (Greedy, misc topics)
-┣ learning/ # Python + misc experiments
-┣ ts/ # TypeScript practice
-┣ notes.txt # My written notes while solving
-┣ Linux cmd.txt # Linux commands reference
-┣ sql.txt # SQL problems and solutions
-┗ README.md # Project description (this file)
+┣ c++/                 # Early C++ DSA practice (units + questions)
+┣ dbms/                # DBMS/SQL notes and scripts
+┣ docs/                # Repo overview and notes templates
+┣ dsa/                 # Misc DSA practice (incl. JS and others)
+┣ java/                # Java programs + units
+┣ learning/            # Small web experiments
+┣ ts/                  # TypeScript practice (with tsconfig)
+┣ tuf/                 # TUF/A2Z solutions and local run files
+┣ notes.txt            # General notes
+┣ Linux cmd.txt        # Linux commands reference
+┣ README.md            # This file
+┗ git master.txt       # Personal git notes
+
+Key subfolders:
+- c++/unit 3..6: unit-wise C++ questions
+- tuf/: problem files (numbered), input.txt/output.txt, demo files
+- ts/: TypeScript sources + config
 
 ---
 
@@ -80,9 +86,3 @@ I use it as both a reference and a progress tracker.
 - Overview: docs/OVERVIEW.md  
 - Problem Notes Template: docs/NOTES_TEMPLATE.md  
 - Folder guide for TUF: tuf/README.md
-
-## Prompt for Copilot in VS Code
-
-If you want Copilot to enrich this file further using actual repo details, you can paste this prompt in VS Code:
-
-"Generate a professional README.md for this repository. It’s a DSA practice repo where I’m solving problems from Striver’s A2Z and TUF sheets. Include: progress summary, folder structure (based on files), languages used, links to my LeetCode & GitHub, and a future roadmap. Make it recruiter-friendly but concise." (See <attachments> above for file contents. You may not need to search or read the file again.)
