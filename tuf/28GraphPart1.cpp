@@ -329,3 +329,155 @@ vector<vector<int>> updateMatrix(vector<vector<int>> &mat)
     }
     return dis;
 }
+// https://leetcode.com/problems/surrounded-regions/
+// https://leetcode.com/problems/surrounded-regions/solutions/7080118/c-bfs-tc-o3n-by-anuj308-ipfw
+// Tc-O(3n), Sc-O(n)
+void solve(vector<vector<char>> &board)
+{
+    int n = board.size();
+    int m = board[0].size();
+    vector<vector<int>> vis(n, vector<int>(m, 0));
+    queue<pair<int, int>> q;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if ((i >= 1 && i < n - 1) && (j >= 1 && j < m - 1))
+                continue;
+            if (board[i][j] == 'O')
+            {
+                vis[i][j] = 1;
+                q.push({i, j});
+            }
+        }
+    }
+    while (!q.empty())
+    {
+        int nq = q.size();
+        for (int i = 0; i < nq; i++)
+        {
+            int row = q.front().first;
+            int col = q.front().second;
+            q.pop();
+            vector<vector<int>> dir = {{-1, 0}, {+1, 0}, {0, -1}, {0, +1}};
+            for (auto it : dir)
+            {
+                int nrow = row + it[0];
+                int ncol = col + it[1];
+                if (nrow >= 1 && nrow < n - 1 && ncol >= 1 && ncol < m - 1 && !vis[nrow][ncol] && board[nrow][ncol] == 'O')
+                {
+                    vis[nrow][ncol] = 1;
+                    q.push({nrow, ncol});
+                }
+            }
+        }
+    }
+    for (int i = 1; i < n - 1; i++)
+    {
+        for (int j = 1; j < m - 1; j++)
+        {
+            if (board[i][j] == 'O' && !vis[i][j])
+            {
+                board[i][j] = 'X';
+            }
+        }
+    }
+}
+
+// https://leetcode.com/problems/number-of-enclaves/
+// same as above pattern
+int numEnclaves(vector<vector<int>> &grid)
+{
+    int n = grid.size();
+    int m = grid[0].size();
+    vector<vector<int>> vis(n, vector<int>(m, 0)); // 1 - can walk of to boundary
+    queue<pair<int, int>> q;
+    for (int i = 0; i < m; i++)
+        if (grid[0][i] == 1)
+        {
+            q.push({0, i});
+            vis[0][i] = 1;
+        } // top line
+    for (int i = 0; i < m; i++)
+        if (grid[n - 1][i] == 1)
+        {
+            q.push({n - 1, i});
+            vis[n - 1][i] = 1;
+        } // bottom line
+    for (int i = 0; i < n; i++)
+        if (grid[i][0] == 1)
+        {
+            q.push({i, 0});
+            vis[i][0] = 1;
+        } // left side line
+    for (int i = 0; i < n; i++)
+        if (grid[i][m - 1] == 1)
+        {
+            q.push({i, m - 1});
+            vis[i][m - 1] = 1;
+        } // right side line
+    while (!q.empty())
+    {
+        int nq = q.size();
+        for (int i = 0; i < nq; i++)
+        {
+            int row = q.front().first;
+            int col = q.front().second;
+            q.pop();
+            vector<vector<int>> direct = {{-1, 0}, {+1, 0}, {0, -1}, {0, +1}};
+            for (auto it : direct)
+            {
+                int nrow = row + it[0];
+                int ncol = col + it[1];
+                if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && !vis[nrow][ncol] && grid[nrow][ncol] == 1)
+                {
+                    vis[nrow][ncol] = 1;
+                    q.push({nrow, ncol});
+                }
+            }
+        }
+    } // till now we marked all land(1) which are connected to boundary
+    int ans = 0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (grid[i][j] == 1 && !vis[i][j])
+                ans++;
+        }
+    }
+    return ans;
+}
+// https://leetcode.com/problems/word-ladder/
+int ladderLength(string beginWord, string endWord, vector<string> &wordList)
+{
+    int n = wordList.size();
+    int nw = beginWord.length();
+    unordered_set<string> words(wordList.begin(), wordList.end());
+    queue<pair<string, int>> q;
+    q.push({beginWord, 1});
+    while (!q.empty())
+    {
+        int nq = q.size();
+        for (int i = 0; i < nq; i++)
+        {
+            string w = q.front().first;
+            int step = q.front().second;
+            if (w == endWord)
+                return step;
+            q.pop();
+            words.erase(w);
+            for (int a = 0; a < nw; a++)
+            {
+                string wor = w;
+                for (char d = 'a'; d <= 'z'; d++)
+                {
+                    wor[a] = d;
+                    if (words.count(wor))
+                        q.push({wor, step + 1});
+                }
+            }
+        }
+    }
+    return 0;
+}
