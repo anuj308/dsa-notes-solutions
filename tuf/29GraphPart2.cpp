@@ -118,6 +118,7 @@ class Solution {
 // URL: https://www.geeksforgeeks.org/problems/topological-sort/1
 // Difficulty: Medium
 
+// By dfs
 // ==================== C++ SOLUTION ====================
 // TC: O(n), SC: O(n)
 void dfs(int g,vector<int> adj[],vector<int>& vis,stack<int>& st){
@@ -207,6 +208,107 @@ class Solution {
             ans.add(stack.pop());
         }
         return ans;
+    }
+}
+*/
+
+// Problem: Topological sort 
+// URL: https://www.geeksforgeeks.org/problems/topological-sort/1
+// Difficulty: Medium
+
+// by bfs
+// ==================== C++ SOLUTION ====================
+// TC: O(n), SC: O(2n)
+class Solution {
+  public:
+    vector<int> topoSort(int V, vector<vector<int>>& edges) {
+        vector<int> adj[V];
+        vector<int> indeg(V,0);
+        for(auto it : edges){
+            adj[it[0]].push_back(it[1]);
+            indeg[it[1]]++;
+        }
+        queue<int> q;
+        for(int i=0;i<V;i++){
+            if(indeg[i]==0) q.push(i);
+        }
+        vector<int> ans;
+        while(!q.empty()){
+            int n = q.size();
+            for(int i=0;i<n;i++){
+                int a = q.front();
+                q.pop();
+                ans.push_back(a);
+                for(auto e : adj[a]){
+                    indeg[e]--;
+                    if(indeg[e]==0) q.push(e);
+                }
+            }
+        }
+        return ans;
+    }
+};
+
+/* ==================== PYTHON SOLUTION ====================
+# TC: O(n), SC: O(2n)
+from collections import deque
+from typing import List
+
+class Solution:
+    def topoSort(self, V: int, edges: List[List[int]]) -> List[int]:
+        adj = [[] for _ in range(V)]
+        indegree = [0] * V
+        
+        for u, v in edges:
+            adj[u].append(v)
+            indegree[v] += 1
+        
+        queue = deque()
+        for i in range(V):
+            if indegree[i] == 0:
+                queue.append(i)
+        
+        result = []
+        while queue:
+            node = queue.popleft()
+            result.append(node)
+            
+            for neighbor in adj[node]:
+                indegree[neighbor] -= 1
+                if indegree[neighbor] == 0:
+                    queue.append(neighbor)
+        
+        return result
+        
+*/
+
+/* ==================== JAVA SOLUTION ====================
+class Solution {
+    public static ArrayList<Integer> topoSort(int V, int[][] edges) {
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        ArrayList<Integer> ans = new ArrayList<>();
+        int[] indeg = new int[V];
+        for(int i=0;i<V;i++){
+            adj.add(new ArrayList<>());
+        }
+        for(int[] e : edges){
+            adj.get(e[0]).add(e[1]);
+            indeg[e[1]]++;
+        }
+        Queue<Integer> q = new LinkedList<>();
+        for(int i=0;i<V;i++){
+            if(indeg[i]==0) q.add(i); 
+        }
+        while(!q.isEmpty()){
+            int node = q.poll();
+            ans.add(node);
+            for(int e : adj.get(node)){
+                indeg[e]--;
+                if(indeg[e]==0) q.add(e);
+            }
+        }
+        return ans;
+        
     }
 }
 */
