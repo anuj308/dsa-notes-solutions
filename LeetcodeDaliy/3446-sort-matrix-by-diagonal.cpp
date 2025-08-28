@@ -45,8 +45,8 @@ public:
     }
 };
 
-/* ==================== PYTHON SOLUTION ====================
-# Tc-O(N), Sc-O(1)
+//  ==================== PYTHON SOLUTION ====================
+// # Tc-O(N), Sc-O(1)
 class Solution(object):
     def diagonalSort(self,grid,row,col,asc):
         n = len(grid)
@@ -83,10 +83,9 @@ class Solution(object):
         return grid
         
         
-*/
 
-/* ==================== JAVA SOLUTION ====================
-# Tc-O(N), Sc-O(1)
+// /* ==================== JAVA SOLUTION ====================
+// # Tc-O(N), Sc-O(1)
 class Solution {
     public void diagonalSort(int[][] grid,int ro,int co,boolean asc){
         int n = grid.length;
@@ -137,4 +136,3 @@ class Solution {
     }
 }
 
-*/
