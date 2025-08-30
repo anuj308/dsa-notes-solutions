@@ -312,3 +312,264 @@ class Solution {
     }
 }
 */
+
+
+// Problem: Topological sort Course Schedule II
+// URL: https://leetcode.com/problems/course-schedule-ii/
+// Difficulty: Medium
+
+// by bfs
+// ==================== C++ SOLUTION ====================
+// TC: O(n), SC: O(2n)
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<int> adj[numCourses];
+        vector<int> indeg(numCourses,0);
+        for(auto it : prerequisites){
+            adj[it[0]].push_back(it[1]);
+            indeg[it[1]]++;
+        }
+        queue<int> q;
+        for(int i=0;i<numCourses;i++){
+            if(indeg[i]==0) q.push(i);
+        }
+        vector<int> ans;
+        while(!q.empty()){
+            int n = q.size();
+            for(int i=0;i<n;i++){
+                int a = q.front();
+                q.pop();
+                ans.push_back(a);
+                for(auto e : adj[a]){
+                    indeg[e]--;
+                    if(indeg[e]==0) q.push(e);
+                }
+            }
+        }
+        if(ans.size()!=numCourses) return {};
+        reverse(ans.begin(),ans.end());
+        return ans;
+    }
+};
+// /* ==================== PYTHON SOLUTION ====================
+// # TC: O(n), SC: O(2n)
+class Solution(object):
+    def findOrder(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: List[int]
+        """
+        adj = [[] for _ in range(numCourses)]
+        indegree = [0] * numCourses
+        
+        for u, v in prerequisites:
+            adj[u].append(v)
+            indegree[v] += 1
+        
+        queue = deque()
+        for i in range(numCourses):
+            if indegree[i] == 0:
+                queue.append(i)
+        
+        result = []
+        while queue:
+            node = queue.popleft()
+            result.append(node)
+            
+            for neighbor in adj[node]:
+                indegree[neighbor] -= 1
+                if indegree[neighbor] == 0:
+                    queue.append(neighbor)
+                
+        if(len(result)!=numCourses):
+            return []
+        result.reverse()
+        return result
+
+// /* ==================== JAVA SOLUTION ====================
+class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        int[] ans = new int[numCourses];
+        int[] indeg = new int[numCourses];
+        for(int i=0;i<numCourses;i++){
+            adj.add(new ArrayList<>());
+        }
+        for(int[] e : prerequisites){
+            adj.get(e[0]).add(e[1]);
+            indeg[e[1]]++;
+        }
+        Queue<Integer> q = new LinkedList<>();
+        for(int i=0;i<numCourses;i++){
+            if(indeg[i]==0) q.add(i); 
+        }
+        int ind = 0;
+        while(!q.isEmpty()){
+            int node = q.poll();
+            ans[ind++]=node;
+            for(int e : adj.get(node)){
+                indeg[e]--;
+                if(indeg[e]==0) q.add(e);
+            }
+        }
+        int[] ans1 = new int[0];
+        if(ind!=numCourses) return ans1;
+        for(int i=0;i<numCourses/2;i++){
+            int temp = ans[i];
+            ans[i] = ans[numCourses-1-i];
+            ans[numCourses-1-i] =temp;
+        }
+        return ans;
+    }
+}
+
+
+// Problem: Find Eventual Safe States (802)
+// URL: https://leetcode.com/problems/find-eventual-safe-states/
+// Difficulty: Medium
+
+// by dfs
+// ==================== C++ SOLUTION ====================
+// TC: O(n), SC: O(2n)
+class Solution {
+public:
+    bool dfs(vector<vector<int>>& graph,int node,vector<bool>& vis,vector<int>& ans,vector<bool>& terminal){
+        vis[node]=true;
+        bool safe = true;
+        for(auto e : graph[node]){
+            if(!vis[e]){
+                if(!dfs(graph,e,vis,ans,terminal)){
+                    safe=false;
+                    break;
+                } 
+            }else if(!terminal[e]){
+                safe=false;
+                break;
+            }
+        }
+        if(safe){
+            ans.push_back(node);
+            terminal[node]=true;
+            return true;
+        }
+        return false;
+    }
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        vector<int> ans;
+        int n = graph.size();
+        vector<bool> terminal(n,false); // terminal & safe node
+        vector<bool> vis(n,false);
+        for(int i=0;i<n;i++){
+            if(!vis[i]) bool t = terminal[i]=dfs(graph,i,vis,ans,terminal);
+        }
+        sort(ans.begin(),ans.end());
+        return ans;
+    }
+};
+// /* ==================== PYTHON SOLUTION ====================
+// # TC: O(n), SC: O(2n)
+class Solution(object):
+    def dfs(self,graph,node,vis,ans,terminal):
+        safe = True
+        vis[node]=1
+        for i in graph[node]:
+            if not vis[i]:
+                if not self.dfs(graph,i,vis,ans,terminal):
+                    safe=False
+                    break
+            elif not terminal[i]:
+                safe= False
+                break
+        if safe:
+            ans.append(node)
+            terminal[node]=1
+            return True
+        return False
+    def eventualSafeNodes(self, graph):
+        """
+        :type graph: List[List[int]]
+        :rtype: List[int]
+        """
+        n = len(graph)
+        vis = [0]*n
+        terminal = [0]*n
+        ans = []
+        for i in range(0,n):
+            if not vis[i]:
+                t = self.dfs(graph,i,vis,ans,terminal)
+        ans = sorted(ans)
+        return ans
+
+// /* ==================== JAVA SOLUTION ====================
+class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        int[] ans = new int[numCourses];
+        int[] indeg = new int[numCourses];
+        for(int i=0;i<numCourses;i++){
+            adj.add(new ArrayList<>());
+        }
+        for(int[] e : prerequisites){
+            adj.get(e[0]).add(e[1]);
+            indeg[e[1]]++;
+        }
+        Queue<Integer> q = new LinkedList<>();
+        for(int i=0;i<numCourses;i++){
+            if(indeg[i]==0) q.add(i); 
+        }
+        int ind = 0;
+        while(!q.isEmpty()){
+            int node = q.poll();
+            ans[ind++]=node;
+            for(int e : adj.get(node)){
+                indeg[e]--;
+                if(indeg[e]==0) q.add(e);
+            }
+        }
+        int[] ans1 = new int[0];
+        if(ind!=numCourses) return ans1;
+        for(int i=0;i<numCourses/2;i++){
+            int temp = ans[i];
+            ans[i] = ans[numCourses-1-i];
+            ans[numCourses-1-i] =temp;
+        }
+        return ans;
+    }
+}class Solution {
+    public boolean dfs(int[][] graph,int node,int[] vis,List<Integer> ans,int[] terminal){
+        vis[node]=1;
+        boolean safe = true;
+        for(int e : graph[node]){
+            if(vis[e]==0){
+                if(dfs(graph,e,vis,ans,terminal)==false){
+                    safe=false;
+                    break;
+                }
+            }else if(terminal[e]==0){
+                safe=false;
+                break;
+            }
+        }
+        if(safe){
+            terminal[node]=1;
+            ans.add(node);
+            return true;
+        }
+        return false;
+    }
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        int n = graph.length;
+        int[] vis = new int[n];
+        List<Integer> ans = new ArrayList<>();
+        int[] terminal = new int[n]; // terminal or safe node
+        for(int i=0;i<n;i++){
+            if(vis[i]==0){
+                boolean t = dfs(graph,i,vis,ans,terminal);
+            }
+        }
+        Collections.sort(ans);
+        return ans;
+    }
+}
