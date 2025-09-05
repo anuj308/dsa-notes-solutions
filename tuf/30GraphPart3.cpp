@@ -46,7 +46,7 @@ class Solution {
 // ==================== C++ SOLUTION ====================
 // TC: O(n), SC: O(n)
 class Solution {
-  public:
+    public:
     void topoSort(int node,vector<vector<pair<int,int>>>& adj,vector<bool>& vis,stack<int>& st){
         vis[node]=true;
         for(auto e : adj[node]){
@@ -92,3 +92,84 @@ class Solution {
 };
 // ==================== Java SOLUTION ====================
 // ==================== Python SOLUTION ====================
+
+
+
+
+
+// Problem: implementing-dijkstra-set-1-adjacency-matrix ()
+// URL: https://www.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-matrix/1
+// Difficulty: Medium
+
+// ==================== C++ SOLUTION ====================
+// TC: O((V+E) log V), SC: O(2n)
+
+// not work in negative weight and negative cycle
+// User Function Template
+class Solution {
+  public:
+    vector<int> dijkstra(int V, vector<vector<int>> &edges, int src) {
+        vector<vector<pair<int,int>>> adj(V);
+        for(auto e : edges){
+            adj[e[0]].push_back({e[1],e[2]});
+            adj[e[1]].push_back({e[0],e[2]});
+        }
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> minHeap;
+        vector<int> dist(V,INT_MAX);
+        dist[src]=0;
+        minHeap.push({0,src});
+        while(!minHeap.empty()){
+            int node = minHeap.top().second;
+            int dis = minHeap.top().first;
+            minHeap.pop();
+            for(auto e : adj[node]){
+                int edgeWeight = e.second;
+                int edgeNode = e.first;
+                if(dist[node]+edgeWeight<dist[edgeNode]){
+                    dist[edgeNode]= dist[node]+edgeWeight;
+                    minHeap.push({dist[edgeNode],edgeNode});
+                }
+            }
+        }
+        return dist;
+    }
+};
+
+//  by using set we can erase path with more distance in set for node which we get a shorter path so
+// save Tc by not doing more iteration, but Tc is not more than proirity queue as earse take logarithm Tc
+
+// User Function Template
+class Solution {
+  public:
+    vector<int> dijkstra(int V, vector<vector<int>> &edges, int src) {
+        vector<vector<pair<int,int>>> adj(V);
+        for(auto e : edges){
+            adj[e[0]].push_back({e[1],e[2]});
+            adj[e[1]].push_back({e[0],e[2]});
+        }
+        set<pair<int,int>> s;
+        vector<int> dist(V,INT_MAX);
+        dist[src]=0;
+        s.insert({0,src});
+        while(!s.empty()){
+            auto it = *(s.begin());
+            int node = it.second;
+            int dis = it.first;
+            s.erase(it);
+            for(auto e : adj[node]){
+                int edgeWeight = e.second;
+                int adjNode = e.first;
+                if(dist[node]+edgeWeight<dist[adjNode]){
+                    if(dist[adjNode]!=INT_MAX){
+                        s.erase({dist[adjNode],adjNode});
+                    }
+                    dist[adjNode]= dist[node]+edgeWeight;
+                    s.insert({dist[adjNode],adjNode});
+                }
+            }
+        }
+        return dist;
+    }
+};
+    // ==================== Java SOLUTION ====================
+    // ==================== Python SOLUTION ====================
