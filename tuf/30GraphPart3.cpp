@@ -137,6 +137,8 @@ class Solution {
 
 //  by using set we can erase path with more distance in set for node which we get a shorter path so
 // save Tc by not doing more iteration, but Tc is not more than proirity queue as earse take logarithm Tc
+// by using queue we will travel all paths but by being greedy we can choose the minium path so we can save lot of travel
+// which might happen from by going with not minimum path first.
 
 // User Function Template
 class Solution {
