@@ -175,3 +175,42 @@ class Solution {
 };
     // ==================== Java SOLUTION ====================
     // ==================== Python SOLUTION ====================
+
+
+
+// Problem: shortest-path-in-binary-matrix (1091)
+// URL: https://leetcode.com/problems/shortest-path-in-binary-matrix/
+// Difficulty: Medium
+
+// ==================== C++ SOLUTION ====================
+// TC: O(N^2), SC: O(n^2)
+class Solution {
+public:
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+        if(grid[0][0]==1) return -1;
+        int n = grid.size(); 
+        vector<vector<int>> dis(n,vector<int> (n,INT_MAX));
+        priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,greater<pair<int,pair<int,int>>>> minHeap;
+        dis[0][0]=1;
+        minHeap.push({1,{0,0}});
+        while(!minHeap.empty()){
+            int row = minHeap.top().second.first;
+            int col = minHeap.top().second.second;
+            int d = minHeap.top().first;
+            minHeap.pop();
+            vector<pair<int,int>> direction = {{1,0},{-1,0},{0,-1},{0,1},{-1,-1},{1,1},{-1,1},{1,-1}};
+            for(int i=0;i<8;i++){
+                int nrow = row + direction[i].first;
+                int ncol = col + direction[i].second;
+                if(nrow>=0 && ncol>=0 && nrow<n && ncol<n && grid[nrow][ncol]==0 && d+1<dis[nrow][ncol]){
+                    dis[nrow][ncol]=d+1;
+                    minHeap.push({d+1,{nrow,ncol}});
+                }
+            }
+        }
+        if(dis[n-1][n-1]==INT_MAX) return -1;
+        return dis[n-1][n-1];
+    }
+};
+// ==================== Java SOLUTION ====================
+    // ==================== Python SOLUTION ====================
