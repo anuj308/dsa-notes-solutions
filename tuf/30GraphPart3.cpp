@@ -336,3 +336,44 @@ public:
 };
 // ==================== Java SOLUTION ====================
 // ==================== Python SOLUTION ====================
+
+
+// link:-  https://leetcode.com/problems/number-of-ways-to-arrive-at-destination/
+// 1976. Number of Ways to Arrive at Destination
+// c++
+// Tc- O((V+E )log V)
+class Solution {
+public:
+    int mod = 1e9 + 7;
+    int countPaths(int n, vector<vector<int>>& roads) {
+        vector<vector<pair<int,int>>> adj(n);
+        for(auto &ed : roads){
+            adj[ed[0]].push_back({ed[1],ed[2]});
+            adj[ed[1]].push_back({ed[0],ed[2]});
+        }
+        priority_queue<pair<long long,long long>,vector<pair<long long,long long>>,greater<pair<long long,long long>>> minHeap;
+        vector<long long> dis(n,LLONG_MAX);
+        vector<long long> ways(n,0);
+        dis[0]=0;
+        ways[0]=1;
+        minHeap.push({0,0});
+        while(!minHeap.empty()){
+            long long node = minHeap.top().second;
+            long long d = minHeap.top().first;
+            minHeap.pop();
+            if(d!=dis[node]) continue;
+            for(auto &[adjNode,time] : adj[node]){
+                long long newDis = dis[node]+time;
+                if(newDis<dis[adjNode]){
+                    ways[adjNode]=ways[node];
+                    dis[adjNode]=newDis;
+                    minHeap.push({newDis,adjNode});
+                }else if(newDis==dis[adjNode]){
+                    ways[adjNode] = (ways[adjNode] + ways[node])% mod;
+                }
+            }
+        }
+       
+        return ways[n-1] % mod;
+    }
+};
