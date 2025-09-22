@@ -377,3 +377,96 @@ public:
         return ways[n-1] % mod;
     }
 };
+
+
+
+
+
+// link:-  https://www.geeksforgeeks.org/problems/minimum-multiplications-to-reach-end/1
+// 1976. Minimum Multiplications to reach End
+// c++
+// Tc- O(100000*n)
+// sc- O(100000)
+
+class Solution {
+  public:
+    int minimumMultiplications(vector<int>& arr, int start, int end) {
+        if(start==end) return 0;
+        int n = arr.size();
+        queue<pair<int,int>> minHeap;
+        vector<int> dis(100000,INT_MAX);
+        minHeap.push({0,start});
+        while(!minHeap.empty()){
+            int steps = minHeap.front().first;
+            int value = minHeap.front().second;
+            minHeap.pop();
+            for(auto v : arr){
+                int newVal = (value*v) % 100000;
+                if(steps+1<dis[newVal]){
+                    if(newVal==end) return steps+1;
+                    dis[newVal]=steps+1;
+                    minHeap.push({steps+1,newVal});
+                }
+            }
+        }
+        return -1;
+    }
+};
+
+
+//  bellman ford
+// relax n-1 times
+
+// Tc- O(v*E), Sc-O(V)
+
+class Solution {
+  public:
+    vector<int> bellmanFord(int V, vector<vector<int>>& edges, int src) {
+        vector<int> dis(V,1e8);
+        dis[src]=0;
+        for(int i=0;i<V-1;i++){
+            for(auto e : edges){
+                int u = e[0];
+                int v = e[1];
+                int w = e[2];
+                if(dis[u]!=1e8 && dis[u]+w<dis[v]){
+                    dis[v]=dis[u]+w;
+                }
+            }
+        }
+        for(auto e : edges){
+            int u = e[0];
+            int v = e[1];
+            int w = e[2]; 
+            if(dis[u]!=1e8 && dis[u]+w<dis[v]){
+               return {-1};
+            }
+        }
+        return dis;
+    }
+};
+
+
+// Floyd Warshal Algorithm
+// link : -https://www.geeksforgeeks.org/problems/implementing-floyd-warshall2042/1
+// Difficulty: medium
+//  tc - O(V^3), Sc-O(1)
+
+//  C++
+// User function template for C++
+
+class Solution {
+  public:
+    void floydWarshall(vector<vector<int>> &dist) {
+        int n = dist.size();
+        for(int k=0;k<n;k++){ // all node
+            for(int i=0;i<n;i++){
+                for(int j=0;j<n;j++){ 
+                    // update distance for each cell from k node
+                    if(dist[i][k]==1e8 || dist[k][j]==1e8) continue;
+                    dist[i][j]=min(dist[i][j],dist[i][k]+dist[k][j]);
+                }
+            }
+        }
+    }
+};
