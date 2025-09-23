@@ -470,3 +470,95 @@ class Solution {
         }
     }
 };
+
+
+// link https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/
+// difficulty : medium
+// name : 1334. Find the City With the Smallest Number of Neighbors at a Threshold Distance
+
+// Tc-O(N^2logN), SC-O(n+E)
+class Solution {
+public:
+    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
+        vector<vector<pair<int,int>>> adj(n);
+        for(auto e : edges){
+            int u = e[0];
+            int v = e[1];
+            int w = e[2];
+            adj[u].push_back({v,w});
+            adj[v].push_back({u,w});
+        }
+        vector<int> ans(n,0);
+        for(int v=0;v<n;v++){
+            vector<int> dis(n,INT_MAX);
+            dis[v]=0;
+            priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> q;
+            q.push({0,v});
+            while(!q.empty()){
+                int node = q.top().second;
+                int d = q.top().first;
+                q.pop();
+                for(auto t : adj[node]){
+                    int a = t.first;
+                    int b = t.second;
+                    if(dis[node]+b <= distanceThreshold && dis[node]+b<dis[a]){
+                        dis[a] = dis[node]+b;
+                        q.push({dis[a],a});
+                    }
+                }
+            }
+            for(auto di : dis) if(di<=distanceThreshold) ans[v]++;
+            ans[v]--;
+        }
+        int ans1 = INT_MAX;
+        int city = 0;
+        for(int i=0;i<n;i++){
+            if(ans[i]<=ans1){
+                ans1=ans[i];
+                city = i;
+            }
+        }
+        return city;
+    }
+};
+
+// floyd warshall
+//  Tc-O(n^3), Sc-O(N^2)
+class Solution {
+public:
+    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
+        vector<vector<int>> adjMatrix(n,vector<int>(n,INT_MAX));
+        for(int i=0;i<n;i++){
+            adjMatrix[i][i]=0;
+        }
+        for(auto e : edges){
+            int u = e[0];
+            int v = e[1];
+            int w = e[2];
+            adjMatrix[u][v]=w;
+            adjMatrix[v][u]=w;
+        }
+        for(int k=0;k<n;k++){
+            for(int i=0;i<n;i++){
+                for(int j=0;j<n;j++){
+                    if(adjMatrix[i][k]==INT_MAX || adjMatrix[k][j]==INT_MAX) continue;
+                    adjMatrix[i][j]=min(adjMatrix[i][j],adjMatrix[i][k]+adjMatrix[k][j]);
+                }
+            }
+        }
+        int ans = INT_MAX;
+        int city = INT_MAX;
+        for(int i=0;i<n;i++){
+            int c = 0;
+            for(int j=0;j<n;j++){
+                if(adjMatrix[i][j]<=distanceThreshold) c++;
+            }
+            c--;
+            if(c<=city){
+                city = c;
+                ans = i;
+            }
+        }
+        return ans;
+    }
+};
