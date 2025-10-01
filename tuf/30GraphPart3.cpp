@@ -562,3 +562,46 @@ public:
         return ans;
     }
 };
+
+// https://www.geeksforgeeks.org/problems/minimum-spanning-tree/1
+// Prim's Algorithm
+// minimum spaning tree
+// greedy - intuition
+//  TC - O(E log E), Sc-O(V+E)
+//  ElogE + E log E
+class Solution {
+  public:
+    int spanningTree(int V, vector<vector<int>>& edges) {
+        vector<vector<pair<int,int>>> adj(V);
+        for(auto it : edges){
+            int u = it[0];
+            int v = it[1];
+            int w = it[2];
+            adj[u].push_back({v,w});
+            adj[v].push_back({u,w});
+        }
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> minHeap;
+        vector<int> vis(V,0);
+        
+        int sum = 0;
+        minHeap.push({0,0});
+        while(!minHeap.empty()){ //E
+            auto it = minHeap.top(); 
+            minHeap.pop(); // log E
+            int wt = it.first;
+            int node = it.second;
+            if(vis[node]==1) continue;
+            vis[node]=1;
+            sum+=wt;
+            for(auto ed : adj[node]){  // E
+                int adjNode = ed.first;
+                int adjWt = ed.second;
+                if(!vis[adjNode]){
+                    minHeap.push({adjWt,adjNode}); // log E
+                }
+            }
+        }
+        return sum;
+        
+    }
+};

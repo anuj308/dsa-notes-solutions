@@ -5,7 +5,7 @@
 // Difficulty: Easy
 
 // ==================== C++ SOLUTION ====================
-//Tc-O(N), Sc-O(1)
+//Tc-O(log N), Sc-O(1)
 class Solution {
 public:
     int numWaterBottles(int numBottles, int numExchange) {
@@ -38,7 +38,7 @@ class Solution(object):
         return ans
 
 //  ==================== JAVA SOLUTION ====================
-// Tc-O(N), Sc-O(1)
+// Tc-O(log N), Sc-O(1)
 class Solution {
     public int numWaterBottles(int numBottles, int numExchange) {
         int ans = numBottles;
