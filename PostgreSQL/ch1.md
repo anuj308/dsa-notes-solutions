@@ -1,5 +1,5 @@
 # Postgre SQL
-
+link:- https://www.postgresql.org/docs/18/index.html
 ## Chapter 1
 
 #### what is a Database?
@@ -46,3 +46,29 @@
 
 - Deleting data
     - delete from <table_name> where id=1;
+
+#### Datatypes
+![alt text](image-1.png)![alt text](image-2.png)
+#### Constraint - it is a rule applied to column like unqiue etc.
+
+#### Primary Key -
+    - this constraint uniquely identifies each record in a table.
+    - it must contain unique values, cannot contain NULL values.
+    - A table can have only ONE primary key.
+
+#### not null
+![alt text](image-3.png)
+
+#### Default value
+![alt text](image-4.png)
+
+#### auto_increment - (serial,bigserial)
+![alt text](image-5.png)
+
+#### Example - Employee Database
+    lets see how to make it.
+![alt text](image-6.png)
+
+- 1 create table ![alt text](image-8.png)
+- 2 insert data - insert into employees values(1,'aks','sharma','anujkumarsharma@zohomail.in','IT'
+); ![alt text](image-9.png)
