@@ -72,3 +72,42 @@ link:- https://www.postgresql.org/docs/18/index.html
 - 1 create table ![alt text](image-8.png)
 - 2 insert data - insert into employees values(1,'aks','sharma','anujkumarsharma@zohomail.in','IT'
 ); ![alt text](image-9.png)
+####
+    -> if we have set serial in a column so do not enter data for that column let it auto handle it.
+    -> if we have insert the data(id) for serial column then reset the sequence to max(id)+1.
+    -> \d employees see the variable name like in picture
+    -> to see the val - select currval('varName');.
+    -> -> then set val -  select setval('employees_emp_id_seq',3);
+    ->3 is max id values you can like check the val from your data and then update.
+    ->so the issue was like the sequence(variable) was set inital to like 1 so when we insert data with 1 and then with out data(id) it show error as data with id 1 already exist right so for that we need to reset the sequence(variable).
+- we can use
+![alt text](image-10.png)
+- logical operator like :- and , or.
+- in and nor in operator : - 
+    - examples:
+        - select * from  employees where dept IN('It','Hr','Finance');
+        - select * from  employees where dept NOT IN('IT','HR','Finance');
+- Between :-
+    - examples:
+        - select * from employees where salary BETWEEN 40000 AND 65000;
+
+### Clauses
+    - where :- Examples
+        - select * from employees where emp_id=1;
+        - select * from employees where emp_id>4;
+        - select * from employees where dept='IT';
+        - select * from employees where dept='IT' or dept='Hr';
+    - Distinct means unique values :- Examples
+        -  select distinct dept from employees;
+    - Order By (sort data):- Examples
+        - select * from employees Order by fname; (default ascending order)
+        - select * from employees Order by fname DESC; (descending order)
+    - Limit :- Examples
+        - select * from  employees LIMIT 3;
+    - Like (start with alphabet or end etc):- Examples
+        -   select * from employees where fname LIKE 'A%'; (name start with a)
+        -   select * from employees where fname LIKE '%A'; (name end with a)
+        -   select * from employees where fname LIKE '%i%'; (name where i comes in between not at start or end)
+        -   select * from employees where dept LIKE '__'; (_ means one character, so here it give data where dept has only 2 character like it,hr etc)
+        -   select * from employees where fname LIKE '_a%'; (here first char can we anything then second should be a and rest anything);
+
