@@ -68,5 +68,9 @@
 ## 22) https://leetcode.com/problems/game-play-analysis-iv/description/
 ### select ROUND(COUNT(DISTINCT t.player_id)::decimal/(select COUNT(distinct player_id) from activity),2) as fraction from (select *,ROW_NUMBER() over (partition by player_id order by event_date) as rn from activity) t join activity a on t.player_id = a.player_id and t.rn = 1 and t.event_date + 1 = a.event_date;
 
+## 23) https://leetcode.com/problems/number-of-unique-subjects-taught-by-each-teacher/description/
+### select teacher_id, COUNT(Distinct subject_id) as cnt from teacher group by teacher_id;
 
+## 24) https://leetcode.com/problems/user-activity-for-the-past-30-days-i/
+### select activity_date as day,COUNT(DISTINCT user_id) as active_users from activity where activity_date between '2019-06-28'::Date and '2019-07-27'::Date group by activity_date;
 
