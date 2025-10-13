@@ -74,3 +74,13 @@
 ## 24) https://leetcode.com/problems/user-activity-for-the-past-30-days-i/
 ### select activity_date as day,COUNT(DISTINCT user_id) as active_users from activity where activity_date between '2019-06-28'::Date and '2019-07-27'::Date group by activity_date;
 
+## 25) https://leetcode.com/problems/classes-with-at-least-5-students
+### select class from courses group by class having COUNT(distinct student)>=5 ;
+
+## 26) https://leetcode.com/problems/find-followers-count
+### select user_id,COUNT(distinct follower_id) as followers_count from followers group by user_id;
+### select f.user_id,COUNT(distinct f1.follower_id) as followers_count from followers f join followers f1 on f.user_id = f1.user_id group by f.user_id;
+
+## 27) https://leetcode.com/problems/biggest-single-number
+### select max(num) as num from (select num from myNumbers group by num having COUNT(num)=1);
+### select (select num from myNumbers group by num having COUNT(*)=1 order by num desc limit 1) as num; // it is more efficient
