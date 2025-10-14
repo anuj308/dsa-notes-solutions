@@ -90,3 +90,6 @@
 
 ## 29) https://leetcode.com/problems/the-number-of-employees-which-report-to-each-employee
 ### select e1.employee_id, e1.name,COUNT(*) as reports_count ,ROUND(Avg(e2.age),0) as average_age from employees e1 join employees e2 on e1.employee_id = e2.reports_to group by e1.employee_id,e1.name order by e1.employee_id;
+
+## 30) 
+### select employee_id, department_id from employee where primary_flag='Y' or (employee_id not in (select employee_id from employee where primary_flag='Y')  and employee_id in (select employee_id from employee where primary_flag='N'));
