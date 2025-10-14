@@ -84,3 +84,9 @@
 ## 27) https://leetcode.com/problems/biggest-single-number
 ### select max(num) as num from (select num from myNumbers group by num having COUNT(num)=1);
 ### select (select num from myNumbers group by num having COUNT(*)=1 order by num desc limit 1) as num; // it is more efficient
+
+## 28) https://leetcode.com/problems/customers-who-bought-all-products/
+### select customer_id from customer group by customer_id having COUNT(distinct product_key) = (select COUNT(distinct product_key) from product);
+
+## 29) https://leetcode.com/problems/the-number-of-employees-which-report-to-each-employee
+### select e1.employee_id, e1.name,COUNT(*) as reports_count ,ROUND(Avg(e2.age),0) as average_age from employees e1 join employees e2 on e1.employee_id = e2.reports_to group by e1.employee_id,e1.name order by e1.employee_id;
