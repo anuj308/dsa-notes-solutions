@@ -94,6 +94,8 @@
 ## 30) https://leetcode.com/problems/primary-department-for-each-employee/
 ### select employee_id, department_id from employee where primary_flag='Y' or (employee_id not in (select employee_id from employee where primary_flag='Y')  and employee_id in (select employee_id from employee where primary_flag='N'));
 
-## 31) 
+## 31) https://leetcode.com/problems/triangle-judgement/description/
+### select x, y,z,(case when y+z>x and x+y>z and z+x>y then 'Yes' else 'No' end) as triangle from triangle;
 
-
+## 32) https://leetcode.com/problems/consecutive-numbers
+### select l2.num as consecutiveNums from logs l2 join logs l1 on l1.id = l2.id-1 join logs l3 on l3.id = l2.id+1 where l1.num = l2.num and l2.num = l3.num group by consecutiveNums;
