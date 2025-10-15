@@ -93,3 +93,7 @@
 
 ## 30) https://leetcode.com/problems/primary-department-for-each-employee/
 ### select employee_id, department_id from employee where primary_flag='Y' or (employee_id not in (select employee_id from employee where primary_flag='Y')  and employee_id in (select employee_id from employee where primary_flag='N'));
+
+## 31) 
+
+
