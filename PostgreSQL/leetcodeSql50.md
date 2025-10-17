@@ -473,4 +473,15 @@ order by turn desc
 limit 1;
 ```
 
+## 34. Count Salary Categories
+**Problem:** [https://leetcode.com/problems/count-salary-categories](https://leetcode.com/problems/count-salary-categories)
+
+```sql
+select 'High Salary' as category, COUNT(*) as accounts_count from accounts where income>50000 
+union all
+select 'Low Salary' as category, COUNT(*) as accounts_count from accounts where income<20000
+union all
+select 'Average Salary' as category, COUNT(*) as accounts_count from accounts where income between 20000 and 50000;
+```
+
 ---
