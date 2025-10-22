@@ -485,3 +485,39 @@ select 'Average Salary' as category, COUNT(*) as accounts_count from accounts wh
 ```
 
 ---
+
+## 1978. Employees Whose Manager Left the Company
+**Problem:** [https://leetcode.com/problems/count-salary-categories](https://leetcode.com/problems/count-salary-categories)
+
+```sql
+select employee_id from employees e where manager_id is not null and not exists (select 1 from employees m where m.employee_id = e.manager_id) and salary<30000 order by employee_id;
+```
+
+---
+
+## 626. Exchange Seats
+**Problem:** [https://leetcode.com/problems/count-salary-categories](https://leetcode.com/problems/exchange-seats)
+
+```sql
+select id,coalesce((Case when id%2=0 then (select student from seat s2 where s2.id=s1.id-1) else (select student from seat s2 where s2.id=s1.id+1) end),student) as student from seat s1 order by id;
+```
+
+```sql
+select id,coalesce((Case when id%2=0 then lag(student) over (order by id) else lead(student) over (order by id) end),student) as student from seat s1 order by id;
+```
+```sql
+select s1.id, coalesce(s2.student,s1.student) as student from seat s1 left join seat s2 on (s1.id%2=0 and s2.id=s1.id-1) or (s1.id%2=1 and s2.id=s1.id+1) order by s1.id;
+``` 
+
+---
+
+## 1341. Movie Rating
+**Problem:** [https://leetcode.com/problems/movie-rating/](https://leetcode.com/problems/movie-rating/)
+
+```sql
+select (select u.name from users u left join movieRating m on u.user_id = m.user_id group by u.name,m.user_id order by COUNT(m.user_id) desc,u.name asc Limit 1) as results
+ union all
+ select (select m.title from movies m join movierating mr on m.movie_id = mr.movie_id and created_at >= '2020-02-01' and created_at<'2020-03-01' group by m.title order by AVG(mr.rating) desc, m.title asc limit 1) as results;
+``` 
+
+---
