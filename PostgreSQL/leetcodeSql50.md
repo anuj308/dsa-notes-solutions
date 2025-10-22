@@ -486,7 +486,7 @@ select 'Average Salary' as category, COUNT(*) as accounts_count from accounts wh
 
 ---
 
-## 1978. Employees Whose Manager Left the Company
+## 35. (1978) Employees Whose Manager Left the Company
 **Problem:** [https://leetcode.com/problems/count-salary-categories](https://leetcode.com/problems/count-salary-categories)
 
 ```sql
@@ -495,7 +495,7 @@ select employee_id from employees e where manager_id is not null and not exists 
 
 ---
 
-## 626. Exchange Seats
+## 36. (626) Exchange Seats
 **Problem:** [https://leetcode.com/problems/count-salary-categories](https://leetcode.com/problems/exchange-seats)
 
 ```sql
@@ -511,13 +511,45 @@ select s1.id, coalesce(s2.student,s1.student) as student from seat s1 left join 
 
 ---
 
-## 1341. Movie Rating
+## 37. (1341) Movie Rating
 **Problem:** [https://leetcode.com/problems/movie-rating/](https://leetcode.com/problems/movie-rating/)
 
 ```sql
 select (select u.name from users u left join movieRating m on u.user_id = m.user_id group by u.name,m.user_id order by COUNT(m.user_id) desc,u.name asc Limit 1) as results
  union all
  select (select m.title from movies m join movierating mr on m.movie_id = mr.movie_id and created_at >= '2020-02-01' and created_at<'2020-03-01' group by m.title order by AVG(mr.rating) desc, m.title asc limit 1) as results;
+``` 
+
+---
+## 38. (1321) Restaurant Growth
+**Problem:** [https://leetcode.com/problems/restaurant-growth/](https://leetcode.com/problems/restaurant-growth/)
+
+```sql
+WITH daily_totals AS (
+    SELECT 
+        visited_on,
+        SUM(amount) as daily_amount
+    FROM Customer
+    GROUP BY visited_on
+)
+SELECT 
+    a.visited_on,
+    SUM(b.daily_amount) as amount,
+    ROUND(SUM(b.daily_amount) / 7, 2) as average_amount
+FROM daily_totals a
+JOIN daily_totals b ON b.visited_on BETWEEN a.visited_on - INTERVAL '6 days' AND a.visited_on
+GROUP BY a.visited_on
+HAVING COUNT(b.visited_on) = 7
+ORDER BY a.visited_on;
+``` 
+
+---
+---
+## 39. (602) Friend Requests II: Who Has the Most Friends
+**Problem:** [https://leetcode.com/problems/friend-requests-ii-who-has-the-most-friends/](https://leetcode.com/problems/friend-requests-ii-who-has-the-most-friends/)
+
+```sql
+select t.id,COUNT(*) as num from (select distinct requester_id as id from requestaccepted union select distinct accepter_id as id from requestaccepted) t left join requestaccepted ra on t.id=ra.requester_id or t.id=ra.accepter_id group by t.id order by COUNT(*) desc limit 1;
 ``` 
 
 ---
