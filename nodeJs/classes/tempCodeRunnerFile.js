@@ -1,3 +1,6 @@
-for(let i=0;i<arr.length;i++){
-    console.log(arr[i])
-}
+console.log(2);
+// globalThis.console.log(2); // in 2020 
+// global.console.log(2);
+
+// console.log(module)
+// console.log(process)

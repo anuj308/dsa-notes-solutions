@@ -29,3 +29,6 @@
 // fs
 const fs = require("fs")
 fs.writeFileSync("hello.txt","hello")
+const a = fs.readFileSync("./hello.txt","utf-8")
+// console.log(a.toString())
+console.log(a)
