@@ -14,11 +14,58 @@
 
 // why joining low rank to high rank ? - so the height will be less and findParent will take less time to compute
 
+// class DisjointSet{
+//     vector<int> rank,parent;
+//     public:
+//         DisjointSet(int n){
+//             rank.resize(n+1,0);
+//             parent.resize(n+1);
+//             for(int i = 0;i<=n;i++){
+//                 parent[i] = i;
+//             }
+//         }
+//         int findParent(int node){
+//             if(node == parent[node]) return node;
+//             return parent[node] = findParent(parent[node]);
+//         }
+//         void unionByRank(int u,int v){
+//             int ulp_u = findParent(u);
+//             int ulp_v = findParent(v);
+//             if(ulp_u == ulp_v) return;
+//             if(rank[ulp_u]<rank[ulp_v]){
+//                 parent[ulp_u] = ulp_v;
+//             }else if(rank[ulp_u] > rank[ulp_v]){
+//                 parent[ulp_v] = ulp_u;
+//             }else{
+//                 parent[ulp_v] = ulp_u;
+//                 rank[ulp_u]++;
+//             }
+//         }
+// }
+// int main(){
+//     DisjointSet ds(7);
+//     ds.unionByRank(1,2);
+//     ds.unionByRank(2,3);
+//     ds.unionByRank(4,5);
+//     ds.unionByRank(5,6);
+//     ds.unionByRank(6,7);
+//     //  does 3 and 6 belong to same components
+//     if(ds.findParent(3)==ds.findParent(7)) cout << "same" ;
+//     else cout << "not same";
+//     ds.unionByRank(3,7);
+//     if(ds.findParent(3)==ds.findParent(7)) cout << "same" ;
+//     else cout << "not same";
+
+//     return 0;
+// }
+
+// union by size 
+
 class DisjointSet{
-    vector<int> rank,parent;
+    vector<int> size,parent;
     public:
         DisjointSet(int n){
-            rank.resize(n+1,0);
+            size.resize(n+1,1);
             parent.resize(n+1);
             for(int i = 0;i<=n;i++){
                 parent[i] = i;
@@ -28,35 +75,94 @@ class DisjointSet{
             if(node == parent[node]) return node;
             return parent[node] = findParent(parent[node]);
         }
-        void unionByRank(int u,int v){
+        void unionBySize(int u,int v){
             int ulp_u = findParent(u);
             int ulp_v = findParent(v);
             if(ulp_u == ulp_v) return;
-            if(rank[ulp_u]<rank[ulp_v]){
+            if(size[ulp_u]<size[ulp_v]){
                 parent[ulp_u] = ulp_v;
-            }else if(rank[ulp_u] > rank[ulp_v]){
-                parent[ulp_v] = ulp_u;
+                size[ulp_v]+=size[ulp_u];
             }else{
                 parent[ulp_v] = ulp_u;
-                rank[ulp_u]++;
+                size[ulp_u]+=size[ulp_v];
             }
         }
 }
-int main(){
-    DisjointSet ds(7);
-    ds.unionByRank(1,2);
-    ds.unionByRank(2,3);
-    ds.unionByRank(4,5);
-    ds.unionByRank(5,6);
-    ds.unionByRank(6,7);
-    //  does 3 and 6 belong to same components
-    if(ds.findParent(3)==ds.findParent(7)) cout << "same" ;
-    else cout << "not same";
-    ds.unionByRank(3,7);
-    if(ds.findParent(3)==ds.findParent(7)) cout << "same" ;
-    else cout << "not same";
+// int main(){
+//     DisjointSet ds(7);
+//     ds.unionBySize(1,2);
+//     ds.unionBySize(2,3);
+//     ds.unionBySize(4,5);
+//     ds.unionBySize(5,6);
+//     ds.unionBySize(6,7);
+//     //  does 3 and 6 belong to same components
+//     if(ds.findParent(3)==ds.findParent(7)) cout << "same" ;
+//     else cout << "not same";
+//     ds.unionBySize(3,7);
+//     if(ds.findParent(3)==ds.findParent(7)) cout << "same" ;
+//     else cout << "not same";
 
-    return 0;
-}
+//     return 0;
+// }
 
-// union by size 
+// kruskak algorithm
+
+// sort all edges according to weight
+class Solution {
+  public:
+    int spanningTree(int V, vector<vector<int>>& edges) {
+        vector<pair<int,pair<int,int>>> edwt(V); // V
+        for(auto it : edges){ // E
+            int u = it[0];
+            int v = it[1];
+            int w = it[2];
+            edwt.push_back({w,{u,v}});
+            edwt.push_back({w,{v,u}});
+        }
+        
+        sort(edwt.begin(),edwt.end()); // E log E
+        int sum = 0;
+        DisjointSet ds(V); // sc - O(2V)
+        for(auto e : edwt){
+            int u = e.second.first;
+            int v = e.second.second;
+            int w = e.first;
+            if(ds.findParent(u)!=ds.findParent(v)){ // tc-O(4x)
+                sum+=w;
+                ds.unionBySize(u,v); // tc-O(4x)
+            }
+        }
+        return sum;
+        // tc - O(e log e), , Sc-O(3E)
+    }
+};
+
+
+
+// Problem: 1319. Number of Operations to Make Network Connected
+// URL: https://leetcode.com/problems/number-of-operations-to-make-network-connected/
+// Difficulty: Medium
+
+// ==================== C++ SOLUTION ====================
+// TC: O(n), SC: O(n)
+class Solution {
+public:
+    int makeConnected(int n, vector<vector<int>>& connections) {
+        int ans = 0;
+        DisjointSet ds(n);
+        int extra = 0;
+        for(auto c : connections){
+            if(ds.findParent(c[0])!=ds.findParent(c[1])){
+                ds.unionBySize(c[0],c[1]);
+            }else extra++;
+        }
+        int components = 0;
+        for(int i=0;i<n;i++){
+            if(ds.findParent(i)==i) components++;
+        }
+        if(extra>=components-1) return components-1;
+        return -1;
+    }
+};
+// ==================== Java SOLUTION ====================
+// ==================== Python SOLUTION ====================
