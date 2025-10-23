@@ -1,6 +1,4 @@
-console.log(2);
-// globalThis.console.log(2); // in 2020 
-// global.console.log(2);
-
-// console.log(module)
-// console.log(process)
+fs.readFile("hello.txt","utf-8",(err,data)=>{
+    if(err) console.err("error in read operation")
+    else console.log(data)
+})
