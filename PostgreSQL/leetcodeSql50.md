@@ -308,9 +308,16 @@ where activity_date between '2019-06-28'::Date and '2019-07-27'::Date
 group by activity_date;
 ```
 
+## 25. (1070) Product Sales Analysis III
+**Problem:** [https://leetcode.com/problems/product-sales-analysis-iii/description](https://leetcode.com/problems/product-sales-analysis-iii/description)
+
+```sql
+select s.product_id, t.year as first_year, s.quantity, s.price from (select year,product_id,Row_NUMBER() over (partition by product_id order by year) as rn from sales) as t join sales s on t.year = s.year and t.product_id = s.product_id and t.rn = 1;
+```
+
 ---
 
-## 25. Classes with at Least 5 Students
+## 26. Classes with at Least 5 Students
 **Problem:** [https://leetcode.com/problems/classes-with-at-least-5-students](https://leetcode.com/problems/classes-with-at-least-5-students)
 
 ```sql
@@ -322,7 +329,7 @@ having COUNT(distinct student) >= 5;
 
 ---
 
-## 26. Find Followers Count
+## 27. Find Followers Count
 **Problem:** [https://leetcode.com/problems/find-followers-count](https://leetcode.com/problems/find-followers-count)
 
 **Solution 1:**
@@ -342,7 +349,7 @@ group by f.user_id;
 
 ---
 
-## 27. Biggest Single Number
+## 28. Biggest Single Number
 **Problem:** [https://leetcode.com/problems/biggest-single-number](https://leetcode.com/problems/biggest-single-number)
 
 **Solution 1:**
@@ -370,7 +377,7 @@ select (
 
 ---
 
-## 28. Customers Who Bought All Products
+## 29. Customers Who Bought All Products
 **Problem:** [https://leetcode.com/problems/customers-who-bought-all-products/](https://leetcode.com/problems/customers-who-bought-all-products/)
 
 ```sql
@@ -382,7 +389,7 @@ having COUNT(distinct product_key) = (select COUNT(distinct product_key) from pr
 
 ---
 
-## 29. The Number of Employees Which Report to Each Employee
+## 30. The Number of Employees Which Report to Each Employee
 **Problem:** [https://leetcode.com/problems/the-number-of-employees-which-report-to-each-employee](https://leetcode.com/problems/the-number-of-employees-which-report-to-each-employee)
 
 ```sql
@@ -398,7 +405,7 @@ order by e1.employee_id;
 
 ---
 
-## 30. Primary Department for Each Employee
+## 31. Primary Department for Each Employee
 **Problem:** [https://leetcode.com/problems/primary-department-for-each-employee/](https://leetcode.com/problems/primary-department-for-each-employee/)
 
 ```sql
@@ -411,7 +418,7 @@ where primary_flag = 'Y'
 
 ---
 
-## 31. Triangle Judgement
+## 32. Triangle Judgement
 **Problem:** [https://leetcode.com/problems/triangle-judgement/](https://leetcode.com/problems/triangle-judgement/)
 
 ```sql
@@ -424,7 +431,7 @@ from triangle;
 
 ---
 
-## 32. Consecutive Numbers
+## 33. Consecutive Numbers
 **Problem:** [https://leetcode.com/problems/consecutive-numbers](https://leetcode.com/problems/consecutive-numbers)
 
 ```sql
@@ -438,7 +445,7 @@ group by consecutiveNums;
 
 ---
 
-## 33. Product Price at a Given Date
+## 34. Product Price at a Given Date
 **Problem:** [https://leetcode.com/problems/product-price-at-a-given-date/](https://leetcode.com/problems/product-price-at-a-given-date/)
 
 ```sql
@@ -456,7 +463,7 @@ from (select distinct product_id from products) p1;
 
 ---
 
-## 34. Last Person to Fit in the Bus
+## 35. Last Person to Fit in the Bus
 **Problem:** [https://leetcode.com/problems/last-person-to-fit-in-the-bus](https://leetcode.com/problems/last-person-to-fit-in-the-bus)
 
 ```sql
@@ -473,7 +480,7 @@ order by turn desc
 limit 1;
 ```
 
-## 34. Count Salary Categories
+## 36. Count Salary Categories
 **Problem:** [https://leetcode.com/problems/count-salary-categories](https://leetcode.com/problems/count-salary-categories)
 
 ```sql
@@ -486,7 +493,7 @@ select 'Average Salary' as category, COUNT(*) as accounts_count from accounts wh
 
 ---
 
-## 35. (1978) Employees Whose Manager Left the Company
+## 37. (1978) Employees Whose Manager Left the Company
 **Problem:** [https://leetcode.com/problems/count-salary-categories](https://leetcode.com/problems/count-salary-categories)
 
 ```sql
@@ -495,7 +502,7 @@ select employee_id from employees e where manager_id is not null and not exists 
 
 ---
 
-## 36. (626) Exchange Seats
+## 38. (626) Exchange Seats
 **Problem:** [https://leetcode.com/problems/count-salary-categories](https://leetcode.com/problems/exchange-seats)
 
 ```sql
@@ -511,7 +518,7 @@ select s1.id, coalesce(s2.student,s1.student) as student from seat s1 left join 
 
 ---
 
-## 37. (1341) Movie Rating
+## 39. (1341) Movie Rating
 **Problem:** [https://leetcode.com/problems/movie-rating/](https://leetcode.com/problems/movie-rating/)
 
 ```sql
@@ -521,7 +528,7 @@ select (select u.name from users u left join movieRating m on u.user_id = m.user
 ``` 
 
 ---
-## 38. (1321) Restaurant Growth
+## 40. (1321) Restaurant Growth
 **Problem:** [https://leetcode.com/problems/restaurant-growth/](https://leetcode.com/problems/restaurant-growth/)
 
 ```sql
@@ -545,11 +552,49 @@ ORDER BY a.visited_on;
 
 ---
 ---
-## 39. (602) Friend Requests II: Who Has the Most Friends
+## 41. (602) Friend Requests II: Who Has the Most Friends
 **Problem:** [https://leetcode.com/problems/friend-requests-ii-who-has-the-most-friends/](https://leetcode.com/problems/friend-requests-ii-who-has-the-most-friends/)
 
 ```sql
 select t.id,COUNT(*) as num from (select distinct requester_id as id from requestaccepted union select distinct accepter_id as id from requestaccepted) t left join requestaccepted ra on t.id=ra.requester_id or t.id=ra.accepter_id group by t.id order by COUNT(*) desc limit 1;
+``` 
+
+---
+## 42. (585) Investments in 2016
+**Problem:** [https://leetcode.com/problems/investments-in-2016/description/](https://leetcode.com/problems/investments-in-2016/description/)
+
+```sql
+select Round(sum(tiv_2016)::numeric,2) as tiv_2016 from insurance where tiv_2015 in (select tiv_2015 from insurance group by tiv_2015 having count(*)>1) and (lat,lon) in (select lat,lon from insurance group by lat,lon having count(*)=1);
+``` 
+
+---
+## 43. (185) Department Top Three Salaries
+**Problem:** [https://leetcode.com/problems/department-top-three-salaries](https://leetcode.com/problems/department-top-three-salaries)
+
+```sql
+with dSalary as (
+    select e.name as employee,e.salary as salary,d.name as department,DENSE_RANK() over (partition by e.departmentId order by e.salary desc) as salary_rank from employee e join department d on e.departmentId=d.id
+)
+select department,employee,salary from dSalary where salary_rank<=3;
+
+``` 
+
+---
+## 44. (1667) Fix Names in a Table
+**Problem:** [https://leetcode.com/problems/fix-names-in-a-table/](https://leetcode.com/problems/fix-names-in-a-table/)
+
+```sql
+select user_id,concat(upper(substr(name,1,1)),lower(substr(name,2))) as name from users order by user_id;
+
+``` 
+
+---
+## 45. (1527) Patients With a Condition
+**Problem:** [https://leetcode.com/problems/patients-with-a-condition/](https://leetcode.com/problems/patients-with-a-condition/)
+
+```sql
+select user_id,concat(upper(substr(name,1,1)),lower(substr(name,2))) as name from users order by user_id;
+
 ``` 
 
 ---
