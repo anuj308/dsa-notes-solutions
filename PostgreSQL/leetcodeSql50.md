@@ -598,3 +598,44 @@ select user_id,concat(upper(substr(name,1,1)),lower(substr(name,2))) as name fro
 ``` 
 
 ---
+## 46. (196) Delete Duplicate Emails
+**Problem:** [https://leetcode.com/problems/delete-duplicate-emails](https://leetcode.com/problems/delete-duplicate-emails)
+
+```sql
+delete from person where id in (select id from (select id,Row_Number() over (partition by email order by id asc) as rn from person) where rn>1);
+``` 
+
+---
+## 47. (176) Second Highest Salary
+**Problem:** [https://leetcode.com/problems/second-highest-salary](https://leetcode.com/problems/second-highest-salary)
+
+```sql
+select coalesce((select salary from (select distinct salary from employee order by salary desc limit 2) where salary!=(select max(salary) from employee limit 1)),null) as SecondhighestSalary;
+``` 
+
+---
+## 48. (1484) Group Sold Products By The Date
+**Problem:** [https://leetcode.com/problems/group-sold-products-by-the-date/](https://leetcode.com/problems/group-sold-products-by-the-date/)
+
+```sql
+select sell_Date,COUNT(distinct product) as num_sold, STRING_AGG(distinct product,',' order by product) as products from activities group by sell_date order by sell_date; 
+-- order by clause id needed when use string_agg
+``` 
+
+---
+## 49. (1327) List the Products Ordered in a Period
+**Problem:** [https://leetcode.com/problems/list-the-products-ordered-in-a-period/](https://leetcode.com/problems/list-the-products-ordered-in-a-period/)
+
+```sql
+select p.product_name as product_name,sum(o.unit) as unit from products p left join orders o on o.product_id=p.product_id and o.order_date>='2020-02-01'::date and o.order_date<'2020-03-01'::date group by p.product_name having sum(o.unit)>=100;
+``` 
+
+---
+## 50. (1517) Find Users With Valid E-Mails
+**Problem:** [https://leetcode.com/problems/find-users-with-valid-e-mails](https://leetcode.com/problems/find-users-with-valid-e-mails)
+
+```sql
+select user_id,name,mail from users where mail ~ '^[A-Za-z][A-Za-z0-9._-]*@leetcode\.com$';
+``` 
+
+---
