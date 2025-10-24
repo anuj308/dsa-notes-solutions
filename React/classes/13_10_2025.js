@@ -150,30 +150,126 @@
 
 //  destructuring is for array and object
 
-const number = [10,20,30,40]
-const [a,,,b,c=100] = number
-console.log(a,b,c)
+// const number = [10,20,30,40]
+// const [a,,,b,c=100] = number
+// console.log(a,b,c)
 
-// rename
-const person = {name:'aks',age:19,country:'India'}
-const {name:n,age:ag} = person
-console.log(n,ag)
+// // rename
+// const person = {name:'aks',age:19,country:'India'}
+// const {name:n,age:ag} = person
+// console.log(n,ag)
 
-// spread operator
-const arr1 = [1,2,3]
-const arr2 = [4,5,6]
-const merge = [...arr1, ...arr2]
-console.log(merge)
+// // spread operator
+// const arr1 = [1,2,3]
+// const arr2 = [4,5,6]
+// const merge = [...arr1, ...arr2]
+// console.log(merge)
 
-// rest operator
-function sum(...nums){
-    return nums.reduce((acc,cur)=> acc+cur)
-}
-console.log(sum(1,2,3,4))
+// // rest operator
+// function sum(...nums){
+//     return nums.reduce((acc,cur)=> acc+cur)
+// }
+// console.log(sum(1,2,3,4))
 
-const [first, ...rest] = [10,20,30,40];
-console.log(first)
-console.log(rest)
+// const [first, ...rest] = [10,20,30,40];
+// console.log(first)
+// console.log(rest)
 
-import printName from "./functions.mjs"
-printName();
+
+
+// Short answer: .mjs marks a file as an ES Module (ESM) for Node.js so the runtime knows to use import/export semantics instead of CommonJS require/module.exports.
+
+// Why and when:
+
+// Node historically used CommonJS (CJS) with require/module.exports. By default .js files were treated as CJS.
+// .mjs explicitly signals “this file is an ES module” so Node parses it with import/export, top-level await, strict module scope, and static imports.
+// Alternatively you can keep .js and set "type": "module" in package.json to treat .js as ESM project-wide.
+// Use .cjs to force CommonJS in a package with "type": "module".
+// Browsers don't need .mjs; they use <script type="module"> and file extension doesn't affect semantics there.
+// Small examples:
+
+// const [x,,y,,z=110,m] = [10,20,30,40]
+// console.log(x,y,z,m)
+
+// 1
+
+// const colors = ["red","green","blue"];
+// const [x,y] = colors;
+// console.log(x,y)
+
+// 2
+// const person = {name:"Alice",age:25,city:"Delhi"}
+// const {name,age:a,city} = person
+// console.log(name,a,city)
+
+// person.a = person.age
+// console.log(person)
+
+// 3 extract 1 and 3 th 
+// const nums = [10,20,30]
+// const [a,,b] = nums
+// console.log(a,b)
+
+
+// 4 destructure the array and collect remanining items
+// const fruits = ["apple","banana","cherry","date"]
+// const [a,b,...c] = fruits;
+// console.log(a,b,c)
+
+// 5  use rest operator in object
+// const student = {name:"anuj",age:20,course:"CSE",city:"Rourkela"}
+// const {name:x,...a} = student
+// console.log(x,a)
+
+// 6 use spread operator to add 11 in arr1 in front and 18 in a2 in last
+// const a1 = [12,13,14];
+// const a2 = [15,16,17];
+
+// const anew1 = [11,...a1]
+// const anew2 = [...a2,18]
+// console.log(anew1,anew2)
+
+// 7 combine two arrays using spread
+// const a = [1,2]
+// const b = [3,4]
+// const c = [...a,...b]
+// console.log(c)
+
+//  8
+// const a1 = [12,13,14];
+// const a2 = [15,16,17];
+// let c = [11]
+// c = c.concat(a1)
+// c = c.concat(a2)
+// c = c.concat(18)
+// console.log(c)
+
+// 9 use spread to convert string "hello" into array of characters
+// let str = "hello"
+
+// const arrCh = [...str]
+// console.log(arrCh)
+
+// 10 what happens when you spread undefined or null
+// give error - TypeError: a is not iterable
+// let a ;
+// // let a = null;
+// // let a = [];
+// const ar = [...a]
+// console.log(ar)
+
+// 11 
+// const arr =  [10,20,30,40]
+// const str1 = 
+// const [x,,y,,z=110,m] = arr
+// m = [...str1]
+// console.log(x,y,z,m)
+
+// 12
+// import {pi} from "./functions.mjs"
+// console.log(pi)
+
+// import printName,{add,mul} from "./functions.mjs"
+// printName('aks');
+// console.log(add(2,3))
+// console.log(mul(2,3))
