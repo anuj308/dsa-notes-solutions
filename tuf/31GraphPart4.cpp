@@ -166,3 +166,71 @@ public:
 };
 // ==================== Java SOLUTION ====================
 // ==================== Python SOLUTION ====================
+
+// Problem: 947. Most Stones Removed with Same Row or Column
+// URL: https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/
+// Difficulty: Medium
+
+// ==================== C++ SOLUTION ====================
+// TC: O(n), SC: O(n)
+class DisjointSet{
+    vector<int> size,parent;
+    public:
+        DisjointSet(int n){
+            size.resize(n+1,1);
+            parent.resize(n+1);
+            for(int i = 0;i<=n;i++){
+                parent[i] = i;
+            }
+        }
+        int findParent(int node){
+            if(node == parent[node]) return node;
+            return parent[node] = findParent(parent[node]);
+        }
+        void unionBySize(int u,int v){
+            int ulp_u = findParent(u);
+            int ulp_v = findParent(v);
+            if(ulp_u == ulp_v) return;
+            if(size[ulp_u]<size[ulp_v]){
+                parent[ulp_u] = ulp_v;
+                size[ulp_v]+=size[ulp_u];
+            }else{
+                parent[ulp_v] = ulp_u;
+                size[ulp_u]+=size[ulp_v];
+            }
+        }
+};
+class Solution {
+public:
+    int removeStones(vector<vector<int>>& stones) {
+        int n = stones.size();
+        int maxRow = 0;
+        int maxCol = 0;
+        for(auto it : stones){
+            maxRow = max(maxRow,it[0]);
+            maxCol = max(maxCol,it[1]);
+        }
+        DisjointSet ds(maxRow+maxCol+2);
+        for(auto s : stones){
+            int u = s[0];
+            int v = s[1] + maxRow +1;
+            if(ds.findParent(u)!=ds.findParent(v)){
+                ds.unionBySize(u,v);
+            }
+        }
+        int component = 0;
+        vector<int> groups(maxRow+maxCol+2,0);
+        for(int i=0;i<maxRow+maxCol+2;i++){
+            int p = ds.findParent(i);
+            if(p!=i){
+                if(groups[p]==0) {
+                    groups[p]=1;
+                    component++;
+                }
+            }
+        }
+        return n-component;
+    }
+};
+// ==================== Java SOLUTION ====================
+// ==================== Python SOLUTION ====================
