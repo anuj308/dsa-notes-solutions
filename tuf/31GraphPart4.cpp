@@ -234,3 +234,168 @@ public:
 };
 // ==================== Java SOLUTION ====================
 // ==================== Python SOLUTION ====================
+
+// Problem: 721. Accounts Merge
+// URL: https://leetcode.com/problems/accounts-merge/
+// Difficulty: Medium
+
+// ==================== C++ SOLUTION ====================
+// TC: O(n), SC: O(n)
+class DisjointSet{
+    vector<int> size,parent;
+    public:
+        DisjointSet(int n){
+            size.resize(n+1,1);
+            parent.resize(n+1);
+            for(int i = 0;i<=n;i++){
+                parent[i] = i;
+            }
+        }
+        int findParent(int node){
+            if(node == parent[node]) return node;
+            return parent[node] = findParent(parent[node]);
+        }
+        void unionBySize(int u,int v){
+            int ulp_u = findParent(u);
+            int ulp_v = findParent(v);
+            if(ulp_u == ulp_v) return;
+            if(size[ulp_u]<size[ulp_v]){
+                parent[ulp_u] = ulp_v;
+                size[ulp_v]+=size[ulp_u];
+            }else{
+                parent[ulp_v] = ulp_u;
+                size[ulp_u]+=size[ulp_v];
+            }
+        }
+};
+class Solution {
+public:
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+        unordered_map<string,int> mpp;
+        int n = accounts.size();
+        DisjointSet ds(n);
+        for(int i=0;i<n;i++){
+            int m = accounts[i].size();
+            for(int j=1;j<m;j++){
+                string email = accounts[i][j];
+                if(mpp.find(email)!=mpp.end()){
+                    ds.unionBySize(mpp[email],i);
+                }else mpp[email]=i;
+            }
+        }
+        unordered_map<int,vector<string>> acc;
+        vector<vector<string>> ans;
+        for(auto m : mpp){
+            string email = m.first;
+            int id = m.second;
+            int p = ds.findParent(id);
+
+            if(acc[p].size()==0){
+                acc[p].push_back(accounts[p][0]);
+                acc[p].push_back(email);
+            }else acc[p].push_back(email);
+        }
+        for(auto a : acc){
+            sort(a.second.begin()+1,a.second.end());
+            if(a.second.size()!=0) ans.push_back(a.second);
+        } 
+        return ans;
+    }
+};
+// ==================== Java SOLUTION ====================
+// ==================== Python SOLUTION ====================
+
+
+// Problem: 827. Making A Large Island
+// URL: https://leetcode.com/problems/making-a-large-island/
+// Difficulty: Hard
+// ==================== C++ SOLUTION ====================
+// TC: O(n*n*4x*2), SC: O(3n)
+class DisjointSet{
+    vector<int> size,parent;
+    public:
+        DisjointSet(int n){
+            size.resize(n+1,1);
+            parent.resize(n+1);
+            for(int i = 0;i<=n;i++){
+                parent[i] = i;
+            }
+        }
+        int findParent(int node){
+            if(node == parent[node]) return node;
+            return parent[node] = findParent(parent[node]);
+        }
+        void unionBySize(int u,int v){
+            int ulp_u = findParent(u);
+            int ulp_v = findParent(v);
+            if(ulp_u == ulp_v) return;
+            if(size[ulp_u]<size[ulp_v]){
+                parent[ulp_u] = ulp_v;
+                size[ulp_v]+=size[ulp_u];
+            }else{
+                parent[ulp_v] = ulp_u;
+                size[ulp_u]+=size[ulp_v];
+            }
+        }
+};
+class Solution {
+public:
+    int getNode(int row,int col,int n){
+        return (row*n)+col;
+    }
+    int largestIsland(vector<vector<int>>& grid) {
+        int n = grid.size();
+        vector<int> sum(n*n,0);
+        DisjointSet ds(n*n);
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]==0) continue;
+                vector<pair<int,int>> dir = {{0,-1},{0,+1},{-1,0},{+1,0}};
+                int u = getNode(i,j,n);
+                for(auto d : dir){
+                    int row = i+d.first;
+                    int col = j+d.second;
+                    if(row>=0 && row<n && col>=0 && col<n && grid[row][col]==1){
+                        int v = getNode(row,col,n);
+                        if(ds.findParent(u)!=ds.findParent(v)){
+                            ds.unionBySize(u,v);
+                        }
+                    }
+                }
+            }
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                sum[ds.findParent(getNode(i,j,n))]++;
+            }
+        }
+        int ans = 0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]==0){
+                    vector<pair<int,int>> dir = {{0,-1},{0,+1},{-1,0},{+1,0}};
+                    int nodeSum = 0;
+                    unordered_map<int,int> sumFrom;
+                    for(auto d : dir){
+                        int row = i+d.first;
+                        int col = j+d.second;
+                        if(row>=0 && row<n && col>=0 && col<n && grid[row][col]==1){
+                            int p = ds.findParent(getNode(row,col,n));
+                            if(sumFrom.find(p)==sumFrom.end()){
+                                nodeSum+=sum[p];
+                                sumFrom[p]++;
+                            }
+                        }
+                    }
+                    ans=max(ans,nodeSum+1);
+                }
+            }
+        }
+        for(int i=0;i<n*n;i++){
+            ans=max(ans,sum[i]);
+        }
+        return ans;
+    }
+};
+// ==================== Java SOLUTION ====================
+// ==================== Python SOLUTION ====================
