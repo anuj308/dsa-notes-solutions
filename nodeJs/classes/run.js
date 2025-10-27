@@ -27,7 +27,8 @@
 
 
 // fs
-const fs = require("fs")
+// const fs = require("fs")
+// const { stringify } = require("querystring")
 // fs.writeFileSync("hello.txt","hello")
 // let a = fs.readFileSync("./hello.txt","utf-8")
 // // console.log(a.toString())
@@ -66,42 +67,85 @@ const fs = require("fs")
 
 // promise
 
-const p = require("fs/promises");
-// const p = require("fs");
+// const p = require("fs/promises");
+// // const p = require("fs");
 
-p.writeFile("hello.txt","Hello world","utf-8").then((data)=>{
-    console.log("file write success")
-}).catch((err)=>{
-    console.log("file write error")
+// p.writeFile("hello.txt","Hello world","utf-8").then((data)=>{
+//     console.log("file write success")
+// }).catch((err)=>{
+//     console.log("file write error")
+// })
+
+// p.readFile("hello.txt","utf-8").then((data)=>{
+//     console.log(data)
+// }).catch((err)=>{
+//     console.log("file read error")
+// })
+
+// //  async and await
+
+// // const fs = require('fs/promises');
+
+// async function readFileAndWriteFile(readFilePath, writeFilePath, dataToWrite) {
+//     try {
+//         // Asynchronously read the file
+//         const data = await p.readFile(readFilePath, "utf-8");
+//         console.log('File content:', data);
+
+//         // Asynchronously write to another file
+//         await p.writeFile(writeFilePath, dataToWrite, "utf-8");
+//         console.log('File written successfully!');
+
+//         return data; 
+//     } catch (err) {
+//         console.error('An error occurred:', err);
+//         throw err; 
+//     }
+// }
+
+// // Call the async function
+// readFileAndWriteFile('hello.txt', 'hello.txt', 'Hello, Async/Await!')
+
+// json , parse, stringify
+// let user = `{"name":"aks"}`
+
+// const userJ = JSON.parse(user)
+// console.log(userJ)
+
+// user = JSON.stringify(userJ,['name'],4) // 4 is for space
+// console.log(user)
+
+const fs = require("fs")
+// let user = `{"name":"aks"}`
+// fs.writeFile("data.json",user,(err)=>{
+//     if(err) console.log(err)
+//     else console.log("file created successfully")
+// })
+
+// how to read from file
+// fs.readFile("data.json",(err,data)=>{
+//     if(err) console.log(err)
+//     else console.log("file read successfully",JSON.parse(data))
+// })
+
+const EvenEmitter = require("events")
+const emitter = new EvenEmitter();
+
+// emitter.on("greet",(name,roll)=>{
+//     console.log(`welcome ${name} ${roll}`)
+// })
+let c = 0
+emitter.on("greet",(obj)=>{
+    c++;
+    console.log(`welcome ${obj.name} ${obj.roll}`)
 })
 
-p.readFile("hello.txt","utf-8").then((data)=>{
-    console.log(data)
-}).catch((err)=>{
-    console.log("file read error")
-})
+// emitter.emit("greet","aks",50);
+emitter.emit("greet",{"name":"aks","roll":50});
+emitter.emit("greet",{"name":"aks","roll":50});
 
-//  async and await
+console.log("greet call",c)
+// console.log(EvenEmitter);
 
-// const fs = require('fs/promises');
 
-async function readFileAndWriteFile(readFilePath, writeFilePath, dataToWrite) {
-    try {
-        // Asynchronously read the file
-        const data = await p.readFile(readFilePath, "utf-8");
-        console.log('File content:', data);
-
-        // Asynchronously write to another file
-        await p.writeFile(writeFilePath, dataToWrite, "utf-8");
-        console.log('File written successfully!');
-
-        return data; 
-    } catch (err) {
-        console.error('An error occurred:', err);
-        throw err; 
-    }
-}
-
-// Call the async function
-readFileAndWriteFile('hello.txt', 'hello.txt', 'Hello, Async/Await!')
 
