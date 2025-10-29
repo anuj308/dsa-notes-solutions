@@ -399,3 +399,94 @@ public:
 };
 // ==================== Java SOLUTION ====================
 // ==================== Python SOLUTION ====================
+
+
+// Problem: 778. Swim in Rising Water
+// URL: https://leetcode.com/problems/swim-in-rising-water/
+// Difficulty: Hard
+// ==================== C++ SOLUTION ====================
+// TC: O(n*n*logn), SC: O(n*n)
+class Solution {
+    public:
+    int swimInWater(vector<vector<int>>& grid) {
+        int n = grid.size();
+        priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,greater<pair<int,pair<int,int>>>> minHeap;
+        vector<vector<int>> dis(n,vector<int> (n,INT_MAX));
+        minHeap.push({max(0,grid[0][0]),{0,0}});
+        dis[0][0]=0;
+        while(!minHeap.empty()){
+            int time = minHeap.top().first;
+            int row = minHeap.top().second.first;
+            int col = minHeap.top().second.second;
+            minHeap.pop();
+            if(row == n-1 && col == n-1) return time;
+            vector<pair<int,int>> dir = {{0,-1},{0,+1},{+1,0},{-1,0}};
+            for(auto d : dir){
+                int nrow = row+d.first;
+                int ncol = col+d.second;
+                if(nrow>=0 && nrow<n && ncol>=0 && ncol<n && dis[nrow][ncol]>max(time,grid[nrow][ncol])){
+                    int ntime = max(time,grid[nrow][ncol]);
+                    dis[nrow][ncol]= ntime;
+                    minHeap.push({ntime,{nrow,ncol}});
+                }
+            }
+        }
+        return dis[n-1][n-1];
+    }
+};
+// ==================== Java SOLUTION ====================
+// ==================== Python SOLUTION ====================
+
+
+
+
+// Problem: 192. Critical Connections in a Network
+// URL: https://leetcode.com/problems/critical-connections-in-a-network/
+// Difficulty: Hard
+// ==================== C++ SOLUTION ====================
+// TC: O(n), SC: O(4n)
+
+class Solution {
+    private:
+        int timer = 1;
+public:
+    void dfs(int node,int parent,vector<vector<int>>& adj,vector<int>& vis,vector<vector<int>>& ans,vector<int>& low,vector<int>& top){
+        vis[node]=1;
+        low[node]=top[node] = timer;
+        timer++;
+        for(auto e : adj[node]){
+            if(e==parent) continue;
+            if(vis[e]==0){
+                dfs(e,node,adj,vis,ans,low,top);
+                low[node] = min(low[node],low[e]);
+
+                if(low[e]>top[node]){
+                    ans.push_back({e,node});
+                }
+            }else{
+                low[node] = min(low[node],low[e]);
+            }
+        }
+    }
+    vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
+        vector<vector<int>> ans; // bridge
+        vector<int> vis(n,0);
+        vector<int> low(n,0);
+        vector<int> top(n,0);
+        vector<vector<int>> adj(n);
+        int nc = connections.size();
+        for(auto c : connections){
+            int u = c[0];
+            int v = c[1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        dfs(0,-1,adj,vis,ans,low,top);
+
+        return ans;
+    }
+};
+// ==================== Java SOLUTION ====================
+// ==================== Python SOLUTION ====================
+
+
