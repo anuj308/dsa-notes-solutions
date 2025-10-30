@@ -128,24 +128,45 @@ const fs = require("fs")
 //     else console.log("file read successfully",JSON.parse(data))
 // })
 
-const EvenEmitter = require("events")
-const emitter = new EvenEmitter();
+// const EvenEmitter = require("events")
+// const emitter = new EvenEmitter();
 
-// emitter.on("greet",(name,roll)=>{
-//     console.log(`welcome ${name} ${roll}`)
+// // emitter.on("greet",(name,roll)=>{
+// //     console.log(`welcome ${name} ${roll}`)
+// // })
+// let c = 0
+// emitter.on("greet",(obj)=>{
+//     c++;
+//     console.log(`welcome ${obj.name} ${obj.roll}`)
 // })
-let c = 0
-emitter.on("greet",(obj)=>{
-    c++;
-    console.log(`welcome ${obj.name} ${obj.roll}`)
+
+// // emitter.emit("greet","aks",50);
+// emitter.emit("greet",{"name":"aks","roll":50});
+// emitter.emit("greet",{"name":"aks","roll":50});
+
+// console.log("greet call",c)
+// // console.log(EvenEmitter);
+const PORT = 3000;
+const http = require("http")
+const server = http.createServer((req,res)=>{
+    res.setHeader("Content-Type","text/html")
+    // res.setHeader("Content-Type","text/plain")
+    res.write("<h1>write asd</h1>")
+    res.write("\n write asd")
+    res.end("asdsd");
 })
+// .listen(3000)
 
-// emitter.emit("greet","aks",50);
-emitter.emit("greet",{"name":"aks","roll":50});
-emitter.emit("greet",{"name":"aks","roll":50});
+server.listen(PORT,()=>{
+    console.log("server runing")
+})
+// by default it a get request
 
-console.log("greet call",c)
-// console.log(EvenEmitter);
+const cs = require('colors')
+const up = require('upper-case')
+
+console.log(cs.red("hello"))
+console.log(up.upperCase("hello"))
 
 
 

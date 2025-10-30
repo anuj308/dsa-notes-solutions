@@ -448,7 +448,7 @@ class Solution {
 
 class Solution {
     private:
-        int timer = 1;
+    int timer = 1;
 public:
     void dfs(int node,int parent,vector<vector<int>>& adj,vector<int>& vis,vector<vector<int>>& ans,vector<int>& low,vector<int>& top){
         vis[node]=1;
@@ -471,8 +471,8 @@ public:
     vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
         vector<vector<int>> ans; // bridge
         vector<int> vis(n,0);
-        vector<int> low(n,0);
-        vector<int> top(n,0);
+        vector<int> low(n,0); // min time(top) of add adjacent node apart from parent 
+        vector<int> top(n,0); // store the time of insertion during dfs
         vector<vector<int>> adj(n);
         int nc = connections.size();
         for(auto c : connections){
@@ -490,3 +490,58 @@ public:
 // ==================== Python SOLUTION ====================
 
 
+// articulation point - nodes om whose removal the graph breaks into multiple components.
+// vector<int> low(n,0); // min time(top) of add adjacent node apart from parent and visited nodes
+// vector<int> top(n,0); // store the time of insertion during dfs
+
+
+
+// Problem: Articulation Point
+// URL: https://www.geeksforgeeks.org/problems/articulation-point-1/1
+// Difficulty: Hard
+// ==================== C++ SOLUTION ====================
+// TC: O(n), SC: O(4n)
+
+// User function Template for C++
+
+class Solution { 
+    private:
+    int timer = 1;
+    public:
+    void dfs(int node,int parent,vector<int> adj[],vector<int>& vis,vector<int>& mark,vector<int>& low,vector<int>& tin){
+        vis[node]=1;
+        low[node]=tin[node] = timer;
+        timer++;
+        int child = 0;
+        for(auto e : adj[node]){
+            if(e==parent) continue;
+            if(vis[e]==0){
+                dfs(e,node,adj,vis,mark,low,tin);
+                low[node] = min(low[node],low[e]);
+                if(low[e]>=tin[node] && parent != -1){
+                    mark[node]=1;
+                }
+                child++;
+            }else{
+                low[node] = min(low[node],tin[e]); 
+            }
+        }
+        if(child>1 && parent == -1) mark[node]=1; 
+    }
+    vector<int> articulationPoints(int V, vector<int> adj[]) {
+        vector<int> ans; // bridge
+        vector<int> mark(V,0);
+        vector<int> vis(V,0);
+        vector<int> low(V,0); // min time(tin) of add adjacent node apart from parent and visited nodes
+        vector<int> tin(V,0); // store the time of insertion during dfs
+        dfs(0,-1,adj,vis,mark,low,tin);
+        for(int i=0;i<V;i++){
+            if(mark[i]==1) ans.push_back(i);
+        }
+        if(ans.size()==0) return {-1};
+        return ans;
+    }
+};
+
+// ==================== Java SOLUTION ====================
+// ==================== Python SOLUTION ====================
