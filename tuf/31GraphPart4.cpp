@@ -545,3 +545,68 @@ class Solution {
 
 // ==================== Java SOLUTION ====================
 // ==================== Python SOLUTION ====================
+
+// strongly connected components - kosaraju algorithm
+
+// intution is to reverse the edges between sccg so that dfs will happen in sccgs
+
+// steps
+// 1 - sort all the edges acc to finishing time
+// 2 - reverse the graph
+// 3 - do a dfs
+
+
+// Problem: strongly connected
+// URL: https://www.geeksforgeeks.org/problems/strongly-connected-components-kosarajus-algo/1
+// Difficulty: MEDIUM
+// ==================== C++ SOLUTION ====================
+// TC: O(V+E), SC: O(2V)
+
+class Solution {
+  public:
+    void dfs(int node,vector<vector<int>>& adj,vector<int>& vis,stack<int>& st){
+        vis[node]=1;
+        for(auto e : adj[node]){
+            if(!vis[e]){
+                dfs(e,adj,vis,st);
+            }
+        }
+        st.push(node);
+    }
+    void dfs(int node,vector<vector<int>>& adj,vector<int>& vis){
+        vis[node]=1;
+        for(auto e : adj[node]){
+            if(!vis[e]){
+                dfs(e,adj,vis);
+            }
+        }
+    }
+    int kosaraju(vector<vector<int>> &adj) {
+        int n = adj.size();
+        vector<int> vis(n,0);
+        stack<int> st;
+        for(int i=0;i<n;i++){
+            if(!vis[i]){
+                dfs(i,adj,vis,st);
+            }
+        }
+        vector<vector<int>> adjT(n);
+        for(int i=0;i<n;i++){
+            vis[i]=0;
+            for(auto e : adj[i]){
+                adjT[e].push_back(i);
+            }
+        }
+        int sccs = 0;
+        while(!st.empty()){
+            int node = st.top();
+            st.pop();
+            if(!vis[node]){
+                dfs(node,adjT,vis);
+                sccs++;
+            }
+        }
+        return sccs;
+        
+    }
+};
