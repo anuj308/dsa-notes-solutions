@@ -1,4 +1,4 @@
-## Learning Node Js from Colleage Classes 
+## Learning React from Colleage Classes 
 
 ## initialize a = 5
 ## declare let a;
@@ -305,3 +305,4 @@ console.log(greet('Hi', 'Alice', 'Bob', 'Charlie'));
 | **Example** | `func(...arr)` | `function func(...args)` |
 
 ---
+
