@@ -1,9 +1,10 @@
 import React from 'react'
 
-const greet = ({}) => {
+const greet = ({time,val,age}) => {
+  console.log(time,val)
   return (
-    <div >GOOD AFTERNOON</div>
+    <div >GOOD AFTERNOON {val} {time} {age}</div>
   )
 }
 
-export default greet
+export default greet  

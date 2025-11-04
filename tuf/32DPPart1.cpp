@@ -44,3 +44,12 @@
 //       prev= cur_i;
 //   }
 //   cout<<prev;
+
+// understand a dp problem
+// count the total number of ways, min,max, try all possiable ways
+// first recursion then dp
+
+// shortcut
+// 1) try to represent the problem in terms of index
+// 2) do all possiable stuffs on that end in according to problem
+// 3) sum of all stuffs -> count all ways, min (of all the suffs) ->find min
