@@ -115,7 +115,7 @@
 // user = JSON.stringify(userJ,['name'],4) // 4 is for space
 // console.log(user)
 
-const fs = require("fs")
+// const fs = require("fs")
 // let user = `{"name":"aks"}`
 // fs.writeFile("data.json",user,(err)=>{
 //     if(err) console.log(err)
@@ -146,27 +146,29 @@ const fs = require("fs")
 
 // console.log("greet call",c)
 // // console.log(EvenEmitter);
-const PORT = 3000;
+
+
+// const PORT = 3000;
 const http = require("http")
 const server = http.createServer((req,res)=>{
     res.setHeader("Content-Type","text/html")
     // res.setHeader("Content-Type","text/plain")
-    res.write("<h1>write asd</h1>")
-    res.write("\n write asd")
-    res.end("asdsd");
+    // res.write("<h1>write asd</h1>")
+    // res.write("\n write asd")
+    res.end("end");
 })
-// .listen(3000)
+.listen(3000)
 
-server.listen(PORT,()=>{
-    console.log("server runing")
-})
-// by default it a get request
+// server.listen(PORT,()=>{
+//     console.log("server runing")
+// })
+// // by default it a get request
 
-const cs = require('colors')
-const up = require('upper-case')
+// const cs = require('colors')
+// const up = require('upper-case')
 
-console.log(cs.red("hello"))
-console.log(up.upperCase("hello"))
+// console.log(cs.red("hello"))
+// console.log(up.upperCase("hello"))
 
 
 
