@@ -5,18 +5,25 @@ import i2 from './assets/i2.png'
 import Car from './components/Car'
 import User from './components/User'
 import { useState } from 'react'
+import Student from './components/Student'
+import ClassComponent from './components/ClassComponent'
+import Output from './components/SuperOutputProps'
 
 function App() {
   const [users,setUsers] = useState([
     {username:"asd",country:"India",email:"asda"},
     {username:"asd",country:"India",email:"asda"},
   ])
+  const [hobbies,setHobbies] = useState([
+"chess","watching web series","finance" ,"geopolitics"
+  ])
+  const students = [{name:"aks",marks:22},{name:"mohit",marks:40}]
   return (
     <>
       {/* <Greet time="pm" val={2} age={128}/> */}
-      <Car model="tata" brand="nexon"/>
+      {/* <Car model="tata" brand="nexon"/>
       <Car model="tata" brand="harrier"/>
-      <User username="Asda" country="India" email="aks.web" />
+      <User username="Asda" country="India" email="aks.web" /> */}
       {/* users. */}
       {/* <div className='imageClass'>
         <img src={i1}/>
@@ -32,6 +39,34 @@ function App() {
       </table> */}
 
       {/* <App/> */}
+jansdlansmd
+      {users.map((u,index)=>{
+      return (
+        <div key={index}>
+          <div>{u.email}</div>
+          <div>{u.country}</div>
+
+        </div>)
+      })}
+      {hobbies.map((h)=>{h})}
+      {hobbies.map((h,index)=>
+      {
+        return (
+          <div key={index}>
+           {index+1} {h} 
+        </div>
+        )
+      })}
+      {students.map((st,index)=>{
+        return (
+          <div key={index}>
+
+          <Student name={st.name} marks={st.marks}/>
+          </div>
+        )
+      })}
+      <ClassComponent name="anuj"/>
+      <Output name="anuj" />
     </>
   )
 }
