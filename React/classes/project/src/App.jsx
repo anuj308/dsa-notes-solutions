@@ -8,6 +8,7 @@ import { useState } from 'react'
 import Student from './components/Student'
 import ClassComponent from './components/ClassComponent'
 import Output from './components/SuperOutputProps'
+import Event from './components/EventClass'
 
 function App() {
   const [users,setUsers] = useState([
@@ -39,7 +40,7 @@ function App() {
       </table> */}
 
       {/* <App/> */}
-jansdlansmd
+{/* jansdlansmd
       {users.map((u,index)=>{
       return (
         <div key={index}>
@@ -66,7 +67,11 @@ jansdlansmd
         )
       })}
       <ClassComponent name="anuj"/>
-      <Output name="anuj" />
+      <Output name="anuj" /> */}
+      <div className='bg-black text-white p-3 m-3'>
+        Hello world with tailwind
+      </div>
+      <Event/>
     </>
   )
 }
