@@ -9,7 +9,7 @@ import Student from './components/Student'
 import ClassComponent from './components/ClassComponent'
 import Output from './components/SuperOutputProps'
 import Event from './components/EventClass'
-
+import LifeCycleDemo from "./components/LifeCycleDemo"
 function App() {
   const [users,setUsers] = useState([
     {username:"asd",country:"India",email:"asda"},
@@ -68,10 +68,11 @@ function App() {
       })}
       <ClassComponent name="anuj"/>
       <Output name="anuj" /> */}
-      <div className='bg-black text-white p-3 m-3'>
+      {/* <div className='bg-black text-white p-3 m-3'>
         Hello world with tailwind
-      </div>
-      <Event/>
+      </div> */}
+      {/* <Event/> */}
+      <LifeCycleDemo/>
     </>
   )
 }
