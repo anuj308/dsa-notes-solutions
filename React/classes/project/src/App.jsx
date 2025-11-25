@@ -10,6 +10,10 @@ import ClassComponent from './components/ClassComponent'
 import Output from './components/SuperOutputProps'
 import Event from './components/EventClass'
 import LifeCycleDemo from "./components/LifeCycleDemo"
+import State from './components/State'
+import StateSt from './components/StateSt'
+import DigitalClock from './components/DigitalClock'
+import Timer from './components/Timer'
 function App() {
   const [users,setUsers] = useState([
     {username:"asd",country:"India",email:"asda"},
@@ -72,7 +76,11 @@ function App() {
         Hello world with tailwind
       </div> */}
       {/* <Event/> */}
-      <LifeCycleDemo/>
+      {/* <LifeCycleDemo/> */}
+      <State/>
+      <StateSt/>
+      <DigitalClock/>
+      <Timer/>
     </>
   )
 }
