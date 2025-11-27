@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .btn-group {
+            margin: 10px 0;
+        }
+        button {
+            padding: 8px 16px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <form action="/store" method="post">
+        <input type="text" id="fileName" name="fileName" placeholder="file name"/>
+        <input type="text" name="content" placeholder="content"/>
+        <input type="submit" placeholder="create file"/>
+    </form>
+    
+    <div class="btn-group">
+        <button onclick="readData('text')">Read as Text</button>
+        <button onclick="readData('json')">Read as JSON</button>
+        <button onclick="readData('table')">Read as Table</button>
+    </div>
+    
+    <div id="data"></div>
+
+    <script>
+        async function readData(format = 'text'){
+            const fileName = document.getElementById('fileName').value;
+            if(!fileName) {
+                alert('Please enter a file name');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/read?fileName=${encodeURIComponent(fileName)}`);
+                const text = await response.text();
+                const dataDiv = document.getElementById('data');
+                
+                if(format === 'text') {
+                    // Display as plain text
+                    dataDiv.innerText = text;
+                    
+                } else if(format === 'json') {
+                    // Display as formatted JSON
+                    const data = JSON.parse(text);
+                    dataDiv.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                    
+                } else if(format === 'table') {
+                    // Display as HTML table
+                    const data = JSON.parse(text);
+                    const dataArray = Array.isArray(data) ? data : [data];
+                    
+                    if(dataArray.length === 0) {
+                        dataDiv.innerText = 'No data found';
+                        return;
+                    }
+
+                    const keys = [...new Set(dataArray.flatMap(obj => Object.keys(obj)))];
+                    
+                    let tableHTML = '<table><thead><tr>';
+                    keys.forEach(key => tableHTML += `<th>${key}</th>`);
+                    tableHTML += '</tr></thead><tbody>';
+                    
+                    dataArray.forEach(item => {
+                        tableHTML += '<tr>';
+                        keys.forEach(key => {
+                            const value = item[key];
+                            const displayValue = typeof value === 'object' ? JSON.stringify(value) : (value ?? '');
+                            tableHTML += `<td>${displayValue}</td>`;
+                        });
+                        tableHTML += '</tr>';
+                    });
+                    
+                    tableHTML += '</tbody></table>';
+                    dataDiv.innerHTML = tableHTML;
+                }
+                
+            } catch(error) {
+                document.getElementById('data').innerText = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

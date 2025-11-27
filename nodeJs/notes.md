@@ -18,3 +18,9 @@
 .save     Save all evaluated commands in this REPL session to a file
 
 # modules
+
+
+<!-- basic form input and submit it to backend -->
+<!-- create a file and then add data in the file be it txt or json -->
+<!-- url encoded -->
+<!-- button to read the data then -->
