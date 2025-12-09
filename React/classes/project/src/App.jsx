@@ -14,6 +14,8 @@ import State from './components/State'
 import StateSt from './components/StateSt'
 import DigitalClock from './components/DigitalClock'
 import Timer from './components/Timer'
+import { AppContext } from './context/appContext'
+import ContextTest from './components/ContextTest'
 function App() {
   const [users,setUsers] = useState([
     {username:"asd",country:"India",email:"asda"},
@@ -81,6 +83,9 @@ function App() {
       <StateSt/>
       <DigitalClock/>
       <Timer/>
+      <AppContext.Provider value={{course: "React Basic", student:"User1"}}>
+        <ContextTest/>
+      </AppContext.Provider>
     </>
   )
 }
