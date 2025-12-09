@@ -1,0 +1,11 @@
+// console.log(__dirname);
+// console.log(__filename);
+const path = require("path");
+const filepath = path.join("folder","student","Data.txt");
+// console.log(filepath);
+const parseData = path.parse(filepath);
+const extdata = path.extname(filepath);
+const dirData = path.dirname(filepath);
+const resolveData = path.resolve(filepath);
+const baseData = path.basename(filepath);
+console.log({ filepath, parseData, dirData, extdata, dirData, resolveData, baseData});

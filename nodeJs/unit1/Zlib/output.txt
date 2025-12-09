@@ -1,0 +1,320 @@
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
+New file is created. 
+Name of the file is Hello.txt.
+Streams in Node.js provide an efficient way to handle data flow, especially when dealing with large datasets or real-time data. Instead of loading the entire dataset into memory at once, streams process data in smaller, manageable chunks. This approach significantly reduces memory usage and improves performance.
+There are four primary types of streams in Node.js:
+1. Readable Streams: These streams represent a source from which data can be read. Examples include fs.createReadStream for reading files, http.IncomingMessage for handling incoming HTTP requests, and process.stdin for standard input.
+2. Writable Streams: These streams represent a destination to which data can be written. Examples include fs.createWriteStream for writing to files, http.ServerResponse for sending HTTP responses, and process.stdout for standard output.
+3. Duplex Streams: These streams are both Readable and Writable, allowing data to be read from and written to the same stream. A common example is a TCP socket connection.
+4. Transform Streams: These streams are a type of Duplex stream that can modify or transform data as it passes through. They are often used for filtering, compressing, or converting data formats.
+JavaScript
+
