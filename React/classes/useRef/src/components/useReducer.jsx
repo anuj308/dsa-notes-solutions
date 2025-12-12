@@ -10,9 +10,11 @@ const reducer = (state, action) => {
       return state;
   }
 };
+
 // useReducer is useful for managing complex state logic
 // it provides a more structured way to handle state updates compared to useState
 // especially when the next state depends on the previous state or when multiple state variables are involved
+
 const useReducerCounter = () => {
     const [state, dispatch] = useReducer(reducer, {count: 0});
   return (
