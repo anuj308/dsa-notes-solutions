@@ -1,4 +1,4 @@
-import React,{useRef, useState} from "react";
+import React,{useEffect, useRef, useState} from "react";
 
 const Form = () => {
   const [successMesssage, setSuccessMessage] = useState("");
@@ -25,7 +25,7 @@ const Form = () => {
     setFormData((prev)=> ({ ...prev, [name]: value }));
   }
 
-  const handleSubmit = (e)=>{
+  const handleSubmit = async (e)=>{
      e.preventDefault();
      const validationErrors = validate();
      if(Object.keys(validationErrors).length > 0){
@@ -35,10 +35,69 @@ const Form = () => {
      }
 
      const fileData = fileRef.current.files[0];
-
-     setErrors({})
-     setSuccessMessage("Registration Successful!")
+     try {
+      const response = await fetch("http://jsonplaceholder.typicode.com/users",
+        {
+          method: "POST",
+          headers: { "Content-Type" : "application/json"},
+          body: JSON.stringify(formData)
+        }
+      )
+      const data = await response.json();
+      console.log("post response",data)
+      setErrors({})
+      setSuccessMessage("Registration Successful!")
+     } catch (error) {
+        console.error("POST ERROR",error)
+     }
   }
+  const getUsers = async ()=>{
+    try {
+      const response = await fetch("https://jsonplaceholder.typicode.com/users")
+      const data = await response.json();
+      // setUsers(data);
+      setSuccessMessage("Users fetched successfully");
+      console.log("get response",data)
+    } catch (error) {
+      console.error("get error",error)
+    }
+  }
+
+  const deleteUsers = async (id)=>{
+    try {
+      const response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`,
+        {
+          method: "Delete",
+          headers: { "Content-Type" : "application/json"},
+        }
+      )
+      setSuccessMessage("Users deleted successfully");
+      console.log("delete response user id ", id)
+    } catch (error) {
+      console.error("delete users",error)
+    }
+  }
+  const putUsers = async (id,data)=>{
+    try {
+      const response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`,
+        {
+          method: "Put",
+          headers: { "Content-Type" : "application/json"},
+          body: data
+        }
+      )
+      setSuccessMessage("Users updated successfully");
+      console.log("put response",data)
+    } catch (error) {
+      console.error("put users",error)
+    }
+  }
+
+  useEffect(()=>{
+    getUsers()
+    deleteUsers(2);
+    putUsers(1,formData);
+  },[])
    
   return (
     <div>
@@ -54,7 +113,7 @@ const Form = () => {
         <div>Full Name</div>
         <div>
             {errors.name && (<p className="p-1 text-red-400 ">errors.name</p>)}
-          <input type="text" name="name text-red-600" value={formData.name} onChange={onChangeHandler} className="border rounded-sm" />
+          <input type="text" name="name" value={formData.name} onChange={onChangeHandler} className="border rounded-sm" />
         </div>
         <div>Email</div>
         <div>

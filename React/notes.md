@@ -306,3 +306,18 @@ console.log(greet('Hi', 'Alice', 'Bob', 'Charlie'));
 
 ---
 
+design a reusable custom hook called useForm to handle form state validation and rest functionality for login form
+the useForm hook should
+accept initialvalues and a validate function a arguments
+manage form values error and touched fields
+expose value errors tocuhed , handleChange, handleBlur, handleSubmit, resetForm
+
+Form fields:
+email : Required, must be a valid email format
+password: Required, minimim 6 characters
+
+Behavior:
+validation should run on fields blur and on form submission
+Error messages should be displayed only after a field has been touched
+on successful submission, log the form data to the console and reset the form
+
