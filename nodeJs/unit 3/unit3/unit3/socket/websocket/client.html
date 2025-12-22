@@ -1,0 +1,25 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+  const socket = new WebSocket("ws://localhost:3000");
+  socket.onopen = () => {
+    console.log("Connected to server");
+    socket.send("Hello server");
+  };
+  socket.onmessage = (event) => {
+    
+    console.log("From server:", event.data);
+    
+    const elem = document.createElement('p');
+    elem.textContent = `Message from the server: ${event.data}`;
+    document.body.appendChild(elem);
+    
+  };
+  
+</script>
+</body>
+</html>
