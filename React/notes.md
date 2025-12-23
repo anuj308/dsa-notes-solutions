@@ -321,3 +321,5 @@ validation should run on fields blur and on form submission
 Error messages should be displayed only after a field has been touched
 on successful submission, log the form data to the console and reset the form
 
+
+implement todo list and forms in redux
