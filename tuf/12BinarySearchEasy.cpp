@@ -131,7 +131,7 @@ int search(vector<int>& arr, int target) {
 
     while(high>=low){
         int mid = (high+low)/2;
-        if(arr[mid]==target) return mid;
+        if(arr[mid]==target) return mid;https://leetcode.com/problems/binary-tree-right-side-view/
         if(arr[low]<=arr[mid]){
             // sorted
             if(arr[low]<=target && target<=arr[mid]){

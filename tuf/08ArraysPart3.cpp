@@ -15,7 +15,6 @@ int missingNumberBruteForce(vector<int>&a, int n) { // tc - O(n*n) , sc - O(1)
             return i;
         }
     }
-    
 }
 
 int missingNumberBetter(vector<int>&a, int n) { // tc - O(2n) sc -O(n)

@@ -88,7 +88,6 @@ int secondSmallest(int n, vector<int> a){
         else if(a[i]>firstSmallest && a[i]<secondSmallest){
             secondSmallest = a[i];
         }
-        
     }
     return secondSmallest;
 }
