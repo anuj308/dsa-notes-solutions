@@ -26,10 +26,10 @@ Route::get('/user', function () {
 //     return view('User');
 // });
 
-Route::get('/user/{name}', function ($name) {
-    // return 'welcome ' . $name;
-    return view('User',['n'=>$name]);
-})->where(['name'=>'[A-Za-z]+']);
+// Route::get('/user/{name}', function ($name) {
+//     // return 'welcome ' . $name;
+//     return view('User',['n'=>$name]);
+// })->where(['name'=>'[A-Za-z]+']);
 
 // Route::get('/user/{id}', function ($id) {
 //     return view('User',['n'=>$id]);
@@ -38,18 +38,18 @@ Route::get('/user/{name}', function ($name) {
 // [0-9]* - null and above also
 // [0-9] - 0 to 9 single number
 
-Route::get('/user/{name}/{id}', function ($name,$id) {
-    return view('User',['n'=>$name,'i'=>$id]);
-})->where(['id'=>'[0-9]+','name'=>'[A-Z][a-z]+']);   
+// Route::get('/user/{name}/{id}', function ($name,$id) {
+//     return view('User',['n'=>$name,'i'=>$id]);
+// })->where(['id'=>'[0-9]+','name'=>'[A-Z][a-z]+']);   
  
-Route::get('/user/{id}', function ($id) {
-    if(!ctype_digit($id)){
-        return "only digits are accepted";
-    }
-    else{
-        return view('User',['n'=>$name,'i'=>$id]);
-    }
-});    
+// Route::get('/user/{id}', function ($id) {
+//     if(!ctype_digit($id)){
+//         return "only digits are accepted";
+//     }
+//     else{
+//         return view('User',['n'=>$name,'i'=>$id]);
+//     }
+// });    
 
 Route::get('student1', function () {
 // [$name="Anuj",$roll=6,$section='23SF'];
@@ -70,3 +70,17 @@ Route::get('student3', function () {
 //    return view('student3',compact('name','roll','section'));
    return view('student3',compact('name','roll'));
 });    
+
+use App\Http\Controllers\StudentController;
+Route::get('/student',[StudentController::class, 'studentDetail']);
+
+use App\Http\Controllers\UserController;
+
+Route::get('/about',[UserController::class, 'abc']);
+Route::get('/about/{name}', [UserController::class, 'user']);
+Route::get('/about/{name}/{id}', [UserController::class, 'userDetail']);
+Route::get('/user/{age}', [UserController::class, 'userAge']);
+
+// Route::get('/about',function(){
+//     return view('About');
+// });
