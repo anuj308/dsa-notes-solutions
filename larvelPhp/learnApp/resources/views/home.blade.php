@@ -1,5 +1,6 @@
+
 <div>
-    <a href="{{route('home')}}">home 1</a>
-    <a href="{{route('about')}}">about</a>
-    <a href="{{route('home')}}">home 3</a>
+    <a href="{{route('s')}}">show</a>
+    <a href="{{route('i')}}">index</a>
+    <a href="{{route('e')}}">edit</a>
 </div>

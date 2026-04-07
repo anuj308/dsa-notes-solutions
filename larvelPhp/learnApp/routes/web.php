@@ -73,9 +73,28 @@ Route::get('/', function () {
 //     })->name('about');
 // });
 
-Route::get('/{value?}',function($value=null){
-    // return view('test',['value'=>$value]);
-    return view('test')->with(['value'=>$value]);
-});
+// Route::get('/{value?}',function($value=null){
+//     // return view('test',['value'=>$value]);
+//     return view('test')->with(['value'=>$value]);
+// });
 
+
+use App\Http\Controllers\DemoController;
+use App\Http\Controllers\homeController;
+use App\Http\Controllers\Test2Controller;
+
+// Route::get('/demo',[DemoController::class,'index']);
+// Route::get('/home/{value?}',[homeController::class,'index']);
+
+// Route::get('/show/{value?}',[homeController::class,'show']);
+// Route::get('/index/{value?}',[homeController::class,'index']);
+// Route::get('/edit/{value?}',[homeController::class,'edit']);
+
+Route::controller(homeController::class)->group(function(){
+    Route::get('/show/{value?}','show')->name('s');
+    Route::get('/index/{value?}','index')->name('i');
+    Route::get('/edit/{value?}','edit')->name('e');
+    });
+    
+Route::get('/invokeFunc',Test2Controller::class);
 
