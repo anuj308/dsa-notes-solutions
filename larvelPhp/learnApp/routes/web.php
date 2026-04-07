@@ -63,15 +63,19 @@ Route::get('/', function () {
 //     return view('about');
 // })->name('about');
 
-// group routes
-Route::prefix('home')->group(function(){
-    Route::get('introduction',function(){
-        return view('home');
-    })->name('home');
-    Route::get('about',function(){
-        return view('about');
-    })->name('about');
-});
+// group routes --------------
+// Route::prefix('home')->group(function(){
+//     Route::get('introduction',function(){
+//         return view('home');
+//     })->name('home');
+//     Route::get('about',function(){
+//         return view('about');
+//     })->name('about');
+// });
 
+Route::get('/{value?}',function($value=null){
+    // return view('test',['value'=>$value]);
+    return view('test')->with(['value'=>$value]);
+});
 
 
