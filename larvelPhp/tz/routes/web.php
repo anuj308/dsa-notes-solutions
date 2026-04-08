@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\DbController;
+use App\Http\Controllers\EmailController;
+use App\Http\Middleware\AgeCheck;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware(AgeCheck::class);
 
 Route::get('/monday', function () {
     return view('monday');
@@ -24,3 +27,28 @@ Route::domain('hello.com')->group(function(){
         return response("Welcome user");
     });
 });
+
+Route::view('/emailform', 'EmailForm')->name('email.form');
+Route::post('/email', [EmailController::class, 'EmailData'])->name('email.send');
+
+// group function
+// Route::prefix('/group/testing')->group(function () {
+//     Route::get('/fee',function(){
+//         return view('g.fee');
+//     });
+//     Route::get('/details',function(){
+//         return view('g.details');
+//     });
+//     Route::get('/marks',function(){
+//         return view('g.marks');
+//     });
+// });
+
+Route::prefix('/group/testing')
+    // ->middleware(['age', 'country'])
+    ->controller(DbController::class)
+    ->group(function () {
+        Route::get('/fee', 'fee');
+        Route::get('/details', 'details');
+        Route::get('/marks', 'marks');
+    });
