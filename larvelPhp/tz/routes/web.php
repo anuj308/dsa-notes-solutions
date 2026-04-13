@@ -64,3 +64,7 @@ Route::get('/lang/en', function () {
     App::setlocale('en');
     return view('Monday');
 })->name('lang.en');
+
+Route::View('/fileform','FileForm');
+use App\Http\Controllers\fileController;
+Route::post('/upload', [fileController::class, 'uploadData']);
