@@ -52,3 +52,15 @@ Route::prefix('/group/testing')
         Route::get('/details', 'details');
         Route::get('/marks', 'marks');
     });
+
+Route::view('/lang','Monday');
+
+Route::get('/lang/hn', function () {
+    App::setlocale('hn');
+    return view('Monday');
+})->name('lang.hn');
+
+Route::get('/lang/en', function () {
+    App::setlocale('en');
+    return view('Monday');
+})->name('lang.en');
