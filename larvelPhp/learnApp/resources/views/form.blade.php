@@ -102,6 +102,17 @@
                     @enderror
                 </span>
             </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <input type="radio" id="gender" name="gender" value="M" > Male
+                <input type="radio" id="gender" name="gender" value="F"> Female
+                <input type="radio" id="gender" name="gender" value="O"> Other
+                <span>
+                    @error('phoneNo')
+                        {{$message}}
+                    @enderror
+                </span>
+            </div>
             <input type="submit" value="Register">
         </form>
     </div>
