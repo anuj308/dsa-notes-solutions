@@ -105,4 +105,7 @@ Route::get('empModel',function(){
     echo '<pre>';
     print_r($emp->toArray());
 });
+use App\Http\Controllers\register;
 
+Route::get('/form',[register::class,'index']);
+Route::post('/register',[register::class,'register']);
