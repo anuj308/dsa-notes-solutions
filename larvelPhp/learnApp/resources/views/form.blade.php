@@ -73,11 +73,11 @@
 <body>
     <div class="form-container">
         <h1>Register</h1>
-        <form action="{{ url('/register') }}" method="post">
+        <form action="{{ url(empty($employee->id) ? '/register' : '/userUpdate/'.$employee->id) }}" method="post">
             @csrf
             <div class="form-group">
                 <label for="fullName">Full Name</label>
-                <input type="text" id="fullName" name="fullName" value="{{old('fullName')}}" >
+                <input type="text" id="fullName" name="fullName" value="{{old('fullName',$employee->fullName ?? '')}}" >
                 <span>
                     @error('fullName')
                         {{$message}}
@@ -86,7 +86,7 @@
             </div>
             <div class="form-group">
                 <label for="age">Age</label>
-                <input type="number" id="age" name="age" value="{{old('age')}}" >
+                <input type="number" id="age" name="age" value="{{old('age',$employee->age ?? '')}}" >
                 <span>
                     @error('age')
                         {{$message}}
@@ -95,7 +95,7 @@
             </div>
             <div class="form-group">
                 <label for="phoneNo">Phone Number</label>
-                <input type="number" id="phoneNo" name="phoneNo" value="{{old('phoneNo')}}" >
+                <input type="number" id="phoneNo" name="phoneNo" value="{{old('phoneNo',$employee->phoneNo ?? '')}}" >
                 <span>
                     @error('phoneNo')
                         {{$message}}
@@ -104,9 +104,9 @@
             </div>
             <div class="form-group">
                 <label for="gender">Gender</label>
-                <input type="radio" id="gender" name="gender" value="M" > Male
-                <input type="radio" id="gender" name="gender" value="F"> Female
-                <input type="radio" id="gender" name="gender" value="O"> Other
+                <input type="radio" id="gender" name="gender" value="M" {{!empty($employee->gender) && $employee->gender=='M'? 'checked' : ''}} > Male
+                <input type="radio" id="gender" name="gender" value="F" {{!empty($employee->gender) && $employee->gender=='F'? 'checked' : ''}}> Female
+                <input type="radio" id="gender" name="gender" value="O" {{!empty($employee->gender) && $employee->gender=='O'? 'checked' : ''}}> Other
                 <span>
                     @error('phoneNo')
                         {{$message}}

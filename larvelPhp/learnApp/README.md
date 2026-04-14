@@ -28,3 +28,6 @@ php artisan migrate:reset
 php artisan migrate:refresh
 
 php artisan make:model Employee
+
+route for name tag routingn
+url for normal routing in <a> tag

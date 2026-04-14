@@ -109,3 +109,6 @@ use App\Http\Controllers\register;
 
 Route::get('/form',[register::class,'index']);
 Route::post('/register',[register::class,'register']);
+Route::post('/userUpdate/{id}',[register::class,'update']);
+Route::get('/userEdit/{id}',[register::class,'edit']);
+Route::get('/userDataDetails',[register::class,'allData']);
