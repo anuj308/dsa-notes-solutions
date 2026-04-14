@@ -12,3 +12,19 @@ php artisan make:controller TestController --invokable
 
 <!-- for crud operation a template for all the functions -->
 php artisan make:controller TestController --resource
+
+<!-- below is the syntax create_name_table -->
+php artisan make:migration create_employee_table
+
+php artisan migrate
+
+<!-- only remove the last migrated table -->
+php artisan migrate:rollback
+
+<!-- this reset or remove all table -->
+php artisan migrate:reset 
+
+<!-- it rollback all table and then migrate them -->
+php artisan migrate:refresh
+
+php artisan make:model Employee

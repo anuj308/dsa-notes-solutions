@@ -96,5 +96,13 @@ Route::controller(homeController::class)->group(function(){
     Route::get('/edit/{value?}','edit')->name('e');
     });
     
+    // for single action controller
 Route::get('/invokeFunc',Test2Controller::class);
+
+use App\Models\Employee;
+Route::get('empModel',function(){
+    $emp = Employee::all();
+    echo '<pre>';
+    print_r($emp->toArray());
+});
 
