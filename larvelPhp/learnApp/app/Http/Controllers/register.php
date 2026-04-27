@@ -58,4 +58,15 @@ class register extends Controller
 
         return redirect('userDataDetails');
     }
+
+    function delete($id){
+        $employee = Employee::find($id);
+
+        if(!is_null($employee)){
+            $employee->delete();
+            return redirect()->back();
+        }
+            
+        return redirect()->back();
+    }
 }

@@ -18,7 +18,7 @@
                     <td>{{ $emp['gender'] }}</td>
 
                     <td><a href="{{url('userEdit',['id' => $emp['id']])}}"><button>Edit</button></a></td>
-                    <td><a href=""><button>Delete</button></a></td>
+                    <td><a href="{{url('userDelete',['id' => $emp['id']])}}"><button>Delete</button></a></td>
                 </tr>
             @empty
                 <tr>

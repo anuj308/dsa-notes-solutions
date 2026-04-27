@@ -111,4 +111,5 @@ Route::get('/form',[register::class,'index']);
 Route::post('/register',[register::class,'register']);
 Route::post('/userUpdate/{id}',[register::class,'update']);
 Route::get('/userEdit/{id}',[register::class,'edit']);
+Route::get('/userDelete/{id}',[register::class,'delete']);
 Route::get('/userDataDetails',[register::class,'allData']);
