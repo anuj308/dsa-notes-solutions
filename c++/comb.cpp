@@ -64,42 +64,75 @@ class Dog : public Animal{
         cout << "I bark" << endl;
     }
 };
-class Person{
-    private:
-    string name;
-    int age;
 
-    void setPerson(string n,int a){
-        name=n;
-        age=a;
-    }
-    void showPerson(){
-        cout << "Name: " << name << endl;
-        cout << "Age: " << age << endl;
+// class Person{
+//     private:
+//     string name;
+//     int age;
+
+//     void setPerson(string n,int a){
+//         name=n;
+//         age=a;
+//     }
+//     void showPerson(){
+//         cout << "Name: " << name << endl;
+//         cout << "Age: " << age << endl;
+//     }
+// };
+
+// class Student: public Person{
+//     private:
+//     int rollNo;
+//     void setStudent(int r){
+//         rollNo=r;
+//     }
+//     void showRollNo(){
+//         cout << "Rollno: " << rollNo << endl;
+//     }
+// };
+
+// class Monitor: public Student{
+//     private:
+//     string section;
+//     void setMonitor(string sec){
+//         section = sec;
+//     }
+//     void showMonitor(){
+//         cout << "Section: " << section << endl;
+//     }
+// };
+// -----------------------------------------------------------------
+
+class A{
+    public:
+    int x;
+    A(int a){
+        x=a;
     }
 };
 
-class Student: public Person{
-    private:
-    int rollNo;
-    void setStudent(int r){
-        rollNo=r;
-    }
-    void showRollNo(){
-        cout << "Rollno: " << rollno << endl;
+class B: public A{
+    public:
+    int y;
+    B(int a,int b): A(a){
+        y=b;
     }
 };
 
-class Monitor: public Student{
-    private:
-    string section;
-    void setMonitor(string sec){
-        section = sec;
+class C : public B{
+    public:
+    int z;
+    C(int a,int b,int c): B(a,b){
+        z=c;
     }
-    void showMonitor(){
-        cout << "Section: " << section << endl;
+    void display(){
+        cout << "A: " << x << endl;
+        cout << "B: " << y << endl;
+        cout << "C: " << z << endl;
     }
 };
+
+
 
 int main(){
     // Student s1(10,"anuj");
@@ -119,8 +152,11 @@ int main(){
     // cout << "Book 3:"<< endl;
     // b3.display();
 
-    Dog d1;
-    d1.bark();
-    d1.eat();
+    // Dog d1;
+    // d1.bark();
+    // d1.eat();
+
+    C obj(1,2,3);
+    obj.display();
     return 0;
 }
