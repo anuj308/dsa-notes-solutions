@@ -1,0 +1,24 @@
+in an ec2 instance host static web site
+
+chmod 400 test1.pem
+ssh -i test1.pem ec2-user@YOUR-IP
+
+(amazon linux)
+sudo yum update -y
+sudo yum install nginx -y
+
+(start nginx)
+sudo systemctl start nginx
+sudo systemctl enable nginx
+
+(add files)
+cd /usr/share/nginx/html
+sudo rm index.html
+sudo nano index.html
+
+(restart server)
+sudo systemctl restart nginx
+
+today 
+create a ec2 instanace and create a role to manage ec2 and with session manager added ec2 to it - so that with this we can run cmd to all the connect ec2 instance at same time
+also using run a command to run commands	
