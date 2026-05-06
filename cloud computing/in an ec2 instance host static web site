@@ -22,3 +22,5 @@ sudo systemctl restart nginx
 today 
 create a ec2 instanace and create a role to manage ec2 and with session manager added ec2 to it - so that with this we can run cmd to all the connect ec2 instance at same time
 also using run a command to run commands	
+
+11 mar

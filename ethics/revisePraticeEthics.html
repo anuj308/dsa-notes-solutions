@@ -1,1349 +1,491 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSE332 - Industry Ethics & Legal Issues | Revision Hub</title>
-    <style>
-        :root {
-            --bg: #0d1117;
-            --surface: #161b22;
-            --surface2: #21262d;
-            --border: #30363d;
-            --text: #e6edf3;
-            --text2: #c9d1d9;
-            --text3: #8b949e;
-            --accent: #58a6ff;
-            --accent2: #238636;
-            --danger: #f85149;
-            --warning: #d2991d;
-            --purple: #a371f7;
-            --cyan: #39d2c0;
-            --orange: #f0883e;
-            --sidebar-w: 260px;
-            --header-h: 56px;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-        }
-        /* Sidebar */
-        .sidebar {
-            width: var(--sidebar-w);
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background: var(--surface);
-            border-right: 1px solid var(--border);
-            overflow-y: auto;
-            z-index: 100;
-            padding-bottom: 20px;
-            transition: transform 0.3s;
-        }
-        .sidebar-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            background: var(--surface);
-            z-index: 2;
-        }
-        .sidebar-header h2 {
-            font-size: 1.1rem;
-            color: var(--accent);
-            letter-spacing: -0.3px;
-        }
-        .sidebar-header small {
-            color: var(--text3);
-            font-size: 0.7rem;
-        }
-        .sidebar-nav {
-            padding: 8px 0;
-        }
-        .sidebar-nav .unit-group {
-            margin-bottom: 2px;
-        }
-        .sidebar-nav .unit-btn {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            padding: 10px 20px;
-            border: none;
-            background: transparent;
-            color: var(--text2);
-            cursor: pointer;
-            font-size: 0.9rem;
-            text-align: left;
-            gap: 10px;
-            transition: all 0.15s;
-            border-left: 3px solid transparent;
-        }
-        .sidebar-nav .unit-btn:hover {
-            background: var(--surface2);
-            color: var(--text);
-            border-left-color: var(--accent);
-        }
-        .sidebar-nav .unit-btn.active {
-            background: var(--surface2);
-            color: var(--accent);
-            border-left-color: var(--accent);
-            font-weight: 600;
-        }
-        .unit-icon {
-            font-size: 1.1rem;
-            width: 24px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-        .sidebar-footer {
-            padding: 12px 20px;
-            border-top: 1px solid var(--border);
-            margin-top: 8px;
-            position: sticky;
-            bottom: 0;
-            background: var(--surface);
-        }
-        .mode-toggle {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            color: var(--text2);
-            font-size: 0.8rem;
-        }
-        .toggle-switch {
-            width: 44px;
-            height: 24px;
-            background: var(--surface2);
-            border-radius: 12px;
-            position: relative;
-            border: 1px solid var(--border);
-            transition: all 0.3s;
-        }
-        .toggle-switch::after {
-            content: '';
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: var(--accent);
-            top: 2px;
-            left: 3px;
-            transition: all 0.3s;
-        }
-        .light-mode .toggle-switch {
-            background: #d0d7de;
-        }
-        .light-mode .toggle-switch::after {
-            left: 21px;
-            background: #f0883e;
-        }
-        /* Main Content */
-        .main {
-            margin-left: var(--sidebar-w);
-            flex: 1;
-            min-height: 100vh;
-            padding: 0;
-        }
-        .topbar {
-            height: var(--header-h);
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            padding: 0 24px;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            gap: 16px;
-        }
-        .topbar h1 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            flex: 1;
-        }
-        .topbar .badge {
-            background: var(--accent2);
-            color: #fff;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-        .topbar .badge.warn {
-            background: var(--warning);
-            color: #000;
-        }
-        .hamburger {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        .content-area {
-            padding: 24px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        /* Revision Cards */
-        .unit-content {
-            display: none;
-        }
-        .unit-content.active {
-            display: block;
-        }
-        .revision-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px 24px;
-            margin-bottom: 16px;
-            transition: all 0.2s;
-        }
-        .revision-card:hover {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 1px var(--accent);
-        }
-        .revision-card h3 {
-            color: var(--accent);
-            font-size: 1.05rem;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .revision-card h4 {
-            color: var(--purple);
-            font-size: 0.9rem;
-            margin: 10px 0 6px;
-        }
-        .revision-card ul {
-            list-style: none;
-            padding: 0;
-        }
-        .revision-card ul li {
-            padding: 4px 0 4px 20px;
-            position: relative;
-            color: var(--text2);
-            font-size: 0.88rem;
-            line-height: 1.5;
-        }
-        .revision-card ul li::before {
-            content: '▸';
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-            font-size: 0.7rem;
-            top: 6px;
-        }
-        .revision-card .highlight-box {
-            background: var(--surface2);
-            border-left: 3px solid var(--warning);
-            padding: 10px 14px;
-            border-radius: 0 6px 6px 0;
-            margin: 10px 0;
-            font-size: 0.85rem;
-        }
-        .revision-card table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-            margin: 8px 0;
-        }
-        .revision-card table th,
-        .revision-card table td {
-            padding: 8px 12px;
-            border: 1px solid var(--border);
-            text-align: left;
-        }
-        .revision-card table th {
-            background: var(--surface2);
-            color: var(--accent);
-            font-weight: 600;
-        }
-        .tag {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            margin: 2px 4px 2px 0;
-        }
-        .tag-red {
-            background: #f8514922;
-            color: var(--danger);
-        }
-        .tag-green {
-            background: #23863622;
-            color: #3fb950;
-        }
-        .tag-blue {
-            background: #58a6ff22;
-            color: var(--accent);
-        }
-        .tag-purple {
-            background: #a371f722;
-            color: var(--purple);
-        }
-        .tag-orange {
-            background: #f0883e22;
-            color: var(--orange);
-        }
-        /* MCQ Section */
-        .mcq-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .mcq-controls {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .mcq-controls select,
-        .mcq-controls button {
-            padding: 10px 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--surface);
-            color: var(--text);
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
-        .mcq-controls button {
-            background: var(--accent2);
-            border-color: var(--accent2);
-            color: #fff;
-            font-weight: 600;
-        }
-        .mcq-controls button:hover {
-            opacity: 0.85;
-        }
-        .mcq-controls button.outline {
-            background: transparent;
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-        .mcq-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px 24px;
-            margin-bottom: 12px;
-        }
-        .mcq-card .q-num {
-            color: var(--text3);
-            font-size: 0.8rem;
-            margin-bottom: 4px;
-        }
-        .mcq-card .question {
-            font-weight: 600;
-            margin-bottom: 12px;
-            font-size: 0.95rem;
-        }
-        .mcq-card .options {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .mcq-card .opt-btn {
-            display: block;
-            width: 100%;
-            padding: 10px 14px;
-            text-align: left;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: var(--surface2);
-            color: var(--text2);
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.15s;
-        }
-        .mcq-card .opt-btn:hover {
-            border-color: var(--accent);
-            background: #58a6ff11;
-        }
-        .mcq-card .opt-btn.selected {
-            border-color: var(--accent);
-            background: #58a6ff22;
-            color: var(--accent);
-            font-weight: 600;
-        }
-        .mcq-card .opt-btn.correct {
-            border-color: #3fb950;
-            background: #23863622;
-            color: #3fb950;
-        }
-        .mcq-card .opt-btn.wrong {
-            border-color: var(--danger);
-            background: #f8514922;
-            color: var(--danger);
-        }
-        .mcq-card .explanation {
-            margin-top: 8px;
-            padding: 10px 14px;
-            background: var(--surface2);
-            border-radius: 6px;
-            font-size: 0.8rem;
-            color: var(--text3);
-            display: none;
-        }
-        .mcq-card .explanation.show {
-            display: block;
-        }
-        .score-bar {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px 20px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .score-bar .score {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent);
-        }
-        .score-bar .stats {
-            font-size: 0.85rem;
-            color: var(--text3);
-        }
-        .progress-ring {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 4px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-        /* Tabs */
-        .tab-nav {
-            display: flex;
-            gap: 0;
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--border);
-        }
-        .tab-nav button {
-            padding: 10px 20px;
-            border: none;
-            background: transparent;
-            color: var(--text3);
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            border-bottom: 2px solid transparent;
-            margin-bottom: -2px;
-            transition: all 0.2s;
-        }
-        .tab-nav button.active {
-            color: var(--accent);
-            border-bottom-color: var(--accent);
-        }
-        .tab-panel {
-            display: none;
-        }
-        .tab-panel.active {
-            display: block;
-        }
-        /* Light mode */
-        body.light-mode {
-            --bg: #ffffff;
-            --surface: #f6f8fa;
-            --surface2: #eaeef2;
-            --border: #d0d7de;
-            --text: #1f2328;
-            --text2: #424a53;
-            --text3: #656d76;
-            --accent: #0969da;
-        }
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .main {
-                margin-left: 0;
-            }
-            .hamburger {
-                display: block;
-            }
-            .content-area {
-                padding: 14px;
-            }
-            .revision-card {
-                padding: 14px 16px;
-            }
-            .revision-card ul li {
-                font-size: 0.82rem;
-            }
-        }
-        /* Overlay */
-        .overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 99;
-        }
-        .overlay.show {
-            display: block;
-        }
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 3px;
-        }
-        .emoji-big {
-            font-size: 1.4rem;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>CSE332 · Full Revision & 100+ MCQs</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface2: #21262d;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text2: #c9d1d9;
+      --text3: #8b949e;
+      --accent: #58a6ff;
+      --accent2: #238636;
+      --danger: #f85149;
+      --warning: #d2991d;
+      --purple: #a371f7;
+      --orange: #f0883e;
+      --sidebar-w: 260px;
+      --header-h: 56px;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+    }
+    .sidebar {
+      width: var(--sidebar-w);
+      height: 100vh;
+      position: fixed;
+      top:0; left:0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      z-index: 100;
+      padding-bottom: 20px;
+      transition: transform 0.3s;
+    }
+    .sidebar-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top:0; background: var(--surface); z-index:2;
+    }
+    .sidebar-header h2 { font-size:1.1rem; color:var(--accent); }
+    .sidebar-header small { color:var(--text3); font-size:0.7rem; }
+    .sidebar-nav .unit-btn {
+      display:flex; align-items:center; width:100%; padding:10px 20px;
+      border:none; background:transparent; color:var(--text2); cursor:pointer;
+      font-size:0.9rem; text-align:left; gap:10px; transition:0.15s;
+      border-left:3px solid transparent;
+    }
+    .sidebar-nav .unit-btn:hover { background:var(--surface2); color:var(--text); border-left-color:var(--accent); }
+    .sidebar-nav .unit-btn.active { background:var(--surface2); color:var(--accent); border-left-color:var(--accent); font-weight:600; }
+    .unit-icon { font-size:1.1rem; width:24px; text-align:center; flex-shrink:0; }
+    .sidebar-footer { padding:12px 20px; border-top:1px solid var(--border); margin-top:8px; position:sticky; bottom:0; background:var(--surface); }
+    .mode-toggle { display:flex; align-items:center; gap:8px; cursor:pointer; color:var(--text2); font-size:0.8rem; }
+    .toggle-switch { width:44px; height:24px; background:var(--surface2); border-radius:12px; position:relative; border:1px solid var(--border); transition:0.3s; }
+    .toggle-switch::after { content:''; position:absolute; width:18px; height:18px; border-radius:50%; background:var(--accent); top:2px; left:3px; transition:0.3s; }
+    body.light-mode .toggle-switch { background:#d0d7de; }
+    body.light-mode .toggle-switch::after { left:21px; background:#f0883e; }
+    .main { margin-left: var(--sidebar-w); flex:1; min-height:100vh; }
+    .topbar {
+      height:var(--header-h); background:var(--surface); border-bottom:1px solid var(--border);
+      display:flex; align-items:center; padding:0 24px; position:sticky; top:0; z-index:50; gap:16px;
+    }
+    .topbar h1 { font-size:1.2rem; font-weight:600; flex:1; }
+    .topbar .badge { background:var(--accent2); color:#fff; padding:4px 12px; border-radius:20px; font-size:0.75rem; }
+    .hamburger { display:none; background:none; border:none; color:var(--text); font-size:1.5rem; cursor:pointer; }
+    .content-area { padding:24px; max-width:1000px; margin:0 auto; }
+    .tab-nav { display:flex; gap:0; margin-bottom:20px; border-bottom:2px solid var(--border); }
+    .tab-nav button { padding:10px 20px; border:none; background:transparent; color:var(--text3); cursor:pointer; font-size:0.9rem; border-bottom:2px solid transparent; margin-bottom:-2px; }
+    .tab-nav button.active { color:var(--accent); border-bottom-color:var(--accent); }
+    .tab-panel { display:none; }
+    .tab-panel.active { display:block; }
+    .revision-card {
+      background:var(--surface); border:1px solid var(--border); border-radius:12px;
+      padding:20px 24px; margin-bottom:16px;
+    }
+    .revision-card h3 { color:var(--accent); font-size:1.05rem; margin-bottom:10px; }
+    .revision-card h4 { color:var(--purple); font-size:0.9rem; margin:10px 0 6px; }
+    .revision-card ul { list-style:none; padding:0; }
+    .revision-card ul li { padding:4px 0 4px 20px; position:relative; color:var(--text2); font-size:0.88rem; line-height:1.5; }
+    .revision-card ul li::before { content:'▸'; position:absolute; left:0; color:var(--accent); font-size:0.7rem; top:6px; }
+    .highlight-box { background:var(--surface2); border-left:3px solid var(--warning); padding:10px 14px; border-radius:0 6px 6px 0; margin:10px 0; font-size:0.85rem; }
+    .revision-card table { width:100%; border-collapse:collapse; font-size:0.85rem; margin:8px 0; }
+    .revision-card table th, .revision-card table td { padding:8px 12px; border:1px solid var(--border); text-align:left; }
+    .revision-card table th { background:var(--surface2); color:var(--accent); }
+    .tag { display:inline-block; padding:3px 10px; border-radius:12px; font-size:0.7rem; font-weight:600; margin:2px 4px 2px 0; }
+    .tag-blue { background:#58a6ff22; color:var(--accent); }
+    .tag-green { background:#23863622; color:#3fb950; }
+    .tag-red { background:#f8514922; color:var(--danger); }
+    .tag-purple { background:#a371f722; color:var(--purple); }
+    .tag-orange { background:#f0883e22; color:var(--orange); }
+    .mcq-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px 24px; margin-bottom:12px; }
+    .mcq-card .q-num { color:var(--text3); font-size:0.8rem; margin-bottom:4px; }
+    .mcq-card .question { font-weight:600; margin-bottom:12px; font-size:0.95rem; }
+    .mcq-card .options { display:flex; flex-direction:column; gap:6px; }
+    .opt-btn {
+      display:block; width:100%; padding:10px 14px; text-align:left; border:1px solid var(--border);
+      border-radius:8px; background:var(--surface2); color:var(--text2); cursor:pointer; font-size:0.85rem; transition:0.15s;
+    }
+    .opt-btn:hover { border-color:var(--accent); background:#58a6ff11; }
+    .opt-btn.selected { border-color:var(--accent); background:#58a6ff22; color:var(--accent); font-weight:600; }
+    .opt-btn.correct { border-color:#3fb950; background:#23863622; color:#3fb950; }
+    .opt-btn.wrong { border-color:var(--danger); background:#f8514922; color:var(--danger); }
+    .explanation { margin-top:8px; padding:10px 14px; background:var(--surface2); border-radius:6px; font-size:0.8rem; color:var(--text3); display:none; }
+    .explanation.show { display:block; }
+    .score-bar {
+      background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px 20px;
+      margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;
+    }
+    .score-bar .score { font-size:1.5rem; font-weight:700; color:var(--accent); }
+    .progress-ring { width:60px; height:60px; border-radius:50%; border:4px solid var(--border); display:flex; align-items:center; justify-content:center; font-weight:700; }
+    .overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:99; }
+    .overlay.show { display:block; }
+    @media (max-width:768px) {
+      .sidebar { transform:translateX(-100%); }
+      .sidebar.open { transform:translateX(0); }
+      .main { margin-left:0; }
+      .hamburger { display:block; }
+    }
+    body.light-mode {
+      --bg:#ffffff; --surface:#f6f8fa; --surface2:#eaeef2; --border:#d0d7de;
+      --text:#1f2328; --text2:#424a53; --text3:#656d76; --accent:#0969da;
+    }
+  </style>
 </head>
 <body>
-
-    <!-- Overlay for mobile -->
-    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h2>📘 CSE332</h2>
-            <small>Industry Ethics & Legal Issues</small>
-        </div>
-        <nav class="sidebar-nav">
-            <div class="unit-group">
-                <button class="unit-btn active" data-unit="unit1" onclick="switchUnit('unit1', this)">
-                    <span class="unit-icon">🧭</span> Unit 1: Ethics
-                </button>
-            </div>
-            <div class="unit-group">
-                <button class="unit-btn" data-unit="unit2" onclick="switchUnit('unit2', this)">
-                    <span class="unit-icon">💡</span> Unit 2: IPR
-                </button>
-            </div>
-            <div class="unit-group">
-                <button class="unit-btn" data-unit="unit3" onclick="switchUnit('unit3', this)">
-                    <span class="unit-icon">🚀</span> Unit 3: Startup Schemes
-                </button>
-            </div>
-            <div class="unit-group">
-                <button class="unit-btn" data-unit="unit4" onclick="switchUnit('unit4', this)">
-                    <span class="unit-icon">📋</span> Unit 4: Startup in IT
-                </button>
-            </div>
-            <div class="unit-group">
-                <button class="unit-btn" data-unit="unit5" onclick="switchUnit('unit5', this)">
-                    <span class="unit-icon">🏢</span> Unit 5: Companies
-                </button>
-            </div>
-            <div class="unit-group">
-                <button class="unit-btn" data-unit="unit6" onclick="switchUnit('unit6', this)">
-                    <span class="unit-icon">🔒</span> Unit 6: InfoSec Law
-                </button>
-            </div>
-            <div class="unit-group" style="margin-top:8px; border-top:1px solid var(--border); padding-top:8px;">
-                <button class="unit-btn" data-unit="mcq" onclick="switchUnit('mcq', this)" style="color:var(--warning);">
-                    <span class="unit-icon">📝</span> Practice MCQs
-                </button>
-            </div>
-        </nav>
-        <div class="sidebar-footer">
-            <div class="mode-toggle" onclick="toggleLightMode()" title="Toggle light/dark mode">
-                <div class="toggle-switch"></div>
-                <span id="modeLabel">Dark Mode</span>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Main -->
-    <div class="main">
-        <div class="topbar">
-            <button class="hamburger" onclick="toggleSidebar()">☰</button>
-            <h1 id="topTitle">Unit 1: Ethics</h1>
-            <span class="badge" id="topBadge">Revision</span>
-        </div>
-        <div class="content-area" id="contentArea">
-            <!-- Tab Navigation -->
-            <div class="tab-nav" id="tabNav">
-                <button class="active" data-tab="revision" onclick="switchTab('revision', this)">📖 Revision Notes</button>
-                <button data-tab="mcq-practice" onclick="switchTab('mcq-practice', this)">📝 Practice MCQs</button>
-            </div>
-
-            <!-- Revision Tab -->
-            <div class="tab-panel active" id="panel-revision">
-                <div id="revisionContent"></div>
-            </div>
-
-            <!-- MCQ Tab -->
-            <div class="tab-panel" id="panel-mcq-practice">
-                <div class="mcq-container" id="mcqContainer"></div>
-            </div>
-        </div>
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header"><h2>📘 CSE332</h2><small>Ethics·IPR·Startups·InfoSec</small></div>
+    <nav class="sidebar-nav">
+      <button class="unit-btn active" data-unit="unit1" onclick="switchUnit('unit1',this)"><span class="unit-icon">🧭</span> Unit 1: Ethics</button>
+      <button class="unit-btn" data-unit="unit2" onclick="switchUnit('unit2',this)"><span class="unit-icon">💡</span> Unit 2: IPR</button>
+      <button class="unit-btn" data-unit="unit3" onclick="switchUnit('unit3',this)"><span class="unit-icon">🚀</span> Unit 3: Startup Schemes</button>
+      <button class="unit-btn" data-unit="unit4" onclick="switchUnit('unit4',this)"><span class="unit-icon">📋</span> Unit 4: IT Startup Plan</button>
+      <button class="unit-btn" data-unit="unit5" onclick="switchUnit('unit5',this)"><span class="unit-icon">🏢</span> Unit 5: IT Industry</button>
+      <button class="unit-btn" data-unit="unit6" onclick="switchUnit('unit6',this)"><span class="unit-icon">🔒</span> Unit 6: InfoSec Law</button>
+      <div style="border-top:1px solid var(--border); margin:6px 0;"></div>
+      <button class="unit-btn" data-unit="mcq" onclick="switchUnit('mcq',this)" style="color:var(--warning);"><span class="unit-icon">📝</span> Practice MCQs</button>
+    </nav>
+    <div class="sidebar-footer"><div class="mode-toggle" onclick="toggleLightMode()"><div class="toggle-switch"></div><span id="modeLabel">Dark Mode</span></div></div>
+  </aside>
+  <div class="main">
+    <div class="topbar">
+      <button class="hamburger" onclick="toggleSidebar()">☰</button>
+      <h1 id="topTitle">Unit 1: Ethics</h1>
+      <span class="badge" id="topBadge">Revision</span>
     </div>
+    <div class="content-area">
+      <div class="tab-nav" id="tabNav">
+        <button class="active" data-tab="revision" onclick="switchTab('revision',this)">📖 Revision</button>
+        <button data-tab="mcq-practice" onclick="switchTab('mcq-practice',this)">📝 Practice MCQs</button>
+      </div>
+      <div class="tab-panel active" id="panel-revision"><div id="revisionContent"></div></div>
+      <div class="tab-panel" id="panel-mcq-practice"><div class="mcq-container" id="mcqContainer"></div></div>
+    </div>
+  </div>
+<script>
+// ---------- EXTENDED REVISION DATA ----------
+const unitData = {
+  unit1: {
+    title:'Unit 1: Ethics & Integrity',
+    cards:[
+      { title:'🧭 What is Ethics?', content:`<ul><li>System of moral principles guiding behavior</li><li>Distinguishes right from wrong</li><li>Personal & professional conduct</li><li>Builds trust, honesty, responsibility</li></ul>` },
+      { title:'💎 Importance of Integrity', content:`<ul><li>Following moral convictions even when no one is watching</li><li>In business: builds trust, credibility, ensures long‑term success</li><li>Prevents unethical practices, promotes fairness</li></ul>` },
+      { title:'🏢 Business Ethics & Work Environment', content:`<ul><li>Survival, growth, goodwill, confidence</li><li>Manager’s checklist: clear guidelines, lead by example, open communication, training, accountability, rewards</li></ul>` },
+      { title:'🔍 Ethical Decision Making (5 Steps)', content:`<ol><li>Develop problem statement</li><li>Identify alternatives (brainstorm)</li><li>Evaluate & choose</li><li>Implement decision</li><li>Evaluate results</li></ol>` },
+      { title:'💻 Ethics in IT', content:`<ul><li>Copyright, spam, hacking, plagiarism, surveillance</li><li>IT pros: specialized knowledge, ethical behaviour, accountability, continuous learning</li><li>BSA fights software piracy</li><li>Support ethical practices via education, clear policies, access control, AI ethics</li></ul>` }
+    ]
+  },
+  unit2: {
+    title:'Unit 2: Intellectual Property Rights',
+    cards:[
+      { title:'💡 IPR Overview', content:`<span class="tag tag-blue">Patents</span><span class="tag tag-green">Copyright</span><span class="tag tag-purple">Trademarks</span><span class="tag tag-orange">Trade Secret</span><span class="tag tag-red">GI</span><span class="tag tag-blue">Design</span><span class="tag tag-green">Plant Variety</span>` },
+      { title:'📜 Patents Deep Dive', content:`<ul><li>20-year monopoly; territorial</li><li>Requirements: novelty, inventive step, industrial applicability</li><li>Provisional application (priority) → complete specification within 12 months</li><li>Examination request within 48 months</li><li>Patentee duties: pay renewal fees, work in India</li><li>Litigation vs licensing; ADR (mediation/arbitration)</li></ul>` },
+      { title:'© Copyright', content:`<ul><li>Right to copy; protects literary, artistic, musical, film, website content</li><li>Only creator can authorize reproduction</li></ul>` },
+      { title:'™ Trademark Types', content:`<ul><li>Product Mark (™/®), Service Mark (SM), Collective, Certification, Shape, Pattern, Sound</li><li>Loss of rights: genericide, non‑use, improper licensing</li><li>Benefits: exclusive right, infringement action, goodwill</li></ul>` },
+      { title:'🔐 Other IP', content:`<ul><li>Trade secret (secrecy + commercial value)</li><li>GI (e.g., Darjeeling tea)</li><li>Design (visual appearance)</li><li>Plant varieties (PVR)</li></ul>` },
+      { title:'📋 IP Registration & Analysis', content:`<ul><li>Identify issues (social, engineering) → prior art search → file application</li><li>Respond to examination reports; maintain patent</li><li>Challenges: cost, global variation, enforcement</li></ul>` }
+    ]
+  },
+  unit3: {
+    title:'Unit 3: Govt Funding & Startup Schemes',
+    cards:[
+      { title:'🚀 Startup Definition (DPIIT)', content:`<ul><li>Less than 10 years old</li><li>Turnover ≤ ₹100 Cr</li><li>Innovation, scalable model</li><li>Not formed by restructuring</li></ul>` },
+      { title:'🇮🇳 Startup India Benefits', content:`<ul><li>3‑year tax holiday, angel tax exemption</li><li>Self‑certification, fast‑track IPR (80% patent fee rebate)</li><li>₹10,000 Cr Fund of Funds, Seed Fund ₹50L</li><li>Easy exit (90 days)</li></ul>` },
+      { title:'💰 Loan Schemes', content:`<table><tr><th>Scheme</th><th>Max Loan</th><th>Special</th></tr><tr><td>MUDRA</td><td>₹10L</td><td>No collateral</td></tr><tr><td>Stand‑Up India</td><td>₹1Cr</td><td>Women/SC/ST</td></tr><tr><td>CGTMSE</td><td>₹2Cr</td><td>Collateral‑free</td></tr><tr><td>SIDBI</td><td>₹10Cr</td><td>Innovation focus</td></tr></table>` },
+      { title:'🌟 NASSCOM 10,000 Startups', content:`<ul><li>Launched 2013; incubate/accelerate</li><li>Focus: AI, FinTech, HealthTech</li><li>7,500+ incubated, $4B+ funding</li><li>Freshworks, Razorpay, Unacademy</li></ul>` },
+      { title:'🏭 STP & SEZ', content:`<table><tr><th>Feature</th><th>STP</th><th>SEZ</th></tr><tr><td>Tax holiday</td><td>10 yrs</td><td>15 yrs</td></tr><tr><td>Focus</td><td>IT/software</td><td>Multi‑sector</td></tr><tr><td>Jobs</td><td>~4.5M</td><td>~2M direct</td></tr></table>` },
+      { title:'📜 Startup Laws', content:`<ul><li>Choose entity (LLC/Corp)</li><li>IP protection, employment laws, taxes</li><li>Fundraising (SEC compliance), data privacy (GDPR)</li></ul>` },
+      { title:'🇺🇸 SBIR / STTR / NSF', content:`<ul><li>SBIR: no equity, Phase I up to $256K</li><li>STTR: requires research partner</li><li>NSF: I‑Corps, STEM grants</li></ul>` }
+    ]
+  },
+  unit4: {
+    title:'Unit 4: Startup in IT',
+    cards:[
+      { title:'📋 Business Plan Overview', content:`<ul><li>Executive summary, company description, mission/vision</li><li>Products/services: custom software, AI, cloud, cybersecurity</li></ul>` },
+      { title:'📈 Marketing Plan', content:`<ul><li>Target market analysis, buyer personas</li><li>Digital: paid ads, email, social media</li><li>Retention: AI chatbots, feedback</li></ul>` },
+      { title:'⚙️ Operational Plan', content:`<ul><li>Processes, workflows, resource allocation</li><li>Technology, risk management, Agile/Waterfall</li></ul>` },
+      { title:'💰 Financial Plan', content:`<ul><li>Personal financial statement (assets/liabilities)</li><li>Startup expenses, capitalization</li><li>12‑month P&L, cash flow, break‑even, opening balance sheet</li></ul>` },
+      { title:'🏢 Management & Organisation', content:`<ul><li>Founders, leadership team, organizational structure</li><li>Departments, roles, decision‑making authority</li></ul>` },
+      { title:'📎 Appendices & Refining', content:`<ul><li>Support documents: leases, letters, market research</li><li>For bankers: loan amount, use, repayment, collateral</li><li>For investors: ROI, use of funds</li></ul>` },
+      { title:'📖 Startup Stories', content:`<h4>Flipkart</h4><ul><li>Founded 2007 by ex‑Amazon IITians</li><li>Pioneered COD, own logistics</li><li>Acquired Myntra; valued $15B+</li></ul><h4>MakeMyTrip</h4><ul><li>Deep Kalra (IIM‑A) simplified travel booking</li><li>Best Travel Portal award</li></ul>` }
+    ]
+  },
+  unit5: {
+    title:'Unit 5: IT & ITES Industry',
+    cards:[
+      { title:'🖥️ IT vs ITES', content:`<ul><li>IT: software & hardware</li><li>ITES: BPO, KPO, LPO</li></ul>` },
+      { title:'📦 Product vs Service Companies', content:`<table><tr><th></th><th>Product</th><th>Service</th></tr><tr><td>Examples</td><td>Microsoft, Google, Apple</td><td>TCS, Infosys, Accenture</td></tr><tr><td>Revenue</td><td>Licence/subscription</td><td>Project/contract</td></tr></table><p>Hybrid: Microsoft (Azure), Amazon (AWS)</p>` },
+      { title:'🏛️ NASSCOM & STPI', content:`<ul><li>NASSCOM: policy, skill, global collaboration</li><li>STPI: infrastructure, incubation, tax benefits</li></ul>` },
+      { title:'🌐 Latest IT Projects & Trends', content:`<ul><li>AI in healthcare, cloud, blockchain, 5G, IoT</li><li>Market: rapid cloud adoption, AI growth, cybersecurity focus</li><li>Hubs: Bengaluru, Silicon Valley, London, emerging Vietnam/Poland</li></ul>` },
+      { title:'🏆 Successful Projects', content:`<ul><li>Aadhaar, Google AI Search, AWS, Tesla, Paytm, ChatGPT</li></ul>` },
+      { title:'🔬 Recent Tech Advancements', content:`<ul><li>Quantum (Amazon Ocelot), AI/ML, AR/VR (Apple Vision Pro)</li></ul>` },
+      { title:'👥 Workforce Diversity', content:`<ul><li>Women ~28% of tech workers</li><li>White Americans ~62% of tech jobs; Black/Hispanic underrepresented</li><li>Ongoing inclusion efforts</li></ul>` }
+    ]
+  },
+  unit6: {
+    title:'Unit 6: InfoSec Law & Ethics',
+    cards:[
+      { title:'⚖️ Law vs Ethics', content:`<table><tr><th></th><th>Law</th><th>Ethics</th></tr><tr><td>Enforcement</td><td>Govt sanction</td><td>No legal sanction</td></tr><tr><td>Consequences</td><td>Fines/prison</td><td>Professional repercussions</td></tr></table>` },
+      { title:'📜 InfoSec Laws', content:`<ul><li>Data Protection: GDPR, CCPA, HIPAA</li><li>Cybercrime: CFAA, IT Act 2000</li><li>IP: DMCA, Copyright Act</li><li>Compliance: ISO 27001, PCI DSS</li></ul>` },
+      { title:'🛡️ Organisational Policies', content:`<ul><li>AUP, Password, Backup, Incident Response, BYOD, Access Control</li></ul>` },
+      { title:'🧠 Ethics in InfoSec', content:`<ul><li>Privacy, hacking (white‑hat vs black‑hat), AI ethics, whistleblowing, professional (ISC²)</li></ul>` },
+      { title:'🏛️ Organisational Liability', content:`<ul><li>Data breaches, non‑compliance, negligence, IP violations</li><li>Need legal counsel for compliance, incident handling, contracts</li><li>Cases: Cambridge Analytica, Equifax, Uber, Wells Fargo</li></ul>` },
+      { title:'🚨 Cyber Crime', content:`<ul><li>Types: fraud, hacking, bullying, IP theft, terrorism</li><li>Stats: $10.5T by 2025, attack every 39s</li><li>Reasons: digital dependence, weak awareness, IoT</li></ul>` },
+      { title:'🇮🇳 Indian Cyber Laws', content:`<table><tr><th>Law</th><th>Coverage</th></tr><tr><td>IT Act 2000</td><td>Hacking, phishing, cyberstalking</td></tr><tr><td>IPC 419/420</td><td>Online fraud</td></tr><tr><td>IPC 500</td><td>Defamation</td></tr><tr><td>IPC 354D</td><td>Cyberstalking</td></tr><tr><td>DPDP Act 2023</td><td>Data privacy</td></tr></table>` },
+      { title:'🔧 Cybersecurity Tools & Best Practices', content:`<ul><li>Network: Wireshark, Nmap; Endpoint: CrowdStrike; Pentest: Metasploit; Forensics: Autopsy; SIEM: Splunk</li><li>Practices: MFA, patching, training, backups, least privilege, network segmentation</li></ul>` },
+      { title:'📋 Key Case Studies', content:`<ul><li>Colonial Pipeline (ransomware, $4.4M)</li><li>Equifax (unpatched Apache Struts, 147M records)</li><li>Apple vs FBI (encryption ethics)</li></ul>` }
+    ]
+  }
+};
 
-    <script>
-        // ==================== DATA ====================
-        const unitData = {
-            unit1: {
-                title: 'Unit 1: Ethics',
-                cards: [{
-                    title: '🧭 What is Ethics?',
-                    content: `<ul>
-                <li>System of <strong>moral principles</strong> guiding human behavior</li>
-                <li>Distinguishes <strong>right from wrong</strong></li>
-                <li>Involves personal & professional conduct</li>
-                <li>Foundational in establishing trust</li>
-                <li>Doing what's fair, honest, and respectful</li>
-                <li>Following values: trust, responsibility, kindness</li></ul>`
-                }, {
-                    title: '💎 Importance of Integrity',
-                    content: `<ul>
-                <li>Following moral/ethical convictions even when <strong>no one is watching</strong></li>
-                <li>Being true to yourself; do nothing that dishonors you</li>
-                <li><strong>In Business:</strong> Builds trust & credibility, ensures long-term success</li>
-                <li>Enhances reputation and goodwill; prevents unethical practices</li>
-                <li>Promotes fairness and transparency</li></ul>
-                <div class="highlight-box">🔑 <strong>Key:</strong> Integrity = Foundation of ethical behavior in business</div>`
-                }, {
-                    title: '🏢 Business Ethics',
-                    content: `<ul>
-                <li>Survival of the business unit</li>
-                <li>Growth of business unit</li>
-                <li>Earning goodwill & improving confidence</li>
-                <li>Maintaining inter-relationships</li>
-                <li>Solving social problems</li></ul>
-                <h4>Creating an Ethical Work Environment:</h4>
-                <ul>
-                <li>Establish clear ethical guidelines</li>
-                <li>Lead by example (ethical leadership)</li>
-                <li>Encourage open communication</li>
-                <li>Conduct regular ethics training</li>
-                <li>Enforce accountability measures</li>
-                <li>Recognize and reward ethical behavior</li></ul>`
-                }, {
-                    title: '🔍 Ethical Decision Making',
-                    content: `<ul>
-                <li><strong>Step 1:</strong> Develop a clear problem statement</li>
-                <li><strong>Step 2:</strong> Identify alternatives (brainstorm with stakeholders)</li>
-                <li><strong>Step 3:</strong> Evaluate and choose an alternative</li>
-                <li><strong>Step 4:</strong> Implement the decision efficiently</li>
-                <li><strong>Step 5:</strong> Evaluate results & check for unintended consequences</li></ul>`
-                }, {
-                    title: '💻 Ethics in Information Technology',
-                    content: `<ul>
-                <li>Copyright violation harms music & films</li>
-                <li>Spam emails enable low-cost marketing</li>
-                <li>Hacking, plagiarism, and tracking persist</li>
-                <li><strong>IT Professional traits:</strong> Specialized knowledge, ethical behavior, accountability, continuous learning</li>
-                <li><strong>Common IT user issues:</strong> Privacy concerns, cybersecurity risks, misuse of resources, surveillance</li>
-                <li><strong>BSA (Business Software Alliance):</strong> Fights software piracy</li></ul>`
-                }]
-            },
-            unit2: {
-                title: 'Unit 2: Intellectual Property Rights',
-                cards: [{
-                    title: '💡 Overview of IPR',
-                    content: `<ul>
-                <li><strong>IPR:</strong> Legal rights protecting creations of the mind</li>
-                <li>Encourages development of new products & services</li>
-                <li>Types: <span class="tag tag-blue">Patents</span> <span class="tag tag-green">Copyrights</span> <span class="tag tag-purple">Trademarks</span> <span class="tag tag-orange">Trade Secrets</span> <span class="tag tag-red">GI</span></li></ul>`
-                }, {
-                    title: '📜 Patents',
-                    content: `<ul>
-                <li>Legal document giving <strong>exclusive rights</strong> for a set period</li>
-                <li><strong>Term:</strong> 20 years from date of filing (territorial rights)</li>
-                <li><strong>Requirements:</strong> Novelty, non-obviousness, industrial applicability</li>
-                <li>Protects: Process, machine, article of manufacture, composition of matter</li>
-                <li><strong>Who can file:</strong> True inventor, assignee, legal representative</li>
-                <li><strong>Provisional application:</strong> Gets early priority (optional but advisable)</li>
-                <li><strong>Complete specification:</strong> Must be filed within 12 months of provisional</li>
-                <li>Examination request: within 48 months from filing/priority date</li></ul>`
-                }, {
-                    title: '© Copyright',
-                    content: `<ul>
-                <li>Right to copy; only creator can authorize reproduction</li>
-                <li>Protects: Novels, art, poetry, music, films, website content</li>
-                <li>Protects creators from unauthorized use</li></ul>`
-                }, {
-                    title: '™ Trademarks',
-                    content: `<ul>
-                <li>Sign capable of distinguishing goods/services</li>
-                <li><strong>Types:</strong> Product Mark (™/®), Service Mark (SM), Collective Mark, Certification Mark, Shape Mark, Pattern Mark, Sound Mark</li>
-                <li><strong>Benefits:</strong> Exclusive right, legal action against infringement, goodwill</li>
-                <li><strong>Loss of rights:</strong> Improper use, genericide, non-use, failure to renew</li>
-                <li>Examples: Apple Logo, Nike Swoosh, Coca-Cola, Gucci Pattern, Netflix sound</li></ul>`
-                }, {
-                    title: '🔐 Other IP Types',
-                    content: `<ul>
-                <li><strong>Trade Secret:</strong> Confidential info with commercial value (secrecy maintained)</li>
-                <li><strong>Geographical Indication (GI):</strong> Identifies product's geographical origin</li>
-                <li><strong>Design:</strong> Protects visual appearance (shape, color, pattern, texture)</li>
-                <li><strong>Plant Varieties:</strong> Protects breeders from unauthorized reproduction</li></ul>`
-                }]
-            },
-            unit3: {
-                title: 'Unit 3: Government Funding & Startup Schemes',
-                cards: [{
-                    title: '🚀 Startup Definition (DPIIT)',
-                    content: `<ul>
-                <li>Company <strong>less than 10 years</strong> old from incorporation</li>
-                <li>Annual turnover ≤ <strong>INR 100 crore</strong></li>
-                <li>Working towards innovation, development, or improvement</li>
-                <li>Scalable business model with high employment potential</li>
-                <li>NOT formed by splitting/reconstructing an existing business</li></ul>`
-                }, {
-                    title: '🇮🇳 Startup India Initiative (Launched Jan 16, 2016)',
-                    content: `<ul>
-                <li><strong>Tax Benefits:</strong> 3-year income tax holiday (Sec 80-IAC), exemption from Angel Tax (Sec 56), capital gains exemption</li>
-                <li><strong>Easy Compliance:</strong> Self-certification for 9 labor & environmental laws</li>
-                <li><strong>Funding:</strong> ₹10,000 crore Fund of Funds (SIDBI), Seed Fund up to ₹50 lakh</li>
-                <li><strong>IPR:</strong> 80% rebate on patent filing, 50% on trademark fees, fast-track examination</li>
-                <li><strong>Govt Tenders:</strong> No prior experience needed, priority in public procurement</li>
-                <li><strong>Winding up:</strong> Within 90 days under IBC 2016</li>
-                <li>Examples: BYJU'S, Zomato, Paytm, Ather Energy, Zerodha, Nykaa</li></ul>`
-                }, {
-                    title: '💰 Bank Loan Schemes',
-                    content: `<table>
-                <tr><th>Scheme</th><th>Loan Amount</th><th>Key Feature</th></tr>
-                <tr><td>MUDRA (PMMY)</td><td>Up to ₹10 lakh</td><td>No collateral; Shishu/Kishor/Tarun</td></tr>
-                <tr><td>Stand-Up India</td><td>₹10L - ₹1 Cr</td><td>For Women & SC/ST entrepreneurs</td></tr>
-                <tr><td>CGTMSE</td><td>Up to ₹2 Cr</td><td>Collateral-free for MSMEs</td></tr>
-                <tr><td>SIDBI Startup Loan</td><td>₹10L - ₹10 Cr</td><td>For innovation & tech startups</td></tr></table>`
-                }, {
-                    title: '🌟 NASSCOM 10,000 Startups (Launched 2013)',
-                    content: `<ul>
-                <li>Aims to support, mentor, and scale <strong>10,000 startups</strong></li>
-                <li>Focus: AI, FinTech, HealthTech, SaaS, EdTech</li>
-                <li><strong>Impact:</strong> 7,500+ incubated, 300+ scaled globally, $4B+ funding raised</li>
-                <li>Examples: Freshworks (India's first SaaS unicorn), Razorpay, Unacademy</li></ul>`
-                }, {
-                    title: '🏭 STPs & SEZs',
-                    content: `<table>
-                <tr><th>Feature</th><th>STP</th><th>SEZ</th></tr>
-                <tr><td>Sector</td><td>IT/Software</td><td>Multiple sectors</td></tr>
-                <tr><td>Tax Holiday</td><td>10 years</td><td>15 years</td></tr>
-                <tr><td>FDI</td><td>100% allowed</td><td>No additional licensing</td></tr>
-                <tr><td>Jobs Created</td><td>~4.5 million</td><td>~2 million direct</td></tr></table>
-                <div class="highlight-box">STP = Software Technology Parks | SEZ = Special Economic Zones</div>`
-                }, {
-                    title: '📋 Laws for Startups',
-                    content: `<ul>
-                <li><strong>Business Entity Laws:</strong> Choose structure (LLC, Corp), register with state</li>
-                <li><strong>IP Laws:</strong> Patents (20yr), Trademarks, Copyrights, Trade Secrets</li>
-                <li><strong>Employment Laws:</strong> Anti-discrimination, minimum wage, OSHA, NDAs</li>
-                <li><strong>Taxation:</strong> Income tax, sales tax, payroll taxes</li>
-                <li><strong>Fundraising:</strong> Follow SEC regulations, disclose to investors</li>
-                <li><strong>Data Privacy:</strong> Comply with GDPR, encryption, breach notification</li></ul>`
-                }, {
-                    title: '🇺🇸 SBIR, STTR & NSF Grants',
-                    content: `<table>
-                <tr><th>Program</th><th>Key Feature</th><th>Phase I Funding</th></tr>
-                <tr><td>SBIR</td><td>Small biz innovation; no equity taken</td><td>Up to $256,580</td></tr>
-                <tr><td>STTR</td><td>Requires research institution partnership</td><td>Up to $256K</td></tr>
-                <tr><td>NSF Grants</td><td>STEM focus; includes I-Corps program</td><td>$256K (Phase I)</td></tr></table>
-                <ul><li>Phase II: Prototype development (~$1.7M) | Phase III: Commercialization (no SBIR funds)</li></ul>`
-                }]
-            },
-            unit4: {
-                title: 'Unit 4: Startup in IT',
-                cards: [{
-                    title: '📋 IT Startup Business Plan',
-                    content: `<ul>
-                <li><strong>Executive Summary:</strong> Overview, industry, business model, target market</li>
-                <li><strong>Business Model:</strong> Subscription-based, SaaS, consulting, custom solutions</li>
-                <li><strong>Key Offerings:</strong> Custom software, AI automation, cloud, IT consulting, cybersecurity</li>
-                <li><strong>Goals:</strong> Launch MVP, acquire clients, expand team, achieve revenue growth</li>
-                <li><strong>Competitive Advantage:</strong> Innovation, cost-effective, expert team, scalability</li></ul>`
-                }, {
-                    title: '📈 Marketing Plan',
-                    content: `<ul>
-                <li>Define goals, audience, and key strategies</li>
-                <li><strong>Target Market Analysis:</strong> Identify industries, segment audience, create buyer personas</li>
-                <li><strong>Digital Strategy:</strong> Paid ads, email marketing, social media, SEO</li>
-                <li><strong>Customer Retention:</strong> AI chatbots, personalized communication, feedback collection</li>
-                <li><strong>Performance:</strong> Track KPIs, conversion rates, ROI, refine strategies</li></ul>`
-                }, {
-                    title: '⚙️ Operational Plan',
-                    content: `<ul>
-                <li>Defines processes, workflows, and execution</li>
-                <li><strong>Resource Allocation:</strong> Cloud computing, budget control, disaster recovery</li>
-                <li><strong>Technology:</strong> Secure & scalable systems, AI & automation</li>
-                <li><strong>Risk Management:</strong> Contingency plans, compliance, audits</li>
-                <li><strong>Methodologies:</strong> Agile or Waterfall development</li></ul>`
-                }, {
-                    title: '💰 Financial Plan',
-                    content: `<ul>
-                <li><strong>Personal Financial Statement:</strong> Assets/liabilities outside business, personal net worth</li>
-                <li><strong>Startup Expenses:</strong> Every cost to get business operational</li>
-                <li><strong>Capitalization:</strong> Total required investment to launch</li>
-                <li><strong>12-Month Profit & Loss Statement</strong></li>
-                <li><strong>Projected Cash Flow</strong></li>
-                <li><strong>Break-Even Analysis:</strong> Sales level needed to break even</li>
-                <li><strong>Opening Day Balance Sheet</strong></li></ul>`
-                }, {
-                    title: '📖 Startup Stories',
-                    content: `<h4>Flipkart (Founded 2007)</h4>
-                <ul><li>Founders: Sachin Bansal & Binny Bansal (IIT Delhi, ex-Amazon)</li>
-                <li>Started selling books; pioneered COD in India</li>
-                <li>Created own delivery system; acquired Myntra, LetsBuy</li>
-                <li>Valued at $15B+; revolutionized Indian e-commerce</li></ul>
-                <h4>MakeMyTrip</h4>
-                <ul><li>Founder: Deep Kalra (IIM-A, ex-GE Capital, ABN AMRO)</li>
-                <li>Simplified online travel booking in India</li>
-                <li>Awards: Best Travel Portal India (2014, 2013), E-tailer of the Year</li></ul>`
-                }]
-            },
-            unit5: {
-                title: 'Unit 5: IT & ITES Industry',
-                cards: [{
-                    title: '🖥️ IT vs ITES',
-                    content: `<ul>
-                <li><strong>IT:</strong> Information Technology – software & hardware</li>
-                <li><strong>ITES:</strong> IT-Enabled Services – BPO, KPO, LPO</li>
-                <li>Growth driven by digitalization; key role in global economy</li></ul>`
-                }, {
-                    title: '📦 Product vs Service Companies',
-                    content: `<table>
-                <tr><th>Aspect</th><th>Product-Based</th><th>Service-Based</th></tr>
-                <tr><td>Focus</td><td>Develop own software/hardware</td><td>IT solutions for clients</td></tr>
-                <tr><td>Examples</td><td>Microsoft, Google, Apple, Adobe, Sony</td><td>TCS, Infosys, Accenture, Wipro</td></tr>
-                <tr><td>Revenue</td><td>Licensing, subscriptions</td><td>Contracts, projects</td></tr>
-                <tr><td>R&D</td><td>Higher investment</td><td>Client-based</td></tr>
-                <tr><td>Advantage</td><td>Global reach, steady income</td><td>Long-term relationships, tailored solutions</td></tr></table>
-                <h4>Hybrid Examples:</h4>
-                <ul><li><strong>Microsoft:</strong> Products (Windows, Surface) + Services (Azure, M365)</li>
-                <li><strong>Amazon:</strong> Products (Echo, books) + Services (AWS, Prime)</li></ul>`
-                }, {
-                    title: '🏛️ NASSCOM & STPI',
-                    content: `<ul>
-                <li><strong>NASSCOM:</strong> Represents India's IT-BPM industry; policy-making, skill development, global collaborations</li>
-                <li><strong>STPI:</strong> Software Technology Parks of India; supports software exports, provides infrastructure & incubation, tax benefits</li></ul>`
-                }, {
-                    title: '🌐 Latest IT Projects & Trends',
-                    content: `<ul>
-                <li>AI & ML in Healthcare | Cloud Computing | Blockchain</li>
-                <li>5G Technology | Smart Cities & IoT | Cybersecurity</li>
-                <li><strong>Market Trends:</strong> Rapid cloud adoption, AI/automation growth, remote workforce expansion</li>
-                <li><strong>Major Hubs:</strong> Bengaluru, Silicon Valley, London, Beijing | Emerging: Vietnam, Poland</li>
-                <li><strong>Govt Initiatives:</strong> Digital India, Make in India, Startup India, IT SEZs</li></ul>`
-                }, {
-                    title: '🔬 Recent Tech Advancements',
-                    content: `<ul>
-                <li><strong>Quantum Computing:</strong> Amazon Ocelot chip; solves complex problems faster</li>
-                <li><strong>AI/ML:</strong> Predictive analytics, medical diagnosis, recommendation systems</li>
-                <li><strong>AR/VR (Mixed Reality):</strong> Apple Vision Pro for immersive experiences</li></ul>`
-                }, {
-                    title: '👥 Diversity in Workforce',
-                    content: `<ul>
-                <li><strong>Gender:</strong> Women = ~28% of tech workers (vs ~50% of overall workforce)</li>
-                <li><strong>Ethnic:</strong> White Americans hold ~62% of tech jobs; Black & Hispanic underrepresented</li>
-                <li>Ongoing efforts to improve inclusion, especially in leadership roles</li></ul>`
-                }]
-            },
-            unit6: {
-                title: 'Unit 6: InfoSec Law & Ethics',
-                cards: [{
-                    title: '⚖️ Law vs Ethics in InfoSec',
-                    content: `<table>
-                <tr><th>Aspect</th><th>Law</th><th>Ethics</th></tr>
-                <tr><td>Definition</td><td>Rules enforced by government</td><td>Moral attitudes of a societal group</td></tr>
-                <tr><td>Enforcement</td><td>Courts & authorities</td><td>No legal sanction</td></tr>
-                <tr><td>Consequences</td><td>Fines, imprisonment</td><td>Social/professional repercussions</td></tr>
-                <tr><td>Flexibility</td><td>Requires legislative approval to change</td><td>Evolves with societal values</td></tr></table>`
-                }, {
-                    title: '📜 Types of InfoSec Laws',
-                    content: `<ul>
-                <li><strong>Data Protection:</strong> GDPR (EU), CCPA (California), HIPAA (healthcare)</li>
-                <li><strong>Cybercrime:</strong> CFAA (US), UK Computer Misuse Act</li>
-                <li><strong>IP Laws:</strong> Copyright Act, Patent Laws, DMCA</li>
-                <li><strong>Compliance:</strong> ISO 27001, PCI DSS, SOX</li>
-                <li><strong>Surveillance:</strong> FISA, ECPA</li></ul>`
-                }, {
-                    title: '🛡️ Key InfoSec Policies',
-                    content: `<ul>
-                <li>Acceptable Use Policy (AUP) | Password Management Policy</li>
-                <li>Data Backup & Recovery Policy | Incident Response Policy</li>
-                <li>BYOD Policy | Access Control Policy</li></ul>`
-                }, {
-                    title: '🚨 Cyber Crime',
-                    content: `<ul>
-                <li><strong>Types:</strong> Cyber fraud, hacking/data breaches, cyberbullying, IP theft, cyber terrorism</li>
-                <li><strong>Stats:</strong> $10.5 trillion annual cost by 2025; attack every 39 seconds</li>
-                <li>50,000+ cybercrime cases in India (2023 NCRB data)</li>
-                <li><strong>Reasons for rise:</strong> Digital dependence, lack of awareness, advanced hacking, IoT vulnerability</li></ul>`
-                }, {
-                    title: '🇮🇳 Cyber Laws in India',
-                    content: `<table>
-                <tr><th>Law</th><th>Covers</th></tr>
-                <tr><td>IT Act 2000</td><td>Hacking, identity theft, phishing, cyberstalking; up to 10yr imprisonment</td></tr>
-                <tr><td>IPC Sec 419/420</td><td>Cheating & online fraud</td></tr>
-                <tr><td>IPC Sec 500</td><td>Cyber defamation</td></tr>
-                <tr><td>IPC Sec 354D</td><td>Cyberstalking & online harassment</td></tr>
-                <tr><td>DPDP Act 2023</td><td>Personal data privacy; penalties for data breaches</td></tr>
-                <tr><td>National Cyber Security Policy 2013</td><td>Protects banking, defense, telecom sectors</td></tr></table>`
-                }, {
-                    title: '🔧 Cybersecurity Tools',
-                    content: `<ul>
-                <li><strong>Network Security:</strong> Wireshark, Nmap, Snort, Tcpdump</li>
-                <li><strong>Endpoint:</strong> CrowdStrike Falcon, Symantec, Bitdefender</li>
-                <li><strong>Pen Testing:</strong> Metasploit, Burp Suite, Nessus, Kali Linux</li>
-                <li><strong>Forensics:</strong> Autopsy, FTK Imager, Volatility</li>
-                <li><strong>SIEM:</strong> Splunk, IBM QRadar, ELK Stack</li></ul>
-                <h4>Best Practices:</h4>
-                <ul><li>Regular updates & patch management | MFA | Employee training | Strong passwords | Data backups | Least privilege access | Network segmentation</li></ul>`
-                }, {
-                    title: '📋 Notable Case Studies',
-                    content: `<ul>
-                <li><strong>Colonial Pipeline (2021):</strong> Ransomware; $4.4M Bitcoin paid; highlighted MFA & network segmentation need</li>
-                <li><strong>Equifax (2017):</strong> 147M records breached; unpatched Apache Struts vulnerability</li>
-                <li><strong>Facebook-Cambridge Analytica:</strong> Privacy ethics & data protection violation</li>
-                <li><strong>Apple vs FBI:</strong> Privacy vs surveillance ethics (encryption case)</li>
-                <li><strong>WannaCry:</strong> Ransomware; compliance failure</li></ul>`
-                }]
-            }
-        };
+// ---------- EXPANDED MCQ BANK (105 questions) ----------
+const mcqBank = [
+  // Unit 1 (14)
+  { unit:'unit1', q:'Ethics is best defined as:', opts:['Rules enforced by government','System of moral principles','Legal compliance','Business strategy'], ans:1 },
+  { unit:'unit1', q:'Integrity in business means:', opts:['Maximising profit','Following moral convictions even unobserved','Only legal compliance','Beating competitors'], ans:1 },
+  { unit:'unit1', q:'First step in ethical decision making:', opts:['Implement','Evaluate alternatives','Develop problem statement','Choose cheapest'], ans:2 },
+  { unit:'unit1', q:'BSA fights:', opts:['Cyberbullying','Software piracy','Identity theft','Phishing'], ans:1 },
+  { unit:'unit1', q:'Not a trait of IT professional:', opts:['Specialized knowledge','Ethical behavior','Avoid continuous learning','Accountability'], ans:2 },
+  { unit:'unit1', q:'Ethical work environment requires:', opts:['Hiding guidelines','Leading by example','Discouraging communication','Ignoring training'], ans:1 },
+  { unit:'unit1', q:'Problem statement should answer all EXCEPT:', opts:['What people observe','Who is affected','How much profit','How serious'], ans:2 },
+  { unit:'unit1', q:'After identifying alternatives, next step:', opts:['Problem statement','Evaluate and choose','Implement','Evaluate results'], ans:1 },
+  { unit:'unit1', q:'What builds trust and credibility?', opts:['Profit maximisation','Integrity','Aggressive marketing','Cost cutting'], ans:1 },
+  { unit:'unit1', q:'Ethics training frequency:', opts:['Once only','Regularly','Never','Only for managers'], ans:1 },
+  { unit:'unit1', q:'Example of ethical IT behaviour:', opts:['Sharing passwords','Respecting software copyrights','Ignoring data privacy','Using pirated tools'], ans:1 },
+  { unit:'unit1', q:'BSA hotline website:', opts:['www.bsa.org','www.nopiracy.org','www.stopiracy.com','www.antipiracy.org'], ans:1 },
+  { unit:'unit1', q:'Integrity is doing right when:', opts:['Boss is watching','No one is watching','Only on camera','When convenient'], ans:1 },
+  { unit:'unit1', q:'Which is NOT part of creating ethical environment?', opts:['Clear guidelines','Lead by example','Punish all mistakes','Recognise ethics'], ans:2 },
+  // Unit 2 (16)
+  { unit:'unit2', q:'Patent term in India:', opts:['10 yrs','20 yrs','15 yrs','Lifetime'], ans:1 },
+  { unit:'unit2', q:'Design protects:', opts:['Function','Visual appearance','Chemical formula','Business method'], ans:1 },
+  { unit:'unit2', q:'SM symbol stands for:', opts:['Product Mark','Service Mark','Sound Mark','Shape Mark'], ans:1 },
+  { unit:'unit2', q:'Genericide leads to:', opts:['Stronger trademark','Loss of trademark rights','More profit','Registration'], ans:1 },
+  { unit:'unit2', q:'Provisional → complete specification within:', opts:['6 months','12 months','18 months','24 months'], ans:1 },
+  { unit:'unit2', q:'Patent examination request deadline:', opts:['12 months','24 months','48 months','60 months'], ans:2 },
+  { unit:'unit2', q:'Which is NOT patentability criterion?', opts:['Novelty','Inventive step','Commercial success','Industrial applicability'], ans:2 },
+  { unit:'unit2', q:'ADR includes:', opts:['Litigation only','Mediation & arbitration','Police complaint','Filing petition'], ans:1 },
+  { unit:'unit2', q:'Copyright protects:', opts:['Ideas','Expression of ideas','Inventions','Trademarks'], ans:1 },
+  { unit:'unit2', q:'Trade secret requires:', opts:['Public disclosure','Secrecy & commercial value','Registration','Patent filing'], ans:1 },
+  { unit:'unit2', q:'GI indicates:', opts:['Quality','Geographical origin','Brand owner','Manufacturer'], ans:1 },
+  { unit:'unit2', q:'Shape mark protects:', opts:['Logo','3D shape','Colour','Sound'], ans:1 },
+  { unit:'unit2', q:'Patentee must pay:', opts:['Only once','Renewal fees yearly','No fees','After 20 years'], ans:1 },
+  { unit:'unit2', q:'First to file patent rule means:', opts:['First to invent gets patent','First to file application gets patent','Random selection','Government decides'], ans:1 },
+  { unit:'unit2', q:'Which marks use ® symbol?', opts:['Unregistered trademarks','Registered trademarks','Service marks only','Collective marks'], ans:1 },
+  { unit:'unit2', q:'Patent filing in India is governed by:', opts:['Copyright Act','Patents Act 1970','IT Act','SEBI'], ans:1 },
+  // Unit 3 (17)
+  { unit:'unit3', q:'Startup age limit (DPIIT):', opts:['5 years','10 years','7 years','15 years'], ans:1 },
+  { unit:'unit3', q:'Startup India launch date:', opts:['Jan 16, 2015','Jan 16, 2016','Aug 15, 2015','Jan 26, 2016'], ans:1 },
+  { unit:'unit3', q:'MUDRA max loan:', opts:['₹5L','₹10L','₹25L','₹1Cr'], ans:1 },
+  { unit:'unit3', q:'Stand‑Up India target:', opts:['All','Women & SC/ST','Only tech','Only manufacturing'], ans:1 },
+  { unit:'unit3', q:'NASSCOM 10,000 Startups started:', opts:['2010','2013','2016','2018'], ans:1 },
+  { unit:'unit3', q:'STP income tax exemption:', opts:['5 yrs','10 yrs','15 yrs','20 yrs'], ans:1 },
+  { unit:'unit3', q:'SEZ Act year:', opts:['2000','2005','2010','2015'], ans:1 },
+  { unit:'unit3', q:'SBIR country:', opts:['India','UK','USA','China'], ans:2 },
+  { unit:'unit3', q:'STTR requires:', opts:['More employees','Research institution partnership','International collaboration','Larger funding'], ans:1 },
+  { unit:'unit3', q:'Startup India tax holiday period:', opts:['1 year','3 years','5 years','10 years'], ans:1 },
+  { unit:'unit3', q:'Fund of Funds corpus:', opts:['₹5,000 Cr','₹10,000 Cr','₹20,000 Cr','₹1,000 Cr'], ans:1 },
+  { unit:'unit3', q:'Seed Fund Scheme max:', opts:['₹10L','₹25L','₹50L','₹1Cr'], ans:2 },
+  { unit:'unit3', q:'STP full form:', opts:['Software Technology Park','Special Technology Park','System Tech Park','Software Trade Park'], ans:0 },
+  { unit:'unit3', q:'SEZ exports 2022‑23 approx:', opts:['₹5 lakh Cr','₹7.5 lakh Cr','₹10 lakh Cr','₹2 lakh Cr'], ans:1 },
+  { unit:'unit3', q:'Startup India patent fee rebate:', opts:['50%','80%','100%','25%'], ans:1 },
+  { unit:'unit3', q:'CGTMSE max collateral‑free loan:', opts:['₹1Cr','₹2Cr','₹5Cr','₹10Cr'], ans:1 },
+  { unit:'unit3', q:'SIDBI Fund of Funds managed by:', opts:['RBI','SEBI','SIDBI','NABARD'], ans:2 },
+  // Unit 4 (15)
+  { unit:'unit4', q:'Not in executive summary:', opts:['Business model','Target market','5‑year detailed financials','Competitive advantage'], ans:2 },
+  { unit:'unit4', q:'Break‑even analysis finds:', opts:['Max profit','Sales to cover costs','Investment needed','Market share'], ans:1 },
+  { unit:'unit4', q:'Flipkart founder(s):', opts:['Deep Kalra','Sachin & Binny Bansal','Mukesh Ambani','Ratan Tata'], ans:1 },
+  { unit:'unit4', q:'MakeMyTrip founder alma mater:', opts:['IIT Delhi','IIM Ahmedabad','IIT Bombay','Harvard'], ans:1 },
+  { unit:'unit4', q:'COD pioneer:', opts:['Amazon','Snapdeal','Flipkart','Paytm'], ans:2 },
+  { unit:'unit4', q:'Personal financial statement includes:', opts:['Only business assets','Personal assets & liabilities','Only revenue','Market analysis'], ans:1 },
+  { unit:'unit4', q:'Appendices may contain:', opts:['Executive summary','Mission','Letters of support','Vision'], ans:2 },
+  { unit:'unit4', q:'For bankers, plan must state:', opts:['ROI only','Loan amount, use, repayment, collateral','Number of employees','Marketing budget'], ans:1 },
+  { unit:'unit4', q:'Marketing plan KPI example:', opts:['Break‑even','Conversion rate','Patent count','Office rent'], ans:1 },
+  { unit:'unit4', q:'Operational plan methodology:', opts:['Only Agile','Only Waterfall','Agile or Waterfall','Scrum only'], ans:2 },
+  { unit:'unit4', q:'Capitalization means:', opts:['Annual profit','Total investment to launch','Revenue','Expenses'], ans:1 },
+  { unit:'unit4', q:'Opening day balance sheet is:', opts:['Cash flow','Financial position at start','Profit projection','Break‑even'], ans:1 },
+  { unit:'unit4', q:'Flipkart started selling:', opts:['Electronics','Books','Clothing','Groceries'], ans:1 },
+  { unit:'unit4', q:'MakeMyTrip sector:', opts:['Food delivery','Online travel','Fintech','EdTech'], ans:1 },
+  { unit:'unit4', q:'Which is part of financial plan?', opts:['Buyer persona','12‑month P&L','Org chart','Digital strategy'], ans:1 },
+  // Unit 5 (15)
+  { unit:'unit5', q:'Product‑based IT company:', opts:['TCS','Infosys','Microsoft','Accenture'], ans:2 },
+  { unit:'unit5', q:'ITES excludes:', opts:['BPO','KPO','LPO','R&D'], ans:3 },
+  { unit:'unit5', q:'Women in tech ~ ', opts:['48%','38%','28%','18%'], ans:2 },
+  { unit:'unit5', q:'Amazon Ocelot chip relates to:', opts:['AI','Quantum computing','Blockchain','5G'], ans:1 },
+  { unit:'unit5', q:'Not a major Indian IT hub:', opts:['Bengaluru','Hyderabad','Mumbai','Pune'], ans:2 },
+  { unit:'unit5', q:'NASSCOM represents:', opts:['Agriculture','IT‑BPM industry','Automobile','Pharma'], ans:1 },
+  { unit:'unit5', q:'Hybrid company example:', opts:['Infosys','TCS','Amazon','Wipro'], ans:2 },
+  { unit:'unit5', q:'Apple Vision Pro is:', opts:['Quantum','AR/VR','5G','Blockchain'], ans:1 },
+  { unit:'unit5', q:'India’s digital ID project:', opts:['Paytm','Aadhaar','Flipkart','UPI'], ans:1 },
+  { unit:'unit5', q:'Global cybercrime cost by 2025:', opts:['$1T','$5T','$10.5T','$20T'], ans:2 },
+  { unit:'unit5', q:'Digital India program aims:', opts:['Increase taxes','Digital infrastructure & services','Ban imports','Reduce internet speed'], ans:1 },
+  { unit:'unit5', q:'STPI promotes:', opts:['Manufacturing','Software exports','Agriculture','Mining'], ans:1 },
+  { unit:'unit5', q:'White Americans in tech ~', opts:['38%','52%','62%','72%'], ans:2 },
+  { unit:'unit5', q:'Emerging IT hub:', opts:['Silicon Valley','London','Vietnam','Tokyo'], ans:2 },
+  { unit:'unit5', q:'Subscription model example:', opts:['One‑time software purchase','Office 365','Custom project','Consulting'], ans:1 },
+  // Unit 6 (16)
+  { unit:'unit6', q:'Key difference law vs ethics:', opts:['Ethics written','Law has govt sanction','Ethics optional','Law is flexible'], ans:1 },
+  { unit:'unit6', q:'GDPR region:', opts:['USA','India','EU','China'], ans:2 },
+  { unit:'unit6', q:'Primary Indian cyber law:', opts:['IPC 420','Constitution','IT Act 2000','DPDP 2023'], ans:2 },
+  { unit:'unit6', q:'Penetration testing tool:', opts:['Splunk','Metasploit','Wireshark','Autopsy'], ans:1 },
+  { unit:'unit6', q:'Colonial Pipeline attack:', opts:['Phishing','Ransomware','DDoS','SQL injection'], ans:1 },
+  { unit:'unit6', q:'Equifax breach cause:', opts:['Insider','Unpatched Apache Struts','Phishing','Weak password'], ans:1 },
+  { unit:'unit6', q:'Defines proper system use:', opts:['Password policy','AUP','BYOD','Backup policy'], ans:1 },
+  { unit:'unit6', q:'DPDP Act 2023 deals with:', opts:['Cyber terrorism','Personal data privacy','Software patents','Network security'], ans:1 },
+  { unit:'unit6', q:'ICC² Code of Ethics relates to:', opts:['Accountants','Cybersecurity professionals','Doctors','Engineers'], ans:1 },
+  { unit:'unit6', q:'Which is NOT a cybersecurity best practice?', opts:['Regular updates','MFA','Sharing passwords','Network segmentation'], ans:2 },
+  { unit:'unit6', q:'Whistleblowing ethics protects:', opts:['Criminals','Those reporting violations','Hackers','Corporations only'], ans:1 },
+  { unit:'unit6', q:'HIPAA relates to:', opts:['Finance','Healthcare data','Education','Telecom'], ans:1 },
+  { unit:'unit6', q:'WannaCry was:', opts:['Trojan','Ransomware','Worm','Adware'], ans:1 },
+  { unit:'unit6', q:'Incident response policy is for:', opts:['Software licensing','Steps during security breach','Password rules','Employee benefits'], ans:1 },
+  { unit:'unit6', q:'Organisational liability includes:', opts:['Only data breaches','Data breaches, non‑compliance, negligence','Only employee misconduct','Copyright only'], ans:1 },
+  { unit:'unit6', q:'ISO 27001 is a:', opts:['Law','Compliance standard','Pen test tool','Firewall'], ans:1 }
+];
 
-        // ==================== MCQ BANK ====================
-        const mcqBank = [
-            // Unit 1: Ethics
-            { unit: 'unit1', q: 'Ethics is best defined as:', opts: ['Rules enforced by government',
-                    'System of moral principles guiding behavior', 'Legal compliance framework',
-                    'Business strategy for profit'
-                ], ans: 1, exp: 'Ethics is a system of moral principles that guides human behavior in society, distinguishing right from wrong.' },
-            { unit: 'unit1', q: 'Integrity in business means:', opts: ['Maximizing profits at all costs',
-                    'Following moral convictions even when no one is watching', 'Following only legal requirements',
-                    'Beating competitors by any means'
-                ], ans: 1,
-                exp: 'Integrity means adhering to moral/ethical convictions in all circumstances, even when unobserved.' },
-            { unit: 'unit1', q: 'What is the first step in ethical decision making?', opts: ['Implement the decision',
-                    'Evaluate alternatives', 'Develop a clear problem statement', 'Choose the cheapest option'
-                ], ans: 2, exp: 'The first step is developing a clear, concise problem statement describing the issue.' },
-            { unit: 'unit1', q: 'BSA (Business Software Alliance) primarily fights against:', opts: ['Cyberbullying',
-                    'Software piracy', 'Data breaches', 'Identity theft'
-                ], ans: 1,
-                exp: 'BSA represents software manufacturers and aims to stop unauthorized copying of software.' },
-            { unit: 'unit1', q: 'Which is NOT a characteristic of an IT professional?', opts: ['Specialized knowledge',
-                    'Ethical behavior', 'Avoiding continuous learning', 'Accountability'
-                ], ans: 2,
-                exp: 'IT professionals must have commitment to continuous learning along with specialized knowledge and accountability.'
-            },
-            // Unit 2: IPR
-            { unit: 'unit2', q: 'Patent protection in India lasts for:', opts: ['10 years from filing',
-                    '20 years from filing', '15 years from grant', 'Lifetime of inventor'
-                ], ans: 1, exp: 'Patent term is 20 years from the date of filing the application.' },
-            { unit: 'unit2', q: 'Which IPR type protects the visual appearance of a product?', opts: ['Patent',
-                    'Copyright', 'Design', 'Trademark'
-                ], ans: 2,
-                exp: 'Design rights protect the visual appearance including shape, color, pattern, texture, and materials.'
-            },
-            { unit: 'unit2', q: 'A trademark identified by the symbol "SM" is a:', opts: ['Product Mark',
-                    'Service Mark', 'Collective Mark', 'Certification Mark'
-                ], ans: 1, exp: 'SM stands for Service Mark, which identifies and distinguishes services rather than products.'
-            },
-            { unit: 'unit2', q: 'What is "genericide" in trademark context?', opts: [
-                    'Creating a new trademark', 'When a trademark becomes a generic term', 'Registering a trademark',
-                    'Renewing a trademark'
-                ], ans: 1,
-                exp: 'Genericide occurs when a trademark becomes so common it becomes the generic name for the product, leading to loss of rights.'
-            },
-            { unit: 'unit2', q: 'A provisional patent application must be followed by a complete specification within:',
-                opts: ['6 months', '12 months', '18 months', '24 months'
-                ], ans: 1,
-                exp: 'Complete specification must be filed within 12 months from the date of filing the provisional application.'
-            },
-            // Unit 3: Startup Schemes
-            { unit: 'unit3', q: 'Under DPIIT definition, a startup must be less than __ years old:', opts: ['5 years',
-                    '10 years', '7 years', '15 years'
-                ], ans: 1,
-                exp: 'A startup is a company that has been in existence for less than 10 years from its date of incorporation.'
-            },
-            { unit: 'unit3', q: 'The Startup India initiative was launched on:', opts: ['January 16, 2015',
-                    'January 16, 2016', 'August 15, 2015', 'January 26, 2016'
-                ], ans: 1,
-                exp: 'Startup India was launched on January 16, 2016, to promote entrepreneurship and innovation.' },
-            { unit: 'unit3', q: 'MUDRA loan scheme offers collateral-free loans up to:', opts: ['₹5 lakh', '₹10 lakh',
-                    '₹25 lakh', '₹1 crore'
-                ], ans: 1,
-                exp: 'Pradhan Mantri MUDRA Yojana offers collateral-free loans up to ₹10 lakh for small businesses.' },
-            { unit: 'unit3', q: 'Stand-Up India scheme is specifically for:', opts: ['All entrepreneurs',
-                    'Women and SC/ST entrepreneurs only', 'Only tech startups', 'Only manufacturing businesses'
-                ], ans: 1,
-                exp: 'Stand-Up India supports SC/ST and women entrepreneurs with loans between ₹10 lakh and ₹1 crore.'
-            },
-            { unit: 'unit3', q: 'NASSCOM 10,000 Startups initiative was launched in:', opts: ['2010', '2013', '2016',
-                    '2018'
-                ], ans: 1,
-                exp: 'NASSCOM initiated the 10,000 Startups program in 2013 to support, mentor, and scale startups.' },
-            { unit: 'unit3', q: 'STP scheme provides income tax exemption for:', opts: ['5 years', '10 years',
-                    '15 years', '20 years'
-                ], ans: 1, exp: 'STP (Software Technology Parks) scheme offers a 10-year income tax exemption.' },
-            { unit: 'unit3', q: 'SEZ Act was launched in:', opts: ['2000', '2005', '2010', '2015'], ans: 1,
-                exp: 'SEZ Act was launched in 2005, establishing Special Economic Zones as trade and investment hubs.' },
-            { unit: 'unit3', q: 'SBIR is a program of which country?', opts: ['India', 'United Kingdom', 'United States',
-                    'China'
-                ], ans: 2,
-                exp: 'SBIR (Small Business Innovation Research) is a U.S. government program for small businesses.' },
-            { unit: 'unit3', q: 'STTR differs from SBIR because STTR requires:', opts: ['More employees',
-                    'Research institution partnership', 'International collaboration', 'Larger funding'
-                ], ans: 1,
-                exp: 'STTR requires a partnership between a small business and a research institution for tech transfer.' },
-            // Unit 4: Startup in IT
-            { unit: 'unit4', q: 'Which is NOT typically part of a business plan executive summary?', opts: [
-                    'Business model overview', 'Target market description',
-                    'Detailed financial statements for 5 years', 'Competitive advantage'
-                ], ans: 2,
-                exp: 'Executive summary provides an overview; detailed financials are in the financial plan section.' },
-            { unit: 'unit4', q: 'Break-even analysis determines:', opts: ['Maximum profit possible',
-                    'Sales level needed to cover costs', 'Total investment required', 'Market share percentage'
-                ], ans: 1,
-                exp: 'Break-even analysis identifies the sales level at which the business neither makes profit nor loss.' },
-            { unit: 'unit4', q: 'Flipkart was founded by:', opts: ['Deep Kalra', 'Sachin Bansal & Binny Bansal',
-                    'Mukesh Ambani', 'Ratan Tata'
-                ], ans: 1,
-                exp: 'Flipkart was founded in 2007 by Sachin Bansal and Binny Bansal, both IIT Delhi alumni.' },
-            { unit: 'unit4', q: 'MakeMyTrip founder Deep Kalra is an alumnus of:', opts: ['IIT Delhi', 'IIM Ahmedabad',
-                    'IIT Bombay', 'Harvard Business School'
-                ], ans: 1, exp: 'Deep Kalra completed his Masters at IIM Ahmedabad before founding MakeMyTrip.' },
-            { unit: 'unit4', q: 'Cash on Delivery (COD) in Indian e-commerce was pioneered by:', opts: ['Amazon',
-                    'Snapdeal', 'Flipkart', 'Paytm'
-                ], ans: 2,
-                exp: 'Flipkart revolutionized Indian e-commerce by introducing Cash on Delivery, making online shopping accessible.'
-            },
-            // Unit 5: Companies
-            { unit: 'unit5', q: 'Which is a product-based IT company?', opts: ['TCS', 'Infosys', 'Microsoft', 'Accenture'
-                ], ans: 2, exp: 'Microsoft develops and sells its own software/hardware products unlike TCS/Infosys which are service-based.'
-            },
-            { unit: 'unit5', q: 'ITES includes all EXCEPT:', opts: ['BPO', 'KPO', 'LPO', 'R&D'
-                ], ans: 3,
-                exp: 'ITES (IT-Enabled Services) includes BPO, KPO, and LPO. R&D is typically part of product-based IT.'
-            },
-            { unit: 'unit5', q: 'Women make up approximately what percentage of tech workers?', opts: ['48%', '38%',
-                    '28%', '18%'
-                ], ans: 2,
-                exp: 'Women make up only about 28% of tech workers despite being almost half of the overall workforce.' },
-            { unit: 'unit5', q: 'Amazon Ocelot chip is related to:', opts: ['AI/ML', 'Quantum Computing',
-                    'Blockchain', '5G'
-                ], ans: 1,
-                exp: 'Amazon introduced the Ocelot chip to make quantum computers more powerful and efficient.' },
-            { unit: 'unit5', q: 'Which Indian city is NOT a major IT hub according to the lectures?', opts: ['Bengaluru',
-                    'Hyderabad', 'Mumbai', 'Pune'
-                ], ans: 2, exp: 'The major Indian IT hubs mentioned are Bengaluru, Hyderabad, and Pune.' },
-            // Unit 6: InfoSec
-            { unit: 'unit6', q: 'The key difference between law and ethics is:', opts: [
-                    'Ethics are written, laws are unwritten', 'Law carries government sanction, ethics do not',
-                    'Ethics apply only to businesses', 'Laws are optional'
-                ], ans: 1,
-                exp: 'The key difference is that law carries the sanction of a governing authority while ethics do not.' },
-            { unit: 'unit6', q: 'GDPR is a regulation of:', opts: ['United States', 'India', 'European Union', 'China'],
-                ans: 2,
-                exp: 'GDPR (General Data Protection Regulation) protects personal data of EU citizens.' },
-            { unit: 'unit6', q: 'The primary cyber law in India is:', opts: ['IPC Section 420',
-                    'Indian Constitution', 'IT Act 2000', 'DPDP Act 2023'
-                ], ans: 2,
-                exp: 'The Information Technology (IT) Act, 2000 is India\'s primary cyber law governing cybercrimes and digital transactions.'
-            },
-            { unit: 'unit6', q: 'Which tool is used for penetration testing?', opts: ['Splunk', 'Metasploit', 'Wireshark',
-                    'Autopsy'
-                ], ans: 1,
-                exp: 'Metasploit is a penetration testing tool. Splunk is SIEM, Wireshark is network analysis, Autopsy is forensics.'
-            },
-            { unit: 'unit6', q: 'The Colonial Pipeline attack (2021) was a:', opts: ['Phishing attack', 'Ransomware attack',
-                    'DDoS attack', 'SQL injection'
-                ], ans: 1,
-                exp: 'The Colonial Pipeline was hit by a ransomware attack; hackers received $4.4M in Bitcoin.' },
-            { unit: 'unit6', q: 'The Equifax breach (2017) was caused by:', opts: ['Insider threat',
-                    'Unpatched Apache Struts vulnerability', 'Phishing email', 'Weak password'
-                ], ans: 1,
-                exp: 'The Equifax data breach compromising 147M records was due to an unpatched vulnerability in Apache Struts.'
-            },
-            { unit: 'unit6', q: 'Which policy defines proper use of company systems?', opts: [
-                    'Password Management Policy', 'Acceptable Use Policy (AUP)', 'BYOD Policy', 'Backup Policy'
-                ], ans: 1,
-                exp: 'AUP (Acceptable Use Policy) defines the proper use of company systems and networks.' },
-            { unit: 'unit6', q: 'Cybercrime is expected to cost the world annually by 2025:', opts: ['$1 trillion',
-                    '$5 trillion', '$10.5 trillion', '$20 trillion'
-                ], ans: 2,
-                exp: 'According to Cybersecurity Ventures, cybercrime is expected to cost $10.5 trillion annually by 2025.' },
-            { unit: 'unit6', q: 'DPDP Act 2023 deals with:', opts: ['Cyber terrorism', 'Personal data privacy',
-                    'Software patents', 'Network security'
-                ], ans: 1,
-                exp: 'The Digital Personal Data Protection Act 2023 protects personal data privacy and regulates data usage.'
-            },
-            { unit: 'unit6', q: 'Which is NOT a recommended cybersecurity best practice?', opts: [
-                    'Regular software updates', 'Multi-Factor Authentication',
-                    'Sharing passwords among team members', 'Network segmentation'
-                ], ans: 2,
-                exp: 'Sharing passwords is a security risk. Use strong unique passwords and a password manager instead.' },
-        ];
+// ---------- APP STATE & FUNCTIONS ----------
+let currentUnit = 'unit1';
+let currentTab = 'revision';
+let mcqTopic = 'unit1';
+let currentMCQs = [];
+let userAnswers = {};
+let mcqSubmitted = false;
+let sidebarOpen = false;
 
-        // ==================== STATE ====================
-        let currentUnit = 'unit1';
-        let currentTab = 'revision';
-        let mcqMode = 'topic';
-        let mcqTopic = 'unit1';
-        let currentMCQs = [];
-        let userAnswers = {};
-        let mcqSubmitted = false;
-        let sidebarOpen = false;
+function switchUnit(unit, btn) {
+  currentUnit = unit;
+  document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.getElementById('topTitle').textContent = unitData[unit] ? unitData[unit].title : 'Practice MCQs';
+  document.getElementById('topBadge').textContent = unit === 'mcq' ? 'MCQ Practice' : 'Revision';
+  if (unit === 'mcq') {
+    currentTab = 'mcq-practice';
+    document.querySelectorAll('#tabNav button').forEach(b => b.classList.remove('active'));
+    document.querySelector('#tabNav button[data-tab="mcq-practice"]').classList.add('active');
+    document.getElementById('panel-revision').classList.remove('active');
+    document.getElementById('panel-mcq-practice').classList.add('active');
+    document.getElementById('revisionContent').innerHTML = '';
+    renderMCQSection();
+  } else {
+    currentTab = 'revision';
+    document.querySelectorAll('#tabNav button').forEach(b => b.classList.remove('active'));
+    document.querySelector('#tabNav button[data-tab="revision"]').classList.add('active');
+    document.getElementById('panel-revision').classList.add('active');
+    document.getElementById('panel-mcq-practice').classList.remove('active');
+    document.getElementById('mcqContainer').innerHTML = '';
+    renderRevision();
+  }
+  if (sidebarOpen && window.innerWidth <= 768) closeSidebar();
+}
 
-        // ==================== FUNCTIONS ====================
-        function switchUnit(unit, btn) {
-            currentUnit = unit;
-            document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
-            if (btn) btn.classList.add('active');
-            document.getElementById('topTitle').textContent = unitData[unit] ? unitData[unit].title :
-                'Practice MCQs';
-            document.getElementById('topBadge').textContent = unit === 'mcq' ? 'MCQ Practice' : 'Revision';
-            if (unit === 'mcq') {
-                currentTab = 'mcq-practice';
-                document.querySelectorAll('#tabNav button').forEach(b => b.classList.remove('active'));
-                document.querySelector('#tabNav button[data-tab="mcq-practice"]').classList.add('active');
-                document.getElementById('panel-revision').classList.remove('active');
-                document.getElementById('panel-mcq-practice').classList.add('active');
-                document.getElementById('revisionContent').innerHTML = '';
-                renderMCQSection();
-            } else {
-                currentTab = 'revision';
-                document.querySelectorAll('#tabNav button').forEach(b => b.classList.remove('active'));
-                document.querySelector('#tabNav button[data-tab="revision"]').classList.add('active');
-                document.getElementById('panel-revision').classList.add('active');
-                document.getElementById('panel-mcq-practice').classList.remove('active');
-                document.getElementById('mcqContainer').innerHTML = '';
-                renderRevision();
-            }
-            if (sidebarOpen && window.innerWidth <= 768) closeSidebar();
-        }
+function switchTab(tab, btn) {
+  currentTab = tab;
+  document.querySelectorAll('#tabNav button').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.getElementById('panel-revision').classList.toggle('active', tab === 'revision');
+  document.getElementById('panel-mcq-practice').classList.toggle('active', tab === 'mcq-practice');
+  if (tab === 'revision') renderRevision();
+  else renderMCQSection();
+}
 
-        function switchTab(tab, btn) {
-            currentTab = tab;
-            document.querySelectorAll('#tabNav button').forEach(b => b.classList.remove('active'));
-            if (btn) btn.classList.add('active');
-            document.getElementById('panel-revision').classList.toggle('active', tab === 'revision');
-            document.getElementById('panel-mcq-practice').classList.toggle('active', tab === 'mcq-practice');
-            if (tab === 'revision') renderRevision();
-            else renderMCQSection();
-        }
+function renderRevision() {
+  const container = document.getElementById('revisionContent');
+  const data = unitData[currentUnit];
+  if (!data) { container.innerHTML = '<p style="color:var(--text3)">Select a unit.</p>'; return; }
+  let html = `<h2 style="margin-bottom:16px;color:var(--accent);">${data.title}</h2>`;
+  data.cards.forEach(c => html += `<div class="revision-card"><h3>${c.title}</h3>${c.content}</div>`);
+  container.innerHTML = html;
+}
 
-        function renderRevision() {
-            const container = document.getElementById('revisionContent');
-            const data = unitData[currentUnit];
-            if (!data) { container.innerHTML =
-                    '<p style="color:var(--text3)">Select a unit from the sidebar to view revision notes.</p>'; return; }
-            let html = `<h2 style="margin-bottom:16px;color:var(--accent);">${data.title}</h2>`;
-            data.cards.forEach(card => {
-                html += `<div class="revision-card"><h3>${card.title}</h3>${card.content}</div>`;
-            });
-            container.innerHTML = html;
-        }
+function renderMCQSection() {
+  const container = document.getElementById('mcqContainer');
+  container.innerHTML = `
+    <div class="mcq-controls" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
+      <select id="mcqTopicSelect" onchange="onMCQTopicChange()" style="padding:10px; border-radius:8px; background:var(--surface); color:var(--text); border:1px solid var(--border);">
+        <option value="unit1">Unit 1: Ethics</option>
+        <option value="unit2">Unit 2: IPR</option>
+        <option value="unit3">Unit 3: Startup Schemes</option>
+        <option value="unit4">Unit 4: IT Startup Plan</option>
+        <option value="unit5">Unit 5: IT Industry</option>
+        <option value="unit6">Unit 6: InfoSec Law</option>
+        <option value="all">🔀 All Topics (Random 30)</option>
+      </select>
+      <button onclick="startMCQ()" style="padding:10px 16px; background:var(--accent2); color:#fff; border:none; border-radius:8px; cursor:pointer;">▶ Start / Reload</button>
+      <button onclick="submitMCQ()" style="padding:10px 16px; background:transparent; border:1px solid var(--accent); color:var(--accent); border-radius:8px; cursor:pointer;">✅ Submit</button>
+      <button onclick="resetMCQ()" style="padding:10px 16px; background:transparent; border:1px solid var(--border); color:var(--text); border-radius:8px; cursor:pointer;">🔄 Reset</button>
+    </div>
+    <div id="mcqScoreBar"></div>
+    <div id="mcqList"></div>`;
+  document.getElementById('mcqTopicSelect').value = mcqTopic;
+  startMCQ();
+}
 
-        function renderMCQSection() {
-            const container = document.getElementById('mcqContainer');
-            let html = `
-        <div class="mcq-controls">
-          <select id="mcqTopicSelect" onchange="onMCQTopicChange()">
-            <option value="unit1">Unit 1: Ethics</option>
-            <option value="unit2">Unit 2: IPR</option>
-            <option value="unit3">Unit 3: Startup Schemes</option>
-            <option value="unit4">Unit 4: Startup in IT</option>
-            <option value="unit5">Unit 5: Companies</option>
-            <option value="unit6">Unit 6: InfoSec Law</option>
-            <option value="all">🔀 All Topics (Random 30)</option>
-          </select>
-          <button onclick="startMCQ()">▶ Start / Reload MCQs</button>
-          <button class="outline" onclick="submitMCQ()">✅ Submit & Check</button>
-          <button class="outline" onclick="resetMCQ()">🔄 Reset</button>
-        </div>
-        <div id="mcqScoreBar"></div>
-        <div id="mcqList"></div>`;
-            container.innerHTML = html;
-            document.getElementById('mcqTopicSelect').value = mcqTopic;
-            startMCQ();
-        }
+function onMCQTopicChange() { mcqTopic = document.getElementById('mcqTopicSelect').value; startMCQ(); }
 
-        function onMCQTopicChange() {
-            mcqTopic = document.getElementById('mcqTopicSelect').value;
-            startMCQ();
-        }
+function startMCQ() {
+  mcqSubmitted = false;
+  userAnswers = {};
+  const topic = document.getElementById('mcqTopicSelect')?.value || mcqTopic;
+  mcqTopic = topic;
+  let pool = topic === 'all' ? [...mcqBank] : mcqBank.filter(m => m.unit === topic);
+  if (topic === 'all') pool = shuffleArray(pool).slice(0, 30);
+  currentMCQs = pool;
+  renderMCQList();
+  document.getElementById('mcqScoreBar').innerHTML = '';
+}
 
-        function startMCQ() {
-            mcqSubmitted = false;
-            userAnswers = {};
-            let pool = [];
-            const topic = document.getElementById('mcqTopicSelect')?.value || mcqTopic;
-            mcqTopic = topic;
-            if (topic === 'all') {
-                pool = [...mcqBank];
-                // Shuffle and pick 30
-                pool = shuffleArray(pool).slice(0, 30);
-            } else {
-                pool = mcqBank.filter(m => m.unit === topic);
-                if (pool.length === 0) pool = [...mcqBank]; // fallback
-            }
-            currentMCQs = pool;
-            renderMCQList();
-            document.getElementById('mcqScoreBar').innerHTML = '';
-        }
+function renderMCQList() {
+  const list = document.getElementById('mcqList');
+  let html = '';
+  currentMCQs.forEach((mcq, i) => {
+    html += `<div class="mcq-card"><div class="q-num">Q${i+1}/${currentMCQs.length} [${mcq.unit}]</div><div class="question">${mcq.q}</div><div class="options">`;
+    mcq.opts.forEach((opt, oi) => {
+      let cls = 'opt-btn';
+      if (userAnswers[i] === oi) cls += ' selected';
+      if (mcqSubmitted) {
+        if (oi === mcq.ans) cls += ' correct';
+        else if (userAnswers[i] === oi) cls += ' wrong';
+      }
+      html += `<button class="${cls}" ${mcqSubmitted ? 'disabled' : ''} onclick="selectAnswer(${i},${oi})">${String.fromCharCode(65+oi)}. ${opt}</button>`;
+    });
+    html += `</div>${mcqSubmitted ? `<div class="explanation show">💡 ${mcq.exp||'Correct answer.'} | Correct: ${String.fromCharCode(65+mcq.ans)}</div>` : ''}</div>`;
+  });
+  list.innerHTML = html || '<p>No questions.</p>';
+}
 
-        function renderMCQList() {
-            const list = document.getElementById('mcqList');
-            if (!list) return;
-            let html = '';
-            currentMCQs.forEach((mcq, i) => {
-                const answered = userAnswers[i] !== undefined;
-                html += `<div class="mcq-card" id="mcqCard${i}">
-            <div class="q-num">Q${i+1} of ${currentMCQs.length} ${mcq.unit ? '['+mcq.unit.toUpperCase()+']' : ''}</div>
-            <div class="question">${mcq.q}</div>
-            <div class="options">`;
-                mcq.opts.forEach((opt, oi) => {
-                    let cls = 'opt-btn';
-                    if (answered && userAnswers[i] === oi) cls += ' selected';
-                    if (mcqSubmitted) {
-                        if (oi === mcq.ans) cls += ' correct';
-                        else if (userAnswers[i] === oi && oi !== mcq.ans) cls += ' wrong';
-                    }
-                    const disabled = mcqSubmitted ? 'disabled' : '';
-                    html +=
-                        `<button class="${cls}" ${disabled} onclick="selectAnswer(${i}, ${oi})">${String.fromCharCode(65+oi)}. ${opt}</button>`;
-                });
-                html += `</div>`;
-                if (mcqSubmitted) {
-                    html +=
-                        `<div class="explanation show">💡 <strong>Explanation:</strong> ${mcq.exp} | Correct: <strong>${String.fromCharCode(65+mcq.ans)}</strong></div>`;
-                }
-                html += `</div>`;
-            });
-            list.innerHTML = html || '<p style="color:var(--text3)">No MCQs available for this topic.</p>';
-        }
+function selectAnswer(qIdx, oi) { if (!mcqSubmitted) { userAnswers[qIdx] = oi; renderMCQList(); } }
 
-        function selectAnswer(qIdx, optIdx) {
-            if (mcqSubmitted) return;
-            userAnswers[qIdx] = optIdx;
-            renderMCQList();
-        }
+function submitMCQ() {
+  mcqSubmitted = true; renderMCQList();
+  let correct = 0;
+  currentMCQs.forEach((m,i) => { if (userAnswers[i] === m.ans) correct++; });
+  const pct = Math.round((correct/currentMCQs.length)*100) || 0;
+  const color = pct>=80?'#3fb950':pct>=50?'#d2991d':'#f85149';
+  document.getElementById('mcqScoreBar').innerHTML = `
+    <div class="score-bar">
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div class="progress-ring" style="border-color:${color};color:${color};">${pct}%</div>
+        <div><div class="score" style="color:${color};">${correct}/${currentMCQs.length} Correct</div><div class="stats">${mcqTopic==='all'?'All Topics':mcqTopic}</div></div>
+      </div>
+      <span class="badge" style="background:${pct>=80?'#238636':pct>=50?'#d2991d':'#f85149'}">${pct>=80?'🌟 Excellent':pct>=60?'👍 Good':pct>=40?'📖 Keep studying':'📚 Needs review'}</span>
+    </div>`;
+}
 
-        function submitMCQ() {
-            mcqSubmitted = true;
-            renderMCQList();
-            let correct = 0;
-            const total = currentMCQs.length;
-            currentMCQs.forEach((mcq, i) => {
-                if (userAnswers[i] === mcq.ans) correct++;
-            });
-            const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
-            let gradeColor = pct >= 80 ? '#3fb950' : pct >= 50 ? '#d2991d' : '#f85149';
-            document.getElementById('mcqScoreBar').innerHTML = `
-        <div class="score-bar">
-          <div style="display:flex;align-items:center;gap:16px;">
-            <div class="progress-ring" style="border-color:${gradeColor};color:${gradeColor};">${pct}%</div>
-            <div>
-              <div class="score" style="color:${gradeColor};">${correct}/${total} Correct</div>
-              <div class="stats">${total} questions | ${mcqTopic==='all'?'All Topics':mcqTopic.toUpperCase()}</div>
-            </div>
-          </div>
-          <span class="badge ${pct>=50?'':'warn'}">${pct>=80?'🌟 Excellent!':pct>=60?'👍 Good':pct>=40?'📖 Keep Studying':'📚 Needs Review'}</span>
-        </div>`;
-            // Scroll to score bar
-            document.getElementById('mcqScoreBar').scrollIntoView({ behavior: 'smooth' });
-        }
+function resetMCQ() { mcqSubmitted=false; userAnswers={}; currentMCQs=[]; document.getElementById('mcqList').innerHTML='<p>Click Start to begin.</p>'; document.getElementById('mcqScoreBar').innerHTML=''; }
 
-        function resetMCQ() {
-            mcqSubmitted = false;
-            userAnswers = {};
-            currentMCQs = [];
-            document.getElementById('mcqScoreBar').innerHTML = '';
-            document.getElementById('mcqList').innerHTML =
-                '<p style="color:var(--text3)">Click <strong>Start / Reload MCQs</strong> to begin.</p>';
-        }
+function shuffleArray(a){ const arr=[...a]; for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
 
-        function shuffleArray(arr) {
-            const a = [...arr];
-            for (let i = a.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [a[i], a[j]] = [a[j], a[i]];
-            }
-            return a;
-        }
+function toggleSidebar(){ sidebarOpen=!sidebarOpen; document.getElementById('sidebar').classList.toggle('open',sidebarOpen); document.getElementById('overlay').classList.toggle('show',sidebarOpen); }
+function closeSidebar(){ sidebarOpen=false; document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+function toggleLightMode(){
+  document.body.classList.toggle('light-mode');
+  const label=document.getElementById('modeLabel');
+  if(document.body.classList.contains('light-mode')){ label.textContent='Light Mode'; localStorage.setItem('cse332-mode','light'); }
+  else { label.textContent='Dark Mode'; localStorage.setItem('cse332-mode','dark'); }
+}
 
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
-            sidebarOpen = !sidebarOpen;
-            sidebar.classList.toggle('open', sidebarOpen);
-            overlay.classList.toggle('show', sidebarOpen);
-        }
-
-        function closeSidebar() {
-            sidebarOpen = false;
-            document.getElementById('sidebar').classList.remove('open');
-            document.getElementById('overlay').classList.remove('show');
-        }
-
-        function toggleLightMode() {
-            document.body.classList.toggle('light-mode');
-            const label = document.getElementById('modeLabel');
-            if (document.body.classList.contains('light-mode')) {
-                label.textContent = 'Light Mode';
-                localStorage.setItem('cse332-mode', 'light');
-            } else {
-                label.textContent = 'Dark Mode';
-                localStorage.setItem('cse332-mode', 'dark');
-            }
-        }
-
-        // ==================== INIT ====================
-        function init() {
-            // Restore mode
-            if (localStorage.getItem('cse332-mode') === 'light') {
-                document.body.classList.add('light-mode');
-                document.getElementById('modeLabel').textContent = 'Light Mode';
-            }
-            // Render default unit
-            renderRevision();
-            // Handle resize
-            window.addEventListener('resize', () => {
-                if (window.innerWidth > 768 && sidebarOpen) closeSidebar();
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', init);
-        // Expose functions globally
-        window.switchUnit = switchUnit;
-        window.switchTab = switchTab;
-        window.toggleSidebar = toggleSidebar;
-        window.closeSidebar = closeSidebar;
-        window.toggleLightMode = toggleLightMode;
-        window.startMCQ = startMCQ;
-        window.submitMCQ = submitMCQ;
-        window.resetMCQ = resetMCQ;
-        window.selectAnswer = selectAnswer;
-        window.onMCQTopicChange = onMCQTopicChange;
-    </script>
+window.addEventListener('DOMContentLoaded',()=>{
+  if(localStorage.getItem('cse332-mode')==='light'){ document.body.classList.add('light-mode'); document.getElementById('modeLabel').textContent='Light Mode'; }
+  renderRevision();
+});
+</script>
 </body>
 </html>

@@ -173,3 +173,28 @@ The SDLC is a structured process used by development teams to design, build, tes
 | **Continuous Deployment** | Every change that passes all tests is **automatically deployed** to production without human intervention. (The “CD” in DevOps often refers to this.) |
 
 **Simple flow:**
+
+devops enginer work , dev team, ops, test team 
+![alt text](image-21.png)
+
+![alt text](image-22.png)
+Ci , CD , C Deployment
+![alt text](image-23.png)
+more better pipeline
+![alt text](image-24.png)
+
+cloud computing -
+key services: Iaas, Saas, Paas
+ on premises vs cloud
+
+on premises
+ maintence, data recovery, security, scalling
+
+ hardware part - server, storage hardware
+ software part - os,database,env
+
+cloud opposite
+![alt text](image-25.png)
+
+vitualization - hypervisor , 
+![alt text](image-26.png)
