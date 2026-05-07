@@ -794,3 +794,132 @@ groups username
 ```
 
 > Simple idea: **Users identify people/accounts, groups give shared permissions.**
+
+---
+
+## User Group Commands Explained
+
+### Replace User Groups
+```bash
+sudo usermod -G anuj,sudo anuj
+```
+
+This sets the secondary groups of user `anuj` to only:
+- `anuj`
+- `sudo`
+
+Important: `-G` without `-a` replaces old secondary groups. If `anuj` was already in `devteam`, this command can remove `anuj` from `devteam`.
+
+### Add User to Extra Group
+```bash
+sudo usermod -aG devteam anuj
+```
+
+This adds user `anuj` to the `devteam` group without removing old groups.
+
+| Option | Meaning |
+|--------|---------|
+| `-a` | Append/add to existing groups. |
+| `-G` | Secondary group list. |
+
+> Best practice: use `-aG` when adding a user to a group.
+
+### Remove User From Group
+```bash
+sudo gpasswd -d anuj devteam
+```
+
+This removes user `anuj` from the `devteam` group.
+
+### Check User ID and Groups
+```bash
+id anuj
+```
+
+This shows:
+- UID - user ID
+- GID - primary group ID
+- groups - all groups the user belongs to
+
+Example output:
+```bash
+uid=1000(anuj) gid=1000(anuj) groups=1000(anuj),27(sudo),1002(devteam)
+```
+
+---
+
+## Normal User Default Permissions
+
+A normal Linux user has limited permissions.
+
+### Normal User Usually Can
+- Read many system files.
+- Create/edit files inside their own home directory, like `/home/anuj`.
+- Create temporary files inside `/tmp`.
+- Run normal commands like `ls`, `cat`, `pwd`, `whoami`.
+
+### Normal User Usually Cannot
+- Edit system files inside `/etc`.
+- Install or remove software.
+- Create users or groups.
+- Change files owned by other users.
+- Modify protected directories like `/bin`, `/sbin`, `/lib`, `/usr`.
+
+> Note: normal users do not have only `/tmp` access. They also have access to their own home directory.
+
+---
+
+## `ls -ltr` Command
+
+```bash
+ls -ltr
+```
+
+| Part | Meaning |
+|------|---------|
+| `ls` | List files and directories. |
+| `-l` | Long listing format with permissions, owner, size, date. |
+| `-t` | Sort by modified time. |
+| `-r` | Reverse the order. |
+
+So `ls -ltr` shows files in long format, sorted from oldest to newest.
+
+---
+
+## Linux Permission Format
+
+Example:
+```bash
+drwxrwxrwx
+```
+
+This has 10 characters:
+
+```text
+d rwx rwx rwx
+```
+
+| Part | Meaning |
+|------|---------|
+| `d` | Type. `d` means directory. `-` means file. |
+| First `rwx` | Owner permissions. |
+| Second `rwx` | Group permissions. |
+| Third `rwx` | Others/everyone permissions. |
+
+### Permission Letters
+| Letter | Meaning for file | Meaning for directory |
+|--------|------------------|-----------------------|
+| `r` | Read file content. | List directory content. |
+| `w` | Modify file content. | Create/delete/rename files inside directory. |
+| `x` | Execute file. | Enter/access directory using `cd`. |
+| `-` | Permission not given. | Permission not given. |
+
+### Examples
+| Permission | Meaning |
+|------------|---------|
+| `-rw-r--r--` | Normal file. Owner can read/write. Group and others can only read. |
+| `drwxr-xr-x` | Directory. Owner full access. Group/others can read and enter. |
+| `drwx------` | Directory only owner can access. |
+| `drwxrwxrwx` | Directory everyone can read/write/enter. Not safe for important folders. |
+
+> You wrote `drex-rwx-rwx`; the usual format is `drwxrwxrwx`. It means directory with read, write, execute for owner, group, and others.
