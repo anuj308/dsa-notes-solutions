@@ -2,6 +2,7 @@ in an ec2 instance host static web site
 
 chmod 400 test1.pem
 ssh -i test1.pem ec2-user@YOUR-IP
+ssh -i test1.pem ubuntu@YOUR-IP	
 
 (amazon linux)
 sudo yum update -y
@@ -24,3 +25,12 @@ create a ec2 instanace and create a role to manage ec2 and with session manager 
 also using run a command to run commands	
 
 11 mar
+
+usermod -aG docker ubuntu - to add ubuntu to user group 
+cat /etc/group
+
+docker ps
+
+docker ps -a
+
+docker run -dit --name my-apache-app -p 8080:80 httpd:2.4

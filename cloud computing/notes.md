@@ -16,7 +16,7 @@ DevOps is a set of practices that combines **software development (Dev)** and **
 ## DevOps vs Old (Traditional) System
 
 ### Old System (Waterfall / Siloed)
-![alt text](image.png)  
+<img src="image.png" alt="diagram" width="720">  
 *Characteristics:*  
 - Dev writes code → throws it over the wall to Ops.  
 - Manual deployment, long release cycles (months).  
@@ -24,9 +24,9 @@ DevOps is a set of practices that combines **software development (Dev)** and **
 - Ops often discovers environment issues too late.
 
 ### New System (DevOps)
-![alt text](image-1.png)  
-![alt text](image-2.png)  
-![alt text](image-3.png)  
+<img src="image-1.png" alt="diagram" width="720">  
+<img src="image-2.png" alt="diagram" width="720">  
+<img src="image-3.png" alt="diagram" width="720">  
 *Characteristics:*  
 - Shared responsibility, continuous integration & delivery (CI/CD).  
 - Infrastructure as Code (IaC) – servers, networks, and storage are defined in code.  
@@ -115,9 +115,9 @@ DevOps is a set of practices that combines **software development (Dev)** and **
 ### What is the Software Development Life Cycle (SDLC)?
 The SDLC is a structured process used by development teams to design, build, test, deploy, and maintain high‑quality software.
 
-![alt text](image-4.png)
+<img src="image-4.png" alt="diagram" width="720">
 
-![alt text](image-5.png)
+<img src="image-5.png" alt="diagram" width="720">
 
 **Typical phases of SDLC** (and what a DevOps engineer does in each):
 
@@ -174,27 +174,301 @@ The SDLC is a structured process used by development teams to design, build, tes
 
 **Simple flow:**
 
-devops enginer work , dev team, ops, test team 
-![alt text](image-21.png)
+Code change -> CI build/test -> package artifact -> deploy to staging -> approval/tests -> production deployment -> monitoring.
 
-![alt text](image-22.png)
-Ci , CD , C Deployment
-![alt text](image-23.png)
-more better pipeline
-![alt text](image-24.png)
+---
 
-cloud computing -
-key services: Iaas, Saas, Paas
- on premises vs cloud
+## DevOps Engineer Work With Different Teams
 
-on premises
- maintence, data recovery, security, scalling
+<img src="image-21.png" alt="DevOps engineer work diagram" width="720">
 
- hardware part - server, storage hardware
- software part - os,database,env
+<img src="image-22.png" alt="DevOps team collaboration diagram" width="720">
 
-cloud opposite
-![alt text](image-25.png)
+### DevOps Engineer
+- Connects **Dev team, Test team, and Ops team**.
+- Creates CI/CD pipelines for build, test, and deployment.
+- Automates manual work using scripts, tools, and cloud services.
+- Monitors application health after deployment.
+- Helps fix deployment, server, and environment problems.
 
-vitualization - hypervisor , 
-![alt text](image-26.png)
+### Development Team
+- Writes application code and pushes it to Git.
+- Fixes bugs and adds new features.
+- Works with DevOps to make code easy to build and deploy.
+
+### Testing / QA Team
+- Tests the application before release.
+- Writes or runs automated test cases.
+- Checks if new code breaks old features.
+- Gives feedback before deployment.
+
+### Operations Team
+- Manages servers, networks, storage, and production systems.
+- Handles uptime, backups, monitoring, and incidents.
+- Works with DevOps to make production stable.
+
+> Simple idea: **Dev builds, Test checks, Ops runs, DevOps connects and automates everything.**
+
+---
+
+## CI, CD, and Continuous Deployment
+
+<img src="image-23.png" alt="CI CD continuous deployment diagram" width="720">
+
+| Term | Simple meaning |
+|------|----------------|
+| **CI - Continuous Integration** | Developers push code often. The system automatically builds and tests the code. |
+| **CD - Continuous Delivery** | Code is ready to deploy after build and test. Usually one manual approval is needed. |
+| **Continuous Deployment** | Code automatically goes to production if all tests pass. No manual approval is needed. |
+
+### Easy Difference
+- **CI** = build + test automatically.
+- **Continuous Delivery** = ready for release automatically.
+- **Continuous Deployment** = released to users automatically.
+
+---
+
+## Better DevOps Pipeline
+
+<img src="image-24.png" alt="better DevOps pipeline diagram" width="720">
+
+### Common Pipeline Steps
+1. **Plan** - decide feature or bug fix.
+2. **Code** - developer writes code.
+3. **Commit** - code is pushed to Git.
+4. **Build** - application package is created.
+5. **Test** - automated tests run.
+6. **Security Scan** - code and packages are checked for risk.
+7. **Deploy** - application is released to staging or production.
+8. **Monitor** - logs, metrics, and alerts are checked.
+
+> A good pipeline reduces manual mistakes and gives fast feedback.
+
+---
+
+## Cloud Computing - Key Services
+
+Cloud computing means using computing resources over the internet instead of buying and managing all hardware yourself.
+
+### Main Service Models
+| Service | Full form | Simple meaning | Example |
+|---------|-----------|----------------|---------|
+| **IaaS** | Infrastructure as a Service | Rent servers, storage, and networking. You manage OS and apps. | AWS EC2, Azure VM |
+| **PaaS** | Platform as a Service | Provider manages server and runtime. You deploy your code. | Heroku, Google App Engine |
+| **SaaS** | Software as a Service | Ready-made software used through browser/app. | Gmail, Google Drive, Salesforce |
+
+---
+
+## On-Premises vs Cloud
+
+<img src="image-25.png" alt="on premises vs cloud diagram" width="720">
+
+### On-Premises
+On-premises means the company owns and manages its own servers in its own data center or office.
+
+**Company is responsible for:**
+- **Maintenance** - repairing and updating hardware/software.
+- **Data recovery** - backups and disaster recovery setup.
+- **Security** - physical security, firewall, access control.
+- **Scaling** - buying and adding more servers when demand increases.
+
+### Hardware Part
+- Servers
+- Storage hardware
+- Network devices
+- Physical data center space
+
+### Software Part
+- Operating system
+- Database
+- Runtime environment
+- Application software
+
+### Cloud
+Cloud is mostly the opposite of on-premises:
+- No need to buy physical servers.
+- Cloud provider manages data centers and hardware.
+- Easy to scale up or down.
+- Pay only for what you use.
+- Faster setup compared to traditional infrastructure.
+
+---
+
+## Virtualization and Hypervisor
+
+<img src="image-26.png" alt="virtualization hypervisor diagram" width="720">
+
+### Virtualization
+Virtualization means creating multiple **virtual machines** from one physical machine.
+
+### Hypervisor
+A hypervisor is software that creates and manages virtual machines.
+
+**Example:**
+One physical server can run:
+- VM 1 - Linux server
+- VM 2 - Windows server
+- VM 3 - Database server
+
+> Simple idea: **Virtualization helps use one physical server like many separate servers.**
+
+---
+
+## On-Premises Infrastructure
+
+<img src="image-27.png" alt="on premises infrastructure diagram" width="720">
+
+In on-premises infrastructure, the company controls almost everything:
+- Physical building or server room.
+- Servers and storage.
+- Network and firewall.
+- Operating systems.
+- Databases.
+- Application environment.
+- Backup and recovery.
+
+This gives more control, but it also needs more money, maintenance, and skilled staff.
+
+---
+
+## IaaS, PaaS, SaaS Responsibility
+
+<img src="image-28.png" alt="IaaS PaaS SaaS responsibility diagram" width="720">
+
+| Layer | On-Premises | IaaS | PaaS | SaaS |
+|-------|-------------|------|------|------|
+| Application | You manage | You manage | You manage | Provider manages |
+| Data | You manage | You manage | You manage | Provider manages |
+| Runtime | You manage | You manage | Provider manages | Provider manages |
+| OS | You manage | You manage | Provider manages | Provider manages |
+| Virtualization | You manage | Provider manages | Provider manages | Provider manages |
+| Servers | You manage | Provider manages | Provider manages | Provider manages |
+| Storage | You manage | Provider manages | Provider manages | Provider manages |
+| Networking | You manage | Provider manages | Provider manages | Provider manages |
+
+### Simple Memory Trick
+- **IaaS** = provider gives infrastructure.
+- **PaaS** = provider gives platform.
+- **SaaS** = provider gives complete software.
+
+---
+
+## Why Linux is Important in Cloud
+
+<img src="image-29.png" alt="Linux in cloud diagram" width="720">
+
+Linux is used heavily in cloud computing because it is stable, secure, flexible, and easy to automate.
+
+### Why Cloud Providers Use Linux
+- **Open source** - companies can modify it for their own cloud systems.
+- **Stable** - good for running servers 24/7.
+- **Secure** - strong permission system and regular security updates.
+- **Lightweight** - can run with fewer resources than many desktop operating systems.
+- **Automation friendly** - works well with shell scripts, SSH, DevOps tools, and containers.
+- **Best for servers** - most web servers, databases, and containers run on Linux.
+
+> Simple idea: **Linux is the main server operating system used in cloud and DevOps.**
+
+---
+
+## Cloud Providers and Operating Systems
+
+<img src="image-30.png" alt="cloud provider operating systems diagram" width="720">
+
+Different cloud providers use customized operating systems and virtualization technology internally.
+
+| Cloud provider | Common virtualization base | Simple note |
+|----------------|----------------------------|-------------|
+| **AWS** | KVM-based virtualization with Nitro System | Uses lightweight virtualization and special hardware cards for better speed and security. |
+| **Google Cloud / GCP** | KVM-based virtualization | Uses Linux/KVM technology for running virtual machines. |
+| **Microsoft Azure** | Hyper-V based virtualization | Uses Microsoft Hyper-V technology, connected with Windows and Linux VM support. |
+
+### Important Note
+- AWS and Google use a lot of **custom Linux-based systems** inside their cloud.
+- Azure is Microsoft cloud, so it uses **custom Windows/Hyper-V technology**, but it also runs Linux VMs very well.
+
+---
+
+## What Hypervisor Does
+
+A **hypervisor** is the virtualization layer that creates and manages virtual machines.
+
+### Main Work of Hypervisor
+- **Create VMs** - divides one physical server into multiple virtual servers.
+- **CPU management** - gives CPU power to each VM.
+- **Memory management** - assigns RworkAM to each VM.
+- **Network layer** - connects VMs to virtual/private nets.
+- **Storage layer** - connects VMs to virtual disks and cloud storage.
+- **Security layer** - isolates one VM from another VM.
+- **Resource control** - prevents one VM from using all server resources.
+
+> Simple idea: **Hypervisor sits between hardware and virtual machines.**
+
+---
+
+## AWS Nitro System
+
+AWS Nitro System is AWS's modern virtualization system used for EC2 instances.
+
+### Why AWS Nitro is Important
+- Moves many virtualization tasks to special hardware cards.
+- Improves VM performance because the main server CPU has less overhead.
+- Improves security by isolating customers better.
+- Handles networking, storage, and monitoring more efficiently.
+- Allows AWS to provide faster and more lightweight EC2 instances.
+
+### Easy Explanation
+In older virtualization, the hypervisor did many jobs directly on the server CPU.  
+In AWS Nitro, special Nitro cards handle many jobs like:
+- Networking
+- Storage
+- Security
+- Monitoring
+
+So EC2 instances become faster, safer, and closer to real physical machine performance.
+
+---
+
+## Type 1 and Type 2 Hypervisor
+
+<img src="image-31.png" alt="type 1 and type 2 hypervisor diagram" width="720">
+
+| Type | Also called | How it works | Example |
+|------|-------------|--------------|---------|
+| **Type 1 Hypervisor** | Bare-metal hypervisor | Runs directly on physical hardware. | VMware ESXi, Microsoft Hyper-V, KVM, Xen |
+| **Type 2 Hypervisor** | Hosted hypervisor | Runs on top of an existing operating system. | VirtualBox, VMware Workstation |
+
+### Type 1 Hypervisor
+- Used in data centers and cloud platforms.
+- Faster and more secure.
+- Best for production servers.
+
+### Type 2 Hypervisor
+- Used mostly on laptops/desktops for practice and testing.
+- Easy to install.
+- Performance is lower because it depends on the host OS.
+
+> Cloud providers mainly use **Type 1 hypervisors** because they need high performance and strong isolation.
+
+---
+
+## Linux Basics for Cloud and DevOps
+
+<img src="image-32.png" alt="Linux basics diagram" width="720">
+
+### Why DevOps Engineers Learn Linux
+- Most cloud servers run Linux.
+- Docker and Kubernetes are commonly used with Linux.
+- CI/CD tools often run on Linux agents.
+- Logs, services, permissions, and networking are managed using Linux commands.
+- SSH is used to connect to remote Linux servers.
+
+### Common Linux Skills
+- File commands: `ls`, `cd`, `pwd`, `cp`, `mv`, `rm`
+- Text commands: `cat`, `less`, `head`, `tail`, `grep`
+- Permission commands: `chmod`, `chown`
+- Process commands: `ps`, `top`, `kill`
+- Service commands: `systemctl`, `journalctl`
+- Network commands: `ping`, `curl`, `netstat`, `ss`
+
+> Simple idea: **For DevOps, Linux is not optional. It is a daily tool.**
