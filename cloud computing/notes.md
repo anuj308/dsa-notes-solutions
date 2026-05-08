@@ -1273,7 +1273,7 @@ Example:
 
 ## AWS IAM
 
-![alt text](image-35.png)
+<img src="image-35.png" alt="AWS IAM diagram" width="720">
 
 IAM means **Identity and Access Management**.
 
@@ -1295,17 +1295,294 @@ IAM is used to manage users, groups, roles, and permissions in AWS.
 
 > Simple idea: **IAM controls who can access AWS and what actions they can perform.**
 
-user by no permission can not doing anything only login but we can add it to group which have permission
+---
 
-roles are between two aws services or user tempory
-ROLES DEPTH?
+## IAM User, Group, Policy, and Role
 
-![alt text](image-37.png)
-![alt text](image-36.png)
-![alt text](image-38.png)
+<img src="image-37.png" alt="IAM user group policy diagram" width="720">
+<img src="image-36.png" alt="IAM roles diagram" width="720">
+<img src="image-38.png" alt="IAM permissions diagram" width="720">
 
-EC2 - ram cpu, networl, storage
-pay as you go model
+### IAM User With No Permission
 
-imp => ec2 instance types
-![alt text](image-39.png)
+An IAM user with no permission can only login to AWS console.
+
+By default, the user cannot:
+- Create EC2 instance.
+- Start or stop EC2.
+- Create S3 bucket.
+- Read or delete AWS resources.
+
+To give permission, we attach a policy directly to the user or add the user to a group that already has permission.
+
+### IAM Group
+
+IAM group is a collection of IAM users.
+
+Example:
+- `Developers` group can access EC2.
+- `Admins` group can access all AWS services.
+- `ReadOnly` group can only view resources.
+
+If a user is added to a group, the user gets the group's permissions.
+
+### IAM Policy
+
+IAM policy is a JSON document that defines permissions.
+
+Policy tells:
+- Which service is allowed.
+- Which action is allowed or denied.
+- Which resource can be accessed.
+
+Example actions:
+- `ec2:StartInstances`
+- `ec2:StopInstances`
+- `s3:GetObject`
+- `s3:PutObject`
+
+---
+
+## AWS IAM Roles in Depth
+
+IAM role is an identity with permissions, but it is not a normal user.
+
+A role is used to give **temporary access**.
+
+### Where Roles Are Used
+
+Roles are commonly used:
+- Between two AWS services.
+- By an AWS service to access another AWS service.
+- By users for temporary access.
+- By applications running inside EC2.
+
+### Example: EC2 Role
+
+Suppose an application is running on EC2 and needs to read files from S3.
+
+Bad method:
+- Store AWS access key and secret key inside EC2.
+
+Good method:
+- Create IAM role with S3 read permission.
+- Attach role to EC2.
+- EC2 gets temporary credentials automatically.
+
+### Why Roles Are Better
+
+- No need to store permanent access keys.
+- Temporary credentials are rotated automatically.
+- More secure for AWS services.
+- Easy to give and remove permission.
+
+### Role Trust Policy and Permission Policy
+
+IAM role has two important parts:
+
+| Part | Meaning |
+|------|---------|
+| Trust policy | Who can use/assume this role? |
+| Permission policy | What can this role do after it is assumed? |
+
+Example:
+- Trust policy says EC2 can assume this role.
+- Permission policy says role can read S3 bucket.
+
+### Simple Role Flow
+
+```text
+EC2 instance -> assumes IAM role -> gets temporary credentials -> accesses S3
+```
+
+> Simple idea: **User is for a person/application login. Role is for temporary permission, often used between AWS services.**
+
+---
+
+## EC2 Basics
+
+EC2 means **Elastic Compute Cloud**.
+
+An EC2 instance is a virtual machine/server in AWS.
+
+EC2 provides:
+- CPU
+- RAM
+- Network
+- Storage
+- Operating system
+
+### Pay As You Go Model
+
+AWS follows a pay as you go model.
+
+This means:
+- You pay only for what you use.
+- If EC2 runs for more time, cost increases.
+- If EC2 is stopped, compute cost usually stops.
+- Storage cost can continue even if EC2 is stopped.
+
+> Important: Stop or terminate unused EC2 instances to avoid extra cost.
+
+---
+
+## EC2 Instance Types
+
+<img src="image-39.png" alt="EC2 instance types diagram" width="720">
+
+EC2 instance type decides the CPU, RAM, storage, and network capacity of the instance.
+
+### Common EC2 Instance Type Families
+
+| Type | Best for | Simple meaning |
+|------|----------|----------------|
+| General purpose | Web servers, small apps, testing | Balanced CPU, RAM, and network. |
+| Compute optimized | Gaming servers, batch jobs, CPU-heavy apps | More CPU power. |
+| Memory optimized | Databases, caching, big data | More RAM. |
+| Storage optimized | Large file processing, high disk usage | Faster/local storage. |
+| Accelerated computing | ML, AI, graphics, GPU workloads | Uses GPU or special hardware. |
+
+### Example Instance Names
+
+| Example | Meaning |
+|---------|---------|
+| `t2.micro` | General purpose, small, often used for practice/free tier. |
+| `t3.micro` | Newer general purpose small instance. |
+| `m5.large` | General purpose production-type instance. |
+| `c5.large` | Compute optimized instance. |
+| `r5.large` | Memory optimized instance. |
+
+### How to Read `t2.micro`
+
+| Part | Meaning |
+|------|---------|
+| `t` | Instance family. |
+| `2` | Generation/version. |
+| `micro` | Size of instance. |
+
+Size can be:
+- `nano`
+- `micro`
+- `small`
+- `medium`
+- `large`
+- `xlarge`
+
+Larger size means more CPU/RAM and higher cost.
+
+---
+
+## Network Fundamentals
+
+<img src="image-40.png" alt="network fundamentals diagram" width="720">
+
+### Computer Network
+
+A computer network is a group of devices connected together to share data and resources.
+
+Examples:
+- Laptop connected to Wi-Fi.
+- Mobile connected to internet.
+- EC2 instances connected inside AWS VPC.
+- Office computers connected through LAN.
+
+### Why Networking Is Important in Cloud
+
+Cloud servers need networking to:
+- Connect to internet.
+- Communicate with other servers.
+- Connect frontend, backend, and database.
+- Control access using security groups and firewalls.
+
+---
+
+## Network Interface
+
+A network interface is the connection point between a computer/server and the network.
+
+In physical computers, it can be:
+- Ethernet card.
+- Wi-Fi adapter.
+
+In AWS, EC2 uses **Elastic Network Interface**, also called ENI.
+
+ENI contains:
+- Private IP address.
+- Public IP address if assigned.
+- Security groups.
+- MAC address.
+
+> Simple idea: **Network interface is like the network card of a server.**
+
+---
+
+## Components in Computer Network
+
+| Component | Simple meaning |
+|-----------|----------------|
+| Device/Host | Computer, server, mobile, printer, EC2 instance. |
+| NIC | Network Interface Card used to connect to network. |
+| Switch | Connects devices inside the same local network. |
+| Router | Connects different networks together. |
+| Modem | Connects home/office network to ISP. |
+| Firewall | Allows or blocks traffic based on rules. |
+| IP address | Unique address of a device in network. |
+| DNS | Converts domain name to IP address. |
+
+---
+
+## IP Address
+
+IP address is a unique address used to identify a device on a network.
+
+Example:
+
+```text
+192.168.1.10
+```
+
+### Types of IP Address
+
+| Type | Meaning |
+|------|---------|
+| Private IP | Used inside private/local network. |
+| Public IP | Used on internet. |
+| Static IP | Fixed IP address. |
+| Dynamic IP | IP address that can change. |
+
+### AWS Example
+
+| IP type | Use |
+|---------|-----|
+| Private IP | EC2 communication inside VPC. |
+| Public IP | Connect to EC2 from internet. |
+| Elastic IP | Fixed public IP for EC2. |
+
+---
+
+<img src="image-41.png" alt="IP address diagram" width="720">
+<img src="image-42.png" alt="network diagram" width="720">
+
+## OSI Model
+
+OSI model explains how data travels from one computer to another.
+
+It has 7 layers.
+
+| Layer | Name | Simple meaning |
+|-------|------|----------------|
+| 7 | Application | User-facing apps like browser, HTTP, DNS. |
+| 6 | Presentation | Data format, encryption, compression. |
+| 5 | Session | Starts and manages communication session. |
+| 4 | Transport | Reliable data transfer, TCP/UDP, ports. |
+| 3 | Network | IP address and routing. |
+| 2 | Data Link | MAC address and local network transfer. |
+| 1 | Physical | Cables, signals, Wi-Fi, hardware. |
+
+### Easy Flow
+
+```text
+Browser -> HTTP -> TCP -> IP -> Network card -> Cable/Wi-Fi
+```
+
+> Simple idea: **OSI model is a layered way to understand networking.**
