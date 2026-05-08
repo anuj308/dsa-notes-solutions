@@ -398,7 +398,7 @@ A **hypervisor** is the virtualization layer that creates and manages virtual ma
 ### Main Work of Hypervisor
 - **Create VMs** - divides one physical server into multiple virtual servers.
 - **CPU management** - gives CPU power to each VM.
-- **Memory management** - assigns RworkAM to each VM.
+- **Memory management** - assigns RAM to each VM.
 - **Network layer** - connects VMs to virtual/private nets.
 - **Storage layer** - connects VMs to virtual disks and cloud storage.
 - **Security layer** - isolates one VM from another VM.
@@ -604,7 +604,7 @@ sudo systemctl enable ssh
 ### Basic SSH Login Format
 ```bash
 ssh username@server-ip
-```C
+```
 
 Example:
 ```bash
@@ -925,6 +925,387 @@ d rwx rwx rwx
 > You wrote `drex-rwx-rwx`; the usual format is `drwxrwxrwx`. It means directory with read, write, execute for owner, group, and others.
 
 
-aws
-aws ec2 instance
-pem ppk explain
+---
+
+## AWS Basics
+
+AWS means **Amazon Web Services**. It provides cloud services like servers, storage, databases, networking, and security.
+
+### AWS EC2 Instance
+EC2 means **Elastic Compute Cloud**.
+
+An EC2 instance is a virtual server in AWS.
+
+We use EC2 to:
+- Run websites.
+- Run applications.
+- Practice Linux commands.
+- Host backend servers.
+- Install software like Apache, Nginx, Java, Node.js, Docker, etc.
+
+### PEM and PPK File
+
+| File | Use |
+|------|-----|
+| `.pem` | Private key file used from Linux/macOS terminal or Git Bash. |
+| `.ppk` | PuTTY private key file used with PuTTY on Windows. |
+
+### Important Point
+- AWS gives a key pair when creating an EC2 instance.
+- Private key is used to SSH login into EC2.
+- Keep the key safe. If lost, normal SSH login becomes difficult.
+- On Linux/macOS, key permission should be secure:
+
+```bash
+chmod 400 key-name.pem
+```
+
+### SSH Login to EC2
+
+```bash
+ssh -i key-name.pem ubuntu@public-ip
+```
+
+For Amazon Linux:
+
+```bash
+ssh -i key-name.pem ec2-user@public-ip
+```
+
+| Part | Meaning |
+|------|---------|
+| `ssh` | Connect to remote server. |
+| `-i key-name.pem` | Use this private key file. |
+| `ubuntu` | Default user for Ubuntu EC2. |
+| `ec2-user` | Default user for Amazon Linux EC2. |
+| `public-ip` | Public IP address of EC2 instance. |
+
+---
+
+## Install Apache on EC2 and Serve Website
+
+Apache is a web server. It receives browser requests and sends website files as response.
+
+### Ubuntu EC2 Commands
+
+```bash
+sudo apt update
+sudo apt install apache2 -y
+sudo systemctl start apache2
+sudo systemctl enable apache2
+sudo systemctl status apache2
+```
+
+### Amazon Linux EC2 Commands
+
+```bash
+sudo yum update -y
+sudo yum install httpd -y
+sudo systemctl start httpd
+sudo systemctl enable httpd
+sudo systemctl status httpd
+```
+
+### Open Website in Browser
+
+```text
+http://public-ip
+```
+
+Security group must allow **HTTP port 80** from internet.
+
+---
+
+## Why `/var/www/html`?
+
+`/var/www/html` is the default document root for Apache on Ubuntu.
+
+Document root means the folder from where Apache serves website files.
+
+Example:
+- File path on server: `/var/www/html/index.html`
+- Browser URL: `http://public-ip/index.html`
+
+### Why Files Stay After EC2 Restart
+
+Files inside `/var/www/html` are stored on the EC2 disk volume, not in RAM.
+
+So files remain after:
+- EC2 stop/start.
+- EC2 reboot.
+- Apache restart.
+
+Files may be lost only if:
+- EC2 is terminated and root volume is deleted.
+- You manually delete the files.
+- Volume is detached or damaged.
+
+---
+
+## Deploy Static Website to EC2 From Your Machine
+
+### Step 1: Connect to EC2
+
+```bash
+ssh -i key-name.pem ubuntu@public-ip
+```
+
+### Step 2: Install Apache
+
+```bash
+sudo apt update
+sudo apt install apache2 -y
+sudo systemctl start apache2
+sudo systemctl enable apache2
+```
+
+### Step 3: Copy Website Files From Local Machine
+
+Run this command from your own machine, not inside EC2:
+
+```bash
+scp -i key-name.pem -r ./website/* ubuntu@public-ip:/tmp/
+```
+
+### Step 4: Move Files to Apache Folder
+
+Run inside EC2:
+
+```bash
+sudo cp -r /tmp/* /var/www/html/
+```
+
+### Step 5: Check Website
+
+Open:
+
+```text
+http://public-ip
+```
+
+---
+
+## Elastic IP Address
+
+Elastic IP is a fixed public IPv4 address in AWS.
+
+Normal EC2 public IP can change after stop/start. Elastic IP stays same until you release it.
+
+### Why Use Elastic IP?
+- Fixed IP for website/server.
+- Useful for DNS records.
+- Public IP does not change after EC2 restart.
+
+### Common Actions
+
+| Action | Meaning |
+|--------|---------|
+| Allocate Elastic IP | Create/get a new Elastic IP in AWS. |
+| Associate Elastic IP | Attach Elastic IP to EC2 instance or network interface. |
+| Disassociate Elastic IP | Remove Elastic IP from instance/network interface. |
+| Release Elastic IP | Delete Elastic IP from your AWS account. |
+
+### Associate Path
+Elastic IP -> Actions -> Associate Elastic IP address -> select instance/network interface.
+
+### Disassociate Path
+Elastic IP -> Actions -> Disassociate Elastic IP address.
+
+> Note: AWS may charge for unused Elastic IP, so release it when not needed.
+
+---
+
+## AWS Volumes With EC2
+
+EC2 uses EBS volumes for storage.
+
+EBS means **Elastic Block Store**. It works like a virtual hard disk attached to EC2.
+
+### Important Points
+- Root volume contains operating system files.
+- Extra volumes can be attached for application data.
+- Volumes are shown under EC2 -> Storage.
+- If **Delete on termination** is enabled, volume is deleted when EC2 is terminated.
+- If **Delete on termination** is disabled, volume remains even after EC2 termination.
+
+> For important data, do not delete the volume when terminating EC2.
+
+---
+
+## Types of Website
+
+| Type | Meaning | Example |
+|------|---------|---------|
+| Static website | Same files are served to every user. No backend processing. | HTML, CSS, JS portfolio site. |
+| Dynamic website | Server generates response using backend code/database. | Login app, ecommerce, dashboard. |
+
+### Static Website
+- Uses HTML, CSS, JavaScript.
+- Easy to host on Apache, Nginx, or S3.
+- Usually does not need write permission for Apache.
+
+### Dynamic Website
+- Uses backend like PHP, Node.js, Python, Java, etc.
+- May connect to database.
+- May need write permission for upload/cache/session folders.
+
+---
+
+## Apache Process Commands
+
+### Show All Running Processes
+
+```bash
+ps -ef
+```
+
+### Search Apache Process
+
+Ubuntu:
+
+```bash
+ps -ef | grep apache
+```
+
+Amazon Linux:
+
+```bash
+ps -ef | grep httpd
+```
+
+### Meaning
+`ps -ef` shows running processes with details like user, process ID, parent process ID, and command.
+
+---
+
+## What is `www-data`?
+
+`www-data` is the default Apache user/group on Ubuntu.
+
+Apache worker processes run as `www-data` for security.
+
+### Why Not Run Apache as Root?
+- Root has full system permission.
+- If website has a security issue, attacker can get more control.
+- Running as `www-data` limits damage.
+
+### File Permission for `/var/www/html`
+
+For a simple static website:
+
+```bash
+sudo chown -R root:root /var/www/html
+sudo chmod -R 755 /var/www/html
+```
+
+For a dynamic website where Apache needs write permission:
+
+```bash
+sudo chown -R www-data:www-data /var/www/html
+```
+
+Better practice: give write permission only to required folders, like uploads/cache, not the full website.
+
+Example:
+
+```bash
+sudo chown -R www-data:www-data /var/www/html/uploads
+```
+
+---
+
+## Useful Copy and Delete Commands
+
+### Copy All Files and Folders
+
+```bash
+cp -r /from/* /to/
+```
+
+| Part | Meaning |
+|------|---------|
+| `cp` | Copy. |
+| `-r` | Recursive, used for folders also. |
+| `/from/*` | Copy everything inside source folder. |
+| `/to/` | Destination folder. |
+
+### Delete File or Folder Forcefully
+
+```bash
+rm -rf /location
+```
+
+| Option | Meaning |
+|--------|---------|
+| `-r` | Recursive, delete folders and their content. |
+| `-f` | Force, do not ask confirmation. |
+
+> Be very careful with `rm -rf`. A wrong path can delete important data.
+
+---
+
+## Authentication and Authorization
+
+### Authentication
+Authentication means **checking who you are**.
+
+Example:
+- Username and password login.
+- SSH key login.
+- OTP verification.
+
+### Authorization
+Authorization means **checking what you are allowed to do**.
+
+Example:
+- User can read files but cannot delete files.
+- IAM user can start EC2 but cannot terminate EC2.
+- Developer can deploy to staging but not production.
+
+### Easy Difference
+
+| Term | Simple question |
+|------|-----------------|
+| Authentication | Who are you? |
+| Authorization | What can you access? |
+
+---
+
+## AWS IAM
+
+![alt text](image-35.png)
+
+IAM means **Identity and Access Management**.
+
+IAM is used to manage users, groups, roles, and permissions in AWS.
+
+### IAM Main Parts
+
+| Part | Meaning |
+|------|---------|
+| User | One person or application account. |
+| Group | Collection of users with same permissions. |
+| Role | Temporary permission given to AWS service or user. |
+| Policy | JSON document that defines allowed or denied actions. |
+
+### Example
+- IAM user logs in to AWS.
+- IAM policy allows `ec2:StartInstances`.
+- Same policy may deny `ec2:TerminateInstances`.
+
+> Simple idea: **IAM controls who can access AWS and what actions they can perform.**
+
+user by no permission can not doing anything only login but we can add it to group which have permission
+
+roles are between two aws services or user tempory
+ROLES DEPTH?
+
+![alt text](image-37.png)
+![alt text](image-36.png)
+![alt text](image-38.png)
+
+EC2 - ram cpu, networl, storage
+pay as you go model
+
+imp => ec2 instance types
+![alt text](image-39.png)
