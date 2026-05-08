@@ -1562,6 +1562,8 @@ Example:
 
 <img src="image-41.png" alt="IP address diagram" width="720">
 <img src="image-42.png" alt="network diagram" width="720">
+<img src="image-43.png" alt="network diagram" width="720">
+
 
 ## OSI Model
 
@@ -1586,3 +1588,265 @@ Browser -> HTTP -> TCP -> IP -> Network card -> Cable/Wi-Fi
 ```
 
 > Simple idea: **OSI model is a layered way to understand networking.**
+
+
+---
+
+## Traceroute, Public IP, Private IP, and NAT
+
+### Trace Command for Website Request
+
+Traceroute shows the path your request takes to reach a website/server.
+
+For Google:
+
+```bash
+traceroute google.com
+```
+
+On Windows:
+
+```cmd
+tracert google.com
+```
+
+If `traceroute` is not installed on Ubuntu:
+
+```bash
+sudo apt install traceroute -y
+```
+
+### What Traceroute Shows
+
+Traceroute shows routers/hops between your machine and destination.
+
+Example:
+
+```text
+Your laptop -> home router -> ISP router -> internet routers -> Google server
+```
+
+Each line is usually one router/hop.
+
+Some hops may show `* * *`. This means that router is not replying to traceroute, but traffic may still pass through it.
+
+---
+
+## How a Request to `google.com` Is Served
+
+When you open `google.com`:
+
+1. Browser asks DNS: what is the IP of `google.com`?
+2. DNS returns an IP address.
+3. Your laptop sends request to your router.
+4. Router sends request to ISP.
+5. ISP sends request through internet routers.
+6. Request reaches Google server/load balancer.
+7. Google sends response back.
+8. Browser shows the website.
+
+Simple flow:
+
+```text
+Browser -> DNS -> Router -> ISP -> Internet -> Google -> Response back
+```
+
+---
+
+## How to Check Your IP
+
+### Check Private IP on Your Machine
+
+Linux:
+
+```bash
+ip addr
+```
+
+Windows:
+
+```cmd
+ipconfig
+```
+
+Private IP examples:
+
+```text
+192.168.1.10
+10.0.0.5
+172.16.5.20
+```
+
+### Check Public IP Seen by Internet
+
+```bash
+curl ifconfig.me
+```
+
+Or open a website like:
+
+```text
+whatismyipaddress.com
+```
+
+This shows your **public IP**, not your laptop's private IP.
+
+---
+
+## IPv4 Address Limit and Private IP
+
+IPv4 has about **4.3 billion** total addresses.
+
+But not all are usable for normal public internet because some are reserved for:
+- Private networks.
+- Loopback.
+- Multicast.
+- Testing/documentation.
+- Special networking use.
+
+Because public IPv4 addresses are limited, private IP ranges are used inside local networks.
+
+### Private IPv4 Ranges
+
+| Range | Common use |
+|-------|------------|
+| `10.0.0.0/8` | Large private networks. |
+| `172.16.0.0/12` | Medium/private networks. |
+| `192.168.0.0/16` | Home/office networks. |
+
+These private IPs are not routed on the public internet.
+
+---
+
+## Why Same Private IP Can Exist in Many Homes
+
+Many routers give private IPs to devices.
+
+Example:
+- Your laptop: `192.168.1.10`
+- Your friend's laptop: `192.168.1.10`
+- Another office laptop: `192.168.1.10`
+
+This is allowed because private IPs are used only inside each local network.
+
+They do not need to be globally unique.
+
+Public IP must be unique on the internet.  
+Private IP only needs to be unique inside the same local network.
+
+---
+
+## What IP Does a Website See?
+
+When you check your IP from a website, the website sees your **public IP**.
+
+It usually does not see your laptop's private IP.
+
+Example:
+
+```text
+Laptop private IP: 192.168.1.10
+Router public IP: 49.x.x.x
+Website sees: 49.x.x.x
+```
+
+This happens because of NAT.
+
+---
+
+## NAT - Network Address Translation
+
+NAT allows many private devices to use one public IP.
+
+Example:
+
+```text
+Laptop      192.168.1.10
+Mobile      192.168.1.11
+TV          192.168.1.12
+Router      Public IP: 49.x.x.x
+```
+
+All devices go to internet using router's public IP.
+
+Router keeps a NAT table to remember which response belongs to which device.
+
+### NAT Example
+
+```text
+Laptop sends request to google.com
+Source IP changes from 192.168.1.10 to router public IP 49.x.x.x
+Google replies to 49.x.x.x
+Router receives reply
+Router forwards reply back to 192.168.1.10
+```
+
+> Simple idea: **Private IP is used inside home/office. Public IP is used on internet. NAT connects both worlds.**
+
+---
+
+## Can Router Have Private IP?
+
+Yes, a router usually has at least two sides:
+
+| Router side | IP type | Example |
+|-------------|---------|---------|
+| LAN side | Private IP | `192.168.1.1` |
+| WAN side | Public or private IP | `49.x.x.x` or `100.64.x.x` |
+
+### Home Router LAN IP
+
+Your router's inside/local IP is usually private.
+
+Example:
+
+```text
+192.168.1.1
+```
+
+Your laptop uses this as the default gateway.
+
+### Router WAN IP
+
+The router's outside/WAN IP can be:
+- Public IP given by ISP.
+- Private/shared IP if ISP uses CGNAT.
+
+---
+
+## What If Router WAN IP Is Also Private?
+
+Sometimes your router does not get a public IP directly.
+
+ISP may give your router a private/shared IP and use another NAT at ISP level.
+
+This is called **CGNAT** or **Carrier Grade NAT**.
+
+Flow:
+
+```text
+Laptop private IP -> home router private/shared WAN IP -> ISP public IP -> internet
+```
+
+In this case, websites see the ISP's public IP, not your router's private WAN IP.
+
+### How Will World See It?
+
+The world/internet only sees the final public IP used by NAT.
+
+If you are behind normal NAT:
+
+```text
+Website sees your router public IP.
+```
+
+If you are behind CGNAT:
+
+```text
+Website sees ISP public IP shared by many customers.
+```
+
+> Simple answer: **The world cannot directly see private IPs. It sees a public IP after NAT.**
+
+
+<!--  -->
