@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frontend & DSA MCQ Quiz</title>
+  <style>
+    /* ========== BASE & LIGHT MODE ========== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      transition: background 0.3s, color 0.3s;
+    }
+    .quiz-container {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      padding: 30px;
+      max-width: 700px;
+      width: 100%;
+      transition: background 0.3s, color 0.3s;
+    }
+    h1 { text-align: center; margin-bottom: 20px; color: #1a365d; }
+    .progress { font-size: 0.9rem; color: #4a5568; margin-bottom: 15px; text-align: center; }
+    .question { font-size: 1.2rem; margin-bottom: 20px; color: #2d3748; line-height: 1.5; }
+    .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px; }
+
+    .option-btn {
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      background: white;
+      text-align: left;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    .option-btn:hover:not(.locked) {
+      border-color: #3182ce;
+      background: #ebf4ff;
+    }
+    .option-btn.selected {
+      border-color: #3182ce;
+      background: #bee3f8;
+      font-weight: bold;
+    }
+    .option-btn.correct-highlight {
+      border-color: #2f855a !important;
+      background: #c6f6d5 !important;
+    }
+    .option-btn.wrong-highlight {
+      border-color: #c53030 !important;
+      background: #fed7d7 !important;
+    }
+
+    .feedback-msg {
+      margin: -10px 0 15px;
+      font-weight: bold;
+    }
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      background: #3182ce;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover:not(:disabled) { background: #2b6cb0; }
+    button:disabled { background: #a0aec0; cursor: not-allowed; }
+
+    .score-container { text-align: center; font-size: 1.3rem; margin-top: 20px; }
+    .result { display: none; }
+    .restart-btn { background: #38a169; margin-top: 20px; }
+    .restart-btn:hover { background: #2f855a; }
+
+    /* Dark mode toggle button */
+    .dark-toggle {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: transparent;
+      border: 2px solid #3182ce;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      line-height: 1;
+      color: #3182ce;
+      background: white;
+      transition: all 0.3s;
+    }
+    .dark-toggle:hover { background: #ebf4ff; }
+
+    /* ========== DARK MODE ========== */
+    body.dark-mode {
+      background: #1a202c;
+      color: #e2e8f0;
+    }
+    body.dark-mode .quiz-container {
+      background: #2d3748;
+      color: #e2e8f0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    body.dark-mode h1 { color: #e2e8f0; }
+    body.dark-mode .progress { color: #a0aec0; }
+    body.dark-mode .question { color: #cbd5e0; }
+    body.dark-mode .option-btn {
+      background: #4a5568;
+      border-color: #718096;
+      color: #e2e8f0;
+    }
+    body.dark-mode .option-btn:hover:not(.locked) {
+      background: #5a6c7d;
+    }
+    body.dark-mode .option-btn.selected {
+      background: #2b6cb0;
+      border-color: #63b3ed;
+    }
+    body.dark-mode .option-btn.correct-highlight {
+      background: #22543d !important;
+      border-color: #48bb78 !important;
+    }
+    body.dark-mode .option-btn.wrong-highlight {
+      background: #742a2a !important;
+      border-color: #fc8181 !important;
+    }
+    body.dark-mode button {
+      background: #3182ce;
+      color: white;
+    }
+    body.dark-mode button:hover:not(:disabled) { background: #2b6cb0; }
+    body.dark-mode .dark-toggle {
+      border-color: #63b3ed;
+      color: #63b3ed;
+      background: #2d3748;
+    }
+    body.dark-mode .dark-toggle:hover { background: #4a5568; }
+
+    /* Responsive */
+    @media (max-width: 500px) {
+      .quiz-container { padding: 20px; }
+      .dark-toggle { top: 10px; right: 10px; }
+    }
+  </style>
+</head>
+<body>
+<button class="dark-toggle" id="darkToggle" title="Toggle dark mode">🌙</button>
+
+<div class="quiz-container" id="quizApp">
+  <h1>Frontend Developer MCQ Quiz</h1>
+  <div id="quizArea">
+    <div class="progress" id="progress"></div>
+    <div class="question" id="questionText"></div>
+    <div class="options" id="optionsContainer"></div>
+    <div class="feedback-msg" id="feedbackMsg"></div>
+    <div class="btn-group">
+      <button id="prevBtn" disabled>← Prev</button>
+      <button id="nextBtn">Next →</button>
+    </div>
+  </div>
+  <div class="result" id="resultArea">
+    <h2>Your Score</h2>
+    <p id="scoreText"></p>
+    <button class="restart-btn" id="restartBtn">Restart Quiz</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ---------- QUESTION BANK (100+ questions) ----------
+    const questions = [
+      // HTML (1-15)
+      { q: "What does HTML stand for?", opts: ["Hyper Text Markup Language", "High Tech Modern Language", "Hyper Transfer Markup Language", "Home Tool Markup Language"], ans: 0 },
+      { q: "Which tag is used to define the largest heading in HTML?", opts: ["<heading>", "<h6>", "<h1>", "<head>"], ans: 2 },
+      { q: "Which attribute is used to specify a unique identifier for an HTML element?", opts: ["class", "id", "name", "style"], ans: 1 },
+      { q: "What is the correct way to create a hyperlink in HTML?", opts: ["<a>http://example.com</a>", "<a href='http://example.com'>Link</a>", "<link href='http://example.com'>", "<a url='http://example.com'>Link</a>"], ans: 1 },
+      { q: "Which HTML element is used to define a table row?", opts: ["<td>", "<tr>", "<th>", "<table-row>"], ans: 1 },
+      { q: "What is the purpose of the `alt` attribute in an `<img>` tag?", opts: ["Alternate image source", "Text description for accessibility", "Animation loop count", "Image alignment"], ans: 1 },
+      { q: "Which input type defines a slider control in HTML5?", opts: ["range", "slider", "number", "scroll"], ans: 0 },
+      { q: "Which tag is used for the main navigation block in HTML5?", opts: ["<nav>", "<header>", "<navigation>", "<section>"], ans: 0 },
+      { q: "What does the `<meta charset='UTF-8'>` do?", opts: ["Sets page color", "Specifies character encoding", "Defines viewport", "Creates a meta tag for SEO"], ans: 1 },
+      { q: "Which attribute is required for the `<img>` tag?", opts: ["src", "alt", "title", "width"], ans: 0 },
+      { q: "How can you make a bulleted list in HTML?", opts: ["<ul>", "<ol>", "<list>", "<bullet>"], ans: 0 },
+      { q: "Which element is used to embed a video in HTML5?", opts: ["<media>", "<video>", "<embed>", "<movie>"], ans: 1 },
+      { q: "What does the `defer` attribute do on a `<script>` tag?", opts: ["Loads script after page parsing", "Loads script asynchronously", "Runs script immediately", "Prevents script execution"], ans: 0 },
+      { q: "Which tag is self-closing in HTML?", opts: ["<br>", "<div>", "<p>", "<span>"], ans: 0 },
+      { q: "What is the correct DOCTYPE declaration for HTML5?", opts: ["<!DOCTYPE html>", "<!DOCTYPE HTML5>", "<!DOCTYPE>", "<html5>"], ans: 0 },
+      // CSS (16-45)
+      { q: "Which CSS property changes the text color?", opts: ["font-color", "text-color", "color", "foreground-color"], ans: 2 },
+      { q: "How do you select an element with id 'main' in CSS?", opts: [".main", "#main", "main", "*main"], ans: 1 },
+      { q: "Which property is used to change the background color?", opts: ["bgcolor", "background-color", "color-background", "bg-color"], ans: 1 },
+      { q: "What is the default value of the position property?", opts: ["relative", "absolute", "fixed", "static"], ans: 3 },
+      { q: "Which property adds space inside an element, between content and border?", opts: ["margin", "padding", "border-spacing", "outline"], ans: 1 },
+      { q: "Which CSS box-sizing value includes padding and border in the element's total width?", opts: ["content-box", "border-box", "padding-box", "width-box"], ans: 1 },
+      { q: "How do you apply a top margin of 10px and right margin of 20px using shorthand?", opts: ["margin: 10px 20px;", "margin: 10px 20px 0 0;", "margin: 10px 0 0 20px;", "margin: 20px 10px;"], ans: 0 },
+      { q: "Which CSS property controls the stacking order of positioned elements?", opts: ["z-index", "order", "position", "layer"], ans: 0 },
+      { q: "How are `:hover` and `::after` classified?", opts: ["Both pseudo-classes", "Both pseudo-elements", ":hover is pseudo-class, ::after is pseudo-element", ":hover is pseudo-element, ::after is pseudo-class"], ans: 2 },
+      { q: "What does the `display: none;` do?", opts: ["Hides element but keeps space", "Hides element and removes space", "Makes element invisible", "Collapses element borders"], ans: 1 },
+      { q: "Which flexbox property aligns items along the main axis?", opts: ["align-items", "justify-content", "align-content", "flex-wrap"], ans: 1 },
+      { q: "What does `flex-direction: column` do?", opts: ["Stacks items horizontally", "Stacks items vertically", "Reverses order", "Wraps items"], ans: 1 },
+      { q: "In a grid container, what unit `fr` represents?", opts: ["Fixed pixel", "Fraction of available space", "Rem unit", "Flex ratio"], ans: 1 },
+      { q: "Which property defines the number of columns in a CSS grid?", opts: ["grid-template-areas", "grid-template-rows", "grid-template-columns", "grid-gap"], ans: 2 },
+      { q: "How do you make a website responsive to screen size?", opts: ["Using media queries", "Using fixed widths", "Using only %", "Using tables"], ans: 0 },
+      { q: "What is the correct syntax of a media query that applies when screen width is 768px or less?", opts: ["@media screen and (max-width: 768px)", "@media (min-width: 768px)", "@screen (max-width:768px)", "@media (width < 768px)"], ans: 0 },
+      { q: "Which pseudo-class selects an element that is the first child of its parent?", opts: [":first-of-type", ":first-child", ":nth-child(1)", ":only-child"], ans: 1 },
+      { q: "What does `opacity: 0;` do?", opts: ["Makes element completely transparent, still clickable", "Hides element and removes space", "Makes element invisible, not clickable", "Turns element white"], ans: 0 },
+      { q: "Which CSS selector has the highest specificity?", opts: [".class", "#id", "div", "div.class"], ans: 1 },
+      { q: "How do you select all `<p>` elements inside a `<div>`?", opts: ["div p", "div > p", "div + p", "div ~ p"], ans: 0 },
+      { q: "Which property creates a shadow around an element?", opts: ["box-shadow", "text-shadow", "shadow", "element-shadow"], ans: 0 },
+      { q: "What is the initial value of `flex-grow`?", opts: ["0", "1", "auto", "none"], ans: 0 },
+      { q: "Which property specifies the gap between grid rows and columns?", opts: ["grid-gap", "gap", "grid-spacing", "Both A and B"], ans: 3 },
+      { q: "How do you center an element horizontally with margin if it has a defined width?", opts: ["margin: auto;", "margin-left: auto; margin-right: auto;", "text-align: center;", "align: center;"], ans: 1 },
+      { q: "What does `position: sticky` do?", opts: ["Fixed position", "Toggles between relative and fixed", "Always relative", "Sticks to container edge when scrolling"], ans: 1 },
+      { q: "Which CSS value prevents line breaks?", opts: ["white-space: nowrap;", "word-break: keep-all;", "overflow: hidden;", "text-overflow: clip;"], ans: 0 },
+      { q: "What does the `calc()` function do?", opts: ["Performs arithmetic for CSS values", "Calculates element height", "Runs JavaScript", "Converts units"], ans: 0 },
+      { q: "Which selector matches elements that have the `target` attribute?", opts: ["[target]", ":target", "#target", ".target"], ans: 0 },
+      { q: "What is the difference between `:nth-child(2)` and `:nth-of-type(2)`?", opts: ["No difference", ":nth-child counts all children, :nth-of-type counts siblings of same type", ":nth-of-type ignores class", ":nth-child selects only elements"], ans: 1 },
+      { q: "Which property sets the minimum width of an element?", opts: ["min-width", "width-min", "minimum-width", "size-min"], ans: 0 },
+      // JavaScript (46-95)
+      { q: "Which keyword is used to declare a constant in JavaScript?", opts: ["let", "var", "const", "constant"], ans: 2 },
+      { q: "What will `typeof undefined` return?", opts: ["'object'", "'undefined'", "'null'", "'string'"], ans: 1 },
+      { q: "What does `2 + '2'` evaluate to?", opts: ["4", "'22'", "22", "NaN"], ans: 1 },
+      { q: "What is the output of `console.log(0.1 + 0.2 === 0.3)`?", opts: ["true", "false", "undefined", "error"], ans: 1 },
+      { q: "Which method adds an element to the end of an array?", opts: ["pop()", "shift()", "unshift()", "push()"], ans: 3 },
+      { q: "Which method removes the last element from an array?", opts: ["pop()", "push()", "shift()", "unshift()"], ans: 0 },
+      { q: "What does `Array.isArray([])` return?", opts: ["false", "true", "undefined", "null"], ans: 1 },
+      { q: "What will `[1,2,3].map(x => x * 2)` produce?", opts: ["[2,4,6]", "[3,6,9]", "[1,2,3]", "[2,3,4]"], ans: 0 },
+      { q: "How do you find the length of an array `arr`?", opts: ["arr.size", "arr.length", "arr.count", "length(arr)"], ans: 1 },
+      { q: "What does `'hello'.split('')` return?", opts: ["['h','e','l','l','o']", "['hello']", "'h e l l o'", "undefined"], ans: 0 },
+      { q: "Which method combines all elements of an array into a string?", opts: ["concat()", "join()", "toString()", "combine()"], ans: 1 },
+      { q: "What is the result of `[1,2,3].filter(x => x > 1)`?", opts: ["[2,3]", "[1,2]", "[3]", "[]"], ans: 0 },
+      { q: "Which function is used to execute code after a specified delay?", opts: ["setInterval", "setTimeout", "delay", "wait"], ans: 1 },
+      { q: "What does the `async` keyword do to a function?", opts: ["Makes it return a Promise", "Runs it synchronously", "Stops event loop", "Disables await"], ans: 0 },
+      { q: "What is the output of `console.log(typeof NaN)`?", opts: ["'number'", "'NaN'", "'undefined'", "'object'"], ans: 0 },
+      { q: "What is a closure in JavaScript?", opts: ["A function that returns another function", "A function with access to its outer scope even after outer function returns", "A private method", "An object method"], ans: 1 },
+      { q: "Which statement about `let` and `var` is true?", opts: ["let is function-scoped", "var is block-scoped", "let is block-scoped", "Both are identical"], ans: 2 },
+      { q: "What will `console.log(this)` output in the global scope of a browser?", opts: ["window", "undefined", "document", "null"], ans: 0 },
+      { q: "How can you stop event propagation in JavaScript?", opts: ["event.halt()", "event.stop()", "event.stopPropagation()", "event.cancel()"], ans: 2 },
+      { q: "What does `event.preventDefault()` do?", opts: ["Stops the default browser behavior", "Stops event bubbling", "Removes event listener", "Prevents page reload"], ans: 0 },
+      { q: "Which method is used to listen for an event on a DOM element?", opts: ["attachEvent", "addEventListener", "onEvent", "listen"], ans: 1 },
+      { q: "What is the difference between `==` and `===`?", opts: ["No difference", "=== checks value and type, == only value with coercion", "== compares objects", "=== is slower"], ans: 1 },
+      { q: "How do you create a new object in JavaScript?", opts: ["{}", "new Object()", "Object.create()", "All of the above"], ans: 3 },
+      { q: "What does `Object.keys(obj)` return?", opts: ["Array of values", "Array of key-value pairs", "Array of keys", "Length of object"], ans: 2 },
+      { q: "What will `console.log(typeof [])` output?", opts: ["'array'", "'object'", "'undefined'", "'list'"], ans: 1 },
+      { q: "Which array method creates a new array with results of calling a function on every element?", opts: ["forEach", "map", "filter", "reduce"], ans: 1 },
+      { q: "How do you declare an arrow function that adds two numbers?", opts: ["function(a,b) => a+b;", "(a,b) => a+b;", "a,b => a+b;", "=> (a,b) a+b;"], ans: 1 },
+      { q: "What is the output of `console.log(!!'false')`?", opts: ["false", "true", "undefined", "'false'"], ans: 1 },
+      { q: "Which operator is used for optional chaining?", opts: ["?.", "??", "::", "=>"], ans: 0 },
+      { q: "What does `Promise.all` do?", opts: ["Resolves when all promises resolve", "Resolves when first promise resolves", "Rejects all promises", "Runs promises sequentially"], ans: 0 },
+      { q: "Which method can parse a JSON string into a JavaScript object?", opts: ["JSON.stringify()", "JSON.parse()", "JSON.toObject()", "parseJSON()"], ans: 1 },
+      { q: "What will `[1,2,3].reduce((acc, val) => acc + val, 0)` return?", opts: ["6", "5", "0", "error"], ans: 0 },
+      { q: "What is the purpose of `'use strict'`?", opts: ["Enables strict mode, catches common mistakes", "Disables console.log", "Forces type coercion", "Optimizes code for production"], ans: 0 },
+      { q: "How can you empty an array `arr` in place?", opts: ["arr.length = 0;", "arr = [];", "delete arr;", "arr.splice(0, arr.length); (both a and d)"], ans: 3 },
+      { q: "What does `NaN === NaN` evaluate to?", opts: ["true", "false", "undefined", "Throws error"], ans: 1 },
+      { q: "Which statement about `const` is correct?", opts: ["Cannot be reassigned, but objects can be mutated", "Cannot be mutated at all", "Same as let", "Hoisted like var"], ans: 0 },
+      // DSA / misc (96-105)
+      { q: "What is the time complexity of accessing an array element by index?", opts: ["O(1)", "O(n)", "O(log n)", "O(n^2)"], ans: 0 },
+      { q: "Which data structure stores key-value pairs and remembers insertion order?", opts: ["Object", "Map", "Set", "Array"], ans: 1 },
+      { q: "What is the return value of `new Set([1,2,2,3])`?", opts: ["[1,2,3]", "Set {1,2,3}", "Set {1,2,2,3}", "Array [1,2,3]"], ans: 1 },
+      { q: "Which method on a Map returns an iterator of keys?", opts: ["map.values()", "map.entries()", "map.keys()", "map.forEach()"], ans: 2 },
+      { q: "What is the result of `Array.from('hello')`?", opts: ["['h','e','l','l','o']", "'hello'", "['hello']", "null"], ans: 0 },
+      { q: "How do you find the index of an element in an array?", opts: ["indexOf()", "find()", "search()", "findIndex() (both a and d)"], ans: 3 },
+      { q: "Which array method sorts elements in place?", opts: ["sort()", "toSorted()", "order()", "arrange()"], ans: 0 },
+      { q: "What does the `...` spread operator do?", opts: ["Expands an iterable into individual elements", "Merges objects only", "Destroys array", "Creates a deep copy"], ans: 0 },
+      { q: "Which statement creates a deep clone of an object (simple case)?", opts: ["JSON.parse(JSON.stringify(obj))", "Object.assign({}, obj)", "obj.clone()", "Spread {...obj}"], ans: 0 },
+      { q: "In JavaScript, how do you check if a variable is an array?", opts: ["typeof", "instanceof Array", "Array.isArray()", "Both B and C"], ans: 3 }
+    ];
+
+    // ---------- APP STATE ----------
+    let currentIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null); // null = not answered yet
+    let quizFinished = false;
+
+    // DOM elements
+    const quizArea = document.getElementById('quizArea');
+    const resultArea = document.getElementById('resultArea');
+    const progressEl = document.getElementById('progress');
+    const questionEl = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const feedbackEl = document.getElementById('feedbackMsg');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const scoreText = document.getElementById('scoreText');
+    const restartBtn = document.getElementById('restartBtn');
+    const darkToggle = document.getElementById('darkToggle');
+
+    // ---------- DARK MODE ----------
+    function updateDarkModeIcon() {
+      darkToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    }
+    darkToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      updateDarkModeIcon();
+    });
+    updateDarkModeIcon();
+
+    // ---------- RENDER A QUESTION ----------
+    function renderQuestion() {
+      const q = questions[currentIndex];
+      questionEl.textContent = `${currentIndex + 1}. ${q.q}`;
+      optionsContainer.innerHTML = '';
+      feedbackEl.innerHTML = '';
+
+      const userChoice = userAnswers[currentIndex]; // null or index
+
+      q.opts.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = opt;
+        btn.dataset.optIndex = idx;
+
+        // If user already answered this question, apply correct/wrong highlights
+        if (userChoice !== null) {
+          btn.classList.add('locked');
+          if (idx === q.ans) {
+            btn.classList.add('correct-highlight');
+          } else if (idx === userChoice && idx !== q.ans) {
+            btn.classList.add('wrong-highlight');
+          }
+        }
+
+        btn.addEventListener('click', () => handleOptionClick(idx));
+        optionsContainer.appendChild(btn);
+      });
+
+      // Show feedback if already answered
+      if (userChoice !== null) {
+        showFeedback(userChoice);
+      }
+
+      progressEl.textContent = `Question ${currentIndex + 1} of ${questions.length}`;
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.textContent = currentIndex === questions.length - 1 ? 'Finish' : 'Next →';
+    }
+
+    function handleOptionClick(optionIndex) {
+      // If already answered, lock (ignore click)
+      if (userAnswers[currentIndex] !== null) return;
+      // Lock in the answer
+      userAnswers[currentIndex] = optionIndex;
+      // Re-render to apply highlights
+      renderQuestion();
+    }
+
+    function showFeedback(userChoice) {
+      const q = questions[currentIndex];
+      if (userChoice === q.ans) {
+        feedbackEl.textContent = '✅ Correct!';
+        feedbackEl.style.color = '#2f855a';
+      } else {
+        feedbackEl.textContent = `❌ Wrong! Correct answer: ${q.opts[q.ans]}`;
+        feedbackEl.style.color = '#c53030';
+      }
+      // Adjust color for dark mode
+      if (document.body.classList.contains('dark-mode')) {
+        feedbackEl.style.color = userChoice === q.ans ? '#68d391' : '#fc8181';
+      }
+    }
+
+    // ---------- NAVIGATION ----------
+    nextBtn.addEventListener('click', () => {
+      if (currentIndex === questions.length - 1) {
+        finishQuiz();
+        return;
+      }
+      currentIndex++;
+      renderQuestion();
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
+      }
+    });
+
+    // ---------- FINAL SCORE ----------
+    function calculateScore() {
+      let score = 0;
+      for (let i = 0; i < questions.length; i++) {
+        const ans = userAnswers[i];
+        if (ans !== null) {
+          score += (ans === questions[i].ans) ? 2 : -1;
+        }
+      }
+      return score;
+    }
+
+    function finishQuiz() {
+      quizFinished = true;
+      quizArea.style.display = 'none';
+      resultArea.style.display = 'block';
+      const finalScore = calculateScore();
+      const maxScore = questions.length * 2;
+      scoreText.textContent = `You scored ${finalScore} out of ${maxScore} (penalty: -1 for wrong, +2 for correct)`;
+    }
+
+    function restartQuiz() {
+      currentIndex = 0;
+      userAnswers = new Array(questions.length).fill(null);
+      quizFinished = false;
+      resultArea.style.display = 'none';
+      quizArea.style.display = 'block';
+      renderQuestion();
+    }
+
+    restartBtn.addEventListener('click', restartQuiz);
+
+    // Initialize
+    renderQuestion();
+  })();
+</script>
+</body>
+</html>

@@ -923,3 +923,8 @@ d rwx rwx rwx
 | `drwxrwxrwx` | Directory everyone can read/write/enter. Not safe for important folders. |
 
 > You wrote `drex-rwx-rwx`; the usual format is `drwxrwxrwx`. It means directory with read, write, execute for owner, group, and others.
+
+
+aws
+aws ec2 instance
+pem ppk explain
