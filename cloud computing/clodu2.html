@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps & Cloud MCQ Practice</title>
+    <style>
+        :root {
+            --bg: #1a1a2e;
+            --surface: #16213e;
+            --surface2: #0f3460;
+            --text: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --accent: #e94560;
+            --accent-hover: #ff6b81;
+            --correct: #2ecc71;
+            --correct-bg: rgba(46, 204, 113, 0.15);
+            --wrong: #e74c3c;
+            --wrong-bg: rgba(231, 76, 60, 0.15);
+            --border: #2a2a4a;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+            --progress-bg: #2a2a4a;
+            --option-hover: #1a3a5c;
+            --badge-bg: #0f3460;
+            --divider: #2a2a4a;
+            --toggle-bg: #2a2a4a;
+            --font: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.light-mode {
+            --bg: #f5f5f7;
+            --surface: #ffffff;
+            --surface2: #e8e8ed;
+            --text: #1a1a2e;
+            --text-secondary: #555;
+            --accent: #c0392b;
+            --accent-hover: #e74c3c;
+            --correct: #27ae60;
+            --correct-bg: rgba(39, 174, 96, 0.1);
+            --wrong: #c0392b;
+            --wrong-bg: rgba(192, 57, 43, 0.1);
+            --border: #ddd;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+            --progress-bg: #e0e0e0;
+            --option-hover: #e8e8f0;
+            --badge-bg: #e0e0e8;
+            --divider: #e0e0e0;
+            --toggle-bg: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: background var(--transition), color var(--transition);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--surface);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            padding: 32px 28px 28px;
+            transition: background var(--transition), box-shadow var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent), #ff6b81, #e94560, #c0392b);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .title-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-icon {
+            font-size: 28px;
+        }
+        .title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+        .subtitle {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .toggle-btn {
+            background: var(--toggle-bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 14px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+        .toggle-btn:hover {
+            background: var(--surface2);
+            border-color: var(--accent);
+        }
+        .toggle-btn .icon {
+            font-size: 1.1rem;
+        }
+
+        .restart-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 14px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+        .restart-btn:hover {
+            background: var(--surface2);
+            border-color: var(--accent);
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            align-items: center;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--badge-bg);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: background var(--transition);
+        }
+        .stat-value {
+            color: var(--accent);
+            font-weight: 700;
+        }
+        .stat-value.correct-count {
+            color: var(--correct);
+        }
+        .stat-value.wrong-count {
+            color: var(--wrong);
+        }
+
+        .progress-container {
+            margin-bottom: 20px;
+        }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--progress-bg);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 10px;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .question-card {
+            background: var(--surface2);
+            border-radius: 14px;
+            padding: 22px 20px;
+            margin-bottom: 18px;
+            border: 1px solid var(--border);
+            transition: all var(--transition);
+            position: relative;
+        }
+        .question-number {
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .question-text {
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.5;
+            letter-spacing: -0.1px;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+        .option-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 14px 18px;
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: var(--text);
+            font-family: var(--font);
+            transition: all var(--transition);
+            position: relative;
+            line-height: 1.4;
+            letter-spacing: -0.1px;
+        }
+        .option-btn:hover:not(.disabled) {
+            background: var(--option-hover);
+            border-color: var(--accent);
+            transform: translateX(3px);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+        }
+        .option-btn:active:not(.disabled) {
+            transform: scale(0.985);
+        }
+        .option-btn.disabled {
+            cursor: not-allowed;
+            opacity: 0.75;
+        }
+        .option-btn.selected-correct {
+            border-color: var(--correct) !important;
+            background: var(--correct-bg) !important;
+            animation: pulse-green 0.5s ease;
+        }
+        .option-btn.selected-wrong {
+            border-color: var(--wrong) !important;
+            background: var(--wrong-bg) !important;
+            animation: shake 0.5s ease;
+        }
+        .option-btn.show-correct {
+            border-color: var(--correct) !important;
+            background: var(--correct-bg) !important;
+        }
+        .option-btn .indicator {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .indicator.correct-icon {
+            color: var(--correct);
+        }
+        .indicator.wrong-icon {
+            color: var(--wrong);
+        }
+
+        @keyframes pulse-green {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 12px rgba(46, 204, 113, 0);
+            }
+        }
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            20% {
+                transform: translateX(-8px);
+            }
+            40% {
+                transform: translateX(8px);
+            }
+            60% {
+                transform: translateX(-5px);
+            }
+            80% {
+                transform: translateX(5px);
+            }
+        }
+
+        .feedback-area {
+            min-height: 48px;
+            margin-bottom: 14px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all var(--transition);
+            opacity: 0;
+            transform: translateY(-8px);
+        }
+        .feedback-area.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .feedback-area.feedback-correct {
+            background: var(--correct-bg);
+            color: var(--correct);
+            border: 1px solid var(--correct);
+        }
+        .feedback-area.feedback-wrong {
+            background: var(--wrong-bg);
+            color: var(--wrong);
+            border: 1px solid var(--wrong);
+        }
+        .feedback-icon {
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .next-btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: var(--font);
+            transition: all var(--transition);
+            letter-spacing: -0.2px;
+        }
+        .next-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 68, 96, 0.35);
+        }
+        .next-btn:active {
+            transform: scale(0.96);
+        }
+        .next-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .completion-screen {
+            text-align: center;
+            padding: 30px 10px;
+        }
+        .completion-emoji {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+        .completion-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .completion-stats {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .completion-stat {
+            background: var(--surface2);
+            padding: 16px 24px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid var(--border);
+            min-width: 100px;
+        }
+        .completion-stat .big-num {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+        .completion-stat .big-num.green {
+            color: var(--correct);
+        }
+        .completion-stat .big-num.red {
+            color: var(--wrong);
+        }
+        .completion-stat .big-num.accent {
+            color: var(--accent);
+        }
+        .completion-stat .label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 14px 18px;
+                border-radius: 16px;
+            }
+            .container::before {
+                border-radius: 16px 16px 0 0;
+                height: 4px;
+            }
+            .title {
+                font-size: 1.1rem;
+            }
+            .question-text {
+                font-size: 0.95rem;
+            }
+            .option-btn {
+                font-size: 0.85rem;
+                padding: 12px 14px;
+            }
+            .header {
+                gap: 8px;
+            }
+            .toggle-btn,
+            .restart-btn {
+                font-size: 0.75rem;
+                padding: 6px 10px;
+            }
+            .stats-bar {
+                gap: 8px;
+            }
+            .stat-item {
+                font-size: 0.7rem;
+                padding: 5px 10px;
+            }
+            .completion-stat {
+                padding: 12px 16px;
+                min-width: 80px;
+            }
+            .completion-stat .big-num {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="appContainer">
+        <!-- Header -->
+        <div class="header">
+            <div class="title-area">
+                <span class="logo-icon">📚</span>
+                <div>
+                    <div class="title">DevOps & Cloud MCQ</div>
+                    <div class="subtitle">Practice • Review • Master</div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="toggle-btn" id="themeToggle" title="Toggle light/dark mode">
+                    <span class="icon">🌙</span> <span id="themeLabel">Dark</span>
+                </button>
+                <button class="restart-btn" id="restartBtn" title="Restart all questions">
+                    <span>🔄</span> Restart
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-bar">
+            <div class="stat-item">✅ Correct: <span class="stat-value correct-count" id="correctCount">0</span></div>
+            <div class="stat-item">❌ Wrong: <span class="stat-value wrong-count" id="wrongCount">0</span></div>
+            <div class="stat-item">📝 Remaining: <span class="stat-value" id="remainingCount">0</span></div>
+            <div class="stat-item">📋 Total: <span class="stat-value" id="totalCount">0</span></div>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-container">
+            <div class="progress-label">
+                <span>Progress</span>
+                <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <!-- Quiz Area -->
+        <div id="quizArea">
+            <div class="question-card">
+                <div class="question-number" id="questionNumber">QUESTION 1</div>
+                <div class="question-text" id="questionText">Loading...</div>
+            </div>
+            <div class="options-list" id="optionsList"></div>
+            <div class="feedback-area" id="feedbackArea"></div>
+            <div class="btn-row">
+                <button class="next-btn" id="nextBtn" disabled>Next Question →</button>
+            </div>
+        </div>
+
+        <!-- Completion Screen -->
+        <div id="completionScreen" class="completion-screen hidden">
+            <div class="completion-emoji" id="completionEmoji">🎉</div>
+            <div class="completion-title" id="completionTitle">Great job!</div>
+            <p style="color:var(--text-secondary);margin-bottom:8px;">You've completed all questions.</p>
+            <div class="completion-stats">
+                <div class="completion-stat">
+                    <div class="big-num green" id="finalCorrect">0</div>
+                    <div class="label">Correct</div>
+                </div>
+                <div class="completion-stat">
+                    <div class="big-num red" id="finalWrong">0</div>
+                    <div class="label">Wrong</div>
+                </div>
+                <div class="completion-stat">
+                    <div class="big-num accent" id="finalPercent">0%</div>
+                    <div class="label">Score</div>
+                </div>
+            </div>
+            <button class="next-btn" id="restartBtn2" style="margin-top:12px;">🔄 Restart Practice</button>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ─────────────────────────────────────────────────────────────
+            // COMPLETE QUESTION BANK — all 70+ MCQs merged from 3 sources
+            // ─────────────────────────────────────────────────────────────
+            const allQuestions = [
+                // === FIRST JSON ARRAY (24 questions) ===
+                {
+                    question: "Two developers try to merge a hotfix branch into a release branch. Git reports conflicts and the team decides to abandon the merge attempt completely and return to the previous state.",
+                    options: [
+                        "Use git rebase --continue",
+                        "Use git merge --abort to stop the merge and return to the pre-merge state",
+                        "Use git revert on the conflicted files",
+                        "Use git restore --staged on the whole repository"
+                    ],
+                    answer: "Use git merge --abort to stop the merge and return to the pre-merge state"
+                }, {
+                    question: "Which GitHub Actions statements are correct?",
+                    options: [
+                        "Statements 1 and 4 are correct; Statements 2 and 3 are incorrect",
+                        "Statements 1, 2, 3, and 4 are all correct",
+                        "Statements 2 and 4 are correct; Statements 1 and 3 are incorrect",
+                        "Statements 1, 2, and 3 are correct; Statement 4 is incorrect"
+                    ],
+                    answer: "Statements 1, 2, and 3 are correct; Statement 4 is incorrect"
+                }, {
+                    question: "Which JSON and YAML statements are correct?",
+                    options: [
+                        "Statements 1 and 3 are correct; Statements 2 and 4 are incorrect",
+                        "Statements 1, 2, 3, and 4 are all correct",
+                        "Statements 1 and 2 are correct; Statements 3 and 4 are incorrect",
+                        "Statements 2 and 4 are correct; Statements 1 and 3 are incorrect"
+                    ],
+                    answer: "Statements 1 and 2 are correct; Statements 3 and 4 are incorrect"
+                }, {
+                    question: "A team launches EC2 instances that must call AWS APIs securely.",
+                    options: [
+                        "Create one shared plaintext key for all servers",
+                        "Use the root user's access keys",
+                        "Keep static keys in the application package",
+                        "Use an IAM role delivered through an instance profile instead of hard-coding credentials"
+                    ],
+                    answer: "Use an IAM role delivered through an instance profile instead of hard-coding credentials"
+                }, {
+                    question: "Which AWS VPC security statements are correct?",
+                    options: [
+                        "Statements 1, 2, and 3 are correct; Statement 4 is incorrect",
+                        "Statements 2 and 4 are correct; Statements 1 and 3 are incorrect",
+                        "Statements 1, 2, 3, and 4 are all correct",
+                        "Statements 1 and 4 are correct; Statements 2 and 3 are incorrect"
+                    ],
+                    answer: "Statements 1, 2, and 3 are correct; Statement 4 is incorrect"
+                }, {
+                    question: "A developer wants live source-code syncing between host and container during development.",
+                    options: [
+                        "Use a second ENTRYPOINT",
+                        "Use COPY in the Dockerfile",
+                        "Use a named volume",
+                        "Use a bind mount"
+                    ],
+                    answer: "Use a bind mount"
+                }, {
+                    question: "Which Jenkins stash and artifact statements are correct?",
+                    options: [
+                        "Statements 2 and 4 are correct; Statements 1 and 3 are incorrect",
+                        "Statements 1, 2, 3, and 4 are all correct",
+                        "Statements 1 and 4 are correct; Statements 2 and 3 are incorrect",
+                        "Statements 1, 2, and 3 are correct; Statement 4 is incorrect"
+                    ],
+                    answer: "Statements 1, 2, and 3 are correct; Statement 4 is incorrect"
+                }, {
+                    question: "A deploy job in GitHub Actions must wait for build and test jobs.",
+                    options: [
+                        "Store deployment script in YAML comments",
+                        "Declare job dependencies with needs",
+                        "Put jobs in alphabetical order",
+                        "Use a matrix strategy"
+                    ],
+                    answer: "Declare job dependencies with needs"
+                }, {
+                    question: "An application only needs read access to one S3 bucket prefix.",
+                    options: [
+                        "Create a role or policy allowing only the required read actions on the required S3 resources",
+                        "Attach every S3 permission to the instance",
+                        "Grant broad wildcard permissions first",
+                        "Store a long-lived root access key on the instance"
+                    ],
+                    answer: "Create a role or policy allowing only the required read actions on the required S3 resources"
+                }, {
+                    question: "A backend team wants smaller Docker runtime images without build tools.",
+                    options: [
+                        "Add multiple CMD instructions",
+                        "Use a multi-stage build with multiple FROM lines",
+                        "Use a bind mount at runtime",
+                        "Set WORKDIR twice"
+                    ],
+                    answer: "Use a multi-stage build with multiple FROM lines"
+                }, {
+                    question: "A compliance team needs WORM-style protection for S3 audit logs.",
+                    options: [
+                        "Use a larger EC2 instance",
+                        "Use S3 Object Lock",
+                        "Use a security group on the log-processing server",
+                        "Use Docker multi-stage build"
+                    ],
+                    answer: "Use S3 Object Lock"
+                }, {
+                    question: "A YAML manifest breaks because indentation changed.",
+                    options: [
+                        "YAML requires every mapping key to start at column one",
+                        "YAML block structure depends on indentation",
+                        "YAML ignores indentation for structure",
+                        "YAML uses only alphabetical key ordering"
+                    ],
+                    answer: "YAML block structure depends on indentation"
+                }, {
+                    question: "An engineer must safely undo a bad commit already pushed to a shared branch.",
+                    options: [
+                        "Use git reset --hard and force-push",
+                        "Use git revert",
+                        "Delete and recreate the branch",
+                        "Use git rebase on the branch"
+                    ],
+                    answer: "Use git revert"
+                }, {
+                    question: "A strict JSON parser fails after comments and trailing commas were added.",
+                    options: [
+                        "Remove comments and trailing commas",
+                        "Replace trailing commas with semicolons",
+                        "Switch the parser to infer indentation",
+                        "Rename the file with a YAML extension"
+                    ],
+                    answer: "Remove comments and trailing commas"
+                }, {
+                    question: "GitHub Actions runs overlap on the same branch and should cancel older runs.",
+                    options: [
+                        "Use concurrency with cancel-in-progress",
+                        "Use only workflow_dispatch",
+                        "Use matrix.exclude",
+                        "Use environment variables in alphabetical order"
+                    ],
+                    answer: "Use concurrency with cancel-in-progress"
+                }, {
+                    question: "A Docker image should always launch the same executable but allow overrideable default arguments.",
+                    options: [
+                        "Use exec-form ENTRYPOINT and CMD for default arguments",
+                        "Use WORKDIR as the executable",
+                        "Use only shell-form CMD",
+                        "Use two ENTRYPOINT instructions"
+                    ],
+                    answer: "Use exec-form ENTRYPOINT and CMD for default arguments"
+                }, {
+                    question: "A Dockerfile contains two CMD instructions in the same stage.",
+                    options: [
+                        "CMD lines execute alphabetically",
+                        "The first CMD is for build time and the second for runtime",
+                        "Only the last CMD instruction takes effect",
+                        "Every CMD creates a startup queue"
+                    ],
+                    answer: "Only the last CMD instruction takes effect"
+                }, {
+                    question: "A developer staged a secrets file by mistake but wants to keep local edits.",
+                    options: [
+                        "Run git revert on the file",
+                        "Run git merge --abort",
+                        "Run git restore --staged on the file",
+                        "Run git reset --hard"
+                    ],
+                    answer: "Run git restore --staged on the file"
+                }, {
+                    question: "A developer wants to clean up local commits before opening a PR.",
+                    options: [
+                        "Use git clone again and copy files manually",
+                        "Run git revert on unnecessary commits",
+                        "Use interactive rebase",
+                        "Delete the branch and recreate it"
+                    ],
+                    answer: "Use interactive rebase"
+                }, {
+                    question: "How are JSON and YAML 1.2 related?",
+                    options: [
+                        "A valid JSON document can also be parsed as YAML 1.2",
+                        "JSON and YAML 1.2 are incompatible",
+                        "YAML parsers require anchors before JSON works",
+                        "Any YAML document is automatically valid JSON"
+                    ],
+                    answer: "A valid JSON document can also be parsed as YAML 1.2"
+                }, {
+                    question: "A YAML deployment file repeats the same configuration block many times.",
+                    options: [
+                        "Use tab-based indentation",
+                        "Convert the entire file to JSON arrays",
+                        "Replace repeated mappings with comments",
+                        "Define the first block with an anchor and reuse it later with aliases"
+                    ],
+                    answer: "Define the first block with an anchor and reuse it later with aliases"
+                }, {
+                    question: "A reverted merge is merged again later and old changes do not fully reappear.",
+                    options: [
+                        "A reverted merge becomes a hidden stash entry",
+                        "Reverting a merge signals those tree changes are unwanted",
+                        "Git permanently blocks every future merge from that branch",
+                        "Git converts the old merge into a rebase"
+                    ],
+                    answer: "Reverting a merge signals those tree changes are unwanted"
+                }, {
+                    question: "A production deployment in GitHub Actions should require approval before secrets are exposed.",
+                    options: [
+                        "Use concurrency with cancel-in-progress",
+                        "Use an environment with deployment protection rules",
+                        "Use upload-artifact and download-artifact",
+                        "Use workflow_dispatch only"
+                    ],
+                    answer: "Use an environment with deployment protection rules"
+                }, {
+                    question: "A Jenkins team wants cleanup to always run and notifications only on success.",
+                    options: [
+                        "Use a post section with always and success conditions",
+                        "Define two separate pipelines",
+                        "Place all cleanup commands in the stages block",
+                        "Use input steps after each stage"
+                    ],
+                    answer: "Use a post section with always and success conditions"
+                },
+                // === SECOND JSON ARRAY — items with options (26 questions) ===
+                {
+                    question: "A trainer asks students to explain Vagrant architecture to new hires. Which option is the most accurate mapping of major components?",
+                    options: [
+                        "The box is the provisioning script, the Vagrantfile is the hypervisor, and the provider is the guest operating system.",
+                        "The provider stores source code, the box is the root filesystem on the host, and the provisioner replaces the host operating system.",
+                        "The box and provider are the same thing; Vagrant uses two names for the same component to support multiple cloud accounts.",
+                        "The Vagrantfile describes VM configuration, the box is the base image/package, the provider runs the VM, and the provisioner installs/configures software."
+                    ],
+                    answer: "The Vagrantfile describes VM configuration, the box is the base image/package, the provider runs the VM, and the provisioner installs/configures software."
+                }, {
+                    question: "Another team removes the final manual approval from the previous pipeline. Now every change that passes the fully automated pipeline is released to production automatically. What is the most accurate label for this practice?",
+                    options: [
+                        "Continuous delivery, because production promotion still depends on a human decision.",
+                        "Continuous deployment, because successful changes flow automatically to production with no manual release gate.",
+                        "Nightly integration, because releases only happen after a batch window.",
+                        "Trunk-based development, because production automation and branching strategy are the same thing."
+                    ],
+                    answer: "Continuous deployment, because successful changes flow automatically to production with no manual release gate."
+                }, {
+                    question: "A developer installs Oracle VirtualBox on a Windows laptop and runs an Ubuntu guest for shell practice. The host operating system remains Windows, and the virtualization software runs as an application on top of it. Which classification is correct?",
+                    options: [
+                        "Type 1 (bare-metal) hypervisor, because all desktop virtualization software runs directly on hardware.",
+                        "Container engine, because the guest shares some hardware with the host.",
+                        "Type 2 (hosted) hypervisor, because the hypervisor runs on top of a conventional host operating system.",
+                        "Paravirtualized kernel, because no host/guest distinction exists in this setup."
+                    ],
+                    answer: "Type 2 (hosted) hypervisor, because the hypervisor runs on top of a conventional host operating system."
+                }, {
+                    question: "A user places a Bash-specific array expression in a personal crontab and expects it to run with full root privileges because cron is a system service. The job fails. Which explanation is best?",
+                    options: [
+                        "Cron jobs in a user crontab run as root by default, but Bash arrays are disabled unless MAILTO is set.",
+                        "Cron ignores shell syntax entirely and can execute only compiled binaries.",
+                        "Cron jobs run as the user who owns that crontab, and the command is executed by /bin/sh unless SHELL is explicitly set in the crontab.",
+                        "Cron always uses the interactive login shell from the current terminal session."
+                    ],
+                    answer: "Cron jobs run as the user who owns that crontab, and the command is executed by /bin/sh unless SHELL is explicitly set in the crontab."
+                }, {
+                    question: "A backup script creates temporary archives that must survive a reboot because the host may restart before the archives are uploaded. Which location is more appropriate for that temporary data?",
+                    options: [
+                        "/tmp, because files there are expected to persist across reboots more reliably than any other temporary location.",
+                        "/usr/tmp, because shareable read-only data is safest for reboot persistence.",
+                        "/var/tmp, because it is intended for temporary files that should be preserved between system reboots.",
+                        "/etc/tmp, because configuration directories are not cleared during boot."
+                    ],
+                    answer: "/var/tmp, because it is intended for temporary files that should be preserved between system reboots."
+                }, {
+                    question: "A large enterprise release process has many long-lived support branches, formal release trains, and separate hotfix handling. A startup with a small team deploys many times per day and wants everyone integrating on a shared main branch with short-lived feature branches. Which pairing is best?",
+                    options: [
+                        "Enterprise: trunk-based; startup: GitFlow, because startups need more branch ceremony to move quickly.",
+                        "Both should use GitFlow because trunk-based development is only for monorepos.",
+                        "Both should avoid branches entirely because CI/CD eliminates the need for version control strategy.",
+                        "Enterprise: GitFlow; startup: trunk-based development, because the branching overhead fits the release cadences differently."
+                    ],
+                    answer: "Enterprise: GitFlow; startup: trunk-based development, because the branching overhead fits the release cadences differently."
+                }, {
+                    question: "You are preparing 30 identical DevOps lab machines for a classroom. Manual VM setup works, but every batch ends up slightly different because students miss steps. Which approach most directly solves the reproducibility problem?",
+                    options: [
+                        "Continue manual setup but ask students to take screenshots of each command so differences can be documented after the fact.",
+                        "Keep one perfect VM and tell students never to change it, because reproducibility is less important than preservation.",
+                        "Use automated VM setup with a declarative Vagrantfile and provisioning so machines can be destroyed and recreated consistently.",
+                        "Use more detailed lecture slides instead of automation, because environment drift is mainly a note-taking issue."
+                    ],
+                    answer: "Use automated VM setup with a declarative Vagrantfile and provisioning so machines can be destroyed and recreated consistently."
+                }, {
+                    question: "A repository uses GitHub pull requests and GitLab merge requests in different teams. One team wants a linear history and is considering 'squash and merge' on GitHub; another team wants merge requests blocked until approvals and CI pass in GitLab. Which statement is most accurate?",
+                    options: [
+                        "On GitHub, squash and merge preserves every individual feature-branch commit; in GitLab, approvals automatically bypass CI requirements.",
+                        "On GitHub, squash and merge condenses the pull request commits into one commit; in GitLab, approvals can be required before merge and a failed CI/CD pipeline can still block merging even after approvals.",
+                        "On GitHub, rebase-and-merge is the only method that produces a linear history; in GitLab, merge requests cannot require approvals.",
+                        "On GitHub and GitLab alike, once a review is approved the merge method and pipeline status no longer matter."
+                    ],
+                    answer: "On GitHub, squash and merge condenses the pull request commits into one commit; in GitLab, approvals can be required before merge and a failed CI/CD pipeline can still block merging even after approvals."
+                }, {
+                    question: "A company is building software for a medical device gateway. The domain is high-risk, regulatory evidence is needed, and several technical uncertainties around hardware behavior are still unresolved. The sponsor wants repeated cycles of risk analysis, prototyping, development, and evaluation instead of pretending all uncertainty is gone upfront. Which SDLC model best fits that request?",
+                    options: [
+                        "Pure Waterfall, because risky projects benefit most when every major phase is completed once with minimal revisiting.",
+                        "Big-bang model, because uncertain requirements are best handled by coding quickly and validating after everything is integrated.",
+                        "Spiral model, because it is risk-driven and uses repeated cycles to address uncertainty before committing too deeply.",
+                        "Only a maintenance model, because risk analysis belongs after deployment rather than during development."
+                    ],
+                    answer: "Spiral model, because it is risk-driven and uses repeated cycles to address uncertainty before committing too deeply."
+                }, {
+                    question: "A team asks every developer to merge work into a central repository frequently. Each merge automatically triggers a build and a test suite so integration defects are found early instead of at release time. Which practice is being described most precisely?",
+                    options: [
+                        "Continuous integration, because code is merged regularly and validated through automated builds and tests.",
+                        "Continuous delivery, because every change is automatically promoted to production without any human decision point.",
+                        "Blue-green deployment, because the repository always contains two identical runtime environments.",
+                        "Manual release management, because the important step is human validation after code freeze."
+                    ],
+                    answer: "Continuous integration, because code is merged regularly and validated through automated builds and tests."
+                }, {
+                    question: "A teammate says, 'If a service accepts YAML 1.2, I can paste a valid JSON object directly into the file and it should still parse.' What is the best answer?",
+                    options: [
+                        "That is generally true in YAML 1.2 because the spec focuses on being a strict superset of JSON, although teams may still prefer YAML-style formatting for readability.",
+                        "That is false because YAML and JSON are unrelated grammars and never share valid documents.",
+                        "That is false because YAML requires comments and JSON does not support them.",
+                        "That is only true if every JSON key is duplicated somewhere else in the document."
+                    ],
+                    answer: "That is generally true in YAML 1.2 because the spec focuses on being a strict superset of JSON, although teams may still prefer YAML-style formatting for readability."
+                }, {
+                    question: "A team uses Git for collaboration. During code review, they discuss branching and history. Which is correct?",
+                    options: [
+                        "Statement 1, Statement 2, and Statement 4 are correct; Statement 3 is incorrect.",
+                        "Only Statement 2 and Statement 3 are correct.",
+                        "Statement 1 and Statement 3 are correct; Statement 2 and Statement 4 are incorrect.",
+                        "All statements are correct."
+                    ],
+                    answer: "Statement 1, Statement 2, and Statement 4 are correct; Statement 3 is incorrect."
+                }, {
+                    question: "A company is evaluating infrastructure approaches. Which is correct?",
+                    options: [
+                        "Statement 1 and Statement 3 are correct; Statement 2 and Statement 4 are incorrect.",
+                        "Statement 2 and Statement 3 are correct.",
+                        "Only Statement 4 is correct.",
+                        "All statements are correct."
+                    ],
+                    answer: "Statement 1 and Statement 3 are correct; Statement 2 and Statement 4 are incorrect."
+                }, {
+                    question: "A startup is deciding between cloud service models. Which combination is correct?",
+                    options: [
+                        "Statement 1 and Statement 4 are correct; Statement 2 and Statement 3 are incorrect.",
+                        "Statement 1, Statement 3, and Statement 4 are correct; Statement 2 is incorrect.",
+                        "Only Statement 2 and Statement 3 are correct.",
+                        "All statements are correct."
+                    ],
+                    answer: "Statement 1, Statement 3, and Statement 4 are correct; Statement 2 is incorrect."
+                }, {
+                    question: "A deployment script deploy.sh should be fully accessible to its owner, readable and executable by the deployment group, and completely inaccessible to everyone else. Which permission setting best matches that requirement?",
+                    options: [
+                        "chmod 750 deploy.sh",
+                        "chmod 640 deploy.sh",
+                        "chmod 755 deploy.sh",
+                        "chmod 700 deploy.sh"
+                    ],
+                    answer: "chmod 750 deploy.sh"
+                }, {
+                    question: "A student writes an unattended Ubuntu 24 automation script that runs from cron and uses commands such as apt install jq -y. Want the most defensible tooling choice for non-interactive scripting. Which option is best?",
+                    options: [
+                        "Replace apt with apt-get in the script, because apt is intended for interactive human use while apt-get is recommended for scripts.",
+                        "Keep using apt because it is the preferred stable interface for non-interactive scripts.",
+                        "Replace both with dpkg -i for every package because repository metadata updates are never needed in automation.",
+                        "Use snap for all packages because cron jobs cannot run APT-based commands."
+                    ],
+                    answer: "Replace apt with apt-get in the script, because apt is intended for interactive human use while apt-get is recommended for scripts."
+                }, {
+                    question: "A product team building an internal compliance portal finished requirements, design, and most coding before showing anything to users. In user acceptance testing, auditors say the workflow is wrong and must change across multiple screens. Which change in delivery approach would most directly reduce this kind of late surprise?",
+                    options: [
+                        "Keep the same sequential model, but require longer sign-off meetings before coding starts so requirement changes become less likely.",
+                        "Move to an iterative Agile approach with small increments, frequent stakeholder reviews, and the ability to reprioritize between iterations.",
+                        "Delay testing until the full application is feature-complete so users see the entire system only once and avoid fragmented feedback.",
+                        "Keep development unchanged, but add a bigger operations team so deployment issues are handled after coding finishes."
+                    ],
+                    answer: "Move to an iterative Agile approach with small increments, frequent stakeholder reviews, and the ability to reprioritize between iterations."
+                }, {
+                    question: "A release repeatedly fails in production even though unit tests pass. Developers say, 'It works on our build VM.' Operations says, 'We had to change ports, file paths, and startup scripts manually on each server.' Which answer is best?",
+                    options: [
+                        "The team mainly needs a longer coding phase; environment drift is a normal side effect of fast delivery.",
+                        "The primary issue is the Dev-Ops gap: siloed ownership and manual environment changes are creating inconsistent releases.",
+                        "The main problem is that source control is unnecessary for infrastructure, because runtime settings should stay outside development.",
+                        "The failure proves that testing should happen only after deployment, because pre-production environments are misleading."
+                    ],
+                    answer: "The primary issue is the Dev-Ops gap: siloed ownership and manual environment changes are creating inconsistent releases."
+                }, {
+                    question: "A stuck process is ignoring input but may still flush logs and release locks if given the chance. Which action reflects the recommended escalation path?",
+                    options: [
+                        "Send the default TERM signal first and use KILL only if the process still refuses to terminate.",
+                        "Send SIGKILL first because orderly termination is slower and therefore less safe.",
+                        "Reboot the host immediately because signal handling is unreliable for hung processes.",
+                        "Use chmod on the PID file because permission changes force the kernel to end the process."
+                    ],
+                    answer: "Send the default TERM signal first and use KILL only if the process still refuses to terminate."
+                }, {
+                    question: "A retail company cannot predict holiday traffic. Its on-premises servers sit underutilized for most of the year but still fail during brief demand spikes. Which option best explains why cloud computing is attractive in this case?",
+                    options: [
+                        "Cloud is attractive mainly because it eliminates the need to design for failure or monitor systems.",
+                        "Cloud is attractive because elasticity and pay-as-you-go usage reduce the need to buy peak capacity upfront for bursty demand.",
+                        "Cloud is attractive only if the company wants to stop using automation and return to manual capacity planning.",
+                        "Cloud is attractive because all customer security responsibilities disappear once workloads leave the data center."
+                    ],
+                    answer: "Cloud is attractive because elasticity and pay-as-you-go usage reduce the need to buy peak capacity upfront for bursty demand."
+                }, {
+                    question: "A YAML configuration file keeps failing in one environment and loading in another because one editor inserted tabs for indentation. Which conclusion is most defensible?",
+                    options: [
+                        "Tabs are fine for YAML indentation as long as every line uses the same tab width.",
+                        "Tabs are portable only in sequence items, not in mappings.",
+                        "YAML block structure is indentation-based and, for portability, tab characters must not be used for indentation; spaces should be used consistently.",
+                        "The parser failure proves that YAML requires exactly four spaces per nesting level."
+                    ],
+                    answer: "YAML block structure is indentation-based and, for portability, tab characters must not be used for indentation; spaces should be used consistently."
+                }, {
+                    question: "A DevOps engineer is asked why Linux matters so much in cloud and automation-heavy environments. Which answer is strongest?",
+                    options: [
+                        "Linux is important because many servers, cloud workloads, containers, and automation tools are built around Linux-friendly CLI and scripting workflows.",
+                        "Linux is important mainly because DevOps requires a graphical desktop for package management and log analysis.",
+                        "Linux is important only when using private cloud; public cloud providers do not expose Linux-based tooling.",
+                        "Linux is important because file permissions do not exist on other operating systems."
+                    ],
+                    answer: "Linux is important because many servers, cloud workloads, containers, and automation tools are built around Linux-friendly CLI and scripting workflows."
+                }, {
+                    question: "A candidate says, 'On RHEL 9, yum and dnf are completely different package managers, so the commands should never be mixed.' How should an examiner respond?",
+                    options: [
+                        "That is correct, because yum replaced dnf in RHEL 9 for backward compatibility.",
+                        "That is correct, because yum manages AppStream and dnf manages BaseOS.",
+                        "That is incorrect, because both commands were removed in RHEL 9 and only RPM files can be used directly.",
+                        "That is incorrect, because in RHEL 9 the yum command is an alias for dnf, provided mainly for compatibility."
+                    ],
+                    answer: "That is incorrect, because in RHEL 9 the yum command is an alias for dnf, provided mainly for compatibility."
+                }, {
+                    question: "A DevOps intern is learning virtualization concepts. Which is correct?",
+                    options: [
+                        "Statement 1 and Statement 2 are correct; Statement 3 and Statement 4 are incorrect.",
+                        "Statement 1, Statement 2, and Statement 3 are correct; Statement 4 is incorrect.",
+                        "Only Statement 4 is correct.",
+                        "All statements are correct."
+                    ],
+                    answer: "Statement 1, Statement 2, and Statement 3 are correct; Statement 4 is incorrect."
+                }, {
+                    question: "A YAML configuration file fails during parsing. Which is correct?",
+                    options: [
+                        "Statement 1, Statement 2, and Statement 3 are correct; Statement 4 is incorrect.",
+                        "Only Statement 1 is correct.",
+                        "Statement 2 and Statement 4 are correct; Statement 1 and Statement 3 are incorrect.",
+                        "All statements are correct."
+                    ],
+                    answer: "Statement 1, Statement 2, and Statement 3 are correct; Statement 4 is incorrect."
+                }, {
+                    question: "An admin on Rocky Linux finds a random third-party repository on a forum and wants to enable it on every training VM to save time installing tools. What is the best response?",
+                    options: [
+                        "Use it everywhere immediately; package signatures and repository trust are mainly optional concerns for learning environments.",
+                        "Avoid unverified or untrusted repositories when possible, because they can introduce security, stability, compatibility, and maintainability risks.",
+                        "Use it only after uninstalling all official repositories, because mixed sources increase performance.",
+                        "Enable it temporarily, because anything installed through DNF becomes trusted once cached locally."
+                    ],
+                    answer: "Avoid unverified or untrusted repositories when possible, because they can introduce security, stability, compatibility, and maintainability risks."
+                }, {
+                    question: "A file contains a JSON array of deployment objects and you want jq to emit just the value of .name from each element as separate outputs, not as one collected array. Which filter best matches that behavior?",
+                    options: [
+                        ".name[]",
+                        "[.[].name]",
+                        ".name",
+                        ".[] | .name"
+                    ],
+                    answer: ".[] | .name"
+                }, {
+                    question: "Before virtualization became common, one business application often consumed an entire physical server even when average CPU use was very low. What was the infrastructure problem that virtualization was designed to reduce?",
+                    options: [
+                        "Too many concurrent kernels running in user space on the same machine.",
+                        "Server underutilization and server sprawl caused by dedicating lightly used workloads to separate physical hardware.",
+                        "The inability to store configuration files under /etc on physical systems.",
+                        "The fact that operating systems could not support more than one process at a time."
+                    ],
+                    answer: "Server underutilization and server sprawl caused by dedicating lightly used workloads to separate physical hardware."
+                },
+                // === THIRD JSON ARRAY (20 new questions) ===
+                {
+                    question: "Why is cloud computing often considered a strong enabler for DevOps teams?",
+                    options: [
+                        "It removes the need for monitoring",
+                        "It eliminates all security responsibilities of the customer",
+                        "It guarantees zero downtime for every application",
+                        "It enables faster provisioning, scalability, and automation of environments"
+                    ],
+                    answer: "It enables faster provisioning, scalability, and automation of environments"
+                }, {
+                    question: "A file has permissions rwxr-x---. Which statement is correct?",
+                    options: [
+                        "The owner has only read permission",
+                        "Everyone has execute permission",
+                        "Others have read permission",
+                        "The owner has read, write, and execute; the group has read and execute permissions"
+                    ],
+                    answer: "The owner has read, write, and execute; the group has read and execute permissions"
+                }, {
+                    question: "Which cron expression runs a command every day at 2:30 AM?",
+                    options: [
+                        "2 30 * * *",
+                        "0 30 2 * *",
+                        "30 2 * * *",
+                        "* 2 30 * *"
+                    ],
+                    answer: "30 2 * * *"
+                }, {
+                    question: "Why is automated VM setup usually preferred over manual VM setup in DevOps workflows?",
+                    options: [
+                        "Because manual setup is always impossible",
+                        "Because automated setup removes the need for operating systems",
+                        "Because VMs cannot be created manually",
+                        "Because it improves repeatability, reduces configuration drift, and speeds environment creation"
+                    ],
+                    answer: "Because it improves repeatability, reduces configuration drift, and speeds environment creation"
+                }, {
+                    question: "Which component of Linux architecture directly interacts with hardware and core system resources?",
+                    options: [
+                        "Shell",
+                        "Package repository",
+                        "User home directory",
+                        "Kernel"
+                    ],
+                    answer: "Kernel"
+                }, {
+                    question: "A company wants to deploy its code without handling server OS/runtime installation details, but still wants control over the application code. Which cloud service model is the best fit?",
+                    options: [
+                        "IaaS",
+                        "Co-location",
+                        "On-premises only",
+                        "PaaS"
+                    ],
+                    answer: "PaaS"
+                }, {
+                    question: "Which command changes both the owner and group of a file in one command?",
+                    options: [
+                        "chmod user:group filename",
+                        "ps user:group filename",
+                        "top user:group filename",
+                        "chown user:group filename"
+                    ],
+                    answer: "chown user:group filename"
+                }, {
+                    question: "Which cloud service model gives the customer the most control over operating systems and deployed applications while the provider manages the hardware?",
+                    options: [
+                        "SaaS",
+                        "FaaS",
+                        "DaaS",
+                        "IaaS"
+                    ],
+                    answer: "IaaS"
+                }, {
+                    question: "Which phase in a DevOps lifecycle comes after testing?",
+                    options: [
+                        "Requirements, coding, retirement only",
+                        "Recruitment, hiring, design, support",
+                        "Sales, marketing, coding, payroll",
+                        "Plan, code, build, test, release, deploy, operate, monitor with continuous feedback"
+                    ],
+                    answer: "Plan, code, build, test, release, deploy, operate, monitor with continuous feedback"
+                }, {
+                    question: "How is top different from ps in normal usage?",
+                    options: [
+                        "top provides real-time updates, while ps gives a one-time snapshot",
+                        "ps modifies processes, while top only creates them",
+                        "top is a package manager, while ps is a scheduler",
+                        "top provides a dynamic real-time view of system processes"
+                    ],
+                    answer: "top provides a dynamic real-time view of system processes"
+                }, {
+                    question: "In Vagrant terminology, what is a provider?",
+                    options: [
+                        "A plugin that edits YAML files",
+                        "A Linux distribution image",
+                        "A shell built into Vagrant",
+                        "The backend that Vagrant uses to create and manage machines, such as VirtualBox or Hyper-V"
+                    ],
+                    answer: "The backend that Vagrant uses to create and manage machines, such as VirtualBox or Hyper-V"
+                }, {
+                    question: "Which directory typically contains essential user command binaries needed in limited system states?",
+                    options: [
+                        "/home",
+                        "/media",
+                        "/srv",
+                        "/bin"
+                    ],
+                    answer: "/bin"
+                }, {
+                    question: "Which deployment model combines at least two distinct cloud infrastructures, such as private and public, to allow data and application portability?",
+                    options: [
+                        "Single internal cloud",
+                        "Dedicated local network",
+                        "Air-gapped datacenter",
+                        "Hybrid cloud"
+                    ],
+                    answer: "Hybrid cloud"
+                }, {
+                    question: "Which deployment model describes cloud resources shared for public use over the internet by multiple customers?",
+                    options: [
+                        "Private cloud",
+                        "Hybrid cloud",
+                        "Community LAN",
+                        "Public cloud"
+                    ],
+                    answer: "Public cloud"
+                }, {
+                    question: "On RHEL 9, Rocky Linux 9, and CentOS Stream 9, which is the primary tool used to install, update, and search for RPM packages?",
+                    options: [
+                        "apt",
+                        "getpkg",
+                        "brew",
+                        "dnf"
+                    ],
+                    answer: "dnf"
+                }, {
+                    question: "Which directory is primarily intended for variable data such as logs and runtime-changing content?",
+                    options: [
+                        "/usr",
+                        "/bin",
+                        "/opt",
+                        "/var"
+                    ],
+                    answer: "/var"
+                }, {
+                    question: "Which command is most appropriate for displaying the current working directory in Linux shell?",
+                    options: [
+                        "ls",
+                        "which",
+                        "pwd"
+                    ],
+                    answer: "pwd"
+                }, {
+                    question: "In a typical SDLC, which phase primarily focuses on gathering and defining what the system should do?",
+                    options: [
+                        "Deployment",
+                        "Maintenance",
+                        "Monitoring",
+                        "Requirements gathering and analysis"
+                    ],
+                    answer: "Requirements gathering and analysis"
+                }, {
+                    question: "What happens when you run kill PID without specifying a signal?",
+                    options: [
+                        "It always sends SIGKILL",
+                        "It pauses the process without signaling",
+                        "It restarts the process",
+                        "It sends SIGTERM by default"
+                    ],
+                    answer: "It sends SIGTERM by default"
+                }, {
+                    question: "Why is SIGTERM generally preferred before SIGKILL?",
+                    options: [
+                        "It is faster than every other signal in all cases",
+                        "It cannot be ignored by the process",
+                        "It immediately deletes the executable file",
+                        "It allows the process a chance to clean up and exit gracefully"
+                    ],
+                    answer: "It allows the process a chance to clean up and exit gracefully"
+                }
+            ];
+
+            // ─────────────────────────────────────
+            // APP STATE
+            // ─────────────────────────────────────
+            let questions = [];
+            let currentIndex = 0;
+            let correctCount = 0;
+            let wrongCount = 0;
+            let answered = false;
+            let totalQuestions = 0;
+
+            // ─────────────────────────────────────
+            // DOM REFS
+            // ─────────────────────────────────────
+            const quizArea = document.getElementById('quizArea');
+            const completionScreen = document.getElementById('completionScreen');
+            const questionNumber = document.getElementById('questionNumber');
+            const questionText = document.getElementById('questionText');
+            const optionsList = document.getElementById('optionsList');
+            const feedbackArea = document.getElementById('feedbackArea');
+            const nextBtn = document.getElementById('nextBtn');
+            const correctCountEl = document.getElementById('correctCount');
+            const wrongCountEl = document.getElementById('wrongCount');
+            const remainingCountEl = document.getElementById('remainingCount');
+            const totalCountEl = document.getElementById('totalCount');
+            const progressFill = document.getElementById('progressFill');
+            const progressPercent = document.getElementById('progressPercent');
+            const themeToggle = document.getElementById('themeToggle');
+            const themeLabel = document.getElementById('themeLabel');
+            const restartBtn = document.getElementById('restartBtn');
+            const restartBtn2 = document.getElementById('restartBtn2');
+            const finalCorrect = document.getElementById('finalCorrect');
+            const finalWrong = document.getElementById('finalWrong');
+            const finalPercent = document.getElementById('finalPercent');
+            const completionEmoji = document.getElementById('completionEmoji');
+            const completionTitle = document.getElementById('completionTitle');
+
+            // ─────────────────────────────────────
+            // UTILITY: SHUFFLE (Fisher-Yates)
+            // ─────────────────────────────────────
+            function shuffle(arr) {
+                const a = [...arr];
+                for (let i = a.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [a[i], a[j]] = [a[j], a[i]];
+                }
+                return a;
+            }
+
+            // ─────────────────────────────────────
+            // INIT / RESTART
+            // ─────────────────────────────────────
+            function initQuiz() {
+                questions = shuffle(allQuestions);
+                totalQuestions = questions.length;
+                currentIndex = 0;
+                correctCount = 0;
+                wrongCount = 0;
+                answered = false;
+                totalCountEl.textContent = totalQuestions;
+                updateStats();
+                updateProgress();
+                quizArea.classList.remove('hidden');
+                completionScreen.classList.add('hidden');
+                feedbackArea.classList.remove('visible', 'feedback-correct', 'feedback-wrong');
+                feedbackArea.innerHTML = '';
+                nextBtn.disabled = true;
+                renderQuestion();
+            }
+
+            // ─────────────────────────────────────
+            // RENDER CURRENT QUESTION
+            // ─────────────────────────────────────
+            function renderQuestion() {
+                if (currentIndex >= totalQuestions) {
+                    showCompletion();
+                    return;
+                }
+                const q = questions[currentIndex];
+                questionNumber.textContent = `QUESTION ${currentIndex + 1} OF ${totalQuestions}`;
+                questionText.textContent = q.question;
+                optionsList.innerHTML = '';
+                feedbackArea.classList.remove('visible', 'feedback-correct', 'feedback-wrong');
+                feedbackArea.innerHTML = '';
+                nextBtn.disabled = true;
+                answered = false;
+
+                // Shuffle option order for each render
+                const optionIndices = shuffle([...Array(q.options.length).keys()]);
+                const shuffledOptions = optionIndices.map(i => q.options[i]);
+
+                shuffledOptions.forEach((optText) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.textContent = optText;
+                    btn.addEventListener('click', () => handleOptionClick(btn, optText, q));
+                    optionsList.appendChild(btn);
+                });
+
+                updateProgress();
+                updateStats();
+            }
+
+            // ─────────────────────────────────────
+            // HANDLE OPTION CLICK
+            // ─────────────────────────────────────
+            function handleOptionClick(btn, selectedText, questionObj) {
+                if (answered) return;
+                answered = true;
+
+                const allBtns = optionsList.querySelectorAll('.option-btn');
+                const isCorrect = (selectedText === questionObj.answer);
+
+                // Disable all buttons
+                allBtns.forEach(b => b.classList.add('disabled'));
+
+                if (isCorrect) {
+                    correctCount++;
+                    btn.classList.add('selected-correct');
+                    const indicator = document.createElement('span');
+                    indicator.className = 'indicator correct-icon';
+                    indicator.textContent = '✓';
+                    btn.appendChild(indicator);
+                    feedbackArea.classList.add('visible', 'feedback-correct');
+                    feedbackArea.innerHTML =
+                        '<span class="feedback-icon">✅</span> Correct! Well done.';
+                } else {
+                    wrongCount++;
+                    btn.classList.add('selected-wrong');
+                    const indicator = document.createElement('span');
+                    indicator.className = 'indicator wrong-icon';
+                    indicator.textContent = '✗';
+                    btn.appendChild(indicator);
+
+                    // Highlight the correct answer
+                    allBtns.forEach(b => {
+                        const btnText = b.textContent.replace(/[✓✗]/g, '').trim();
+                        if (btnText === questionObj.answer.trim()) {
+                            b.classList.add('show-correct');
+                            const corrInd = document.createElement('span');
+                            corrInd.className = 'indicator correct-icon';
+                            corrInd.textContent = '✓';
+                            b.appendChild(corrInd);
+                        }
+                    });
+
+                    feedbackArea.classList.add('visible', 'feedback-wrong');
+                    feedbackArea.innerHTML =
+                        '<span class="feedback-icon">❌</span> Incorrect. The correct answer is: <strong>' +
+                        escapeHTML(questionObj.answer) + '</strong>';
+                }
+
+                updateStats();
+                nextBtn.disabled = false;
+                nextBtn.focus();
+            }
+
+            function escapeHTML(str) {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+
+            // ─────────────────────────────────────
+            // NEXT QUESTION
+            // ─────────────────────────────────────
+            function nextQuestion() {
+                currentIndex++;
+                if (currentIndex >= totalQuestions) {
+                    showCompletion();
+                } else {
+                    answered = false;
+                    feedbackArea.classList.remove('visible', 'feedback-correct', 'feedback-wrong');
+                    feedbackArea.innerHTML = '';
+                    nextBtn.disabled = true;
+                    renderQuestion();
+                    document.getElementById('questionNumber').scrollIntoView({ behavior: 'smooth',
+                        block: 'start' });
+                }
+            }
+
+            // ─────────────────────────────────────
+            // SHOW COMPLETION SCREEN
+            // ─────────────────────────────────────
+            function showCompletion() {
+                quizArea.classList.add('hidden');
+                completionScreen.classList.remove('hidden');
+                finalCorrect.textContent = correctCount;
+                finalWrong.textContent = wrongCount;
+                const pct = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
+                finalPercent.textContent = pct + '%';
+
+                if (pct >= 90) {
+                    completionEmoji.textContent = '🏆';
+                    completionTitle.textContent = 'Outstanding!';
+                } else if (pct >= 75) {
+                    completionEmoji.textContent = '🎉';
+                    completionTitle.textContent = 'Great job!';
+                } else if (pct >= 50) {
+                    completionEmoji.textContent = '👍';
+                    completionTitle.textContent = 'Good effort!';
+                } else {
+                    completionEmoji.textContent = '📚';
+                    completionTitle.textContent = 'Keep practicing!';
+                }
+                updateProgress();
+                updateStats();
+                completionScreen.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            // ─────────────────────────────────────
+            // UPDATE STATS & PROGRESS
+            // ─────────────────────────────────────
+            function updateStats() {
+                correctCountEl.textContent = correctCount;
+                wrongCountEl.textContent = wrongCount;
+                const remaining = totalQuestions - currentIndex - (answered ? 1 : 0);
+                remainingCountEl.textContent = Math.max(0, remaining);
+                totalCountEl.textContent = totalQuestions;
+            }
+
+            function updateProgress() {
+                const done = correctCount + wrongCount;
+                const pct = totalQuestions > 0 ? Math.round((done / totalQuestions) * 100) : 0;
+                progressFill.style.width = pct + '%';
+                progressPercent.textContent = pct + '%';
+            }
+
+            // ─────────────────────────────────────
+            // THEME TOGGLE
+            // ─────────────────────────────────────
+            function applyTheme(isDark) {
+                if (isDark) {
+                    document.body.classList.remove('light-mode');
+                    themeLabel.textContent = 'Dark';
+                    themeToggle.querySelector('.icon').textContent = '🌙';
+                } else {
+                    document.body.classList.add('light-mode');
+                    themeLabel.textContent = 'Light';
+                    themeToggle.querySelector('.icon').textContent = '☀️';
+                }
+                localStorage.setItem('mcq-dark-mode', isDark ? 'dark' : 'light');
+            }
+
+            function toggleTheme() {
+                const isDark = !document.body.classList.contains('light-mode');
+                applyTheme(!isDark);
+            }
+
+            // Load saved theme preference
+            const savedTheme = localStorage.getItem('mcq-dark-mode');
+            if (savedTheme === 'light') {
+                applyTheme(false);
+            } else {
+                applyTheme(true); // default dark
+            }
+
+            // ─────────────────────────────────────
+            // EVENT LISTENERS
+            // ─────────────────────────────────────
+            nextBtn.addEventListener('click', nextQuestion);
+            themeToggle.addEventListener('click', toggleTheme);
+            restartBtn.addEventListener('click', () => {
+                initQuiz();
+                document.getElementById('questionNumber').scrollIntoView({ behavior: 'smooth',
+                    block: 'start' });
+            });
+            restartBtn2.addEventListener('click', () => {
+                initQuiz();
+                document.getElementById('questionNumber').scrollIntoView({ behavior: 'smooth',
+                    block: 'start' });
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    if (!nextBtn.disabled && document.activeElement !== nextBtn) {
+                        if (answered || document.activeElement === document.body || !document
+                            .activeElement.classList.contains('option-btn')) {
+                            e.preventDefault();
+                            nextQuestion();
+                        }
+                    }
+                }
+                if (!answered && e.key >= '1' && e.key <= '4') {
+                    const idx = parseInt(e.key) - 1;
+                    const btns = optionsList.querySelectorAll('.option-btn');
+                    if (btns[idx]) {
+                        e.preventDefault();
+                        btns[idx].click();
+                    }
+                }
+            });
+
+            // ─────────────────────────────────────
+            // START THE QUIZ
+            // ─────────────────────────────────────
+            totalCountEl.textContent = allQuestions.length;
+            initQuiz();
+        })();
+    </script>
+</body>
+</html>

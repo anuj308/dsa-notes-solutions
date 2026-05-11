@@ -1849,4 +1849,300 @@ Website sees ISP public IP shared by many customers.
 > Simple answer: **The world cannot directly see private IPs. It sees a public IP after NAT.**
 
 
-<!--  -->
+---
+
+## Subnet, Subnetting, and Subnetwork
+
+A subnet or subnetwork is a smaller network created from a bigger network.
+
+Subnetting means dividing one large network into smaller parts.
+
+### Why Subnetting Is Used
+
+- To organize network properly.
+- To separate public and private resources.
+- To improve security.
+- To reduce unnecessary network traffic.
+- To manage IP addresses better.
+
+### Simple Example
+
+Big network:
+
+```text
+10.0.0.0/16
+```
+
+Can be divided into smaller subnets:
+
+```text
+10.0.1.0/24
+10.0.2.0/24
+10.0.3.0/24
+```
+
+Example use:
+- `10.0.1.0/24` = public subnet
+- `10.0.2.0/24` = private app subnet
+- `10.0.3.0/24` = private database subnet
+
+> Simple idea: **Subnetting divides a big network into smaller networks.**
+
+---
+
+## CIDR
+
+CIDR means **Classless Inter-Domain Routing**.
+
+CIDR is a way to write IP address ranges.
+
+Example:
+
+```text
+192.168.1.0/24
+```
+
+Here:
+- `192.168.1.0` is the network address.
+- `/24` tells how many bits are fixed for the network.
+
+### Common CIDR Examples
+
+| CIDR | Approx IP count | Simple use |
+|------|-----------------|------------|
+| `/16` | 65,536 IPs | Large network/VPC. |
+| `/24` | 256 IPs | Common subnet size. |
+| `/28` | 16 IPs | Small subnet. |
+| `/32` | 1 IP | Single IP address. |
+
+### Important Point
+
+Smaller CIDR number means bigger network.
+
+Example:
+- `/16` has more IPs than `/24`.
+- `/24` has more IPs than `/28`.
+
+---
+
+## DNS Resolution
+
+DNS means **Domain Name System**.
+
+DNS converts domain name into IP address.
+
+Example:
+
+```text
+google.com -> 142.250.x.x
+```
+
+### DNS Resolution Flow
+
+When you open `google.com`:
+
+1. Browser checks its cache.
+2. Operating system checks DNS cache.
+3. Request goes to DNS resolver, usually ISP or public DNS like Google DNS.
+4. Resolver asks root DNS server.
+5. Root server points to `.com` DNS server.
+6. `.com` server points to Google's DNS server.
+7. Google's DNS server returns IP address.
+8. Browser connects to that IP.
+
+Simple flow:
+
+```text
+Domain name -> DNS lookup -> IP address -> website request
+```
+
+---
+
+## OSI Model and TCP/IP Layers
+
+<img src="image-45.png" alt="OSI and TCP IP layers diagram" width="720">
+<img src="image-44.png" alt="network layers diagram" width="720">
+
+OSI model has 7 layers. TCP/IP model is the practical model used on the internet.
+
+### OSI vs TCP/IP
+
+| OSI Layer | TCP/IP Layer | Example |
+|-----------|--------------|---------|
+| Application, Presentation, Session | Application | HTTP, DNS, SSH, FTP |
+| Transport | Transport | TCP, UDP |
+| Network | Internet | IP, routing |
+| Data Link, Physical | Network Access | Ethernet, Wi-Fi, cables |
+
+### Simple Request Flow
+
+When opening a website:
+
+```text
+HTTP request -> TCP port 443 -> IP address -> Ethernet/Wi-Fi -> internet
+```
+
+### Common Protocols
+
+| Protocol | Layer | Use |
+|----------|-------|-----|
+| HTTP/HTTPS | Application | Website access. |
+| DNS | Application | Domain to IP conversion. |
+| SSH | Application | Remote server login. |
+| TCP | Transport | Reliable connection. |
+| UDP | Transport | Fast connection, no guarantee. |
+| IP | Internet/Network | Addressing and routing. |
+
+---
+
+## Virtual Private Cloud - VPC
+
+A VPC means **Virtual Private Cloud**.
+
+It is your private network inside AWS.
+
+Inside a VPC, you can create:
+- Subnets.
+- EC2 instances.
+- Route tables.
+- Internet gateway.
+- NAT gateway.
+- Security groups.
+- NACLs.
+- Load balancers.
+
+Example VPC CIDR:
+
+```text
+10.0.0.0/16
+```
+
+> Simple idea: **VPC is like your own private data center network inside AWS.**
+
+---
+
+## Public Gateway / Internet Gateway
+
+In AWS, the correct name is usually **Internet Gateway**, not public gateway.
+
+An Internet Gateway allows resources in a VPC to connect to the internet.
+
+For an EC2 instance to be public:
+- It must be in a public subnet.
+- It must have a public IP or Elastic IP.
+- Route table must have route to Internet Gateway.
+- Security group must allow required traffic.
+
+Route table example:
+
+```text
+0.0.0.0/0 -> Internet Gateway
+```
+
+`0.0.0.0/0` means all IPv4 internet traffic.
+
+---
+
+## Public Subnet and Private Subnet
+
+### Public Subnet
+
+A public subnet is a subnet that has a route to Internet Gateway.
+
+Used for:
+- Public web servers.
+- Load balancers.
+- Bastion host.
+
+### Private Subnet
+
+A private subnet does not have a direct route to Internet Gateway.
+
+Used for:
+- Databases.
+- Backend app servers.
+- Internal services.
+
+### Difference
+
+| Subnet type | Internet route | Common resources |
+|-------------|----------------|------------------|
+| Public subnet | Has route to Internet Gateway | Load balancer, public EC2 |
+| Private subnet | No direct route to Internet Gateway | Database, backend EC2 |
+
+> Simple idea: **Public subnet can be reached from internet if rules allow. Private subnet is kept internal.**
+
+---
+
+## Load Balancer
+
+A load balancer distributes traffic across multiple servers.
+
+Example:
+
+```text
+Users -> Load Balancer -> EC2-1 / EC2-2 / EC2-3
+```
+
+### Why Load Balancer Is Used
+
+- Handles more traffic.
+- Improves availability.
+- Sends traffic only to healthy instances.
+- Helps avoid single server failure.
+- Can handle HTTPS certificates.
+
+### AWS Common Load Balancers
+
+| Type | Use |
+|------|-----|
+| Application Load Balancer | HTTP/HTTPS web traffic. |
+| Network Load Balancer | Very fast TCP/UDP traffic. |
+| Gateway Load Balancer | Security appliances/firewalls. |
+
+---
+
+## NACL and Security Group
+
+<img src="image-46.png" alt="NACL and security group diagram" width="720">
+<img src="47.png" alt="VPC networking diagram" width="720">
+
+Both NACL and Security Group are used to control network traffic in AWS.
+
+### Security Group
+
+Security group works at EC2/network interface level.
+
+Important points:
+- Stateful.
+- Rules are only allow rules.
+- If inbound request is allowed, response is automatically allowed.
+- Commonly attached to EC2, load balancer, RDS, etc.
+
+Example:
+- Allow HTTP port 80 from internet.
+- Allow SSH port 22 only from your IP.
+
+### NACL
+
+NACL means **Network Access Control List**.
+
+NACL works at subnet level.
+
+Important points:
+- Stateless.
+- Has allow and deny rules.
+- Inbound and outbound rules are checked separately.
+- Applies to all resources inside that subnet.
+
+### Security Group vs NACL
+
+| Feature | Security Group | NACL |
+|---------|----------------|------|
+| Level | Instance/network interface | Subnet |
+| State | Stateful | Stateless |
+| Rules | Allow only | Allow and deny |
+| Return traffic | Automatically allowed | Must be allowed separately |
+| Common use | Instance level protection | Subnet level protection |
+
+> Simple idea: **Security group protects instance. NACL protects subnet.**
