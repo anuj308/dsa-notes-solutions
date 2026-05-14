@@ -1121,14 +1121,29 @@ EC2 uses EBS volumes for storage.
 
 EBS means **Elastic Block Store**. It works like a virtual hard disk attached to EC2.
 
+EBS is block storage. It is commonly used as the disk for EC2 instances.
+
 ### Important Points
 - Root volume contains operating system files.
 - Extra volumes can be attached for application data.
 - Volumes are shown under EC2 -> Storage.
 - If **Delete on termination** is enabled, volume is deleted when EC2 is terminated.
 - If **Delete on termination** is disabled, volume remains even after EC2 termination.
+- EBS volume and EC2 instance should be in the same Availability Zone.
 
 > For important data, do not delete the volume when terminating EC2.
+
+### EBS Volume Types
+
+| EBS type | Simple use |
+|----------|------------|
+| General Purpose SSD | Normal applications, boot volume, websites. |
+| Provisioned IOPS SSD | High I/O applications like large databases. |
+| Throughput Optimized HDD | Big data, log processing, large sequential reads/writes. |
+| Cold HDD | Low-cost storage for less frequently accessed data. |
+| Magnetic | Older, low-cost previous generation storage. |
+
+> Simple idea: **EBS is like a hard disk for EC2.**
 
 ---
 
@@ -2251,4 +2266,257 @@ Private EC2 -> NAT Gateway -> Internet
 
 > Simple idea: **Public subnet exposes only required entry points like load balancer and bastion host. Application servers stay inside private subnets.**
 
+---
 
+## Storage Services in AWS
+
+AWS provides different storage services for different types of data.
+
+Main AWS storage services:
+- **EBS** - block storage for EC2.
+- **EFS** - file system storage shared by multiple servers.
+- **S3** - object storage for files, backups, images, videos, and static websites.
+
+---
+
+## Types of Storage
+
+### 1. Block Storage
+
+Block storage stores data in fixed-size blocks.
+
+It works like a hard disk or SSD attached to a server.
+
+AWS example:
+- **EBS - Elastic Block Store**
+
+Used for:
+- EC2 root volume.
+- Database storage.
+- Application data.
+
+> Simple idea: **Block storage is like a disk attached to one EC2 instance.**
+
+### 2. File System Based Storage
+
+File storage stores data as files and folders.
+
+Multiple servers can share the same file system.
+
+AWS example:
+- **EFS - Elastic File System**
+
+Used for:
+- Shared application files.
+- Common upload folder.
+- Multiple EC2 instances needing same files.
+
+> Simple idea: **File storage is like a shared folder for many servers.**
+
+### 3. Object Based Storage
+
+Object storage stores data as objects inside buckets.
+
+Each object contains:
+- File/data.
+- Metadata.
+- Unique key/name.
+
+AWS example:
+- **S3 - Simple Storage Service**
+
+Used for:
+- Images and videos.
+- Backups.
+- Logs.
+- Static website hosting.
+- Large files.
+
+> Simple idea: **Object storage is best for storing files, not for installing OS.**
+
+---
+
+## EBS - Elastic Block Store
+
+EBS is the storage volume used with EC2.
+
+When we create an EC2 instance, AWS creates a root EBS volume for the operating system.
+
+We can also create extra EBS volumes and attach them to EC2.
+
+### EBS Volume Types
+
+| Type | Use |
+|------|-----|
+| General Purpose SSD | Normal use, boot volume, small/medium applications. |
+| Provisioned IOPS SSD | High input/output apps like databases. |
+| Throughput Optimized HDD | Big data, logs, large data processing. |
+| Cold HDD | Low-cost storage for rarely accessed data. |
+| Magnetic | Older and cheaper previous generation storage. |
+
+### Create and Attach EBS Volume to EC2
+
+Steps:
+- Go to EC2 dashboard.
+- Open **Elastic Block Store -> Volumes**.
+- Create a new volume.
+- Select size, type, and same Availability Zone as EC2.
+- Attach the volume to EC2 instance.
+- Connect to EC2 using SSH.
+- Format the volume if it is new.
+- Mount the volume to a folder.
+
+### Mounting
+
+Mounting means connecting a storage volume to a folder in Linux.
+
+After mounting, we can read and write data through that folder.
+
+Example idea:
+
+```text
+EBS volume -> mounted to /data -> application reads/writes files
+```
+
+> Simple idea: **Mounting is like creating a door between Linux folder and storage disk.**
+
+### Disk and Mount Commands
+
+Show all disks attached to the system:
+
+```bash
+sudo fdisk -l
+```
+
+Show mounted file systems and free space:
+
+```bash
+df -h
+```
+
+Show block devices in simple tree format:
+
+```bash
+lsblk
+```
+
+### Common File Systems
+
+| File system | Common use |
+|-------------|------------|
+| NTFS | Windows disk. |
+| FAT/FAT32/exFAT | Pen drive or cross-platform storage. |
+| ext4 | Common Linux file system. |
+| XFS | Linux file system, often used for large storage. |
+
+### Create Partition
+
+Use `fdisk` to create/manage partitions on a disk.
+
+Example:
+
+```bash
+sudo fdisk /dev/nvme1n1
+```
+
+Inside `fdisk`, common keys:
+- `n` - create new partition.
+- `p` - print partition table.
+- `w` - write changes and exit.
+- `q` - quit without saving.
+
+> Be careful: wrong disk selection can delete data.
+
+### Format the Disk
+
+Formatting creates a file system on the disk/partition.
+
+Example for ext4:
+
+```bash
+sudo mkfs.ext4 /dev/nvme1n1
+```
+
+If a partition is created, format the partition name:
+
+```bash
+sudo mkfs.ext4 /dev/nvme1n1p1
+```
+
+> Note: Formatting deletes existing data on that disk/partition.
+
+### Temporary Mount
+
+Temporary mount works until reboot.
+
+Create a folder:
+
+```bash
+sudo mkdir /data
+```
+
+Mount disk/partition to folder:
+
+```bash
+sudo mount /dev/nvme1n1 /data
+```
+
+Or if partition exists:
+
+```bash
+sudo mount /dev/nvme1n1p1 /data
+```
+
+Unmount:
+
+```bash
+sudo umount /data
+```
+
+### Permanent Mount
+
+Permanent mount means disk automatically mounts after reboot.
+
+Step 1: Get UUID of disk/partition:
+
+```bash
+sudo blkid
+```
+
+Example output idea:
+
+```text
+/dev/nvme1n1: UUID="abcd-1234" TYPE="ext4"
+```
+
+Step 2: Create mount folder:
+
+```bash
+sudo mkdir /data
+```
+
+Step 3: Edit `/etc/fstab`:
+
+```bash
+sudo nano /etc/fstab
+```
+
+Step 4: Add this line:
+
+```text
+UUID=abcd-1234 /data ext4 defaults,nofail 0 2
+```
+
+Step 5: Test mount:
+
+```bash
+sudo mount -a
+```
+
+Step 6: Check:
+
+```bash
+df -h
+```
+
+> Simple idea: **Temporary mount uses `mount` command. Permanent mount uses `/etc/fstab`.**
