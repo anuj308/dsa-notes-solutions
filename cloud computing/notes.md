@@ -2146,3 +2146,109 @@ Important points:
 | Common use | Instance level protection | Subnet level protection |
 
 > Simple idea: **Security group protects instance. NACL protects subnet.**
+
+---
+
+## AWS VPC Application Architecture
+
+<img src="image-49.png" alt="AWS VPC application architecture" width="720">
+
+This architecture is used to deploy an application securely inside a VPC.
+
+### Basic Design
+
+- Create one VPC for the application.
+- Create 4 subnets:
+  - 2 public subnets.
+  - 2 private subnets.
+- Place subnets in 2 different Availability Zones.
+- If one Availability Zone goes down, the application can still run from the other Availability Zone.
+
+> Note: A subnet belongs to one Availability Zone. For multi-region deployment, create separate VPCs in different AWS regions.
+
+### Internet Gateway
+
+- Create an Internet Gateway.
+- Attach the Internet Gateway to the VPC.
+- Create or update the public route table.
+- Add this route in the public route table:
+
+```text
+0.0.0.0/0 -> Internet Gateway
+```
+
+- Associate the public route table with public subnets.
+- Resources in public subnets can connect to the internet if security group rules allow it.
+
+### NAT Gateway
+
+- NAT Gateway is created in a public subnet.
+- Private subnets use NAT Gateway to access the internet.
+- Private EC2 instances can download packages and updates from the internet.
+- Internet users cannot directly connect to private EC2 instances through NAT Gateway.
+
+Private subnet route table example:
+
+```text
+0.0.0.0/0 -> NAT Gateway
+```
+
+> Simple idea: **Internet Gateway is for public subnet internet access. NAT Gateway is for private subnet outbound internet access.**
+
+---
+
+## Bastion Host for Private EC2 Access
+
+<img src="image-50.png" alt="Bastion host architecture" width="720">
+
+A bastion host is an EC2 instance in the public subnet.
+
+It is used to connect to EC2 instances in private subnets.
+
+### Bastion Host Setup
+
+- Launch bastion host EC2 in public subnet.
+- Give it a public IP or Elastic IP.
+- Bastion security group should allow SSH only from your IP.
+- Private EC2 security group should allow SSH only from bastion host security group.
+
+Security group flow:
+
+```text
+Your laptop IP -> Bastion host -> Private EC2
+```
+
+### Copy PEM File to Bastion Host
+
+For practice/lab, you can copy the private EC2 key to bastion host:
+
+```bash
+scp -i "test1.pem" "test1.pem" ubuntu@public-ip:/home/ubuntu
+```
+
+Then connect to bastion host:
+
+```bash
+ssh -i "test1.pem" ubuntu@public-ip
+```
+
+Inside bastion host, set permission and connect to private EC2:
+
+```bash
+chmod 400 test1.pem
+ssh -i "test1.pem" ubuntu@private-ip
+```
+
+> Important: In real projects, avoid copying PEM/private keys to servers. Prefer SSH agent forwarding, Session Manager, or a secure access tool.
+
+### Final Flow
+
+```text
+User -> Load Balancer -> App EC2 in private subnet
+Admin -> Bastion Host -> Private EC2
+Private EC2 -> NAT Gateway -> Internet
+```
+
+> Simple idea: **Public subnet exposes only required entry points like load balancer and bastion host. Application servers stay inside private subnets.**
+
+
