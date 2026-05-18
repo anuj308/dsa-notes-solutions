@@ -2722,3 +2722,225 @@ Standby/Secondary RDS database in another AZ
 | Backups protect data | Useful for restore and disaster recovery. |
 
 > Simple idea: **Use RDS when you need a managed relational database with backup, security, monitoring, and high availability options.**
+
+
+## Monolithic vs Microservices
+
+A software application can be designed as one large application or as many small independent services.
+
+### Monolithic Architecture
+
+A monolithic application keeps most features in one codebase and deploys them together.
+
+Example:
+
+```text
+Frontend + User logic + Payment logic + Order logic + Database logic
+                    |
+             One big application
+```
+
+| Point | Detail |
+|-------|--------|
+| Codebase | Usually one large codebase. |
+| Deployment | Whole application is deployed together. |
+| Scaling | Scale the full application even if only one part needs more resources. |
+| Debugging | Easier in small projects, harder as app grows. |
+| Best for | Small apps, simple projects, early-stage products. |
+
+### Microservices Architecture
+
+Microservices split the application into small services. Each service handles one business function.
+
+Example:
+
+```text
+User service -> user data
+Order service -> order data
+Payment service -> payment data
+Notification service -> emails/SMS
+```
+
+| Point | Detail |
+|-------|--------|
+| Codebase | Multiple small services. |
+| Deployment | Each service can be deployed independently. |
+| Scaling | Scale only the service that needs more capacity. |
+| Communication | Services communicate using API, queues, or events. |
+| Best for | Large applications, teams, and systems needing independent scaling. |
+
+### Monolithic vs Microservices
+
+| Feature | Monolithic | Microservices |
+|---------|------------|---------------|
+| Structure | One large application | Many small services |
+| Deployment | Deploy everything together | Deploy services separately |
+| Scaling | Scale whole app | Scale selected services |
+| Development | Simple at start | Better for large teams |
+| Failure impact | One bug can affect whole app | Failure can be isolated to one service |
+| Complexity | Less distributed complexity | More network, monitoring, and deployment complexity |
+
+> Simple idea: **Monolithic is one big app. Microservices are many small apps working together.**
+
+---
+
+## AWS Lambda
+
+AWS Lambda is a **serverless compute service**.
+
+It runs code without creating or managing servers like EC2.
+
+Lambda is also **trigger based**, meaning it runs when an event happens.
+
+> Simple idea: **Lambda runs code only when needed.**
+
+### What is a Lambda Function?
+
+A Lambda function is a small piece of code deployed to AWS Lambda.
+
+It contains:
+- Code.
+- Runtime, like Python, Node.js, Java, Go, etc.
+- Handler function.
+- IAM role/permissions.
+- Memory and timeout settings.
+- Trigger or event source.
+
+Example idea:
+
+```text
+Event happens -> Lambda function runs -> Task completed
+```
+
+### Lambda vs EC2
+
+| Feature | AWS Lambda | EC2 |
+|---------|------------|-----|
+| Compute type | Serverless compute | Virtual server |
+| Server management | AWS manages servers | User manages instance |
+| Running time | Runs only when triggered | Runs continuously until stopped |
+| Billing | Pay per request and execution time | Pay for instance running time |
+| Scaling | Automatically scales | Need auto scaling configuration |
+| Best for | Event-based tasks, APIs, automation | Long-running apps, full server control |
+
+> Simple idea: **EC2 is like renting a server. Lambda is like running code only when an event happens.**
+
+### Why Use Lambda?
+
+| Reason | Detail |
+|--------|--------|
+| No server management | No need to patch, maintain, or scale servers manually. |
+| Cost optimization | Good for workloads that run sometimes, not continuously. |
+| Automatic scaling | Lambda can run many function instances in parallel. |
+| Event driven | Works well with S3, API Gateway, DynamoDB, SQS, EventBridge, etc. |
+| Fast development | Useful for small backend tasks and automation. |
+
+### Lambda Triggers
+
+A trigger is an AWS service or event that starts a Lambda function.
+
+| Trigger | Example use |
+|---------|-------------|
+| API Gateway | Create REST API or backend endpoint. |
+| S3 | Run code when a file is uploaded to a bucket. |
+| DynamoDB Streams | Run code when database records change. |
+| SQS | Process messages from a queue. |
+| SNS | Process notification events. |
+| EventBridge / CloudWatch Events | Run scheduled jobs like cron. |
+| Application Load Balancer | Send web requests to Lambda. |
+
+Example:
+
+```text
+User uploads image to S3
+        |
+S3 triggers Lambda
+        |
+Lambda resizes image
+        |
+Lambda stores output image back in S3
+```
+
+### How to Create Lambda Function
+
+Basic steps:
+- Open AWS Lambda service.
+- Click **Create function**.
+- Choose **Author from scratch**.
+- Enter function name.
+- Select runtime, like Python or Node.js.
+- Create or select IAM execution role.
+- Write or upload code.
+- Configure memory and timeout.
+- Add trigger, like S3, API Gateway, or EventBridge.
+- Test the function with sample event.
+- Monitor logs in CloudWatch.
+
+### Important Lambda Settings
+
+| Setting | Meaning |
+|---------|---------|
+| Runtime | Programming language environment. |
+| Handler | Function entry point AWS calls. |
+| Memory | RAM allocated to Lambda. More memory can also give more CPU power. |
+| Timeout | Maximum execution time allowed. |
+| IAM role | Permissions Lambda needs to access AWS services. |
+| Environment variables | Key-value configuration values. |
+| Layers | Shared libraries or dependencies used by functions. |
+| Concurrency | Number of function executions that can run at the same time. |
+
+### Common Lambda Use Cases
+
+| Use case | Example |
+|----------|---------|
+| Serverless API | API Gateway -> Lambda -> DynamoDB/RDS |
+| File processing | S3 upload -> Lambda -> image/video/document processing |
+| Automation | Start/stop resources, cleanup old files, send alerts |
+| Scheduled tasks | EventBridge schedule -> Lambda runs daily/hourly |
+| Queue processing | SQS -> Lambda processes messages |
+| Notifications | SNS/EventBridge -> Lambda sends email/SMS/update |
+| Data processing | Process logs, streams, and events |
+
+### Lambda Cost Optimization
+
+Lambda can reduce cost because it runs only when needed.
+
+| Cost factor | Meaning |
+|-------------|---------|
+| Number of requests | More invocations means more cost. |
+| Execution duration | Longer-running functions cost more. |
+| Memory size | More memory can increase cost but may reduce duration. |
+| Data transfer | Moving data between services/Regions can add cost. |
+| Provisioned concurrency | Keeping Lambda warm for low latency can add cost. |
+
+Best for cost optimization:
+- Infrequent jobs.
+- Event-driven background tasks.
+- Scheduled automation.
+- APIs with variable traffic.
+- Processing only when data arrives.
+
+### Lambda Limitations
+
+| Limitation | Detail |
+|------------|--------|
+| Not for all long-running jobs | Lambda has maximum execution time limits. |
+| Cold start | First request after idle time may be slower. |
+| Stateless | Function should not depend on local stored state. |
+| Package size limits | Large dependencies need careful packaging/layers. |
+| Debugging | Distributed logs and events need good monitoring. |
+
+### Lambda with Other AWS Services
+
+| Service | Lambda usage |
+|---------|--------------|
+| S3 | Process files after upload. |
+| API Gateway | Build serverless APIs. |
+| DynamoDB | Process database stream changes. |
+| SQS | Process queue messages. |
+| SNS | React to notifications. |
+| EventBridge | Run scheduled or event-based automation. |
+| CloudWatch | Store logs and monitor metrics. |
+| IAM | Give secure permissions to Lambda. |
+
+> Simple idea: **Lambda is best when code should run because something happened.**
