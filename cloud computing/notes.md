@@ -2520,3 +2520,205 @@ df -h
 ```
 
 > Simple idea: **Temporary mount uses `mount` command. Permanent mount uses `/etc/fstab`.**
+
+![alt text](image-52.png)
+
+## S3 - Simple Storage Service
+
+![alt text](image-51.png)
+![alt text](image-53.png)
+
+Amazon S3 is an **object storage service** used to store files, images, videos, backups, logs, and static website content.
+
+S3 is managed by AWS, so we do not need to manage disks, partitions, mounting, or manual scaling.
+
+> Simple idea: **S3 is like unlimited online storage for objects/files.**
+
+### S3 Main Points
+
+| Point | Short detail |
+|------|--------------|
+| Full form | Simple Storage Service |
+| Storage type | Object storage |
+| Scope | Region specific |
+| Data design | Data is distributed across multiple Availability Zones in a Region, depending on storage class. |
+| Scaling | Managed automatically by AWS. |
+| Pricing | Pay for what you store and use. |
+| Bucket rule | We can create many buckets, but we cannot create a bucket inside another bucket. |
+| Access | Accessed using HTTP/HTTPS, AWS Console, AWS CLI, SDK, or API. |
+
+### Bucket Structure
+
+| Bucket part | Meaning |
+|-------------|---------|
+| Bucket name / bucket ID | Unique name of the bucket. |
+| Object data | Actual file content, like image, video, backup, log, or document. |
+| Object key | Unique object name/path inside the bucket. |
+| Metadata | Extra information about the object, like content type, size, and custom tags. |
+
+Example:
+
+```text
+bucket
+{
+  bucket name,
+  objects/data,
+  object keys,
+  metadata
+}
+```
+
+### S3 vs EBS
+
+| Feature | S3 | EBS |
+|---------|----|-----|
+| Storage type | Object storage | Block storage |
+| Scope | Region level service | Availability Zone level service |
+| Used for | Files, images, videos, backups, logs, static websites | EC2 root volume, application disk, database disk |
+| Attach/mount | Cannot be mounted as a normal EC2 disk | Can be attached and mounted to EC2 |
+| Access method | HTTP/HTTPS, API, CLI, SDK | Linux file system after mounting |
+| Scaling | Automatically managed by AWS | User selects and manages volume size/type |
+| Cost idea | Pay for stored data and requests | Pay for provisioned volume size and type |
+
+> Simple idea: **S3 is for storing objects. EBS is like a hard disk for EC2.**
+
+### S3 Access vs EBS Access
+
+| Topic | S3 | EBS |
+|-------|----|-----|
+| Access from application | Use S3 URL/API/SDK/CLI. | Read/write from mounted folder. |
+| Website hosting | Easy for static websites. | Need EC2 web server like Apache or Nginx. |
+| EC2 dependency | Does not need EC2. | Commonly attached to EC2. |
+| Mounting | Not mounted like a normal disk. | Mounted to a Linux directory. |
+
+### S3 Storage Classes / Types
+
+| Storage class | Short detail | Availability design |
+|---------------|--------------|---------------------|
+| S3 Standard | Default class for frequently accessed data. | Stores data across minimum 3 Availability Zones. |
+| S3 Standard-IA | Infrequent Access; for data accessed less often but needed quickly. | Stores data across minimum 3 Availability Zones. |
+| S3 One Zone-IA | Lower cost infrequent access storage in one Availability Zone. | Stores data in 1 Availability Zone. |
+| S3 Intelligent-Tiering | Automatically moves data between access tiers based on usage. | Multi-AZ design. |
+| S3 Glacier Instant Retrieval | Archive storage with milliseconds retrieval for rarely accessed data. | Multi-AZ design. |
+
+> Simple idea: **Choose S3 storage class based on how often data is accessed and how quickly it must be retrieved.**
+
+### More Important S3 Storage Classes
+
+| Storage class | Best for | Retrieval |
+|---------------|----------|-----------|
+| S3 Standard | Frequently accessed data. | Immediate |
+| S3 Standard-IA | Data accessed less often but still needed quickly. | Immediate |
+| S3 One Zone-IA | Infrequent data that can be recreated if one AZ fails. | Immediate |
+| S3 Intelligent-Tiering | Data with unknown or changing access patterns. | Automatic tier movement |
+| S3 Glacier Instant Retrieval | Archive data that still needs instant access. | Milliseconds |
+| S3 Glacier Flexible Retrieval | Low-cost archive data. | Minutes to hours |
+| S3 Glacier Deep Archive | Lowest-cost long-term archive data. | Hours |
+
+### S3 Charges
+
+S3 pricing depends on how much data is stored, how often it is accessed, storage class, and data movement.
+
+| Charge factor | Meaning |
+|---------------|---------|
+| Amount of data stored | More GB/TB stored means more storage cost. |
+| Number of requests | PUT, GET, LIST, COPY, and other requests can add cost. |
+| Storage class / tier | Standard costs more than archive classes, but gives faster access. |
+| Data transfer | Data transfer out of AWS or across Regions can cost extra. |
+| Region replication | Cross-Region Replication stores copied data in another Region and may add transfer + storage charges. |
+| Lifecycle transitions | Moving objects between storage classes may have transition request charges. |
+
+> Simple idea: **S3 cost = storage amount + request count + storage class + data transfer.**
+
+![alt text](image-54.png)
+
+
+## AWS RDS - Relational Database Service
+
+AWS RDS is a managed database service for relational databases.
+
+RDS helps us create, run, backup, monitor, and scale databases without manually managing database servers.
+
+Supported database engines:
+- MySQL
+- PostgreSQL
+- MariaDB
+- Oracle
+- SQL Server
+- Amazon Aurora
+
+> Simple idea: **RDS is a managed database service. AWS handles a lot of database administration work.**
+
+![alt text](image-55.png)
+
+### Why RDS is Important
+
+| Feature | Short detail |
+|---------|--------------|
+| Managed service | AWS manages database setup, patching, backups, and maintenance. |
+| High availability | RDS can run with standby database in another Availability Zone. |
+| Automated backups | RDS can automatically take backups and allow point-in-time recovery. |
+| Read replicas | Extra database copies can be used to handle read traffic. |
+| Security | Supports VPC, security groups, IAM integration, encryption, and database users. |
+| Monitoring | Works with CloudWatch metrics and logs. |
+| Scaling | Instance size and storage can be scaled based on need. |
+
+### RDS High Availability
+
+RDS can be used as a distributed database service for better availability.
+
+In a Multi-AZ deployment:
+- One database is the **primary database**.
+- Another database is the **standby/secondary database**.
+- If the primary fails, AWS can fail over to the standby database.
+- This improves availability and reduces downtime.
+
+```text
+Application
+    |
+Primary RDS database
+    |
+Standby/Secondary RDS database in another AZ
+```
+
+> Simple idea: **Multi-AZ is mainly for high availability, not for increasing read speed.**
+
+### RDS Replica Types
+
+| Replica type | Purpose |
+|--------------|---------|
+| Standby replica / secondary database | Used for failover and high availability. |
+| Read replica | Used to reduce read load from the primary database. |
+
+### Primary vs Secondary Database
+
+| Database | Role |
+|----------|------|
+| Primary database | Main database where application writes data. |
+| Secondary/standby database | Backup live copy used if primary fails. |
+| Read replica | Copy used mainly for read queries. |
+
+### RDS vs Normal Database on EC2
+
+| Feature | RDS | Database on EC2 |
+|---------|-----|-----------------|
+| Setup | Easy and managed by AWS | Manual installation and setup |
+| Backups | Built-in automated backups | Need to configure manually |
+| Patching | AWS helps manage patches | User manages OS and database patches |
+| High availability | Multi-AZ option available | User must design and configure HA |
+| Control | Less OS-level control | Full server control |
+| Best for | Managed production databases | Custom database setup or full control needs |
+
+### Important RDS Points
+
+| Point | Detail |
+|-------|--------|
+| RDS is not serverless by default | We choose database instance type, storage, and engine. |
+| RDS runs inside VPC | It can be placed in private subnets for security. |
+| Public access should usually be off | Production databases should not be open to the internet. |
+| Security group controls access | Only application servers should be allowed to connect. |
+| Multi-AZ gives failover | Good for availability. |
+| Read replica gives read scaling | Good when many users read data. |
+| Backups protect data | Useful for restore and disaster recovery. |
+
+> Simple idea: **Use RDS when you need a managed relational database with backup, security, monitoring, and high availability options.**

@@ -1,0 +1,1970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>DSA RecallForge Pro | Active Recall & Smart Revision</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #06080f;
+            --bg-secondary: #0c1020;
+            --bg-card: rgba(16, 22, 48, 0.75);
+            --border: rgba(60, 100, 255, 0.15);
+            --border-glow: rgba(60, 100, 255, 0.3);
+            --accent: #4a7aff;
+            --accent-glow: #4a7aff66;
+            --accent2: #8b5cf6;
+            --accent3: #06d6a0;
+            --text-primary: #e8edff;
+            --text-secondary: #8899cc;
+            --text-muted: #556688;
+            --easy: #10b981;
+            --medium: #f59e0b;
+            --hard: #ef4444;
+            --radius: 1.2rem;
+            --radius-sm: 0.8rem;
+            --radius-xs: 0.5rem;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 20% 50%, rgba(74,122,255,0.03) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 20%, rgba(139,92,246,0.02) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .container { max-width: 1600px; margin: 0 auto; padding: 1.5rem; position: relative; z-index: 1; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+        /* Glass Card */
+        .glass, .stat-card, .filter-panel, .card, .modal-content, .review-card, .section-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.03);
+            transition: all 0.3s ease;
+        }
+        .glass:hover { border-color: var(--border-glow); box-shadow: 0 8px 40px rgba(74,122,255,0.08), inset 0 1px 0 rgba(255,255,255,0.05); }
+
+        /* Header */
+        .header {
+            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+            margin-bottom: 1.5rem; padding: 1rem 1.5rem;
+            background: var(--bg-card); backdrop-filter: blur(20px);
+            border: 1px solid var(--border); border-radius: var(--radius);
+            gap: 1rem;
+        }
+        .header-left { display: flex; align-items: center; gap: 1rem; }
+        .logo { font-size: 1.6rem; font-weight: 800; background: linear-gradient(135deg, #60a5fa, #a78bfa, #06d6a0); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: -0.02em; }
+        .logo-sub { font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 2px; }
+        .badge { background: rgba(74,122,255,0.15); padding: 0.25rem 0.8rem; border-radius: 40px; font-size: 0.7rem; border: 1px solid rgba(74,122,255,0.2); color: var(--accent); }
+        .action-buttons { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+        /* Buttons */
+        .btn {
+            padding: 0.55rem 1.2rem; border-radius: 40px; border: none;
+            font-weight: 600; font-size: 0.8rem; cursor: pointer;
+            transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 0.5rem;
+            font-family: inherit;
+        }
+        .btn-primary { background: linear-gradient(135deg, #4a7aff, #6c5ce7); color: white; box-shadow: 0 4px 15px rgba(74,122,255,0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(74,122,255,0.4); }
+        .btn-primary:active { transform: translateY(0); }
+        .btn-secondary { background: rgba(255,255,255,0.05); color: var(--text-primary); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: var(--border-glow); }
+        .btn-success { background: linear-gradient(135deg, #06d6a0, #059669); color: white; box-shadow: 0 4px 15px rgba(6,214,160,0.3); }
+        .btn-success:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(6,214,160,0.4); }
+        .btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
+        .btn-sm { padding: 0.35rem 0.9rem; font-size: 0.7rem; }
+        .btn-icon { width: 36px; height: 36px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); }
+        .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.8rem; margin-bottom: 1.2rem; }
+        .stat-card { padding: 1rem; text-align: center; position: relative; overflow: hidden; }
+        .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.3; }
+        .stat-number { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, var(--text-primary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .stat-label { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .stat-icon { font-size: 1.2rem; opacity: 0.3; position: absolute; top: 0.5rem; right: 0.8rem; }
+
+        /* Heatmap */
+        .heatmap-wrap { background: var(--bg-card); border-radius: var(--radius); padding: 1rem; border: 1px solid var(--border); margin-bottom: 1.2rem; }
+        .heatmap-grid { display: flex; gap: 3px; flex-wrap: wrap; }
+        .heat-cell { width: 24px; height: 24px; border-radius: 4px; background: #0f1528; transition: all 0.2s; cursor: pointer; position: relative; }
+        .heat-cell:hover { transform: scale(1.3); z-index: 10; }
+        .heat-cell:hover::after { content: attr(data-title); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: #1a2340; padding: 2px 8px; border-radius: 6px; font-size: 0.6rem; white-space: nowrap; z-index: 20; }
+        .heat-0 { background: #0c1124; }
+        .heat-1 { background: #0f1a3d; }
+        .heat-2 { background: #1a2d6e; }
+        .heat-3 { background: #2a4ab8; }
+        .heat-4 { background: #4a7aff; }
+        .heat-5 { background: #7aa3ff; }
+
+        /* Filter Bar */
+        .filter-bar {
+            display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;
+            padding: 0.8rem 1.2rem; margin-bottom: 1rem;
+            background: var(--bg-card); backdrop-filter: blur(20px);
+            border: 1px solid var(--border); border-radius: var(--radius);
+        }
+        .filter-group { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+        .filter-btn, .pattern-chip {
+            background: rgba(255,255,255,0.04); border: 1px solid transparent;
+            padding: 0.4rem 1rem; border-radius: 40px; color: var(--text-secondary);
+            cursor: pointer; font-size: 0.75rem; transition: all 0.2s; font-family: inherit;
+        }
+        .filter-btn:hover, .pattern-chip:hover { background: rgba(74,122,255,0.1); color: var(--text-primary); }
+        .filter-btn.active, .pattern-chip.active { background: rgba(74,122,255,0.2); border-color: var(--accent); color: var(--accent); }
+        .search-box {
+            background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+            padding: 0.5rem 1rem; border-radius: 40px; min-width: 180px;
+            color: var(--text-primary); font-size: 0.8rem; font-family: inherit;
+            transition: all 0.2s;
+        }
+        .search-box:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 20px rgba(74,122,255,0.1); }
+        .search-box::placeholder { color: var(--text-muted); }
+
+        /* Section Cards */
+        .section-card { padding: 1.2rem; margin-bottom: 1rem; }
+        .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
+
+        /* Cards Grid */
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 1.2rem; }
+
+        /* Card */
+        .card { padding: 1.2rem; display: flex; flex-direction: column; gap: 0.6rem; position: relative; overflow: hidden; }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0; transition: opacity 0.3s; }
+        .card:hover::before { opacity: 0.5; }
+        .card.status-Mastered { border-color: rgba(6,214,160,0.3); }
+        .card.status-Mastered::before { background: linear-gradient(90deg, transparent, #06d6a0, transparent); opacity: 0.3; }
+        .card.status-Forgotten { border-color: rgba(239,68,68,0.3); }
+        .card.status-Weak { border-color: rgba(245,158,11,0.3); }
+
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; }
+        .problem-title { font-size: 1rem; font-weight: 600; line-height: 1.3; flex: 1; }
+        .difficulty {
+            font-size: 0.6rem; padding: 0.15rem 0.6rem; border-radius: 20px;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+            white-space: nowrap; height: fit-content;
+        }
+        .difficulty.easy { background: rgba(16,185,129,0.15); color: var(--easy); border: 1px solid rgba(16,185,129,0.2); }
+        .difficulty.medium { background: rgba(245,158,11,0.15); color: var(--medium); border: 1px solid rgba(245,158,11,0.2); }
+        .difficulty.hard { background: rgba(239,68,68,0.15); color: var(--hard); border: 1px solid rgba(239,68,68,0.2); }
+
+        .card-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+        .topic-badge {
+            font-size: 0.65rem; background: rgba(74,122,255,0.08); border: 1px solid rgba(74,122,255,0.15);
+            border-radius: 20px; padding: 0.15rem 0.6rem; color: var(--text-secondary);
+        }
+        .topic-badge.pattern { background: rgba(139,92,246,0.08); border-color: rgba(139,92,246,0.15); }
+
+        .status-select {
+            background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+            border-radius: 30px; padding: 0.2rem 0.6rem; color: var(--text-primary);
+            font-size: 0.7rem; font-family: inherit; cursor: pointer;
+        }
+        .status-select:focus { outline: none; border-color: var(--accent); }
+        .last-rev { font-size: 0.65rem; color: var(--text-muted); }
+
+        .hidden-blur { filter: blur(5px); transition: filter 0.3s ease; user-select: none; pointer-events: none; }
+        .revealed-section { filter: blur(0); pointer-events: auto; }
+
+        .code-snip {
+            background: rgba(0,0,0,0.4); padding: 0.8rem; border-radius: var(--radius-sm);
+            font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+            white-space: pre-wrap; overflow-x: auto; max-height: 200px;
+            border: 1px solid rgba(255,255,255,0.03); line-height: 1.5;
+        }
+        .code-snip pre { font-family: inherit; margin: 0; }
+        .code-snip .keyword { color: #c792ea; }
+        .code-snip .type { color: #82aaff; }
+        .code-snip .string { color: #c3e88d; }
+        .code-snip .comment { color: #546e7a; font-style: italic; }
+        .code-snip .function { color: #82aaff; }
+        .code-snip .number { color: #f78c6c; }
+
+        .card-actions { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+        .icon-btn {
+            background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+            color: var(--text-secondary); padding: 0.35rem 0.8rem; border-radius: 30px;
+            font-size: 0.7rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+            font-family: inherit; transition: all 0.2s;
+        }
+        .icon-btn:hover { background: rgba(74,122,255,0.1); border-color: var(--accent); color: var(--accent); }
+        .icon-btn.revealed { background: rgba(6,214,160,0.1); border-color: var(--accent3); color: var(--accent3); }
+
+        .confidence { display: flex; align-items: center; gap: 0.4rem; font-size: 0.7rem; color: var(--text-muted); }
+        .conf-slider { -webkit-appearance: none; appearance: none; height: 4px; background: var(--border); border-radius: 10px; outline: none; cursor: pointer; }
+        .conf-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); cursor: pointer; border: 2px solid var(--bg-primary); }
+        .mistake-text { font-size: 0.65rem; color: var(--text-muted); padding: 0.3rem 0.6rem; background: rgba(239,68,68,0.05); border-radius: var(--radius-xs); border-left: 2px solid rgba(239,68,68,0.3); }
+
+        /* Modal */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(16px);
+            align-items: center; justify-content: center; z-index: 1000;
+        }
+        .modal-content { max-width: 700px; width: 92%; padding: 1.5rem; max-height: 90vh; overflow-y: auto; }
+        .modal-content h3 { font-size: 1.1rem; margin-bottom: 1rem; }
+        .form-group { margin-bottom: 0.8rem; }
+        .form-group label { display: block; font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.3rem; font-weight: 500; }
+        textarea, input[type="text"], input[type="number"] {
+            background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+            border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; color: var(--text-primary);
+            width: 100%; font-size: 0.8rem; font-family: inherit;
+            transition: all 0.2s;
+        }
+        textarea:focus, input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 20px rgba(74,122,255,0.1); }
+
+        /* Review Overlay */
+        .review-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3,5,11,0.95); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            z-index: 2000; display: none; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .review-card {
+            width: 92%; max-width: 750px; padding: 2rem; text-align: center;
+            border: 1px solid var(--border); border-radius: var(--radius);
+        }
+        .review-card h2 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .review-hidden {
+            margin: 1.2rem 0; padding: 1.5rem; border-radius: var(--radius);
+            background: rgba(0,0,0,0.3); border: 1px dashed var(--border);
+            min-height: 120px; display: flex; align-items: center; justify-content: center;
+        }
+        .review-hidden.hidden-blur { filter: blur(8px); user-select: none; }
+        .review-controls { display: flex; justify-content: center; gap: 1rem; align-items: center; flex-wrap: wrap; }
+        .review-progress { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.8rem; }
+        .review-timer { font-size: 1.2rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+        /* Recall Modal */
+        .recall-feedback { margin-top: 1rem; padding: 1rem; border-radius: var(--radius-sm); }
+        .recall-feedback.good { background: rgba(6,214,160,0.08); border: 1px solid rgba(6,214,160,0.2); }
+        .recall-feedback.diff { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); }
+
+        /* Charts Row */
+        .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+        .chart-container { padding: 1rem; position: relative; }
+        .chart-container canvas { max-height: 220px; max-width: 100%; }
+
+        /* Toast */
+        .toast {
+            position: fixed; bottom: 20px; right: 20px;
+            background: #1a2340; border: 1px solid var(--border);
+            padding: 0.7rem 1.2rem; border-radius: 40px;
+            font-size: 0.8rem; z-index: 9999;
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .toast.fade-out { animation: fadeOut 0.3s ease forwards; }
+        @keyframes fadeOut { to { opacity: 0; transform: translateY(-10px); } }
+
+        /* Interview Sim */
+        .interview-mode {
+            background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.15);
+            border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem;
+        }
+        .interview-timer { font-size: 2.5rem; font-weight: 800; color: var(--hard); font-variant-numeric: tabular-nums; text-align: center; }
+        .countdown-urgent { color: var(--hard); animation: pulse 1s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .card { animation: fadeIn 0.3s ease; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .charts-row { grid-template-columns: 1fr; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .header { flex-direction: column; align-items: stretch; }
+            .action-buttons { justify-content: center; }
+        }
+        @media (max-width: 600px) {
+            .container { padding: 0.8rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .filter-bar { flex-direction: column; }
+            .search-box { width: 100%; min-width: unset; }
+            .review-card { padding: 1.2rem; }
+        }
+
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        .flex-center { display: flex; align-items: center; gap: 0.5rem; }
+        .gap-1 { gap: 0.5rem; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .text-muted { color: var(--text-muted); }
+        .text-center { text-align: center; }
+        .w-full { width: 100%; }
+
+        /* Confetti-like score indicator */
+        .score-indicator { display: flex; gap: 3px; }
+        .score-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); transition: all 0.3s; }
+        .score-dot.filled { background: var(--accent); box-shadow: 0 0 6px rgba(74,122,255,0.5); }
+        .score-dot.filled.mastered { background: var(--accent3); box-shadow: 0 0 6px rgba(6,214,160,0.5); }
+
+        /* Keyboard shortcut hints */
+        .kbd {
+            display: inline-block; background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+            padding: 1px 6px; border-radius: 4px; font-size: 0.65rem;
+            font-family: 'JetBrains Mono', monospace; color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <div>
+                <div class="logo">⚡ RecallForge Pro</div>
+                <div class="logo-sub">DSA Revision · Active Recall · Interview Ready</div>
+            </div>
+            <span class="badge"><i class="fas fa-database"></i> <span id="totalProblemsCount">0</span> problems</span>
+        </div>
+        <div class="action-buttons">
+            <button id="fastReviewBtn" class="btn btn-primary"><i class="fas fa-bolt"></i> Fast Review</button>
+            <button id="randomForgottenBtn" class="btn btn-secondary"><i class="fas fa-dice-d6"></i> Random Weak</button>
+            <button id="recallTestBtn" class="btn btn-secondary"><i class="fas fa-brain"></i> Recall Test</button>
+            <button id="interviewSimBtn" class="btn btn-danger"><i class="fas fa-gavel"></i> Interview</button>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid" id="statsContainer"></div>
+
+    <!-- Charts Row -->
+    <div class="charts-row">
+        <div class="chart-container glass">
+            <div style="font-size:0.75rem;font-weight:600;margin-bottom:0.5rem;color:var(--text-secondary);"><i class="fas fa-chart-pie"></i> Topic Distribution</div>
+            <canvas id="topicChart"></canvas>
+        </div>
+        <div class="chart-container glass">
+            <div style="font-size:0.75rem;font-weight:600;margin-bottom:0.5rem;color:var(--text-secondary);"><i class="fas fa-chart-bar"></i> Revision Activity</div>
+            <canvas id="activityChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Heatmap -->
+    <div class="heatmap-wrap">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+            <div style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);"><i class="fas fa-calendar-alt"></i> Revision Heatmap (Last 60 Days)</div>
+            <div class="flex-center" style="font-size:0.65rem;color:var(--text-muted);">
+                <span>Less</span>
+                <div style="width:12px;height:12px;border-radius:3px;background:#0c1124;"></div>
+                <div style="width:12px;height:12px;border-radius:3px;background:#1a2d6e;"></div>
+                <div style="width:12px;height:12px;border-radius:3px;background:#2a4ab8;"></div>
+                <div style="width:12px;height:12px;border-radius:3px;background:#4a7aff;"></div>
+                <div style="width:12px;height:12px;border-radius:3px;background:#7aa3ff;"></div>
+                <span>More</span>
+            </div>
+        </div>
+        <div class="heatmap-grid" id="heatmapGrid"></div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <div class="filter-group" id="topicFilters"></div>
+        <div class="filter-group" id="statusFilters"></div>
+        <input type="text" id="searchInput" class="search-box" placeholder="🔍 Search problem...">
+    </div>
+    <div class="filter-group" id="patternChips" style="margin-bottom:0.8rem;gap:0.4rem;"></div>
+
+    <!-- Quick Stats Strip -->
+    <div class="section-card" style="margin-bottom:1rem;padding:0.6rem 1rem;">
+        <div style="display:flex;flex-wrap:wrap;gap:0.8rem;justify-content:space-between;align-items:center;">
+            <div class="flex-center" style="font-size:0.75rem;color:var(--text-secondary);">
+                <span>Sort:</span>
+                <select id="sortSelect" class="status-select" style="font-size:0.7rem;">
+                    <option value="default">Default</option>
+                    <option value="confidence">Confidence ↑</option>
+                    <option value="confidence-desc">Confidence ↓</option>
+                    <option value="name">Name A-Z</option>
+                    <option value="recent">Recently Revised</option>
+                    <option value="oldest">Least Recently Revised</option>
+                </select>
+            </div>
+            <div class="flex-center" style="font-size:0.7rem;color:var(--text-muted);">
+                <span><i class="fas fa-eye"></i> <span id="visibleCount">0</span> visible</span>
+                <span style="margin-left:0.8rem;"><i class="fas fa-keyboard"></i> <span class="kbd">←</span> <span class="kbd">→</span> <span class="kbd">R</span> reveal</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div id="cardsGrid" class="cards-grid"></div>
+</div>
+
+<!-- Edit Modal -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <div class="flex-between" style="margin-bottom:1rem;">
+            <h3><i class="fas fa-edit"></i> Edit Problem</h3>
+            <button id="closeModalBtn" class="icon-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="form-group"><label>📝 Approach / Notes</label><textarea id="editNotes" rows="3"></textarea></div>
+        <div class="form-group"><label>⚠️ Mistake Journal</label><textarea id="editMistake" rows="2" placeholder="What mistakes did you make? What to watch out for?"></textarea></div>
+        <div class="form-group"><label>💡 Key Pattern</label><input id="editPattern" type="text" placeholder="e.g. Sliding Window, Kadane's Algorithm"></div>
+        <div class="form-group"><label>⏱️ Time Complexity</label><input id="editTimeComplexity" type="text" placeholder="e.g. O(n)"></div>
+        <div class="form-group"><label>💾 Space Complexity</label><input id="editSpaceComplexity" type="text" placeholder="e.g. O(1)"></div>
+        <div class="form-group"><label>📜 Code Snippet</label><textarea id="editCode" rows="5" placeholder="Paste your solution code here..."></textarea></div>
+        <div class="flex-between" style="margin-top:0.5rem;">
+            <button id="saveEditBtn" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+            <div class="flex-center">
+                <button id="deleteProblemBtn" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Review Overlay -->
+<div id="reviewOverlay" class="review-overlay">
+    <div class="review-card">
+        <div class="flex-between" style="margin-bottom:1rem;">
+            <div class="flex-center"><span class="review-timer" id="reviewTimer">00:00</span></div>
+            <div class="flex-center"><span style="font-size:0.75rem;color:var(--text-muted);" id="reviewProgress">1/10</span></div>
+            <button id="closeReviewBtn" class="icon-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <h2 id="reviewTitle" style="margin-bottom:0.3rem;"></h2>
+        <div id="reviewMeta" style="margin-bottom:0.5rem;"></div>
+        <div style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;" id="reviewTags"></div>
+        <div id="reviewHiddenArea" class="review-hidden hidden-blur">
+            <div style="text-align:center;color:var(--text-muted);">
+                <i class="fas fa-lock" style="font-size:2rem;opacity:0.3;margin-bottom:0.5rem;display:block;"></i>
+                <div style="font-size:0.9rem;">🔒 Content Hidden — Try to Recall First</div>
+                <div style="font-size:0.7rem;margin-top:0.3rem;">Press <span class="kbd">R</span> or click Reveal</div>
+            </div>
+        </div>
+        <div class="review-controls">
+            <button id="reviewRevealBtn" class="btn btn-primary"><i class="fas fa-eye"></i> Reveal</button>
+            <button id="reviewAlmostBtn" class="btn btn-secondary"><i class="fas fa-lightbulb"></i> Almost Knew</button>
+            <button id="reviewPrevBtn" class="btn btn-secondary"><i class="fas fa-arrow-left"></i></button>
+            <button id="reviewNextBtn" class="btn btn-secondary"><i class="fas fa-arrow-right"></i></button>
+        </div>
+        <div class="review-progress">⌨️ <span class="kbd">←</span> <span class="kbd">→</span> Navigate · <span class="kbd">R</span> Reveal · <span class="kbd">A</span> Almost Knew · <span class="kbd">Esc</span> Exit</div>
+    </div>
+</div>
+
+<!-- Recall Modal -->
+<div id="recallModal" class="modal">
+    <div class="modal-content">
+        <div class="flex-between" style="margin-bottom:1rem;">
+            <h3><i class="fas fa-brain"></i> Recall Testing Mode</h3>
+            <button id="closeRecallBtn" class="icon-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="recallProblemInfo" style="margin-bottom:1rem;padding:0.8rem;background:rgba(0,0,0,0.2);border-radius:var(--radius-sm);"></div>
+        <div class="form-group">
+            <label>📝 Write your approach (mental recall):</label>
+            <textarea id="recallAnswer" rows="4" placeholder="Describe the approach, data structures, algorithm..."></textarea>
+        </div>
+        <div class="flex-center" style="gap:0.5rem;flex-wrap:wrap;">
+            <button id="compareRecallBtn" class="btn btn-primary"><i class="fas fa-compare"></i> Compare</button>
+            <button id="recallNextBtn" class="btn btn-secondary"><i class="fas fa-arrow-right"></i> Next Problem</button>
+        </div>
+        <div id="recallFeedback" class="recall-feedback" style="display:none;"></div>
+    </div>
+</div>
+
+<!-- Interview Modal -->
+<div id="interviewModal" class="modal">
+    <div class="modal-content" style="text-align:center;">
+        <div class="flex-between" style="margin-bottom:1rem;">
+            <h3><i class="fas fa-gavel"></i> Interview Simulation</h3>
+            <button id="closeInterviewBtn" class="icon-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="interview-timer" id="interviewTimer">45:00</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1rem;">Time Remaining</div>
+        <div id="interviewCurrent" style="margin-bottom:1rem;"></div>
+        <div id="interviewControls">
+            <button id="interviewStartBtn" class="btn btn-success"><i class="fas fa-play"></i> Start Interview</button>
+            <button id="interviewNextBtn" class="btn btn-primary" style="display:none;"><i class="fas fa-arrow-right"></i> Next Problem</button>
+            <button id="interviewEndBtn" class="btn btn-danger" style="display:none;"><i class="fas fa-stop"></i> End Session</button>
+        </div>
+        <div id="interviewFeedback" style="margin-top:1rem;display:none;"></div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// ESCAPE HELPER
+// ============================================================
+function safeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/[&<>"']/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        if (m === '"') return '&quot;';
+        if (m === "'") return '&#39;';
+        return m;
+    });
+}
+
+// ============================================================
+// DEFAULT PROBLEMS (extracted from user's actual C++ codebase)
+// ============================================================
+const defaultProblems = [
+    // --- Arrays / Hashing ---
+    { id: 1, name: "Two Sum", difficulty: "easy", topic: "Arrays", pattern: "Hash Map", link: "https://leetcode.com/problems/two-sum/", notes: "Use hashmap to store complement values while iterating. For each element, check if target - element exists in map.", commonMistakes: "Forgetting to check duplicate indices; not handling the case where the same element is used twice", timeComplexity: "O(n)", spaceComplexity: "O(n)", codeSnippet: `vector<int> twoSum(vector<int>& nums, int target) {
+    unordered_map<int,int> mp;
+    for(int i=0;i<nums.size();i++){
+        int rem = target - nums[i];
+        if(mp.count(rem)) return {mp[rem], i};
+        mp[nums[i]]=i;
+    }
+    return {};
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 5, mistakeJournal: "", almostKnew: 0 },
+    { id: 2, name: "Maximum Subarray (Kadane)", difficulty: "medium", topic: "Arrays", pattern: "Kadane's Algorithm", link: "https://leetcode.com/problems/maximum-subarray/", notes: "Keep running sum, reset to 0 if negative. Track max sum seen so far.", commonMistakes: "Not initializing maxSum correctly with first element", timeComplexity: "O(n)", spaceComplexity: "O(1)", codeSnippet: `int maxSubArray(vector<int>& nums) {
+    int maxSum = nums[0], cur = nums[0];
+    for(int i=1;i<nums.size();i++){
+        cur = max(nums[i], cur+nums[i]);
+        maxSum = max(maxSum,cur);
+    }
+    return maxSum;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+    { id: 3, name: "Sort Colors (Dutch Flag)", difficulty: "medium", topic: "Arrays", pattern: "Dutch National Flag", link: "https://leetcode.com/problems/sort-colors/", notes: "Three pointers: low, mid, high. 0→swap low&mid, 1→mid++, 2→swap high&mid", commonMistakes: "Not incrementing mid after swapping with high", timeComplexity: "O(n)", spaceComplexity: "O(1)", codeSnippet: `void sortColors(vector<int>& nums) {
+    int low=0,mid=0,high=nums.size()-1;
+    while(mid<=high){
+        if(nums[mid]==0){ swap(nums[low],nums[mid]); low++; mid++; }
+        else if(nums[mid]==1) mid++;
+        else{ swap(nums[mid],nums[high]); high--; }
+    }
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 5, mistakeJournal: "", almostKnew: 0 },
+    { id: 4, name: "Majority Element", difficulty: "easy", topic: "Arrays", pattern: "Moore's Voting", link: "https://leetcode.com/problems/majority-element/", notes: "Moore's Voting Algorithm: candidate and count. When count=0, pick new candidate.", commonMistakes: "Forgetting the verification step when no majority guaranteed", timeComplexity: "O(n)", spaceComplexity: "O(1)", codeSnippet: `int majorityElement(vector<int>& nums) {
+    int cu, count=0;
+    for(int n:nums){
+        if(count==0){ cu=n; count=1; }
+        else if(n==cu) count++;
+        else count--;
+    }
+    return cu;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 5, mistakeJournal: "", almostKnew: 0 },
+    { id: 5, name: "Next Permutation", difficulty: "medium", topic: "Arrays", pattern: "Two Pointers", link: "https://leetcode.com/problems/next-permutation/", notes: "Find break point from right. Swap with just greater. Reverse right part.", commonMistakes: "Not finding the correct break point", timeComplexity: "O(n)", spaceComplexity: "O(1)", codeSnippet: `void nextPermutation(vector<int>& nums) {
+    int n=nums.size(), i=n-2;
+    while(i>=0 && nums[i]>=nums[i+1]) i--;
+    if(i>=0){
+        int j=n-1;
+        while(nums[j]<=nums[i]) j--;
+        swap(nums[i],nums[j]);
+    }
+    reverse(nums.begin()+i+1,nums.end());
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+    { id: 6, name: "Merge Intervals", difficulty: "medium", topic: "Arrays", pattern: "Sorting + Greedy", link: "https://leetcode.com/problems/merge-intervals/", notes: "Sort by start time. If new interval overlaps last, merge by taking max end.", commonMistakes: "Forgetting to sort first", timeComplexity: "O(n log n)", spaceComplexity: "O(n)", codeSnippet: `vector<vector<int>> merge(vector<vector<int>>& arr) {
+    sort(arr.begin(),arr.end());
+    vector<vector<int>> ans;
+    for(auto& i:arr){
+        if(ans.empty()||ans.back()[1]<i[0]) ans.push_back(i);
+        else ans.back()[1]=max(ans.back()[1],i[1]);
+    }
+    return ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 5, mistakeJournal: "", almostKnew: 0 },
+    { id: 7, name: "3Sum", difficulty: "medium", topic: "Arrays", pattern: "Two Pointers", link: "https://leetcode.com/problems/3sum/", notes: "Sort, fix one element, use two pointers for the other two. Skip duplicates.", commonMistakes: "Not skipping duplicate elements properly", timeComplexity: "O(n²)", spaceComplexity: "O(1)", codeSnippet: `vector<vector<int>> threeSum(vector<int>& nums) {
+    sort(nums.begin(),nums.end());
+    vector<vector<int>> ans;
+    for(int i=0;i<nums.size();i++){
+        if(i>0&&nums[i]==nums[i-1]) continue;
+        int j=i+1, k=nums.size()-1;
+        while(j<k){
+            int sum=nums[i]+nums[j]+nums[k];
+            if(sum<0) j++;
+            else if(sum>0) k--;
+            else{
+                ans.push_back({nums[i],nums[j],nums[k]});
+                while(j<k&&nums[j]==nums[j+1]) j++;
+                while(j<k&&nums[k]==nums[k-1]) k--;
+                j++; k--;
+            }
+        }
+    }
+    return ans;
+}`, status: "Weak", lastRevised: new Date().toISOString(), confidence: 3, mistakeJournal: "", almostKnew: 0 },
+    { id: 8, name: "4Sum", difficulty: "medium", topic: "Arrays", pattern: "Two Pointers", link: "https://leetcode.com/problems/4sum/", notes: "Similar to 3Sum but with nested loop for first two, then two pointers.", commonMistakes: "Integer overflow with large numbers", timeComplexity: "O(n³)", spaceComplexity: "O(1)", codeSnippet: `vector<vector<int>> fourSum(vector<int>& nums, int t) {
+    sort(nums.begin(),nums.end());
+    vector<vector<int>> ans;
+    for(int i=0;i<nums.size();i++){
+        if(i>0&&nums[i]==nums[i-1]) continue;
+        for(int j=i+1;j<nums.size();j++){
+            if(j!=i+1&&nums[j]==nums[j-1]) continue;
+            int k=j+1, p=nums.size()-1;
+            while(k<p){
+                long long sum=(long long)nums[i]+nums[j]+nums[k]+nums[p];
+                if(sum<t) k++;
+                else if(sum>t) p--;
+                else{
+                    ans.push_back({nums[i],nums[j],nums[k],nums[p]});
+                    while(k<p&&nums[k]==nums[k+1]) k++;
+                    while(k<p&&nums[p]==nums[p-1]) p--;
+                    k++; p--;
+                }
+            }
+        }
+    }
+    return ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+    { id: 9, name: "Find Missing and Repeating", difficulty: "medium", topic: "Arrays", pattern: "Math/Formula", link: "https://www.geeksforgeeks.org/problems/find-missing-and-repeating2512/1", notes: "Use sum and sum of squares formulas. Solve for x(repeating) and y(missing).", commonMistakes: "Integer overflow with squares", timeComplexity: "O(n)", spaceComplexity: "O(1)", codeSnippet: `vector<int> findMissingRepeatingNumbers(vector<int>& a) {
+    long long n=a.size();
+    long long sn1=n*(n+1)/2, sn2=n*(n+1)*(2*n+1)/6;
+    long long s1=0,s2=0;
+    for(int x:a){ s1+=x; s2+=(long long)x*x; }
+    long long val1=s1-sn1; // x - y
+    long long val2=(s2-sn2)/val1; // x + y
+    long long x=(val1+val2)/2, y=x-val1;
+    return {(int)x,(int)y};
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+    { id: 10, name: "Longest Subarray with Sum K", difficulty: "medium", topic: "Arrays", pattern: "Prefix Sum", link: "https://www.geeksforgeeks.org/problems/longest-sub-array-with-sum-k0809/1", notes: "Use prefix sum map. For each sum, check if sum-k exists in map.", commonMistakes: "Only update map when sum not already present (for positive)", timeComplexity: "O(n)", spaceComplexity: "O(n)", codeSnippet: `int longestSubarrayWithSumK(vector<int>& a, long long k) {
+    map<long long,int> preSumMap;
+    long long sum=0; int maxlen=0;
+    for(int i=0;i<a.size();i++){
+        sum+=a[i];
+        if(sum==k) maxlen=max(maxlen,i+1);
+        long long rem=sum-k;
+        if(preSumMap.count(rem))
+            maxlen=max(maxlen,i-preSumMap[rem]);
+        if(!preSumMap.count(sum)) preSumMap[sum]=i;
+    }
+    return maxlen;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 3, mistakeJournal: "", almostKnew: 0 },
+    { id: 11, name: "Pascal's Triangle", difficulty: "easy", topic: "Arrays", pattern: "Dynamic Programming", link: "https://leetcode.com/problems/pascals-triangle/", notes: "Each row: start with 1, middle elements are sum of two above, end with 1.", commonMistakes: "Off-by-one in row indices", timeComplexity: "O(n²)", spaceComplexity: "O(n²)", codeSnippet: `vector<vector<int>> generate(int n) {
+    vector<vector<int>> ans;
+    for(int i=0;i<n;i++){
+        vector<int> row(i+1,1);
+        for(int j=1;j<i;j++)
+            row[j]=ans[i-1][j-1]+ans[i-1][j];
+        ans.push_back(row);
+    }
+    return ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 5, mistakeJournal: "", almostKnew: 0 },
+    { id: 12, name: "Subarrays with XOR K", difficulty: "medium", topic: "Arrays", pattern: "Prefix XOR", link: "https://www.geeksforgeeks.org/problems/count-subarrays-with-given-xor/1", notes: "Use map to store prefix XOR counts. For each prefix, check if prefix^K exists.", commonMistakes: "Not initializing map with {0,1}", timeComplexity: "O(n)", spaceComplexity: "O(n)", codeSnippet: `int subarraysWithXorK(vector<int>& a, int b) {
+    unordered_map<int,int> mpp;
+    int preSum=0, ans=0;
+    mpp[0]=1;
+    for(int x:a){
+        preSum^=x;
+        ans+=mpp[b^preSum];
+        mpp[preSum]++;
+    }
+    return ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 3, mistakeJournal: "", almostKnew: 0 },
+
+    // --- Binary Search ---
+    { id: 13, name: "Binary Search", difficulty: "easy", topic: "Binary Search", pattern: "Divide & Conquer", link: "https://leetcode.com/problems/binary-search/", notes: "Standard binary search on sorted array. Use mid = low + (high-low)/2.", commonMistakes: "Off-by-one errors in while condition", timeComplexity: "O(log n)", spaceComplexity: "O(1)", codeSnippet: `int search(vector<int>& nums, int target) {
+    int l=0,r=nums.size()-1;
+    while(l<=r){
+        int m=l+(r-l)/2;
+        if(nums[m]==target) return m;
+        if(nums[m]<target) l=m+1;
+        else r=m-1;
+    }
+    return -1;
+}`, status: "Mastered", lastRevised: new Date().toISOString(), confidence: 8, mistakeJournal: "", almostKnew: 0 },
+    { id: 14, name: "Search in Rotated Sorted Array", difficulty: "medium", topic: "Binary Search", pattern: "Rotated Array", link: "https://leetcode.com/problems/search-in-rotated-sorted-array/", notes: "Check which half is sorted. Then decide which half to search based on target.", commonMistakes: "Not handling edge cases with duplicate elements", timeComplexity: "O(log n)", spaceComplexity: "O(1)", codeSnippet: `int search(vector<int>& arr, int target) {
+    int low=0, high=arr.size()-1;
+    while(low<=high){
+        int mid=(low+high)/2;
+        if(arr[mid]==target) return mid;
+        if(arr[low]<=arr[mid]){
+            if(arr[low]<=target && target<=arr[mid]) high=mid-1;
+            else low=mid+1;
+        }else{
+            if(arr[mid]<=target && target<=arr[high]) low=mid+1;
+            else high=mid-1;
+        }
+    }
+    return -1;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+    { id: 15, name: "Find Minimum in Rotated Array", difficulty: "medium", topic: "Binary Search", pattern: "Rotated Array", link: "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/", notes: "Compare mid with low. If left sorted, min is low, search right. Else min is mid, search left.", commonMistakes: "Not considering all edge cases", timeComplexity: "O(log n)", spaceComplexity: "O(1)", codeSnippet: `int findMin(vector<int>& nums) {
+    int low=0, high=nums.size()-1, ans=INT_MAX;
+    while(low<=high){
+        int mid=(low+high)/2;
+        if(nums[low]<=nums[mid]){
+            ans=min(ans,nums[low]);
+            low=mid+1;
+        }else{
+            ans=min(ans,nums[mid]);
+            high=mid-1;
+        }
+    }
+    return ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+    { id: 16, name: "Single Element in Sorted Array", difficulty: "medium", topic: "Binary Search", pattern: "Even-Odd Pattern", link: "https://leetcode.com/problems/single-element-in-a-sorted-array/", notes: "Check (mid,mid-1) and (mid,mid+1) pairs pattern. Even-odd property.", commonMistakes: "Not handling edge cases for first/last elements", timeComplexity: "O(log n)", spaceComplexity: "O(1)", codeSnippet: `int singleNonDuplicate(vector<int>& nums) {
+    int n=nums.size(), low=1, high=n-2;
+    if(n==1) return nums[0];
+    if(nums[0]!=nums[1]) return nums[0];
+    if(nums[n-1]!=nums[n-2]) return nums[n-1];
+    while(low<=high){
+        int mid=(low+high)/2;
+        if(nums[mid]!=nums[mid-1] && nums[mid]!=nums[mid+1]) return nums[mid];
+        if((mid%2==0 && nums[mid]==nums[mid+1]) || (mid%2==1 && nums[mid]==nums[mid-1]))
+            low=mid+1;
+        else high=mid-1;
+    }
+    return -1;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 3, mistakeJournal: "", almostKnew: 0 },
+    { id: 17, name: "Koko Eating Bananas", difficulty: "medium", topic: "Binary Search", pattern: "Binary Search on Answer", link: "https://leetcode.com/problems/koko-eating-bananas/", notes: "Binary search on speed. For each mid, calculate total hours needed.", commonMistakes: "Integer overflow when summing hours", timeComplexity: "O(n log max)", spaceComplexity: "O(1)", codeSnippet: `int minEatingSpeed(vector<int>& piles, int h) {
+    int low=1, high=*max_element(piles.begin(),piles.end()), ans=-1;
+    while(low<=high){
+        int mid=(low+high)/2;
+        long long time=0;
+        for(int p:piles) time+=ceil((double)p/mid);
+        if(time<=h){ ans=mid; high=mid-1; }
+        else low=mid+1;
+    }
+    return ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 3, mistakeJournal: "", almostKnew: 0 },
+    { id: 18, name: "Aggressive Cows", difficulty: "hard", topic: "Binary Search", pattern: "Binary Search on Answer", link: "https://www.geeksforgeeks.org/problems/aggressive-cows/1", notes: "Sort stalls. Binary search on min distance. Check if cows can be placed with that distance.", commonMistakes: "Not sorting before binary search", timeComplexity: "O(n log n)", spaceComplexity: "O(1)", codeSnippet: `int aggressiveCows(vector<int>& stalls, int k) {
+    sort(stalls.begin(),stalls.end());
+    int low=1, high=stalls.back()-stalls[0], ans=-1;
+    while(low<=high){
+        int mid=(low+high)/2;
+        int cnt=1, prev=stalls[0];
+        for(int i=1;i<stalls.size();i++){
+            if(stalls[i]-prev>=mid){ cnt++; prev=stalls[i]; }
+        }
+        if(cnt>=k){ ans=mid; low=mid+1; }
+        else high=mid-1;
+    }
+    return ans;
+}`, status: "Weak", lastRevised: new Date().toISOString(), confidence: 2, mistakeJournal: "", almostKnew: 0 },
+    { id: 19, name: "Median of Two Sorted Arrays", difficulty: "hard", topic: "Binary Search", pattern: "Binary Search Partition", link: "https://leetcode.com/problems/median-of-two-sorted-arrays/", notes: "Binary search on smaller array. Partition both such that left < right. Check 4 cross elements.", commonMistakes: "Not handling edge cases when partitions at boundaries", timeComplexity: "O(log min(n,m))", spaceComplexity: "O(1)", codeSnippet: `double findMedianSortedArrays(vector<int>& a, vector<int>& b) {
+    if(a.size()>b.size()) return findMedianSortedArrays(b,a);
+    int n=a.size(), m=b.size(), low=0, high=n;
+    while(low<=high){
+        int px=(low+high)/2, py=(n+m+1)/2-px;
+        int l1=px==0?INT_MIN:a[px-1], r1=px==n?INT_MAX:a[px];
+        int l2=py==0?INT_MIN:b[py-1], r2=py==m?INT_MAX:b[py];
+        if(l1<=r2 && l2<=r1){
+            if((n+m)%2==0) return (max(l1,l2)+min(r1,r2))/2.0;
+            else return max(l1,l2);
+        }
+        if(l1>r2) high=px-1;
+        else low=px+1;
+    }
+    return 0;
+}`, status: "Forgotten", lastRevised: new Date().toISOString(), confidence: 2, mistakeJournal: "", almostKnew: 0 },
+
+    // --- Linked List ---
+    { id: 20, name: "Reverse Linked List", difficulty: "easy", topic: "Linked List", pattern: "Iterative", link: "https://leetcode.com/problems/reverse-linked-list/", notes: "Iterative: prev, curr, next pointers. Move prev and curr forward.", commonMistakes: "Losing reference to next node", timeComplexity: "O(n)", spaceComplexity: "O(1)", codeSnippet: `ListNode* reverseList(ListNode* head) {
+    ListNode *prev=nullptr, *curr=head, *next;
+    while(curr){
+        next=curr->next;
+        curr->next=prev;
+        prev=curr;
+        curr=next;
+    }
+    return prev;
+}`, status: "Mastered", lastRevised: new Date().toISOString(), confidence: 8, mistakeJournal: "", almostKnew: 0 },
+    { id: 21, name: "Detect Cycle in LL", difficulty: "easy", topic: "Linked List", pattern: "Floyd's Algorithm", link: "https://leetcode.com/problems/linked-list-cycle/", notes: "Slow and fast pointer. If they meet, there's a cycle.", commonMistakes: "Not checking fast->next before advancing", timeComplexity: "O(n)", spaceComplexity: "O(1)", codeSnippet: `bool hasCycle(ListNode *head) {
+    ListNode *slow=head, *fast=head;
+    while(fast && fast->next){
+        slow=slow->next;
+        fast=fast->next->next;
+        if(slow==fast) return true;
+    }
+    return false;
+}`, status: "Mastered", lastRevised: new Date().toISOString(), confidence: 8, mistakeJournal: "", almostKnew: 0 },
+    { id: 22, name: "Middle of Linked List", difficulty: "easy", topic: "Linked List", pattern: "Fast & Slow", link: "https://leetcode.com/problems/middle-of-the-linked-list/", notes: "Slow moves 1 step, fast moves 2 steps. When fast reaches end, slow is at middle.", commonMistakes: "Off-by-one for even length lists", timeComplexity: "O(n)", spaceComplexity: "O(1)", codeSnippet: `ListNode* middleNode(ListNode* head) {
+    ListNode *slow=head, *fast=head;
+    while(fast && fast->next){
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+    return slow;
+}`, status: "Mastered", lastRevised: new Date().toISOString(), confidence: 8, mistakeJournal: "", almostKnew: 0 },
+
+    // --- Sliding Window ---
+    { id: 23, name: "Longest Substring Without Repeating", difficulty: "medium", topic: "Sliding Window", pattern: "Sliding Window", link: "https://leetcode.com/problems/longest-substring-without-repeating-characters/", notes: "Two pointers with map of char→index. When duplicate found, move left to last_occurrence+1.", commonMistakes: "Not updating left pointer correctly", timeComplexity: "O(n)", spaceComplexity: "O(k)", codeSnippet: `int lengthOfLongestSubstring(string s) {
+    unordered_map<char,int> mp;
+    int left=0, ans=0;
+    for(int r=0;r<s.size();r++){
+        if(mp.count(s[r])) left=max(left,mp[s[r]]+1);
+        mp[s[r]]=r;
+        ans=max(ans,r-left+1);
+    }
+    return ans;
+}`, status: "Weak", lastRevised: new Date().toISOString(), confidence: 3, mistakeJournal: "", almostKnew: 0 },
+    { id: 24, name: "Max Consecutive Ones III", difficulty: "medium", topic: "Sliding Window", pattern: "Sliding Window", link: "https://leetcode.com/problems/max-consecutive-ones-iii/", notes: "Sliding window. Keep count of zeros. When zeros > k, shrink window from left.", commonMistakes: "Forgetting to decrement zero count when moving left pointer", timeComplexity: "O(n)", spaceComplexity: "O(1)", codeSnippet: `int longestOnes(vector<int>& nums, int k) {
+    int left=0, zero=0, ans=0;
+    for(int r=0;r<nums.size();r++){
+        if(nums[r]==0) zero++;
+        while(zero>k){
+            if(nums[left]==0) zero--;
+            left++;
+        }
+        ans=max(ans,r-left+1);
+    }
+    return ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+    { id: 25, name: "Fruit Into Baskets", difficulty: "medium", topic: "Sliding Window", pattern: "Sliding Window", link: "https://leetcode.com/problems/fruit-into-baskets/", notes: "Sliding window with at most 2 distinct types. Max window size.", commonMistakes: "Not shrinking correctly", timeComplexity: "O(n)", spaceComplexity: "O(1)", codeSnippet: `int totalFruit(vector<int>& fruits) {
+    unordered_map<int,int> mpp;
+    int left=0, ans=0;
+    for(int r=0;r<fruits.size();r++){
+        mpp[fruits[r]]++;
+        while(mpp.size()>2){
+            mpp[fruits[left]]--;
+            if(mpp[fruits[left]]==0) mpp.erase(fruits[left]);
+            left++;
+        }
+        ans=max(ans,r-left+1);
+    }
+    return ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+    { id: 26, name: "Minimum Window Substring", difficulty: "hard", topic: "Sliding Window", pattern: "Sliding Window + Map", link: "https://leetcode.com/problems/minimum-window-substring/", notes: "Two maps: target freq and window freq. Expand right, shrink left when valid.", commonMistakes: "Not correctly tracking 'formed' count", timeComplexity: "O(n)", spaceComplexity: "O(k)", codeSnippet: `string minWindow(string s, string t) {
+    unordered_map<char,int> need, have;
+    for(char c:t) need[c]++;
+    int left=0, formed=0, minLen=INT_MAX, start=0;
+    for(int r=0;r<s.size();r++){
+        char c=s[r];
+        have[c]++;
+        if(need.count(c) && have[c]==need[c]) formed++;
+        while(formed==need.size()){
+            if(r-left+1<minLen){ minLen=r-left+1; start=left; }
+            char lc=s[left];
+            have[lc]--;
+            if(need.count(lc) && have[lc]<need[lc]) formed--;
+            left++;
+        }
+    }
+    return minLen==INT_MAX ? "" : s.substr(start,minLen);
+}`, status: "Forgotten", lastRevised: new Date().toISOString(), confidence: 2, mistakeJournal: "", almostKnew: 0 },
+
+    // --- Stack & Queue ---
+    { id: 27, name: "Valid Parentheses", difficulty: "easy", topic: "Stack", pattern: "Stack Matching", link: "https://leetcode.com/problems/valid-parentheses/", notes: "Push opening brackets. On closing, check if matches top.", commonMistakes: "Not checking if stack is empty before top()", timeComplexity: "O(n)", spaceComplexity: "O(n)", codeSnippet: `bool isValid(string s) {
+    stack<char> st;
+    for(char c:s){
+        if(c=='('||c=='{'||c=='[') st.push(c);
+        else{
+            if(st.empty()) return false;
+            char top=st.top(); st.pop();
+            if((c==')'&&top!='(')||(c=='}'&&top!='{')||(c==']'&&top!='[')) return false;
+        }
+    }
+    return st.empty();
+}`, status: "Mastered", lastRevised: new Date().toISOString(), confidence: 9, mistakeJournal: "", almostKnew: 0 },
+    { id: 28, name: "Min Stack", difficulty: "medium", topic: "Stack", pattern: "Stack with Min Tracking", link: "https://leetcode.com/problems/min-stack/", notes: "Push modified value: if new val < min, push (2*val - min) and update min.", commonMistakes: "Not handling pop correctly with modified values", timeComplexity: "O(1)", spaceComplexity: "O(n)", codeSnippet: `class MinStack {
+    stack<long long> st; long long mini;
+public:
+    MinStack() { mini = INT_MAX; }
+    void push(int val) {
+        if(st.empty()){ mini=val; st.push(val); }
+        else if(val>mini) st.push(val);
+        else{ st.push(2LL*val-mini); mini=val; }
+    }
+    void pop() {
+        if(st.top()<mini) mini=2*mini-st.top();
+        st.pop();
+    }
+    int top() { return st.top()<mini ? mini : st.top(); }
+    int getMin() { return mini; }
+};`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+    { id: 29, name: "Infix to Postfix", difficulty: "medium", topic: "Stack", pattern: "Operator Precedence", link: "https://www.naukri.com/code360/problems/infix-to-postfix_1382146", notes: "Use stack for operators. Higher precedence operators pop first.", commonMistakes: "Wrong precedence handling for ^ power operator", timeComplexity: "O(n)", spaceComplexity: "O(n)", codeSnippet: `int priority(char c) {
+    if(c=='^') return 3; if(c=='*'||c=='/') return 2;
+    if(c=='+'||c=='-') return 1; return -1;
+}
+string infixToPostfix(string exp) {
+    stack<char> st; string ans;
+    for(char c:exp){
+        if(isalnum(c)) ans+=c;
+        else if(c=='(') st.push(c);
+        else if(c==')'){
+            while(!st.empty()&&st.top()!='('){ ans+=st.top(); st.pop(); }
+            st.pop();
+        }else{
+            while(!st.empty()&&priority(st.top())>=priority(c)){ ans+=st.top(); st.pop(); }
+            st.push(c);
+        }
+    }
+    while(!st.empty()){ ans+=st.top(); st.pop(); }
+    return ans;
+}`, status: "Weak", lastRevised: new Date().toISOString(), confidence: 3, mistakeJournal: "", almostKnew: 0 },
+
+    // --- Trees ---
+    { id: 30, name: "Binary Tree Inorder Traversal", difficulty: "easy", topic: "Trees", pattern: "DFS", link: "https://leetcode.com/problems/binary-tree-inorder-traversal/", notes: "Left → Root → Right. Recursive and Morris iterative approaches.", commonMistakes: "Forgetting base case (null check)", timeComplexity: "O(n)", spaceComplexity: "O(h)", codeSnippet: `void inorder(TreeNode* root, vector<int>& ans){
+    if(!root) return;
+    inorder(root->left,ans);
+    ans.push_back(root->val);
+    inorder(root->right,ans);
+}
+vector<int> inorderTraversal(TreeNode* root) {
+    vector<int> ans; inorder(root,ans); return ans;
+}`, status: "Mastered", lastRevised: new Date().toISOString(), confidence: 8, mistakeJournal: "", almostKnew: 0 },
+    { id: 31, name: "Max Depth of Binary Tree", difficulty: "easy", topic: "Trees", pattern: "DFS", link: "https://leetcode.com/problems/maximum-depth-of-binary-tree/", notes: "Recursively compute max of left and right + 1.", commonMistakes: "Not adding 1 for current node", timeComplexity: "O(n)", spaceComplexity: "O(h)", codeSnippet: `int maxDepth(TreeNode* root) {
+    if(!root) return 0;
+    return max(maxDepth(root->left),maxDepth(root->right)) + 1;
+}`, status: "Mastered", lastRevised: new Date().toISOString(), confidence: 9, mistakeJournal: "", almostKnew: 0 },
+    { id: 32, name: "Diameter of Binary Tree", difficulty: "easy", topic: "Trees", pattern: "DFS with Global", link: "https://leetcode.com/problems/diameter-of-binary-tree/", notes: "Compute height recursively. Update ans = max(ans, left+right). Return 1+max(left,right).", commonMistakes: "Not updating global answer correctly", timeComplexity: "O(n)", spaceComplexity: "O(h)", codeSnippet: `int diameter(TreeNode* root, int& ans){
+    if(!root) return 0;
+    int l=diameter(root->left,ans), r=diameter(root->right,ans);
+    ans=max(ans,l+r);
+    return 1+max(l,r);
+}
+int diameterOfBinaryTree(TreeNode* root) {
+    int ans=0; diameter(root,ans); return ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+    { id: 33, name: "Balanced Binary Tree", difficulty: "easy", topic: "Trees", pattern: "DFS Height Check", link: "https://leetcode.com/problems/balanced-binary-tree/", notes: "Check if |left - right| ≤ 1 for every node. Return -1 if unbalanced.", commonMistakes: "Returning -1 early but not propagating correctly", timeComplexity: "O(n)", spaceComplexity: "O(h)", codeSnippet: `int height(TreeNode* root){
+    if(!root) return 0;
+    int l=height(root->left), r=height(root->right);
+    if(l==-1||r==-1||abs(l-r)>1) return -1;
+    return max(l,r)+1;
+}
+bool isBalanced(TreeNode* root) { return height(root)!=-1; }`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+    { id: 34, name: "Level Order Traversal", difficulty: "medium", topic: "Trees", pattern: "BFS/Queue", link: "https://leetcode.com/problems/binary-tree-level-order-traversal/", notes: "Use queue. Process level by level: for each level, process all nodes in queue.", commonMistakes: "Not capturing size before processing level", timeComplexity: "O(n)", spaceComplexity: "O(w)", codeSnippet: `vector<vector<int>> levelOrder(TreeNode* root) {
+    vector<vector<int>> ans;
+    if(!root) return ans;
+    queue<TreeNode*> q; q.push(root);
+    while(!q.empty()){
+        int sz=q.size(); vector<int> level;
+        for(int i=0;i<sz;i++){
+            TreeNode* n=q.front(); q.pop();
+            level.push_back(n->val);
+            if(n->left) q.push(n->left);
+            if(n->right) q.push(n->right);
+        }
+        ans.push_back(level);
+    }
+    return ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 5, mistakeJournal: "", almostKnew: 0 },
+    { id: 35, name: "Right Side View", difficulty: "medium", topic: "Trees", pattern: "Level Order", link: "https://leetcode.com/problems/binary-tree-right-side-view/", notes: "Level order, take last node of each level.", commonMistakes: "Using DFS without tracking level correctly", timeComplexity: "O(n)", spaceComplexity: "O(w)", codeSnippet: `vector<int> rightSideView(TreeNode* root) {
+    vector<int> ans; if(!root) return ans;
+    queue<TreeNode*> q; q.push(root);
+    while(!q.empty()){
+        int sz=q.size();
+        for(int i=0;i<sz;i++){
+            TreeNode* n=q.front(); q.pop();
+            if(i==sz-1) ans.push_back(n->val);
+            if(n->left) q.push(n->left);
+            if(n->right) q.push(n->right);
+        }
+    }
+    return ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+    { id: 36, name: "Flatten Binary Tree", difficulty: "medium", topic: "Trees", pattern: "Reverse Postorder", link: "https://leetcode.com/problems/flatten-binary-tree-to-linked-list/", notes: "Do reverse preorder (right-left-root). Maintain prev pointer.", commonMistakes: "Not setting left to NULL", timeComplexity: "O(n)", spaceComplexity: "O(h)", codeSnippet: `TreeNode* prev = NULL;
+void flatten(TreeNode* root) {
+    if(!root) return;
+    flatten(root->right);
+    flatten(root->left);
+    root->right = prev;
+    root->left = NULL;
+    prev = root;
+}`, status: "Weak", lastRevised: new Date().toISOString(), confidence: 3, mistakeJournal: "", almostKnew: 0 },
+    { id: 37, name: "Validate BST", difficulty: "medium", topic: "BST", pattern: "Inorder Property", link: "https://leetcode.com/problems/validate-binary-search-tree/", notes: "Check that each node is within valid range (low, high). Update range as you go left/right.", commonMistakes: "Using INT_MIN/INT_MAX as bounds (fails with those values)", timeComplexity: "O(n)", spaceComplexity: "O(h)", codeSnippet: `bool isValidBST(TreeNode* root, long long low=LLONG_MIN, long long high=LLONG_MAX) {
+    if(!root) return true;
+    if(root->val<=low || root->val>=high) return false;
+    return isValidBST(root->left,low,root->val) && isValidBST(root->right,root->val,high);
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+    { id: 38, name: "Kth Smallest in BST", difficulty: "medium", topic: "BST", pattern: "Inorder Traversal", link: "https://leetcode.com/problems/kth-smallest-element-in-a-bst/", notes: "Inorder gives sorted order. Count nodes during inorder traversal.", commonMistakes: "Not handling k count correctly (1-indexed)", timeComplexity: "O(n)", spaceComplexity: "O(h)", codeSnippet: `int kthSmallest(TreeNode* root, int k) {
+    stack<TreeNode*> st;
+    while(root||!st.empty()){
+        while(root){ st.push(root); root=root->left; }
+        root=st.top(); st.pop();
+        if(--k==0) return root->val;
+        root=root->right;
+    }
+    return -1;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+    { id: 39, name: "Lowest Common Ancestor BST", difficulty: "medium", topic: "BST", pattern: "BST Property", link: "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/", notes: "If both values < root, LCA is in left. Both > root, LCA in right. Else root is LCA.", commonMistakes: "Not leveraging BST property (using generic LCA approach)", timeComplexity: "O(h)", spaceComplexity: "O(1)", codeSnippet: `TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+    if(!root) return NULL;
+    if(root->val>p->val && root->val>q->val) return lowestCommonAncestor(root->left,p,q);
+    if(root->val<p->val && root->val<q->val) return lowestCommonAncestor(root->right,p,q);
+    return root;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 5, mistakeJournal: "", almostKnew: 0 },
+    { id: 40, name: "Recover BST", difficulty: "hard", topic: "BST", pattern: "Inorder Swap", link: "https://leetcode.com/problems/recover-binary-search-tree/", notes: "Inorder traversal. Find two misplaced nodes: first (parent where prev>curr) and second (curr where prev>curr). Swap their values.", commonMistakes: "Not handling the case where swapped nodes are adjacent", timeComplexity: "O(n)", spaceComplexity: "O(h)", codeSnippet: `void recoverTree(TreeNode* root) {
+    TreeNode *first=nullptr,*second=nullptr,*parent=nullptr;
+    stack<TreeNode*> st;
+    while(root||!st.empty()){
+        while(root){ st.push(root); root=root->left; }
+        root=st.top(); st.pop();
+        if(parent && parent->val>root->val){
+            if(!first) first=parent;
+            second=root;
+        }
+        parent=root;
+        root=root->right;
+    }
+    swap(first->val,second->val);
+}`, status: "Forgotten", lastRevised: new Date().toISOString(), confidence: 2, mistakeJournal: "", almostKnew: 0 },
+
+    // --- Graphs ---
+    { id: 41, name: "Number of Islands", difficulty: "medium", topic: "Graph", pattern: "DFS/BFS", link: "https://leetcode.com/problems/number-of-islands/", notes: "Traverse grid. When '1' found, DFS/BFS to mark all connected land as visited. Count each such component.", commonMistakes: "Boundary conditions - not checking grid bounds", timeComplexity: "O(m*n)", spaceComplexity: "O(m*n)", codeSnippet: `void dfs(vector<vector<char>>& g, int i, int j){
+    if(i<0||j<0||i>=g.size()||j>=g[0].size()||g[i][j]!='1') return;
+    g[i][j]='0';
+    dfs(g,i+1,j); dfs(g,i-1,j); dfs(g,i,j+1); dfs(g,i,j-1);
+}
+int numIslands(vector<vector<char>>& grid) {
+    int ans=0;
+    for(int i=0;i<grid.size();i++)
+        for(int j=0;j<grid[0].size();j++)
+            if(grid[i][j]=='1'){ ans++; dfs(grid,i,j); }
+    return ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+    { id: 42, name: "Rotting Oranges", difficulty: "medium", topic: "Graph", pattern: "BFS Multisource", link: "https://leetcode.com/problems/rotting-oranges/", notes: "Push all rotten oranges into queue. BFS to rot adjacent oranges level by level. Track fresh count.", commonMistakes: "Not tracking fresh orange count correctly", timeComplexity: "O(m*n)", spaceComplexity: "O(m*n)", codeSnippet: `int orangesRotting(vector<vector<int>>& grid) {
+    int n=grid.size(),m=grid[0].size(),fresh=0;
+    queue<pair<int,int>> q;
+    for(int i=0;i<n;i++) for(int j=0;j<m;j++){
+        if(grid[i][j]==2) q.push({i,j});
+        if(grid[i][j]==1) fresh++;
+    }
+    if(fresh==0) return 0;
+    int dirs[4][2]={{0,1},{0,-1},{1,0},{-1,0}},mins=-1;
+    while(!q.empty()){
+        int sz=q.size(); mins++;
+        while(sz--){
+            auto [r,c]=q.front(); q.pop();
+            for(auto d:dirs){
+                int nr=r+d[0], nc=c+d[1];
+                if(nr>=0&&nr<n&&nc>=0&&nc<m&&grid[nr][nc]==1)
+                { fresh--; grid[nr][nc]=2; q.push({nr,nc}); }
+            }
+        }
+    }
+    return fresh==0?mins:-1;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+    { id: 43, name: "Course Schedule II", difficulty: "medium", topic: "Graph", pattern: "Topological Sort", link: "https://leetcode.com/problems/course-schedule-ii/", notes: "Kahn's algorithm: build indegree array, process nodes with indegree 0.", commonMistakes: "Not detecting cycle (check if all nodes processed)", timeComplexity: "O(V+E)", spaceComplexity: "O(V)", codeSnippet: `vector<int> findOrder(int n, vector<vector<int>>& prereq) {
+    vector<int> adj[n], indeg(n,0);
+    for(auto& p:prereq){ adj[p[1]].push_back(p[0]); indeg[p[0]]++; }
+    queue<int> q;
+    for(int i=0;i<n;i++) if(indeg[i]==0) q.push(i);
+    vector<int> ans;
+    while(!q.empty()){
+        int u=q.front(); q.pop(); ans.push_back(u);
+        for(int v:adj[u]) if(--indeg[v]==0) q.push(v);
+    }
+    if(ans.size()!=n) return {};
+    return ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 3, mistakeJournal: "", almostKnew: 0 },
+    { id: 44, name: "Is Graph Bipartite", difficulty: "medium", topic: "Graph", pattern: "BFS/DFS Coloring", link: "https://leetcode.com/problems/is-graph-bipartite/", notes: "Color graph with 2 colors. Adjacent nodes must have different colors.", commonMistakes: "Graph may be disconnected - need to check all components", timeComplexity: "O(V+E)", spaceComplexity: "O(V)", codeSnippet: `bool dfs(int u, int c, vector<int>& col, vector<vector<int>>& g){
+    col[u]=c;
+    for(int v:g[u]){
+        if(col[v]==0){ if(!dfs(v, c==1?2:1, col, g)) return false; }
+        else if(col[v]==col[u]) return false;
+    }
+    return true;
+}
+bool isBipartite(vector<vector<int>>& graph) {
+    int n=graph.size(); vector<int> col(n,0);
+    for(int i=0;i<n;i++) if(col[i]==0) if(!dfs(i,1,col,graph)) return false;
+    return true;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 3, mistakeJournal: "", almostKnew: 0 },
+    { id: 45, name: "Dijkstra's Algorithm", difficulty: "medium", topic: "Graph", pattern: "Shortest Path", link: "https://www.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-matrix/1", notes: "Use min-heap/priority queue. Relax edges greedily.", commonMistakes: "Not handling large distances (use long long)", timeComplexity: "O((V+E) log V)", spaceComplexity: "O(V)", codeSnippet: `vector<int> dijkstra(int V, vector<vector<int>>& edges, int src) {
+    vector<vector<pair<int,int>>> adj(V);
+    for(auto& e:edges){ adj[e[0]].push_back({e[1],e[2]}); adj[e[1]].push_back({e[0],e[2]}); }
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<>> pq;
+    vector<int> dist(V,INT_MAX); dist[src]=0; pq.push({0,src});
+    while(!pq.empty()){
+        auto [d,u]=pq.top(); pq.pop();
+        if(d>dist[u]) continue;
+        for(auto [v,w]:adj[u]) if(dist[u]+w<dist[v]){ dist[v]=dist[u]+w; pq.push({dist[v],v}); }
+    }
+    return dist;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 3, mistakeJournal: "", almostKnew: 0 },
+    { id: 46, name: "Prim's MST", difficulty: "medium", topic: "Graph", pattern: "MST", link: "https://www.geeksforgeeks.org/problems/minimum-spanning-tree/1", notes: "Use min-heap. Start from any node. Pick min weight edge connecting visited to unvisited.", commonMistakes: "Counting edges incorrectly for MST", timeComplexity: "O(E log E)", spaceComplexity: "O(V+E)", codeSnippet: `int spanningTree(int V, vector<vector<int>>& edges) {
+    vector<vector<pair<int,int>>> adj(V);
+    for(auto& e:edges){ adj[e[0]].push_back({e[1],e[2]}); adj[e[1]].push_back({e[0],e[2]}); }
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<>> pq;
+    vector<int> vis(V,0); pq.push({0,0}); int sum=0;
+    while(!pq.empty()){
+        auto [wt,u]=pq.top(); pq.pop();
+        if(vis[u]) continue;
+        vis[u]=1; sum+=wt;
+        for(auto [v,w]:adj[u]) if(!vis[v]) pq.push({w,v});
+    }
+    return sum;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 3, mistakeJournal: "", almostKnew: 0 },
+
+    // --- Greedy ---
+    { id: 47, name: "Assign Cookies", difficulty: "easy", topic: "Greedy", pattern: "Greedy Sorting", link: "https://leetcode.com/problems/assign-cookies/", notes: "Sort both arrays. Match smallest cookie to smallest greed factor.", commonMistakes: "Not sorting both arrays", timeComplexity: "O(n log n)", spaceComplexity: "O(1)", codeSnippet: `int findContentChildren(vector<int>& g, vector<int>& s) {
+    sort(g.begin(),g.end()); sort(s.begin(),s.end());
+    int i=0,j=0,ans=0;
+    while(i<g.size()&&j<s.size()){
+        if(g[i]<=s[j]){ ans++; i++; j++; }
+        else j++;
+    }
+    return ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 5, mistakeJournal: "", almostKnew: 0 },
+    { id: 48, name: "Jump Game II", difficulty: "medium", topic: "Greedy", pattern: "BFS Greedy", link: "https://leetcode.com/problems/jump-game-ii/", notes: "Maintain current range. At each step, compute farthest reachable. When range ends, increment jumps.", commonMistakes: "Not handling edge case when n=1", timeComplexity: "O(n)", spaceComplexity: "O(1)", codeSnippet: `int jump(vector<int>& nums) {
+    int jumps=0, curEnd=0, farthest=0;
+    for(int i=0;i<nums.size()-1;i++){
+        farthest=max(farthest,i+nums[i]);
+        if(i==curEnd){ jumps++; curEnd=farthest; }
+    }
+    return jumps;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 3, mistakeJournal: "", almostKnew: 0 },
+    { id: 49, name: "Insert Interval", difficulty: "medium", topic: "Greedy", pattern: "Interval Merge", link: "https://leetcode.com/problems/insert-interval/", notes: "Three phases: add intervals before new, merge overlapping, add rest.", commonMistakes: "Not handling cases where newInterval is at start or end", timeComplexity: "O(n)", spaceComplexity: "O(n)", codeSnippet: `vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& ni) {
+    vector<vector<int>> ans; int i=0, n=intervals.size();
+    while(i<n && intervals[i][1]<ni[0]) ans.push_back(intervals[i++]);
+    while(i<n && intervals[i][0]<=ni[1]){ ni[0]=min(ni[0],intervals[i][0]); ni[1]=max(ni[1],intervals[i][1]); i++; }
+    ans.push_back(ni);
+    while(i<n) ans.push_back(intervals[i++]);
+    return ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+
+    // --- DP ---
+    { id: 50, name: "Climbing Stairs", difficulty: "easy", topic: "DP", pattern: "Fibonacci DP", link: "https://leetcode.com/problems/climbing-stairs/", notes: "dp[i] = dp[i-1] + dp[i-2]. Can be optimized to O(1) space.", commonMistakes: "Not handling base cases (n=1, n=2)", timeComplexity: "O(n)", spaceComplexity: "O(1)", codeSnippet: `int climbStairs(int n) {
+    if(n<=2) return n;
+    int a=1, b=2, c;
+    for(int i=3;i<=n;i++){ c=a+b; a=b; b=c; }
+    return c;
+}`, status: "Mastered", lastRevised: new Date().toISOString(), confidence: 8, mistakeJournal: "", almostKnew: 0 },
+    { id: 51, name: "Coin Change", difficulty: "medium", topic: "DP", pattern: "Unbounded Knapsack", link: "https://leetcode.com/problems/coin-change/", notes: "dp[amount] = min(dp[amount], dp[amount-coin] + 1). Initialize dp with large value.", commonMistakes: "Using INT_MAX leads to overflow when adding 1", timeComplexity: "O(amount * n)", spaceComplexity: "O(amount)", codeSnippet: `int coinChange(vector<int>& coins, int amount) {
+    vector<int> dp(amount+1, amount+1);
+    dp[0]=0;
+    for(int a=1;a<=amount;a++)
+        for(int c:coins) if(a>=c) dp[a]=min(dp[a], dp[a-c]+1);
+    return dp[amount]==amount+1 ? -1 : dp[amount];
+}`, status: "Weak", lastRevised: new Date().toISOString(), confidence: 3, mistakeJournal: "", almostKnew: 0 },
+    { id: 52, name: "Frog Jump (Min Cost)", difficulty: "easy", topic: "DP", pattern: "1D DP", link: "https://www.geeksforgeeks.org/problems/geek-jump/1", notes: "dp[i] = min(dp[i-1]+|h[i]-h[i-1]|, dp[i-2]+|h[i]-h[i-2]|).", commonMistakes: "Not handling i=1 case (which requires only one jump)", timeComplexity: "O(n)", spaceComplexity: "O(1)", codeSnippet: `int minCost(vector<int>& height) {
+    int prev=0, prev2=0;
+    for(int i=1;i<height.size();i++){
+        int one=prev+abs(height[i]-height[i-1]);
+        int two=INT_MAX;
+        if(i>1) two=prev2+abs(height[i]-height[i-2]);
+        int cur=min(one,two);
+        prev2=prev; prev=cur;
+    }
+    return prev;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+
+    // --- Bit Manipulation ---
+    { id: 53, name: "Single Number", difficulty: "easy", topic: "Bit Manipulation", pattern: "XOR", link: "https://leetcode.com/problems/single-number/", notes: "XOR all numbers. Duplicates cancel out (a^a=0). Remaining = single number.", commonMistakes: "Forgetting XOR properties", timeComplexity: "O(n)", spaceComplexity: "O(1)", codeSnippet: `int singleNumber(vector<int>& nums) {
+    int ans=0;
+    for(int n:nums) ans^=n;
+    return ans;
+}`, status: "Mastered", lastRevised: new Date().toISOString(), confidence: 9, mistakeJournal: "", almostKnew: 0 },
+    { id: 54, name: "Power of Two", difficulty: "easy", topic: "Bit Manipulation", pattern: "Bit Check", link: "https://leetcode.com/problems/power-of-two/", notes: "n & (n-1) clears the rightmost set bit. Power of 2 has exactly one set bit.", commonMistakes: "Not handling n<=0 edge case", timeComplexity: "O(1)", spaceComplexity: "O(1)", codeSnippet: `bool isPowerOfTwo(int n) {
+    return n>0 && (n&(n-1))==0;
+}`, status: "Mastered", lastRevised: new Date().toISOString(), confidence: 9, mistakeJournal: "", almostKnew: 0 },
+    { id: 55, name: "Subset Generation", difficulty: "medium", topic: "Bit Manipulation", pattern: "Bitmask", link: "https://leetcode.com/problems/subsets/", notes: "Use bitmask from 0 to 2^n-1. For each bit set, include element in subset.", commonMistakes: "Not iterating over all bits for each mask", timeComplexity: "O(n*2^n)", spaceComplexity: "O(n*2^n)", codeSnippet: `vector<vector<int>> subsets(vector<int>& nums) {
+    int n=nums.size(), total=1<<n;
+    vector<vector<int>> ans;
+    for(int mask=0;mask<total;mask++){
+        vector<int> sub;
+        for(int i=0;i<n;i++) if(mask&(1<<i)) sub.push_back(nums[i]);
+        ans.push_back(sub);
+    }
+    return ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+
+    // --- Recursion ---
+    { id: 56, name: "Pow(x,n)", difficulty: "medium", topic: "Recursion", pattern: "Binary Exponentiation", link: "https://leetcode.com/problems/powx-n/", notes: "If n is even: x^n = (x*x)^(n/2). If odd: x^n = x * x^(n-1). Handle negative n.", commonMistakes: "Not handling INT_MIN negation (overflow)", timeComplexity: "O(log n)", spaceComplexity: "O(1)", codeSnippet: `double myPow(double x, int n) {
+    double ans=1.0; long long nu=n;
+    if(nu<0) nu=-nu;
+    while(nu){
+        if(nu%2==0){ x*=x; nu/=2; }
+        else{ ans*=x; nu--; }
+    }
+    return n<0 ? 1.0/ans : ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+
+    // --- Hashing ---
+    { id: 57, name: "Highest/Lowest Frequency", difficulty: "easy", topic: "Hashing", pattern: "Map Frequency", link: "https://www.geeksforgeeks.org/problems/frequency-of-the-most-frequent-element/1", notes: "Use map/dictionary to count frequencies. Track min and max frequency elements.", commonMistakes: "Not initializing min/max correctly", timeComplexity: "O(n)", spaceComplexity: "O(n)", codeSnippet: `vector<int> getFrequencies(vector<int>& v) {
+    map<int,int> mpp;
+    for(int x:v) mpp[x]++;
+    int minF=INT_MAX, maxF=0, minE, maxE;
+    for(auto& [k,f]:mpp){
+        if(f>maxF){ maxF=f; maxE=k; }
+        if(f<minF){ minF=f; minE=k; }
+    }
+    return {maxE,minE};
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 5, mistakeJournal: "", almostKnew: 0 },
+
+    // --- Additional Tree Problems ---
+    { id: 58, name: "Zigzag Level Order", difficulty: "medium", topic: "Trees", pattern: "Level Order + Reverse", link: "https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/", notes: "Same as level order, but alternate reversal at each level.", commonMistakes: "Reversing the wrong way", timeComplexity: "O(n)", spaceComplexity: "O(w)", codeSnippet: `vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+    vector<vector<int>> ans; if(!root) return ans;
+    queue<TreeNode*> q; q.push(root); bool l2r=true;
+    while(!q.empty()){
+        int sz=q.size(); vector<int> level(sz);
+        for(int i=0;i<sz;i++){
+            TreeNode* n=q.front(); q.pop();
+            int idx=l2r?i:sz-1-i;
+            level[idx]=n->val;
+            if(n->left) q.push(n->left);
+            if(n->right) q.push(n->right);
+        }
+        l2r=!l2r; ans.push_back(level);
+    }
+    return ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 4, mistakeJournal: "", almostKnew: 0 },
+    { id: 59, name: "Maximum Path Sum", difficulty: "hard", topic: "Trees", pattern: "DFS with Global", link: "https://leetcode.com/problems/binary-tree-maximum-path-sum/", notes: "For each node, compute max path that goes through it. Max of left+right+val. Return max(left,right)+val up.", commonMistakes: "Not considering negative values correctly", timeComplexity: "O(n)", spaceComplexity: "O(h)", codeSnippet: `int pathSum(TreeNode* root, int& ans){
+    if(!root) return 0;
+    int l=max(0,pathSum(root->left,ans)), r=max(0,pathSum(root->right,ans));
+    ans=max(ans,l+r+root->val);
+    return root->val+max(l,r);
+}
+int maxPathSum(TreeNode* root) {
+    int ans=INT_MIN; pathSum(root,ans); return ans;
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 3, mistakeJournal: "", almostKnew: 0 },
+    { id: 60, name: "Symmetric Tree", difficulty: "easy", topic: "Trees", pattern: "DFS Compare", link: "https://leetcode.com/problems/symmetric-tree/", notes: "Compare left subtree mirrored with right subtree: left->left vs right->right, left->right vs right->left.", commonMistakes: "Comparing left->left with right->left instead", timeComplexity: "O(n)", spaceComplexity: "O(h)", codeSnippet: `bool check(TreeNode* l, TreeNode* r){
+    if(!l&&!r) return true;
+    if(!l||!r) return false;
+    if(l->val!=r->val) return false;
+    return check(l->left,r->right) && check(l->right,r->left);
+}
+bool isSymmetric(TreeNode* root) {
+    return check(root->left,root->right);
+}`, status: "Fresh", lastRevised: new Date().toISOString(), confidence: 5, mistakeJournal: "", almostKnew: 0 }
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let problems = [];
+let currentFilterTopic = "All";
+let currentFilterStatus = "All";
+let searchQuery = "";
+let currentEditId = null;
+let reviewQueue = [], reviewIndex = 0;
+let recallList = [], recallIdx = 0, currentRecallProblem = null;
+let isInterviewMode = false, interviewTimer = null, interviewSeconds = 45*60;
+let topicChart = null, activityChart = null;
+
+// ============================================================
+// DATA PERSISTENCE
+// ============================================================
+function loadData() {
+    const stored = localStorage.getItem("dsa_recall_problems_v2");
+    if(stored) problems = JSON.parse(stored);
+    else problems = defaultProblems;
+    saveData();
+}
+function saveData() { localStorage.setItem("dsa_recall_problems_v2", JSON.stringify(problems)); }
+function updateLastRevised(pid) {
+    let p = problems.find(p=>p.id===pid);
+    if(p) { p.lastRevised = new Date().toISOString(); saveData(); }
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg, duration=2000) {
+    let t=document.createElement('div');
+    t.className='toast';
+    t.innerHTML = msg;
+    document.body.appendChild(t);
+    setTimeout(()=>{ t.classList.add('fade-out'); setTimeout(()=>t.remove(),300); }, duration);
+}
+
+// ============================================================
+// STATISTICS
+// ============================================================
+function computeStatsAndHeatmap() {
+    const total = problems.length;
+    const mastered = problems.filter(p=>p.status==="Mastered").length;
+    const fresh = problems.filter(p=>p.status==="Fresh").length;
+    const weak = problems.filter(p=>p.status==="Weak").length;
+    const forgotten = problems.filter(p=>p.status==="Forgotten").length;
+    const today = new Date().toISOString().slice(0,10);
+    const revisedToday = problems.filter(p=>p.lastRevised && p.lastRevised.slice(0,10)===today).length;
+    const accuracy = total ? Math.round((mastered/total)*100) : 0;
+
+    // Streak
+    let uniqueDates = [...new Set(problems.map(p=>p.lastRevised?.slice(0,10)).filter(d=>d))].sort().reverse();
+    let streak = 0;
+    let checkDate = new Date();
+    for(let d of uniqueDates){
+        let expected = checkDate.toISOString().slice(0,10);
+        if(d===expected){ streak++; checkDate.setDate(checkDate.getDate()-1); }
+        else break;
+    }
+
+    // Average confidence
+    let avgConf = problems.reduce((s,p)=>s+p.confidence,0)/(total||1);
+
+    document.getElementById("statsContainer").innerHTML = `
+        <div class="stat-card"><i class="fas fa-crown stat-icon"></i><div class="stat-number">${mastered}</div><div class="stat-label">👑 Mastered</div></div>
+        <div class="stat-card"><i class="fas fa-calendar-check stat-icon"></i><div class="stat-number">${revisedToday}</div><div class="stat-label">📅 Revised Today</div></div>
+        <div class="stat-card"><i class="fas fa-bullseye stat-icon"></i><div class="stat-number">${accuracy}%</div><div class="stat-label">🎯 Recall Accuracy</div></div>
+        <div class="stat-card"><i class="fas fa-fire stat-icon"></i><div class="stat-number">${streak}</div><div class="stat-label">🔥 Streak Days</div></div>
+        <div class="stat-card"><i class="fas fa-exclamation-triangle stat-icon"></i><div class="stat-number">${weak+forgotten}</div><div class="stat-label">⚠️ Needs Review</div></div>
+        <div class="stat-card"><i class="fas fa-star stat-icon"></i><div class="stat-number">${avgConf.toFixed(1)}</div><div class="stat-label">⭐ Avg Confidence</div></div>
+        <div class="stat-card"><i class="fas fa-database stat-icon"></i><div class="stat-number">${total}</div><div class="stat-label">📚 Total Problems</div></div>
+        <div class="stat-card"><i class="fas fa-chart-line stat-icon"></i><div class="stat-number">${weak}</div><div class="stat-label">💪 Weak</div></div>
+    `;
+    document.getElementById("totalProblemsCount").textContent = total;
+
+    // Heatmap (60 days)
+    let revMap = new Map();
+    problems.forEach(p=>{ if(p.lastRevised){
+        let d = p.lastRevised.slice(0,10);
+        revMap.set(d, (revMap.get(d)||0)+1);
+    }});
+    let heatHtml = '';
+    for(let i=59;i>=0;i--){
+        let d = new Date(); d.setDate(d.getDate()-i);
+        let dStr = d.toISOString().slice(0,10);
+        let count = revMap.get(dStr)||0;
+        let level = count>4 ? 5 : count>3 ? 4 : count>2 ? 3 : count>1 ? 2 : count>0 ? 1 : 0;
+        let diff = d.toDateString()===new Date().toDateString() ? 'today' : '';
+        heatHtml += `<div class="heat-cell heat-${level}" data-title="${dStr}: ${count} revision${count!==1?'s':''}" style="${diff==='today'?'outline:1px solid rgba(74,122,255,0.5);outline-offset:1px;':''}"></div>`;
+    }
+    document.getElementById("heatmapGrid").innerHTML = heatHtml;
+
+    // Update charts
+    updateCharts(revMap);
+}
+
+function updateCharts(revMap) {
+    // Topic Distribution
+    let topicCount = {};
+    problems.forEach(p => { topicCount[p.topic] = (topicCount[p.topic]||0)+1; });
+    let topics = Object.keys(topicCount);
+    let colors = ['#4a7aff','#8b5cf6','#06d6a0','#f59e0b','#ef4444','#ec4899','#14b8a6','#6366f1','#f97316','#22d3ee'];
+
+    const ctx1 = document.getElementById('topicChart').getContext('2d');
+    if(topicChart) topicChart.destroy();
+    topicChart = new Chart(ctx1, {
+        type: 'doughnut',
+        data: {
+            labels: topics,
+            datasets: [{
+                data: topics.map(t=>topicCount[t]),
+                backgroundColor: colors.slice(0,topics.length),
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom', labels: { color: '#8899cc', font: { size: 10 }, padding: 8 } }
+            },
+            cutout: '65%'
+        }
+    });
+
+    // Activity Chart (last 14 days)
+    const ctx2 = document.getElementById('activityChart').getContext('2d');
+    if(activityChart) activityChart.destroy();
+    let labels = [], data = [];
+    for(let i=13;i>=0;i--){
+        let d = new Date(); d.setDate(d.getDate()-i);
+        labels.push(d.toLocaleDateString('en-US',{month:'short',day:'numeric'}));
+        data.push(revMap.get(d.toISOString().slice(0,10))||0);
+    }
+    activityChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{
+                label: 'Revisions',
+                data,
+                backgroundColor: '#4a7aff',
+                borderRadius: 4,
+                borderSkipped: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { ticks: { color: '#556688', font: { size: 9 } }, grid: { display: false } },
+                y: { ticks: { color: '#556688', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.03)' }, beginAtZero: true }
+            }
+        }
+    });
+}
+
+// ============================================================
+// FILTERS
+// ============================================================
+function renderFilters() {
+    let topics = [...new Set(problems.map(p=>p.topic))].sort();
+    let topicDiv = document.getElementById("topicFilters");
+    topicDiv.innerHTML = `<button class="filter-btn ${currentFilterTopic==="All"?"active":""}" data-topic="All">All Topics</button>` +
+        topics.map(t=>`<button class="filter-btn ${currentFilterTopic===t?"active":""}" data-topic="${t}">${t}</button>`).join('');
+    document.querySelectorAll("[data-topic]").forEach(btn=>btn.addEventListener('click',()=>{
+        currentFilterTopic=btn.dataset.topic; renderAll();
+    }));
+
+    let statusDiv = document.getElementById("statusFilters");
+    statusDiv.innerHTML = `<button class="filter-btn ${currentFilterStatus==="All"?"active":""}" data-status="All">All Status</button>` +
+        ["Fresh","Weak","Forgotten","Mastered"].map(s=>`<button class="filter-btn ${currentFilterStatus===s?"active":""}" data-status="${s}">${s}</button>`).join('');
+    document.querySelectorAll("[data-status]").forEach(btn=>btn.addEventListener('click',()=>{
+        currentFilterStatus=btn.dataset.status; renderAll();
+    }));
+
+    let patterns = [...new Set(problems.map(p=>p.pattern))].sort();
+    let patternDiv = document.getElementById("patternChips");
+    patternDiv.innerHTML = patterns.map(pat=>`<button class="pattern-chip" data-pattern="${pat}">${pat}</button>`).join('');
+    document.querySelectorAll(".pattern-chip").forEach(btn=>btn.addEventListener('click',()=>{
+        currentFilterTopic=btn.dataset.pattern; renderAll();
+    }));
+}
+
+// ============================================================
+// RENDER CARDS
+// ============================================================
+function renderCards() {
+    let filtered = problems.filter(p => {
+        if(currentFilterTopic !== "All" && p.topic !== currentFilterTopic && p.pattern !== currentFilterTopic) return false;
+        if(currentFilterStatus !== "All" && p.status !== currentFilterStatus) return false;
+        if(searchQuery && !p.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+           !p.pattern.toLowerCase().includes(searchQuery.toLowerCase()) &&
+           !p.topic.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+        return true;
+    });
+
+    // Sort
+    const sortVal = document.getElementById("sortSelect")?.value || "default";
+    if(sortVal === "confidence") filtered.sort((a,b) => a.confidence - b.confidence);
+    else if(sortVal === "confidence-desc") filtered.sort((a,b) => b.confidence - a.confidence);
+    else if(sortVal === "name") filtered.sort((a,b) => a.name.localeCompare(b.name));
+    else if(sortVal === "recent") filtered.sort((a,b) => new Date(b.lastRevised) - new Date(a.lastRevised));
+    else if(sortVal === "oldest") filtered.sort((a,b) => new Date(a.lastRevised) - new Date(b.lastRevised));
+
+    const grid = document.getElementById("cardsGrid");
+    document.getElementById("visibleCount").textContent = filtered.length;
+
+    let html = filtered.map(p => {
+        let confDots = '';
+        for(let i=0;i<10;i++){
+            let filled = i < p.confidence;
+            let cls = 'score-dot';
+            if(filled) cls += p.status==='Mastered' ? ' filled mastered' : ' filled';
+            confDots += `<span class="${cls}"></span>`;
+        }
+        return `
+        <div class="card status-${p.status}" data-id="${p.id}">
+            <div class="card-header">
+                <span class="problem-title">${safeHtml(p.name)}</span>
+                <span class="difficulty ${p.difficulty}">${p.difficulty}</span>
+            </div>
+            <div class="card-tags">
+                <span class="topic-badge"><i class="fas fa-folder"></i> ${safeHtml(p.topic)}</span>
+                <span class="topic-badge pattern"><i class="fas fa-tag"></i> ${safeHtml(p.pattern)}</span>
+            </div>
+            <div class="flex-between">
+                <a href="${p.link}" target="_blank" style="color:var(--accent);font-size:0.75rem;text-decoration:none;"><i class="fas fa-external-link-alt"></i> Problem Link</a>
+                <select class="status-select" data-id="${p.id}">
+                    ${["Fresh","Weak","Forgotten","Mastered"].map(s => `<option ${p.status===s?"selected":""}>${s}</option>`).join('')}
+                </select>
+            </div>
+            <div class="last-rev"><i class="far fa-clock"></i> Last revised: ${p.lastRevised?new Date(p.lastRevised).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}):"never"}</div>
+            <div id="details-${p.id}" class="hidden-blur">
+                <div class="code-snip">
+                    <span style="color:var(--accent3);font-weight:600;">💡 Approach:</span> ${safeHtml(p.notes)}<br>
+                    <span style="color:var(--medium);font-weight:600;">⚠️ Mistakes:</span> ${safeHtml(p.commonMistakes)}<br>
+                    <span style="color:var(--text-muted);">⏱️ TC: ${safeHtml(p.timeComplexity)} / SC: ${safeHtml(p.spaceComplexity)}</span><br>
+                    <span style="color:var(--accent);font-weight:600;">📜 Code:</span>
+                    <pre>${safeHtml(p.codeSnippet)}</pre>
+                </div>
+            </div>
+            ${p.mistakeJournal ? `<div class="mistake-text"><i class="fas fa-exclamation-triangle" style="color:var(--hard);"></i> ${safeHtml(p.mistakeJournal).substring(0,120)}</div>` : ''}
+            <div class="card-actions">
+                <button class="icon-btn reveal-btn" data-id="${p.id}"><i class="fas fa-eye"></i> Reveal</button>
+                <button class="icon-btn edit-btn" data-id="${p.id}"><i class="fas fa-edit"></i> Edit</button>
+                <button class="icon-btn almost-btn" data-id="${p.id}"><i class="fas fa-lightbulb"></i> Almost Knew</button>
+                <button class="icon-btn copy-btn" data-id="${p.id}"><i class="fas fa-copy"></i></button>
+            </div>
+            <div class="flex-between">
+                <div class="confidence"><span class="score-indicator">${confDots}</span></div>
+                <div><input type="range" min="0" max="10" value="${p.confidence}" class="conf-slider" data-id="${p.id}" style="width:80px"></div>
+            </div>
+            <div style="font-size:0.6rem;color:var(--text-muted);">${p.almostKnew>0?`<i class="fas fa-lightbulb" style="color:var(--medium);"></i> Almost knew ${p.almostKnew} time${p.almostKnew>1?'s':''}`:''}</div>
+        </div>`;
+    }).join('');
+
+    grid.innerHTML = html || `<div class="text-center" style="padding:2rem;color:var(--text-muted);"><i class="fas fa-search" style="font-size:2rem;opacity:0.3;margin-bottom:0.5rem;display:block;"></i>No problems match your filters</div>`;
+    attachCardEvents();
+}
+
+function attachCardEvents() {
+    document.querySelectorAll('.status-select').forEach(sel => {
+        sel.removeEventListener('change', statusHandler);
+        sel.addEventListener('change', statusHandler);
+    });
+    document.querySelectorAll('.reveal-btn').forEach(btn => {
+        btn.removeEventListener('click', revealHandler);
+        btn.addEventListener('click', revealHandler);
+    });
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.removeEventListener('click', editHandler);
+        btn.addEventListener('click', editHandler);
+    });
+    document.querySelectorAll('.almost-btn').forEach(btn => {
+        btn.removeEventListener('click', almostHandler);
+        btn.addEventListener('click', almostHandler);
+    });
+    document.querySelectorAll('.conf-slider').forEach(sl => {
+        sl.removeEventListener('change', confHandler);
+        sl.addEventListener('change', confHandler);
+    });
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.removeEventListener('click', copyHandler);
+        btn.addEventListener('click', copyHandler);
+    });
+
+    function statusHandler(e) {
+        let id = parseInt(this.dataset.id);
+        let p = problems.find(p=>p.id===id);
+        if(p){ p.status = this.value; updateLastRevised(id); renderAll(); showToast(`✅ "${p.name}" marked as ${p.status}`); }
+    }
+    function revealHandler(e) {
+        let id = parseInt(this.dataset.id);
+        let el = document.getElementById(`details-${id}`);
+        if(el) {
+            el.classList.toggle('hidden-blur');
+            el.classList.toggle('revealed-section');
+            this.classList.toggle('revealed');
+            this.innerHTML = el.classList.contains('hidden-blur') ? '<i class="fas fa-eye"></i> Reveal' : '<i class="fas fa-eye-slash"></i> Hide';
+        }
+    }
+    function editHandler(e) { let id = parseInt(this.dataset.id); openEditModal(id); }
+    function almostHandler(e) {
+        let id = parseInt(this.dataset.id);
+        let p = problems.find(p=>p.id===id);
+        p.almostKnew = (p.almostKnew||0)+1;
+        p.confidence = Math.max(0, p.confidence-1);
+        saveData(); renderAll();
+        showToast("📝 Noted: 'Almost knew' — revising pattern recommendation decreased confidence");
+    }
+    function confHandler(e) {
+        let id = parseInt(this.dataset.id);
+        let p = problems.find(p=>p.id===id);
+        p.confidence = parseInt(this.value);
+        saveData(); renderAll();
+    }
+    function copyHandler(e) {
+        let id = parseInt(this.dataset.id);
+        let p = problems.find(p=>p.id===id);
+        if(p && p.codeSnippet){
+            navigator.clipboard.writeText(p.codeSnippet).then(()=>{
+                showToast("📋 Code copied to clipboard!");
+            }).catch(()=>{
+                showToast("Failed to copy code");
+            });
+        }
+    }
+}
+
+// ============================================================
+// EDIT MODAL
+// ============================================================
+function openEditModal(id) {
+    let p = problems.find(p=>p.id===id);
+    if(!p) return;
+    document.getElementById("editNotes").value = p.notes || '';
+    document.getElementById("editMistake").value = p.mistakeJournal || '';
+    document.getElementById("editCode").value = p.codeSnippet || '';
+    document.getElementById("editPattern").value = p.pattern || '';
+    document.getElementById("editTimeComplexity").value = p.timeComplexity || '';
+    document.getElementById("editSpaceComplexity").value = p.spaceComplexity || '';
+    currentEditId = id;
+    document.getElementById("editModal").style.display = "flex";
+}
+document.getElementById("saveEditBtn").onclick = () => {
+    let p = problems.find(p=>p.id===currentEditId);
+    if(p){
+        p.notes = document.getElementById("editNotes").value;
+        p.mistakeJournal = document.getElementById("editMistake").value;
+        p.codeSnippet = document.getElementById("editCode").value;
+        p.pattern = document.getElementById("editPattern").value;
+        p.timeComplexity = document.getElementById("editTimeComplexity").value;
+        p.spaceComplexity = document.getElementById("editSpaceComplexity").value;
+        updateLastRevised(currentEditId);
+        saveData(); renderAll();
+        showToast("✅ Problem updated successfully");
+    }
+    document.getElementById("editModal").style.display = "none";
+};
+// Close edit modal on Escape key
+document.addEventListener('keydown', function escEdit(e) {
+    if(e.key === 'Escape' && document.getElementById('editModal').style.display === 'flex') {
+        document.getElementById('editModal').style.display = 'none';
+    }
+});
+// Close edit modal on backdrop click
+document.getElementById('editModal').addEventListener('click', function(e) {
+    if(e.target === this) this.style.display = 'none';
+});
+document.getElementById("closeModalBtn").onclick = () => { document.getElementById("editModal").style.display = "none"; };
+document.getElementById("deleteProblemBtn").onclick = () => {
+    if(confirm("Delete this problem permanently?")){
+        problems = problems.filter(p=>p.id!==currentEditId);
+        saveData(); renderAll();
+        document.getElementById("editModal").style.display = "none";
+        showToast("🗑️ Problem deleted");
+    }
+};
+
+// ============================================================
+// FAST REVIEW MODE
+// ============================================================
+function startFastReview() {
+    reviewQueue = problems.filter(p => {
+        if(currentFilterTopic!=="All" && p.topic!==currentFilterTopic && p.pattern!==currentFilterTopic) return false;
+        if(currentFilterStatus!=="All" && p.status!==currentFilterStatus) return false;
+        return true;
+    });
+    if(reviewQueue.length===0) { alert("No problems match current filter."); return; }
+    reviewIndex=0;
+    document.getElementById("reviewOverlay").style.display = "flex";
+    updateReviewCard();
+    if(window.reviewTimerInterval) clearInterval(window.reviewTimerInterval);
+    let sec = 0;
+    window.reviewTimerInterval = setInterval(()=>{
+        sec++;
+        let m = String(Math.floor(sec/60)).padStart(2,'0');
+        let s = String(sec%60).padStart(2,'0');
+        document.getElementById("reviewTimer").textContent = `${m}:${s}`;
+    }, 1000);
+}
+function updateReviewCard() {
+    let p = reviewQueue[reviewIndex];
+    if(!p) return;
+    document.getElementById("reviewTitle").innerHTML = safeHtml(p.name);
+    document.getElementById("reviewMeta").innerHTML = `<span class="difficulty ${p.difficulty}">${p.difficulty}</span> • ${safeHtml(p.topic)} • ${safeHtml(p.pattern)}`;
+    document.getElementById("reviewTags").innerHTML = `<span class="topic-badge"><i class="fas fa-tag"></i> ${safeHtml(p.pattern)}</span><span class="topic-badge"><i class="fas fa-clock"></i> ${safeHtml(p.timeComplexity)}</span><span class="topic-badge"><i class="fas fa-server"></i> ${safeHtml(p.spaceComplexity)}</span>`;
+    let hiddenDiv = document.getElementById("reviewHiddenArea");
+    hiddenDiv.classList.add("hidden-blur");
+    hiddenDiv.innerHTML = `<div style="text-align:center;color:var(--text-muted);">
+        <i class="fas fa-lock" style="font-size:2rem;opacity:0.3;margin-bottom:0.5rem;display:block;"></i>
+        <div style="font-size:0.9rem;">🔒 Content Hidden — Try to Recall First</div>
+        <div style="font-size:0.7rem;margin-top:0.3rem;">Press <span class="kbd">R</span> or click Reveal</div>
+        <div style="margin-top:0.8rem;font-size:0.75rem;color:var(--text-secondary);">💭 Think about: approach, code structure, edge cases, time & space complexity</div>
+    </div>`;
+    window.currentReviewProblem = p;
+    document.getElementById("reviewProgress").textContent = `${reviewIndex+1}/${reviewQueue.length}`;
+    document.getElementById("reviewRevealBtn").innerHTML = '<i class="fas fa-eye"></i> Reveal';
+}
+document.getElementById("reviewRevealBtn").onclick = () => {
+    let p = window.currentReviewProblem;
+    if(!p) return;
+    let hiddenDiv = document.getElementById("reviewHiddenArea");
+    hiddenDiv.classList.remove("hidden-blur");
+    hiddenDiv.innerHTML = `<div style="text-align:left;">
+        <div style="margin-bottom:0.8rem;padding:0.8rem;background:rgba(6,214,160,0.05);border-radius:var(--radius-sm);border-left:3px solid var(--accent3);">
+            <strong style="color:var(--accent3);">💡 Approach:</strong><br>${safeHtml(p.notes)}
+        </div>
+        <div style="margin-bottom:0.8rem;padding:0.8rem;background:rgba(245,158,11,0.05);border-radius:var(--radius-sm);border-left:3px solid var(--medium);">
+            <strong style="color:var(--medium);">⚠️ Common Mistakes:</strong><br>${safeHtml(p.commonMistakes)}
+        </div>
+        <div style="margin-bottom:0.8rem;display:flex;gap:1rem;font-size:0.75rem;color:var(--text-muted);">
+            <span><strong>⏱️ TC:</strong> ${safeHtml(p.timeComplexity)}</span>
+            <span><strong>💾 SC:</strong> ${safeHtml(p.spaceComplexity)}</span>
+        </div>
+        <div style="padding:0.8rem;background:rgba(0,0,0,0.3);border-radius:var(--radius-sm);border:1px solid var(--border);">
+            <strong style="color:var(--accent);">📜 Code:</strong>
+            <pre style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;margin-top:0.3rem;overflow-x:auto;white-space:pre-wrap;color:var(--text-primary);">${safeHtml(p.codeSnippet)}</pre>
+        </div>
+        ${p.mistakeJournal ? `<div style="margin-top:0.5rem;padding:0.5rem;background:rgba(239,68,68,0.05);border-radius:var(--radius-xs);border-left:2px solid var(--hard);font-size:0.7rem;"><strong style="color:var(--hard);">📓 Mistake Journal:</strong> ${safeHtml(p.mistakeJournal)}</div>` : ''}
+    </div>`;
+    document.getElementById("reviewRevealBtn").innerHTML = '<i class="fas fa-check"></i> Revealed';
+    updateLastRevised(p.id);
+    renderAll();
+};
+document.getElementById("reviewPrevBtn").onclick = () => { if(reviewIndex>0) { reviewIndex--; updateReviewCard(); } };
+document.getElementById("reviewNextBtn").onclick = () => { if(reviewIndex<reviewQueue.length-1) { reviewIndex++; updateReviewCard(); } };
+document.getElementById("reviewAlmostBtn").onclick = () => {
+    let p = window.currentReviewProblem;
+    if(p) {
+        p.almostKnew = (p.almostKnew||0)+1;
+        p.confidence = Math.max(0, p.confidence-1);
+        if(p.status==="Mastered") p.status="Weak";
+        else if(p.status==="Fresh") p.status="Weak";
+        saveData();
+        showToast("📝 Noted 'Almost knew' — moved to review queue");
+        // Go to next
+        if(reviewIndex<reviewQueue.length-1) { reviewIndex++; updateReviewCard(); }
+    }
+};
+document.getElementById("closeReviewBtn").onclick = () => {
+    document.getElementById("reviewOverlay").style.display = "none";
+    if(window.reviewTimerInterval) { clearInterval(window.reviewTimerInterval); window.reviewTimerInterval=null; }
+};
+
+// ============================================================
+// RECALL TEST MODE
+// ============================================================
+document.getElementById("recallTestBtn").onclick = () => {
+    recallList = problems.filter(p=>p.status!=="Mastered");
+    if(recallList.length===0) recallList = [...problems];
+    recallIdx = 0;
+    showRecallProblem();
+    document.getElementById("recallModal").style.display = "flex";
+    document.getElementById("recallFeedback").style.display = "none";
+};
+function showRecallProblem() {
+    let p = recallList[recallIdx];
+    if(!p) return;
+    document.getElementById("recallProblemInfo").innerHTML = `
+        <div style="font-size:1rem;font-weight:600;margin-bottom:0.3rem;">${safeHtml(p.name)}</div>
+        <div class="flex-center" style="gap:0.5rem;">
+            <span class="difficulty ${p.difficulty}" style="font-size:0.6rem;">${p.difficulty}</span>
+            <span class="topic-badge">${safeHtml(p.topic)}</span>
+            <span class="topic-badge pattern">${safeHtml(p.pattern)}</span>
+        </div>
+        <div style="margin-top:0.5rem;"><a href="${p.link}" target="_blank" style="color:var(--accent);font-size:0.75rem;"><i class="fas fa-external-link-alt"></i> Open Problem</a></div>
+    `;
+    document.getElementById("recallAnswer").value = "";
+    document.getElementById("recallFeedback").style.display = "none";
+    currentRecallProblem = p;
+}
+document.getElementById("compareRecallBtn").onclick = () => {
+    let userAns = document.getElementById("recallAnswer").value.trim();
+    let p = currentRecallProblem;
+    if(!userAns) {
+        document.getElementById("recallFeedback").style.display = "block";
+        document.getElementById("recallFeedback").className = "recall-feedback diff";
+        document.getElementById("recallFeedback").innerHTML = "⚠️ Write your approach first!";
+        return;
+    }
+    let ideal = p.notes;
+    let keyTerms = ideal.toLowerCase().split(/\s+/).filter(w=>w.length>3);
+    let matched = keyTerms.filter(t => userAns.toLowerCase().includes(t)).length;
+    let matchPct = keyTerms.length ? Math.round((matched/keyTerms.length)*100) : 0;
+
+    let fb = document.getElementById("recallFeedback");
+    fb.style.display = "block";
+    if(matchPct >= 50) {
+        fb.className = "recall-feedback good";
+        fb.innerHTML = `<div style="font-weight:600;color:var(--accent3);"><i class="fas fa-check-circle"></i> Good recall! (${matchPct}% key terms matched)</div>
+        <div style="margin-top:0.5rem;"><strong>Your approach matched well!</strong></div>
+        <div style="margin-top:0.5rem;padding:0.5rem;background:rgba(0,0,0,0.2);border-radius:var(--radius-xs);"><strong>My notes:</strong><br>${safeHtml(ideal)}</div>
+        <div style="margin-top:0.5rem;padding:0.5rem;background:rgba(0,0,0,0.2);border-radius:var(--radius-xs);"><strong>Code:</strong><br><pre style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;margin-top:0.2rem;white-space:pre-wrap;">${safeHtml(p.codeSnippet)}</pre></div>`;
+        if(p.confidence<10) { p.confidence = Math.min(10, p.confidence+1); saveData(); }
+    } else {
+        fb.className = "recall-feedback diff";
+        fb.innerHTML = `<div style="font-weight:600;color:var(--medium);"><i class="fas fa-book"></i> Needs more study (${matchPct}% key terms matched)</div>
+        <div style="margin-top:0.5rem;"><strong>Review the approach and try again later!</strong></div>
+        <div style="margin-top:0.5rem;padding:0.5rem;background:rgba(0,0,0,0.2);border-radius:var(--radius-xs);"><strong>My notes:</strong><br>${safeHtml(ideal)}</div>
+        <div style="margin-top:0.5rem;padding:0.5rem;background:rgba(0,0,0,0.2);border-radius:var(--radius-xs);"><strong>Code:</strong><br><pre style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;margin-top:0.2rem;white-space:pre-wrap;">${safeHtml(p.codeSnippet)}</pre></div>`;
+        p.confidence = Math.max(0, p.confidence-1); saveData();
+    }
+    updateLastRevised(p.id);
+};
+document.getElementById("recallNextBtn").onclick = () => {
+    if(recallIdx<recallList.length-1) { recallIdx++; showRecallProblem(); }
+    else { document.getElementById("recallModal").style.display = "none"; showToast("🎉 Completed all problems in recall test!"); }
+};
+// Close recall modal on Escape key
+document.addEventListener('keydown', function escRecall(e) {
+    if(e.key === 'Escape' && document.getElementById('recallModal').style.display === 'flex') {
+        document.getElementById('recallModal').style.display = 'none';
+    }
+});
+// Close recall modal on backdrop click
+document.getElementById('recallModal').addEventListener('click', function(e) {
+    if(e.target === this) this.style.display = 'none';
+});
+document.getElementById("closeRecallBtn").onclick = () => { document.getElementById("recallModal").style.display = "none"; };
+
+// ============================================================
+// INTERVIEW SIMULATION MODE
+// ============================================================
+document.getElementById("interviewSimBtn").onclick = () => {
+    document.getElementById("interviewModal").style.display = "flex";
+    document.getElementById("interviewTimer").textContent = "45:00";
+    document.getElementById("interviewTimer").className = "interview-timer";
+    document.getElementById("interviewCurrent").innerHTML = '<div style="font-size:1.2rem;color:var(--text-muted);">Ready to start your interview session?</div>';
+    document.getElementById("interviewStartBtn").style.display = "inline-flex";
+    document.getElementById("interviewNextBtn").style.display = "none";
+    document.getElementById("interviewEndBtn").style.display = "none";
+    document.getElementById("interviewFeedback").style.display = "none";
+    interviewSeconds = 45*60;
+    isInterviewMode = false;
+};
+document.getElementById("interviewStartBtn").onclick = () => {
+    isInterviewMode = true;
+    document.getElementById("interviewStartBtn").style.display = "none";
+    document.getElementById("interviewNextBtn").style.display = "inline-flex";
+    document.getElementById("interviewEndBtn").style.display = "inline-flex";
+    document.getElementById("interviewFeedback").style.display = "none";
+    // Start timer
+    if(interviewTimer) clearInterval(interviewTimer);
+    interviewTimer = setInterval(() => {
+        interviewSeconds--;
+        let m = String(Math.floor(interviewSeconds/60)).padStart(2,'0');
+        let s = String(interviewSeconds%60).padStart(2,'0');
+        document.getElementById("interviewTimer").textContent = `${m}:${s}`;
+        if(interviewSeconds <= 300) document.getElementById("interviewTimer").className = "interview-timer countdown-urgent";
+        if(interviewSeconds <= 0) {
+            clearInterval(interviewTimer);
+            document.getElementById("interviewTimer").textContent = "00:00";
+            showToast("⏰ Interview time's up!");
+            document.getElementById("interviewNextBtn").style.display = "none";
+        }
+    }, 1000);
+    // Show first problem
+    showInterviewProblem();
+};
+function showInterviewProblem() {
+    let pool = problems.filter(p=>p.status!=="Mastered");
+    if(pool.length===0) pool = [...problems];
+    let p = pool[Math.floor(Math.random()*pool.length)];
+    document.getElementById("interviewCurrent").innerHTML = `
+        <div style="font-size:1.2rem;font-weight:700;margin-bottom:0.5rem;">${safeHtml(p.name)}</div>
+        <div class="flex-center" style="justify-content:center;gap:0.5rem;">
+            <span class="difficulty ${p.difficulty}">${p.difficulty}</span>
+            <span class="topic-badge">${safeHtml(p.topic)}</span>
+            <span class="topic-badge pattern">${safeHtml(p.pattern)}</span>
+        </div>
+        <div style="margin-top:0.8rem;"><a href="${p.link}" target="_blank" class="btn btn-secondary btn-sm"><i class="fas fa-external-link-alt"></i> Open Problem</a></div>
+    `;
+    window.currentInterviewProblem = p;
+}
+document.getElementById("interviewNextBtn").onclick = () => {
+    // Show solution of current problem
+    let p = window.currentInterviewProblem;
+    document.getElementById("interviewFeedback").style.display = "block";
+    document.getElementById("interviewFeedback").innerHTML = `
+        <div style="text-align:left;padding:0.8rem;background:rgba(0,0,0,0.2);border-radius:var(--radius-sm);">
+            <div style="font-weight:600;color:var(--accent3);margin-bottom:0.5rem;">💡 Solution for ${safeHtml(p.name)}</div>
+            <div style="margin-bottom:0.5rem;font-size:0.8rem;"><strong>Approach:</strong> ${safeHtml(p.notes)}</div>
+            <div style="margin-bottom:0.5rem;font-size:0.75rem;color:var(--text-muted);">⏱️ ${safeHtml(p.timeComplexity)} · 💾 ${safeHtml(p.spaceComplexity)}</div>
+            <pre style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;background:rgba(0,0,0,0.3);padding:0.5rem;border-radius:var(--radius-xs);overflow-x:auto;white-space:pre-wrap;">${safeHtml(p.codeSnippet)}</pre>
+        </div>
+    `;
+    updateLastRevised(p.id);
+    // After showing, move to next
+    setTimeout(showInterviewProblem, 3000);
+};
+document.getElementById("interviewEndBtn").onclick = () => {
+    clearInterval(interviewTimer);
+    isInterviewMode = false;
+    document.getElementById("interviewModal").style.display = "none";
+    showToast("🏁 Interview session ended. Review your performance!");
+};
+// Close interview modal on Escape key
+document.addEventListener('keydown', function escInterview(e) {
+    if(e.key === 'Escape' && document.getElementById('interviewModal').style.display === 'flex') {
+        if(isInterviewMode && !confirm("End interview session?")) return;
+        if(interviewTimer) clearInterval(interviewTimer);
+        document.getElementById('interviewModal').style.display = 'none';
+    }
+});
+// Close interview modal on backdrop click
+document.getElementById('interviewModal').addEventListener('click', function(e) {
+    if(e.target === this) {
+        if(isInterviewMode && !confirm("End interview session?")) return;
+        if(interviewTimer) clearInterval(interviewTimer);
+        this.style.display = 'none';
+    }
+});
+document.getElementById("closeInterviewBtn").onclick = () => {
+    if(isInterviewMode && !confirm("End interview session?")) return;
+    if(interviewTimer) clearInterval(interviewTimer);
+    document.getElementById("interviewModal").style.display = "none";
+};
+
+// ============================================================
+// RANDOM WEAK/FORGOTTEN
+// ============================================================
+document.getElementById("randomForgottenBtn").onclick = () => {
+    let weakList = problems.filter(p=>p.status==="Weak"||p.status==="Forgotten");
+    if(weakList.length===0) { showToast("🎉 No weak/forgotten problems! Great job!"); return; }
+    let rand = weakList[Math.floor(Math.random()*weakList.length)];
+    showToast(`🎲 Random weak problem: ${rand.name}`);
+    openEditModal(rand.id);
+};
+
+// ============================================================
+// KEYBOARD SHORTCUTS
+// ============================================================
+document.addEventListener("keydown", (e) => {
+    // Skip if typing in input/textarea
+    if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+
+    // Review overlay shortcuts
+    if(document.getElementById("reviewOverlay").style.display === "flex") {
+        if(e.key === "ArrowLeft") { e.preventDefault(); document.getElementById("reviewPrevBtn").click(); }
+        if(e.key === "ArrowRight") { e.preventDefault(); document.getElementById("reviewNextBtn").click(); }
+        if(e.key === "r" || e.key === "R") { e.preventDefault(); document.getElementById("reviewRevealBtn").click(); }
+        if(e.key === "a" || e.key === "A") { e.preventDefault(); document.getElementById("reviewAlmostBtn").click(); }
+        if(e.key === "Escape") { e.preventDefault(); document.getElementById("closeReviewBtn").click(); }
+    }
+
+    // Global shortcuts
+    if(e.key === "f" || e.key === "F") { if(!e.ctrlKey && !e.metaKey) { e.preventDefault(); document.getElementById("fastReviewBtn").click(); } }
+    if(e.key === "t" || e.key === "T") { if(!e.ctrlKey && !e.metaKey) { e.preventDefault(); document.getElementById("recallTestBtn").click(); } }
+});
+
+// ============================================================
+// SEARCH
+// ============================================================
+document.getElementById("searchInput").addEventListener("input", (e) => {
+    searchQuery = e.target.value; renderAll();
+});
+
+// ============================================================
+// SORT
+// ============================================================
+document.getElementById("sortSelect")?.addEventListener("change", renderAll);
+
+// ============================================================
+// MODAL CLOSE ON BACKDROP CLICK
+// ============================================================
+document.querySelectorAll('.modal').forEach(m => {
+    m.addEventListener('click', (e) => {
+        if(e.target === m) m.style.display = "none";
+    });
+});
+
+// ============================================================
+// SPACED REPETITION SYSTEM (Auto-priority)
+// ============================================================
+function runSpacedRepetition() {
+    let now = new Date();
+    for(let p of problems) {
+        if(p.status === "Mastered") continue;
+        if(!p.lastRevised) continue;
+        let daysSince = Math.floor((now - new Date(p.lastRevised)) / (1000*60*60*24));
+
+        // Auto-downrank based on time passed
+        if(p.status === "Fresh" && daysSince > 3) p.status = "Weak";
+        if(p.status === "Weak" && daysSince > 7) p.status = "Forgotten";
+        if(p.status === "Fresh" && daysSince > 14) p.status = "Forgotten";
+    }
+    saveData();
+}
+
+// ============================================================
+// RENDER ALL
+// ============================================================
+function renderAll() {
+    renderCards();
+    computeStatsAndHeatmap();
+    renderFilters();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadData();
+runSpacedRepetition();
+renderAll();
+
+// Keyboard shortcut hint in the header
+document.querySelector('.badge').textContent += ' · ⌨️ f=review t=recall';
+
+console.log('🚀 DSA RecallForge Pro loaded!');
+console.log(`📊 ${problems.length} problems loaded.`);
+console.log('🔥 Spaced repetition active.');
+console.log('⌨️ Shortcuts: f=Fast Review, t=Recall Test, ←→=Navigate, r=Reveal');
+</script>
+</body>
+</html>
