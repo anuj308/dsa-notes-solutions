@@ -2944,3 +2944,270 @@ Best for cost optimization:
 | IAM | Give secure permissions to Lambda. |
 
 > Simple idea: **Lambda is best when code should run because something happened.**
+
+## Project: Find Security Groups with Public Port 80 Access
+
+This project checks all AWS Regions and finds how many Security Groups allow public HTTP access on port `80`.
+
+Public access means inbound rule allows:
+- `0.0.0.0/0` for IPv4.
+- `::/0` for IPv6.
+
+Port `80` is HTTP. If it is open to the public, anyone on the internet can try to connect.
+
+### Project Architecture
+
+```text
+EventBridge schedule
+        |
+AWS Lambda function
+        |
+EC2 describe regions + describe security groups
+        |
+Find security groups with port 80 open to 0.0.0.0/0 or ::/0
+        |
+Publish result to SNS topic
+        |
+SNS sends email notification
+```
+
+### AWS Services Used
+
+| Service | Use in project |
+|---------|----------------|
+| AWS Lambda | Runs the scanning code without managing EC2. |
+| Amazon EC2 API | Lists Regions and Security Groups. |
+| Amazon SNS | Sends email alert/report. |
+| IAM Role | Gives Lambda permission to call EC2 and SNS. |
+| EventBridge | Runs Lambda on schedule, like daily or hourly. |
+| CloudWatch Logs | Stores Lambda execution logs. |
+
+### Why Use Lambda for This Project?
+
+| Reason | Detail |
+|--------|--------|
+| Serverless | No need to create and manage EC2 server. |
+| Trigger based | Can run automatically using EventBridge schedule. |
+| Cost optimization | Runs only during scan time, not 24/7. |
+| Easy integration | Can call AWS APIs and send SNS notification. |
+| Good for automation | Best for security checks, cleanup jobs, reports, and alerts. |
+
+### Logic of the Lambda Function
+
+Steps:
+- Get list of enabled AWS Regions.
+- For each Region, call `describe-security-groups`.
+- Check inbound rules.
+- Find rules where protocol is TCP and port `80` is allowed.
+- Check if source is `0.0.0.0/0` or `::/0`.
+- Count matching Security Groups.
+- Prepare report with Region, Security Group ID, name, VPC ID, and rule.
+- Publish report to SNS topic.
+
+Example output idea:
+
+```text
+Public port 80 Security Group report
+
+Region: ap-south-1
+Security Group: sg-123456
+Name: web-sg
+VPC: vpc-123456
+Issue: Port 80 open to 0.0.0.0/0
+
+Total public HTTP security groups: 1
+```
+
+> Simple idea: **Lambda checks Security Groups and SNS sends the alert.**
+
+---
+
+## Amazon SNS - Simple Notification Service
+
+Amazon SNS is a managed messaging and notification service.
+
+SNS uses **topics** and **subscriptions**.
+
+![alt text](image-56.png)
+
+### SNS Topic
+
+An SNS topic is like a message channel.
+
+Publisher sends message to the topic, and SNS delivers the message to all subscribers.
+
+```text
+Publisher -> SNS Topic -> Subscribers
+```
+
+### SNS Subscription
+
+A subscription connects an endpoint to an SNS topic.
+
+The endpoint can be:
+- Email address.
+- AWS Lambda function.
+- SQS queue.
+- HTTP/HTTPS endpoint.
+- SMS phone number.
+
+### SNS Email Notification Flow
+
+```text
+Create SNS topic
+        |
+Add email subscription
+        |
+Confirm email subscription from inbox
+        |
+Publish message to topic
+        |
+SNS sends email
+```
+
+Important: For email subscriptions, the email owner must confirm the subscription before messages are delivered.
+
+### SNS Topic vs Subscription
+
+| Term | Meaning |
+|------|---------|
+| Topic | Message channel where messages are published. |
+| Subscription | Connection between topic and receiver. |
+| Publisher | Service/user that sends message to topic. |
+| Subscriber | Receiver of message, like email, Lambda, or SQS. |
+| Endpoint | Actual target address, like email ID or Lambda ARN. |
+
+### SNS in Security Group Project
+
+| Step | Detail |
+|------|--------|
+| 1 | Lambda completes Security Group scan. |
+| 2 | Lambda creates summary report. |
+| 3 | Lambda publishes message to SNS topic. |
+| 4 | SNS sends email to subscribed email address. |
+
+> Simple idea: **SNS sends notification to many receivers from one topic.**
+
+---
+
+## IAM for Lambda Security Project
+
+IAM controls who can access AWS services and what actions are allowed.
+
+For this project:
+- Create an IAM policy.
+- Create an IAM role for Lambda.
+- Attach the policy to the role.
+- Lambda uses the role to access EC2, SNS, and CloudWatch Logs.
+
+### IAM Policy vs Role
+
+| IAM item | Meaning |
+|----------|---------|
+| Policy | JSON permissions document. It says what actions are allowed or denied. |
+| Role | Identity assumed by AWS services like Lambda. |
+| User | Human or application identity with credentials. |
+| Access key | Programmatic credential for IAM user. |
+
+### IAM Flow for Lambda
+
+```text
+Create policy -> Create role -> Attach policy to role -> Assign role to Lambda
+```
+
+### Permissions Needed
+
+| Permission | Why needed |
+|------------|------------|
+| `ec2:DescribeRegions` | To list AWS Regions. |
+| `ec2:DescribeSecurityGroups` | To inspect Security Group inbound rules. |
+| `sns:Publish` | To send report to SNS topic. |
+| `logs:CreateLogGroup` | To create CloudWatch log group. |
+| `logs:CreateLogStream` | To create Lambda log stream. |
+| `logs:PutLogEvents` | To write Lambda logs. |
+
+### IAM User, Access Key, and AdministratorAccess
+
+| Item | Detail |
+|------|--------|
+| IAM user | Used for a human or application identity. |
+| Access key | Used by AWS CLI or SDK for programmatic access. |
+| IAM user policy | Permissions attached directly to a user. |
+| `AdministratorAccess` | AWS managed policy with full access to AWS services and resources. |
+
+Important:
+- Avoid using root account access keys.
+- Use least privilege instead of full `AdministratorAccess` for production.
+- Store access keys safely.
+- Rotate access keys regularly.
+- Prefer IAM roles for AWS services like Lambda.
+
+> Simple idea: **IAM policy defines permission. IAM role gives those permissions to Lambda.**
+
+---
+
+## AWS CLI
+
+AWS CLI is a command line tool used to manage AWS services from terminal.
+
+### AWS CLI Setup Idea
+
+```bash
+aws configure
+```
+
+It asks for:
+- Access key ID.
+- Secret access key.
+- Default Region.
+- Output format.
+
+Access keys usually come from an IAM user.
+
+### Useful AWS CLI Commands
+
+Check which IAM user/role is being used:
+
+```bash
+aws sts get-caller-identity
+```
+
+List EC2 instances:
+
+```bash
+aws ec2 describe-instances
+```
+
+List Security Groups:
+
+```bash
+aws ec2 describe-security-groups
+```
+
+Find Security Groups with public port `80` in one Region:
+
+```bash
+aws ec2 describe-security-groups \
+  --region ap-south-1 \
+  --filters Name=ip-permission.from-port,Values=80 Name=ip-permission.to-port,Values=80 Name=ip-permission.cidr,Values=0.0.0.0/0
+```
+
+List all AWS Regions:
+
+```bash
+aws ec2 describe-regions --query "Regions[].RegionName" --output text
+```
+
+### AWS CLI Documentation Links
+
+| Command / topic | Official docs |
+|-----------------|---------------|
+| `aws sts get-caller-identity` | https://docs.aws.amazon.com/cli/latest/reference/sts/get-caller-identity.html |
+| `aws ec2 describe-instances` | https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html |
+| `aws ec2 describe-security-groups` | https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-security-groups.html |
+| AWS CLI config files | https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html |
+| SNS create topic | https://docs.aws.amazon.com/sns/latest/dg/sns-create-topic.html |
+| SNS create subscription | https://docs.aws.amazon.com/sns/latest/dg/sns-create-subscribe-endpoint-to-topic.html |
+| Lambda with SNS | https://docs.aws.amazon.com/lambda/latest/dg/with-sns.html |
+
+> Simple idea: **AWS CLI lets us test AWS identity, list resources, and debug Lambda permissions from terminal.**
