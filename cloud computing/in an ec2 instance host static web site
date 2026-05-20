@@ -23,7 +23,7 @@ sudo systemctl restart nginx
 today 
 create a ec2 instanace and create a role to manage ec2 and with session manager added ec2 to it - so that with this we can run cmd to all the connect ec2 instance at same time
 also using run a command to run commands	
-
+Mah
 11 mar
 
 usermod -aG docker ubuntu - to add ubuntu to user group 
@@ -37,4 +37,4 @@ docker run -dit --name my-apache-app -p 8080:80 httpd:2.4
 
 
 
-28 apr
+11 may
