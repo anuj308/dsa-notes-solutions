@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Interview Preparation Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        header {
+            background: linear-gradient(135deg, #61affe, #2196F3);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 { margin: 0; font-size: 2.5rem; }
+        h2 {
+            color: #2196F3;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        h3 { color: #1976D2; margin-top: 1.5rem; }
+        .section {
+            background: white;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            line-height: 1.5;
+        }
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th { background-color: #2196F3; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        .note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 0.5rem 1rem;
+            margin: 1rem 0;
+        }
+        .important {
+            background-color: #f8d7da;
+            border-left: 4px solid #f44336;
+            padding: 0.5rem 1rem;
+            margin: 1rem 0;
+        }
+        .success {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 0.5rem 1rem;
+            margin: 1rem 0;
+        }
+        ul, ol { padding-left: 1.5rem; }
+        li { margin-bottom: 0.5rem; }
+        .toc {
+            background-color: #e3f2fd;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .toc ol { margin: 0; }
+        .toc li { margin-bottom: 0.3rem; }
+        @media print {
+            body { background: white; }
+            .section { box-shadow: none; border: 1px solid #ddd; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🚀 React Interview Preparation Guide</h1>
+        <p>Complete Notes, Code Snippets & Viva Questions</p>
+        <p><strong>Created:</strong> 2026 | <strong>Source:</strong> College Notes + Solutions</p>
+    </header>
+
+    <div class="toc">
+        <h2>📋 Table of Contents</h2>
+        <ol>
+            <li><a href="#javascript-essentials">JavaScript Essentials for React</a></li>
+            <li><a href="#react-fundamentals">React Fundamentals</a></li>
+            <li><a href="#react-hooks">React Hooks (Complete Guide)</a></li>
+            <li><a href="#forms">Forms – Controlled & Uncontrolled</a></li>
+            <li><a href="#state-management">State Management (Redux + Context)</a></li>
+            <li><a href="#routing">React Router</a></li>
+            <li><a href="#api-integration">API Integration (Fetch & Axios)</a></li>
+            <li><a href="#lifecycle">Lifecycle Methods</a></li>
+            <li><a href="#performance">Performance Optimization</a></li>
+            <li><a href="#interview-questions">13 Essential Viva / Interview Questions</a></li>
+            <li><a href="#quick-ref">Quick Reference Cheat Sheet</a></li>
+        </ol>
+    </div>
+
+    <div class="section" id="javascript-essentials">
+    <h2>1. JavaScript Essentials for React</h2>
+
+    <h3>1.1 Variable Declarations: var, let, const</h3>
+    <table>
+    <tr><th>Feature</th><th>var</th><th>let</th><th>const</th></tr>
+    <tr><td>Scope</td><td>Function scope</td><td>Block scope</td><td>Block scope</td></tr>
+    <tr><td>Redeclaration</td><td>✅ Allowed</td><td>❌ Not in same block</td><td>❌ Not allowed</td></tr>
+    <tr><td>Reassignment</td><td>✅ Allowed</td><td>✅ Allowed</td><td>❌ Not allowed</td></tr>
+    <tr><td>Must Initialize</td><td>❌ No</td><td>❌ No (default undefined)</td><td>✅ Yes</td></tr>
+    </table>
+    <div class="important">⚠️ Use <code>const</code> by default. Use <code>let</code> only when reassignment is needed. Avoid <code>var</code> entirely.</div>
+
+    <h3>1.2 Essential Array Methods</h3>
+    <pre><code>.every()     → Check if ALL elements pass a test
+const allEven = arr.every(i => i % 2 === 0);
+
+.filter()    → Return elements matching a condition
+const evens = arr.filter(i => i % 2 === 0);
+
+.forEach()   → Execute for each element (no return)
+arr.forEach(item => console.log(item));
+
+.indexOf()   → Index of value, -1 if not found
+const idx = arr.indexOf(3);
+
+Array.from() → Create array from iterable/string
+const chars = Array.from('hello'); // ['h','e','l','l','o']
+
+.map()       → Transform each element, return NEW array
+const doubled = arr.map(x => x * 2);
+
+.reduce()    → Reduce array to a SINGLE value
+const sum = arr.reduce((acc, curr) => acc + curr, 0);</code></pre>
+
+    <h3>1.3 reduce() – Deep Dive</h3>
+    <pre><code>array.reduce((accumulator, currentValue, currentIndex, array) => {
+    // return updated accumulator
+}, initialValue)</code></pre>
+    <p><strong>Key Rules:</strong></p>
+    <ul>
+    <li>Accumulator stores accumulated result</li>
+    <li>No initial value provided → first element becomes accumulator</li>
+    <li>Returns single value (number, string, object, array)</li>
+    <li>Does NOT mutate original array</li>
+    </ul>
+    <pre><code>// Sum
+[1,2,3,4,5].reduce((a,c) => a + c, 0); // 15
+
+// Find max
+[10,5,25,15,20].reduce((a,c) => c > a ? c : a); // 25
+
+// Count occurrences
+['a','b','a'].reduce((acc,cur) => {
+    acc[cur] = (acc[cur]||0)+1; return acc;
+}, {}); // {a:2, b:1}
+
+// Flatten arrays
+[[1,2],[3,4]].reduce((a,c) => a.concat(c), []); // [1,2,3,4]</code></pre>
+
+    <h3>1.4 Destructuring</h3>
+    <h4>Array Destructuring</h4>
+    <pre><code>// Basic
+const numbers = [10, 20, 30, 40];
+const [a, , , b, c = 100] = numbers;
+console.log(a); // 10, b: 40, c: 100
+
+// Swap variables
+let x = 5, y = 10;
+[x, y] = [y, x];
+
+// Nested
+const [first, [second, third], fourth] = [1, [2, 3], 4];</code></pre>
+    <h4>Object Destructuring</h4>
+    <pre><code>// Basic
+const user = { name: 'John', age: 30, city: 'NY' };
+const { name, age, city = 'Unknown' } = user;
+
+// Rename
+const { name: n, age: ag } = user;
+
+// In function parameters
+function greet({ name, age }) {
+    console.log(`${name} is ${age}`);
+}
+greet(user);</code></pre>
+
+    <h3>1.5 Spread Operator (...) – Expands iterables</h3>
+    <pre><code>// Merge arrays
+const merged = [...[1,2,3], ...[4,5,6]; // [1,2,3,4,5,6]
+
+// Copy array (shallow)
+const copy = [...original];
+
+// Spread in function
+Math.max(...[5, 10, 15]); // 15
+
+// Merge objects (later overrides earlier)
+const settings = { ...defaults, ...prefs };
+
+// Spread string
+const chars = [...'hello'];</code></pre>
+    <div class="important">⚠️ Spread creates <strong>SHALLOW copy</strong> – nested objects still share references</div>
+
+    <h3>1.6 Rest Operator (...) – Collects into array</h3>
+    <pre><code>// In function parameters
+function sum(...nums) {
+    return nums.reduce((a,c) => a + c, 0);
+}
+sum(1,2,3,4); // 10
+
+// In array destructuring
+const [first, ...rest] = [1,2,3,4]; // first=1, rest=[2,3,4]
+
+// In object destructuring
+const { name, ...others } = { name:'J', age:30, city:'NY' };</code></pre>
+
+    <h3>1.7 Spread vs Rest – Quick Comparison</h3>
+    <table>
+    <tr><th>Feature</th><th>Spread</th><th>Rest</th></tr>
+    <tr><td>Purpose</td><td>Expands</td><td>Collects</td></tr>
+    <tr><td>Location</td><td>Right of =</td><td>Left of =</td></tr>
+    <tr><td>Result</td><td>Individual elements</td><td>Single array</td></tr>
+    <tr><td>Example</td><td><code>func(...arr)</code></td><td><code>function func(...args)</code></td></tr>
+    </table>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 2: REACT FUNDAMENTALS                                 -->
+    <!-- ============================================================ -->
+    <div class="section" id="react-fundamentals">
+    <h2>2. React Fundamentals</h2>
+    <h3>2.1 What is React?</h3>
+    <ul>
+    <li>JavaScript <strong>library</strong> for building user interfaces</li>
+    <li>Component-based architecture</li>
+    <li>Declarative (describe WHAT, not HOW)</li>
+    <li>Reusable components</li>
+    <li>Virtual DOM for efficient updates</li>
+    </ul>
+
+    <h3>2.2 JSX (JavaScript XML)</h3>
+    <ul>
+    <li>Write HTML-like syntax in JavaScript</li>
+    <li><code>className</code> instead of <code>class</code></li>
+    <li><code>htmlFor</code> instead of <code>for</code></li>
+    <li>Embed JS with <code>{ expression }</code></li>
+    <li>Must return ONE root element (or use <code>&lt;Fragment&gt; {@frag ...@}</code>)</li>
+    </ul>
+
+    <h3>2.3 Components</h3>
+    <pre><code>// Functional component (modern)
+function Welcome({ name }) {
+    return &lt;h1&gt;Hello {name}&lt;/h1&gt;;
+}
+
+// Arrow function
+const Welcome = ({ name }) => &lt;h1&gt;Hello {name}&lt;/h1&gt;;
+
+// Class component (legacy)
+class Welcome extends React.Component {
+    render() {
+        return &lt;h1&gt;Hello {this.props.name}&lt;/h1&gt;;
+    }
+}
+
+export default Welcome;</code></pre>
+
+    <h3>2.4 Props (Parent → Child)</h3>
+    <pre><code>function Child({ name, age }) {
+    return &lt;p&gt;{name} is {age} years old&lt;/p&gt;;
+}
+&lt;Child name="John" age={30} /&gt;
+
+// Default props
+Child.defaultProps = { age: 18 };</code></pre>
+
+    <h3>2.5 State (Component-owned)</h3>
+    <pre><code>const [count, setCount] = useState(0);
+setCount(count + 1);                          // Direct value
+setCount(prev => prev + 1);                   // Functional update (safer)
+
+// Multiple state values recommended when unrelated
+const [name, setName] = useState('');
+const [filter, setFilter] = useState('');</code></pre>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 3: REACT HOOKS                                       -->
+    <!-- ============================================================ -->
+    <div class="section" id="react-hooks">
+    <h2>3. React Hooks – Complete Reference</h2>
+    <div class="note">Hooks can only be called inside <strong>function components</strong> or <strong>custom hooks</strong> — and must be called at the <strong>top level</strong> (not in loops/conditions).</div>
+
+    <h3>3.1 useState</h3>
+    <pre><code>const [count, setCount] = useState(0);
+
+// Lazy initialization (runs once)
+const [data, setData] = useState(() => computeExpensiveInit());</code></pre>
+
+    <h3>3.2 useEffect</h3>
+    <pre><code>useEffect(() => {
+    // Effect logic after render
+    console.log('rendered/updated');
+
+    return () => {
+        // Cleanup (optional)
+        console.log('cleanup');
+    };
+}, [dep1, dep2]); // Dependencies</code></pre>
+    <h4>Dependency Array Rules</h4>
+    <table>
+    <tr><th>Dependency Array</th><th>Behavior</th></tr>
+    <tr><td><code>[]</code></td><td>Run <strong>ONCE</strong> after mount → componentDidMount</td></tr>
+    <tr><td><code>[dep]</code></td><td>Run after render <strong>only when dep changes</strong></td></tr>
+    <tr><td>No array</td><td>Run after <strong>every render</strong></td></tr>
+    </table>
+    <div class="important">Empty <code>[]</code> ≈ componentDidMount. Cleanup func ≈ componentWillUnmount.</div>
+
+    <h3>3.3 useRef</h3>
+    <pre><code>const nameRef = useRef(null);       // DOM reference
+&lt;input ref={nameRef} /&gt;
+
+// Access value (without re-render)
+nameRef.current.value;
+
+// Persistent mutable value across renders (not in state)
+const renderCount = useRef(0);
+useEffect(() => { renderCount.current += 1; });</code></pre>
+
+    <h3>3.4 useContext</h3>
+    <pre><code>const ThemeContext = createContext(defaultTheme);
+
+&lt;ThemeContext.Provider value={{ theme, setTheme }}&gt;
+    &lt;App /&gt;
+&lt;/ThemeContext.Provider&gt;
+
+// Inside any child
+const { theme } = useContext(ThemeContext);
+
+// Custom hook pattern
+const useTheme = () => useContext(ThemeContext);</code></pre>
+
+    <h3>3.5 useReducer</h3>
+    <pre><code>const initialState = { count: 0 };
+function reducer(state, action) {
+    switch (action.type) {
+        case 'INC': return { ...state, count: state.count + 1 };
+        case 'DEC': return { ...state, count: state.count - 1 };
+        default: return state;
+    }
+}
+const [state, dispatch] = useReducer(reducer, initialState);
+
+// Dispatch
+dispatch({ type: 'INC' });
+dispatch({ type: 'INC', payload: 5 }); // with payload</code></pre>
+
+    <h3>3.6 useMemo – Memoize Computed Values</h3>
+    <pre><code>const expensiveValue = useMemo(() => {
+    // Heavy calculation — only runs when 'items' changes
+    return items.filter(x => x.active).map(x => x.id);
+}, [items]); // Dependencies</code></pre>
+
+    <h3>3.7 useCallback – Memoize Functions</h3>
+    <pre><code>// Without useCallback: new function every render
+const handleClick = () => setCount(c => c + 1);
+
+// With useCallback: same reference until deps change
+const handleClick = useCallback(() => {
+    setCount(c => c + 1);
+}, []); // empty deps = never recreated</code></pre>
+    <div class="note">Use <code>useCallback</code> when passing callbacks to memoized children to prevent unnecessary re-renders.</div>
+
+    <h3>3.8 Custom Hook Pattern</h3>
+    <pre><code>const useForm = (initialValues, validate, onSubmit) => {
+    const [values, setValues] = useState(initialValues);
+    const [errors, setErrors] = useState({});
+    const [touched, setTouched] = useState({});
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setValues(prev => ({ ...prev, [name]: value }));
+        if (touched[name]) {
+            setErrors(prev => ({ ...prev, [name]: validate({...values, [name]: value})[name] || '' }));
+        }
+    };
+
+    const handleBlur = (e) => {
+        const { name } = e.target;
+        setTouched(prev => ({ ...prev, [name]: true }));
+        setErrors(validate(values));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const newErrors = validate(values);
+        if (Object.values(newErrors).every(e => !e)) {
+            await onSubmit(values);
+            resetForm();
+        } else {
+            setErrors(newErrors);
+        }
+    };
+
+    const resetForm = () => {
+        setValues(initialValues);
+        setErrors({});
+        setTouched({});
+    };
+
+    return { values, errors, touched, handleChange, handleBlur, handleSubmit, resetForm };
+};</code></pre>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 4: FORMS                                              -->
+    <!-- ============================================================ -->
+    <div class="section" id="forms">
+    <h2>4. Forms – Controlled vs Uncontrolled</h2>
+    <h3>4.1 Controlled Form (State-driven)</h3>
+    <pre><code>const [formData, setFormData] = useState({ name: '', email: '' });
+const [errors, setErrors] = useState({});
+
+const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+};
+
+const validate = () => {
+    const errs = {};
+    if (!formData.name.trim()) errs.name = 'Name required';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+        errs.email = 'Invalid email';
+    return errs;
+};
+
+&lt;form onSubmit={handleSubmit}&gt;
+    &lt;input name="name"  value={formData.name}  onChange={handleChange} /&gt;
+    &lt;input name="email" value={formData.email} onChange={handleChange} /&gt;
+    &lt;button type="submit"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+    <h3>4.2 Uncontrolled Form (Ref-driven)</h3>
+    <pre><code>const nameRef = useRef(null);
+const emailRef = useRef(null);
+
+const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = {
+        name: nameRef.current.value,
+        email: emailRef.current.value
+    };
+    console.log(formData);
+    e.target.reset();
+};
+
+&lt;form onSubmit={handleSubmit}&gt;
+    &lt;input ref={nameRef} defaultValue="" /&gt;
+    &lt;input ref={emailRef} defaultValue="" /&gt;
+    &lt;button type="submit"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+    <h3>4.3 Controlled vs Uncontrolled – Comparison</h3>
+    <table>
+    <tr><th>Aspect</th><th>Controlled</th><th>Uncontrolled</th></tr>
+    <tr><td>Source of Truth</td><td>React state</td><td>DOM / Refs</td></tr>
+    <tr><td>Re-renders on each keystroke</td><td>Yes</td><td>No</td></tr>
+    <tr><td>Validation</td><td>Instant onChange</td><td>On submit/blur</td></tr>
+    <tr><td>Best for</td><td>Complex forms, real-time validation</td><td>Simple forms, file inputs</td></tr>
+    </table>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 5: STATE MANAGEMENT                                  -->
+    <!-- ============================================================ -->
+    <div class="section" id="state-management">
+    <h2>5. State Management (Redux + Context API)</h2>
+    <h3>5.1 Redux (Original Pattern)</h3>
+    <pre><code>// store.js
+const store = createStore(
+    rootReducer,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
+// Reducer
+function rootReducer(state = initialState, action) {
+    switch (action.type) {
+        case 'INCREMENT': return { ...state, counter: state.counter + 1 };
+        case 'LOGIN':     return { ...state, user: { ...state.user, isLoggedIn: true, name: action.payload } };
+        default: return state;
+    }
+}</code></pre>
+
+    <h3>5.2 Modern Redux Toolkit (createSlice)</h3>
+    <pre><code>import { createSlice, configureStore } from '@reduxjs/toolkit';
+
+const counterSlice = createSlice({
+    name: 'counter',
+    initialState: { count: 0 },
+    reducers: {
+        increment: state => { state.count += 1; },
+        decrement: state => { state.count -= 1; },
+        incrementByAmount: (state, action) => { state.count += action.payload; }
+    }
+});
+
+export const { increment, decrement } = counterSlice.actions;
+export const store = configureStore({
+    reducer: { counter: counterSlice.reducer }
+});</code></pre>
+
+    <h3>5.3 useSelector + useDispatch</h3>
+    <pre><code>import { useSelector, useDispatch } from 'react-redux';
+import { increment } from './counterSlice';
+
+function Counter() {
+    const count   = useSelector(state => state.counter.count);
+    const dispatch = useDispatch();
+    return (
+        &lt;button onClick={() => dispatch(increment())}&gt;
+            Count: {count}
+        &lt;/button&gt;
+    );
+}</code></pre>
+
+    <h3>5.4 Context API</h3>
+    <pre><code>const ThemeContext = createContext(defaultTheme);
+
+function App() {
+    const [theme, setTheme] = useState('light');
+    return (
+        &lt;ThemeContext.Provider value={{ theme, setTheme }}&gt;
+            &lt;Toolbar /&gt;
+        &lt;/ThemeContext.Provider&gt;
+    );
+}
+
+const useTheme = () => useContext(ThemeContext);
+
+function Navbar() {
+    const { theme } = useTheme();
+    return &lt;nav className={theme}&gt;Navbar&lt;/nav&gt;;
+}</code></pre>
+    <div class="note"><strong>Redux vs Context:</strong> Redux for complex state logic, DevTools, middleware. Context is sufficient for UI-state (theme, user, language).</div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 6: REACT ROUTER                                       -->
+    <!-- ============================================================ -->
+    <div class="section" id="routing">
+    <h2>6. React Router (v6)</h2>
+    <div class="note">Install: <code>npm install react-router-dom</code></div>
+
+    <h3>6.1 Basic 3-Page App</h3>
+    <pre><code>import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+
+&lt;BrowserRouter&gt;
+    &lt;nav&gt;
+        &lt;Link to="/"&gt;Home&lt;/Link&gt;
+        &lt;Link to="/about"&gt;About&lt;/Link&gt;
+        &lt;Link to="/contact"&gt;Contact&lt;/Link&gt;
+    &lt;/nav&gt;
+    &lt;Routes&gt;
+        &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+        &lt;Route path="/about" element={&lt;About /&gt;} /&gt;
+        &lt;Route path="/contact" element={&lt;Contact /&gt;} /&gt;
+        &lt;Route path="*" element={&lt;NotFound /&gt;} /&gt;
+    &lt;/Routes&gt;
+&lt;/BrowserRouter&gt;</code></pre>
+
+    <h3>6.2 Query Parameters</h3>
+    <pre><code>// Send
+navigate('/details?id=123&name=John');
+
+// Receive
+const [params] = useSearchParams();
+const id   = params.get('id');
+const name = params.get('name');</code></pre>
+
+    <h3>6.3 Route Parameters</h3>
+    <pre><code>&lt;Route path="/product/:id" element={&lt;ProductDetail /&gt;} /&gt;
+
+function ProductDetail() {
+    const { id } = useParams();
+    return &lt;h2&gt;Product ID: {id}&lt;/h2&gt;;
+}</code></pre>
+
+    <h3>6.4 Programmatic Navigation</h3>
+    <pre><code>const navigate = useNavigate();
+navigate('/about');    // Forward
+navigate(-1);          // Back
+navigate('/login', { replace: true }); // No history entry</code></pre>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 7: API INTEGRATION                                    -->
+    <!-- ============================================================ -->
+    <div class="section" id="api-integration">
+    <h2>7. API Integration (Fetch & Axios)</h2>
+    <h3>7.1 GET with useEffect</h3>
+    <pre><code>const [data, setData]       = useState([]);
+const [loading, setLoading]   = useState(true);
+const [error, setError]       = useState(null);
+
+useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+            if (!res.ok) throw new Error('Failed');
+            const json = await res.json();
+            setPosts(json.slice(0, 10));
+            setError(null);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+    fetchData();
+}, []); // Empty deps → run once on mount</code></pre>
+    <div class="important">⚠️ Empty <code>[]</code> prevents infinite fetch loops. Always use it with fetch in useEffect.</div>
+
+    <h3>7.2 POST with Fetch</h3>
+    <pre><code>const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, body })
+    });
+    const data = await res.json();
+    console.log('Saved:', data);
+};</code></pre>
+
+    <h3>7.3 GET with Axios</h3>
+    <pre><code>import axios from 'axios';
+
+useEffect(() => {
+    axios.get('https://jsonplaceholder.typicode.com/users')
+        .then(res => setUsers(res.data))
+        .catch(err => console.error(err));
+}, []);</code></pre>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 8: LIFECYCLE METHODS                                  -->
+    <!-- ============================================================ -->
+    <div class="section" id="lifecycle">
+    <h2>8. Lifecycle Methods</h2>
+    <h3>8.1 Class Component Lifecycle</h3>
+    <pre><code>class MyComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { count: 0 };
+    }
+
+    componentDidMount() {
+        // Called ONCE after first render – fetch data, subscribe
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        // Called after every update (except first render)
+        if (prevProps.id !== this.props.id) {
+            // React to prop change
+        }
+    }
+
+    componentWillUnmount() {
+        // Cleanup before removal
+    }
+
+    render() {
+        return &lt;div&gt;{this.state.count}&lt;/div&gt;;
+    }
+}</code></pre>
+
+    <h3>8.2 Hooks Lifecycle Mapping</h3>
+    <table>
+    <tr><th>Class Lifecycle</th><th>Hooks Equivalent</th></tr>
+    <tr><td><code>constructor()</code></td><td><code>useState(() => init)</code></td></tr>
+    <tr><td><code>componentDidMount()</code></td><td><code>useEffect(() => {}, [])</code></td></tr>
+    <tr><td><code>componentDidUpdate()</code></td><td><code>useEffect(() => {}, [dep])</code></td></tr>
+    <tr><td><code>componentWillUnmount()</code></td><td><code>useEffect(() => { return cleanup }, [])</code></td></tr>
+    <tr><td><code>shouldComponentUpdate()</code></td><td><code>React.memo(Component)</code></td></tr>
+    </table>
+    <div class="success">✅ Modern React: Always use <strong>Functional Components + Hooks</strong>. Class components are legacy.</div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 9: PERFORMANCE OPTIMIZATION                           -->
+    <!-- ============================================================ -->
+    <div class="section" id="performance">
+    <h2>9. Performance Optimization</h2>
+    <h3>9.1 useMemo & useCallback</h3>
+    <pre><code>const totalExpense = useMemo(() => {
+    return expenses.reduce((sum, exp) => sum + exp.amount, 0);
+}, [expenses]); // Only recalc when array changes
+
+const addExpense = useCallback((expense) => {
+    setExpenses(prev => [...prev, expense]);
+}, []); // Function identity stable across renders</code></pre>
+    <div class="note"><strong>useMemo</strong> memoizes a VALUE. <strong>useCallback</strong> memoizes a FUNCTION.</div>
+
+    <h3>9.2 React.memo – Skip Re-renders</h3>
+    <pre><code>const MemoizedChild = React.memo(function Child({ name }) {
+    console.log(`Rendering: ${name}`);
+    return &lt;h1&gt;Hello {name}&lt;/h1&gt;;
+}); // Re-renders only if props change</code></pre>
+
+    <h3>9.3 Code Splitting (lazy)</h3>
+    <pre><code>import { lazy, Suspense } from 'react';
+const HeavyComp = lazy(() => import('./HeavyComp'));
+
+function App() {
+    return (
+        &lt;Suspense fallback={&lt;div&gt;Loading...&lt;/div&gt;}&gt;
+            &lt;HeavyComp /&gt;
+        &lt;/Suspense&gt;
+    );
+}</code></pre>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 10: 13 ESSENTIAL INTERVIEW QUESTIONS                 -->
+    <!-- ============================================================ -->
+    <div class="section" id="interview-questions">
+    <h2>10. 13 Essential Viva / Interview Questions</h2>
+
+    <h3>Q1. Create &amp; Deploy a React App</h3>
+    <div class="note">Steps: <code>npx create-react-app my-app</code> → <code>cd my-app</code> → <code>npm run build</code> → Deploy build/ folder</div>
+    <h4>GitHub Pages:</h4>
+    <pre><code>npm install --save-dev gh-pages
+// package.json:
+"homepage": "https://yourname.github.io/repo",
+"scripts": { "predeploy": "npm run build", "deploy": "gh-pages -d build" }</code></pre>
+    <h4>Netlify:</h4>
+    <p>Connect GitHub → Build command: <code>npm run build</code> → Publish dir: <code>build</code></p>
+
+    <h3>Q2. useEffect API Fetch (JSONPlaceholder)</h3>
+    <pre><code>const [posts, setPosts] = useState([]);
+const [loading, setLoading] = useState(true);
+
+useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+        .then(r => r.json())
+        .then(data => { setPosts(data.slice(0, 10)); setLoading(false); })
+        .catch(err => { console.error(err); setLoading(false); });
+}, []); // Empty deps = mount once</code></pre>
+    <ul>
+    <li>Always include <code>setLoading(false)</code> in <code>.finally()</code> or both success and error blocks</li>
+    <li>Use <code>[]</code> to avoid infinite loops</li>
+    <li>Handle errors gracefully</li>
+    </ul>
+
+    <h3>Q3. Set up Redux store with useSelector/useDispatch</h3>
+    <pre><code>// store.js – createStore pattern
+import { createStore } from 'redux';
+const store = createStore(rootReducer);
+
+// Component
+const count = useSelector(state => state.counter); // Read
+const dispatch = useDispatch();                    // Write action
+dispatch({ type: 'INCREMENT' });</code></pre>
+    <div class="note">Redux state is <strong>read-only</strong> – you modify it by <strong>dispatching actions</strong> that the reducer handles.</div>
+
+    <h3>Q4. Axios GET Request</h3>
+    <pre><code>import axios from 'axios';
+
+useEffect(() => {
+    axios.get('https://jsonplaceholder.typicode.com/users')
+        .then(res => setUsers(res.data))
+        .catch(err => console.error(err));
+}, []);</code></pre>
+    <ul>
+    <li>Axios automatically returns parsed JSON</li>
+    <li>Handles errors in <code>.catch()</code></li>
+    </ul>
+
+    <h3>Q5. Controlled Form with Validation</h3>
+    <pre><code>const [formData, setFormData] = useState({ name: '', email: '' });
+
+const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+};
+
+const validate = () => {
+    const errors = {};
+    if (!formData.name.trim()) errors.name = 'Required';
+    if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = 'Invalid email';
+    return errors;
+};
+
+const handleSubmit = (e) => {
+    e.preventDefault();
+    const errs = validate();
+    if (!Object.keys(errs).length) console.log(formData);
+    else setErrors(errs);
+};</code></pre>
+
+    <h3>Q6. Uncontrolled Form with useRef</h3>
+    <pre><code>const nameRef = useRef();
+
+const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(nameRef.current.value);
+    e.target.reset();</code></pre>
+    <div class="success">✅ <strong>Controlled:</strong> input value in React state. <strong>Uncontrolled:</strong> form in DOM, read via ref on submit.</div>
+
+    <h3>Q7. Event Handler Updating State</h3>
+    <pre><code>const [input, setInput] = useState('');
+
+return &lt;input value={input} onChange={e => setInput(e.target.value)} /&gt;;
+
+// Show real-time
+&lt;p&gt;You typed: {input}&lt;/p&gt;</code></pre>
+
+    <h3>Q8. Query Parameters Between Routes</h3>
+    <pre><code>navigate('/details?id=123&name=John');
+
+function Details() {
+    const [searchParams] = useSearchParams();
+    return &lt;p&gt;{searchParams.get('id')} – {searchParams.get('name')}&lt;/p&gt;;
+}</code></pre>
+
+    <h3>Q9. React Router – 3 Pages (Home / About / Contact)</h3>
+    <pre><code>&lt;BrowserRouter&gt;
+    &lt;nav&gt;
+        &lt;Link to="/"&gt;Home&lt;/Link&gt;
+        &lt;Link to="/about"&gt;About&lt;/Link&gt;
+        &lt;Link to="/contact"&gt;Contact&lt;/Link&gt;
+    &lt;/nav&gt;
+    &lt;Routes&gt;
+        &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+        &lt;Route path="/about" element={&lt;About /&gt;} /&gt;
+        &lt;Route path="/contact" element={&lt;Contact /&gt;} /&gt;
+    &lt;/Routes&gt;
+&lt;/BrowserRouter&gt;</code></pre>
+
+    <h3>Q10. POST Request with Fetch API</h3>
+    <pre><code>fetch('https://jsonplaceholder.typicode.com/posts', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ title: formData.name, body: formData.email })
+})
+.then(r => r.json())
+.then(data => console.log('Saved:', data));</code></pre>
+
+    <h3>Q11. Expense Tracker with useMemo & useCallback</h3>
+    <pre><code>const totalExpense = useMemo(() => {
+    return expenses.reduce((sum, exp) => sum + exp.amount, 0);
+}, [expenses]);
+
+const addExpense = useCallback((expense) => {
+    setExpenses(prev => [...prev, { id: Date.now(), ...expense }]);
+}, []); // Memoized – won't be recreated unless deps change</code></pre>
+
+    <h3>Q12. Conditional Rendering (Card by Role)</h3>
+    <pre><code>function Card({ name, email, role, onAdminAction }) {
+    return (
+        &lt;div className="card"&gt;
+            &lt;h3&gt;{name}&lt;/h3&gt;
+            &lt;p&gt;{email}&lt;/p&gt;
+            {role === 'Admin' ? (
+                &lt;&gt;&lt;p&gt;Admin Access Granted&lt;/p&gt;&lt;button onClick={onAdminAction}&gt;Action&lt;/button&gt;&lt;/&gt;
+            ) : (
+                &lt;p&gt;Profile Info&lt;/p&gt;
+            )}
+        &lt;/div&gt;
+    );
+}</code></pre>
+
+    <h3>Q13. Redux Counter</h3>
+    <pre><code>const store = configureStore({ reducer: { counter: counterReducer } });
+export default configureStore;</code></pre>
+
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 11: QUICK REFERENCE CHEAT SHEET                      -->
+    <!-- ============================================================ -->
+    <div class="section" id="quick-ref">
+    <h2>11. Quick Reference Cheat Sheet</h2>
+    <h3>Most Common Patterns</h3>
+
+    <h4>Search / Filter</h4>
+    <pre><code>const filtered = items.filter(item =>
+    item.name.toLowerCase().includes(query.toLowerCase())
+);</code></pre>
+
+    <h4>Form Validation</h4>
+    <pre><code>const errors = {};
+if (!name) errors.name = 'Name is required';
+if (!/\S+@\S+\.\S+/.test(email)) errors.email = 'Invalid email';</code></pre>
+
+    <h4>Context Pattern</h4>
+    <pre><code>const MyContext = createContext();
+export const useMyContext = () => useContext(MyContext);</code></pre>
+
+    <h4>Redux Pattern</h4>
+    <pre><code>const value  = useSelector(state => state.slice.value);
+const dispatch = useDispatch();
+dispatch(action());</code></pre>
+
+    <h4>Toggling Boolean</h4>
+    <pre><code>const [show, setShow] = useState(true);
+setShow(!show);  // Or setShow(prev => !prev)</code></pre>
+
+    <h4>Accordion / Tab (Show one at a time)</h4>
+    <pre><code>const [activeIdx, setActiveIdx] = useState(0);
+return items.map((item, idx) => (
+    &lt;section key={idx} hidden={idx !== activeIdx}&gt;
+        ...
+    &lt;/section&gt;
+));</code></pre>
+
+    <h4>Timer / Interval Cleanup</h4>
+    <pre><code>useEffect(() => {
+    const timer = setInterval(fn, 1000);
+    return () => clearInterval(timer); // Prevent memory leak
+}, []);</code></pre>
+
+    <h4>Conditionally Add Class</h4>
+    <pre><code>&lt;div className={"box" + (active ? " active" : "")}&gt;
+// or using clsx / classnames library</code></pre>
+
+    <h3>React Interview – Top Viva Questions</h3>
+    <ol>
+    <li>What is the Virtual DOM and how does it work?</li>
+    <li>What is the difference between State and Props?</li>
+    <li>What are React Hooks? Why are they used?</li>
+    <li>Explain useState and useEffect with examples.</li>
+    <li>What is the dependency array in useEffect?</li>
+    <li>What is the difference between Controlled and Uncontrolled components?</li>
+    <li>What is the Context API and when do you use it?</li>
+    <li>What is Redux? Explain the flow.</li>
+    <li>What is the difference between useMemo and useCallback?</li>
+    <li>How do you handle forms in React?</li>
+    <li>How does React Router work? What are the key components?</li>
+    <li>How do you optimize performance in React?</li>
+    <li>What is the difference between React.memo and PureComponent?</li>
+    </ol>
+
+    </div>
+
+    <footer style="text-align:center; color:#666; margin-top:2rem; padding:2rem; background:white; border-radius:8px;">
+        <p><strong>React Interview Preparation Guide</strong> 📘</p>
+        <p>Based on college notes and 38+ practice solutions</p>
+    </footer>
+</body>
+</html>

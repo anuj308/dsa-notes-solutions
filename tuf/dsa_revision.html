@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSA Revision - All Problems</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --bg: #0a0e1a;
+  --bg2: #0f1528;
+  --bg3: #151e38;
+  --card: rgba(18, 26, 50, 0.85);
+  --border: rgba(60, 100, 255, 0.12);
+  --border-h: rgba(60, 100, 255, 0.3);
+  --accent: #4a7aff;
+  --accent2: #8b5cf6;
+  --accent3: #06d6a0;
+  --easy: #10b981;
+  --medium: #f59e0b;
+  --hard: #ef4444;
+  --text: #e0e6ff;
+  --text2: #8899cc;
+  --text3: #556688;
+  --radius: 1rem;
+  --radius-s: 0.6rem;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background: radial-gradient(ellipse at 20% 0%, rgba(74,122,255,0.04) 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 100%, rgba(139,92,246,0.03) 0%, transparent 50%);
+  pointer-events: none; z-index: 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* Sidebar */
+.sidebar {
+  width: 260px; min-width: 260px;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  height: 100vh; position: sticky; top: 0;
+  overflow-y: auto; padding: 1.2rem 0;
+  z-index: 100;
+}
+.sidebar-logo {
+  padding: 0 1.2rem 1rem;
+  font-size: 1.2rem; font-weight: 800;
+  background: linear-gradient(135deg, #60a5fa, #a78bfa, #06d6a0);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0.8rem;
+}
+.sidebar-section {
+  padding: 0.3rem 1.2rem;
+  font-size: 0.65rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text3); margin-top: 0.3rem;
+}
+.sidebar-link {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.45rem 1.2rem;
+  font-size: 0.78rem; color: var(--text2);
+  text-decoration: none; transition: all 0.15s;
+  border-left: 2px solid transparent;
+}
+.sidebar-link:hover { background: rgba(74,122,255,0.06); color: var(--text); }
+.sidebar-link.active { background: rgba(74,122,255,0.1); color: var(--accent); border-left-color: var(--accent); }
+.sidebar-link .count {
+  margin-left: auto; font-size: 0.6rem;
+  background: rgba(255,255,255,0.05); padding: 1px 6px;
+  border-radius: 20px; color: var(--text3);
+}
+
+/* Main */
+.main {
+  flex: 1; min-width: 0; padding: 0;
+  position: relative; z-index: 1;
+}
+.topbar {
+  display: flex; align-items: center; gap: 0.8rem;
+  padding: 0.8rem 1.5rem;
+  background: rgba(15, 21, 40, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 50;
+  flex-wrap: wrap;
+}
+.topbar h1 {
+  font-size: 1.1rem; font-weight: 700;
+  margin-right: auto;
+}
+.topbar .badge {
+  font-size: 0.65rem; background: rgba(74,122,255,0.12);
+  padding: 0.2rem 0.7rem; border-radius: 30px;
+  border: 1px solid rgba(74,122,255,0.2);
+  color: var(--accent);
+}
+.topbar-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+/* Buttons */
+.btn {
+  padding: 0.4rem 1rem; border-radius: 30px; border: none;
+  font-weight: 600; font-size: 0.75rem; cursor: pointer;
+  transition: all 0.2s; font-family: inherit;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+}
+.btn-primary { background: linear-gradient(135deg, #4a7aff, #6c5ce7); color: #fff; }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(74,122,255,0.3); }
+.btn-secondary { background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: var(--border-h); }
+.btn-sm { padding: 0.3rem 0.7rem; font-size: 0.65rem; }
+
+/* Content */
+.content { padding: 1.2rem 1.5rem; max-width: 1200px; }
+
+/* Topic Section */
+.topic-section {
+  margin-bottom: 2rem;
+  scroll-margin-top: 70px;
+}
+.topic-header {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.8rem 1.2rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  backdrop-filter: blur(12px);
+}
+.topic-header .icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  background: rgba(74,122,255,0.1);
+  color: var(--accent);
+}
+.topic-header h2 { font-size: 1.05rem; font-weight: 700; flex: 1; }
+.topic-header .count-badge { font-size: 0.65rem; color: var(--text3); }
+
+/* Problem Card */
+.problem-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  margin-bottom: 0.8rem;
+  transition: all 0.2s;
+  backdrop-filter: blur(8px);
+}
+.problem-card:hover { border-color: var(--border-h); }
+.problem-card .top-row {
+  display: flex; flex-wrap: wrap; align-items: flex-start;
+  gap: 0.5rem; margin-bottom: 0.5rem;
+}
+.problem-card .name {
+  font-size: 0.95rem; font-weight: 600; flex: 1;
+  min-width: 180px;
+}
+.problem-card .difficulty {
+  font-size: 0.6rem; padding: 0.15rem 0.6rem; border-radius: 20px;
+  font-weight: 600; text-transform: uppercase; height: fit-content;
+}
+.difficulty.easy { background: rgba(16,185,129,0.12); color: var(--easy); border: 1px solid rgba(16,185,129,0.2); }
+.difficulty.medium { background: rgba(245,158,11,0.12); color: var(--medium); border: 1px solid rgba(245,158,11,0.2); }
+.difficulty.hard { background: rgba(239,68,68,0.12); color: var(--hard); border: 1px solid rgba(239,68,68,0.2); }
+
+.problem-card .meta-row {
+  display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem;
+}
+.problem-card .meta-tag {
+  font-size: 0.62rem; padding: 0.12rem 0.5rem; border-radius: 20px;
+  background: rgba(74,122,255,0.06); border: 1px solid rgba(74,122,255,0.1);
+  color: var(--text2);
+}
+.problem-card .meta-tag.pattern { background: rgba(139,92,246,0.06); border-color: rgba(139,92,246,0.12); }
+.problem-card .meta-tag.complexity { background: rgba(6,214,160,0.06); border-color: rgba(6,214,160,0.12); color: var(--accent3); }
+.problem-card .meta-tag a { color: var(--accent); text-decoration: none; }
+.problem-card .meta-tag a:hover { text-decoration: underline; }
+
+.problem-card .notes {
+  font-size: 0.78rem; color: var(--text2);
+  margin-bottom: 0.5rem; line-height: 1.5;
+  padding: 0.5rem 0.7rem;
+  background: rgba(0,0,0,0.2);
+  border-radius: var(--radius-s);
+  border-left: 2px solid rgba(74,122,255,0.2);
+}
+.problem-card .notes strong { color: var(--accent3); }
+
+/* Code Block */
+.code-block {
+  background: #0a0e1a;
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: var(--radius-s);
+  overflow: hidden;
+  margin-bottom: 0.3rem;
+}
+.code-block .code-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.3rem 0.7rem;
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  font-size: 0.6rem; color: var(--text3);
+}
+.code-block .copy-btn {
+  background: none; border: none; color: var(--text3); cursor: pointer;
+  font-size: 0.6rem; transition: color 0.15s;
+}
+.code-block .copy-btn:hover { color: var(--accent); }
+.code-block pre {
+  margin: 0; padding: 0.7rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem; line-height: 1.45;
+  overflow-x: auto; white-space: pre;
+  color: #abb2bf;
+}
+/* Syntax Highlighting */
+.code-block .kw { color: #c792ea; } /* keywords */
+.code-block .tp { color: #82aaff; } /* types */
+.code-block .fn { color: #82aaff; } /* function */
+.code-block .str { color: #c3e88d; } /* string */
+.code-block .cm { color: #546e7a; font-style: italic; } /* comment */
+.code-block .num { color: #f78c6c; } /* number */
+.code-block .op { color: #89ddff; } /* operator */
+.code-block .pp { color: #c792ea; } /* preprocessor */
+.code-block .cl { color: #ffcb6b; } /* class */
+.code-block .vr { color: #eeffff; } /* variable */
+.code-block .nl { color: #f07178; } /* null */
+.code-block .b { color: #f78c6c; } /* boolean */
+
+/* Random Picker Modal */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.8); backdrop-filter: blur(12px);
+  z-index: 1000; align-items: center; justify-content: center;
+}
+.modal-overlay.show { display: flex; }
+.modal-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem; max-width: 500px; width: 92%;
+  max-height: 85vh; overflow-y: auto;
+}
+.modal-box h3 { font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+.modal-box .form-group { margin-bottom: 0.8rem; }
+.modal-box label { display: block; font-size: 0.72rem; color: var(--text2); margin-bottom: 0.3rem; font-weight: 500; }
+.modal-box select, .modal-box input {
+  width: 100%; padding: 0.5rem 0.7rem;
+  background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+  border-radius: var(--radius-s); color: var(--text);
+  font-size: 0.78rem; font-family: inherit;
+}
+.modal-box select:focus, .modal-box input:focus { outline: none; border-color: var(--accent); }
+.modal-box .modal-actions { display: flex; gap: 0.5rem; margin-top: 0.8rem; flex-wrap: wrap; }
+
+/* Random picked card */
+.random-result {
+  display: none;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(74,122,255,0.06);
+  border: 1px solid rgba(74,122,255,0.15);
+  border-radius: var(--radius);
+  animation: slideUp 0.3s ease;
+}
+.random-result.show { display: block; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Search */
+.search-bar {
+  position: relative; min-width: 180px;
+}
+.search-bar input {
+  width: 100%; padding: 0.4rem 0.8rem 0.4rem 2rem;
+  background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+  border-radius: 30px; color: var(--text);
+  font-size: 0.75rem; font-family: inherit;
+  transition: all 0.2s;
+}
+.search-bar input:focus { outline: none; border-color: var(--accent); }
+.search-bar input::placeholder { color: var(--text3); }
+.search-bar i { position: absolute; left: 0.7rem; top: 50%; transform: translateY(-50%); font-size: 0.7rem; color: var(--text3); }
+
+/* Quick filter chips */
+.filter-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1rem; }
+.filter-chip {
+  padding: 0.25rem 0.7rem; border-radius: 30px;
+  font-size: 0.68rem; cursor: pointer;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--text2); transition: all 0.15s;
+  font-family: inherit;
+}
+.filter-chip:hover { background: rgba(74,122,255,0.08); color: var(--text); }
+.filter-chip.active { background: rgba(74,122,255,0.15); border-color: var(--accent); color: var(--accent); }
+
+/* Stats strip */
+.stats-strip {
+  display: flex; flex-wrap: wrap; gap: 1.2rem;
+  padding: 0.6rem 1rem; margin-bottom: 1rem;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); font-size: 0.72rem; color: var(--text2);
+  align-items: center;
+}
+.stats-strip span { display: flex; align-items: center; gap: 0.3rem; }
+
+/* Mobile Toggle */
+.mobile-toggle {
+  display: none; position: fixed; bottom: 1rem; right: 1rem;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--accent); color: #fff; border: none;
+  font-size: 1.1rem; cursor: pointer; z-index: 200;
+  box-shadow: 0 4px 16px rgba(74,122,255,0.4);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .sidebar { display: none; position: fixed; left: 0; top: 0; z-index: 300; width: 280px; }
+  .sidebar.show { display: block; }
+  .mobile-toggle { display: flex; align-items: center; justify-content: center; }
+  .content { padding: 1rem; }
+  .topbar { padding: 0.6rem 1rem; }
+}
+@media (max-width: 600px) {
+  .topbar h1 { font-size: 0.9rem; width: 100%; }
+  .topbar-actions { width: 100%; }
+  .search-bar { width: 100%; }
+  .problem-card .name { font-size: 0.85rem; }
+  .code-block pre { font-size: 0.6rem; }
+}
+
+/* Sidebar backdrop */
+.sidebar-backdrop {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  z-index: 250;
+}
+.sidebar-backdrop.show { display: block; }
+</style>
+</head>
+<body>
+
+<!-- Mobile Toggle -->
+<button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">⚡ DSA Revision</div>
+  <div class="sidebar-section">Topics</div>
+  <div id="sidebarLinks"></div>
+  <div style="margin-top:1rem;padding:0.8rem 1.2rem;border-top:1px solid var(--border);">
+    <button onclick="openRandomPicker()" class="btn btn-primary" style="width:100%;justify-content:center;font-size:0.72rem">
+      <i class="fas fa-dice"></i> Random Problem
+    </button>
+  </div>
+</nav>
+
+<!-- Main -->
+<div class="main">
+  <div class="topbar">
+    <h1>📚 DSA Revision</h1>
+    <span class="badge"><i class="fas fa-database"></i> <span id="totalCount">0</span> problems</span>
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Search problems..." oninput="filterProblems()">
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-primary" onclick="openRandomPicker()"><i class="fas fa-dice"></i> Random</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Filter Chips -->
+    <div class="filter-chips" id="filterChips">
+      <button class="filter-chip active" data-filter="all" onclick="setFilter('all')">All</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-strip" id="statsStrip"></div>
+
+    <!-- Problem Sections -->
+    <div id="problemContainer"></div>
+  </div>
+</div>
+
+<!-- Random Picker Modal -->
+<div class="modal-overlay" id="randomModal">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+      <h3><i class="fas fa-dice-d6" style="color:var(--accent)"></i> Random Problem</h3>
+      <button onclick="closeRandomPicker()" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:1rem;"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="form-group">
+      <label>Filter by Topic</label>
+      <select id="randomTopicFilter">
+        <option value="all">All Topics</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Filter by Difficulty</label>
+      <select id="randomDifficultyFilter">
+        <option value="all">Any Difficulty</option>
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="pickRandom()"><i class="fas fa-dice"></i> Pick Random</button>
+      <button class="btn btn-secondary" onclick="closeRandomPicker()">Close</button>
+    </div>
+    <div class="random-result" id="randomResult"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// ALL PROBLEMS DATA - Extracted from C++ Codebase
+// ============================================================
+const PROBLEMS = [
+  // ---- PATTERNS ----
+  { id:"p1", topic:"Patterns", name:"Square Pattern", difficulty:"easy", pattern:"Nested Loops", link:"", 
+    notes:"Print * in N×N grid. Use two nested loops.", 
+    code:'for(int i=0;i<n;i++){\n  for(int j=0;j<n;j++){\n    cout << "*";\n  }\n  cout << endl;\n}',
+    tc:"O(n²)", sc:"O(1)" },
+  { id:"p2", topic:"Patterns", name:"Triangle Pattern", difficulty:"easy", pattern:"Nested Loops", link:"", 
+    notes:"Print * in increasing rows: row i has i stars.", 
+    code:'for(int i=0;i<n;i++){\n  for(int j=0;j<=i;j++){\n    cout << "*";\n  }\n  cout << endl;\n}',
+    tc:"O(n²)", sc:"O(1)" },
+  { id:"p3", topic:"Patterns", name:"Number Triangle", difficulty:"easy", pattern:"Nested Loops", link:"", 
+    notes:"Print numbers 1 to i in each row i.", 
+    code:'for(int i=1;i<=n;i++){\n  for(int j=1;j<=i;j++){\n    cout << j << " ";\n  }\n  cout << endl;\n}',
+    tc:"O(n²)", sc:"O(1)" },
+  { id:"p4", topic:"Patterns", name:"Same Number Triangle", difficulty:"easy", pattern:"Nested Loops", link:"", 
+    notes:"Print i (row number) i times in row i.", 
+    code:'for(int i=1;i<=n;i++){\n  for(int j=1;j<=i;j++){\n    cout << i << " ";\n  }\n  cout << endl;\n}',
+    tc:"O(n²)", sc:"O(1)" },
+  { id:"p5", topic:"Patterns", name:"Inverted Triangle", difficulty:"easy", pattern:"Nested Loops", link:"", 
+    notes:"Print * in decreasing order. Row i has n-i+1 stars.", 
+    code:'for(int i=n;i>0;i--){\n  for(int j=i;j>0;j--){\n    cout << "* ";\n  }\n  cout << endl;\n}',
+    tc:"O(n²)", sc:"O(1)" },
+  { id:"p6", topic:"Patterns", name:"Star Pyramid", difficulty:"easy", pattern:"Nested Loops", link:"https://www.naukri.com/code360/problems/star-triangle_6573671", 
+    notes:"Print centered pyramid. Spaces decrease, stars increase by 2 each row.", 
+    code:'int t=1, r=n;\nfor(int i=0;i<n;i++){\n  for(int j=0;j<r-1;j++) cout << " ";\n  for(int k=0;k<t;k++) cout << "*";\n  for(int j=0;j<r-1;j++) cout << " ";\n  cout << endl; t+=2; r--;\n}',
+    tc:"O(n²)", sc:"O(1)" },
+  { id:"p7", topic:"Patterns", name:"Diamond Pattern", difficulty:"easy", pattern:"Nested Loops", link:"", 
+    notes:"Combine pyramid (top) and inverted pyramid (bottom).", 
+    code:'// Top half: pyramid\nint space=n-1, star=1;\nfor(int i=0;i<n;i++){\n  for(int j=0;j<space;j++) cout << " ";\n  for(int t=0;t<star;t++) cout << "*";\n  for(int j=0;j<space;j++) cout << " ";\n  space--; star+=2; cout << endl;\n}\n// Bottom half: inverted\nspace=0; star=2*n-1;\nfor(int i=0;i<n;i++){\n  for(int j=0;j<space;j++) cout << " ";\n  for(int t=0;t<star;t++) cout << "*";\n  space++; star-=2; cout << endl;\n}',
+    tc:"O(n²)", sc:"O(1)" },
+  { id:"p8", topic:"Patterns", name:"Binary Triangle", difficulty:"easy", pattern:"Alternating Bits", link:"", 
+    notes:"Print 0/1 alternately. Row starts with 1 if odd row, 0 if even.", 
+    code:'for(int i=0;i<n;i++){\n  int b = (i%2==0) ? 1 : 0;\n  for(int j=0;j<=i;j++){\n    cout << b << " ";\n    b = 1-b;\n  }\n  cout << endl;\n}',
+    tc:"O(n²)", sc:"O(1)" },
+  { id:"p9", topic:"Patterns", name:"Number Pyramid", difficulty:"easy", pattern:"Nested Loops", link:"", 
+    notes:"Print increasing numbers then decreasing in each row, forming a pyramid.", 
+    code:'int t=2*n;\nfor(int i=0;i<n;i++){\n  for(int j=0;j<=i;j++) cout << j+1 << " ";\n  int space = t-2*(i+1);\n  for(int j=0;j<space;j++) cout << " ";\n  for(int j=i;j>=0;j--) cout << j+1 << " ";\n  cout << endl;\n}',
+    tc:"O(n²)", sc:"O(1)" },
+  { id:"p10", topic:"Patterns", name:"Floyd's Triangle", difficulty:"easy", pattern:"Number Pattern", link:"", 
+    notes:"Print consecutive numbers in each row.", 
+    code:'int num=1;\nfor(int i=0;i<n;i++){\n  for(int j=0;j<=i;j++){\n    cout << num++ << " ";\n  }\n  cout << endl;\n}',
+    tc:"O(n²)", sc:"O(1)" },
+  { id:"p11", topic:"Patterns", name:"Alphabet Triangle", difficulty:"easy", pattern:"Character Pattern", link:"", 
+    notes:"Print characters A, AB, ABC, ... in each row.", 
+    code:'for(int i=0;i<n;i++){\n  for(int j=0;j<=i;j++){\n    cout << char(\'A\'+j) << " ";\n  }\n  cout << endl;\n}',
+    tc:"O(n²)", sc:"O(1)" },
+  { id:"p12", topic:"Patterns", name:"Alphabet Pyramid", difficulty:"easy", pattern:"Character Pattern", link:"", 
+    notes:"Centered pyramid of characters: A, ABA, ABCBA, ...", 
+    code:'for(int i=0;i<n;i++){\n  for(int j=0;j<n-1-i;j++) cout << "  ";\n  for(int j=0;j<=i;j++) cout << char(\'A\'+j) << " ";\n  for(int j=i-1;j>=0;j--) cout << char(\'A\'+j) << " ";\n  cout << endl;\n}',
+    tc:"O(n²)", sc:"O(1)" },
+  { id:"p13", topic:"Patterns", name:"Reverse Alphabet Triangle", difficulty:"easy", pattern:"Character Pattern", link:"", 
+    notes:"Print characters from end: D, CD, BCD, ABCD in each row.", 
+    code:'for(int i=0;i<n;i++){\n  for(int j=n-1;j>=n-1-i;j--){\n    cout << char(\'A\'+j) << " ";\n  }\n  cout << endl;\n}',
+    tc:"O(n²)", sc:"O(1)" },
+  { id:"p14", topic:"Patterns", name:"Hollow Square", difficulty:"easy", pattern:"Boundary Pattern", link:"", 
+    notes:"Print * only on boundary (first/last row/col).", 
+    code:'for(int i=0;i<n;i++){\n  for(int j=0;j<n;j++){\n    if(i==0||j==0||j==n-1||i==n-1) cout << "*";\n    else cout << " ";\n  }\n  cout << endl;\n}',
+    tc:"O(n²)", sc:"O(1)" },
+
+  // ---- BASIC MATH ----
+  { id:"m1", topic:"Basic Math", name:"Reverse Integer", difficulty:"easy", pattern:"Digit Extraction", link:"https://leetcode.com/problems/reverse-integer/",
+    notes:"Extract digits using %10, build reversed number. Handle negative numbers and overflow.",
+    code:'int reverse(int x) {\n  int ans = 0;\n  while(x != 0) {\n    int digit = x % 10;\n    if(ans > INT_MAX/10 || ans < INT_MIN/10) return 0;\n    ans = ans * 10 + digit;\n    x /= 10;\n  }\n  return ans;\n}',
+    tc:"O(log n)", sc:"O(1)" },
+  { id:"m2", topic:"Basic Math", name:"Palindrome Number", difficulty:"easy", pattern:"Digit Extraction", link:"https://leetcode.com/problems/palindrome-number/",
+    notes:"Reverse the number and compare with original. Only reverse half to avoid overflow.",
+    code:'bool isPalindrome(int x) {\n  if(x < 0) return false;\n  long long rev = 0, original = x;\n  while(x > 0) {\n    rev = rev * 10 + x % 10;\n    x /= 10;\n  }\n  return rev == original;\n}',
+    tc:"O(log n)", sc:"O(1)" },
+  { id:"m3", topic:"Basic Math", name:"Count Digits", difficulty:"easy", pattern:"Digit Extraction", link:"https://www.geeksforgeeks.org/problems/count-digits5716/1",
+    notes:"Count digits that evenly divide the number. Use % and / operators.",
+    code:'int evenlyDivides(int n) {\n  int ori = n, count = 0;\n  while(n > 0) {\n    int d = n % 10;\n    if(d != 0 && ori % d == 0) count++;\n    n /= 10;\n  }\n  return count;\n}',
+    tc:"O(log n)", sc:"O(1)" },
+  { id:"m4", topic:"Basic Math", name:"Armstrong Number", difficulty:"easy", pattern:"Digit Extraction + Power", link:"",
+    notes:"Sum of each digit raised to power of number of digits equals the number itself.",
+    code:'bool checkArmstrong(int n) {\n  int original=n, ans=0, numDigit=0;\n  while(n>0) { numDigit++; n/=10; }\n  n=original;\n  while(n>0) {\n    int temp=n%10;\n    ans += pow(temp, numDigit);\n    n/=10;\n  }\n  return original==ans;\n}',
+    tc:"O(log n)", sc:"O(1)" },
+  { id:"m5", topic:"Basic Math", name:"Sum of All Divisors", difficulty:"easy", pattern:"Math", link:"https://www.geeksforgeeks.org/problems/sum-of-all-divisors-from-1-to-n4738/1",
+    notes:"For each number 1..n, sum its divisors and accumulate total. Optimize by using divisor pairs.",
+    code:'int sumOfDivisors(int n) {\n  int ans=0;\n  for(int i=1;i<=n;i++){\n    int sum=0;\n    for(int j=1;j<=i;j++)\n      if(i%j==0) sum+=j;\n    ans+=sum;\n  }\n  return ans;\n}',
+    tc:"O(n√n)", sc:"O(1)" },
+  { id:"m6", topic:"Basic Math", name:"Check Prime", difficulty:"easy", pattern:"Math", link:"",
+    notes:"Check divisibility up to √n. If no divisor found, number is prime.",
+    code:'bool isPrime(int n) {\n  if(n<=1) return false;\n  for(int i=2;i*i<=n;i++)\n    if(n%i==0) return false;\n  return true;\n}',
+    tc:"O(√n)", sc:"O(1)" },
+  { id:"m7", topic:"Basic Math", name:"GCD of Two Numbers", difficulty:"easy", pattern:"Euclidean Algorithm", link:"",
+    notes:"Euclidean: gcd(a,b) = gcd(b, a%b). Continue until b=0.",
+    code:'int gcd(int a, int b) {\n  while(b) {\n    int t = b;\n    b = a % b;\n    a = t;\n  }\n  return a;\n}',
+    tc:"O(log min(a,b))", sc:"O(1)" },
+
+  // ---- RECURSION ----
+  { id:"r1", topic:"Recursion", name:"Print Name N Times", difficulty:"easy", pattern:"Basic Recursion", link:"",
+    notes:"Base case: i>c → return. Print name, increment i, call recursively.",
+    code:'void fun1(int i, int c) {\n  if(i > c) return;\n  cout << "anuj" << endl;\n  fun1(i+1, c);\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"r2", topic:"Recursion", name:"Print 1 to N", difficulty:"easy", pattern:"Basic Recursion", link:"",
+    notes:"Base case: i>n → return. Print i, then recursive call with i+1. Backtracking: recursive then print.",
+    code:'void fun2(int i, int n) {\n  if(i > n) return;\n  cout << i << endl;\n  fun2(i+1, n);\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"r3", topic:"Recursion", name:"Print N to 1 (Backtracking)", difficulty:"easy", pattern:"Backtracking", link:"",
+    notes:"Recurse first (i+1), then print. This prints in reverse without explicit decrement.",
+    code:'void fun5(int i, int n) {\n  if(i > n) return;\n  fun5(i+1, n);\n  cout << i << endl;\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"r4", topic:"Recursion", name:"Sum of First N Numbers", difficulty:"easy", pattern:"Parameterized/Functional", link:"",
+    notes:"Parameterized: pass sum in params. Functional: return n + f(n-1).",
+    code:'int sum(int n) {\n  if(n == 0) return 0;\n  return n + sum(n-1);\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"r5", topic:"Recursion", name:"Factorial", difficulty:"easy", pattern:"Functional Recursion", link:"",
+    notes:"Base case: n=1 → return 1. Return n * factorial(n-1).",
+    code:'long long factorial(long long n) {\n  if(n == 1) return 1;\n  return n * factorial(n-1);\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"r6", topic:"Recursion", name:"Reverse Array", difficulty:"easy", pattern:"Two Pointers", link:"",
+    notes:"Use two pointers (l, r). Swap then recurse with (l+1, r-1).",
+    code:'void reverse(int arr[], int l, int r) {\n  if(l >= r) return;\n  swap(arr[l], arr[r]);\n  reverse(arr, l+1, r-1);\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"r7", topic:"Recursion", name:"Check Palindrome String", difficulty:"easy", pattern:"Two Pointers", link:"https://leetcode.com/problems/valid-palindrome/",
+    notes:"Two pointers from ends. If mismatch → false. Alphanumeric only, ignore case.",
+    code:'bool isPalindrome(string s, int i) {\n  if(i >= s.size()/2) return true;\n  if(s[i] != s[s.size()-i-1]) return false;\n  return isPalindrome(s, i+1);\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"r8", topic:"Recursion", name:"Fibonacci", difficulty:"easy", pattern:"Multiple Recursion", link:"",
+    notes:"f(n) = f(n-1) + f(n-2). Base: n<=1 → n.",
+    code:'int fib(int n) {\n  if(n <= 1) return n;\n  return fib(n-1) + fib(n-2);\n}',
+    tc:"O(2ⁿ)", sc:"O(n)" },
+  { id:"r9", topic:"Recursion", name:"Pow(x,n) - Binary Exponentiation", difficulty:"medium", pattern:"Binary Exponentiation", link:"https://leetcode.com/problems/powx-n/",
+    notes:"If n even: xⁿ = (x·x)^(n/2). If odd: xⁿ = x·x^(n-1). Handle negative n by taking reciprocal.",
+    code:'double myPow(double x, int n) {\n  double ans=1.0;\n  long long nu = n;\n  if(nu<0) nu = -nu;\n  while(nu) {\n    if(nu%2==0) { x*=x; nu/=2; }\n    else { ans*=x; nu--; }\n  }\n  return n<0 ? 1.0/ans : ans;\n}',
+    tc:"O(log n)", sc:"O(1)" },
+
+  // ---- SORTING ----
+  { id:"s1", topic:"Sorting", name:"Selection Sort", difficulty:"easy", pattern:"Comparison Sort", link:"",
+    notes:"Find minimum element in unsorted part, swap with first element. Repeat for each position.",
+    code:'void selectionSort(int arr[], int n) {\n  for(int i=0;i<n-1;i++) {\n    int min=i;\n    for(int j=i;j<n;j++)\n      if(arr[j]<arr[min]) min=j;\n    swap(arr[min], arr[i]);\n  }\n}',
+    tc:"O(n²)", sc:"O(1)" },
+  { id:"s2", topic:"Sorting", name:"Bubble Sort", difficulty:"easy", pattern:"Comparison Sort", link:"",
+    notes:"Compare adjacent elements, swap if out of order. Largest element bubbles to end in each pass. Optimize with flag - stop if no swaps.",
+    code:'void bubbleSort(int arr[], int n) {\n  for(int i=n-1;i>0;i--) {\n    int didSwap=0;\n    for(int j=0;j<i;j++) {\n      if(arr[j]>arr[j+1]) { swap(arr[j],arr[j+1]); didSwap=1; }\n    }\n    if(didSwap==0) break;\n  }\n}',
+    tc:"O(n²) best O(n)", sc:"O(1)" },
+  { id:"s3", topic:"Sorting", name:"Insertion Sort", difficulty:"easy", pattern:"Comparison Sort", link:"",
+    notes:"Take element and insert it in correct position in sorted left part by shifting elements right.",
+    code:'void insertionSort(int arr[], int n) {\n  for(int i=0;i<n;i++) {\n    int j=i;\n    while(j>0 && arr[j-1]>arr[j]) {\n      swap(arr[j-1], arr[j]);\n      j--;\n    }\n  }\n}',
+    tc:"O(n²) best O(n)", sc:"O(1)" },
+  { id:"s4", topic:"Sorting", name:"Merge Sort", difficulty:"medium", pattern:"Divide & Conquer", link:"",
+    notes:"Divide array into halves, recursively sort each half, merge sorted halves using two pointers.",
+    code:'void merge(vector<int>& arr, int low, int mid, int high) {\n  vector<int> temp;\n  int left=low, right=mid+1;\n  while(left<=mid && right<=high) {\n    if(arr[left]<=arr[right]) temp.push_back(arr[left++]);\n    else temp.push_back(arr[right++]);\n  }\n  while(left<=mid) temp.push_back(arr[left++]);\n  while(right<=high) temp.push_back(arr[right++]);\n  for(int i=low;i<=high;i++) arr[i]=temp[i-low];\n}\nvoid mergeSort(vector<int>& arr, int low, int high) {\n  if(low>=high) return;\n  int mid=(low+high)/2;\n  mergeSort(arr,low,mid);\n  mergeSort(arr,mid+1,high);\n  merge(arr,low,mid,high);\n}',
+    tc:"O(n log n)", sc:"O(n)" },
+  { id:"s5", topic:"Sorting", name:"Quick Sort", difficulty:"medium", pattern:"Divide & Conquer", link:"",
+    notes:"Pick pivot (first element). Partition: elements ≤ pivot go left, > pivot go right. Recursively sort left and right.",
+    code:'int partition(vector<int>& arr, int low, int high) {\n  int pivot=arr[low], i=low, j=high;\n  while(i<j) {\n    while(arr[i]<=pivot && i<=high-1) i++;\n    while(arr[j]>pivot && j>=low+1) j--;\n    if(i<j) swap(arr[i],arr[j]);\n  }\n  swap(arr[low],arr[j]);\n  return j;\n}\nvoid quickSort(vector<int>& arr, int low, int high) {\n  if(low<high) {\n    int pIdx = partition(arr, low, high);\n    quickSort(arr, low, pIdx-1);\n    quickSort(arr, pIdx+1, high);\n  }\n}',
+    tc:"O(n log n) worst O(n²)", sc:"O(log n)" },
+
+  // ---- ARRAYS ----
+  { id:"a1", topic:"Arrays", name:"Largest Element", difficulty:"easy", pattern:"Linear Scan", link:"",
+    notes:"Traverse array, track max element seen so far.",
+    code:'int largestElement(vector<int>& arr, int n) {\n  int ans=arr[0];\n  for(int i=1;i<n;i++) if(arr[i]>ans) ans=arr[i];\n  return ans;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"a2", topic:"Arrays", name:"Second Largest & Smallest", difficulty:"easy", pattern:"Linear Scan", link:"",
+    notes:"Track both first and second largest/smallest in one pass.",
+    code:'vector<int> getSecondOrderElements(int n, vector<int>& a) {\n  int fl=a[0], sl=-1e9, fs=a[0], ss=1e9;\n  for(int i=1;i<n;i++) {\n    if(a[i]>fl) { sl=fl; fl=a[i]; }\n    else if(a[i]<fl && a[i]>sl) sl=a[i];\n    if(a[i]<fs) { ss=fs; fs=a[i]; }\n    else if(a[i]>fs && a[i]<ss) ss=a[i];\n  }\n  return {sl,ss};\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"a3", topic:"Arrays", name:"Check if Array is Sorted", difficulty:"easy", pattern:"Linear Scan", link:"",
+    notes:"If any a[i] < a[i-1], array is not sorted in non-decreasing order.",
+    code:'int isSorted(int n, vector<int>& a) {\n  for(int i=1;i<n;i++) if(a[i]<a[i-1]) return false;\n  return true;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"a4", topic:"Arrays", name:"Remove Duplicates from Sorted Array", difficulty:"easy", pattern:"Two Pointers", link:"",
+    notes:"Use two pointers: i tracks unique position, j scans. When arr[j]!=arr[i], place at i+1.",
+    code:'int removeDuplicates(vector<int>& arr, int n) {\n  int i=0;\n  for(int j=1;j<n;j++)\n    if(arr[j]!=arr[i]) arr[++i]=arr[j];\n  return i+1;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"a5", topic:"Arrays", name:"Rotate Array by 1", difficulty:"easy", pattern:"Array Rotation", link:"",
+    notes:"Store first element, shift all elements left by 1, place stored element at end.",
+    code:'vector<int> rotateArray(vector<int>& arr, int n) {\n  int t = arr[0];\n  for(int i=1;i<n;i++) arr[i-1]=arr[i];\n  arr[n-1]=t;\n  return arr;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"a6", topic:"Arrays", name:"Rotate Array by K (Left)", difficulty:"easy", pattern:"Array Rotation", link:"",
+    notes:"Store first K elements, shift remaining left by K, place stored elements at end.",
+    code:'vector<int> rotateArray(vector<int>& arr, int k) {\n  int n=arr.size(); k%=n;\n  vector<int> tmp(k);\n  for(int i=0;i<k;i++) tmp[i]=arr[i];\n  for(int i=k;i<n;i++) arr[i-k]=arr[i];\n  for(int i=n-k;i<n;i++) arr[i]=tmp[i-(n-k)];\n  return arr;\n}',
+    tc:"O(n)", sc:"O(k)" },
+  { id:"a7", topic:"Arrays", name:"Move Zeros to End", difficulty:"easy", pattern:"Two Pointers", link:"",
+    notes:"Shift non-zero elements forward, fill remaining positions with zero.",
+    code:'vector<int> moveZeros(int n, vector<int>& arr) {\n  int z=0;\n  for(int i=0;i<n;i++) if(arr[i]!=0) arr[z++]=arr[i];\n  while(z<n) arr[z++]=0;\n  return arr;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"a8", topic:"Arrays", name:"Union of Two Sorted Arrays", difficulty:"easy", pattern:"Two Pointers", link:"",
+    notes:"Use two pointers. Add smaller element if not duplicate. Handle remaining elements.",
+    code:'vector<int> findUnion(vector<int>& a, vector<int>& b) {\n  int n1=a.size(), n2=b.size();\n  vector<int> ans; int i=0,j=0;\n  while(i<n1 && j<n2) {\n    if(a[i]<=b[j]) { if(ans.empty()||ans.back()!=a[i]) ans.push_back(a[i]); i++; }\n    else { if(ans.empty()||ans.back()!=b[j]) ans.push_back(b[j]); j++; }\n  }\n  while(i<n1) { if(ans.empty()||ans.back()!=a[i]) ans.push_back(a[i++]); }\n  while(j<n2) { if(ans.empty()||ans.back()!=b[j]) ans.push_back(b[j++]); }\n  return ans;\n}',
+    tc:"O(n1+n2)", sc:"O(n1+n2)" },
+  { id:"a9", topic:"Arrays", name:"Intersection of Two Sorted Arrays", difficulty:"easy", pattern:"Two Pointers", link:"",
+    notes:"Use two pointers. When equal → add to answer and advance both. Otherwise advance smaller.",
+    code:'vector<int> findIntersection(vector<int>& a, vector<int>& b) {\n  int i=0,j=0,n=a.size(),m=b.size();\n  vector<int> ans;\n  while(i<n && j<m) {\n    if(a[i]<b[j]) i++;\n    else if(a[i]>b[j]) j++;\n    else { ans.push_back(a[i]); i++; j++; }\n  }\n  return ans;\n}',
+    tc:"O(n+m)", sc:"O(min(n,m))" },
+  { id:"a10", topic:"Arrays", name:"Find Missing Number", difficulty:"easy", pattern:"Math", link:"https://leetcode.com/problems/missing-number/",
+    notes:"Sum 1..n = n(n+1)/2. Missing = expected - actual sum.",
+    code:'int missingNumber(vector<int>& a, int n) {\n  int sum = n*(n+1)/2;\n  int sum2=0;\n  for(int x:a) sum2+=x;\n  return sum-sum2;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"a11", topic:"Arrays", name:"Maximum Consecutive Ones", difficulty:"easy", pattern:"Linear Scan", link:"https://leetcode.com/problems/max-consecutive-ones/",
+    notes:"Count consecutive 1s. Reset on 0. Track max.",
+    code:'int consecutiveOnes(vector<int>& arr) {\n  int c=0, ans=0;\n  for(int x:arr) {\n    if(x==1) { c++; ans=max(ans,c); }\n    else c=0;\n  }\n  return ans;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"a12", topic:"Arrays", name:"Find Single Number", difficulty:"easy", pattern:"XOR", link:"https://leetcode.com/problems/single-number/",
+    notes:"XOR all elements. a^a=0, so duplicates cancel out, leaving the unique element.",
+    code:'int singleNumber(vector<int>& nums) {\n  int ans=0;\n  for(int n:nums) ans ^= n;\n  return ans;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"a13", topic:"Arrays", name:"Longest Subarray with Sum K", difficulty:"medium", pattern:"Prefix Sum + Map", link:"",
+    notes:"Use hashmap of prefix sums. For each sum, check if sum-k exists. Only store first occurrence.",
+    code:'int longestSubarrayWithSumK(vector<int>& a, long long k) {\n  map<long long,int> preSumMap;\n  long long sum=0; int maxlen=0;\n  for(int i=0;i<a.size();i++) {\n    sum+=a[i];\n    if(sum==k) maxlen=max(maxlen,i+1);\n    long long rem=sum-k;\n    if(preSumMap.count(rem)) maxlen=max(maxlen,i-preSumMap[rem]);\n    if(!preSumMap.count(sum)) preSumMap[sum]=i;\n  }\n  return maxlen;\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"a14", topic:"Arrays", name:"Two Sum", difficulty:"easy", pattern:"Hash Map", link:"https://leetcode.com/problems/two-sum/",
+    notes:"Store complement (target - num) in hashmap. If found, return indices.",
+    code:'vector<int> twoSum(vector<int>& nums, int target) {\n  unordered_map<int,int> mp;\n  for(int i=0;i<nums.size();i++) {\n    int rem = target - nums[i];\n    if(mp.count(rem)) return {mp[rem], i};\n    mp[nums[i]]=i;\n  }\n  return {};\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"a15", topic:"Arrays", name:"Sort Colors (Dutch Flag)", difficulty:"medium", pattern:"Dutch National Flag", link:"https://leetcode.com/problems/sort-colors/",
+    notes:"Three pointers: low, mid, high. 0→swap low&mid++, 1→mid++, 2→swap high&mid (no mid++).",
+    code:'void sortColors(vector<int>& nums) {\n  int low=0, mid=0, high=nums.size()-1;\n  while(mid<=high) {\n    if(nums[mid]==0) { swap(nums[low],nums[mid]); low++; mid++; }\n    else if(nums[mid]==1) mid++;\n    else { swap(nums[mid],nums[high]); high--; }\n  }\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"a16", topic:"Arrays", name:"Majority Element", difficulty:"easy", pattern:"Moore's Voting", link:"https://leetcode.com/problems/majority-element/",
+    notes:"Moore's Voting: candidate with count. When count=0 pick new candidate. Majority will survive.",
+    code:'int majorityElement(vector<int>& nums) {\n  int cand, count=0;\n  for(int n:nums) {\n    if(count==0) { cand=n; count=1; }\n    else if(n==cand) count++;\n    else count--;\n  }\n  return cand;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"a17", topic:"Arrays", name:"Maximum Subarray (Kadane)", difficulty:"medium", pattern:"Kadane's Algorithm", link:"https://leetcode.com/problems/maximum-subarray/",
+    notes:"Running sum. If sum goes negative, reset to 0. Track max sum seen.",
+    code:'int maxSubArray(vector<int>& nums) {\n  int sum=0, maxSum=INT_MIN;\n  for(int n:nums) {\n    sum+=n;\n    maxSum=max(maxSum,sum);\n    if(sum<0) sum=0;\n  }\n  return maxSum;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"a18", topic:"Arrays", name:"Next Permutation", difficulty:"medium", pattern:"Two Pointers", link:"https://leetcode.com/problems/next-permutation/",
+    notes:"Find break point from right. Swap with next greater. Reverse right part.",
+    code:'void nextPermutation(vector<int>& nums) {\n  int n=nums.size(), i=n-2;\n  while(i>=0 && nums[i]>=nums[i+1]) i--;\n  if(i>=0) {\n    int j=n-1;\n    while(nums[j]<=nums[i]) j--;\n    swap(nums[i],nums[j]);\n  }\n  reverse(nums.begin()+i+1, nums.end());\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"a19", topic:"Arrays", name:"Rearrange Array by Sign", difficulty:"medium", pattern:"Two Pointers", link:"",
+    notes:"Place positives at even indices and negatives at odd indices.",
+    code:'vector<int> rearrangeArray(vector<int>& nums) {\n  int n=nums.size();\n  vector<int> ans(n);\n  int pos=0, neg=1;\n  for(int x:nums) {\n    if(x>0) { ans[pos]=x; pos+=2; }\n    else { ans[neg]=x; neg+=2; }\n  }\n  return ans;\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"a20", topic:"Arrays", name:"Pascal's Triangle", difficulty:"easy", pattern:"Dynamic Programming", link:"https://leetcode.com/problems/pascals-triangle/",
+    notes:"Each row start/end with 1. Middle elements = sum of two above.",
+    code:'vector<vector<int>> generate(int n) {\n  vector<vector<int>> ans;\n  for(int i=0;i<n;i++) {\n    vector<int> row(i+1,1);\n    for(int j=1;j<i;j++) row[j]=ans[i-1][j-1]+ans[i-1][j];\n    ans.push_back(row);\n  }\n  return ans;\n}',
+    tc:"O(n²)", sc:"O(n²)" },
+  { id:"a21", topic:"Arrays", name:"3Sum", difficulty:"medium", pattern:"Two Pointers", link:"https://leetcode.com/problems/3sum/",
+    notes:"Sort array. Fix one element, use two pointers for other two. Skip duplicates.",
+    code:'vector<vector<int>> threeSum(vector<int>& nums) {\n  sort(nums.begin(),nums.end());\n  vector<vector<int>> ans;\n  for(int i=0;i<nums.size();i++) {\n    if(i>0&&nums[i]==nums[i-1]) continue;\n    int j=i+1, k=nums.size()-1;\n    while(j<k) {\n      int sum=nums[i]+nums[j]+nums[k];\n      if(sum<0) j++;\n      else if(sum>0) k--;\n      else {\n        ans.push_back({nums[i],nums[j],nums[k]});\n        while(j<k&&nums[j]==nums[j+1]) j++;\n        while(j<k&&nums[k]==nums[k-1]) k--;\n        j++; k--;\n      }\n    }\n  }\n  return ans;\n}',
+    tc:"O(n²)", sc:"O(1)" },
+  { id:"a22", topic:"Arrays", name:"4Sum", difficulty:"medium", pattern:"Two Pointers", link:"https://leetcode.com/problems/4sum/",
+    notes:"Nested loop for first two, then two pointers. Skip duplicates carefully. Use long long for sum.",
+    code:'vector<vector<int>> fourSum(vector<int>& nums, int t) {\n  sort(nums.begin(),nums.end());\n  vector<vector<int>> ans;\n  for(int i=0;i<nums.size();i++) {\n    if(i>0&&nums[i]==nums[i-1]) continue;\n    for(int j=i+1;j<nums.size();j++) {\n      if(j!=i+1&&nums[j]==nums[j-1]) continue;\n      int k=j+1, p=nums.size()-1;\n      while(k<p) {\n        long long sum=(long long)nums[i]+nums[j]+nums[k]+nums[p];\n        if(sum<t) k++; else if(sum>t) p--;\n        else { ans.push_back({nums[i],nums[j],nums[k],nums[p]}); j++; p--; while(k<p&&nums[k]==nums[k+1]) k++; while(k<p&&nums[p]==nums[p-1]) p--; }\n      }\n    }\n  }\n  return ans;\n}',
+    tc:"O(n³)", sc:"O(1)" },
+  { id:"a23", topic:"Arrays", name:"Merge Intervals", difficulty:"medium", pattern:"Sorting + Greedy", link:"https://leetcode.com/problems/merge-intervals/",
+    notes:"Sort by start time. If new interval overlaps last, merge by taking max end.",
+    code:'vector<vector<int>> merge(vector<vector<int>>& arr) {\n  sort(arr.begin(),arr.end());\n  vector<vector<int>> ans;\n  for(auto& i:arr) {\n    if(ans.empty()||ans.back()[1]<i[0]) ans.push_back(i);\n    else ans.back()[1]=max(ans.back()[1],i[1]);\n  }\n  return ans;\n}',
+    tc:"O(n log n)", sc:"O(n)" },
+  { id:"a24", topic:"Arrays", name:"Subarrays with XOR K", difficulty:"medium", pattern:"Prefix XOR + Map", link:"",
+    notes:"Use map to store prefix XOR counts. For each prefix, count how many times prefix^K appeared.",
+    code:'int subarraysWithXorK(vector<int>& a, int b) {\n  unordered_map<int,int> mpp;\n  int preSum=0, ans=0;\n  mpp[0]=1;\n  for(int x:a) {\n    preSum^=x;\n    ans+=mpp[b^preSum];\n    mpp[preSum]++;\n  }\n  return ans;\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"a25", topic:"Arrays", name:"Find Missing and Repeating", difficulty:"medium", pattern:"Math", link:"",
+    notes:"Use sum and sum of squares. Solve equations: x-repeating, y-missing. val1 = x-y, val2 = x+y.",
+    code:'vector<int> findMissingRepeatingNumbers(vector<int>& a) {\n  long long n=a.size();\n  long long sn1=n*(n+1)/2, sn2=n*(n+1)*(2*n+1)/6;\n  long long s1=0,s2=0;\n  for(int x:a){ s1+=x; s2+=(long long)x*x; }\n  long long val1=s1-sn1; // x-y\n  long long val2=(s2-sn2)/val1; // x+y\n  long long x=(val1+val2)/2, y=x-val1;\n  return {(int)x,(int)y};\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"a26", topic:"Arrays", name:"Inversion Count", difficulty:"medium", pattern:"Merge Sort", link:"",
+    notes:"Count inversions during merge sort. When right element is smaller, add (mid-i+1) inversions.",
+    code:'int merge(vector<int>& arr,int low,int mid,int high) {\n  vector<int> temp;\n  int left=low, right=mid+1, cnt=0;\n  while(left<=mid && right<=high) {\n    if(arr[left]<=arr[right]) temp.push_back(arr[left++]);\n    else { cnt+=(mid-left+1); temp.push_back(arr[right++]); }\n  }\n  while(left<=mid) temp.push_back(arr[left++]);\n  while(right<=high) temp.push_back(arr[right++]);\n  for(int i=low;i<=high;i++) arr[i]=temp[i-low];\n  return cnt;\n}\nint mergeSort(vector<int>& arr,int low,int high) {\n  int cnt=0;\n  if(high>low) {\n    int mid=(high+low)/2;\n    cnt+=mergeSort(arr,low,mid);\n    cnt+=mergeSort(arr,mid+1,high);\n    cnt+=merge(arr,low,mid,high);\n  }\n  return cnt;\n}',
+    tc:"O(n log n)", sc:"O(n)" },
+  { id:"a27", topic:"Arrays", name:"Maximum Product Subarray", difficulty:"medium", pattern:"Prefix/Suffix Product", link:"",
+    notes:"Track prefix and suffix products. Reset to 1 if zero encountered.",
+    code:'int maxProduct(vector<int>& nums) {\n  int ans=INT_MIN, prefix=1, suffix=1, n=nums.size();\n  for(int i=0;i<n;i++) {\n    if(prefix==0) prefix=1;\n    if(suffix==0) suffix=1;\n    prefix*=nums[i];\n    suffix*=nums[n-1-i];\n    ans=max(ans,max(prefix,suffix));\n  }\n  return ans;\n}',
+    tc:"O(n)", sc:"O(1)" },
+
+  // ---- BINARY SEARCH ----
+  { id:"bs1", topic:"Binary Search", name:"Binary Search", difficulty:"easy", pattern:"Divide & Conquer", link:"https://leetcode.com/problems/binary-search/",
+    notes:"Standard binary search on sorted array. Use mid = low + (high-low)/2 to avoid overflow.",
+    code:'int search(vector<int>& nums, int target) {\n  int l=0, r=nums.size()-1;\n  while(l<=r) {\n    int m=l+(r-l)/2;\n    if(nums[m]==target) return m;\n    if(nums[m]<target) l=m+1;\n    else r=m-1;\n  }\n  return -1;\n}',
+    tc:"O(log n)", sc:"O(1)" },
+  { id:"bs2", topic:"Binary Search", name:"Floor in Sorted Array", difficulty:"easy", pattern:"Binary Search", link:"",
+    notes:"Largest element ≤ x. Track ans, move low/right accordingly.",
+    code:'int findFloor(vector<int>& arr, int x) {\n  int l=0, r=arr.size()-1, ans=-1;\n  while(l<=r) {\n    int mid=l+(r-l)/2;\n    if(arr[mid]<=x) { ans=mid; l=mid+1; }\n    else r=mid-1;\n  }\n  return ans;\n}',
+    tc:"O(log n)", sc:"O(1)" },
+  { id:"bs3", topic:"Binary Search", name:"Search Insert Position", difficulty:"easy", pattern:"Binary Search", link:"https://leetcode.com/problems/search-insert-position/",
+    notes:"Binary search. If target not found, 'left' gives insert position.",
+    code:'int searchInsert(vector<int>& nums, int target) {\n  int l=0, r=nums.size()-1;\n  while(l<=r) {\n    int mid=l+(r-l)/2;\n    if(nums[mid]==target) return mid;\n    if(nums[mid]<target) l=mid+1;\n    else r=mid-1;\n  }\n  return l;\n}',
+    tc:"O(log n)", sc:"O(1)" },
+  { id:"bs4", topic:"Binary Search", name:"First and Last Position", difficulty:"medium", pattern:"Binary Search", link:"https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/",
+    notes:"Two binary searches: one for first occurrence (≥target), one for last occurrence (>target).",
+    code:'vector<int> searchRange(vector<int>& nums, int target) {\n  int l=0,r=nums.size()-1,first=-1,last=-1;\n  while(l<=r) { // first\n    int m=l+(r-l)/2;\n    if(nums[m]>=target) { if(nums[m]==target) first=m; r=m-1; }\n    else l=m+1;\n  }\n  l=0;r=nums.size()-1;\n  while(l<=r) { // last\n    int m=l+(r-l)/2;\n    if(nums[m]>target) r=m-1;\n    else { if(nums[m]==target) last=m; l=m+1; }\n  }\n  return {first,last};\n}',
+    tc:"O(log n)", sc:"O(1)" },
+  { id:"bs5", topic:"Binary Search", name:"Search in Rotated Sorted Array", difficulty:"medium", pattern:"Rotated Array", link:"https://leetcode.com/problems/search-in-rotated-sorted-array/",
+    notes:"Identify sorted half. Check if target lies in sorted half, else search other half.",
+    code:'int search(vector<int>& arr, int target) {\n  int l=0, h=arr.size()-1;\n  while(l<=h) {\n    int m=(l+h)/2;\n    if(arr[m]==target) return m;\n    if(arr[l]<=arr[m]) {\n      if(arr[l]<=target && target<=arr[m]) h=m-1;\n      else l=m+1;\n    } else {\n      if(arr[m]<=target && target<=arr[h]) l=m+1;\n      else h=m-1;\n    }\n  }\n  return -1;\n}',
+    tc:"O(log n)", sc:"O(1)" },
+  { id:"bs6", topic:"Binary Search", name:"Find Minimum in Rotated Array", difficulty:"medium", pattern:"Rotated Array", link:"https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/",
+    notes:"Compare mid with low. If left sorted, min is low, search right. Else min is mid, search left.",
+    code:'int findMin(vector<int>& nums) {\n  int l=0, h=nums.size()-1, ans=INT_MAX;\n  while(l<=h) {\n    int m=(l+h)/2;\n    if(nums[l]<=nums[m]) { ans=min(ans,nums[l]); l=m+1; }\n    else { ans=min(ans,nums[m]); h=m-1; }\n  }\n  return ans;\n}',
+    tc:"O(log n)", sc:"O(1)" },
+  { id:"bs7", topic:"Binary Search", name:"Find Peak Element", difficulty:"medium", pattern:"Binary Search", link:"https://leetcode.com/problems/find-peak-element/",
+    notes:"Binary search on 1D array. Move towards the side with larger neighbor.",
+    code:'int findPeakElement(vector<int>& nums) {\n  int n=nums.size();\n  if(n==1) return 0;\n  if(nums[0]>nums[1]) return 0;\n  if(nums[n-1]>nums[n-2]) return n-1;\n  int l=1, h=n-2;\n  while(l<=h) {\n    int m=(l+h)/2;\n    if(nums[m-1]<nums[m] && nums[m]>nums[m+1]) return m;\n    if(nums[m]<nums[m+1]) l=m+1;\n    else h=m-1;\n  }\n  return -1;\n}',
+    tc:"O(log n)", sc:"O(1)" },
+  { id:"bs8", topic:"Binary Search", name:"Single Element in Sorted Array", difficulty:"medium", pattern:"Even-Odd Pattern", link:"https://leetcode.com/problems/single-element-in-a-sorted-array/",
+    notes:"Check (even, odd) pattern. If mid and mid+1 same and mid is even → left is fine, search right.",
+    code:'int singleNonDuplicate(vector<int>& nums) {\n  int n=nums.size();\n  if(n==1) return nums[0];\n  if(nums[0]!=nums[1]) return nums[0];\n  if(nums[n-1]!=nums[n-2]) return nums[n-1];\n  int l=1, h=n-2;\n  while(l<=h) {\n    int m=(l+h)/2;\n    if(nums[m]!=nums[m-1] && nums[m]!=nums[m+1]) return nums[m];\n    if((m%2==0 && nums[m]==nums[m+1]) || (m%2==1 && nums[m]==nums[m-1])) l=m+1;\n    else h=m-1;\n  }\n  return -1;\n}',
+    tc:"O(log n)", sc:"O(1)" },
+  { id:"bs9", topic:"Binary Search", name:"Koko Eating Bananas", difficulty:"medium", pattern:"BS on Answer", link:"https://leetcode.com/problems/koko-eating-bananas/",
+    notes:"Binary search on speed. For each mid, calculate total hours = ceil(pile/mid).",
+    code:'int minEatingSpeed(vector<int>& piles, int h) {\n  int l=1, r=*max_element(piles.begin(),piles.end()), ans=-1;\n  while(l<=r) {\n    int m=(l+r)/2;\n    long long time=0;\n    for(int p:piles) time+=ceil((double)p/m);\n    if(time<=h) { ans=m; r=m-1; }\n    else l=m+1;\n  }\n  return ans;\n}',
+    tc:"O(n log max)", sc:"O(1)" },
+  { id:"bs10", topic:"Binary Search", name:"Aggressive Cows", difficulty:"hard", pattern:"BS on Answer", link:"",
+    notes:"Sort stalls. Binary search on min distance. Check if cows can be placed with given distance.",
+    code:'int aggressiveCows(vector<int>& stalls, int k) {\n  sort(stalls.begin(),stalls.end());\n  int l=1, h=stalls.back()-stalls[0], ans=-1;\n  while(l<=h) {\n    int m=(l+h)/2, cnt=1, prev=stalls[0];\n    for(int i=1;i<stalls.size();i++)\n      if(stalls[i]-prev>=m) { cnt++; prev=stalls[i]; }\n    if(cnt>=k) { ans=m; l=m+1; }\n    else h=m-1;\n  }\n  return ans;\n}',
+    tc:"O(n log n + n log range)", sc:"O(1)" },
+  { id:"bs11", topic:"Binary Search", name:"Median of Two Sorted Arrays", difficulty:"hard", pattern:"BS Partition", link:"https://leetcode.com/problems/median-of-two-sorted-arrays/",
+    notes:"Binary search on smaller array. Partition both such that left < right. Check 4 cross elements.",
+    code:'double findMedianSortedArrays(vector<int>& a, vector<int>& b) {\n  if(a.size()>b.size()) return findMedianSortedArrays(b,a);\n  int n=a.size(), m=b.size(), l=0, h=n;\n  while(l<=h) {\n    int px=(l+h)/2, py=(n+m+1)/2-px;\n    int l1=px==0?INT_MIN:a[px-1], r1=px==n?INT_MAX:a[px];\n    int l2=py==0?INT_MIN:b[py-1], r2=py==m?INT_MAX:b[py];\n    if(l1<=r2 && l2<=r1) {\n      if((n+m)%2==0) return (max(l1,l2)+min(r1,r2))/2.0;\n      else return max(l1,l2);\n    }\n    if(l1>r2) h=px-1; else l=px+1;\n  }\n  return 0;\n}',
+    tc:"O(log min(n,m))", sc:"O(1)" },
+
+  // ---- LINKED LIST ----
+  { id:"ll1", topic:"Linked List", name:"Reverse Linked List", difficulty:"easy", pattern:"Iterative", link:"https://leetcode.com/problems/reverse-linked-list/",
+    notes:"prev, curr, next pointers. Move forward, reversing the direction at each step.",
+    code:'ListNode* reverseList(ListNode* head) {\n  ListNode *prev=nullptr, *curr=head, *next;\n  while(curr) {\n    next=curr->next;\n    curr->next=prev;\n    prev=curr;\n    curr=next;\n  }\n  return prev;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"ll2", topic:"Linked List", name:"Detect Cycle in LL", difficulty:"easy", pattern:"Floyd's Algorithm", link:"https://leetcode.com/problems/linked-list-cycle/",
+    notes:"Slow and fast pointer. If they meet, cycle exists.",
+    code:'bool hasCycle(ListNode *head) {\n  ListNode *slow=head, *fast=head;\n  while(fast && fast->next) {\n    slow=slow->next;\n    fast=fast->next->next;\n    if(slow==fast) return true;\n  }\n  return false;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"ll3", topic:"Linked List", name:"Middle of Linked List", difficulty:"easy", pattern:"Fast & Slow", link:"https://leetcode.com/problems/middle-of-the-linked-list/",
+    notes:"Slow moves 1 step, fast moves 2 steps. When fast reaches end, slow is at middle.",
+    code:'ListNode* middleNode(ListNode* head) {\n  ListNode *slow=head, *fast=head;\n  while(fast && fast->next) {\n    slow=slow->next;\n    fast=fast->next->next;\n  }\n  return slow;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"ll4", topic:"Linked List", name:"Detect Cycle Start Node", difficulty:"medium", pattern:"Floyd's Algorithm", link:"https://leetcode.com/problems/linked-list-cycle-ii/",
+    notes:"After detecting cycle (slow==fast), move slow to head. Move both at same speed. Meeting point is cycle start.",
+    code:'ListNode *detectCycle(ListNode *head) {\n  ListNode *slow=head, *fast=head;\n  while(fast && fast->next) {\n    slow=slow->next; fast=fast->next->next;\n    if(slow==fast) {\n      slow=head;\n      while(slow!=fast) { slow=slow->next; fast=fast->next; }\n      return slow;\n    }\n  }\n  return NULL;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"ll5", topic:"Linked List", name:"Delete Node (given access to node)", difficulty:"medium", pattern:"Node Deletion", link:"https://leetcode.com/problems/delete-node-in-a-linked-list/",
+    notes:"Copy next node's data to current, delete next node.",
+    code:'void deleteNode(ListNode* node) {\n  node->val = node->next->val;\n  ListNode* temp = node->next;\n  node->next = node->next->next;\n  delete temp;\n}',
+    tc:"O(1)", sc:"O(1)" },
+  { id:"ll6", topic:"Linked List", name:"Count Nodes in LL", difficulty:"easy", pattern:"Traversal", link:"",
+    notes:"Traverse linked list incrementing counter until NULL.",
+    code:'int getCount(Node* head) {\n  int c=0;\n  while(head) { c++; head=head->next; }\n  return c;\n}',
+    tc:"O(n)", sc:"O(1)" },
+
+  // ---- SLIDING WINDOW ----
+  { id:"sw1", topic:"Sliding Window", name:"Longest Substring Without Repeating", difficulty:"medium", pattern:"Sliding Window", link:"https://leetcode.com/problems/longest-substring-without-repeating-characters/",
+    notes:"Two pointers + hashmap of char→index. On duplicate, move left to last_occurrence+1.",
+    code:'int lengthOfLongestSubstring(string s) {\n  unordered_map<char,int> mp;\n  int left=0, ans=0;\n  for(int r=0;r<s.size();r++) {\n    if(mp.count(s[r])) left=max(left,mp[s[r]]+1);\n    mp[s[r]]=r;\n    ans=max(ans,r-left+1);\n  }\n  return ans;\n}',
+    tc:"O(n)", sc:"O(k)" },
+  { id:"sw2", topic:"Sliding Window", name:"Max Consecutive Ones III", difficulty:"medium", pattern:"Sliding Window", link:"https://leetcode.com/problems/max-consecutive-ones-iii/",
+    notes:"Sliding window with at most k zeros. Shrink from left when zeros exceed k.",
+    code:'int longestOnes(vector<int>& nums, int k) {\n  int left=0, zero=0, ans=0;\n  for(int r=0;r<nums.size();r++) {\n    if(nums[r]==0) zero++;\n    while(zero>k) { if(nums[left]==0) zero--; left++; }\n    ans=max(ans,r-left+1);\n  }\n  return ans;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"sw3", topic:"Sliding Window", name:"Fruit Into Baskets", difficulty:"medium", pattern:"Sliding Window", link:"https://leetcode.com/problems/fruit-into-baskets/",
+    notes:"Sliding window with at most 2 distinct types. Max window size.",
+    code:'int totalFruit(vector<int>& fruits) {\n  unordered_map<int,int> mpp;\n  int left=0, ans=0;\n  for(int r=0;r<fruits.size();r++) {\n    mpp[fruits[r]]++;\n    while(mpp.size()>2) {\n      mpp[fruits[left]]--;\n      if(mpp[fruits[left]]==0) mpp.erase(fruits[left]);\n      left++;\n    }\n    ans=max(ans,r-left+1);\n  }\n  return ans;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"sw4", topic:"Sliding Window", name:"Minimum Window Substring", difficulty:"hard", pattern:"Sliding Window + Map", link:"https://leetcode.com/problems/minimum-window-substring/",
+    notes:"Two maps: target freq and window freq. Expand right, when valid shrink left to minimize.",
+    code:'string minWindow(string s, string t) {\n  unordered_map<char,int> need, have;\n  for(char c:t) need[c]++;\n  int left=0, formed=0, minLen=INT_MAX, start=0;\n  for(int r=0;r<s.size();r++) {\n    char c=s[r]; have[c]++;\n    if(need.count(c) && have[c]==need[c]) formed++;\n    while(formed==need.size()) {\n      if(r-left+1<minLen) { minLen=r-left+1; start=left; }\n      char lc=s[left]; have[lc]--;\n      if(need.count(lc) && have[lc]<need[lc]) formed--;\n      left++;\n    }\n  }\n  return minLen==INT_MAX ? \"\" : s.substr(start,minLen);\n}',
+    tc:"O(n)", sc:"O(k)" },
+  { id:"sw5", topic:"Sliding Window", name:"Minimum Size Subarray Sum", difficulty:"medium", pattern:"Sliding Window", link:"https://leetcode.com/problems/minimum-size-subarray-sum/",
+    notes:"Expand right, shrink left when sum≥target. Track min length.",
+    code:'int minSubArrayLen(int target, vector<int>& nums) {\n  int n=nums.size(), ans=INT_MAX, sum=0, left=0;\n  for(int r=0;r<n;r++) {\n    sum+=nums[r];\n    while(sum>=target) { ans=min(ans,r-left+1); sum-=nums[left++]; }\n  }\n  return ans==INT_MAX?0:ans;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"sw6", topic:"Sliding Window", name:"Binary Subarrays With Sum", difficulty:"medium", pattern:"Prefix Sum + Map", link:"https://leetcode.com/problems/binary-subarrays-with-sum/",
+    notes:"Count subarrays with sum = goal using prefix sum map.",
+    code:'int numSubarraysWithSum(vector<int>& nums, int goal) {\n  unordered_map<int,int> prefixCount;\n  int sum=0, ans=0; prefixCount[0]=1;\n  for(int x:nums) {\n    sum+=x;\n    if(prefixCount.count(sum-goal)) ans+=prefixCount[sum-goal];\n    prefixCount[sum]++;\n  }\n  return ans;\n}',
+    tc:"O(n)", sc:"O(n)" },
+
+  // ---- STACK & QUEUE ----
+  { id:"st1", topic:"Stack & Queue", name:"Valid Parentheses", difficulty:"easy", pattern:"Stack Matching", link:"https://leetcode.com/problems/valid-parentheses/",
+    notes:"Push opening brackets. On closing, check stack top matches. Stack must be empty at end.",
+    code:'bool isValid(string s) {\n  stack<char> st;\n  for(char c:s) {\n    if(c==\'(\'||c==\'{\'||c==\'[\') st.push(c);\n    else {\n      if(st.empty()) return false;\n      char t=st.top(); st.pop();\n      if((c==\')\'&&t!=\'(\')||(c==\'}\'&&t!=\'{\')||(c==\']\'&&t!=\'[\')) return false;\n    }\n  }\n  return st.empty();\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"st2", topic:"Stack & Queue", name:"Min Stack", difficulty:"medium", pattern:"Stack with Min Tracking", link:"https://leetcode.com/problems/min-stack/",
+    notes:"Push modified value: if val<min, push (2*val-min) and update min. Pop: if top<min, restore old min.",
+    code:'class MinStack {\n  stack<long long> st; long long mini;\npublic:\n  MinStack() { mini=INT_MAX; }\n  void push(int val) {\n    if(st.empty()){ mini=val; st.push(val); }\n    else if(val>mini) st.push(val);\n    else{ st.push(2LL*val-mini); mini=val; }\n  }\n  void pop() {\n    if(st.top()<mini) mini=2*mini-st.top();\n    st.pop();\n  }\n  int top() { return st.top()<mini?mini:st.top(); }\n  int getMin() { return mini; }\n};',
+    tc:"O(1)", sc:"O(n)" },
+  { id:"st3", topic:"Stack & Queue", name:"Infix to Postfix", difficulty:"medium", pattern:"Operator Precedence", link:"",
+    notes:"Use stack for operators. Higher precedence pops first. '(' has lowest precedence outside, highest inside.",
+    code:'int priority(char c) {\n  if(c==\'^\') return 3; if(c==\'*\'||c==\'/\') return 2;\n  if(c==\'+\'||c==\'-\') return 1; return -1;\n}\nstring infixToPostfix(string exp) {\n  stack<char> st; string ans;\n  for(char c:exp) {\n    if(isalnum(c)) ans+=c;\n    else if(c==\'(\') st.push(c);\n    else if(c==\')\') { while(!st.empty()&&st.top()!=\'(\'){ ans+=st.top(); st.pop(); } st.pop(); }\n    else { while(!st.empty()&&priority(st.top())>=priority(c)){ ans+=st.top(); st.pop(); } st.push(c); }\n  }\n  while(!st.empty()){ ans+=st.top(); st.pop(); }\n  return ans;\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"st4", topic:"Stack & Queue", name:"Queue using Stacks", difficulty:"easy", pattern:"Two Stacks", link:"https://leetcode.com/problems/implement-queue-using-stacks/",
+    notes:"Push to stack1. To pop, move all from s1 to s2, pop from s2, move back.",
+    code:'class MyQueue {\n  stack<int> s1,s2;\npublic:\n  void push(int x) {\n    while(s1.size()){ s2.push(s1.top()); s1.pop(); }\n    s1.push(x);\n    while(s2.size()){ s1.push(s2.top()); s2.pop(); }\n  }\n  int pop() { int v=s1.top(); s1.pop(); return v; }\n  int peek() { return s1.top(); }\n  bool empty() { return s1.empty(); }\n};',
+    tc:"O(n) push, O(1) pop", sc:"O(n)" },
+  { id:"st5", topic:"Stack & Queue", name:"Stack using Queue", difficulty:"easy", pattern:"Single Queue", link:"https://leetcode.com/problems/implement-stack-using-queues/",
+    notes:"Push x, then rotate queue by moving front to back for size-1 times.",
+    code:'class MyStack {\n  queue<int> q;\npublic:\n  void push(int x) {\n    q.push(x);\n    for(int i=0;i<q.size()-1;i++){ q.push(q.front()); q.pop(); }\n  }\n  int pop() { int v=q.front(); q.pop(); return v; }\n  int top() { return q.front(); }\n  bool empty() { return q.empty(); }\n};',
+    tc:"O(n) push, O(1) pop", sc:"O(n)" },
+
+  // ---- TREES ----
+  { id:"t1", topic:"Trees", name:"Preorder Traversal", difficulty:"easy", pattern:"DFS", link:"https://leetcode.com/problems/binary-tree-preorder-traversal/",
+    notes:"Root → Left → Right. Recursive approach.",
+    code:'void preorder(TreeNode* root, vector<int>& ans) {\n  if(!root) return;\n  ans.push_back(root->val);\n  preorder(root->left,ans);\n  preorder(root->right,ans);\n}',
+    tc:"O(n)", sc:"O(h)" },
+  { id:"t2", topic:"Trees", name:"Inorder Traversal", difficulty:"easy", pattern:"DFS", link:"https://leetcode.com/problems/binary-tree-inorder-traversal/",
+    notes:"Left → Root → Right. Morris traversal for O(1) space uses threading.",
+    code:'void inorder(TreeNode* root, vector<int>& ans) {\n  if(!root) return;\n  inorder(root->left,ans);\n  ans.push_back(root->val);\n  inorder(root->right,ans);\n}',
+    tc:"O(n)", sc:"O(h)" },
+  { id:"t3", topic:"Trees", name:"Postorder Traversal", difficulty:"easy", pattern:"DFS", link:"https://leetcode.com/problems/binary-tree-postorder-traversal/",
+    notes:"Left → Right → Root.",
+    code:'void postorder(TreeNode* root, vector<int>& ans) {\n  if(!root) return;\n  postorder(root->left,ans);\n  postorder(root->right,ans);\n  ans.push_back(root->val);\n}',
+    tc:"O(n)", sc:"O(h)" },
+  { id:"t4", topic:"Trees", name:"Level Order Traversal", difficulty:"medium", pattern:"BFS/Queue", link:"https://leetcode.com/problems/binary-tree-level-order-traversal/",
+    notes:"Use queue. Process all nodes at current level, then move to next level.",
+    code:'vector<vector<int>> levelOrder(TreeNode* root) {\n  vector<vector<int>> ans; if(!root) return ans;\n  queue<TreeNode*> q; q.push(root);\n  while(!q.empty()) {\n    int sz=q.size(); vector<int> level;\n    for(int i=0;i<sz;i++) {\n      TreeNode* n=q.front(); q.pop();\n      level.push_back(n->val);\n      if(n->left) q.push(n->left);\n      if(n->right) q.push(n->right);\n    }\n    ans.push_back(level);\n  }\n  return ans;\n}',
+    tc:"O(n)", sc:"O(w)" },
+  { id:"t5", topic:"Trees", name:"Max Depth of Binary Tree", difficulty:"easy", pattern:"DFS", link:"https://leetcode.com/problems/maximum-depth-of-binary-tree/",
+    notes:"Recursively compute max of left and right + 1.",
+    code:'int maxDepth(TreeNode* root) {\n  if(!root) return 0;\n  return max(maxDepth(root->left), maxDepth(root->right)) + 1;\n}',
+    tc:"O(n)", sc:"O(h)" },
+  { id:"t6", topic:"Trees", name:"Balanced Binary Tree", difficulty:"easy", pattern:"DFS Height Check", link:"https://leetcode.com/problems/balanced-binary-tree/",
+    notes:"Check if |left-right| ≤ 1 for every node. Return -1 if unbalanced.",
+    code:'int height(TreeNode* root) {\n  if(!root) return 0;\n  int l=height(root->left), r=height(root->right);\n  if(l==-1||r==-1||abs(l-r)>1) return -1;\n  return max(l,r)+1;\n}\nbool isBalanced(TreeNode* root) { return height(root)!=-1; }',
+    tc:"O(n)", sc:"O(h)" },
+  { id:"t7", topic:"Trees", name:"Diameter of Binary Tree", difficulty:"easy", pattern:"DFS with Global", link:"https://leetcode.com/problems/diameter-of-binary-tree/",
+    notes:"Compute height recursively. Update ans = max(ans, left+right). Return 1+max(left,right).",
+    code:'int diameter(TreeNode* root, int& ans) {\n  if(!root) return 0;\n  int l=diameter(root->left,ans), r=diameter(root->right,ans);\n  ans=max(ans,l+r);\n  return 1+max(l,r);\n}\nint diameterOfBinaryTree(TreeNode* root) {\n  int ans=0; diameter(root,ans); return ans;\n}',
+    tc:"O(n)", sc:"O(h)" },
+  { id:"t8", topic:"Trees", name:"Maximum Path Sum", difficulty:"hard", pattern:"DFS with Global", link:"https://leetcode.com/problems/binary-tree-maximum-path-sum/",
+    notes:"Max of left+right+val for each node. Return max(left,right)+val upward (negative values → 0).",
+    code:'int pathSum(TreeNode* root, int& ans) {\n  if(!root) return 0;\n  int l=max(0,pathSum(root->left,ans)), r=max(0,pathSum(root->right,ans));\n  ans=max(ans,l+r+root->val);\n  return root->val+max(l,r);\n}\nint maxPathSum(TreeNode* root) {\n  int ans=INT_MIN; pathSum(root,ans); return ans;\n}',
+    tc:"O(n)", sc:"O(h)" },
+  { id:"t9", topic:"Trees", name:"Same Tree", difficulty:"easy", pattern:"DFS Compare", link:"https://leetcode.com/problems/same-tree/",
+    notes:"Recursively check if both nodes are null (true), one null (false), or values different (false).",
+    code:'bool isSameTree(TreeNode* p, TreeNode* q) {\n  if(!p && !q) return true;\n  if(!p || !q) return false;\n  if(p->val!=q->val) return false;\n  return isSameTree(p->left,q->left) && isSameTree(p->right,q->right);\n}',
+    tc:"O(n)", sc:"O(h)" },
+  { id:"t10", topic:"Trees", name:"Zigzag Level Order", difficulty:"medium", pattern:"Level Order + Reverse", link:"https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/",
+    notes:"Level order with alternate reversal. Use index (l2r?i:sz-1-i).",
+    code:'vector<vector<int>> zigzagLevelOrder(TreeNode* root) {\n  vector<vector<int>> ans; if(!root) return ans;\n  queue<TreeNode*> q; q.push(root); bool l2r=true;\n  while(!q.empty()) {\n    int sz=q.size(); vector<int> level(sz);\n    for(int i=0;i<sz;i++) {\n      TreeNode* n=q.front(); q.pop();\n      int idx=l2r?i:sz-1-i;\n      level[idx]=n->val;\n      if(n->left) q.push(n->left);\n      if(n->right) q.push(n->right);\n    }\n    l2r=!l2r; ans.push_back(level);\n  }\n  return ans;\n}',
+    tc:"O(n)", sc:"O(w)" },
+  { id:"t11", topic:"Trees", name:"Right Side View", difficulty:"medium", pattern:"Level Order", link:"https://leetcode.com/problems/binary-tree-right-side-view/",
+    notes:"Level order, take last node of each level.",
+    code:'vector<int> rightSideView(TreeNode* root) {\n  vector<int> ans; if(!root) return ans;\n  queue<TreeNode*> q; q.push(root);\n  while(!q.empty()) {\n    int sz=q.size();\n    for(int i=0;i<sz;i++) {\n      TreeNode* n=q.front(); q.pop();\n      if(i==sz-1) ans.push_back(n->val);\n      if(n->left) q.push(n->left);\n      if(n->right) q.push(n->right);\n    }\n  }\n  return ans;\n}',
+    tc:"O(n)", sc:"O(w)" },
+  { id:"t12", topic:"Trees", name:"Symmetric Tree", difficulty:"easy", pattern:"DFS Compare", link:"https://leetcode.com/problems/symmetric-tree/",
+    notes:"Compare left and right subtree mirrored: left->left vs right->right, left->right vs right->left.",
+    code:'bool check(TreeNode* l, TreeNode* r) {\n  if(!l&&!r) return true;\n  if(!l||!r) return false;\n  if(l->val!=r->val) return false;\n  return check(l->left,r->right) && check(l->right,r->left);\n}\nbool isSymmetric(TreeNode* root) { return check(root->left,root->right); }',
+    tc:"O(n)", sc:"O(h)" },
+  { id:"t13", topic:"Trees", name:"Vertical Traversal", difficulty:"hard", pattern:"DFS + Map", link:"https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/",
+    notes:"Map column→list of (row,val). Sort by row then value within same col.",
+    code:'vector<vector<int>> verticalTraversal(TreeNode* root) {\n  map<int,vector<pair<int,int>>> mpp;\n  function<void(TreeNode*,int,int)> dfs = [&](TreeNode* n,int r,int c) {\n    if(!n) return;\n    mpp[c].push_back({r,n->val});\n    dfs(n->left,r+1,c-1); dfs(n->right,r+1,c+1);\n  };\n  dfs(root,0,0);\n  vector<vector<int>> ans;\n  for(auto& [col,vec]:mpp) {\n    sort(vec.begin(),vec.end());\n    vector<int> colVals;\n    for(auto& [r,v]:vec) colVals.push_back(v);\n    ans.push_back(colVals);\n  }\n  return ans;\n}',
+    tc:"O(n log n)", sc:"O(n)" },
+  { id:"t14", topic:"Trees", name:"Top View of Binary Tree", difficulty:"medium", pattern:"Level Order + Map", link:"",
+    notes:"Level order traversal. For each column, store first node seen.",
+    code:'vector<int> topView(Node* root) {\n  queue<pair<Node*,int>> q; q.push({root,0});\n  map<int,int> ans;\n  while(!q.empty()) {\n    int sz=q.size();\n    for(int i=0;i<sz;i++) {\n      Node* n=q.front().first; int line=q.front().second; q.pop();\n      if(!ans.count(line)) ans[line]=n->data;\n      if(n->left) q.push({n->left,line-1});\n      if(n->right) q.push({n->right,line+1});\n    }\n  }\n  vector<int> res;\n  for(auto& p:ans) res.push_back(p.second);\n  return res;\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"t15", topic:"Trees", name:"Bottom View of Binary Tree", difficulty:"medium", pattern:"Level Order + Map", link:"",
+    notes:"Level order. For each column, store last node seen (overwrite previous).",
+    code:'vector<int> bottomView(Node* root) {\n  queue<pair<Node*,int>> q; q.push({root,0});\n  map<int,int> ans;\n  while(!q.empty()) {\n    int sz=q.size();\n    for(int i=0;i<sz;i++) {\n      Node* n=q.front().first; int line=q.front().second; q.pop();\n      ans[line]=n->data;\n      if(n->left) q.push({n->left,line-1});\n      if(n->right) q.push({n->right,line+1});\n    }\n  }\n  vector<int> res;\n  for(auto& p:ans) res.push_back(p.second);\n  return res;\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"t16", topic:"Trees", name:"Burn Tree / Amount of Time", difficulty:"hard", pattern:"Graph BFS", link:"https://leetcode.com/problems/amount-of-time-for-binary-tree-to-be-infected/",
+    notes:"Convert tree to undirected graph. BFS from start node. Return max distance.",
+    code:'int amountOfTime(TreeNode* root, int start) {\n  unordered_map<int,vector<int>> g;\n  function<void(TreeNode*,TreeNode*)> build = [&](TreeNode* n,TreeNode* p) {\n    if(!n) return;\n    if(p) { g[n->val].push_back(p->val); g[p->val].push_back(n->val); }\n    build(n->left,n); build(n->right,n);\n  };\n  build(root,nullptr);\n  queue<int> q; q.push(start);\n  unordered_map<int,int> dist; dist[start]=0;\n  int ans=0;\n  while(!q.empty()) {\n    int u=q.front(); q.pop();\n    for(int v:g[u]) if(!dist.count(v)) { dist[v]=dist[u]+1; ans=max(ans,dist[v]); q.push(v); }\n  }\n  return ans;\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"t17", topic:"Trees", name:"Flatten Binary Tree to LL", difficulty:"medium", pattern:"Reverse Postorder", link:"https://leetcode.com/problems/flatten-binary-tree-to-linked-list/",
+    notes:"Reverse preorder (right-left-root). Maintain prev pointer. Set left=NULL and right=prev.",
+    code:'TreeNode* prev = NULL;\nvoid flatten(TreeNode* root) {\n  if(!root) return;\n  flatten(root->right);\n  flatten(root->left);\n  root->right = prev;\n  root->left = NULL;\n  prev = root;\n}',
+    tc:"O(n)", sc:"O(h)" },
+
+  // ---- BST ----
+  { id:"bst1", topic:"BST", name:"Search in BST", difficulty:"easy", pattern:"BST Property", link:"https://leetcode.com/problems/search-in-a-binary-search-tree/",
+    notes:"Use BST property: left<root<right. If val<root→left, else→right.",
+    code:'TreeNode* searchBST(TreeNode* root, int val) {\n  while(root && root->val!=val)\n    root = val<root->val ? root->left : root->right;\n  return root;\n}',
+    tc:"O(h)", sc:"O(1)" },
+  { id:"bst2", topic:"BST", name:"Validate BST", difficulty:"medium", pattern:"BST Range Check", link:"https://leetcode.com/problems/validate-binary-search-tree/",
+    notes:"Check that each node is within (low, high) range. Update range when going left/right.",
+    code:'bool isValidBST(TreeNode* root, long long low=LLONG_MIN, long long high=LLONG_MAX) {\n  if(!root) return true;\n  if(root->val<=low || root->val>=high) return false;\n  return isValidBST(root->left,low,root->val) && isValidBST(root->right,root->val,high);\n}',
+    tc:"O(n)", sc:"O(h)" },
+  { id:"bst3", topic:"BST", name:"Kth Smallest in BST", difficulty:"medium", pattern:"Inorder Traversal", link:"https://leetcode.com/problems/kth-smallest-element-in-a-bst/",
+    notes:"Inorder gives sorted order. Iterative inorder and decrement k. When k=0, return.",
+    code:'int kthSmallest(TreeNode* root, int k) {\n  stack<TreeNode*> st;\n  while(root||!st.empty()) {\n    while(root) { st.push(root); root=root->left; }\n    root=st.top(); st.pop();\n    if(--k==0) return root->val;\n    root=root->right;\n  }\n  return -1;\n}',
+    tc:"O(n)", sc:"O(h)" },
+  { id:"bst4", topic:"BST", name:"LCA in BST", difficulty:"medium", pattern:"BST Property", link:"https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/",
+    notes:"If both values < root, LCA in left. Both > root, LCA in right. Else root is LCA.",
+    code:'TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n  if(!root) return NULL;\n  if(root->val>p->val && root->val>q->val) return lowestCommonAncestor(root->left,p,q);\n  if(root->val<p->val && root->val<q->val) return lowestCommonAncestor(root->right,p,q);\n  return root;\n}',
+    tc:"O(h)", sc:"O(1)" },
+  { id:"bst5", topic:"BST", name:"Insert into BST", difficulty:"medium", pattern:"BST Property", link:"https://leetcode.com/problems/insert-into-a-binary-search-tree/",
+    notes:"Traverse to find correct position. Insert as leaf.",
+    code:'TreeNode* insertIntoBST(TreeNode* root, int val) {\n  if(!root) return new TreeNode(val);\n  TreeNode* cur=root;\n  while(true) {\n    if(cur->val>val) { if(cur->left) cur=cur->left; else { cur->left=new TreeNode(val); break; } }\n    else { if(cur->right) cur=cur->right; else { cur->right=new TreeNode(val); break; } }\n  }\n  return root;\n}',
+    tc:"O(h)", sc:"O(1)" },
+  { id:"bst6", topic:"BST", name:"Delete Node in BST", difficulty:"medium", pattern:"BST Deletion", link:"https://leetcode.com/problems/delete-node-in-a-bst/",
+    notes:"If leaf→delete. If one child→replace with child. If two children→replace with inorder successor (right subtree's leftmost).",
+    code:'TreeNode* deleteNode(TreeNode* root, int key) {\n  if(!root) return NULL;\n  if(root->val==key) {\n    if(!root->left) return root->right;\n    if(!root->right) return root->left;\n    TreeNode* succ = root->right;\n    while(succ->left) succ=succ->left;\n    root->val = succ->val;\n    root->right = deleteNode(root->right, succ->val);\n  } else if(root->val>key) root->left = deleteNode(root->left, key);\n  else root->right = deleteNode(root->right, key);\n  return root;\n}',
+    tc:"O(h)", sc:"O(h)" },
+  { id:"bst7", topic:"BST", name:"Recover BST", difficulty:"hard", pattern:"Inorder Swap", link:"https://leetcode.com/problems/recover-binary-search-tree/",
+    notes:"Inorder traversal finds two misplaced nodes. Track first (prev>curr) and second/last violation. Swap values.",
+    code:'void recoverTree(TreeNode* root) {\n  TreeNode *first=nullptr,*second=nullptr,*parent=nullptr;\n  stack<TreeNode*> st;\n  while(root||!st.empty()) {\n    while(root) { st.push(root); root=root->left; }\n    root=st.top(); st.pop();\n    if(parent && parent->val>root->val) {\n      if(!first) first=parent;\n      second=root;\n    }\n    parent=root;\n    root=root->right;\n  }\n  swap(first->val,second->val);\n}',
+    tc:"O(n)", sc:"O(h)" },
+  { id:"bst8", topic:"BST", name:"BST Iterator", difficulty:"medium", pattern:"Stack Inorder", link:"https://leetcode.com/problems/binary-search-tree-iterator/",
+    notes:"Use stack to simulate inorder. Push all left nodes initially. On next(), pop, return val, push all right subtree's left nodes.",
+    code:'class BSTIterator {\n  stack<TreeNode*> s;\n  void pushAll(TreeNode* r) { while(r) { s.push(r); r=r->left; } }\npublic:\n  BSTIterator(TreeNode* root) { pushAll(root); }\n  int next() { TreeNode* t=s.top(); s.pop(); pushAll(t->right); return t->val; }\n  bool hasNext() { return !s.empty(); }\n};',
+    tc:"O(1) avg", sc:"O(h)" },
+
+  // ---- GRAPH ----
+  { id:"g1", topic:"Graph", name:"BFS Traversal", difficulty:"easy", pattern:"Queue", link:"",
+    notes:"Use queue. Mark visited when pushing. Process neighbors level by level.",
+    code:'vector<int> bfs(vector<vector<int>>& adj) {\n  int n=adj.size();\n  vector<int> vis(n,0), ans;\n  queue<int> q; q.push(0); vis[0]=1;\n  while(!q.empty()) {\n    int u=q.front(); q.pop(); ans.push_back(u);\n    for(int v:adj[u]) if(!vis[v]) { vis[v]=1; q.push(v); }\n  }\n  return ans;\n}',
+    tc:"O(V+E)", sc:"O(V)" },
+  { id:"g2", topic:"Graph", name:"DFS Traversal", difficulty:"easy", pattern:"Recursion", link:"",
+    notes:"Recursive. Mark visited on entry. Explore all neighbors.",
+    code:'void dfs(int u, vector<vector<int>>& adj, vector<int>& vis, vector<int>& ans) {\n  vis[u]=1; ans.push_back(u);\n  for(int v:adj[u]) if(!vis[v]) dfs(v,adj,vis,ans);\n}\nvector<int> dfs(vector<vector<int>>& adj) {\n  vector<int> vis(adj.size(),0), ans;\n  dfs(0,adj,vis,ans);\n  return ans;\n}',
+    tc:"O(V+E)", sc:"O(V)" },
+  { id:"g3", topic:"Graph", name:"Number of Islands", difficulty:"medium", pattern:"DFS/BFS", link:"https://leetcode.com/problems/number-of-islands/",
+    notes:"Traverse grid. When '1' found, DFS to mark all connected land. Count each component.",
+    code:'void dfs(vector<vector<char>>& g, int i, int j) {\n  if(i<0||j<0||i>=g.size()||j>=g[0].size()||g[i][j]!=\'1\') return;\n  g[i][j]=\'0\';\n  dfs(g,i+1,j); dfs(g,i-1,j); dfs(g,i,j+1); dfs(g,i,j-1);\n}\nint numIslands(vector<vector<char>>& grid) {\n  int ans=0;\n  for(int i=0;i<grid.size();i++)\n    for(int j=0;j<grid[0].size();j++)\n      if(grid[i][j]==\'1\'){ ans++; dfs(grid,i,j); }\n  return ans;\n}',
+    tc:"O(m×n)", sc:"O(m×n)" },
+  { id:"g4", topic:"Graph", name:"Rotting Oranges", difficulty:"medium", pattern:"BFS Multisource", link:"https://leetcode.com/problems/rotting-oranges/",
+    notes:"Push all rotten oranges into queue. BFS level by level. Track fresh count.",
+    code:'int orangesRotting(vector<vector<int>>& grid) {\n  int n=grid.size(),m=grid[0].size(),fresh=0;\n  queue<pair<int,int>> q;\n  for(int i=0;i<n;i++) for(int j=0;j<m;j++) {\n    if(grid[i][j]==2) q.push({i,j});\n    if(grid[i][j]==1) fresh++;\n  }\n  if(fresh==0) return 0;\n  int dirs[4][2]={{0,1},{0,-1},{1,0},{-1,0}},mins=-1;\n  while(!q.empty()) {\n    int sz=q.size(); mins++;\n    while(sz--) {\n      auto [r,c]=q.front(); q.pop();\n      for(auto d:dirs) {\n        int nr=r+d[0], nc=c+d[1];\n        if(nr>=0&&nr<n&&nc>=0&&nc<m&&grid[nr][nc]==1)\n        { fresh--; grid[nr][nc]=2; q.push({nr,nc}); }\n      }\n    }\n  }\n  return fresh==0?mins:-1;\n}',
+    tc:"O(m×n)", sc:"O(m×n)" },
+  { id:"g5", topic:"Graph", name:"Number of Provinces", difficulty:"medium", pattern:"DFS", link:"https://leetcode.com/problems/number-of-provinces/",
+    notes:"Count connected components in adjacency matrix. Use visited array.",
+    code:'int findCircleNum(vector<vector<int>>& isConnected) {\n  int n=isConnected.size(), ans=0;\n  vector<int> vis(n,0);\n  function<void(int)> dfs = [&](int u) {\n    vis[u]=1;\n    for(int v=0;v<n;v++) if(isConnected[u][v]&&!vis[v]) dfs(v);\n  };\n  for(int i=0;i<n;i++) if(!vis[i]) { dfs(i); ans++; }\n  return ans;\n}',
+    tc:"O(n²)", sc:"O(n)" },
+  { id:"g6", topic:"Graph", name:"Flood Fill", difficulty:"easy", pattern:"DFS", link:"https://leetcode.com/problems/flood-fill/",
+    notes:"DFS from source. Change color if pixel has original color. Handle same color case.",
+    code:'vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {\n  int oc=image[sr][sc];\n  if(oc==color) return image;\n  function<void(int,int)> dfs=[&](int r,int c) {\n    if(r<0||c<0||r>=image.size()||c>=image[0].size()||image[r][c]!=oc) return;\n    image[r][c]=color;\n    dfs(r+1,c); dfs(r-1,c); dfs(r,c+1); dfs(r,c-1);\n  };\n  dfs(sr,sc);\n  return image;\n}',
+    tc:"O(m×n)", sc:"O(m×n)" },
+  { id:"g7", topic:"Graph", name:"Detect Cycle in Undirected Graph", difficulty:"medium", pattern:"DFS (Parent)", link:"",
+    notes:"DFS with parent. If we revisit a visited node that's not parent → cycle.",
+    code:'bool dfs(int u, int p, vector<int> adj[], vector<bool>& vis) {\n  vis[u]=true;\n  for(int v:adj[u]) {\n    if(!vis[v]) { if(dfs(v,u,adj,vis)) return true; }\n    else if(v!=p) return true;\n  }\n  return false;\n}\nbool isCycle(int V, vector<vector<int>>& edges) {\n  vector<int> adj[V];\n  for(auto& e:edges){ adj[e[0]].push_back(e[1]); adj[e[1]].push_back(e[0]); }\n  vector<bool> vis(V,false);\n  for(int i=0;i<V;i++) if(!vis[i] && dfs(i,-1,adj,vis)) return true;\n  return false;\n}',
+    tc:"O(V+E)", sc:"O(V)" },
+  { id:"g8", topic:"Graph", name:"01 Matrix", difficulty:"medium", pattern:"BFS Multisource", link:"https://leetcode.com/problems/01-matrix/",
+    notes:"Push all 0s into queue. BFS to compute distance to nearest 0.",
+    code:'vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {\n  int n=mat.size(), m=mat[0].size();\n  vector<vector<int>> dis(n,vector<int>(m,0));\n  queue<pair<pair<int,int>,int>> q;\n  for(int i=0;i<n;i++) for(int j=0;j<m;j++)\n    if(mat[i][j]==0) q.push({{i,j},0});\n  int dir[4][2]={{0,1},{0,-1},{1,0},{-1,0}};\n  while(!q.empty()) {\n    auto [rc,step]=q.front(); q.pop();\n    auto [r,c]=rc; dis[r][c]=step;\n    for(auto d:dir) {\n      int nr=r+d[0], nc=c+d[1];\n      if(nr>=0&&nr<n&&nc>=0&&nc<m&&mat[nr][nc]==1&&!dis[nr][nc])\n        q.push({{nr,nc},step+1});\n    }\n  }\n  return dis;\n}',
+    tc:"O(m×n)", sc:"O(m×n)" },
+  { id:"g9", topic:"Graph", name:"Surrounded Regions", difficulty:"medium", pattern:"BFS from Boundary", link:"https://leetcode.com/problems/surrounded-regions/",
+    notes:"BFS from boundary 'O's. Mark them. Flip all unmarked 'O's to 'X'.",
+    code:'void solve(vector<vector<char>>& board) {\n  int n=board.size(),m=board[0].size();\n  vector<vector<int>> vis(n,vector<int>(m,0));\n  queue<pair<int,int>> q;\n  for(int i=0;i<n;i++) for(int j=0;j<m;j++)\n    if((i==0||i==n-1||j==0||j==m-1)&&board[i][j]==\'O\')\n    { vis[i][j]=1; q.push({i,j}); }\n  int dir[4][2]={{0,1},{0,-1},{1,0},{-1,0}};\n  while(!q.empty()) {\n    auto [r,c]=q.front(); q.pop();\n    for(auto d:dir) {\n      int nr=r+d[0],nc=c+d[1];\n      if(nr>=0&&nr<n&&nc>=0&&nc<m&&!vis[nr][nc]&&board[nr][nc]==\'O\')\n      { vis[nr][nc]=1; q.push({nr,nc}); }\n    }\n  }\n  for(int i=0;i<n;i++) for(int j=0;j<m;j++)\n    if(board[i][j]==\'O\'&&!vis[i][j]) board[i][j]=\'X\';\n}',
+    tc:"O(m×n)", sc:"O(m×n)" },
+  { id:"g10", topic:"Graph", name:"Word Ladder", difficulty:"hard", pattern:"BFS + String", link:"https://leetcode.com/problems/word-ladder/",
+    notes:"BFS on words. For each character, try all 26 letters. Use set for O(1) lookup.",
+    code:'int ladderLength(string beginWord, string endWord, vector<string>& wordList) {\n  unordered_set<string> words(wordList.begin(),wordList.end());\n  if(!words.count(endWord)) return 0;\n  queue<pair<string,int>> q; q.push({beginWord,1});\n  while(!q.empty()) {\n    auto [w,step]=q.front(); q.pop();\n    if(w==endWord) return step;\n    words.erase(w);\n    for(int i=0;i<w.size();i++) {\n      string nw=w;\n      for(char c=\'a\';c<=\'z\';c++) {\n        nw[i]=c;\n        if(words.count(nw)) q.push({nw,step+1});\n      }\n    }\n  }\n  return 0;\n}',
+    tc:"O(n×m×26)", sc:"O(n)" },
+  { id:"g11", topic:"Graph", name:"Is Graph Bipartite", difficulty:"medium", pattern:"DFS Coloring", link:"https://leetcode.com/problems/is-graph-bipartite/",
+    notes:"Color graph with 2 colors. Adjacent nodes must have different colors. Check all components.",
+    code:'bool dfs(int u, int c, vector<int>& col, vector<vector<int>>& g) {\n  col[u]=c;\n  for(int v:g[u]) {\n    if(col[v]==0) { if(!dfs(v,c==1?2:1,col,g)) return false; }\n    else if(col[v]==col[u]) return false;\n  }\n  return true;\n}\nbool isBipartite(vector<vector<int>>& graph) {\n  int n=graph.size(); vector<int> col(n,0);\n  for(int i=0;i<n;i++) if(col[i]==0) if(!dfs(i,1,col,graph)) return false;\n  return true;\n}',
+    tc:"O(V+E)", sc:"O(V)" },
+  { id:"g12", topic:"Graph", name:"Topological Sort (DFS)", difficulty:"medium", pattern:"DFS + Stack", link:"",
+    notes:"DFS with stack. After processing all neighbors, push node to stack. Works only on DAG.",
+    code:'void dfs(int u, vector<int> adj[], vector<int>& vis, stack<int>& st) {\n  vis[u]=1;\n  for(int v:adj[u]) if(!vis[v]) dfs(v,adj,vis,st);\n  st.push(u);\n}\nvector<int> topoSort(int V, vector<vector<int>>& edges) {\n  vector<int> adj[V];\n  for(auto& e:edges) adj[e[0]].push_back(e[1]);\n  vector<int> vis(V,0); stack<int> st;\n  for(int i=0;i<V;i++) if(!vis[i]) dfs(i,adj,vis,st);\n  vector<int> ans;\n  while(!st.empty()){ ans.push_back(st.top()); st.pop(); }\n  return ans;\n}',
+    tc:"O(V+E)", sc:"O(V)" },
+  { id:"g13", topic:"Graph", name:"Topological Sort (BFS/Kahn)", difficulty:"medium", pattern:"BFS + Indegree", link:"",
+    notes:"Compute indegrees. Push nodes with indegree 0 into queue. Process and reduce indegree of neighbors.",
+    code:'vector<int> topoSort(int V, vector<vector<int>>& edges) {\n  vector<int> adj[V], indeg(V,0);\n  for(auto& e:edges) { adj[e[0]].push_back(e[1]); indeg[e[1]]++; }\n  queue<int> q;\n  for(int i=0;i<V;i++) if(indeg[i]==0) q.push(i);\n  vector<int> ans;\n  while(!q.empty()) {\n    int u=q.front(); q.pop(); ans.push_back(u);\n    for(int v:adj[u]) if(--indeg[v]==0) q.push(v);\n  }\n  return ans;\n}',
+    tc:"O(V+E)", sc:"O(V)" },
+  { id:"g14", topic:"Graph", name:"Course Schedule II", difficulty:"medium", pattern:"Topological Sort", link:"https://leetcode.com/problems/course-schedule-ii/",
+    notes:"Kahn's algorithm. If all nodes processed → valid order exists. Else cycle → return empty.",
+    code:'vector<int> findOrder(int n, vector<vector<int>>& prereq) {\n  vector<int> adj[n], indeg(n,0);\n  for(auto& p:prereq) { adj[p[1]].push_back(p[0]); indeg[p[0]]++; }\n  queue<int> q;\n  for(int i=0;i<n;i++) if(indeg[i]==0) q.push(i);\n  vector<int> ans;\n  while(!q.empty()) {\n    int u=q.front(); q.pop(); ans.push_back(u);\n    for(int v:adj[u]) if(--indeg[v]==0) q.push(v);\n  }\n  if(ans.size()!=n) return {};\n  return ans;\n}',
+    tc:"O(V+E)", sc:"O(V)" },
+  { id:"g15", topic:"Graph", name:"Find Eventual Safe States", difficulty:"medium", pattern:"DFS Terminal", link:"https://leetcode.com/problems/find-eventual-safe-states/",
+    notes:"Node is safe if all its paths lead to terminal nodes (no outgoing edges). DFS with terminal tracking.",
+    code:'vector<int> eventualSafeNodes(vector<vector<int>>& graph) {\n  int n=graph.size();\n  vector<int> state(n,0); // 0=unvisited,1=visiting,2=safe\n  function<bool(int)> dfs=[&](int u)->bool {\n    if(state[u]!=0) return state[u]==2;\n    state[u]=1;\n    for(int v:graph[u]) if(!dfs(v)) return false;\n    state[u]=2; return true;\n  };\n  vector<int> ans;\n  for(int i=0;i<n;i++) if(dfs(i)) ans.push_back(i);\n  return ans;\n}',
+    tc:"O(V+E)", sc:"O(V)" },
+  { id:"g16", topic:"Graph", name:"Dijkstra's Algorithm", difficulty:"medium", pattern:"Shortest Path", link:"",
+    notes:"Use min-heap. Relax edges greedily. Not for negative weights.",
+    code:'vector<int> dijkstra(int V, vector<vector<int>>& edges, int src) {\n  vector<vector<pair<int,int>>> adj(V);\n  for(auto& e:edges) { adj[e[0]].push_back({e[1],e[2]}); adj[e[1]].push_back({e[0],e[2]}); }\n  priority_queue<pair<int,int>,vector<pair<int,int>>,greater<>> pq;\n  vector<int> dist(V,INT_MAX); dist[src]=0; pq.push({0,src});\n  while(!pq.empty()) {\n    auto [d,u]=pq.top(); pq.pop();\n    if(d>dist[u]) continue;\n    for(auto [v,w]:adj[u]) if(dist[u]+w<dist[v]){ dist[v]=dist[u]+w; pq.push({dist[v],v}); }\n  }\n  return dist;\n}',
+    tc:"O((V+E) log V)", sc:"O(V)" },
+  { id:"g17", topic:"Graph", name:"Bellman Ford Algorithm", difficulty:"medium", pattern:"Shortest Path", link:"",
+    notes:"Relax all edges V-1 times. Handles negative weights. V-th relaxation detects negative cycle.",
+    code:'vector<int> bellmanFord(int V, vector<vector<int>>& edges, int src) {\n  vector<int> dis(V,1e8); dis[src]=0;\n  for(int i=0;i<V-1;i++)\n    for(auto& e:edges) {\n      int u=e[0], v=e[1], w=e[2];\n      if(dis[u]!=1e8 && dis[u]+w<dis[v]) dis[v]=dis[u]+w;\n    }\n  for(auto& e:edges) {\n    int u=e[0], v=e[1], w=e[2];\n    if(dis[u]!=1e8 && dis[u]+w<dis[v]) return {-1};\n  }\n  return dis;\n}',
+    tc:"O(V×E)", sc:"O(V)" },
+  { id:"g18", topic:"Graph", name:"Floyd Warshall", difficulty:"medium", pattern:"All Pairs SP", link:"",
+    notes:"For each k as intermediate, update dist[i][j] = min(dist[i][j], dist[i][k]+dist[k][j]). Works with negative weights.",
+    code:'void floydWarshall(vector<vector<int>>& dist) {\n  int n=dist.size();\n  for(int k=0;k<n;k++)\n    for(int i=0;i<n;i++)\n      for(int j=0;j<n;j++)\n        if(dist[i][k]!=1e8 && dist[k][j]!=1e8)\n          dist[i][j]=min(dist[i][j],dist[i][k]+dist[k][j]);\n}',
+    tc:"O(V³)", sc:"O(1)" },
+  { id:"g19", topic:"Graph", name:"Prim's MST", difficulty:"medium", pattern:"MST", link:"",
+    notes:"Use min-heap. Start from any node. Pick min weight edge connecting visited to unvisited.",
+    code:'int spanningTree(int V, vector<vector<int>>& edges) {\n  vector<vector<pair<int,int>>> adj(V);\n  for(auto& e:edges){ adj[e[0]].push_back({e[1],e[2]}); adj[e[1]].push_back({e[0],e[2]}); }\n  priority_queue<pair<int,int>,vector<pair<int,int>>,greater<>> pq;\n  vector<int> vis(V,0); pq.push({0,0}); int sum=0;\n  while(!pq.empty()) {\n    auto [wt,u]=pq.top(); pq.pop();\n    if(vis[u]) continue;\n    vis[u]=1; sum+=wt;\n    for(auto [v,w]:adj[u]) if(!vis[v]) pq.push({w,v});\n  }\n  return sum;\n}',
+    tc:"O(E log E)", sc:"O(V)" },
+  { id:"g20", topic:"Graph", name:"Kruskal's MST", difficulty:"medium", pattern:"Disjoint Set", link:"",
+    notes:"Sort edges by weight. For each edge, if u and v belong to different sets, union and add weight.",
+    code:'int spanningTree(int V, vector<vector<int>>& edges) {\n  sort(edges.begin(),edges.end(),[&](auto&a,auto&b){return a[2]<b[2];});\n  DisjointSet ds(V); int sum=0;\n  for(auto& e:edges)\n    if(ds.findParent(e[0])!=ds.findParent(e[1]))\n    { sum+=e[2]; ds.unionBySize(e[0],e[1]); }\n  return sum;\n}',
+    tc:"O(E log E)", sc:"O(V)" },
+  { id:"g21", topic:"Graph", name:"Disjoint Set (Union by Size)", difficulty:"medium", pattern:"DSU", link:"",
+    notes:"Track parent and size. Find with path compression. Union by attaching smaller tree to larger.",
+    code:'class DisjointSet {\n  vector<int> size,parent;\npublic:\n  DisjointSet(int n) {\n    size.resize(n+1,1); parent.resize(n+1);\n    for(int i=0;i<=n;i++) parent[i]=i;\n  }\n  int findParent(int node) {\n    if(node==parent[node]) return node;\n    return parent[node]=findParent(parent[node]);\n  }\n  void unionBySize(int u,int v) {\n    int pu=findParent(u), pv=findParent(v);\n    if(pu==pv) return;\n    if(size[pu]<size[pv]){ parent[pu]=pv; size[pv]+=size[pu]; }\n    else{ parent[pv]=pu; size[pu]+=size[pv]; }\n  }\n};',
+    tc:"O(α(n))", sc:"O(n)" },
+  { id:"g22", topic:"Graph", name:"Kosaraju (Strongly Connected)", difficulty:"hard", pattern:"SSC", link:"",
+    notes:"Step1: DFS fill stack (finishing time). Step2: Reverse graph. Step3: DFS in stack order on reverse graph.",
+    code:'int kosaraju(vector<vector<int>>& adj) {\n  int n=adj.size();\n  vector<int> vis(n,0); stack<int> st;\n  function<void(int)> dfs1=[&](int u) { vis[u]=1; for(int v:adj[u]) if(!vis[v]) dfs1(v); st.push(u); };\n  for(int i=0;i<n;i++) if(!vis[i]) dfs1(i);\n  vector<vector<int>> adjT(n);\n  for(int i=0;i<n;i++) { vis[i]=0; for(int v:adj[i]) adjT[v].push_back(i); }\n  int scc=0;\n  function<void(int)> dfs2=[&](int u) { vis[u]=1; for(int v:adjT[u]) if(!vis[v]) dfs2(v); };\n  while(!st.empty()) { int u=st.top(); st.pop(); if(!vis[u]) { dfs2(u); scc++; } }\n  return scc;\n}',
+    tc:"O(V+E)", sc:"O(V)" },
+  { id:"g23", topic:"Graph", name:"Critical Connections (Bridges)", difficulty:"hard", pattern:"Tarjan", link:"https://leetcode.com/problems/critical-connections-in-a-network/",
+    notes:"DFS with tin (time) and low (lowest reachable time). Edge u-v is bridge if low[v] > tin[u].",
+    code:'vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {\n  vector<vector<int>> adj(n), ans;\n  for(auto& c:connections){ adj[c[0]].push_back(c[1]); adj[c[1]].push_back(c[0]); }\n  vector<int> tin(n,0), low(n,0), vis(n,0);\n  int timer=0;\n  function<void(int,int)> dfs=[&](int u,int p) {\n    vis[u]=1; tin[u]=low[u]=++timer;\n    for(int v:adj[u]) {\n      if(v==p) continue;\n      if(!vis[v]) { dfs(v,u); low[u]=min(low[u],low[v]); if(low[v]>tin[u]) ans.push_back({u,v}); }\n      else low[u]=min(low[u],tin[v]);\n    }\n  };\n  dfs(0,-1);\n  return ans;\n}',
+    tc:"O(V+E)", sc:"O(V)" },
+
+  // ---- GREEDY ----
+  { id:"gr1", topic:"Greedy", name:"Assign Cookies", difficulty:"easy", pattern:"Greedy Sorting", link:"https://leetcode.com/problems/assign-cookies/",
+    notes:"Sort both arrays. Match smallest cookie to smallest greed factor.",
+    code:'int findContentChildren(vector<int>& g, vector<int>& s) {\n  sort(g.begin(),g.end()); sort(s.begin(),s.end());\n  int i=0,j=0;\n  while(i<g.size()&&j<s.size()) {\n    if(g[i]<=s[j]) i++;\n    j++;\n  }\n  return i;\n}',
+    tc:"O(n log n)", sc:"O(1)" },
+  { id:"gr2", topic:"Greedy", name:"Lemonade Change", difficulty:"easy", pattern:"Greedy", link:"https://leetcode.com/problems/lemonade-change/",
+    notes:"Track $5 and $10 bills. For $20, give $10+$5 first, then three $5s.",
+    code:'bool lemonadeChange(vector<int>& bills) {\n  int five=0, ten=0;\n  for(int b:bills) {\n    if(b==5) five++;\n    else if(b==10) { if(!five) return false; five--; ten++; }\n    else {\n      if(ten && five) { ten--; five--; }\n      else if(five>=3) five-=3;\n      else return false;\n    }\n  }\n  return true;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"gr3", topic:"Greedy", name:"Jump Game", difficulty:"medium", pattern:"Greedy", link:"https://leetcode.com/problems/jump-game/",
+    notes:"Track farthest reachable. If farthest >= last index → possible.",
+    code:'bool canJump(vector<int>& nums) {\n  int n=nums.size(), farthest=0;\n  for(int i=0;i<n;i++) {\n    if(i>farthest) return false;\n    farthest=max(farthest,i+nums[i]);\n  }\n  return true;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"gr4", topic:"Greedy", name:"Jump Game II", difficulty:"medium", pattern:"BFS Greedy", link:"https://leetcode.com/problems/jump-game-ii/",
+    notes:"Track current end and farthest. When i reaches end, increment jump and update end to farthest.",
+    code:'int jump(vector<int>& nums) {\n  int jumps=0, curEnd=0, farthest=0;\n  for(int i=0;i<nums.size()-1;i++) {\n    farthest=max(farthest,i+nums[i]);\n    if(i==curEnd) { jumps++; curEnd=farthest; }\n  }\n  return jumps;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"gr5", topic:"Greedy", name:"Insert Interval", difficulty:"medium", pattern:"Interval Merge", link:"https://leetcode.com/problems/insert-interval/",
+    notes:"Three phases: add intervals before new, merge overlapping, add rest.",
+    code:'vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& ni) {\n  vector<vector<int>> ans; int i=0, n=intervals.size();\n  while(i<n && intervals[i][1]<ni[0]) ans.push_back(intervals[i++]);\n  while(i<n && intervals[i][0]<=ni[1]){ ni[0]=min(ni[0],intervals[i][0]); ni[1]=max(ni[1],intervals[i][1]); i++; }\n  ans.push_back(ni);\n  while(i<n) ans.push_back(intervals[i++]);\n  return ans;\n}',
+    tc:"O(n)", sc:"O(n)" },
+
+  // ---- DP ----
+  { id:"dp1", topic:"DP", name:"Climbing Stairs", difficulty:"easy", pattern:"Fibonacci DP", link:"https://leetcode.com/problems/climbing-stairs/",
+    notes:"dp[i] = dp[i-1] + dp[i-2]. Space optimize to O(1).",
+    code:'int climbStairs(int n) {\n  if(n<=2) return n;\n  int a=1, b=2, c;\n  for(int i=3;i<=n;i++){ c=a+b; a=b; b=c; }\n  return c;\n}',
+    tc:"O(n)", sc:"O(1)" },
+  { id:"dp2", topic:"DP", name:"Coin Change", difficulty:"medium", pattern:"Unbounded Knapsack", link:"https://leetcode.com/problems/coin-change/",
+    notes:"dp[amount] = min(dp[amount], dp[amount-coin] + 1). Initialize dp with amount+1 (large value).",
+    code:'int coinChange(vector<int>& coins, int amount) {\n  vector<int> dp(amount+1, amount+1);\n  dp[0]=0;\n  for(int a=1;a<=amount;a++)\n    for(int c:coins) if(a>=c) dp[a]=min(dp[a], dp[a-c]+1);\n  return dp[amount]==amount+1 ? -1 : dp[amount];\n}',
+    tc:"O(amount × n)", sc:"O(amount)" },
+  { id:"dp3", topic:"DP", name:"Frog Jump (Min Cost)", difficulty:"easy", pattern:"1D DP", link:"",
+    notes:"dp[i] = min(dp[i-1]+|h[i]-h[i-1]|, dp[i-2]+|h[i]-h[i-2]|). Space optimize to O(1).",
+    code:'int minCost(vector<int>& height) {\n  int prev=0, prev2=0;\n  for(int i=1;i<height.size();i++) {\n    int one=prev+abs(height[i]-height[i-1]);\n    int two=INT_MAX;\n    if(i>1) two=prev2+abs(height[i]-height[i-2]);\n    int cur=min(one,two);\n    prev2=prev; prev=cur;\n  }\n  return prev;\n}',
+    tc:"O(n)", sc:"O(1)" },
+
+  // ---- BIT MANIPULATION ----
+  { id:"b1", topic:"Bit Manipulation", name:"Check Kth Bit", difficulty:"easy", pattern:"Bit Mask", link:"",
+    notes:"Use (n >> k) & 1 or n & (1 << k).",
+    code:'bool checkKthBit(int n, int k) {\n  return (n >> k) & 1;\n}',
+    tc:"O(1)", sc:"O(1)" },
+  { id:"b2", topic:"Bit Manipulation", name:"Power of Two", difficulty:"easy", pattern:"Bit Check", link:"https://leetcode.com/problems/power-of-two/",
+    notes:"n & (n-1) clears rightmost set bit. Power of 2 has exactly one set bit.",
+    code:'bool isPowerOfTwo(int n) {\n  return n>0 && (n & (n-1)) == 0;\n}',
+    tc:"O(1)", sc:"O(1)" },
+  { id:"b3", topic:"Bit Manipulation", name:"Count Set Bits", difficulty:"easy", pattern:"Brian Kernighan", link:"",
+    notes:"n & (n-1) removes the rightmost set bit. Count how many times we can do this.",
+    code:'int setBits(int n) {\n  int ans=0;\n  while(n) { n = n & (n-1); ans++; }\n  return ans;\n}',
+    tc:"O(number of set bits)", sc:"O(1)" },
+  { id:"b4", topic:"Bit Manipulation", name:"Swap Two Numbers", difficulty:"easy", pattern:"XOR", link:"",
+    notes:"a = a^b, b = a^b, a = a^b.",
+    code:'void swapNumber(int &a, int &b) {\n  a = a ^ b;\n  b = a ^ b; // (a^b)^b = a\n  a = a ^ b; // (a^b)^a = b\n}',
+    tc:"O(1)", sc:"O(1)" },
+  { id:"b5", topic:"Bit Manipulation", name:"Divide Two Integers", difficulty:"medium", pattern:"Bit Manipulation", link:"https://leetcode.com/problems/divide-two-integers/",
+    notes:"Use bit shifting to double divisor. Subtract from dividend. Handle INT_MIN and overflow.",
+    code:'int divide(int dividend, int divisor) {\n  if(dividend==divisor) return 1;\n  bool sign = (dividend<0)==(divisor<0);\n  long n=labs(dividend), d=labs(divisor), ans=0;\n  while(n>=d) {\n    int cnt=0;\n    while(n >= (d << (cnt+1))) cnt++;\n    ans += (1L << cnt);\n    n -= (d << cnt);\n  }\n  if(ans==(1L<<31)) return sign?INT_MAX:INT_MIN;\n  return sign ? ans : -ans;\n}',
+    tc:"O(log² n)", sc:"O(1)" },
+  { id:"b6", topic:"Bit Manipulation", name:"Minimum Bit Flips", difficulty:"easy", pattern:"XOR + Count", link:"https://leetcode.com/problems/minimum-bit-flips-to-convert-number/",
+    notes:"XOR start and goal. Count set bits in result.",
+    code:'int minBitFlips(int start, int goal) {\n  return __builtin_popcount(start ^ goal);\n}',
+    tc:"O(1)", sc:"O(1)" },
+  { id:"b7", topic:"Bit Manipulation", name:"Subset Generation", difficulty:"medium", pattern:"Bitmask", link:"https://leetcode.com/problems/subsets/",
+    notes:"Use bitmask from 0 to 2^n-1. For each bit set, include element.",
+    code:'vector<vector<int>> subsets(vector<int>& nums) {\n  int n=nums.size(), total=1<<n;\n  vector<vector<int>> ans;\n  for(int mask=0;mask<total;mask++) {\n    vector<int> sub;\n    for(int i=0;i<n;i++) if(mask & (1<<i)) sub.push_back(nums[i]);\n    ans.push_back(sub);\n  }\n  return ans;\n}',
+    tc:"O(n×2ⁿ)", sc:"O(n×2ⁿ)" },
+  { id:"b8", topic:"Bit Manipulation", name:"XOR from L to R", difficulty:"easy", pattern:"XOR Pattern", link:"",
+    notes:"XOR 1..n pattern: n%4=0→n, 1→1, 2→n+1, 3→0. XOR(L,R) = XOR(1,R) ^ XOR(1,L-1).",
+    code:'int xor1toN(int n) {\n  if(n%4==1) return 1;\n  if(n%4==2) return n+1;\n  if(n%4==3) return 0;\n  return n;\n}\nint findXOR(int l, int r) {\n  return xor1toN(l-1) ^ xor1toN(r);\n}',
+    tc:"O(1)", sc:"O(1)" },
+  { id:"b9", topic:"Bit Manipulation", name:"Two Odd Occurring Numbers", difficulty:"medium", pattern:"XOR + Bucket", link:"",
+    notes:"XOR all → X^Y. Find rightmost set bit. Partition into two groups based on that bit.",
+    code:'vector<int> twoOddNum(vector<int> Arr) {\n  int xo=0;\n  for(int x:Arr) xo^=x;\n  int rb = xo & -xo; // rightmost set bit\n  int b1=0,b2=0;\n  for(int x:Arr) {\n    if(x & rb) b1^=x;\n    else b2^=x;\n  }\n  if(b1>b2) return {b1,b2};\n  return {b2,b1};\n}',
+    tc:"O(n)", sc:"O(1)" },
+
+  // ---- STRING ----
+  { id:"str1", topic:"String", name:"Remove Outer Parentheses", difficulty:"easy", pattern:"Stack/Balance", link:"https://leetcode.com/problems/remove-outermost-parentheses/",
+    notes:"Track open count. Add '(' only if count>0. Add ')' if count>1.",
+    code:'string removeOuterParentheses(string s) {\n  string ans; int open=0;\n  for(char c:s) {\n    if(c==\'(\') { if(open>0) ans+=c; open++; }\n    else { open--; if(open>0) ans+=c; }\n  }\n  return ans;\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"str2", topic:"String", name:"Reverse Words", difficulty:"medium", pattern:"String Manipulation", link:"https://leetcode.com/problems/reverse-words-in-a-string/",
+    notes:"Extract words, reverse order. Handle multiple spaces.",
+    code:'string reverseWords(string s) {\n  string ans, word;\n  for(int i=0;i<s.size();i++) {\n    if(s[i]!=\' \') word+=s[i];\n    else if(!word.empty()) { ans = word + (ans.empty()?"":" ") + ans; word=""; }\n  }\n  if(!word.empty()) ans = word + (ans.empty()?"":" ") + ans;\n  return ans;\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"str3", topic:"String", name:"Longest Common Prefix", difficulty:"easy", pattern:"Horizontal Scanning", link:"https://leetcode.com/problems/longest-common-prefix/",
+    notes:"Compare first string's prefix with all others. Shorten prefix until match.",
+    code:'string longestCommonPrefix(vector<string>& strs) {\n  if(strs.empty()) return "";\n  string pref=strs[0];\n  for(int i=1;i<strs.size();i++) {\n    while(strs[i].find(pref)!=0) pref=pref.substr(0,pref.size()-1);\n    if(pref.empty()) return "";\n  }\n  return pref;\n}',
+    tc:"O(n×m)", sc:"O(1)" },
+  { id:"str4", topic:"String", name:"Largest Odd Number in String", difficulty:"easy", pattern:"Backward Scan", link:"https://leetcode.com/problems/largest-odd-number-in-string/",
+    notes:"Scan from right. First odd digit → return substring from start to that digit.",
+    code:'string largestOddNumber(string num) {\n  for(int i=num.size()-1;i>=0;i--)\n    if((num[i]-\'0\')%2!=0) return num.substr(0,i+1);\n  return "";\n}',
+    tc:"O(n)", sc:"O(1)" },
+
+  // ---- HASHING ----
+  { id:"h1", topic:"Hashing", name:"Highest/Lowest Frequency", difficulty:"easy", pattern:"Map Frequency", link:"",
+    notes:"Use map to count frequencies. Track min and max frequency elements.",
+    code:'vector<int> getFrequencies(vector<int>& v) {\n  map<int,int> mpp;\n  for(int x:v) mpp[x]++;\n  int minF=INT_MAX, maxF=0, minE, maxE;\n  for(auto& [k,f]:mpp) {\n    if(f>maxF){ maxF=f; maxE=k; }\n    if(f<minF){ minF=f; minE=k; }\n  }\n  return {maxE,minE};\n}',
+    tc:"O(n)", sc:"O(n)" },
+  { id:"h2", topic:"Hashing", name:"Frequency Count (Limited Array)", difficulty:"easy", pattern:"Array Hashing", link:"",
+    notes:"Count frequencies of numbers 1..n using array indexing.",
+    code:'vector<int> frequencyCount(vector<int>& arr) {\n  int n=arr.size();\n  vector<int> hash(n,0);\n  for(int x:arr) hash[x-1]++;\n  return hash;\n}',
+    tc:"O(n)", sc:"O(n)" },
+
+  // ---- STL ----
+  { id:"stl1", topic:"STL", name:"STL Containers Overview", difficulty:"easy", pattern:"STL", link:"",
+    notes:"Vector, List, Deque, Stack, Queue, Priority Queue, Set, Map, Unordered versions.",
+    code:'// Vector - dynamic array\nvector<int> v; v.push_back(1); v.emplace_back(2);\n// Stack - LIFO\nstack<int> st; st.push(1); st.top(); st.pop();\n// Queue - FIFO\nqueue<int> q; q.push(1); q.front(); q.pop();\n// Priority Queue - max heap\priority_queue<int> pq;\n// Set - sorted unique\nset<int> s; s.insert(1); s.erase(1);\n// Map - sorted key-value\nmap<int,int> mp; mp[1]=2;\n// Sorting\nsort(v.begin(),v.end());\nsort(v.begin(),v.end(),greater<int>());\n// Next permutation\nnext_permutation(s.begin(),s.end()); // next lexicographically',
+    tc:"Varies", sc:"Varies" },
+];
+
+// ============================================================
+// RENDER FUNCTIONS
+// ============================================================
+let activeFilter = 'all';
+let filteredProblems = [...PROBLEMS];
+
+// Highlight C++ code
+function highlightCode(code) {
+  let h = code
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\/\/.*/g, m => `<span class="cm">${m}</span>`)
+    .replace(/\/\*[\s\S]*?\*\//g, m => `<span class="cm">${m}</span>`)
+    .replace(/\b(int|void|bool|double|long|long long|char|string|auto|const|using|namespace|struct|class|public|private|return|if|else|for|while|do|break|continue|true|false|nullptr|NULL|new|delete|this|static|virtual|override|template|typename|include|define)\b/g, '<span class="kw">$1</span>')
+    .replace(/\b(vector|unordered_map|unordered_set|map|set|stack|queue|priority_queue|pair|list|deque|multiset|function|string|TreeNode|ListNode|Node)\b/g, '<span class="tp">$1</span>')
+    .replace(/\b(INT_MAX|INT_MIN|LLONG_MAX|LLONG_MIN|INT_MIN|INT_MAX)\b/g, '<span class="num">$1</span>')
+    .replace(/"[^"]*"/g, m => `<span class="str">${m}</span>`)
+    .replace(/\'.\'/g, m => `<span class="str">${m}</span>`)
+    .replace(/\b(\d+)\b/g, '<span class="num">$1</span>');
+  return h;
+}
+
+// Get topics
+function getTopics() {
+  return [...new Set(PROBLEMS.map(p => p.topic))].sort();
+}
+
+// Build sidebar
+function buildSidebar() {
+  const topics = getTopics();
+  const sidebar = document.getElementById('sidebarLinks');
+  let html = '';
+  for(const topic of topics) {
+    const count = PROBLEMS.filter(p => p.topic === topic).length;
+    html += `<a class="sidebar-link" href="#topic-${topic.replace(/\s+/g,'-')}" onclick="closeSidebar()">${topic} <span class="count">${count}</span></a>`;
+  }
+  sidebar.innerHTML = html;
+
+  // Filter chips
+  const chips = document.getElementById('filterChips');
+  let chipHtml = `<button class="filter-chip active" data-filter="all" onclick="setFilter('all')">All (${PROBLEMS.length})</button>`;
+  for(const topic of topics) {
+    const count = PROBLEMS.filter(p => p.topic === topic).length;
+    chipHtml += `<button class="filter-chip" data-filter="${topic}" onclick="setFilter('${topic}')">${topic} (${count})</button>`;
+  }
+  chips.innerHTML = chipHtml;
+}
+
+// Set filter
+function setFilter(topic) {
+  activeFilter = topic;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.filter === topic));
+  filterProblems();
+}
+
+// Filter problems
+function filterProblems() {
+  const query = document.getElementById('searchInput').value.toLowerCase();
+  filteredProblems = PROBLEMS.filter(p => {
+    if(activeFilter !== 'all' && p.topic !== activeFilter) return false;
+    if(query && !p.name.toLowerCase().includes(query) && !p.topic.toLowerCase().includes(query) && !p.pattern.toLowerCase().includes(query)) return false;
+    return true;
+  });
+  renderProblems();
+  updateStats();
+}
+
+// Update stats
+function updateStats() {
+  document.getElementById('totalCount').textContent = PROBLEMS.length;
+  const total = filteredProblems.length;
+  const easy = filteredProblems.filter(p => p.difficulty === 'easy').length;
+  const medium = filteredProblems.filter(p => p.difficulty === 'medium').length;
+  const hard = filteredProblems.filter(p => p.difficulty === 'hard').length;
+  const topics = [...new Set(filteredProblems.map(p => p.topic))].length;
+  document.getElementById('statsStrip').innerHTML = `
+    <span><i class="fas fa-list" style="color:var(--accent)"></i> ${total} problems</span>
+    <span><i class="fas fa-folder" style="color:var(--accent2)"></i> ${topics} topics</span>
+    <span><span style="color:var(--easy)">●</span> ${easy} Easy</span>
+    <span><span style="color:var(--medium)">●</span> ${medium} Medium</span>
+    <span><span style="color:var(--hard)">●</span> ${hard} Hard</span>
+  `;
+}
+
+// Render problems grouped by topic
+function renderProblems() {
+  const container = document.getElementById('problemContainer');
+  if(filteredProblems.length === 0) {
+    container.innerHTML = `<div style="text-align:center;padding:3rem;color:var(--text3);font-size:0.9rem;"><i class="fas fa-search" style="font-size:2rem;opacity:0.3;margin-bottom:0.5rem;display:block;"></i>No problems match your filter</div>`;
+    return;
+  }
+
+  const grouped = {};
+  for(const p of filteredProblems) {
+    if(!grouped[p.topic]) grouped[p.topic] = [];
+    grouped[p.topic].push(p);
+  }
+
+  const iconMap = {
+    'Patterns': 'fa-shapes','Basic Math': 'fa-calculator','Recursion': 'fa-sync','Sorting': 'fa-sort',
+    'Arrays': 'fa-layer-group','Binary Search': 'fa-search','Linked List': 'fa-link','Sliding Window': 'fa-window-maximize',
+    'Stack & Queue': 'fa-cubes','Trees': 'fa-tree','BST': 'fa-sitemap','Graph': 'fa-project-diagram',
+    'Greedy': 'fa-hand-holding-usd','DP': 'fa-brain','Bit Manipulation': 'fa-microchip','String': 'fa-font',
+    'Hashing': 'fa-hashtag','STL': 'fa-code'
+  };
+
+  let html = '';
+  for(const [topic, probs] of Object.entries(grouped)) {
+    const topicId = `topic-${topic.replace(/\s+/g,'-')}`;
+    html += `<div class="topic-section" id="${topicId}">`;
+    html += `<div class="topic-header"><div class="icon"><i class="fas ${iconMap[topic] || 'fa-folder'}"></i></div><h2>${topic}</h2><span class="count-badge">${probs.length} problems</span></div>`;
+    for(const p of probs) {
+      const codeId = `code-${p.id}`;
+      html += `<div class="problem-card" data-topics="${p.topic}">`;
+      html += `<div class="top-row"><span class="name">${p.name}</span><span class="difficulty ${p.difficulty}">${p.difficulty}</span></div>`;
+      html += `<div class="meta-row">`;
+      html += `<span class="meta-tag pattern"><i class="fas fa-tag"></i> ${p.pattern}</span>`;
+      if(p.tc) html += `<span class="meta-tag complexity"><i class="fas fa-clock"></i> ${p.tc}</span>`;
+      if(p.sc) html += `<span class="meta-tag complexity"><i class="fas fa-memory"></i> ${p.sc}</span>`;
+      if(p.link) html += `<span class="meta-tag"><a href="${p.link}" target="_blank"><i class="fas fa-external-link-alt"></i> Link</a></span>`;
+      html += `</div>`;
+      if(p.notes) html += `<div class="notes"><strong>💡 Approach:</strong> ${p.notes}</div>`;
+      html += `<div class="code-block">
+        <div class="code-header">
+          <span><i class="fas fa-code"></i> C++</span>
+          <button class="copy-btn" onclick="copyCode('${codeId}')"><i class="fas fa-copy"></i> Copy</button>
+        </div>
+        <pre id="${codeId}">${highlightCode(p.code)}</pre>
+      </div>`;
+      html += `</div>`;
+    }
+    html += `</div>`;
+  }
+  container.innerHTML = html;
+}
+
+// Copy code
+function copyCode(id) {
+  const el = document.getElementById(id);
+  const text = el.textContent || el.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = el.parentElement.querySelector('.copy-btn');
+    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+    setTimeout(() => btn.innerHTML = '<i class="fas fa-copy"></i> Copy', 2000);
+  });
+}
+
+// ============================================================
+// RANDOM PICKER
+// ============================================================
+function openRandomPicker() {
+  document.getElementById('randomModal').classList.add('show');
+  // Populate topics
+  const sel = document.getElementById('randomTopicFilter');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="all">All Topics</option>';
+  for(const t of getTopics()) {
+    sel.innerHTML += `<option value="${t}">${t}</option>`;
+  }
+  sel.value = cur;
+  document.getElementById('randomResult').classList.remove('show');
+}
+
+function closeRandomPicker() {
+  document.getElementById('randomModal').classList.remove('show');
+}
+
+function pickRandom() {
+  const topic = document.getElementById('randomTopicFilter').value;
+  const diff = document.getElementById('randomDifficultyFilter').value;
+  let pool = [...PROBLEMS];
+  if(topic !== 'all') pool = pool.filter(p => p.topic === topic);
+  if(diff !== 'all') pool = pool.filter(p => p.difficulty === diff);
+  if(pool.length === 0) {
+    document.getElementById('randomResult').innerHTML = '<div style="text-align:center;padding:1rem;color:var(--text3)">No problems found matching criteria</div>';
+    document.getElementById('randomResult').classList.add('show');
+    return;
+  }
+  const p = pool[Math.floor(Math.random() * pool.length)];
+  const codeId = `rcode-${Date.now()}`;
+  document.getElementById('randomResult').innerHTML = `
+    <div class="problem-card" style="margin:0;border-color:var(--accent);">
+      <div class="top-row"><span class="name">${p.name}</span><span class="difficulty ${p.difficulty}">${p.difficulty}</span></div>
+      <div class="meta-row">
+        <span class="meta-tag"><i class="fas fa-folder"></i> ${p.topic}</span>
+        <span class="meta-tag pattern"><i class="fas fa-tag"></i> ${p.pattern}</span>
+        ${p.tc ? `<span class="meta-tag complexity">${p.tc}</span>` : ''}
+        ${p.sc ? `<span class="meta-tag complexity">${p.sc}</span>` : ''}
+      </div>
+      ${p.notes ? `<div class="notes"><strong>💡 Approach:</strong> ${p.notes}</div>` : ''}
+      <div class="code-block">
+        <div class="code-header">
+          <span><i class="fas fa-code"></i> C++</span>
+          <button class="copy-btn" onclick="copyCode('${codeId}')"><i class="fas fa-copy"></i> Copy</button>
+        </div>
+        <pre id="${codeId}">${highlightCode(p.code)}</pre>
+      </div>
+    </div>
+  `;
+  document.getElementById('randomResult').classList.add('show');
+}
+
+// ============================================================
+// MOBILE SIDEBAR
+// ============================================================
+document.getElementById('mobileToggle').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('show');
+  document.getElementById('sidebarBackdrop').classList.toggle('show');
+});
+document.getElementById('sidebarBackdrop').addEventListener('click', closeSidebar);
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('show');
+  document.getElementById('sidebarBackdrop').classList.remove('show');
+}
+
+// Search on enter
+document.getElementById('searchInput').addEventListener('keyup', (e) => {
+  if(e.key === 'Enter') filterProblems();
+});
+
+// ============================================================
+// INIT
+// ============================================================
+buildSidebar();
+filterProblems();
+updateStats();
+</script>
+</body>
+</html>

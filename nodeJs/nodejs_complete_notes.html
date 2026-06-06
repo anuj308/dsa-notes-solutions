@@ -1,0 +1,2424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Node.js Complete Notes &amp; Viva Guide</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #0d1117;
+      --bg2: #161b22;
+      --bg3: #1c2333;
+      --card: #1c2333;
+      --card-hover: #252d3f;
+      --text: #e6edf3;
+      --text2: #8b949e;
+      --accent: #58a6ff;
+      --accent2: #3fb950;
+      --accent3: #d2a8ff;
+      --accent4: #f0883e;
+      --border: #30363d;
+      --code-bg: #0d1117;
+      --keyword: #ff7b72;
+      --string: #a5d6ff;
+      --comment: #8b949e;
+      --function: #d2a8ff;
+      --number: #79c0ff;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      scroll-behavior: smooth;
+    }
+
+    /* ─── Scrollbar ─── */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #484f58; }
+
+    /* ─── Sidebar ─── */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 260px;
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      z-index: 100;
+      padding: 20px 0;
+    }
+    .sidebar::-webkit-scrollbar { width: 5px; }
+
+    .sidebar h2 {
+      padding: 0 20px 16px;
+      font-size: 18px;
+      color: var(--accent);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sidebar h2 svg { width: 22px; height: 22px; }
+
+    .sidebar a {
+      display: block;
+      padding: 8px 20px;
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 13px;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+    .sidebar a:hover,
+    .sidebar a.active {
+      color: var(--text);
+      background: var(--bg3);
+      border-left-color: var(--accent);
+    }
+    .sidebar .section-label {
+      padding: 14px 20px 4px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* ─── Main ─── */
+    .main {
+      margin-left: 260px;
+      padding: 0;
+      max-width: 960px;
+    }
+
+    /* ─── Hero ─── */
+    .hero {
+      padding: 50px 48px 40px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0d1117 100%);
+    }
+    .hero h1 {
+      font-size: 36px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      color: var(--text2);
+      margin-top: 8px;
+      font-size: 16px;
+    }
+    .hero .meta {
+      display: flex;
+      gap: 16px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .hero .meta span {
+      background: var(--bg3);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--text2);
+      border: 1px solid var(--border);
+    }
+
+    /* ─── Content ─── */
+    .content { padding: 40px 48px 80px; }
+
+    /* ─── Sections ─── */
+    section { margin-bottom: 48px; }
+
+    .section-title {
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title .badge {
+      font-size: 12px;
+      background: var(--accent);
+      color: #000;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 28px 0 12px;
+      color: var(--accent);
+    }
+    h4 {
+      font-size: 17px;
+      font-weight: 600;
+      margin: 20px 0 10px;
+      color: var(--accent2);
+    }
+
+    p { margin-bottom: 12px; color: var(--text2); }
+    ul, ol { margin: 8px 0 16px 24px; color: var(--text2); }
+    li { margin-bottom: 4px; }
+    strong { color: var(--text); }
+
+    /* ─── Cards ─── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      transition: all 0.25s;
+    }
+    .card:hover {
+      border-color: var(--accent);
+      background: var(--card-hover);
+      transform: translateY(-2px);
+    }
+    .card h4 { margin: 0 0 6px; color: var(--accent); font-size: 15px; }
+    .card p { margin: 0; font-size: 13px; }
+
+    /* ─── Code ─── */
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 12px 0 20px;
+      position: relative;
+    }
+    pre .lang-tag {
+      position: absolute;
+      top: 6px;
+      right: 10px;
+      font-size: 10px;
+      color: var(--text2);
+      background: var(--bg2);
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+    code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    }
+    p code, li code {
+      background: var(--bg3);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: var(--accent3);
+    }
+
+    /* Syntax highlight colors */
+    .hljs-keyword { color: var(--keyword); }
+    .hljs-string { color: var(--string); }
+    .hljs-comment { color: var(--comment); font-style: italic; }
+    .hljs-function { color: var(--function); }
+    .hljs-number { color: var(--number); }
+    .hljs-title { color: var(--accent2); }
+    .hljs-built_in { color: var(--accent4); }
+    .hljs-attr { color: #79c0ff; }
+    .hljs-literal { color: #ff7b72; }
+    .hljs-params { color: #ffa657; }
+    .hljs-property { color: #79c0ff; }
+
+    /* ─── Topic Box ─── */
+    .topic-box {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin: 12px 0 20px;
+    }
+    .topic-box.warn { border-left-color: var(--accent4); }
+    .topic-box.success { border-left-color: var(--accent2); }
+    .topic-box h4 { margin: 0 0 6px; font-size: 15px; }
+    .topic-box p { margin: 0; font-size: 13px; }
+
+    /* ─── MCQ ─── */
+    .mcq {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 14px;
+      transition: all 0.2s;
+    }
+    .mcq:hover { border-color: var(--accent); }
+    .mcq .q { font-weight: 600; margin-bottom: 10px; color: var(--text); }
+    .mcq .options { display: flex; flex-direction: column; gap: 4px; }
+    .mcq .options label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      font-size: 14px;
+      color: var(--text2);
+      border: 1px solid transparent;
+    }
+    .mcq .options label:hover { background: var(--bg3); }
+    .mcq .options input[type="radio"] { accent-color: var(--accent); }
+    .mcq .options label.correct {
+      background: #0f2d1a;
+      border-color: var(--accent2);
+      color: var(--accent2);
+    }
+    .mcq .options label.wrong {
+      background: #2d1a1a;
+      border-color: #f85149;
+      color: #f85149;
+    }
+    .mcq .answer {
+      display: none;
+      margin-top: 10px;
+      padding: 10px 14px;
+      background: #0f2d1a;
+      border: 1px solid var(--accent2);
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--accent2);
+    }
+    .mcq .answer.show { display: block; }
+    .mcq .show-btn {
+      margin-top: 8px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--accent);
+      padding: 4px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+    .mcq .show-btn:hover {
+      background: var(--accent);
+      color: #000;
+    }
+
+    /* ─── Viva Q&A ─── */
+    .viva-q {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      transition: all 0.2s;
+    }
+    .viva-q:hover { border-color: var(--accent); }
+    .viva-q .vq { font-weight: 600; color: var(--accent); margin-bottom: 8px; }
+    .viva-q .va { color: var(--text2); font-size: 14px; }
+
+    /* ─── Table ─── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+    th {
+      background: var(--bg3);
+      color: var(--accent);
+      font-weight: 600;
+    }
+    td { color: var(--text2); }
+    tr:hover td { background: var(--bg3); }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .main { margin-left: 0; }
+      .hero { padding: 30px 20px; }
+      .hero h1 { font-size: 26px; }
+      .content { padding: 20px; }
+      .card-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── TOC toggle mobile ─── */
+    .toc-toggle {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 200;
+      box-shadow: 0 4px 16px rgba(88,166,255,0.3);
+    }
+    @media (max-width: 768px) {
+      .toc-toggle { display: block; }
+    }
+
+    /* ─── Key Points ─── */
+    .key-points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 8px 0 16px;
+    }
+    .key-points span {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      padding: 3px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+      color: var(--text2);
+    }
+    .key-points .kp-accent { border-color: var(--accent); color: var(--accent); }
+    .key-points .kp-green { border-color: var(--accent2); color: var(--accent2); }
+    .key-points .kp-purple { border-color: var(--accent3); color: var(--accent3); }
+
+    .inline-code {
+      background: var(--bg3);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'SF Mono', monospace;
+      font-size: 13px;
+      color: var(--accent3);
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 32px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── Sidebar ─── -->
+  <nav class="sidebar" id="sidebar">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      Node.js Notes
+    </h2>
+    <div class="section-label">Core Concepts</div>
+    <a href="#intro">Introduction</a>
+    <a href="#modules">Modules &amp; Require</a>
+    <a href="#events">Event Emitter</a>
+    <a href="#fs">File System (fs)</a>
+    <a href="#streams">Streams</a>
+    <a href="#zlib">Zlib Compression</a>
+    <a href="#json">JSON</a>
+    <a href="#builtin">Built-in Modules</a>
+    <div class="section-label">HTTP &amp; Express</div>
+    <a href="#http">HTTP Module</a>
+    <a href="#express">Express.js</a>
+    <a href="#routing">Routing &amp; Controllers</a>
+    <a href="#middleware">Middleware</a>
+    <a href="#cookies">Cookies &amp; Sessions</a>
+    <div class="section-label">Databases</div>
+    <a href="#mongodb">MongoDB</a>
+    <a href="#mongoose">Mongoose ODM</a>
+    <a href="#postgres">PostgreSQL</a>
+    <div class="section-label">Real-time</div>
+    <a href="#socket">Socket Programming</a>
+    <a href="#socketio">Socket.IO</a>
+    <div class="section-label">Practice</div>
+    <a href="#syntax">Important Code Syntax</a>
+    <a href="#viva">Viva Questions</a>
+    <a href="#mcqs">MCQs</a>
+  </nav>
+
+  <button class="toc-toggle" onclick="document.getElementById('sidebar').style.display=document.getElementById('sidebar').style.display==='none'?'block':'none'">☰</button>
+
+  <!-- ─── MAIN ─── -->
+  <div class="main">
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1>📘 Node.js Complete Notes &amp; Viva Guide</h1>
+      <p>Comprehensive revision notes covering Node.js, Express.js, MongoDB, PostgreSQL, Socket.IO, and more. Includes viva questions, important code syntax, and MCQs.</p>
+      <div class="meta">
+        <span>📦 Node.js</span>
+        <span>⚡ Express.js</span>
+        <span>🗄️ MongoDB</span>
+        <span>🐘 PostgreSQL</span>
+        <span>🔌 Socket.IO</span>
+        <span>📝 20+ Topics</span>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ════════════════════════════ -->
+      <!-- 1. INTRODUCTION             -->
+      <!-- ════════════════════════════ -->
+      <section id="intro">
+        <h2 class="section-title">🚀 Introduction to Node.js <span class="badge">Core</span></h2>
+
+        <div class="topic-box">
+          <h4>What is Node.js?</h4>
+          <p>Node.js is a JavaScript runtime built on Chrome's V8 engine. It allows JavaScript to run outside the browser — on the server. It is <strong>event-driven</strong>, <strong>single-threaded</strong>, and uses <strong>non-blocking I/O</strong> for high scalability.</p>
+        </div>
+
+        <h4>Key Features</h4>
+        <div class="card-grid">
+          <div class="card">
+            <h4>⚡ Event-Driven</h4>
+            <p>Uses an event loop to handle multiple connections concurrently without blocking.</p>
+          </div>
+          <div class="card">
+            <h4>🚫 Non-Blocking I/O</h4>
+            <p>Asynchronous operations don't block the execution thread, enabling high throughput.</p>
+          </div>
+          <div class="card">
+            <h4>🔧 npm Ecosystem</h4>
+            <p>Largest package ecosystem in the world with over 2 million packages.</p>
+          </div>
+          <div class="card">
+            <h4>⚙️ Single-Threaded</h4>
+            <p>Single thread with event loop handles all clients efficiently using callbacks/promises.</p>
+          </div>
+        </div>
+
+        <h4>Global Objects</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-comment">// Global objects available everywhere</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">global</span>);       <span class="hljs-comment">// Node's global object</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">globalThis</span>);  <span class="hljs-comment">// ES2020 - works across environments</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">__dirname</span>);   <span class="hljs-comment">// Current directory path</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">__filename</span>);  <span class="hljs-comment">// Current file path</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">process</span>);      <span class="hljs-comment">// Process information</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">module</span>);       <span class="hljs-comment">// Current module info</span></pre>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 2. MODULES                  -->
+      <!-- ════════════════════════════ -->
+      <section id="modules">
+        <h2 class="section-title">📦 Modules &amp; Require <span class="badge">Core</span></h2>
+
+        <div class="topic-box">
+          <h4>Concept</h4>
+          <p>Node.js uses the CommonJS module system by default. Each file is treated as a separate module with its own scope. Use <code>module.exports</code> to export and <code>require()</code> to import. ES modules (<code>import/export</code>) are also supported with <code>"type": "module"</code> in package.json.</p>
+        </div>
+
+        <h4>CommonJS (Default)</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-comment">// maths.js - Creating a module</span>
+<span class="hljs-keyword">const</span> add = <span class="hljs-function">(<span class="hljs-params">a, b</span>) =></span> a + b;
+<span class="hljs-keyword">const</span> PI = <span class="hljs-number">3.14</span>;
+
+<span class="hljs-built_in">module</span>.exports = { add, PI };
+
+<span class="hljs-comment">// newfile.js - Using the module</span>
+<span class="hljs-keyword">const</span> { add, PI } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./maths'</span>);
+<span class="hljs-built_in">console</span>.log(add(<span class="hljs-number">5</span>, <span class="hljs-number">10</span>));  <span class="hljs-comment">// 15</span></pre>
+
+        <h4>ES Modules</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-comment">// package.json must have "type": "module"</span>
+<span class="hljs-keyword">import</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">'express'</span>;
+<span class="hljs-keyword">import</span> { promises <span class="hljs-keyword">as</span> fs } <span class="hljs-keyword">from</span> <span class="hljs-string">'fs'</span>;
+
+<span class="hljs-comment">// Named export</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> myFunc = <span class="hljs-function">() =></span> {};
+
+<span class="hljs-comment">// Default export</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> myFunc;</pre>
+
+        <div class="key-points">
+          <span class="kp-accent">require()</span>
+          <span class="kp-green">import/export</span>
+          <span class="kp-purple">module.exports</span>
+          <span>"type": "module"</span>
+          <span>CommonJS</span>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 3. EVENT EMITTER            -->
+      <!-- ════════════════════════════ -->
+      <section id="events">
+        <h2 class="section-title">🔔 Event Emitter <span class="badge">Core</span></h2>
+
+        <div class="topic-box">
+          <h4>Concept</h4>
+          <p>The EventEmitter implements the publisher-subscriber pattern. Objects can emit named events and listeners can subscribe to those events. Many Node.js core APIs (like HTTP server, streams) are built on EventEmitter.</p>
+        </div>
+
+        <h4>Basic Usage</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> EventEmitter = <span class="hljs-built_in">require</span>(<span class="hljs-string">'events'</span>);
+<span class="hljs-keyword">const</span> emitter = <span class="hljs-keyword">new</span> EventEmitter();
+
+<span class="hljs-comment">// Listen to event</span>
+emitter.<span class="hljs-title">on</span>(<span class="hljs-string">'greet'</span>, <span class="hljs-function">(<span class="hljs-params">{ name, clas }</span>) =></span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Hello <span class="hljs-subst">${name}</span>, Welcome to <span class="hljs-subst">${clas}</span>`</span>);
+});
+
+<span class="hljs-comment">// Emit event</span>
+emitter.<span class="hljs-title">emit</span>(<span class="hljs-string">'greet'</span>, { name: <span class="hljs-string">'Parveen'</span>, clas: <span class="hljs-string">'K23PA'</span> });</pre>
+
+        <h4>Event Methods</h4>
+        <table>
+          <thead><tr><th>Method</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>on(event, callback)</code></td><td>Register a listener for an event</td></tr>
+            <tr><td><code>emit(event, args)</code></td><td>Trigger an event with arguments</td></tr>
+            <tr><td><code>once(event, callback)</code></td><td>Listen once then auto-remove</td></tr>
+            <tr><td><code>off(event, callback)</code></td><td>Remove a specific listener</td></tr>
+            <tr><td><code>removeAllListeners(event)</code></td><td>Remove all listeners for an event</td></tr>
+          </tbody>
+        </table>
+
+        <h4>Practical Example — Event Tracking System</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-keyword">const</span> EventEmitter = <span class="hljs-built_in">require</span>(<span class="hljs-string">'events'</span>);
+<span class="hljs-keyword">const</span> emitter = <span class="hljs-keyword">new</span> EventEmitter();
+
+<span class="hljs-keyword">let</span> eventCounts = {
+  <span class="hljs-string">"user-login"</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">"user-purchase"</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-string">"user-logout"</span>: <span class="hljs-number">0</span>
+};
+
+emitter.<span class="hljs-title">on</span>(<span class="hljs-string">'user-login'</span>, <span class="hljs-function">(<span class="hljs-params">username</span>) =></span> {
+  eventCounts[<span class="hljs-string">'user-login'</span>]++;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">${username}</span> logged in!`</span>);
+});
+
+emitter.<span class="hljs-title">emit</span>(<span class="hljs-string">'user-login'</span>, <span class="hljs-string">'Parveen'</span>);
+emitter.<span class="hljs-title">emit</span>(<span class="hljs-string">'summary'</span>);</pre>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 4. FILE SYSTEM              -->
+      <!-- ════════════════════════════ -->
+      <section id="fs">
+        <h2 class="section-title">📁 File System (fs) <span class="badge">Core</span></h2>
+
+        <div class="topic-box">
+          <h4>Concept</h4>
+          <p>The <code>fs</code> module provides both synchronous (blocking) and asynchronous (non-blocking) methods for file operations. Always prefer asynchronous methods in production to avoid blocking the event loop.</p>
+        </div>
+
+        <h4>Three Ways to Use fs</h4>
+
+        <div class="card-grid">
+          <div class="card">
+            <h4>🔴 Synchronous (Blocking)</h4>
+            <p>Blocks the thread until operation completes. Use only in startup/scripts.</p>
+          </div>
+          <div class="card">
+            <h4>🟡 Callback (Async)</h4>
+            <p>Traditional async with error-first callbacks. Non-blocking.</p>
+          </div>
+          <div class="card">
+            <h4>🟢 Promises / Async-Await</h4>
+            <p>Modern approach using <code>fs.promises</code> API. Clean and readable.</p>
+          </div>
+        </div>
+
+        <h4>1. Synchronous</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+
+fs.<span class="hljs-title">writeFileSync</span>(<span class="hljs-string">'Hello.txt'</span>, <span class="hljs-string">'Hello World'</span>, <span class="hljs-string">'utf-8'</span>);
+<span class="hljs-keyword">const</span> data = fs.<span class="hljs-title">readFileSync</span>(<span class="hljs-string">'Hi.txt'</span>, <span class="hljs-string">'utf-8'</span>);
+fs.<span class="hljs-title">appendFileSync</span>(<span class="hljs-string">'Hello.txt'</span>, <span class="hljs-string">'\nAppended content'</span>);
+fs.<span class="hljs-title">renameSync</span>(<span class="hljs-string">'Hello.txt'</span>, <span class="hljs-string">'Hi.txt'</span>);
+fs.<span class="hljs-title">unlinkSync</span>(<span class="hljs-string">'file.txt'</span>);  <span class="hljs-comment">// Delete file</span></pre>
+
+        <h4>2. Asynchronous (Callbacks)</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+
+fs.<span class="hljs-title">readFile</span>(<span class="hljs-string">'Hi.txt'</span>, <span class="hljs-string">'utf-8'</span>, <span class="hljs-function">(<span class="hljs-params">err, data</span>) =></span> {
+  <span class="hljs-keyword">if</span> (err) <span class="hljs-built_in">console</span>.log(err);
+  <span class="hljs-keyword">else</span> <span class="hljs-built_in">console</span>.log(data);
+});
+
+fs.<span class="hljs-title">writeFile</span>(<span class="hljs-string">'file.txt'</span>, <span class="hljs-string">'content'</span>, <span class="hljs-string">'utf-8'</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> {
+  <span class="hljs-keyword">if</span> (err) <span class="hljs-built_in">console</span>.log(err);
+  <span class="hljs-keyword">else</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'File created'</span>);
+});
+
+fs.<span class="hljs-title">appendFile</span>(<span class="hljs-string">'file.txt'</span>, <span class="hljs-string">'New data'</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> { <span class="hljs-comment">/* ... */</span> });
+fs.<span class="hljs-title">unlink</span>(<span class="hljs-string">'file.txt'</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> { <span class="hljs-comment">/* ... */</span> });</pre>
+
+        <h4>3. Promises / Async-Await (Recommended)</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>).promises;
+<span class="hljs-comment">// OR: const fs = require('fs/promises');</span>
+
+<span class="hljs-comment">// Using .then()</span>
+fs.<span class="hljs-title">readFile</span>(<span class="hljs-string">'Hi.txt'</span>, <span class="hljs-string">'utf-8'</span>)
+  .<span class="hljs-title">then</span>(<span class="hljs-function"><span class="hljs-params">data</span> =></span> <span class="hljs-built_in">console</span>.log(data))
+  .<span class="hljs-title">catch</span>(<span class="hljs-function"><span class="hljs-params">err</span> =></span> <span class="hljs-built_in">console</span>.log(err));
+
+<span class="hljs-comment">// Using async/await (cleanest)</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title">readData</span>() {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> fs.<span class="hljs-title">readFile</span>(<span class="hljs-string">'Example.txt'</span>, <span class="hljs-string">'utf-8'</span>);
+    <span class="hljs-built_in">console</span>.log(data);
+  } <span class="hljs-keyword">catch</span> (err) {
+    <span class="hljs-built_in">console</span>.log(err);
+  }
+}
+<span class="hljs-title">readData</span>();</pre>
+
+        <h4>Common fs Methods</h4>
+        <table>
+          <thead><tr><th>Method</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>readFile(path, options, callback)</code></td><td>Read file contents</td></tr>
+            <tr><td><code>writeFile(path, data, options, callback)</code></td><td>Write data to file (overwrites)</td></tr>
+            <tr><td><code>appendFile(path, data, options, callback)</code></td><td>Append data to file</td></tr>
+            <tr><td><code>unlink(path, callback)</code></td><td>Delete a file</td></tr>
+            <tr><td><code>rename(oldPath, newPath, callback)</code></td><td>Rename/move a file</td></tr>
+            <tr><td><code>mkdir(path, callback)</code></td><td>Create a directory</td></tr>
+            <tr><td><code>existsSync(path)</code></td><td>Check if file exists (sync)</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 5. STREAMS                 -->
+      <!-- ════════════════════════════ -->
+      <section id="streams">
+        <h2 class="section-title">🌊 Streams <span class="badge">Core</span></h2>
+
+        <div class="topic-box">
+          <h4>Concept</h4>
+          <p>Streams allow reading/writing data in chunks instead of loading the entire file into memory. This is crucial for handling large files (e.g., videos, logs, big datasets) efficiently.</p>
+        </div>
+
+        <h4>Types of Streams</h4>
+        <div class="card-grid">
+          <div class="card">
+            <h4>📖 Readable</h4>
+            <p>Read data from a source (file, HTTP request, etc.)</p>
+          </div>
+          <div class="card">
+            <h4>✏️ Writable</h4>
+            <p>Write data to a destination (file, HTTP response, etc.)</p>
+          </div>
+          <div class="card">
+            <h4>🔄 Duplex</h4>
+            <p>Both readable and writable (e.g., TCP socket)</p>
+          </div>
+          <div class="card">
+            <h4>⚡ Transform</h4>
+            <p>Modify data while streaming (e.g., compression)</p>
+          </div>
+        </div>
+
+        <h4>Read Stream</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-keyword">const</span> readStream = fs.<span class="hljs-title">createReadStream</span>(<span class="hljs-string">'input.txt'</span>, <span class="hljs-string">'utf8'</span>);
+
+readStream.<span class="hljs-title">on</span>(<span class="hljs-string">'data'</span>, <span class="hljs-function">(<span class="hljs-params">chunk</span>) =></span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Received chunk:'</span>, chunk);
+});
+readStream.<span class="hljs-title">on</span>(<span class="hljs-string">'end'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Finished reading file.'</span>);
+});
+readStream.<span class="hljs-title">on</span>(<span class="hljs-string">'error'</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> {
+  <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Error:'</span>, err);
+});</pre>
+
+        <h4>Write Stream</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-keyword">const</span> writeStream = fs.<span class="hljs-title">createWriteStream</span>(<span class="hljs-string">'output.txt'</span>);
+
+writeStream.<span class="hljs-title">write</span>(<span class="hljs-string">'Hello Node.js Streams!\n'</span>);
+writeStream.<span class="hljs-title">write</span>(<span class="hljs-string">'Writing more data...'</span>);
+writeStream.<span class="hljs-title">end</span>(<span class="hljs-string">'Done writing.'</span>);
+
+writeStream.<span class="hljs-title">on</span>(<span class="hljs-string">'finish'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'All data written successfully.'</span>);
+});</pre>
+
+        <h4>Pipe — The Elegant Way</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-comment">// Copy file using pipe (most efficient)</span>
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-keyword">const</span> readStream = fs.<span class="hljs-title">createReadStream</span>(<span class="hljs-string">'input.txt'</span>);
+<span class="hljs-keyword">const</span> writeStream = fs.<span class="hljs-title">createWriteStream</span>(<span class="hljs-string">'output.txt'</span>);
+readStream.<span class="hljs-title">pipe</span>(writeStream);</pre>
+
+        <h4>Transform Stream</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> { Transform } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'stream'</span>);
+<span class="hljs-keyword">const</span> upperCase = <span class="hljs-keyword">new</span> Transform({
+  transform(chunk, encoding, callback) {
+    <span class="hljs-built_in">this</span>.<span class="hljs-title">push</span>(chunk.<span class="hljs-title">toString</span>().<span class="hljs-title">toUpperCase</span>());
+    callback();
+  }
+});
+fs.<span class="hljs-title">createReadStream</span>(<span class="hljs-string">'input.txt'</span>)
+  .<span class="hljs-title">pipe</span>(upperCase)
+  .<span class="hljs-title">pipe</span>(fs.<span class="hljs-title">createWriteStream</span>(<span class="hljs-string">'output.txt'</span>));</pre>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 6. ZLIB COMPRESSION        -->
+      <!-- ════════════════════════════ -->
+      <section id="zlib">
+        <h2 class="section-title">🗜️ Zlib Compression <span class="badge">Core</span></h2>
+
+        <div class="topic-box">
+          <h4>Concept</h4>
+          <p>The <code>zlib</code> module provides compression/decompression using Gzip, Deflate, and other algorithms. It supports both stream-based and buffer-based operations.</p>
+        </div>
+
+        <h4>Stream-based (Pipe Method)</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-keyword">const</span> zlib = <span class="hljs-built_in">require</span>(<span class="hljs-string">'zlib'</span>);
+
+<span class="hljs-comment">// Compress input.txt → input.txt.gz</span>
+fs.<span class="hljs-title">createReadStream</span>(<span class="hljs-string">'input.txt'</span>)
+  .<span class="hljs-title">pipe</span>(zlib.<span class="hljs-title">createGzip</span>())
+  .<span class="hljs-title">pipe</span>(fs.<span class="hljs-title">createWriteStream</span>(<span class="hljs-string">'input.txt.gz'</span>))
+  .<span class="hljs-title">on</span>(<span class="hljs-string">'finish'</span>, <span class="hljs-function">() =></span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Compressed!'</span>));
+
+<span class="hljs-comment">// Decompress input.txt.gz → output.txt</span>
+fs.<span class="hljs-title">createReadStream</span>(<span class="hljs-string">'input.txt.gz'</span>)
+  .<span class="hljs-title">pipe</span>(zlib.<span class="hljs-title">createGunzip</span>())
+  .<span class="hljs-title">pipe</span>(fs.<span class="hljs-title">createWriteStream</span>(<span class="hljs-string">'output.txt'</span>))
+  .<span class="hljs-title">on</span>(<span class="hljs-string">'finish'</span>, <span class="hljs-function">() =></span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Decompressed!'</span>));</pre>
+
+        <h4>Buffer-based</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> zlib = <span class="hljs-built_in">require</span>(<span class="hljs-string">'zlib'</span>);
+
+<span class="hljs-comment">// Async</span>
+zlib.<span class="hljs-title">gzip</span>(<span class="hljs-string">'Hello Node.js!'</span>, <span class="hljs-function">(<span class="hljs-params">err, compressed</span>) =></span> {
+  zlib.<span class="hljs-title">gunzip</span>(compressed, <span class="hljs-function">(<span class="hljs-params">err, decompressed</span>) =></span> {
+    <span class="hljs-built_in">console</span>.log(decompressed.<span class="hljs-title">toString</span>());
+  });
+});
+
+<span class="hljs-comment">// Sync</span>
+<span class="hljs-keyword">const</span> comp = zlib.<span class="hljs-title">gzipSync</span>(<span class="hljs-string">'Hello!'</span>);
+<span class="hljs-keyword">const</span> decomp = zlib.<span class="hljs-title">gunzipSync</span>(comp);
+<span class="hljs-built_in">console</span>.log(decomp.<span class="hljs-title">toString</span>());</pre>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 7. JSON                    -->
+      <!-- ════════════════════════════ -->
+      <section id="json">
+        <h2 class="section-title">📄 JSON <span class="badge">Core</span></h2>
+
+        <div class="topic-box">
+          <h4>Concept</h4>
+          <p>JSON (JavaScript Object Notation) is a lightweight data format for exchanging data between client and server. Node.js provides built-in methods to parse and stringify JSON.</p>
+        </div>
+
+        <h4>JSON.parse() &amp; JSON.stringify()</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-comment">// Convert JSON string → JavaScript object</span>
+<span class="hljs-keyword">const</span> jsonData = <span class="hljs-string">'{"name": "Parveen", "age": 10, "rollno": 30}'</span>;
+<span class="hljs-keyword">const</span> obj = <span class="hljs-built_in">JSON</span>.<span class="hljs-title">parse</span>(jsonData);
+<span class="hljs-built_in">console</span>.log(obj.name);  <span class="hljs-comment">// Parveen</span>
+
+<span class="hljs-comment">// Convert object → JSON string</span>
+<span class="hljs-keyword">const</span> newJson = <span class="hljs-built_in">JSON</span>.<span class="hljs-title">stringify</span>(obj, <span class="hljs-literal">null</span>, <span class="hljs-number">3</span>);  <span class="hljs-comment">// 3-space indent</span>
+<span class="hljs-built_in">console</span>.log(newJson);</pre>
+
+        <h4>Reading &amp; Writing JSON Files</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+
+<span class="hljs-comment">// Write JSON to file</span>
+<span class="hljs-keyword">const</span> userdata = { name: <span class="hljs-string">'Parveen'</span>, class: <span class="hljs-string">'K23PA'</span>, rollno: <span class="hljs-number">12</span> };
+fs.<span class="hljs-title">writeFile</span>(<span class="hljs-string">'data.json'</span>, <span class="hljs-built_in">JSON</span>.<span class="hljs-title">stringify</span>(userdata, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>), <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> {
+  <span class="hljs-keyword">if</span> (err) <span class="hljs-built_in">console</span>.log(err);
+});
+
+<span class="hljs-comment">// Read JSON from file</span>
+fs.<span class="hljs-title">readFile</span>(<span class="hljs-string">'data.json'</span>, <span class="hljs-string">'utf-8'</span>, <span class="hljs-function">(<span class="hljs-params">err, data</span>) =></span> {
+  <span class="hljs-keyword">const</span> users = <span class="hljs-built_in">JSON</span>.<span class="hljs-title">parse</span>(data);
+  <span class="hljs-built_in">console</span>.log(users.name);
+});</pre>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 8. BUILT-IN MODULES        -->
+      <!-- ════════════════════════════ -->
+      <section id="builtin">
+        <h2 class="section-title">🔧 Built-in Modules <span class="badge">Core</span></h2>
+
+        <h4>OS Module</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> os = <span class="hljs-built_in">require</span>(<span class="hljs-string">'os'</span>);
+
+<span class="hljs-built_in">console</span>.log(os.<span class="hljs-title">platform</span>());  <span class="hljs-comment">// 'linux', 'win32', 'darwin'</span>
+<span class="hljs-built_in">console</span>.log(os.<span class="hljs-title">homedir</span>());    <span class="hljs-comment">// '/home/user'</span>
+<span class="hljs-built_in">console</span>.log(os.<span class="hljs-title">arch</span>());        <span class="hljs-comment">// 'x64'</span>
+<span class="hljs-built_in">console</span>.log(os.<span class="hljs-title">freemem</span>());     <span class="hljs-comment">// Free memory in bytes</span>
+<span class="hljs-built_in">console</span>.log(os.<span class="hljs-title">totalmem</span>());    <span class="hljs-comment">// Total memory in bytes</span>
+<span class="hljs-built_in">console</span>.log(os.<span class="hljs-title">cpus</span>());        <span class="hljs-comment">// Array of CPU cores</span>
+<span class="hljs-built_in">console</span>.log(os.<span class="hljs-title">type</span>());        <span class="hljs-comment">// OS type: 'Linux'</span>
+<span class="hljs-built_in">console</span>.log(os.<span class="hljs-title">hostname</span>());    <span class="hljs-comment">// System hostname</span></pre>
+
+        <h4>Path Module</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">'path'</span>);
+
+<span class="hljs-keyword">const</span> filepath = path.<span class="hljs-title">join</span>(<span class="hljs-string">'folder'</span>, <span class="hljs-string">'student'</span>, <span class="hljs-string">'Data.txt'</span>);
+<span class="hljs-built_in">console</span>.log(filepath);               <span class="hljs-comment">// folder/student/Data.txt</span>
+<span class="hljs-built_in">console</span>.log(path.<span class="hljs-title">parse</span>(filepath));  <span class="hljs-comment">// { root, dir, base, ext, name }</span>
+<span class="hljs-built_in">console</span>.log(path.<span class="hljs-title">extname</span>(filepath)); <span class="hljs-comment">// '.txt'</span>
+<span class="hljs-built_in">console</span>.log(path.<span class="hljs-title">dirname</span>(filepath));  <span class="hljs-comment">// 'folder/student'</span>
+<span class="hljs-built_in">console</span>.log(path.<span class="hljs-title">basename</span>(filepath)); <span class="hljs-comment">// 'Data.txt'</span>
+<span class="hljs-built_in">console</span>.log(path.<span class="hljs-title">resolve</span>(filepath));  <span class="hljs-comment">// Absolute path</span></pre>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 9. HTTP MODULE             -->
+      <!-- ════════════════════════════ -->
+      <section id="http">
+        <h2 class="section-title">🌐 HTTP Module <span class="badge">Important</span></h2>
+
+        <div class="topic-box">
+          <h4>Concept</h4>
+          <p>The <code>http</code> module lets you create HTTP servers and clients without any external framework. The server is an EventEmitter that listens for requests and sends responses.</p>
+        </div>
+
+        <h4>Basic HTTP Server</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
+
+<span class="hljs-keyword">const</span> server = http.<span class="hljs-title">createServer</span>(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-comment">// req = request object (url, method, headers)</span>
+  <span class="hljs-comment">// res = response object (send data back)</span>
+  
+  <span class="hljs-keyword">if</span> (req.url === <span class="hljs-string">'/'</span>) {
+    res.<span class="hljs-title">writeHead</span>(<span class="hljs-number">200</span>, { <span class="hljs-string">'Content-Type'</span>: <span class="hljs-string">'text/html'</span> });
+    res.<span class="hljs-title">write</span>(<span class="hljs-string">'&lt;h1&gt;Hello World&lt;/h1&gt;'</span>);
+    res.<span class="hljs-title">end</span>();
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (req.url === <span class="hljs-string">'/about'</span>) {
+    res.<span class="hljs-title">end</span>(<span class="hljs-string">'About Page'</span>);
+  } <span class="hljs-keyword">else</span> {
+    res.<span class="hljs-title">writeHead</span>(<span class="hljs-number">404</span>);
+    res.<span class="hljs-title">end</span>(<span class="hljs-string">'Not Found'</span>);
+  }
+});
+
+server.<span class="hljs-title">listen</span>(<span class="hljs-number">3000</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Server running on port 3000'</span>);
+});</pre>
+
+        <h4>Working with Headers</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-comment">// Set headers</span>
+res.<span class="hljs-title">setHeader</span>(<span class="hljs-string">'Content-Type'</span>, <span class="hljs-string">'text/html'</span>);
+res.<span class="hljs-title">setHeader</span>(<span class="hljs-string">'Connection'</span>, <span class="hljs-string">'close'</span>);
+
+<span class="hljs-comment">// Get headers</span>
+<span class="hljs-keyword">const</span> contentType = res.<span class="hljs-title">getHeader</span>(<span class="hljs-string">'Content-Type'</span>);
+
+<span class="hljs-comment">// Write response head (status, message, headers)</span>
+res.<span class="hljs-title">writeHead</span>(<span class="hljs-number">200</span>, <span class="hljs-string">'OK'</span>, { <span class="hljs-string">'Content-Type'</span>: <span class="hljs-string">'text/plain'</span> });
+
+<span class="hljs-comment">// Read request headers</span>
+<span class="hljs-built_in">console</span>.log(req.headers.host);      <span class="hljs-comment">// Host header</span>
+<span class="hljs-built_in">console</span>.log(req.headers[<span class="hljs-string">'accept-language'</span>]);</pre>
+
+        <h4>Handling Form Data (POST)</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
+<span class="hljs-keyword">const</span> querystring = <span class="hljs-built_in">require</span>(<span class="hljs-string">'querystring'</span>);
+
+http.<span class="hljs-title">createServer</span>(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">if</span> (req.method === <span class="hljs-string">'POST'</span>) {
+    <span class="hljs-keyword">let</span> body = [];
+    req.<span class="hljs-title">on</span>(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-params">chunk</span> =></span> body.<span class="hljs-title">push</span>(chunk));
+    req.<span class="hljs-title">on</span>(<span class="hljs-string">'end'</span>, <span class="hljs-function">() =></span> {
+      <span class="hljs-keyword">const</span> data = querystring.<span class="hljs-title">parse</span>(Buffer.<span class="hljs-title">concat</span>(body).<span class="hljs-title">toString</span>());
+      <span class="hljs-built_in">console</span>.log(data.name, data.email);
+      res.<span class="hljs-title">end</span>(<span class="hljs-string">'Data received'</span>);
+    });
+  }
+}).<span class="hljs-title">listen</span>(<span class="hljs-number">3000</span>);</pre>
+
+        <h4>Reading HTML Files and Serving</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+fs.<span class="hljs-title">readFile</span>(<span class="hljs-string">'Html/first.html'</span>, <span class="hljs-string">'utf8'</span>, <span class="hljs-function">(<span class="hljs-params">err, data</span>) =></span> {
+  <span class="hljs-keyword">if</span> (err) {
+    res.<span class="hljs-title">writeHead</span>(<span class="hljs-number">404</span>);
+    res.<span class="hljs-title">end</span>(<span class="hljs-string">'File not found'</span>);
+    <span class="hljs-keyword">return</span>;
+  }
+  res.<span class="hljs-title">writeHead</span>(<span class="hljs-number">200</span>, { <span class="hljs-string">'Content-Type'</span>: <span class="hljs-string">'text/html'</span> });
+  res.<span class="hljs-title">write</span>(data);
+  res.<span class="hljs-title">end</span>();
+});</pre>
+
+        <h4>Common HTTP Status Codes</h4>
+        <table>
+          <thead><tr><th>Code</th><th>Message</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td>200</td><td>OK</td><td>Request succeeded</td></tr>
+            <tr><td>201</td><td>Created</td><td>Resource created (POST)</td></tr>
+            <tr><td>204</td><td>No Content</td><td>Request succeeded, no body</td></tr>
+            <tr><td>400</td><td>Bad Request</td><td>Invalid input from client</td></tr>
+            <tr><td>401</td><td>Unauthorized</td><td>Authentication required</td></tr>
+            <tr><td>403</td><td>Forbidden</td><td>No permission</td></tr>
+            <tr><td>404</td><td>Not Found</td><td>Resource doesn't exist</td></tr>
+            <tr><td>500</td><td>Server Error</td><td>Internal server error</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 10. EXPRESS.JS             -->
+      <!-- ════════════════════════════ -->
+      <section id="express">
+        <h2 class="section-title">⚡ Express.js <span class="badge">Important</span></h2>
+
+        <div class="topic-box">
+          <h4>What is Express?</h4>
+          <p>Express.js is a minimal, flexible web framework for Node.js. It provides a robust set of features for web and mobile applications, including routing, middleware, template engines, and static file serving.</p>
+        </div>
+
+        <h4>Basic Setup</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">import</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">'express'</span>;
+<span class="hljs-keyword">const</span> app = express();
+
+<span class="hljs-comment">// Middleware to parse request bodies</span>
+app.<span class="hljs-title">use</span>(express.<span class="hljs-title">json</span>());
+app.<span class="hljs-title">use</span>(express.<span class="hljs-title">urlencoded</span>({ extended: <span class="hljs-literal">true</span> }));
+
+<span class="hljs-comment">// Route</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  res.<span class="hljs-title">send</span>(<span class="hljs-string">'Hello Express!'</span>);
+});
+
+app.<span class="hljs-title">listen</span>(<span class="hljs-number">3000</span>, <span class="hljs-function">() =></span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Server running'</span>));</pre>
+
+        <h4>HTTP Methods (CRUD)</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-comment">// GET - Retrieve data</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/users'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  res.<span class="hljs-title">json</span>(users);
+});
+
+<span class="hljs-comment">// GET by ID</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/users/:id'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> user = users.<span class="hljs-title">find</span>(<span class="hljs-function"><span class="hljs-params">u</span> =></span> u.id === req.params.id);
+  <span class="hljs-keyword">if</span> (!user) <span class="hljs-keyword">return</span> res.<span class="hljs-title">status</span>(<span class="hljs-number">404</span>).<span class="hljs-title">json</span>({ error: <span class="hljs-string">'Not found'</span> });
+  res.<span class="hljs-title">json</span>(user);
+});
+
+<span class="hljs-comment">// POST - Create data</span>
+app.<span class="hljs-title">post</span>(<span class="hljs-string">'/users'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> { name, email } = req.body;
+  <span class="hljs-keyword">const</span> newUser = { id: <span class="hljs-built_in">Date</span>.<span class="hljs-title">now</span>(), name, email };
+  users.<span class="hljs-title">push</span>(newUser);
+  res.<span class="hljs-title">status</span>(<span class="hljs-number">201</span>).<span class="hljs-title">json</span>(newUser);
+});
+
+<span class="hljs-comment">// PUT - Update data</span>
+app.<span class="hljs-title">put</span>(<span class="hljs-string">'/users/:id'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> idx = users.<span class="hljs-title">findIndex</span>(<span class="hljs-function"><span class="hljs-params">u</span> =></span> u.id === req.params.id);
+  <span class="hljs-keyword">if</span> (idx === <span class="hljs-number">-1</span>) <span class="hljs-keyword">return</span> res.<span class="hljs-title">status</span>(<span class="hljs-number">404</span>).<span class="hljs-title">json</span>({ error: <span class="hljs-string">'Not found'</span> });
+  users[idx] = { ...users[idx], ...req.body };
+  res.<span class="hljs-title">json</span>(users[idx]);
+});
+
+<span class="hljs-comment">// DELETE - Remove data</span>
+app.<span class="hljs-title">delete</span>(<span class="hljs-string">'/users/:id'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> idx = users.<span class="hljs-title">findIndex</span>(<span class="hljs-function"><span class="hljs-params">u</span> =></span> u.id === req.params.id);
+  <span class="hljs-keyword">if</span> (idx === <span class="hljs-number">-1</span>) <span class="hljs-keyword">return</span> res.<span class="hljs-title">status</span>(<span class="hljs-number">404</span>).<span class="hljs-title">json</span>({ error: <span class="hljs-string">'Not found'</span> });
+  users.<span class="hljs-title">splice</span>(idx, <span class="hljs-number">1</span>);
+  res.<span class="hljs-title">json</span>({ message: <span class="hljs-string">'Deleted'</span> });
+});</pre>
+
+        <h4>URL Parameters &amp; Query Strings</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-comment">// Route parameters (:id, :name)</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/user/:id/:name'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> { id, name } = req.params;
+  res.<span class="hljs-title">send</span>(<span class="hljs-string">`Welcome <span class="hljs-subst">${name}</span>, ID: <span class="hljs-subst">${id}</span>`</span>);
+});
+
+<span class="hljs-comment">// Query strings (?keyword=hello)</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/search'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> keyword = req.query.keyword;
+  res.<span class="hljs-title">send</span>(<span class="hljs-string">`Searching for <span class="hljs-subst">${keyword}</span>`</span>);
+});</pre>
+
+        <h4>Regular Expression Routes</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-comment">// ? makes previous char optional (ab?cd → /acd or /abcd)</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-regexp">/ab?cd/</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> res.<span class="hljs-title">send</span>(<span class="hljs-string">'Matched /acd or /abcd'</span>));
+
+<span class="hljs-comment">// * matches any chars (ab*cd → /abcd, /abbcd, etc.)</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-regexp">/ab*cd/</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> res.<span class="hljs-title">send</span>(<span class="hljs-string">'Matched ab*cd'</span>));
+
+<span class="hljs-comment">// + means 1 or more</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-regexp">/ab+cd/</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> res.<span class="hljs-title">send</span>(<span class="hljs-string">'Matched /abcd, /abbcd'</span>));
+
+<span class="hljs-comment">// Start with /a</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-regexp">/^\/a/</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> res.<span class="hljs-title">send</span>(<span class="hljs-string">'Starts with a'</span>));
+
+<span class="hljs-comment">// Match only numbers</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-regexp">/^\/[0-9]+$/</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> res.<span class="hljs-title">send</span>(<span class="hljs-string">'Only numbers'</span>));
+
+<span class="hljs-comment">// Wildcard / fallback (catch-all)</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-regexp">/.*/</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> res.<span class="hljs-title">send</span>(<span class="hljs-string">'Catch-all route'</span>));
+
+<span class="hljs-comment">// Redirect</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/about'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> res.<span class="hljs-title">redirect</span>(<span class="hljs-string">'/user'</span>));</pre>
+
+        <h4>Serving Static Files</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-comment">// Serve files from 'public' directory</span>
+app.<span class="hljs-title">use</span>(express.<span class="hljs-title">static</span>(<span class="hljs-string">'public'</span>));
+
+<span class="hljs-comment">// Or send specific file</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/form'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  res.<span class="hljs-title">sendFile</span>(<span class="hljs-string">'form.html'</span>, { root: <span class="hljs-string">'public'</span> });
+});</pre>
+
+        <h4>Sending Responses</h4>
+        <pre><span class="lang-tag">JS</span>
+res.<span class="hljs-title">send</span>(<span class="hljs-string">'Hello World'</span>);                <span class="hljs-comment">// Text/HTML</span>
+res.<span class="hljs-title">json</span>({ name: <span class="hljs-string">'John'</span> });              <span class="hljs-comment">// JSON</span>
+res.<span class="hljs-title">status</span>(<span class="hljs-number">201</span>).<span class="hljs-title">json</span>(newUser);          <span class="hljs-comment">// With status code</span>
+res.<span class="hljs-title">redirect</span>(<span class="hljs-string">'/home'</span>);                   <span class="hljs-comment">// Redirect</span>
+res.<span class="hljs-title">sendFile</span>(<span class="hljs-string">'file.html'</span>, { root: <span class="hljs-string">'.'</span> }); <span class="hljs-comment">// File</span>
+res.<span class="hljs-title">download</span>(<span class="hljs-string">'path/to/file.pdf'</span>);         <span class="hljs-comment">// Download</span></pre>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 11. ROUTING & CONTROLLERS  -->
+      <!-- ════════════════════════════ -->
+      <section id="routing">
+        <h2 class="section-title">🗺️ Routing &amp; Controllers <span class="badge">Express</span></h2>
+
+        <div class="topic-box">
+          <h4>Concept</h4>
+          <p>Express Router allows modular route definitions. Controllers keep route handlers organized. This pattern (MVC-like) keeps code clean and maintainable.</p>
+        </div>
+
+        <h4>Router Pattern</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-comment">// route/userRoutes.js</span>
+<span class="hljs-keyword">import</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">'express'</span>;
+<span class="hljs-keyword">import</span> { userController } <span class="hljs-keyword">from</span> <span class="hljs-string">'./controllers/userController.js'</span>;
+
+<span class="hljs-keyword">const</span> router = express.<span class="hljs-title">Router</span>();
+
+router.<span class="hljs-title">get</span>(<span class="hljs-string">'/user/:name'</span>, userController);
+router.<span class="hljs-title">get</span>(<span class="hljs-string">'/about/:name'</span>, aboutController);
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> router;</pre>
+
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-comment">// controllers/userController.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> userController = <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> name = req.params.name;
+  res.<span class="hljs-title">send</span>(<span class="hljs-string">'Welcome to user page '</span> + name);
+};</pre>
+
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-comment">// server.js - Using routes</span>
+<span class="hljs-keyword">import</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">'express'</span>;
+<span class="hljs-keyword">import</span> router <span class="hljs-keyword">from</span> <span class="hljs-string">'./route/userRoutes.js'</span>;
+
+<span class="hljs-keyword">const</span> app = express();
+app.<span class="hljs-title">use</span>(<span class="hljs-string">'/'</span>, router);
+app.<span class="hljs-title">listen</span>(<span class="hljs-number">3000</span>);</pre>
+
+        <h4>Full CRUD with Express-Validator</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">import</span> { body, validationResult } <span class="hljs-keyword">from</span> <span class="hljs-string">'express-validator'</span>;
+
+<span class="hljs-comment">// Validation middleware</span>
+<span class="hljs-keyword">const</span> validateUser = [
+  body(<span class="hljs-string">'name'</span>).<span class="hljs-title">trim</span>().<span class="hljs-title">notEmpty</span>().<span class="hljs-title">withMessage</span>(<span class="hljs-string">'Name is required'</span>)
+    .<span class="hljs-title">isLength</span>({ min: <span class="hljs-number">3</span> }).<span class="hljs-title">withMessage</span>(<span class="hljs-string">'Min 3 characters'</span>),
+  body(<span class="hljs-string">'email'</span>).<span class="hljs-title">isEmail</span>().<span class="hljs-title">withMessage</span>(<span class="hljs-string">'Valid email required'</span>)
+];
+
+app.<span class="hljs-title">post</span>(<span class="hljs-string">'/submit'</span>, validateUser, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> errors = <span class="hljs-title">validationResult</span>(req);
+  <span class="hljs-keyword">if</span> (!errors.<span class="hljs-title">isEmpty</span>()) {
+    <span class="hljs-keyword">return</span> res.<span class="hljs-title">status</span>(<span class="hljs-number">400</span>).<span class="hljs-title">json</span>({ errors: errors.<span class="hljs-title">array</span>() });
+  }
+  <span class="hljs-comment">// Process valid data...</span>
+  res.<span class="hljs-title">json</span>({ success: <span class="hljs-literal">true</span> });
+});</pre>
+
+        <h4>File-based CRUD with JSON Storage</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">import</span> { promises <span class="hljs-keyword">as</span> fs } <span class="hljs-keyword">from</span> <span class="hljs-string">'fs'</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title">readUsers</span>() {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> fs.<span class="hljs-title">readFile</span>(<span class="hljs-string">'data/users.json'</span>, <span class="hljs-string">'utf-8'</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.<span class="hljs-title">parse</span>(data);
+  } <span class="hljs-keyword">catch</span> { <span class="hljs-keyword">return</span> []; }
+}
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title">writeUsers</span>(<span class="hljs-params">users</span>) {
+  <span class="hljs-keyword">await</span> fs.<span class="hljs-title">writeFile</span>(<span class="hljs-string">'data/users.json'</span>, <span class="hljs-built_in">JSON</span>.<span class="hljs-title">stringify</span>(users, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>));
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title">nextId</span>(<span class="hljs-params">users</span>) {
+  <span class="hljs-keyword">return</span> users.length ? Math.<span class="hljs-title">max</span>(...users.<span class="hljs-title">map</span>(<span class="hljs-function"><span class="hljs-params">u</span> =></span> u.id)) + <span class="hljs-number">1</span> : <span class="hljs-number">1</span>;
+}
+
+<span class="hljs-comment">// CREATE</span>
+app.<span class="hljs-title">post</span>(<span class="hljs-string">'/users'</span>, <span class="hljs-keyword">async</span> <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> users = <span class="hljs-keyword">await</span> <span class="hljs-title">readUsers</span>();
+  <span class="hljs-keyword">const</span> user = { id: <span class="hljs-title">nextId</span>(users), ...req.body };
+  users.<span class="hljs-title">push</span>(user);
+  <span class="hljs-keyword">await</span> <span class="hljs-title">writeUsers</span>(users);
+  res.<span class="hljs-title">status</span>(<span class="hljs-number">201</span>).<span class="hljs-title">json</span>(user);
+});
+
+<span class="hljs-comment">// READ all</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/users'</span>, <span class="hljs-keyword">async</span> <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> users = <span class="hljs-keyword">await</span> <span class="hljs-title">readUsers</span>();
+  res.<span class="hljs-title">json</span>(users);
+});
+
+<span class="hljs-comment">// UPDATE</span>
+app.<span class="hljs-title">put</span>(<span class="hljs-string">'/users/:id'</span>, <span class="hljs-keyword">async</span> <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">let</span> users = <span class="hljs-keyword">await</span> <span class="hljs-title">readUsers</span>();
+  <span class="hljs-keyword">const</span> idx = users.<span class="hljs-title">findIndex</span>(<span class="hljs-function"><span class="hljs-params">u</span> =></span> u.id === <span class="hljs-built_in">Number</span>(req.params.id));
+  <span class="hljs-keyword">if</span> (idx === <span class="hljs-number">-1</span>) <span class="hljs-keyword">return</span> res.<span class="hljs-title">status</span>(<span class="hljs-number">404</span>).<span class="hljs-title">json</span>({ error: <span class="hljs-string">'Not found'</span> });
+  users[idx] = { ...users[idx], ...req.body };
+  <span class="hljs-keyword">await</span> <span class="hljs-title">writeUsers</span>(users);
+  res.<span class="hljs-title">json</span>(users[idx]);
+});
+
+<span class="hljs-comment">// DELETE</span>
+app.<span class="hljs-title">delete</span>(<span class="hljs-string">'/users/:id'</span>, <span class="hljs-keyword">async</span> <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">let</span> users = <span class="hljs-keyword">await</span> <span class="hljs-title">readUsers</span>();
+  users = users.<span class="hljs-title">filter</span>(<span class="hljs-function"><span class="hljs-params">u</span> =></span> u.id !== <span class="hljs-built_in">Number</span>(req.params.id));
+  <span class="hljs-keyword">await</span> <span class="hljs-title">writeUsers</span>(users);
+  res.<span class="hljs-title">json</span>({ message: <span class="hljs-string">'Deleted'</span> });
+});</pre>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 12. MIDDLEWARE             -->
+      <!-- ════════════════════════════ -->
+      <section id="middleware">
+        <h2 class="section-title">🔗 Middleware <span class="badge">Express</span></h2>
+
+        <div class="topic-box">
+          <h4>What is Middleware?</h4>
+          <p>Middleware are functions that have access to the request object (req), response object (res), and the next middleware function. They can execute code, modify req/res, end the request cycle, or call the next middleware.</p>
+        </div>
+
+        <h4>Types of Middleware</h4>
+        <div class="card-grid">
+          <div class="card">
+            <h4>📋 Application-Level</h4>
+            <p>Applied with <code>app.use()</code> — runs for every request.</p>
+          </div>
+          <div class="card">
+            <h4>🗺️ Router-Level</h4>
+            <p>Applied to specific routes with <code>router.use()</code>.</p>
+          </div>
+          <div class="card">
+            <h4>⚠️ Error-Handling</h4>
+            <p>4-parameter function <code>(err, req, res, next)</code>. MUST be last.</p>
+          </div>
+          <div class="card">
+            <h4>📦 Built-in</h4>
+            <p><code>express.json()</code>, <code>express.urlencoded()</code>, <code>express.static()</code></p>
+          </div>
+          <div class="card">
+            <h4>📎 Third-Party</h4>
+            <p>Morgan (logging), cors, helmet, cookie-parser</p>
+          </div>
+        </div>
+
+        <h4>Basic Middleware Examples</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-comment">// 1. Application-level middleware</span>
+app.<span class="hljs-title">use</span>(express.<span class="hljs-title">json</span>());  <span class="hljs-comment">// Parse JSON bodies</span>
+app.<span class="hljs-title">use</span>(express.<span class="hljs-title">urlencoded</span>({ extended: <span class="hljs-literal">true</span> }));  <span class="hljs-comment">// Parse form data</span>
+
+<span class="hljs-comment">// 2. Custom logging middleware</span>
+app.<span class="hljs-title">use</span>(<span class="hljs-function">(<span class="hljs-params">req, res, next</span>) =></span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">${req.method}</span> <span class="hljs-subst">${req.url}</span>`</span>);
+  next();  <span class="hljs-comment">// MUST call next() or send response</span>
+});
+
+<span class="hljs-comment">// 3. Route-specific middleware (age check)</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title">ageCheck</span>(<span class="hljs-params">req, res, next</span>) {
+  <span class="hljs-keyword">const</span> age = <span class="hljs-built_in">Number</span>(req.query.age);
+  <span class="hljs-keyword">if</span> (age &lt; <span class="hljs-number">18</span>) {
+    <span class="hljs-keyword">return</span> res.<span class="hljs-title">send</span>(<span class="hljs-string">'Not allowed (under 18)'</span>);
+  }
+  next();
+}
+
+<span class="hljs-comment">// Apply route-specific middleware</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/user'</span>, ageCheck, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  res.<span class="hljs-title">send</span>(<span class="hljs-string">'Welcome user'</span>);
+});
+
+<span class="hljs-comment">// 4. Error-handling middleware (MUST be last)</span>
+app.<span class="hljs-title">use</span>(<span class="hljs-function">(<span class="hljs-params">err, req, res, next</span>) =></span> {
+  <span class="hljs-built_in">console</span>.error(err.<span class="hljs-title">stack</span>);
+  res.<span class="hljs-title">status</span>(<span class="hljs-number">500</span>).<span class="hljs-title">send</span>(<span class="hljs-string">'Something broke!'</span>);
+});
+
+<span class="hljs-comment">// 5. Third-party logging with Morgan</span>
+<span class="hljs-keyword">import</span> morgan <span class="hljs-keyword">from</span> <span class="hljs-string">'morgan'</span>;
+app.<span class="hljs-title">use</span>(morgan(<span class="hljs-string">'dev'</span>));</pre>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 13. COOKIES & SESSIONS     -->
+      <!-- ════════════════════════════ -->
+      <section id="cookies">
+        <h2 class="section-title">🍪 Cookies &amp; Sessions <span class="badge">Express</span></h2>
+
+        <div class="topic-box">
+          <h4>Concept</h4>
+          <p>Cookies are small pieces of data stored on the client's browser. Sessions store data on the server and use a session ID cookie to identify users. Express-session and cookie-session are two popular session middleware.</p>
+        </div>
+
+        <h4>Cookie-Parser</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">import</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">'express'</span>;
+<span class="hljs-keyword">import</span> cookieParser <span class="hljs-keyword">from</span> <span class="hljs-string">'cookie-parser'</span>;
+
+<span class="hljs-keyword">const</span> app = express();
+app.<span class="hljs-title">use</span>(cookieParser());
+
+<span class="hljs-comment">// Set cookie</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/setcookie'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  res.<span class="hljs-title">cookie</span>(<span class="hljs-string">'username'</span>, <span class="hljs-string">'Rabaab'</span>, {
+    maxAge: <span class="hljs-number">1000</span> * <span class="hljs-number">60</span>,  <span class="hljs-comment">// 1 minute</span>
+    httpOnly: <span class="hljs-literal">true</span>       <span class="hljs-comment">// Not accessible via JS</span>
+  });
+  res.<span class="hljs-title">send</span>(<span class="hljs-string">'Cookie set!'</span>);
+});
+
+<span class="hljs-comment">// Get cookie</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/getcookie'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  res.<span class="hljs-title">send</span>(<span class="hljs-string">'Cookie: '</span> + req.cookies.username);
+});
+
+<span class="hljs-comment">// Clear cookie</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/clearcookie'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  res.<span class="hljs-title">clearCookie</span>(<span class="hljs-string">'username'</span>);
+  res.<span class="hljs-title">send</span>(<span class="hljs-string">'Cookie cleared!'</span>);
+});</pre>
+
+        <h4>Cookie Count (Visit Tracker)</h4>
+        <pre><span class="lang-tag">JS</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/home'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">if</span> (req.cookies.homeVisit) {
+    count = <span class="hljs-built_in">parseInt</span>(req.cookies.homeVisit) + <span class="hljs-number">1</span>;
+  } <span class="hljs-keyword">else</span> {
+    count = <span class="hljs-number">1</span>;
+  }
+  res.<span class="hljs-title">cookie</span>(<span class="hljs-string">'homeVisit'</span>, count, {
+    maxAge: <span class="hljs-number">24</span> * <span class="hljs-number">60</span> * <span class="hljs-number">60</span> * <span class="hljs-number">1000</span>,  <span class="hljs-comment">// 1 day</span>
+    httpOnly: <span class="hljs-literal">true</span>
+  });
+  res.<span class="hljs-title">send</span>(<span class="hljs-string">`You visited <span class="hljs-subst">${count}</span> times`</span>);
+});</pre>
+
+        <h4>Express-Session</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">import</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">'express'</span>;
+<span class="hljs-keyword">import</span> session <span class="hljs-keyword">from</span> <span class="hljs-string">'express-session'</span>;
+
+app.<span class="hljs-title">use</span>(session({
+  secret: <span class="hljs-string">'mySecret123'</span>,
+  resave: <span class="hljs-literal">false</span>,
+  saveUninitialized: <span class="hljs-literal">true</span>,
+  cookie: { maxAge: <span class="hljs-number">1000</span> * <span class="hljs-number">60</span> * <span class="hljs-number">60</span> }  <span class="hljs-comment">// 1 hour</span>
+}));
+
+<span class="hljs-comment">// Set session</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/set'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  req.session.user = <span class="hljs-string">'Rahul'</span>;
+  res.<span class="hljs-title">send</span>(<span class="hljs-string">'Session created!'</span>);
+});
+
+<span class="hljs-comment">// Get session (with counter)</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/counter'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  req.session.count = (req.session.count || <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>;
+  res.<span class="hljs-title">send</span>(<span class="hljs-string">`Count: <span class="hljs-subst">${req.session.count}</span>`</span>);
+});
+
+<span class="hljs-comment">// Destroy session</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/logout'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  req.session.<span class="hljs-title">destroy</span>(<span class="hljs-function">() =></span> {
+    res.<span class="hljs-title">clearCookie</span>(<span class="hljs-string">'connect.sid'</span>);
+    res.<span class="hljs-title">send</span>(<span class="hljs-string">'Logged out'</span>);
+  });
+});</pre>
+
+        <h4>Cookie-Session (Lightweight)</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">import</span> cookieSession <span class="hljs-keyword">from</span> <span class="hljs-string">'cookie-session'</span>;
+
+app.<span class="hljs-title">use</span>(cookieSession({
+  name: <span class="hljs-string">'session'</span>,
+  keys: [<span class="hljs-string">'key1'</span>, <span class="hljs-string">'key2'</span>],
+  maxAge: <span class="hljs-number">24</span> * <span class="hljs-number">60</span> * <span class="hljs-number">60</span> * <span class="hljs-number">1000</span>  <span class="hljs-comment">// 24 hours</span>
+}));
+
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/set'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  req.session.user = <span class="hljs-string">'Alice'</span>;
+  res.<span class="hljs-title">send</span>(<span class="hljs-string">'Session set!'</span>);
+});
+
+<span class="hljs-comment">// Delete session</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/logout'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  req.session = <span class="hljs-literal">null</span>;
+  res.<span class="hljs-title">send</span>(<span class="hljs-string">'Session cleared!'</span>);
+});</pre>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 14. MONGODB               -->
+      <!-- ════════════════════════════ -->
+      <section id="mongodb">
+        <h2 class="section-title">🗄️ MongoDB <span class="badge">Database</span></h2>
+
+        <div class="topic-box">
+          <h4>Concept</h4>
+          <p>MongoDB is a NoSQL database that stores data in flexible, JSON-like documents. Node.js connects to MongoDB using the native <code>mongodb</code> driver or the <code>mongoose</code> ODM.</p>
+        </div>
+
+        <h4>Native MongoDB Driver</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">import</span> { MongoClient } <span class="hljs-keyword">from</span> <span class="hljs-string">'mongodb'</span>;
+
+<span class="hljs-keyword">const</span> url = <span class="hljs-string">'mongodb://localhost:27017'</span>;
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> MongoClient(url);
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title">main</span>() {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">await</span> client.<span class="hljs-title">connect</span>();
+    <span class="hljs-keyword">const</span> db = client.<span class="hljs-title">db</span>(<span class="hljs-string">'myDatabase'</span>);
+    <span class="hljs-keyword">const</span> collection = db.<span class="hljs-title">collection</span>(<span class="hljs-string">'users'</span>);
+
+    <span class="hljs-comment">// CREATE</span>
+    <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> collection.<span class="hljs-title">insertOne</span>({ name: <span class="hljs-string">'Rohan'</span>, age: <span class="hljs-number">22</span> });
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Inserted:'</span>, result.insertedId);
+  } <span class="hljs-keyword">finally</span> {
+    <span class="hljs-keyword">await</span> client.<span class="hljs-title">close</span>();
+  }
+}
+<span class="hljs-title">main</span>();</pre>
+
+        <h4>MongoDB CRUD with Express</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">import</span> { MongoClient, ObjectId } <span class="hljs-keyword">from</span> <span class="hljs-string">'mongodb'</span>;
+
+<span class="hljs-keyword">let</span> collection;
+
+<span class="hljs-comment">// READ all</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/users'</span>, <span class="hljs-keyword">async</span> <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> users = <span class="hljs-keyword">await</span> collection.<span class="hljs-title">find</span>().<span class="hljs-title">sort</span>({ createdAt: <span class="hljs-number">-1</span> }).<span class="hljs-title">toArray</span>();
+  res.<span class="hljs-title">json</span>(users);
+});
+
+<span class="hljs-comment">// CREATE</span>
+app.<span class="hljs-title">post</span>(<span class="hljs-string">'/users'</span>, <span class="hljs-keyword">async</span> <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> doc = { name: req.body.name, email: req.body.email, createdAt: <span class="hljs-keyword">new</span> <span class="hljs-title">Date</span>() };
+  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> collection.<span class="hljs-title">insertOne</span>(doc);
+  res.<span class="hljs-title">status</span>(<span class="hljs-number">201</span>).<span class="hljs-title">json</span>({ ...doc, _id: result.insertedId });
+});
+
+<span class="hljs-comment">// UPDATE</span>
+app.<span class="hljs-title">put</span>(<span class="hljs-string">'/users/:id'</span>, <span class="hljs-keyword">async</span> <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> collection.<span class="hljs-title">findOneAndUpdate</span>(
+    { _id: <span class="hljs-keyword">new</span> ObjectId(req.params.id) },
+    { $set: { name: req.body.name, email: req.body.email, updatedAt: <span class="hljs-keyword">new</span> <span class="hljs-title">Date</span>() } },
+    { returnDocument: <span class="hljs-string">'after'</span> }
+  );
+  res.<span class="hljs-title">json</span>(result.value);
+});
+
+<span class="hljs-comment">// DELETE</span>
+app.<span class="hljs-title">delete</span>(<span class="hljs-string">'/users/:id'</span>, <span class="hljs-keyword">async</span> <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> collection.<span class="hljs-title">deleteOne</span>({ _id: <span class="hljs-keyword">new</span> ObjectId(req.params.id) });
+  res.<span class="hljs-title">json</span>({ deleted: result.deletedCount &gt; <span class="hljs-number">0</span> });
+});</pre>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 15. MONGOOSE ODM           -->
+      <!-- ════════════════════════════ -->
+      <section id="mongoose">
+        <h2 class="section-title">🔷 Mongoose ODM <span class="badge">Database</span></h2>
+
+        <div class="topic-box">
+          <h4>Concept</h4>
+          <p>Mongoose is an ODM (Object Document Mapper) for MongoDB. It provides a schema-based solution to model application data, with built-in validation, query building, and middleware (hooks).</p>
+        </div>
+
+        <h4>Setup &amp; Schema</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">import</span> mongoose <span class="hljs-keyword">from</span> <span class="hljs-string">'mongoose'</span>;
+
+<span class="hljs-keyword">const</span> url = <span class="hljs-string">'mongodb://localhost:27017/MyDatabase'</span>;
+
+<span class="hljs-comment">// Define schema</span>
+<span class="hljs-keyword">const</span> studentSchema = <span class="hljs-keyword">new</span> mongoose.Schema({
+  name: String,
+  age: Number,
+  rollno: Number
+}, { versionKey: <span class="hljs-literal">false</span> });
+
+<span class="hljs-comment">// Create model (collection name will be 'k23pbs')</span>
+<span class="hljs-keyword">const</span> Student = mongoose.<span class="hljs-title">model</span>(<span class="hljs-string">'K23PB'</span>, studentSchema);
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title">main</span>() {
+  <span class="hljs-keyword">await</span> mongoose.<span class="hljs-title">connect</span>(url);
+  
+  <span class="hljs-comment">// CREATE</span>
+  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> Student.<span class="hljs-title">create</span>({ name: <span class="hljs-string">'Rohan'</span>, age: <span class="hljs-number">22</span>, rollno: <span class="hljs-number">45</span> });
+  
+  <span class="hljs-comment">// READ</span>
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">await</span> Student.<span class="hljs-title">find</span>());
+  
+  <span class="hljs-comment">// UPDATE</span>
+  <span class="hljs-keyword">await</span> Student.<span class="hljs-title">findOneAndUpdate</span>({ rollno: <span class="hljs-number">101</span> }, { age: <span class="hljs-number">23</span> });
+  
+  <span class="hljs-comment">// DELETE</span>
+  <span class="hljs-keyword">await</span> Student.<span class="hljs-title">findOneAndDelete</span>({ age: <span class="hljs-number">22</span> });
+  
+  <span class="hljs-keyword">await</span> mongoose.connection.<span class="hljs-title">close</span>();
+}
+<span class="hljs-title">main</span>();</pre>
+
+        <h4>Mongoose CRUD Example</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> User = mongoose.<span class="hljs-title">model</span>(<span class="hljs-string">'User'</span>, <span class="hljs-keyword">new</span> mongoose.Schema({
+  name: { type: String, required: <span class="hljs-literal">true</span> },
+  email: { type: String, unique: <span class="hljs-literal">true</span> },
+  age: Number
+}));
+
+<span class="hljs-comment">// CREATE</span>
+<span class="hljs-keyword">const</span> user = <span class="hljs-keyword">new</span> User({ name: <span class="hljs-string">'John'</span>, email: <span class="hljs-string">'john@example.com'</span> });
+<span class="hljs-keyword">await</span> user.<span class="hljs-title">save</span>();
+
+<span class="hljs-comment">// READ all</span>
+<span class="hljs-keyword">const</span> users = <span class="hljs-keyword">await</span> User.<span class="hljs-title">find</span>();
+
+<span class="hljs-comment">// READ by ID</span>
+<span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> User.<span class="hljs-title">findById</span>(id);
+
+<span class="hljs-comment">// UPDATE</span>
+<span class="hljs-keyword">await</span> User.<span class="hljs-title">findByIdAndUpdate</span>(id, { age: <span class="hljs-number">30</span> });
+
+<span class="hljs-comment">// DELETE</span>
+<span class="hljs-keyword">await</span> User.<span class="hljs-title">findByIdAndDelete</span>(id);</pre>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 16. POSTGRESQL            -->
+      <!-- ════════════════════════════ -->
+      <section id="postgres">
+        <h2 class="section-title">🐘 PostgreSQL <span class="badge">Database</span></h2>
+
+        <div class="topic-box">
+          <h4>Concept</h4>
+          <p>PostgreSQL is a powerful, open-source object-relational database. The <code>pg</code> library provides a Node.js interface with connection pooling via <code>Pool</code> or single connections via <code>Client</code>.</p>
+        </div>
+
+        <h4>Setup with Connection Pool</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-comment">// psimport.js</span>
+<span class="hljs-keyword">import</span> pkg <span class="hljs-keyword">from</span> <span class="hljs-string">'pg'</span>;
+<span class="hljs-keyword">const</span> { Pool } = pkg;
+
+<span class="hljs-keyword">const</span> pool = <span class="hljs-keyword">new</span> Pool({
+  user: <span class="hljs-string">'postgres'</span>,
+  host: <span class="hljs-string">'localhost'</span>,
+  database: <span class="hljs-string">'mydb'</span>,
+  password: <span class="hljs-string">'password'</span>,
+  port: <span class="hljs-number">5432</span>
+});
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> pool;</pre>
+
+        <h4>CRUD with PostgreSQL</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">import</span> pool <span class="hljs-keyword">from</span> <span class="hljs-string">'./psimport.js'</span>;
+
+<span class="hljs-comment">// Create table</span>
+<span class="hljs-keyword">const</span> createTable = <span class="hljs-keyword">async</span> <span class="hljs-function">() =></span> {
+  <span class="hljs-keyword">await</span> pool.<span class="hljs-title">query</span>(<span class="hljs-string">`
+    CREATE TABLE IF NOT EXISTS records(
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(100),
+      age INT,
+      course VARCHAR(100)
+    )
+  `</span>);
+};
+
+<span class="hljs-comment">// CREATE</span>
+app.<span class="hljs-title">post</span>(<span class="hljs-string">'/records'</span>, <span class="hljs-keyword">async</span> <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> { name, age, course } = req.body;
+  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> pool.<span class="hljs-title">query</span>(
+    <span class="hljs-string">'INSERT INTO records (name, age, course) VALUES ($1, $2, $3) RETURNING *'</span>,
+    [name, age, course]
+  );
+  res.<span class="hljs-title">status</span>(<span class="hljs-number">201</span>).<span class="hljs-title">json</span>(result.rows[<span class="hljs-number">0</span>]);
+});
+
+<span class="hljs-comment">// READ all</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/records'</span>, <span class="hljs-keyword">async</span> <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> pool.<span class="hljs-title">query</span>(<span class="hljs-string">'SELECT * FROM records ORDER BY id'</span>);
+  res.<span class="hljs-title">json</span>(result.rows);
+});
+
+<span class="hljs-comment">// UPDATE</span>
+app.<span class="hljs-title">put</span>(<span class="hljs-string">'/records/:id'</span>, <span class="hljs-keyword">async</span> <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> { id } = req.params;
+  <span class="hljs-keyword">const</span> { name, age, course } = req.body;
+  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> pool.<span class="hljs-title">query</span>(
+    <span class="hljs-string">'UPDATE records SET name=$1, age=$2, course=$3 WHERE id=$4 RETURNING *'</span>,
+    [name, age, course, id]
+  );
+  res.<span class="hljs-title">json</span>(result.rows[<span class="hljs-number">0</span>]);
+});
+
+<span class="hljs-comment">// DELETE</span>
+app.<span class="hljs-title">delete</span>(<span class="hljs-string">'/records/:id'</span>, <span class="hljs-keyword">async</span> <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> pool.<span class="hljs-title">query</span>(
+    <span class="hljs-string">'DELETE FROM records WHERE id=$1 RETURNING *'</span>,
+    [req.params.id]
+  );
+  res.<span class="hljs-title">json</span>({ message: <span class="hljs-string">'Deleted'</span> });
+});</pre>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 17. SOCKET PROGRAMMING     -->
+      <!-- ════════════════════════════ -->
+      <section id="socket">
+        <h2 class="section-title">🔌 Socket Programming <span class="badge">Real-time</span></h2>
+
+        <div class="topic-box">
+          <h4>Concept</h4>
+          <p>Socket programming enables real-time, bidirectional communication between clients and servers. Node.js supports TCP sockets via the <code>net</code> module, WebSocket via the <code>ws</code> library, and Socket.IO for cross-transport real-time communication.</p>
+        </div>
+
+        <h4>TCP Server &amp; Client (net module)</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-comment">// TCP Server (TCPserver.js)</span>
+<span class="hljs-keyword">import</span> net <span class="hljs-keyword">from</span> <span class="hljs-string">'net'</span>;
+
+<span class="hljs-keyword">const</span> server = net.<span class="hljs-title">createServer</span>(<span class="hljs-function">(<span class="hljs-params">socket</span>) =></span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Client connected'</span>);
+
+  socket.<span class="hljs-title">on</span>(<span class="hljs-string">'data'</span>, <span class="hljs-function">(<span class="hljs-params">data</span>) =></span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Received:'</span>, data.<span class="hljs-title">toString</span>());
+    socket.<span class="hljs-title">write</span>(<span class="hljs-string">'Hello Client'</span>);
+  });
+
+  socket.<span class="hljs-title">on</span>(<span class="hljs-string">'end'</span>, <span class="hljs-function">() =></span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Client disconnected'</span>);
+  });
+});
+
+server.<span class="hljs-title">listen</span>(<span class="hljs-number">3000</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'TCP server listening on port 3000'</span>);
+});</pre>
+
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-comment">// TCP Client (TCPclient.js)</span>
+<span class="hljs-keyword">import</span> net <span class="hljs-keyword">from</span> <span class="hljs-string">'net'</span>;
+
+<span class="hljs-keyword">const</span> client = net.<span class="hljs-title">createConnection</span>({ port: <span class="hljs-number">3000</span> }, <span class="hljs-function">() =></span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Connected to server'</span>);
+  client.<span class="hljs-title">write</span>(<span class="hljs-string">'Hello server'</span>);
+});
+
+client.<span class="hljs-title">on</span>(<span class="hljs-string">'data'</span>, <span class="hljs-function">(<span class="hljs-params">data</span>) =></span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Server says:'</span>, data.<span class="hljs-title">toString</span>());
+  client.<span class="hljs-title">end</span>();
+});</pre>
+
+        <h4>WebSocket Server (ws library)</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-comment">// Server (webserver.js)</span>
+<span class="hljs-keyword">import</span> { WebSocketServer } <span class="hljs-keyword">from</span> <span class="hljs-string">'ws'</span>;
+
+<span class="hljs-keyword">const</span> wss = <span class="hljs-keyword">new</span> WebSocketServer({ port: <span class="hljs-number">3000</span> });
+
+wss.<span class="hljs-title">on</span>(<span class="hljs-string">'connection'</span>, <span class="hljs-function">(<span class="hljs-params">ws</span>) =></span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Client connected'</span>);
+
+  ws.<span class="hljs-title">on</span>(<span class="hljs-string">'message'</span>, <span class="hljs-function">(<span class="hljs-params">message</span>) =></span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Received:'</span>, message.<span class="hljs-title">toString</span>());
+    ws.<span class="hljs-title">send</span>(<span class="hljs-string">'Hello from WebSocket server'</span>);
+  });
+
+  ws.<span class="hljs-title">on</span>(<span class="hljs-string">'close'</span>, <span class="hljs-function">() =></span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Client disconnected'</span>);
+  });
+});</pre>
+
+        <pre><span class="lang-tag">HTML</span>
+<span class="hljs-comment">&lt;!-- Client (client.html) --&gt;</span>
+&lt;script&gt;
+  <span class="hljs-keyword">const</span> socket = <span class="hljs-keyword">new</span> WebSocket(<span class="hljs-string">'ws://localhost:3000'</span>);
+  
+  socket.onopen = <span class="hljs-function">() =></span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Connected'</span>);
+    socket.<span class="hljs-title">send</span>(<span class="hljs-string">'Hello server'</span>);
+  };
+  
+  socket.onmessage = <span class="hljs-function">(<span class="hljs-params">event</span>) =></span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'From server:'</span>, event.data);
+    <span class="hljs-keyword">const</span> elem = <span class="hljs-built_in">document</span>.<span class="hljs-title">createElement</span>(<span class="hljs-string">'p'</span>);
+    elem.textContent = <span class="hljs-string">`Server says: <span class="hljs-subst">${event.data}</span>`</span>;
+    <span class="hljs-built_in">document</span>.body.<span class="hljs-title">appendChild</span>(elem);
+  };
+&lt;/script&gt;</pre>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 18. SOCKET.IO             -->
+      <!-- ════════════════════════════ -->
+      <section id="socketio">
+        <h2 class="section-title">💬 Socket.IO <span class="badge">Real-time</span></h2>
+
+        <div class="topic-box">
+          <h4>Concept</h4>
+          <p>Socket.IO enables real-time, bidirectional, event-based communication. It uses WebSocket as transport and falls back to HTTP long-polling. It's the most popular library for building chat apps, live notifications, and collaborative tools.</p>
+        </div>
+
+        <h4>Server Setup</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">import</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">'express'</span>;
+<span class="hljs-keyword">import</span> http <span class="hljs-keyword">from</span> <span class="hljs-string">'http'</span>;
+<span class="hljs-keyword">import</span> { Server } <span class="hljs-keyword">from</span> <span class="hljs-string">'socket.io'</span>;
+
+<span class="hljs-keyword">const</span> app = express();
+<span class="hljs-keyword">const</span> server = http.<span class="hljs-title">createServer</span>(app);
+<span class="hljs-keyword">const</span> io = <span class="hljs-keyword">new</span> Server(server, {
+  cors: { origin: <span class="hljs-string">'*'</span> }
+});
+
+<span class="hljs-comment">// Serve static files</span>
+app.<span class="hljs-title">use</span>(express.<span class="hljs-title">static</span>(<span class="hljs-string">'public'</span>));
+
+io.<span class="hljs-title">on</span>(<span class="hljs-string">'connection'</span>, <span class="hljs-function">(<span class="hljs-params">socket</span>) =></span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'A user connected:'</span>, socket.id);
+
+  <span class="hljs-comment">// Receive from client</span>
+  socket.<span class="hljs-title">on</span>(<span class="hljs-string">'user-message'</span>, <span class="hljs-function">(<span class="hljs-params">message</span>) =></span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Message:'</span>, message);
+    
+    <span class="hljs-comment">// Broadcast to ALL connected clients</span>
+    io.<span class="hljs-title">emit</span>(<span class="hljs-string">'server-message'</span>, message);
+  });
+
+  socket.<span class="hljs-title">on</span>(<span class="hljs-string">'disconnect'</span>, <span class="hljs-function">() =></span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'User disconnected'</span>);
+  });
+});
+
+server.<span class="hljs-title">listen</span>(<span class="hljs-number">4000</span>, <span class="hljs-function">() =></span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Server running on port 4000'</span>));</pre>
+
+        <h4>Client Setup</h4>
+        <pre><span class="lang-tag">HTML</span>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+  &lt;h1&gt;Chat&lt;/h1&gt;
+  &lt;input type=<span class="hljs-string">"text"</span> id=<span class="hljs-string">"message"</span> placeholder=<span class="hljs-string">"Enter Message"</span>&gt;
+  &lt;button id=<span class="hljs-string">"sndBtn"</span>&gt;Send&lt;/button&gt;
+  &lt;div id=<span class="hljs-string">"getmessage"</span>&gt;&lt;/div&gt;
+
+  <span class="hljs-comment">&lt;!-- Socket.IO client library served by server --&gt;</span>
+  &lt;script src=<span class="hljs-string">"/socket.io/socket.io.js"</span>&gt;&lt;/script&gt;
+  &lt;script&gt;
+    <span class="hljs-keyword">const</span> socket = io();
+
+    <span class="hljs-keyword">const</span> message = <span class="hljs-built_in">document</span>.<span class="hljs-title">getElementById</span>(<span class="hljs-string">'message'</span>);
+    <span class="hljs-keyword">const</span> sndBtn = <span class="hljs-built_in">document</span>.<span class="hljs-title">getElementById</span>(<span class="hljs-string">'sndBtn'</span>);
+    <span class="hljs-keyword">const</span> getmessage = <span class="hljs-built_in">document</span>.<span class="hljs-title">getElementById</span>(<span class="hljs-string">'getmessage'</span>);
+
+    sndBtn.<span class="hljs-title">addEventListener</span>(<span class="hljs-string">'click'</span>, <span class="hljs-function">() =></span> {
+      socket.<span class="hljs-title">emit</span>(<span class="hljs-string">'user-message'</span>, message.value);
+    });
+
+    socket.<span class="hljs-title">on</span>(<span class="hljs-string">'server-message'</span>, <span class="hljs-function">(<span class="hljs-params">msg</span>) =></span> {
+      <span class="hljs-keyword">const</span> p = <span class="hljs-built_in">document</span>.<span class="hljs-title">createElement</span>(<span class="hljs-string">'p'</span>);
+      p.innerText = msg;
+      getmessage.<span class="hljs-title">appendChild</span>(p);
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+        <h4>Key Socket.IO Methods</h4>
+        <table>
+          <thead><tr><th>Method</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>io.emit(event, data)</code></td><td>Send to ALL connected clients</td></tr>
+            <tr><td><code>socket.emit(event, data)</code></td><td>Send to only this socket</td></tr>
+            <tr><td><code>socket.broadcast.emit(event, data)</code></td><td>Send to all EXCEPT sender</td></tr>
+            <tr><td><code>io.to(room).emit(event, data)</code></td><td>Send to a specific room</td></tr>
+            <tr><td><code>socket.join(room)</code></td><td>Join a room</td></tr>
+            <tr><td><code>socket.on(event, callback)</code></td><td>Listen for an event</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 19. IMPORTANT CODE SYNTAX -->
+      <!-- ════════════════════════════ -->
+      <section id="syntax">
+        <h2 class="section-title">📝 Important Code Syntax <span class="badge">Quick Ref</span></h2>
+
+        <div class="topic-box success">
+          <h4>Quick Reference — Most Used Patterns</h4>
+          <p>These are the syntax patterns you'll use most frequently in Node.js &amp; Express development. Memorize these!</p>
+        </div>
+
+        <h4>1. Basic HTTP Server</h4>
+        <pre><span class="lang-tag">JS</span>
+http.<span class="hljs-title">createServer</span>(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  res.<span class="hljs-title">writeHead</span>(<span class="hljs-number">200</span>, { <span class="hljs-string">'Content-Type'</span>: <span class="hljs-string">'text/html'</span> });
+  res.<span class="hljs-title">end</span>(<span class="hljs-string">'Hello'</span>);
+}).<span class="hljs-title">listen</span>(<span class="hljs-number">3000</span>);</pre>
+
+        <h4>2. Express Setup</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">import</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">'express'</span>;
+<span class="hljs-keyword">const</span> app = express();
+app.<span class="hljs-title">use</span>(express.<span class="hljs-title">json</span>());
+app.<span class="hljs-title">use</span>(express.<span class="hljs-title">urlencoded</span>({ extended: <span class="hljs-literal">true</span> }));
+app.<span class="hljs-title">listen</span>(<span class="hljs-number">3000</span>);</pre>
+
+        <h4>3. Route with Params &amp; Query</h4>
+        <pre><span class="lang-tag">JS</span>
+app.<span class="hljs-title">get</span>(<span class="hljs-string">'/user/:id'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+  <span class="hljs-keyword">const</span> { id } = req.params;
+  <span class="hljs-keyword">const</span> { page } = req.query;
+  res.<span class="hljs-title">json</span>({ id, page });
+});</pre>
+
+        <h4>4. File Operations (Async/Await)</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>).promises;
+<span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> fs.<span class="hljs-title">readFile</span>(<span class="hljs-string">'file.txt'</span>, <span class="hljs-string">'utf-8'</span>);
+<span class="hljs-keyword">await</span> fs.<span class="hljs-title">writeFile</span>(<span class="hljs-string">'file.txt'</span>, <span class="hljs-string">'data'</span>);</pre>
+
+        <h4>5. JSON Parse / Stringify</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">const</span> obj = <span class="hljs-built_in">JSON</span>.<span class="hljs-title">parse</span>(jsonString);
+<span class="hljs-keyword">const</span> str = <span class="hljs-built_in">JSON</span>.<span class="hljs-title">stringify</span>(obj, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>);</pre>
+
+        <h4>6. Event Emitter</h4>
+        <pre><span class="lang-tag">JS</span>
+emitter.<span class="hljs-title">on</span>(<span class="hljs-string">'event'</span>, callback);
+emitter.<span class="hljs-title">emit</span>(<span class="hljs-string">'event'</span>, data);</pre>
+
+        <h4>7. Read/Write Streams</h4>
+        <pre><span class="lang-tag">JS</span>
+fs.<span class="hljs-title">createReadStream</span>(<span class="hljs-string">'input.txt'</span>).<span class="hljs-title">pipe</span>(fs.<span class="hljs-title">createWriteStream</span>(<span class="hljs-string">'output.txt'</span>));</pre>
+
+        <h4>8. Zlib Compression</h4>
+        <pre><span class="lang-tag">JS</span>
+fs.<span class="hljs-title">createReadStream</span>(<span class="hljs-string">'file.txt'</span>)
+  .<span class="hljs-title">pipe</span>(zlib.<span class="hljs-title">createGzip</span>())
+  .<span class="hljs-title">pipe</span>(fs.<span class="hljs-title">createWriteStream</span>(<span class="hljs-string">'file.txt.gz'</span>));</pre>
+
+        <h4>9. Mongoose CRUD</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">await</span> Model.<span class="hljs-title">create</span>(data);
+<span class="hljs-keyword">await</span> Model.<span class="hljs-title">find</span>(filter);
+<span class="hljs-keyword">await</span> Model.<span class="hljs-title">findByIdAndUpdate</span>(id, update);
+<span class="hljs-keyword">await</span> Model.<span class="hljs-title">findByIdAndDelete</span>(id);</pre>
+
+        <h4>10. PostgreSQL Query</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">await</span> pool.<span class="hljs-title">query</span>(<span class="hljs-string">'SELECT * FROM users WHERE id = $1'</span>, [id]);</pre>
+
+        <h4>11. Express Middleware</h4>
+        <pre><span class="lang-tag">JS</span>
+app.<span class="hljs-title">use</span>(<span class="hljs-function">(<span class="hljs-params">req, res, next</span>) =></span> { next(); });  <span class="hljs-comment">// Must call next()</span>
+app.<span class="hljs-title">use</span>(<span class="hljs-function">(<span class="hljs-params">err, req, res, next</span>) =></span> { <span class="hljs-comment">/* error handler */</span> });</pre>
+
+        <h4>12. Socket.IO Emit &amp; On</h4>
+        <pre><span class="lang-tag">JS</span>
+io.<span class="hljs-title">emit</span>(<span class="hljs-string">'event'</span>, data);      <span class="hljs-comment">// To all</span>
+socket.<span class="hljs-title">emit</span>(<span class="hljs-string">'event'</span>, data);   <span class="hljs-comment">// To one</span>
+socket.<span class="hljs-title">broadcast</span>.<span class="hljs-title">emit</span>(<span class="hljs-string">'event'</span>, data);  <span class="hljs-comment">// To all except sender</span></pre>
+
+        <h4>13. Cookies</h4>
+        <pre><span class="lang-tag">JS</span>
+res.<span class="hljs-title">cookie</span>(<span class="hljs-string">'name'</span>, <span class="hljs-string">'value'</span>, { maxAge: <span class="hljs-number">60000</span>, httpOnly: <span class="hljs-literal">true</span> });
+res.<span class="hljs-title">clearCookie</span>(<span class="hljs-string">'name'</span>);
+req.cookies.name;  <span class="hljs-comment">// Read (with cookie-parser)</span></pre>
+
+        <h4>14. Sessions</h4>
+        <pre><span class="lang-tag">JS</span>
+req.session.user = <span class="hljs-string">'Alice'</span>;          <span class="hljs-comment">// Set</span>
+req.session.user;                      <span class="hljs-comment">// Read</span>
+req.session.<span class="hljs-title">destroy</span>(callback);       <span class="hljs-comment">// Destroy</span></pre>
+
+        <h4>15. File Deletion with Express</h4>
+        <pre><span class="lang-tag">JS</span>
+fs.<span class="hljs-title">unlink</span>(filename, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> {
+  <span class="hljs-keyword">if</span> (err) res.<span class="hljs-title">send</span>(<span class="hljs-string">'Error'</span>);
+  <span class="hljs-keyword">else</span> res.<span class="hljs-title">send</span>(<span class="hljs-string">'File deleted'</span>);
+});</pre>
+
+        <h4>16. Express-Validator</h4>
+        <pre><span class="lang-tag">JS</span>
+<span class="hljs-keyword">import</span> { body, validationResult } <span class="hljs-keyword">from</span> <span class="hljs-string">'express-validator'</span>;
+
+app.<span class="hljs-title">post</span>(<span class="hljs-string">'/submit'</span>,
+  body(<span class="hljs-string">'name'</span>).<span class="hljs-title">trim</span>().<span class="hljs-title">notEmpty</span>().<span class="hljs-title">isLength</span>({ min: <span class="hljs-number">3</span> }),
+  body(<span class="hljs-title">'email'</span>).<span class="hljs-title">isEmail</span>(),
+  <span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+    <span class="hljs-keyword">const</span> errors = <span class="hljs-title">validationResult</span>(req);
+    <span class="hljs-keyword">if</span> (!errors.<span class="hljs-title">isEmpty</span>()) {
+      <span class="hljs-keyword">return</span> res.<span class="hljs-title">status</span>(<span class="hljs-number">400</span>).<span class="hljs-title">json</span>(errors.<span class="hljs-title">array</span>());
+    }
+  }
+);</pre>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 20. VIVA QUESTIONS         -->
+      <!-- ════════════════════════════ -->
+      <section id="viva">
+        <h2 class="section-title">🎤 Viva Questions &amp; Answers <span class="badge">Important</span></h2>
+
+        <div class="topic-box warn">
+          <h4>📌 Tips for Viva</h4>
+          <p>Focus on the "why" not just "what". Understand concepts like event loop, non-blocking I/O, streams, and middleware. Practice writing code from scratch for CRUD operations.</p>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q1: What is Node.js?</div>
+          <div class="va"><strong>Answer:</strong> Node.js is a JavaScript runtime built on Chrome's V8 engine that allows JavaScript to run outside the browser. It uses an event-driven, non-blocking I/O model making it lightweight and efficient for data-intensive real-time applications across distributed devices.</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q2: Difference between synchronous and asynchronous code?</div>
+          <div class="va"><strong>Answer:</strong> Synchronous code executes line by line, blocking the thread until each operation completes. Asynchronous code doesn't wait — it uses callbacks, promises, or async-await to handle results when they're ready without blocking.</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q3: What is Express.js?</div>
+          <div class="va"><strong>Answer:</strong> Express.js is a minimal, flexible web framework for Node.js that simplifies building web applications and APIs. It provides routing, middleware, request/response handling, and static file serving.</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q4: Difference between app.use() and app.get()?</div>
+          <div class="va"><strong>Answer:</strong> <code>app.use()</code> is middleware that runs for ALL requests (GET, POST, etc.) matching the path. <code>app.get()</code> is a route handler that only responds to GET requests for a specific path.</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q5: What are middlewares in Express?</div>
+          <div class="va"><strong>Answer:</strong> Middleware functions have access to request, response, and the next middleware function. They can execute code, modify request/response, end the request cycle, or call next middleware. Types include application-level, router-level, error-handling, and third-party.</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q6: What is req.params vs req.query?</div>
+          <div class="va"><strong>Answer:</strong> <code>req.params</code> captures route parameters defined with <code>:param</code> in the URL path (e.g., <code>/users/:id</code>). <code>req.query</code> captures query string parameters (e.g., <code>?keyword=hello</code>).</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q7: How to handle errors in Express?</div>
+          <div class="va"><strong>Answer:</strong> Using error-handling middleware with 4 parameters <code>(err, req, res, next)</code>. It must be placed after all other routes. Call <code>next(err)</code> in route handlers to pass errors to this middleware.</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q8: What are streams in Node.js?</div>
+          <div class="va"><strong>Answer:</strong> Streams allow reading/writing data in chunks instead of loading everything into memory. Types: Readable, Writable, Duplex (both), Transform (modify while streaming). Efficient for large files and network data.</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q9: What is EventEmitter?</div>
+          <div class="va"><strong>Answer:</strong> EventEmitter implements the publisher-subscriber pattern. Objects can emit named events and listeners subscribe to them. Methods: <code>on()</code>, <code>emit()</code>, <code>once()</code>, <code>off()</code>. Many Node.js APIs (HTTP, streams) are built on it.</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q10: Difference between require() and import?</div>
+          <div class="va"><strong>Answer:</strong> <code>require()</code> is CommonJS (default in Node.js), synchronous, can be used anywhere. <code>import</code> is ES6 module syntax, asynchronous, requires <code>"type": "module"</code> in package.json, and must be at the top of the file.</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q11: How to create a REST API?</div>
+          <div class="va"><strong>Answer:</strong> Use HTTP methods: <code>GET</code> (read), <code>POST</code> (create, 201 status), <code>PUT</code> (update), <code>DELETE</code> (remove). Use Express routes with proper status codes, JSON parsing, and data validation.</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q12: What is CORS?</div>
+          <div class="va"><strong>Answer:</strong> Cross-Origin Resource Sharing allows requests from different domains. Use the <code>cors</code> npm package. Without CORS, browsers block cross-origin requests for security.</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q13: How to validate user input?</div>
+          <div class="va"><strong>Answer:</strong> Use <code>express-validator</code> for server-side validation. Check required fields, data types, formats (email), and lengths. Return 400 status with descriptive error messages for invalid data.</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q14: What is Socket.IO?</div>
+          <div class="va"><strong>Answer:</strong> Socket.IO enables real-time, bidirectional communication between client and server. It uses WebSocket primarily with HTTP long-polling fallback. Used for chat apps, live notifications, collaborative tools, and real-time dashboards.</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q15: What is package.json?</div>
+          <div class="va"><strong>Answer:</strong> Configuration file containing project metadata (name, version), dependencies, devDependencies, scripts, and other settings. It's essential for managing Node.js projects.</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q16: What is nodemon?</div>
+          <div class="va"><strong>Answer:</strong> A development tool that automatically restarts the Node.js application when file changes are detected. Installed as a dev dependency with <code>npm install -D nodemon</code>.</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q17: Difference between PUT and PATCH?</div>
+          <div class="va"><strong>Answer:</strong> <code>PUT</code> replaces the entire resource (full update). <code>PATCH</code> applies partial modifications. Use PUT when sending all fields, PATCH when sending only changed fields.</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q18: What is callback hell and how to avoid it?</div>
+          <div class="va"><strong>Answer:</strong> Deeply nested callbacks making code hard to read and maintain. Avoid using Promises (<code>.then().catch()</code>) or <code>async/await</code> (cleanest approach) instead of nested callbacks.</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q19: What is the Event Loop?</div>
+          <div class="va"><strong>Answer:</strong> The event loop is what allows Node.js to perform non-blocking I/O operations despite being single-threaded. It offloads operations to the kernel (via libuv) and processes callbacks when operations complete.</div>
+        </div>
+
+        <div class="viva-q">
+          <div class="vq">Q20: Difference between MongoDB and Mongoose?</div>
+          <div class="va"><strong>Answer:</strong> MongoDB is the database. Mongoose is an ODM (Object Document Mapper) that provides schema definition, validation, query building, and middleware on top of MongoDB. Mongoose adds structure and validation to MongoDB operations.</div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ════════════════════════════ -->
+      <!-- 21. MCQs                  -->
+      <!-- ════════════════════════════ -->
+      <section id="mcqs">
+        <h2 class="section-title">❓ Multiple Choice Questions <span class="badge">Practice</span></h2>
+
+        <div class="topic-box success">
+          <h4>📝 Test Your Knowledge</h4>
+          <p>Click "Show Answer" to reveal the correct answer for each question.</p>
+        </div>
+
+        <div class="mcq" id="mcq1">
+          <div class="q">1. What is Node.js built on?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq1" value="a"> A) JavaScript Engine</label>
+            <label><input type="radio" name="mcq1" value="b"> B) Chrome's V8 Engine</label>
+            <label><input type="radio" name="mcq1" value="c"> C) Mozilla's SpiderMonkey</label>
+            <label><input type="radio" name="mcq1" value="d"> D) WebKit</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq1').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ B) Chrome's V8 Engine</div>
+        </div>
+
+        <div class="mcq" id="mcq2">
+          <div class="q">2. Which method is used to parse JSON string to JavaScript object?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq2" value="a"> A) JSON.stringify()</label>
+            <label><input type="radio" name="mcq2" value="b"> B) JSON.parse()</label>
+            <label><input type="radio" name="mcq2" value="c"> C) JSON.convert()</label>
+            <label><input type="radio" name="mcq2" value="d"> D) JSON.toObject()</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq2').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ B) JSON.parse()</div>
+        </div>
+
+        <div class="mcq" id="mcq3">
+          <div class="q">3. In Express.js, which object contains route parameters?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq3" value="a"> A) req.query</label>
+            <label><input type="radio" name="mcq3" value="b"> B) req.body</label>
+            <label><input type="radio" name="mcq3" value="c"> C) req.params</label>
+            <label><input type="radio" name="mcq3" value="d"> D) req.headers</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq3').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ C) req.params</div>
+        </div>
+
+        <div class="mcq" id="mcq4">
+          <div class="q">4. What does middleware function require to pass control to the next middleware?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq4" value="a"> A) return next</label>
+            <label><input type="radio" name="mcq4" value="b"> B) next()</label>
+            <label><input type="radio" name="mcq4" value="c"> C) continue()</label>
+            <label><input type="radio" name="mcq4" value="d"> D) pass()</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq4').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ B) next()</div>
+        </div>
+
+        <div class="mcq" id="mcq5">
+          <div class="q">5. Which HTTP status code means "Created"?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq5" value="a"> A) 200</label>
+            <label><input type="radio" name="mcq5" value="b"> B) 201</label>
+            <label><input type="radio" name="mcq5" value="c"> C) 204</label>
+            <label><input type="radio" name="mcq5" value="d"> D) 301</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq5').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ B) 201</div>
+        </div>
+
+        <div class="mcq" id="mcq6">
+          <div class="q">6. Which Node.js module is used to create a web server?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq6" value="a"> A) url</label>
+            <label><input type="radio" name="mcq6" value="b"> B) net</label>
+            <label><input type="radio" name="mcq6" value="c"> C) http</label>
+            <label><input type="radio" name="mcq6" value="d"> D) fs</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq6').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ C) http</div>
+        </div>
+
+        <div class="mcq" id="mcq7">
+          <div class="q">7. What is the correct way to read a file asynchronously with promises?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq7" value="a"> A) fs.readFileSync()</label>
+            <label><input type="radio" name="mcq7" value="b"> B) fs.readFile()</label>
+            <label><input type="radio" name="mcq7" value="c"> C) fs.promises.readFile()</label>
+            <label><input type="radio" name="mcq7" value="d"> D) fs.readPromise()</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq7').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ C) fs.promises.readFile()</div>
+        </div>
+
+        <div class="mcq" id="mcq8">
+          <div class="q">8. Which method emits an event in Node.js EventEmitter?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq8" value="a"> A) emitter.on()</label>
+            <label><input type="radio" name="mcq8" value="b"> B) emitter.fire()</label>
+            <label><input type="radio" name="mcq8" value="c"> C) emitter.emit()</label>
+            <label><input type="radio" name="mcq8" value="d"> D) emitter.trigger()</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq8').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ C) emitter.emit()</div>
+        </div>
+
+        <div class="mcq" id="mcq9">
+          <div class="q">9. What is the default port for MongoDB?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq9" value="a"> A) 3306</label>
+            <label><input type="radio" name="mcq9" value="b"> B) 5432</label>
+            <label><input type="radio" name="mcq9" value="c"> C) 27017</label>
+            <label><input type="radio" name="mcq9" value="d"> D) 6379</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq9').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ C) 27017</div>
+        </div>
+
+        <div class="mcq" id="mcq10">
+          <div class="q">10. Which method is used to clear a cookie in Express?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq10" value="a"> A) res.deleteCookie()</label>
+            <label><input type="radio" name="mcq10" value="b"> B) res.clearCookie()</label>
+            <label><input type="radio" name="mcq10" value="c"> C) res.removeCookie()</label>
+            <label><input type="radio" name="mcq10" value="d"> D) res.destroyCookie()</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq10').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ B) res.clearCookie()</div>
+        </div>
+
+        <div class="mcq" id="mcq11">
+          <div class="q">11. What is the default port for PostgreSQL?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq11" value="a"> A) 3306</label>
+            <label><input type="radio" name="mcq11" value="b"> B) 5432</label>
+            <label><input type="radio" name="mcq11" value="c"> C) 27017</label>
+            <label><input type="radio" name="mcq11" value="d"> D) 8080</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq11').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ B) 5432</div>
+        </div>
+
+        <div class="mcq" id="mcq12">
+          <div class="q">12. Which socket method sends an event to all clients EXCEPT the sender?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq12" value="a"> A) io.emit()</label>
+            <label><input type="radio" name="mcq12" value="b"> B) socket.emit()</label>
+            <label><input type="radio" name="mcq12" value="c"> C) socket.broadcast.emit()</label>
+            <label><input type="radio" name="mcq12" value="d"> D) io.broadcast()</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq12').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ C) socket.broadcast.emit()</div>
+        </div>
+
+        <div class="mcq" id="mcq13">
+          <div class="q">13. What does the zlib module do?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq13" value="a"> A) File system operations</label>
+            <label><input type="radio" name="mcq13" value="b"> B) Data compression/decompression</label>
+            <label><input type="radio" name="mcq13" value="c"> C) Network requests</label>
+            <label><input type="radio" name="mcq13" value="d"> D) Encryption</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq13').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ B) Data compression/decompression</div>
+        </div>
+
+        <div class="mcq" id="mcq14">
+          <div class="q">14. Which Express method serves static files?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq14" value="a"> A) app.sendFile()</label>
+            <label><input type="radio" name="mcq14" value="b"> B) app.static()</label>
+            <label><input type="radio" name="mcq14" value="c"> C) express.static()</label>
+            <label><input type="radio" name="mcq14" value="d"> D) app.serve()</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq14').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ C) express.static()</div>
+        </div>
+
+        <div class="mcq" id="mcq15">
+          <div class="q">15. What is the purpose of mongoose.Schema?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq15" value="a"> A) Create database connection</label>
+            <label><input type="radio" name="mcq15" value="b"> B) Define document structure and validation</label>
+            <label><input type="radio" name="mcq15" value="c"> C) Execute queries</label>
+            <label><input type="radio" name="mcq15" value="d"> D) Create indexes</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq15').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ B) Define document structure and validation</div>
+        </div>
+
+        <div class="mcq" id="mcq16">
+          <div class="q">16. How do you destroy an express-session?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq16" value="a"> A) req.session = null</label>
+            <label><input type="radio" name="mcq16" value="b"> B) req.session.destroy()</label>
+            <label><input type="radio" name="mcq16" value="c"> C) req.session.end()</label>
+            <label><input type="radio" name="mcq16" value="d"> D) req.session.delete()</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq16').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ B) req.session.destroy()</div>
+        </div>
+
+        <div class="mcq" id="mcq17">
+          <div class="q">17. Which stream type can both read and write?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq17" value="a"> A) Readable</label>
+            <label><input type="radio" name="mcq17" value="b"> B) Writable</label>
+            <label><input type="radio" name="mcq17" value="c"> C) Duplex</label>
+            <label><input type="radio" name="mcq17" value="d"> D) Transform</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq17').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ C) Duplex</div>
+        </div>
+
+        <div class="mcq" id="mcq18">
+          <div class="q">18. What does $set do in MongoDB?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq18" value="a"> A) Creates new collection</label>
+            <label><input type="radio" name="mcq18" value="b"> B) Updates specific fields in a document</label>
+            <label><input type="radio" name="mcq18" value="c"> C) Sets a variable</label>
+            <label><input type="radio" name="mcq18" value="d"> D) Deletes a document</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq18').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ B) Updates specific fields in a document</div>
+        </div>
+
+        <div class="mcq" id="mcq19">
+          <div class="q">19. Which npm command installs a package as a dev dependency?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq19" value="a"> A) npm install package</label>
+            <label><input type="radio" name="mcq19" value="b"> B) npm install -g package</label>
+            <label><input type="radio" name="mcq19" value="c"> C) npm install -D package</label>
+            <label><input type="radio" name="mcq19" value="d"> D) npm install --save package</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq19').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ C) npm install -D package</div>
+        </div>
+
+        <div class="mcq" id="mcq20">
+          <div class="q">20. What is the correct order of middleware parameters for error handling?</div>
+          <div class="options">
+            <label><input type="radio" name="mcq20" value="a"> A) (req, res, next)</label>
+            <label><input type="radio" name="mcq20" value="b"> B) (err, req, res, next)</label>
+            <label><input type="radio" name="mcq20" value="c"> C) (req, res, err, next)</label>
+            <label><input type="radio" name="mcq20" value="d"> D) (next, req, res, err)</label>
+          </div>
+          <button class="show-btn" onclick="document.getElementById('mcq20').querySelector('.answer').classList.toggle('show')">Show Answer</button>
+          <div class="answer">✅ B) (err, req, res, next)</div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ─── Footer ─── -->
+      <footer style="text-align:center;padding:24px 0;color:var(--text2);font-size:13px">
+        <p>📘 Node.js Complete Notes &amp; Viva Guide — Created with ❤️</p>
+        <p>Happy Coding &amp; Best of Luck for your Viva! 🚀</p>
+      </footer>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+
+  <!-- ─── Active sidebar link ─── -->
+  <script>
+    (function() {
+      const links = document.querySelectorAll('.sidebar a');
+      const sections = document.querySelectorAll('section');
+      
+      function setActive() {
+        let current = '';
+        sections.forEach(s => {
+          const top = s.offsetTop - 120;
+          if (window.scrollY >= top) current = s.id;
+        });
+        links.forEach(a => {
+          a.classList.remove('active');
+          if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+        });
+      }
+      
+      window.addEventListener('scroll', setActive);
+      setActive();
+
+      // Close sidebar on mobile when link clicked
+      links.forEach(a => {
+        a.addEventListener('click', () => {
+          if (window.innerWidth <= 768) {
+            document.getElementById('sidebar').style.display = 'none';
+          }
+        });
+      });
+    })();
+    // Interactive MCQ validation
+    document.querySelectorAll('.mcq').forEach(mcq => {
+      const answerEl = mcq.querySelector('.answer');
+      const correctText = answerEl ? answerEl.textContent.trim() : '';
+      const correctMatch = correctText.match(/[A-D]/);
+      const correctVal = correctMatch ? correctMatch[0].toLowerCase() : null;
+      
+      mcq.querySelectorAll('input[type="radio"]').forEach(input => {
+        input.addEventListener('change', () => {
+          mcq.querySelectorAll('.options label').forEach(l => {
+            l.classList.remove('correct', 'wrong');
+          });
+          const label = input.closest('label');
+          if (input.value === correctVal) {
+            label.classList.add('correct');
+          } else {
+            label.classList.add('wrong');
+            mcq.querySelectorAll('input[type="radio"]').forEach(other => {
+              if (other.value === correctVal) {
+                other.closest('label').classList.add('correct');
+              }
+            });
+          }
+        });
+      });
+    });
+
+  </script>
+
+</body>
+</html>
