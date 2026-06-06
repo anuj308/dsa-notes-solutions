@@ -1,0 +1,25 @@
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
+composer.json - all detail and dependency - imp file
+composer.lock - it store all dependency hierarchy like one dependency can has many more dependency
+vendor folder - all dependency are store here
+app folder - core code it has modal, controller, middleware, service provider
+routes folder - web - for web routes, console for cli 
+resources folder - it has views folder 
+config folder - has all config like database connection info
+database folder - has migration, seeders, factories
+public folder - first file to execute is index.php is inside it, icon , robot.txt
+storage folder - for store pdf etc, logs, cache
+test folder - it use for testing unit, modal   testing
+vite config - create a local developemnt server
+
+Routing in laravel
+routing - it a path to opening a web page
+![alt text](image-3.png)
+
+controller 
+![alt text](image-4.png)
+![alt text](image-5.png)
+view
+![alt text](image-6.png)

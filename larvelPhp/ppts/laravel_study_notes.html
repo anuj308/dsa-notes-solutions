@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laravel MVC - Complete Study Notes</title>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-card: #1c2333;
+            --bg-code: #0d1117;
+            --border: #30363d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-orange: #d29922;
+            --accent-red: #f85149;
+            --accent-purple: #bc8cff;
+            --accent-cyan: #39d2c0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        /* Navigation Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            z-index: 100;
+            padding: 1rem 0;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .sidebar::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        .sidebar-header {
+            padding: 0 1.25rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.1rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .sidebar-header p {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .sidebar-nav {
+            padding: 0.5rem 0;
+        }
+
+        .nav-section {
+            padding: 0.25rem 0;
+        }
+
+        .nav-section-title {
+            padding: 0.4rem 1.25rem;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.35rem 1.25rem 0.35rem 1.75rem;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.15s ease;
+            border-left: 2px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: rgba(88, 166, 255, 0.08);
+            color: var(--accent-blue);
+            border-left-color: var(--accent-blue);
+        }
+
+        .nav-link.sub {
+            padding-left: 2.5rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem 3rem 4rem;
+            max-width: 960px;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem 2rem;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            margin-top: 0.75rem;
+            font-size: 1.05rem;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .section-number.blue { background: rgba(88, 166, 255, 0.15); color: var(--accent-blue); }
+        .section-number.green { background: rgba(63, 185, 80, 0.15); color: var(--accent-green); }
+        .section-number.orange { background: rgba(210, 153, 34, 0.15); color: var(--accent-orange); }
+        .section-number.purple { background: rgba(188, 140, 255, 0.15); color: var(--accent-purple); }
+        .section-number.cyan { background: rgba(57, 210, 192, 0.15); color: var(--accent-cyan); }
+        .section-number.red { background: rgba(248, 81, 73, 0.15); color: var(--accent-red); }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.25rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(88, 166, 255, 0.3);
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent-blue);
+        }
+
+        .card h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            margin-top: 1rem;
+            color: var(--accent-cyan);
+        }
+
+        .card h4:first-child {
+            margin-top: 0;
+        }
+
+        .card p {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .card ul, .card ol {
+            margin: 0.5rem 0 0.5rem 1.25rem;
+            color: var(--text-secondary);
+        }
+
+        .card li {
+            margin-bottom: 0.35rem;
+        }
+
+        .card li strong {
+            color: var(--text-primary);
+        }
+
+        /* Code */
+        .code-block {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin: 0.75rem 0;
+            overflow-x: auto;
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .code-block .comment { color: #8b949e; }
+        .code-block .keyword { color: #ff7b72; }
+        .code-block .string { color: #a5d6ff; }
+        .code-block .function { color: #d2a8ff; }
+        .code-block .variable { color: #ffa657; }
+        .code-block .number { color: #79c0ff; }
+        .code-block .tag { color: #7ee787; }
+
+        .inline-code {
+            background: rgba(88, 166, 255, 0.1);
+            color: var(--accent-blue);
+            padding: 0.15em 0.4em;
+            border-radius: 4px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.85em;
+        }
+
+        /* Tables */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 0.75rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        thead {
+            background: rgba(88, 166, 255, 0.08);
+        }
+
+        th {
+            padding: 0.65rem 0.85rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--accent-blue);
+            border-bottom: 2px solid var(--border);
+        }
+
+        td {
+            padding: 0.6rem 0.85rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        tr:hover td {
+            background: rgba(88, 166, 255, 0.03);
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-block;
+            padding: 0.15em 0.5em;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .tag.blue { background: rgba(88, 166, 255, 0.15); color: var(--accent-blue); }
+        .tag.green { background: rgba(63, 185, 80, 0.15); color: var(--accent-green); }
+        .tag.orange { background: rgba(210, 153, 34, 0.15); color: var(--accent-orange); }
+        .tag.purple { background: rgba(188, 140, 255, 0.15); color: var(--accent-purple); }
+        .tag.red { background: rgba(248, 81, 73, 0.15); color: var(--accent-red); }
+
+        /* Alert Boxes */
+        .alert {
+            padding: 0.85rem 1rem;
+            border-radius: 8px;
+            margin: 0.75rem 0;
+            font-size: 0.9rem;
+            border-left: 4px solid;
+        }
+
+        .alert.info {
+            background: rgba(88, 166, 255, 0.08);
+            border-left-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .alert.success {
+            background: rgba(63, 185, 80, 0.08);
+            border-left-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .alert.warning {
+            background: rgba(210, 153, 34, 0.08);
+            border-left-color: var(--accent-orange);
+            color: var(--accent-orange);
+        }
+
+        .alert.error {
+            background: rgba(248, 81, 73, 0.08);
+            border-left-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        /* Flow diagram */
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 1rem;
+            margin: 0.75rem 0;
+            font-size: 0.9rem;
+        }
+
+        .flow-step {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            color: var(--accent-blue);
+            font-weight: 500;
+        }
+
+        .flow-arrow {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 220px;
+            }
+            .main-content {
+                margin-left: 220px;
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Print */
+        @media print {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; }
+            body { background: white; color: black; }
+            .card { background: #f5f5f5; border-color: #ddd; }
+            .code-block { background: #f0f0f0; }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Copy button */
+        .code-wrapper {
+            position: relative;
+        }
+
+        .code-wrapper .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .code-wrapper:hover .copy-btn {
+            opacity: 1;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 0.75rem 0;
+        }
+
+        @media (max-width: 600px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== SIDEBAR ==================== -->
+<nav class="sidebar">
+    <div class="sidebar-header">
+        <h2>📘 Laravel MVC</h2>
+        <p>Complete Study Notes</p>
+    </div>
+    <div class="sidebar-nav">
+        <div class="nav-section">
+            <div class="nav-section-title">Unit 1 - Introduction</div>
+            <a href="#intro" class="nav-link">Framework &amp; MVC</a>
+            <a href="#laravel-intro" class="nav-link">What is Laravel?</a>
+            <a href="#features" class="nav-link">Key Features</a>
+            <a href="#install" class="nav-link">Installation</a>
+            <a href="#artisan" class="nav-link">Artisan CLI</a>
+            <a href="#structure" class="nav-link">Directory Structure</a>
+        </div>
+        <div class="nav-section">
+            <div class="nav-section-title">Unit 2 - Request &amp; Routing</div>
+            <a href="#lifecycle" class="nav-link">Request Lifecycle</a>
+            <a href="#routing" class="nav-link">Routing Basics</a>
+            <a href="#named-routes" class="nav-link">Named Routes</a>
+            <a href="#redirection" class="nav-link">Redirection</a>
+            <a href="#url-gen" class="nav-link">URL Generation</a>
+        </div>
+        <div class="nav-section">
+            <div class="nav-section-title">Unit 3 - Controllers &amp; Views</div>
+            <a href="#controllers" class="nav-link">Controllers</a>
+            <a href="#resource-controller" class="nav-link">Resource Controller</a>
+            <a href="#middleware" class="nav-link">Middleware</a>
+            <a href="#blade" class="nav-link">Blade Templates</a>
+            <a href="#template-inheritance" class="nav-link">Template Inheritance</a>
+            <a href="#secure-routing" class="nav-link">Secure Routing</a>
+            <a href="#domain-routing" class="nav-link">Domain Routing</a>
+            <a href="#route-groups" class="nav-link">Route Groups</a>
+        </div>
+        <div class="nav-section">
+            <div class="nav-section-title">Unit 5 - Forms &amp; Validation</div>
+            <a href="#csrf" class="nav-link">CSRF &amp; Method Fields</a>
+            <a href="#validation" class="nav-link">Form Validation</a>
+            <a href="#mini-project" class="nav-link">Mini Project: Student Reg</a>
+        </div>
+        <div class="nav-section">
+            <div class="nav-section-title">Unit 6 - Database &amp; ORM</div>
+            <a href="#eloquent" class="nav-link">Eloquent ORM</a>
+            <a href="#crud-api" class="nav-link">Student CRUD API</a>
+            <a href="#migrations" class="nav-link">Migration Commands</a>
+            <a href="#query-string" class="nav-link">Query String</a>
+            <a href="#mongodb" class="nav-link">MongoDB with Laravel</a>
+            <a href="#mongo-crud" class="nav-link">MongoDB CRUD Project</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ==================== MAIN CONTENT ==================== -->
+<div class="main-content">
+
+<!-- HERO -->
+<div class="hero">
+    <h1>Laravel MVC Programming</h1>
+    <p>INT 221 — Complete study notes covering Units 1–6</p>
+</div>
+
+<!-- ==================== UNIT 1 ==================== -->
+<section id="intro" class="section">
+    <div class="section-header">
+        <div class="section-number blue">1</div>
+        <h2>Framework, MVC &amp; Laravel Introduction</h2>
+    </div>
+
+    <div class="card">
+        <h3>What is a Web Framework?</h3>
+        <p>A <strong>web framework</strong> is a software platform that provides a structured and standardized way to build web applications.</p>
+
+        <h4>Popular Web Frameworks</h4>
+        <ul>
+            <li><strong>Laravel</strong> (PHP)</li>
+            <li>Ruby on Rails (Ruby)</li>
+            <li>ASP.NET MVC (C#)</li>
+            <li>Django (Python)</li>
+            <li>Spring (Java)</li>
+            <li>Express (Node.js)</li>
+            <li>Sinatra (Ruby)</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>What is MVC?</h3>
+        <p><strong>MVC</strong> stands for <strong>Model-View-Controller</strong> — a design pattern that separates application logic into three interconnected components:</p>
+        <ul>
+            <li><strong>Model</strong> — Represents data and business logic. Interacts with the database.</li>
+            <li><strong>View</strong> — Renders the UI. Displays data to the user (Blade templates).</li>
+            <li><strong>Controller</strong> — Handles user input, processes requests, and coordinates between Model and View.</li>
+        </ul>
+
+        <div class="alert info">
+            <strong>Always Remember:</strong> MVC is a broader design pattern defining high-level architecture, emphasizing separation of concerns.
+        </div>
+    </div>
+
+    <div class="card" id="laravel-intro">
+        <h3>What is Laravel?</h3>
+        <p>Laravel is a <strong>PHP-based web framework</strong> for building high-end web applications using its significant and graceful syntaxes. Developed by <strong>Taylor Otwell</strong> in July 2011.</p>
+        <p>Laravel drew inspiration from <strong>Ruby on Rails</strong>, <strong>ASP.NET MVC</strong>, and <strong>Sinatra</strong>.</p>
+    </div>
+
+    <div class="card" id="features">
+        <h3>Key Features of Laravel</h3>
+        <div class="two-col">
+            <div>
+                <h4>🔐 Authentication</h4>
+                <p>Built-in authentication system — just configure models, views, and controllers.</p>
+            </div>
+            <div>
+                <h4>🧩 Blade Templating</h4>
+                <p>Innovative template engine providing clean, expressive syntax with powerful features for dynamic content rendering.</p>
+            </div>
+            <div>
+                <h4>🗄️ Eloquent ORM</h4>
+                <p>Object-Relational Mapping — work with database records as objects using PHP classes and methods.</p>
+            </div>
+            <div>
+                <h4>🔒 Secure Migrations</h4>
+                <p>Version control for database schemas. Structured and consistent database management.</p>
+            </div>
+            <div>
+                <h4>🧪 Unit Testing</h4>
+                <p>Integrates with PHPUnit. Laravel Dusk provides end-to-end browser testing.</p>
+            </div>
+            <div>
+                <h4>🛡️ Security</h4>
+                <p>Bcrypt hashing, CSRF protection, SQL injection prevention.</p>
+            </div>
+            <div>
+                <h4>📦 Libraries &amp; Modules</h4>
+                <p>Pre-installed libraries for authentication, password reset, CSRF protection, etc.</p>
+            </div>
+            <div>
+                <h4>⚡ Artisan CLI</h4>
+                <p>Built-in command-line tool for repetitive tasks — creating models, controllers, migrations, etc.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" id="install">
+        <h3>Installation Requirements</h3>
+        <ul>
+            <li>XAMPP (supporting PHP &gt; 8.2)</li>
+            <li>Composer — dependency manager for PHP</li>
+            <li>Git</li>
+            <li>VS Code (or any editor)</li>
+        </ul>
+
+        <h4>Installation Commands</h4>
+        <div class="code-block">
+            <span class="comment"># Global Installation (one-time)</span>
+            composer global require laravel/installer
+            laravel new first-app
+
+            <span class="comment"># Per-project Installation</span>
+            composer create-project laravel/laravel first-app
+        </div>
+
+        <h4>Running Laravel</h4>
+        <div class="code-block">
+            cd first-app
+            php artisan serve
+            <span class="comment"># Starts at http://127.0.0.1:8000 (default port 8000)</span>
+        </div>
+
+        <div class="alert info">
+            <strong>php artisan serve</strong> starts a built-in PHP development server for local testing without needing Apache/Nginx.
+        </div>
+    </div>
+
+    <div class="card" id="artisan">
+        <h3>Artisan CLI</h3>
+        <p><strong>Artisan</strong> is Laravel's command-line interface (CLI) providing powerful commands for automating tasks.</p>
+        <div class="code-block">php artisan list  <span class="comment"># Display all Artisan commands</span></div>
+
+        <h4>Version Check</h4>
+        <div class="code-block">
+            php -v                  <span class="comment"># PHP version</span>
+            git --version           <span class="comment"># Git version</span>
+            composer --version      <span class="comment"># Composer version</span>
+            php artisan --version   <span class="comment"># Laravel version</span>
+        </div>
+
+        <h4>Common Artisan Command Categories</h4>
+        <ul>
+            <li><strong>Application Management:</strong> <code>php artisan serve</code>, <code>php artisan down/up</code></li>
+            <li><strong>Route Management:</strong> <code>php artisan route:list</code>, <code>php artisan route:cache</code></li>
+            <li><strong>Model &amp; Database:</strong> <code>php artisan make:model</code>, <code>php artisan migrate</code>, <code>php artisan make:migration</code>, <code>php artisan make:seeder</code></li>
+            <li><strong>Authentication:</strong> <code>php artisan make:auth</code>, <code>php artisan breeze:install</code></li>
+            <li><strong>Caching:</strong> <code>php artisan cache:clear</code>, <code>php artisan config:cache</code></li>
+            <li><strong>Queues &amp; Jobs:</strong> <code>php artisan queue:work</code>, <code>php artisan make:job</code></li>
+            <li><strong>Events &amp; Listeners:</strong> <code>php artisan make:event</code>, <code>php artisan make:listener</code></li>
+        </ul>
+    </div>
+
+    <div class="card" id="structure">
+        <h3>Directory Structure</h3>
+        <div class="two-col">
+            <div>
+                <h4>📁 <strong>app</strong></h4>
+                <p>Main application logic: Controllers, Models, Middleware, Providers</p>
+            </div>
+            <div>
+                <h4>📁 <strong>bootstrap</strong></h4>
+                <p>App bootstrapping files: <code>app.php</code>, cache directory</p>
+            </div>
+            <div>
+                <h4>📁 <strong>config</strong></h4>
+                <p>Configuration files: database, cache, app settings, etc.</p>
+            </div>
+            <div>
+                <h4>📁 <strong>database</strong></h4>
+                <p>Migrations, Seeds, Factories for database management</p>
+            </div>
+            <div>
+                <h4>📁 <strong>public</strong></h4>
+                <p>Web server root: index.php, assets (CSS/JS/images)</p>
+            </div>
+            <div>
+                <h4>📁 <strong>resources</strong></h4>
+                <p>Views (Blade templates), language files, raw assets</p>
+            </div>
+            <div>
+                <h4>📁 <strong>routes</strong></h4>
+                <p>Route files: <code>web.php</code>, <code>api.php</code>, <code>console.php</code></p>
+            </div>
+            <div>
+                <h4>📁 <strong>storage</strong></h4>
+                <p>Logs, cache, sessions, uploaded files</p>
+            </div>
+            <div>
+                <h4>📁 <strong>tests</strong></h4>
+                <p>Unit and feature test cases</p>
+            </div>
+            <div>
+                <h4>📁 <strong>vendor</strong></h4>
+                <p>Third-party dependencies (managed by Composer)</p>
+            </div>
+        </div>
+
+        <h4>Key Configuration Files</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>File</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.env</code></td>
+                    <td>Environment config — DB credentials, API keys, app settings</td>
+                </tr>
+                <tr>
+                    <td><code>.env.example</code></td>
+                    <td>Template of .env with dummy values (safe to commit)</td>
+                </tr>
+                <tr>
+                    <td><code>composer.json</code></td>
+                    <td>Defines PHP dependencies and autoloading rules</td>
+                </tr>
+                <tr>
+                    <td><code>composer.lock</code></td>
+                    <td>Locks exact versions of installed dependencies</td>
+                </tr>
+                <tr>
+                    <td><code>package.json</code></td>
+                    <td>Manages JavaScript dependencies</td>
+                </tr>
+                <tr>
+                    <td><code>phpunit.xml</code></td>
+                    <td>PHPUnit test configuration</td>
+                </tr>
+                <tr>
+                    <td><code>vite.config.js</code></td>
+                    <td>Vite frontend build tool configuration</td>
+                </tr>
+                <tr>
+                    <td><code>.gitattributes</code></td>
+                    <td>Git file handling rules (line endings, merge behavior)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="alert success">
+            <strong>Key Difference:</strong> <code>composer.json</code> specifies what packages to install; <code>composer.lock</code> records the exact versions actually installed.
+        </div>
+    </div>
+</section>
+
+<!-- ==================== UNIT 2 ==================== -->
+<section id="lifecycle" class="section">
+    <div class="section-header">
+        <div class="section-number green">2</div>
+        <h2>Request Lifecycle &amp; Routing</h2>
+    </div>
+
+    <div class="card">
+        <h3>Laravel Request Lifecycle</h3>
+        <p>A sequence of events that occur during the execution of a request.</p>
+
+        <div class="flow">
+            <span class="flow-step">🌐 Request</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">📄 index.php</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">⚙️ bootstrap/app.php</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">🔧 Service Providers</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">🛣️ Router</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">🛡️ Middleware</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">🎮 Controller</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">🖼️ View</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">📨 Response</span>
+        </div>
+
+        <h4>Detailed Steps</h4>
+        <ol>
+            <li><strong>index.php</strong> — Entry point. All requests directed here by web server.</li>
+            <li><strong>Composer Autoloader</strong> — Loads all classes automatically (no manual includes).</li>
+            <li><strong>bootstrap/app.php</strong> — Creates Laravel application instance, sets up service container.</li>
+            <li><strong>Service Providers</strong> — Core functionality (mailing, sessions, database, queue, validation, routing). Found in <code>bootstrap/providers.php</code>.</li>
+            <li><strong>Router</strong> — Dispatches request to matching route/controller.</li>
+            <li><strong>Middleware</strong> — Filters HTTP requests (authentication, logging, validation).</li>
+            <li><strong>Controller</strong> — Processes request logic in <code>app/Http/Controllers</code>.</li>
+            <li><strong>View</strong> — Renders Blade template from <code>resources/views</code>.</li>
+        </ol>
+
+        <div class="alert info">
+            <strong>Default Service Providers:</strong> AppServiceProvider, AuthServiceProvider, BroadcastServiceProvider, EventServiceProvider, RouteServiceProvider
+        </div>
+    </div>
+
+    <div class="card" id="routing">
+        <h3>Routing Basics</h3>
+        <p><strong>Routing</strong> is the process of directing incoming requests (based on URLs) to the appropriate handler code.</p>
+
+        <h4>Default Route</h4>
+        <div class="code-block">
+            <span class="keyword">use</span> Illuminate\<span class="function">Support</span>\<span class="function">Facades</span>\<span class="function">Route</span>;
+
+            <span class="function">Route</span>::<span class="function">get</span>('/', <span class="keyword">function</span> () {
+                <span class="keyword">return</span> <span class="function">view</span>('welcome');
+            });
+        </div>
+
+        <h4>HTTP Methods</h4>
+        <div class="code-block">
+            <span class="function">Route</span>::<span class="function">get</span>($uri, $callback);
+            <span class="function">Route</span>::<span class="function">post</span>($uri, $callback);
+            <span class="function">Route</span>::<span class="function">put</span>($uri, $callback);
+            <span class="function">Route</span>::<span class="function">patch</span>($uri, $callback);
+            <span class="function">Route</span>::<span class="function">delete</span>($uri, $callback);
+            <span class="function">Route</span>::<span class="function">any</span>($uri, $callback);      <span class="comment">// Any method</span>
+            <span class="function">Route</span>::<span class="function">match</span>(['get', 'post'], $uri, $callback);  <span class="comment">// Specific methods</span>
+        </div>
+
+        <h4>Route Parameters</h4>
+        <div class="code-block">
+            <span class="comment">// Required Parameter</span>
+            <span class="function">Route</span>::<span class="function">get</span>('/user/{id}', <span class="keyword">function</span> ($id) {
+                <span class="keyword">return</span> <span class="string">"User ID: "</span> . $id;
+            });
+
+            <span class="comment">// Optional Parameter</span>
+            <span class="function">Route</span>::<span class="function">get</span>('/user/{name?}', <span class="keyword">function</span> ($name = <span class="string">'Guest'</span>) {
+                <span class="keyword">return</span> <span class="string">"Hello "</span> . $name;
+            });
+        </div>
+
+        <h4>View Routes</h4>
+        <div class="code-block">
+            <span class="comment">// Directly returns a view</span>
+            <span class="function">Route</span>::<span class="function">view</span>('/welcome', 'welcome');
+
+            <span class="comment">// View route with data</span>
+            <span class="function">Route</span>::<span class="function">view</span>('/greeting', 'greeting', ['name' => 'John']);
+        </div>
+    </div>
+
+    <div class="card" id="named-routes">
+        <h3>Named Routes</h3>
+        <p>Assign a name to a route so you can generate URLs or redirects using the name instead of the URL path.</p>
+
+        <div class="code-block">
+            <span class="function">Route</span>::<span class="function">get</span>('/user/profile', [UserController::class, 'show'])
+                -><span class="function">name</span>('profile');
+
+            <span class="comment">// Using named route</span>
+            $url = <span class="function">route</span>('profile');
+            <span class="keyword">return</span> <span class="function">redirect</span>()-><span class="function">route</span>('profile');
+        </div>
+
+        <div class="alert success">
+            <strong>Benefit:</strong> No need to change &lt;a&gt; tags if the URL changes. Just update the route definition.
+        </div>
+    </div>
+
+    <div class="card" id="redirection">
+        <h3>Redirection</h3>
+        <p>Send users from one URL/route to another. Common after form submission, login, logout.</p>
+
+        <div class="code-block">
+            <span class="comment">// Basic redirect</span>
+            <span class="keyword">return</span> <span class="function">redirect</span>('home/dashboard');
+
+            <span class="comment">// Redirect to previous page</span>
+            <span class="keyword">return</span> <span class="function">redirect</span>()-><span class="function">back</span>();
+
+            <span class="comment">// Redirect to named route</span>
+            <span class="keyword">return</span> <span class="function">redirect</span>()-><span class="function">route</span>('dashboard');
+
+            <span class="comment">// Redirect with flash message</span>
+            <span class="keyword">return</span> <span class="function">redirect</span>('/home')-><span class="function">with</span>('success', 'Login successful!');
+
+            <span class="comment">// Redirect with input (keep old form values)</span>
+            <span class="keyword">return</span> <span class="function">redirect</span>()-><span class="function">back</span>()<span class="function">->withInput</span>();
+
+            <span class="comment">// Redirect with errors</span>
+            <span class="keyword">return</span> <span class="function">redirect</span>()-><span class="function">back</span>()<span class="function">->withErrors</span>(['name' => 'Name is required']);
+
+            <span class="comment">// Redirect to external URL</span>
+            <span class="keyword">return</span> <span class="function">redirect</span>()-><span class="function">away</span>('https://google.com');
+
+            <span class="comment">// Route shortcut</span>
+            <span class="function">Route</span>::<span class="function">redirect</span>('/old', '/new', <span class="number">301</span>);
+
+            <span class="comment">// Fallback route (instead of 404)</span>
+            <span class="function">Route</span>::<span class="function">fallback</span>(<span class="keyword">function</span> () {
+                <span class="keyword">return</span> <span class="string">"Page not existing"</span>;
+            });
+        </div>
+
+        <h4>HTTP Status Codes for Redirect</h4>
+        <ul>
+            <li><strong>301</strong> — Permanent redirect</li>
+            <li><strong>302</strong> — Temporary redirect (default)</li>
+        </ul>
+    </div>
+
+    <div class="card" id="url-gen">
+        <h3>URL Generation</h3>
+        <p>Generate URLs dynamically using Laravel helper functions instead of hardcoding.</p>
+
+        <div class="two-col">
+            <div>
+                <h4><code>url()</code> Helper</h4>
+                <div class="code-block">$url = <span class="function">url</span>('/home');
+<span class="comment">// http://127.0.0.1:8000/home</span></div>
+            </div>
+            <div>
+                <h4><code>route()</code> Helper</h4>
+                <div class="code-block">$url = <span class="function">route</span>('home');
+<span class="comment">// http://127.0.0.1:8000/home</span></div>
+            </div>
+            <div>
+                <h4><code>asset()</code> Helper</h4>
+                <div class="code-block"><span class="keyword">echo</span> <span class="function">asset</span>('css/style.css');
+<span class="comment">// http://127.0.0.1:8000/css/style.css</span></div>
+            </div>
+            <div>
+                <h4><code>action()</code> Helper</h4>
+                <div class="code-block">$url = <span class="function">action</span>([UserController::class, 'showProfile']);</div>
+            </div>
+        </div>
+
+        <h4>Current URL Methods</h4>
+        <div class="code-block">
+            <span class="function">url</span>()-><span class="function">current</span>();    <span class="comment">// Current URL</span>
+            <span class="function">url</span>()-><span class="function">previous</span>();   <span class="comment">// Previous URL</span>
+            <span class="function">url</span>()-><span class="function">full</span>();       <span class="comment">// Full URL with query string</span>
+        </div>
+
+        <h4>In Blade Templates</h4>
+        <div class="code-block">
+            &lt;a href=&quot;{{ <span class="function">url</span>('/home') }}&quot;&gt;Home&lt;/a&gt;
+            &lt;a href=&quot;{{ <span class="function">route</span>('profile') }}&quot;&gt;Profile&lt;/a&gt;
+            &lt;link rel=&quot;stylesheet&quot; href=&quot;{{ <span class="function">asset</span>('css/style.css') }}&quot;&gt;
+        </div>
+    </div>
+</section>
+
+<!-- ==================== UNIT 3 ==================== -->
+<section id="controllers" class="section">
+    <div class="section-header">
+        <div class="section-number orange">3</div>
+        <h2>Controllers, Middleware &amp; Blade</h2>
+    </div>
+
+    <div class="card">
+        <h3>Controllers</h3>
+        <p>Controllers handle HTTP requests and define application response logic. They group related request handling logic into a single class.</p>
+
+        <div class="alert info">
+            <strong>Flow:</strong> Route → Controller → View/Response
+        </div>
+
+        <h4>Creating a Controller</h4>
+        <div class="code-block">
+            php artisan make:controller StudentController
+            <span class="comment">// File: app/Http/Controllers/StudentController.php</span>
+        </div>
+
+        <h4>Basic Controller Structure</h4>
+        <div class="code-block">
+            <span class="keyword">&lt;?php</span>
+
+            <span class="keyword">namespace</span> App\<span class="function">Http</span>\<span class="function">Controllers</span>;
+
+            <span class="keyword">use</span> Illuminate\<span class="function">Http</span>\<span class="function">Request</span>;
+
+            <span class="keyword">class</span> <span class="function">StudentController</span> <span class="keyword">extends</span> <span class="function">Controller</span>
+            {
+                <span class="keyword">public function</span> <span class="function">index</span>()
+                {
+                    <span class="keyword">return</span> <span class="string">"All Students"</span>;
+                }
+            }
+        </div>
+
+        <h4>Route with Controller</h4>
+        <div class="code-block">
+            <span class="keyword">use</span> App\<span class="function">Http</span>\<span class="function">Controllers</span>\<span class="function">StudentController</span>;
+
+            <span class="function">Route</span>::<span class="function">get</span>('/students', [StudentController::class, 'index']);
+        </div>
+
+        <h4>Passing Data to View</h4>
+        <div class="code-block">
+            <span class="comment">// Controller</span>
+            <span class="keyword">public function</span> <span class="function">index</span>()
+            {
+                $students = [
+                    ['id' => <span class="number">1</span>, 'name' => <span class="string">'Ravi'</span>],
+                    ['id' => <span class="number">2</span>, 'name' => <span class="string">'Aman'</span>]
+                ];
+                <span class="keyword">return</span> <span class="function">view</span>('students', <span class="function">compact</span>('students'));
+            }
+
+            <span class="comment">// View (students.blade.php)</span>
+            @foreach($students as $student)
+                &lt;p&gt;{{ $student['name'] }}&lt;/p&gt;
+            @endforeach
+        </div>
+
+        <h4>Dynamic Route Parameters</h4>
+        <div class="code-block">
+            <span class="comment">// Route</span>
+            <span class="function">Route</span>::<span class="function">get</span>('/student/{id}', [StudentController::class, 'show']);
+
+            <span class="comment">// Controller</span>
+            <span class="keyword">public function</span> <span class="function">show</span>($id)
+            {
+                <span class="comment">// Fetch student by ID</span>
+                <span class="keyword">return</span> <span class="function">view</span>('student-detail', <span class="function">compact</span>('student'));
+            }
+        </div>
+    </div>
+
+    <div class="card" id="resource-controller">
+        <h3>Resource Controller</h3>
+        <p>Auto-generates all CRUD methods with a single command.</p>
+
+        <div class="code-block">
+            php artisan make:controller StudentController <span class="tag green">--resource</span>
+        </div>
+
+        <h4>Generated Methods</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><code>index()</code></td><td>Show all resources</td></tr>
+                <tr><td><code>create()</code></td><td>Show create form</td></tr>
+                <tr><td><code>store()</code></td><td>Save new resource</td></tr>
+                <tr><td><code>show()</code></td><td>Show single resource</td></tr>
+                <tr><td><code>edit()</code></td><td>Show edit form</td></tr>
+                <tr><td><code>update()</code></td><td>Update resource</td></tr>
+                <tr><td><code>destroy()</code></td><td>Delete resource</td></tr>
+            </tbody>
+        </table>
+
+        <div class="code-block">
+            <span class="comment">// Single route creates ALL CRUD routes</span>
+            <span class="function">Route</span>::<span class="function">resource</span>('students', StudentController::class);
+        </div>
+    </div>
+
+    <div class="card" id="middleware">
+        <h3>Middleware</h3>
+        <p>Middleware acts as a filter for HTTP requests — inspecting, modifying, allowing, or denying requests before they reach the controller.</p>
+
+        <div class="flow">
+            <span class="flow-step">📨 Request</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">🛡️ Middleware</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">🎮 Controller</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">📨 Response</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">🛡️ Middleware</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">🌐 Browser</span>
+        </div>
+
+        <h4>Creating Middleware</h4>
+        <div class="code-block">
+            php artisan make:middleware Agecheck
+            php artisan make:middleware Countrycheck
+        </div>
+
+        <h4>Example: Agecheck (Global Middleware)</h4>
+        <div class="code-block">
+            <span class="keyword">&lt;?php</span>
+
+            <span class="keyword">namespace</span> App\<span class="function">Http</span>\<span class="function">Middleware</span>;
+
+            <span class="keyword">class</span> <span class="function">Agecheck</span>
+            {
+                <span class="keyword">public function</span> <span class="function">handle</span>(Request $request, Closure $next)
+                {
+                    $age = $request->age;
+                    <span class="keyword">if</span> ($age &lt; <span class="number">18</span>) {
+                        <span class="keyword">return</span> <span class="string">"Not allowed (Age &lt; 18)"</span>;
+                    }
+                    <span class="keyword">return</span> $next($request);
+                }
+            }
+        </div>
+
+        <h4>Registering Middleware</h4>
+        <p>Open <code>bootstrap/app.php</code>:</p>
+        <div class="code-block">
+            <span class="keyword">use</span> Illuminate\<span class="function">Foundation</span>\<span class="function">Configuration</span>\<span class="function">Middleware</span>;
+
+            -><span class="function">withMiddleware</span>(<span class="keyword">function</span> (Middleware $middleware) {
+                <span class="comment">// Global (all routes)</span>
+                $middleware-><span class="function">append</span>(\App\<span class="function">Http</span>\<span class="function">Middleware</span>\<span class="function">Agecheck</span>::class);
+
+                <span class="comment">// Route-specific alias</span>
+                $middleware-><span class="function">alias</span>([
+                    'country.check' => \App\<span class="function">Http</span>\<span class="function">Middleware</span>\<span class="function">Countrycheck</span>::class,
+                ]);
+            });
+        </div>
+
+        <h4>Using Middleware on Routes</h4>
+        <div class="code-block">
+            <span class="comment">// Single route</span>
+            <span class="function">Route</span>::<span class="function">get</span>('/profile', <span class="keyword">function</span> () {
+                <span class="keyword">return</span> <span class="string">"User Profile"</span>;
+            })-><span class="function">middleware</span>('country.check');
+
+            <span class="comment">// Route group</span>
+            <span class="function">Route</span>::<span class="function">middleware</span>(['country.check'])-><span class="function">group</span>(<span class="keyword">function</span> () {
+                <span class="function">Route</span>::<span class="function">get</span>('/dashboard', ...);
+                <span class="function">Route</span>::<span class="function">get</span>('/settings', ...);
+            });
+        </div>
+
+        <h4>Controller Middleware</h4>
+        <div class="code-block">
+            <span class="keyword">class</span> <span class="function">AdminController</span> <span class="keyword">extends</span> <span class="function">Controller</span>
+            {
+                <span class="keyword">public function</span> <span class="function">__construct</span>()
+                {
+                    <span class="comment">// Apply to all methods</span>
+                    $this-><span class="function">middleware</span>('role');
+
+                    <span class="comment">// Apply to specific methods</span>
+                    $this-><span class="function">middleware</span>('role')-><span class="function">only</span>('dashboard');
+
+                    <span class="comment">// Exclude methods</span>
+                    $this-><span class="function">middleware</span>('role')-><span class="function">except</span>(['index']);
+
+                    <span class="comment">// Multiple middleware</span>
+                    $this-><span class="function">middleware</span>(['auth', 'role']);
+
+                    <span class="comment">// Middleware with parameter</span>
+                    $this-><span class="function">middleware</span>('role:admin');
+                }
+            }
+        </div>
+    </div>
+
+    <div class="card" id="blade">
+        <h3>Blade Templates</h3>
+        <p>Blade is Laravel's powerful templating engine. Files use the <code>.blade.php</code> extension and are stored in <code>resources/views</code>.</p>
+
+        <h4>Displaying Data</h4>
+        <div class="code-block">
+            Hello, {{ $name }}
+
+            <span class="comment">{{-- Blade Comment (not visible in HTML) --}}</span>
+        </div>
+
+        <h4>Control Structures</h4>
+
+        <div class="two-col">
+            <div>
+                <h5>@if Statements</h5>
+                <div class="code-block">
+@<span class="keyword">if</span> (count($records) === <span class="number">1</span>)
+    I have one record!
+@<span class="keyword">elseif</span> (count($records) &gt; <span class="number">1</span>)
+    I have multiple records!
+@<span class="keyword">else</span>
+    I don't have any records!
+@<span class="keyword">endif</span>
+                </div>
+            </div>
+            <div>
+                <h5>@unless</h5>
+                <div class="code-block">
+@<span class="keyword">unless</span>($isAdmin)
+    You don't have admin privileges.
+@<span class="keyword">endunless</span>
+                </div>
+            </div>
+            <div>
+                <h5>@isset / @empty</h5>
+                <div class="code-block">
+@<span class="keyword">isset</span>($records)
+    <span class="comment">// $records is defined and not null</span>
+@<span class="keyword">endisset</span>
+
+@<span class="keyword">empty</span>($records)
+    <span class="comment">// $records is empty</span>
+@<span class="keyword">endempty</span>
+                </div>
+            </div>
+            <div>
+                <h5>@switch</h5>
+                <div class="code-block">
+@<span class="keyword">switch</span>($i)
+    @<span class="keyword">case</span>(<span class="number">1</span>)
+        First case...
+        @<span class="keyword">break</span>
+    @<span class="keyword">default</span>
+        Default case...
+@<span class="keyword">endswitch</span>
+                </div>
+            </div>
+            <div>
+                <h5>@foreach</h5>
+                <div class="code-block">
+@<span class="keyword">foreach</span> ($users as $user)
+    &lt;p&gt;{{ $user }}&lt;/p&gt;
+@<span class="keyword">endforeach</span>
+                </div>
+            </div>
+            <div>
+                <h5>@forelse</h5>
+                <div class="code-block">
+@<span class="keyword">forelse</span> ($users as $user)
+    &lt;li&gt;{{ $user }}&lt;/li&gt;
+@<span class="keyword">empty</span>
+    &lt;p&gt;No users&lt;/p&gt;
+@<span class="keyword">endforelse</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" id="template-inheritance">
+        <h3>Template Inheritance</h3>
+        <p>Create a master layout and reuse it across multiple pages (DRY principle).</p>
+
+        <h4>Step 1: Master Layout</h4>
+        <p><code>resources/views/layouts/app.blade.php</code></p>
+        <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;@<span class="function">yield</span>('title')&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;&lt;h1&gt;My Website&lt;/h1&gt;&lt;/header&gt;
+    &lt;nav&gt;
+        &lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;
+        &lt;a href=&quot;/about&quot;&gt;About&lt;/a&gt;
+    &lt;/nav&gt;
+    &lt;div&gt;
+        @<span class="function">yield</span>('content')
+    &lt;/div&gt;
+    &lt;footer&gt;&lt;p&gt;&amp;copy; 2026 My Website&lt;/p&gt;&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+        </div>
+
+        <h4>Step 2: Child View</h4>
+        <p><code>resources/views/home.blade.php</code></p>
+        <div class="code-block">
+@<span class="keyword">extends</span>('layouts.app')
+
+@<span class="keyword">section</span>('title')
+    Home Page
+@<span class="keyword">endsection</span>
+
+@<span class="keyword">section</span>('content')
+    &lt;h2&gt;Welcome to Home Page&lt;/h2&gt;
+@<span class="keyword">endsection</span>
+        </div>
+
+        <h4>Important Directives Summary</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Directive</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><code>@extends('layouts.app')</code></td><td>Inherit a layout</td></tr>
+                <tr><td><code>@section('content') ... @endsection</code></td><td>Define section content</td></tr>
+                <tr><td><code>@yield('content')</code></td><td>Display section content (placeholder)</td></tr>
+                <tr><td><code>@include('partials.header')</code></td><td>Include reusable parts</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card" id="secure-routing">
+        <h3>Secure Routing</h3>
+        <p>Protect routes so only authorized/authenticated users can access them, mainly using <code>auth</code> middleware.</p>
+
+        <div class="code-block">
+            <span class="comment">// Single secure route</span>
+            <span class="function">Route</span>::<span class="function">get</span>('/dashboard', <span class="keyword">function</span> () {
+                <span class="keyword">return</span> <span class="string">"Welcome to dashboard"</span>;
+            })-><span class="function">middleware</span>('auth');
+
+            <span class="comment">// Group of secure routes</span>
+            <span class="function">Route</span>::<span class="function">middleware</span>(['auth'])-><span class="function">group</span>(<span class="keyword">function</span> () {
+                <span class="function">Route</span>::<span class="function">get</span>('/profile', ...);
+                <span class="function">Route</span>::<span class="function">get</span>('/settings', ...);
+            });
+        </div>
+
+        <div class="alert info">
+            <strong>Breeze Installation:</strong> Install Laravel Breeze for Login/Register pages, auth controllers, and auth middleware. <code>composer require laravel/breeze --dev && php artisan breeze:install && php artisan migrate</code>
+        </div>
+    </div>
+
+    <div class="card" id="domain-routing">
+        <h3>Domain Routing</h3>
+        <p>Handle different domains or subdomains in the same Laravel app.</p>
+
+        <div class="code-block">
+            <span class="comment">// Basic domain routing</span>
+            <span class="function">Route</span>::<span class="function">domain</span>('admin.localhost')-><span class="function">group</span>(<span class="keyword">function</span> () {
+                <span class="function">Route</span>::<span class="function">get</span>('/', <span class="keyword">function</span> () {
+                    <span class="keyword">return</span> <span class="string">"Admin Panel"</span>;
+                });
+            });
+
+            <span class="comment">// Dynamic subdomain</span>
+            <span class="function">Route</span>::<span class="function">domain</span>('{account}.localhost')-><span class="function">group</span>(<span class="keyword">function</span> () {
+                <span class="function">Route</span>::<span class="function">get</span>('/', <span class="keyword">function</span> ($account) {
+                    <span class="keyword">return</span> <span class="string">"Welcome "</span> . $account;
+                });
+            });
+        </div>
+
+        <div class="alert warning">
+            Add <code>127.0.0.1 admin.localhost</code> to your hosts file (<code>/etc/hosts</code> on Mac/Linux, <code>C:\Windows\System32\drivers\etc\hosts</code> on Windows).
+        </div>
+    </div>
+
+    <div class="card" id="route-groups">
+        <h3>Route Groups</h3>
+        <p>Apply common properties (middleware, prefix, namespace) to multiple routes.</p>
+
+        <div class="code-block">
+            <span class="comment">// With prefix</span>
+            <span class="function">Route</span>::<span class="function">prefix</span>('admin')-><span class="function">group</span>(<span class="keyword">function</span> () {
+                <span class="function">Route</span>::<span class="function">get</span>('/dashboard', ...);  <span class="comment">// /admin/dashboard</span>
+                <span class="function">Route</span>::<span class="function">get</span>('/users', ...);       <span class="comment">// /admin/users</span>
+            });
+
+            <span class="comment">// Combined: prefix + middleware</span>
+            <span class="function">Route</span>::<span class="function">prefix</span>('admin')
+                -><span class="function">middleware</span>(['auth'])
+                -><span class="function">group</span>(<span class="keyword">function</span> () {
+                    <span class="function">Route</span>::<span class="function">get</span>('/dashboard', ...);
+                });
+
+            <span class="comment">// Nested groups</span>
+            <span class="function">Route</span>::<span class="function">prefix</span>('admin')-><span class="function">group</span>(<span class="keyword">function</span> () {
+                <span class="function">Route</span>::<span class="function">prefix</span>('users')-><span class="function">group</span>(<span class="keyword">function</span> () {
+                    <span class="function">Route</span>::<span class="function">get</span>('/', ...);              <span class="comment">// /admin/users</span>
+                    <span class="function">Route</span>::<span class="function">get</span>('/create', ...);       <span class="comment">// /admin/users/create</span>
+                });
+            });
+        </div>
+    </div>
+</section>
+
+<!-- ==================== UNIT 5 ==================== -->
+<section id="csrf" class="section">
+    <div class="section-header">
+        <div class="section-number purple">5</div>
+        <h2>Forms, CSRF &amp; Validation</h2>
+    </div>
+
+    <div class="card">
+        <h3>CSRF Protection</h3>
+        <p><strong>Cross-Site Request Forgery</strong> protection prevents unauthorized form submissions.</p>
+
+        <div class="code-block">
+            <span class="comment">// In Blade form</span>
+            &lt;form method=&quot;POST&quot; action=&quot;/submit&quot;&gt;
+                @csrf
+                <span class="comment">&lt;!-- Generates: &lt;input type=&quot;hidden&quot; name=&quot;_token&quot; value=&quot;...&quot;&gt; --&gt;</span>
+            &lt;/form&gt;
+        </div>
+
+        <h3>Method Field</h3>
+        <p>HTML forms only support GET and POST. Laravel allows PUT, PATCH, DELETE using <code>@method</code>.</p>
+
+        <div class="code-block">
+            &lt;form action=&quot;/update&quot; method=&quot;POST&quot;&gt;
+                @csrf
+                @<span class="function">method</span>('PUT')
+            &lt;/form&gt;
+        </div>
+    </div>
+
+    <div class="card" id="validation">
+        <h3>Form Validation</h3>
+        <p>Checking user input before processing.</p>
+
+        <div class="code-block">
+            $validated = $request-><span class="function">validate</span>([
+                'name'  => 'required|min:3|max:20',
+                'email' => 'required|email',
+                'age'   => 'required|numeric|min:18|max:60'
+            ]);
+        </div>
+
+        <h4>Validation Rules</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rule</th>
+                    <th>Meaning</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><code>required</code></td><td>Field must be filled</td></tr>
+                <tr><td><code>email</code></td><td>Must be a valid email</td></tr>
+                <tr><td><code>min:3</code></td><td>Minimum length 3</td></tr>
+                <tr><td><code>max:10</code></td><td>Maximum length 10</td></tr>
+                <tr><td><code>numeric</code></td><td>Must be a number</td></tr>
+            </tbody>
+        </table>
+
+        <h4>Custom Error Messages</h4>
+        <div class="code-block">
+            $request-><span class="function">validate</span>([
+                'name' => 'required'
+            ], [
+                'name.required' => 'Name is mandatory.'
+            ]);
+        </div>
+
+        <h4>Displaying Errors in Blade</h4>
+        <div class="code-block">
+            @error('name')
+                &lt;small class=&quot;text-danger&quot;&gt;{{ $message }}&lt;/small&gt;
+            @enderror
+        </div>
+
+        <h4>Repopulating Forms (Old Input)</h4>
+        <div class="code-block">
+            &lt;input type=&quot;text&quot; name=&quot;name&quot; value=&quot;{{ <span class="function">old</span>('name') }}&quot;&gt;
+            <span class="comment">// Keeps user input after validation error</span>
+        </div>
+
+        <h4>Custom Validation Rule</h4>
+        <p>Example: Name must start with a capital letter.</p>
+        <div class="code-block">
+            <span class="comment">// Create rule: php artisan make:rule CapitalName</span>
+
+            <span class="keyword">class</span> <span class="function">CapitalName</span> <span class="keyword">implements</span> <span class="function">ValidationRule</span>
+            {
+                <span class="keyword">public function</span> <span class="function">validate</span>(string $attribute, mixed $value, Closure $fail): <span class="keyword">void</span>
+                {
+                    <span class="keyword">if</span> (!<span class="function">ctype_upper</span>(<span class="function">substr</span>($value, <span class="number">0</span>, <span class="number">1</span>))) {
+                        $fail('The :attribute must start with a capital letter.');
+                    }
+                }
+            }
+        </div>
+    </div>
+
+    <div class="card" id="mini-project">
+        <h3>Mini Project: Student Registration System</h3>
+        <p><strong>Includes:</strong> CSRF, Method Field, Validation + Rules, Custom Rule, Error Messages, Repopulating Form, Flash Message</p>
+
+        <div class="alert success">
+            <strong>Project Flow (IMPORTANT FOR EXAM):</strong><br>
+            Form → Submit → Validation → Error → Back with old input → Success → Store + Show Result
+        </div>
+
+        <h4>Step 1: Create Project</h4>
+        <div class="code-block">
+            composer create-project laravel/laravel student-app
+            cd student-app
+            php artisan serve
+        </div>
+
+        <h4>Step 2: Create Controller</h4>
+        <div class="code-block">
+            php artisan make:controller StudentController
+        </div>
+
+        <h4>Step 3: Create Custom Validation Rule</h4>
+        <div class="code-block">
+            php artisan make:rule CapitalName
+        </div>
+
+        <h4>Step 4: Define Routes (<code>routes/web.php</code>)</h4>
+        <div class="code-block">
+            <span class="keyword">use</span> App\<span class="function">Http</span>\<span class="function">Controllers</span>\<span class="function">StudentController</span>;
+
+            <span class="function">Route</span>::<span class="function">get</span>('/student', [StudentController::class, 'form'])-><span class="function">name</span>('student.form');
+            <span class="function">Route</span>::<span class="function">post</span>('/student', [StudentController::class, 'submit'])-><span class="function">name</span>('student.submit');
+            <span class="function">Route</span>::<span class="function">put</span>('/student/update', [StudentController::class, 'update'])-><span class="function">name</span>('student.update');
+        </div>
+
+        <h4>Step 5: Controller Code</h4>
+        <div class="code-block">
+            <span class="keyword">public function</span> <span class="function">form</span>() {
+                <span class="keyword">return</span> <span class="function">view</span>('student_form');
+            }
+
+            <span class="keyword">public function</span> <span class="function">submit</span>(Request $request) {
+                $validated = $request-><span class="function">validate</span>([
+                    'name'  => ['required', 'min:3', 'max:20', <span class="keyword">new</span> <span class="function">CapitalName</span>],
+                    'email' => 'required|email',
+                    'age'   => 'required|numeric|min:18|max:60'
+                ], [
+                    'name.required' => 'Name is required!',
+                    'name.min'      => 'Name must be at least 3 characters',
+                    'email.required'=> 'Email is required!',
+                    'email.email'   => 'Enter valid email!',
+                    'age.min'       => 'Age must be at least 18',
+                    'age.max'       => 'Age must be less than 60'
+                ]);
+
+                <span class="function">session</span>()-><span class="function">flash</span>('success', 'Student Registered Successfully!');
+                <span class="keyword">return</span> <span class="function">view</span>('student_result', ['data' => $validated]);
+            }
+
+            <span class="keyword">public function</span> <span class="function">update</span>() {
+                <span class="keyword">return</span> <span class="string">"PUT method called successfully!"</span>;
+            }
+        </div>
+
+        <h4>Step 6-8: Views</h4>
+        <div class="code-block">
+            <span class="comment">// student_form.blade.php</span>
+            @if(<span class="function">session</span>('success'))
+                &lt;div class=&quot;alert alert-success&quot;&gt;{{ <span class="function">session</span>('success') }}&lt;/div&gt;
+            @endif
+
+            &lt;form action=&quot;{{ <span class="function">route</span>('student.submit') }}&quot; method=&quot;POST&quot;&gt;
+                @csrf
+                &lt;input type=&quot;text&quot; name=&quot;name&quot; value=&quot;{{ <span class="function">old</span>('name') }}&quot;&gt;
+                @error('name') &lt;small&gt;{{ $message }}&lt;/small&gt; @enderror
+                ...
+                &lt;button&gt;Submit&lt;/button&gt;
+            &lt;/form&gt;
+
+            <span class="comment">// Method Field Demo</span>
+            &lt;form action=&quot;{{ <span class="function">route</span>('student.update') }}&quot; method=&quot;POST&quot;&gt;
+                @csrf
+                @<span class="function">method</span>('PUT')
+                &lt;button&gt;Call PUT Route&lt;/button&gt;
+            &lt;/form&gt;
+        </div>
+
+        <h4>Test Cases</h4>
+        <table>
+            <thead>
+                <tr><th>Case</th><th>Input</th><th>Expected Output</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Empty Form</td><td>All fields empty</td><td>Errors appear + old values retained</td></tr>
+                <tr><td>Name not capital</td><td>"rabaab"</td><td>"The name must start with a capital letter."</td></tr>
+                <tr><td>Correct Data</td><td>Name: Rabaab, Email: test@gmail.com, Age: 22</td><td>"Student Registered Successfully!" + shows data</td></tr>
+                <tr><td>PUT Button</td><td>Click button</td><td>"PUT method called successfully!"</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ==================== UNIT 6 ==================== -->
+<section id="eloquent" class="section">
+    <div class="section-header">
+        <div class="section-number cyan">6</div>
+        <h2>Eloquent ORM &amp; Database</h2>
+    </div>
+
+    <div class="card">
+        <h3>Eloquent ORM</h3>
+        <p><strong>Eloquent</strong> is Laravel's Object-Relational Mapping (ORM) system. It provides a high-level, object-oriented way to interact with the database.</p>
+
+        <h4>Benefits</h4>
+        <ul>
+            <li><strong>Database Abstraction</strong> — Switch between MySQL, PostgreSQL, SQLite without changing code</li>
+            <li><strong>Object-Oriented</strong> — Models represent database tables as objects</li>
+            <li><strong>Readable Code</strong> — Cleaner and more maintainable</li>
+            <li><strong>Portability</strong> — Define schema in a database-agnostic way</li>
+            <li><strong>Ease of Development</strong> — Reduces complexity of working with SQL</li>
+            <li><strong>Security</strong> — Reduces SQL injection vulnerabilities</li>
+        </ul>
+    </div>
+
+    <div class="card" id="crud-api">
+        <h3>Student CRUD API (MySQL + Eloquent)</h3>
+
+        <h4>Step 1: Create Project</h4>
+        <div class="code-block">
+            composer create-project laravel/laravel student-api
+            cd student-api
+            php artisan serve
+        </div>
+
+        <h4>Step 2: Configure MySQL (<code>.env</code>)</h4>
+        <div class="code-block">
+            DB_CONNECTION=mysql
+            DB_HOST=127.0.0.1
+            DB_PORT=3306
+            DB_DATABASE=student_db
+            DB_USERNAME=root
+            DB_PASSWORD=
+        </div>
+        <div class="code-block">
+            <span class="comment">-- Create database in MySQL</span>
+            CREATE DATABASE student_db;
+        </div>
+
+        <h4>Step 3: Create Model + Migration + Factory</h4>
+        <div class="code-block">
+            php artisan make:model Student <span class="tag orange">-mf</span>
+            <span class="comment">// Creates: Model, Migration, Factory</span>
+        </div>
+
+        <h4>Step 4: Migration</h4>
+        <p><code>database/migrations/..._create_students_table.php</code></p>
+        <div class="code-block">
+            <span class="keyword">public function</span> <span class="function">up</span>()
+            {
+                <span class="function">Schema</span>::<span class="function">create</span>('students', <span class="keyword">function</span> (Blueprint $table) {
+                    $table-><span class="function">id</span>();
+                    $table-><span class="function">string</span>('name');
+                    $table-><span class="function">string</span>('email')-><span class="function">unique</span>();
+                    $table-><span class="function">integer</span>('age');
+                    $table-><span class="function">timestamps</span>();
+                });
+            }
+
+            <span class="comment">// Run migration</span>
+            php artisan migrate
+        </div>
+
+        <h4>Step 5: Model Setup</h4>
+        <p><code>app/Models/Student.php</code></p>
+        <div class="code-block">
+            <span class="keyword">class</span> <span class="function">Student</span> <span class="keyword">extends</span> <span class="function">Model</span>
+            {
+                <span class="keyword">use</span> <span class="function">HasFactory</span>;
+
+                <span class="keyword">protected</span> $fillable = ['name', 'email', 'age'];
+            }
+        </div>
+
+        <h4>Step 6-7: Factory + Seeder</h4>
+        <div class="code-block">
+            <span class="comment">// Factory (database/factories/StudentFactory.php)</span>
+            <span class="keyword">public function</span> <span class="function">definition</span>() {
+                <span class="keyword">return</span> [
+                    'name'  => <span class="function">fake</span>()-><span class="function">name</span>(),
+                    'email' => <span class="function">fake</span>()-><span class="function">unique</span>()-><span class="function">safeEmail</span>(),
+                    'age'   => <span class="function">fake</span>()-><span class="function">numberBetween</span>(<span class="number">18</span>, <span class="number">30</span>),
+                ];
+            }
+
+            <span class="comment">// Seeder</span>
+            <span class="keyword">class</span> <span class="function">StudentSeeder</span> <span class="keyword">extends</span> <span class="function">Seeder</span> {
+                <span class="keyword">public function</span> <span class="function">run</span>() {
+                    <span class="function">Student</span>::<span class="function">factory</span>()-><span class="function">count</span>(<span class="number">10</span>)-><span class="function">create</span>();
+                }
+            }
+
+            <span class="comment">// Run seeder</span>
+            php artisan db:seed --class=StudentSeeder
+        </div>
+
+        <h4>Factory vs Seeder</h4>
+        <table>
+            <thead>
+                <tr><th>Feature</th><th>Factory</th><th>Seeder</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Purpose</td><td>Generate fake data (blueprint)</td><td>Insert data into DB</td></tr>
+                <tr><td>Usage</td><td>Defines structure</td><td>Executes insertion</td></tr>
+                <tr><td>Example</td><td><code>fake()-&gt;name()</code></td><td><code>Student::create()</code></td></tr>
+            </tbody>
+        </table>
+
+        <h4>Step 8-9: API Controller</h4>
+        <div class="code-block">
+            php artisan make:controller Api/StudentController
+        </div>
+
+        <p><code>app/Http/Controllers/Api/StudentController.php</code></p>
+        <div class="code-block">
+            <span class="keyword">class</span> <span class="function">StudentController</span> <span class="keyword">extends</span> <span class="function">Controller</span>
+            {
+                <span class="comment">// GET ALL</span>
+                <span class="keyword">public function</span> <span class="function">index</span>() {
+                    <span class="keyword">return</span> <span class="function">Student</span>::<span class="function">all</span>();
+                }
+
+                <span class="comment">// CREATE</span>
+                <span class="keyword">public function</span> <span class="function">store</span>(Request $request) {
+                    $request-><span class="function">validate</span>([
+                        'name' => 'required',
+                        'email' => 'required|email',
+                        'age' => 'required|numeric'
+                    ]);
+                    $student = <span class="function">Student</span>::<span class="function">create</span>($request-><span class="function">all</span>());
+                    <span class="keyword">return</span> <span class="function">response</span>()-><span class="function">json</span>([
+                        'message' => 'Student created',
+                        'data' => $student
+                    ]);
+                }
+
+                <span class="comment">// GET SINGLE</span>
+                <span class="keyword">public function</span> <span class="function">show</span>($id) {
+                    $student = <span class="function">Student</span>::<span class="function">find</span>($id);
+                    <span class="keyword">if</span> (!$student) {
+                        <span class="keyword">return</span> <span class="function">response</span>()-><span class="function">json</span>(['message' => 'Not found'], <span class="number">404</span>);
+                    }
+                    <span class="keyword">return</span> $student;
+                }
+
+                <span class="comment">// UPDATE</span>
+                <span class="keyword">public function</span> <span class="function">update</span>(Request $request, $id) {
+                    $student = <span class="function">Student</span>::<span class="function">find</span>($id);
+                    <span class="keyword">if</span> (!$student) {
+                        <span class="keyword">return</span> <span class="function">response</span>()-><span class="function">json</span>(['message' => 'Not found'], <span class="number">404</span>);
+                    }
+                    $student-><span class="function">update</span>($request-><span class="function">all</span>());
+                    <span class="keyword">return</span> <span class="function">response</span>()-><span class="function">json</span>(['message' => 'Updated', 'data' => $student]);
+                }
+
+                <span class="comment">// DELETE</span>
+                <span class="keyword">public function</span> <span class="function">destroy</span>($id) {
+                    $student = <span class="function">Student</span>::<span class="function">find</span>($id);
+                    <span class="keyword">if</span> (!$student) {
+                        <span class="keyword">return</span> <span class="function">response</span>()-><span class="function">json</span>(['message' => 'Not found'], <span class="number">404</span>);
+                    }
+                    $student-><span class="function">delete</span>();
+                    <span class="keyword">return</span> <span class="function">response</span>()-><span class="function">json</span>(['message' => 'Deleted']);
+                }
+            }
+        </div>
+
+        <h4>Step 10: API Routes (<code>routes/api.php</code>)</h4>
+        <div class="code-block">
+            <span class="function">Route</span>::<span class="function">get</span>('/students', [StudentController::class, 'index']);
+            <span class="function">Route</span>::<span class="function">post</span>('/students', [StudentController::class, 'store']);
+            <span class="function">Route</span>::<span class="function">get</span>('/students/{id}', [StudentController::class, 'show']);
+            <span class="function">Route</span>::<span class="function">put</span>('/students/{id}', [StudentController::class, 'update']);
+            <span class="function">Route</span>::<span class="function">delete</span>('/students/{id}', [StudentController::class, 'destroy']);
+        </div>
+
+        <h4>Step 11: Test with Postman</h4>
+        <table>
+            <thead>
+                <tr><th>Method</th><th>Endpoint</th><th>Body (JSON)</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>POST</td><td>/api/students</td><td><code>{"name":"Rabaab","email":"test@gmail.com","age":22}</code></td></tr>
+                <tr><td>GET</td><td>/api/students</td><td>—</td></tr>
+                <tr><td>GET</td><td>/api/students/1</td><td>—</td></tr>
+                <tr><td>PUT</td><td>/api/students/1</td><td><code>{"name":"Updated","age":25}</code></td></tr>
+                <tr><td>DELETE</td><td>/api/students/1</td><td>—</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card" id="migrations">
+        <h3>Complete Migration Commands</h3>
+        <table>
+            <thead>
+                <tr><th>Command</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>php artisan make:migration create_students_table</code></td><td>Create a migration file</td></tr>
+                <tr><td><code>php artisan make:migration create_students_table --create=students</code></td><td>Create with Schema::create() prepopulated</td></tr>
+                <tr><td><code>php artisan make:migration add_age_to_students_table --table=students</code></td><td>Modify existing table (add column)</td></tr>
+                <tr><td><code>php artisan migrate</code></td><td>Run all pending migrations</td></tr>
+                <tr><td><code>php artisan migrate:rollback</code></td><td>Undo last batch of migrations</td></tr>
+                <tr><td><code>php artisan migrate:rollback --step=2</code></td><td>Rollback specific number of steps</td></tr>
+                <tr><td><code>php artisan migrate:refresh</code></td><td>Rollback ALL + re-run</td></tr>
+                <tr><td><code>php artisan migrate:refresh --seed</code></td><td>Refresh + seed data</td></tr>
+                <tr><td><code>php artisan migrate:fresh</code></td><td>Drop ALL tables + recreate</td></tr>
+                <tr><td><code>php artisan migrate:fresh --seed</code></td><td>Fresh + seed data</td></tr>
+                <tr><td><code>php artisan migrate:reset</code></td><td>Rollback ALL (don't re-run)</td></tr>
+                <tr><td><code>php artisan migrate:status</code></td><td>Show which migrations are run/pending</td></tr>
+                <tr><td><code>php artisan migrate --path=.../filename.php</code></td><td>Run a specific migration file</td></tr>
+                <tr><td><code>php artisan migrate --pretend</code></td><td>Show SQL queries without executing (dry run)</td></tr>
+                <tr><td><code>php artisan migrate --seed</code></td><td>Run migrations + seed data</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card" id="query-string">
+        <h3>Query String</h3>
+        <p>Data passed in the URL after <code>?</code>.</p>
+        <div class="code-block">
+            http://127.0.0.1:8000/student?id=1&amp;name=Rabaab
+            <span class="comment">// Syntax: ?key=value&amp;key2=value2</span>
+        </div>
+
+        <h4>Accessing in Laravel</h4>
+        <div class="code-block">
+            $request-><span class="function">query</span>('id');
+            <span class="comment">// OR</span>
+            $_GET['id'];
+        </div>
+    </div>
+
+    <div class="card" id="mongodb">
+        <h3>MongoDB with Laravel</h3>
+
+        <table>
+            <thead>
+                <tr><th>MySQL</th><th>MongoDB</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Tables</td><td>Collections</td></tr>
+                <tr><td>Rows</td><td>Documents</td></tr>
+                <tr><td>Fixed schema</td><td>Flexible schema</td></tr>
+                <tr><td>SQL queries</td><td>JSON-based queries</td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert warning">
+            <strong>Important:</strong> Laravel does NOT support MongoDB by default. Use the package <code>mongodb/laravel-mongodb</code>.
+        </div>
+
+        <h4>Setup Steps</h4>
+        <div class="code-block">
+            <span class="comment"># Step 1: Install MongoDB package</span>
+            composer require mongodb/laravel-mongodb
+
+            <span class="comment"># Step 2: Configure .env</span>
+            DB_CONNECTION=mongodb
+            DB_HOST=127.0.0.1
+            DB_PORT=27017
+            DB_DATABASE=laravel_mongo
+
+            <span class="comment"># Step 3: Configure config/database.php</span>
+            'mongodb' => [
+                'driver'   => 'mongodb',
+                'host'     => env('DB_HOST'),
+                'port'     => env('DB_PORT'),
+                'database' => env('DB_DATABASE'),
+            ],
+        </div>
+
+        <h4>MongoDB Model</h4>
+        <div class="code-block">
+            <span class="keyword">&lt;?php</span>
+
+            <span class="keyword">namespace</span> App\<span class="function">Models</span>;
+
+            <span class="keyword">use</span> MongoDB\<span class="function">Laravel</span>\<span class="function">Eloquent</span>\<span class="function">Model</span>;
+
+            <span class="keyword">class</span> <span class="function">Student</span> <span class="keyword">extends</span> <span class="function">Model</span>
+            {
+                <span class="keyword">protected</span> $connection = 'mongodb';
+                <span class="keyword">protected</span> $collection = 'students';
+                <span class="keyword">protected</span> $fillable = ['name', 'email', 'age'];
+            }
+        </div>
+
+        <div class="alert success">
+            <strong>No Migration Needed!</strong> MongoDB automatically creates a collection when data is inserted.
+        </div>
+    </div>
+
+    <div class="card" id="mongo-crud">
+        <h3>Student CRUD (MongoDB + Resource Controller + Query String)</h3>
+
+        <h4>Project Setup</h4>
+        <div class="code-block">
+            composer create-project laravel/laravel mongo-query-crud
+            cd mongo-query-crud
+            composer require mongodb/laravel-mongodb
+        </div>
+
+        <h4>Resource Controller + Route</h4>
+        <div class="code-block">
+            php artisan make:controller StudentController <span class="tag green">--resource</span>
+
+            <span class="comment">// routes/web.php</span>
+            <span class="function">Route</span>::<span class="function">resource</span>('students', StudentController::class);
+        </div>
+
+        <h4>Controller with Query String</h4>
+        <div class="code-block">
+            <span class="keyword">public function</span> <span class="function">store</span>(Request $request) {
+                <span class="function">Student</span>::<span class="function">create</span>([
+                    'name'  => $request-><span class="function">query</span>('name'),
+                    'email' => $request-><span class="function">query</span>('email'),
+                    'age'   => $request-><span class="function">query</span>('age')
+                ]);
+                <span class="keyword">return</span> <span class="function">redirect</span>()-><span class="function">route</span>('students.index');
+            }
+
+            <span class="keyword">public function</span> <span class="function">edit</span>(Request $request) {
+                $id = $request-><span class="function">query</span>('id');
+                $student = <span class="function">Student</span>::<span class="function">find</span>($id);
+                <span class="keyword">return</span> <span class="function">view</span>('students.edit', <span class="function">compact</span>('student'));
+            }
+
+            <span class="keyword">public function</span> <span class="function">update</span>(Request $request) {
+                $id = $request-><span class="function">query</span>('id');
+                $student = <span class="function">Student</span>::<span class="function">find</span>($id);
+                $student-><span class="function">update</span>([
+                    'name'  => $request-><span class="function">query</span>('name'),
+                    'email' => $request-><span class="function">query</span>('email'),
+                    'age'   => $request-><span class="function">query</span>('age')
+                ]);
+                <span class="keyword">return</span> <span class="function">redirect</span>()-><span class="function">route</span>('students.index');
+            }
+
+            <span class="keyword">public function</span> <span class="function">destroy</span>(Request $request) {
+                $id = $request-><span class="function">query</span>('id');
+                <span class="function">Student</span>::<span class="function">destroy</span>($id);
+                <span class="keyword">return</span> <span class="function">redirect</span>()-><span class="function">route</span>('students.index');
+            }
+        </div>
+
+        <h4>Sample URLs</h4>
+        <div class="code-block">
+            <span class="comment">// Insert</span>
+            /students?name=Rabaab&amp;email=test@gmail.com&amp;age=22
+
+            <span class="comment">// Edit</span>
+            /students/{id}/edit?id=abc123
+
+            <span class="comment">// Update</span>
+            /students/update?id=abc123&amp;name=Updated
+
+            <span class="comment">// Delete</span>
+            /students/{id}?id=abc123
+        </div>
+
+        <div class="alert info">
+            <strong>Note:</strong> Resource Controller normally uses <code>/students/{id}</code> but here we override using <code>?id=abc123</code>.<br>
+            <strong>MongoDB ID:</strong> Uses <code>_id</code> instead of <code>id</code>.<br>
+            <strong>Drawback:</strong> Query strings are visible in URL, not secure, not REST standard.
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<div style="text-align: center; padding: 3rem 0 2rem; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 0.85rem;">
+    <p>INT 221 — Laravel MVC Programming — Complete Study Notes</p>
+    <p style="margin-top: 0.25rem;">Units 1-6 | Generated for exam preparation</p>
+</div>
+
+</div>
+
+<!-- Smooth scroll for nav links -->
+<script>
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
