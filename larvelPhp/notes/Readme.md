@@ -33,3 +33,11 @@ blade template
 
 ![alt text](image-12.png)
 ![alt text](image-13.png)
+![alt text](image-14.png)
+![alt text](image-15.png)
+
+php artisan puplish lang
+can chnage message from validation for whole
+lang -> validation.php 
+
+![alt text](image-16.png)
