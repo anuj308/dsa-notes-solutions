@@ -3,52 +3,70 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\prefixhomeController;
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::redirect('/a','/b');
 
-// Route::get('/home', function () {
-//     return view('Home');
+// Route::get('/', function () {
+//     return view('welcome');
 // });
-// Route::view('home','Home');
+// Route::redirect('/a','/b');
 
-Route::get("/user/{name}",function($name){
-    return "hi ". $name;
-});
+// // Route::get('/home', function () {
+// //     return view('Home');
+// // });
+// // Route::view('home','Home');
 
-Route::view('admin/login','admin.login');
-Route::view('admin/home/{id}','admin.home');
+// Route::get("/user/{name}",function($name){
+//     return "hi ". $name;
+// });
 
-Route::get("/about/{name}",function($name){
-    return view('about',['name'=>$name]);
-});
+// Route::view('admin/login','admin.login');
+// Route::view('admin/home/{id}','admin.home');
 
-Route::get('userId/{id}',[HomeController::class,'getId']);
-Route::get('test/{id}',[HomeController::class,'test']);
+// Route::get("/about/{name}",function($name){
+//     return view('about',['name'=>$name]);
+// });
 
-Route::view('userform','user-form')->name('profile');
-use App\Http\Controllers\userController;
+// Route::get('userId/{id}',[HomeController::class,'getId']);
+// Route::get('test/{id}',[HomeController::class,'test']);
 
-Route::post('addUser',[userController::class,'addUser']);
+// Route::view('userform','user-form')->name('profile');
+// use App\Http\Controllers\userController;
 
-Route::view('urls','urls');
+// Route::post('addUser',[userController::class,'addUser']);
 
-// route group  prefix
+// Route::view('urls','urls');
 
-Route::prefix('student')->group(function(){
-    Route::get('/home',[prefixhomeController::class,'home']);
-    Route::get('/about',[prefixhomeController::class,'about']);
-});
-Route::prefix('student/v1/')->group(function(){
-    Route::get('/home',[prefixhomeController::class,'home']);
-    Route::get('/about',[prefixhomeController::class,'about']);
-});
+// // route group  prefix
 
-// route group with controller
+// Route::prefix('student')->group(function(){
+//     Route::get('/home',[prefixhomeController::class,'home']);
+//     Route::get('/about',[prefixhomeController::class,'about']);
+// });
+// Route::prefix('student/v1/')->group(function(){
+//     Route::get('/home',[prefixhomeController::class,'home']);
+//     Route::get('/about',[prefixhomeController::class,'about']);
+// });
 
-Route::controller(prefixhomeController::class)->group(function(){
-    Route::get('pc/home','home');
-    Route::get('pc/about','about');
-    Route::get('pc/{name}','name');
-});
+// // route group with controller
+
+// Route::controller(prefixhomeController::class)->group(function(){
+//     Route::get('pc/home','home');
+//     Route::get('pc/about','about');
+//     Route::get('pc/{name}','name');
+// });
+
+
+// middlware
+
+// Route::view('homem','homem')->middleware('check1');
+
+// Route::middlware('check1')->group(function(){
+//     Route::view('homem','homem');
+//     Route::view('aboutm','homem');
+// });
+
+use App\Http\middlware\AgeCheck;
+use App\Http\middlware\CountryCheck;
+
+Route::view('homem','homem')->middleware(AgeCheck::class);
+Route::view('homem','homem')->middleware([AgeCheck::class,CountryCheck::class]);
+
