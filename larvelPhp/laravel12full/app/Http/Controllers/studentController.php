@@ -8,9 +8,9 @@ class studentController extends Controller
 {
     //
     function students (){
-        $data = new \App\Model\student;
+        $data = new \App\Models\student;
         $data->fun();
-        $student = \App\Model\student::all();
+        $student = \App\Models\student::all();
         return $student;
     }
 }

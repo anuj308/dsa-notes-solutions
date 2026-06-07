@@ -70,3 +70,7 @@ protected $table = "give the table name";
 
 php artisan model:show student(modelname)
 give all the info 
+
+http client
+![alt text](image-28.png)
+![alt text](image-29.png)

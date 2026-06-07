@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class userController extends Controller
 {
@@ -28,5 +29,11 @@ class userController extends Controller
        $user = DB::select('select * from users');
 
        return view('users',['users'=>$user]);
+    }
+    function getData(){
+        $response = Http::get('https://jsonplaceholder.typicode.com/todos');
+
+        // return $response->body();
+        return view('data',['data'=>json_Decode($response)]);
     }
 }
