@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\prefixhomeController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -33,3 +33,22 @@ use App\Http\Controllers\userController;
 Route::post('addUser',[userController::class,'addUser']);
 
 Route::view('urls','urls');
+
+// route group  prefix
+
+Route::prefix('student')->group(function(){
+    Route::get('/home',[prefixhomeController::class,'home']);
+    Route::get('/about',[prefixhomeController::class,'about']);
+});
+Route::prefix('student/v1/')->group(function(){
+    Route::get('/home',[prefixhomeController::class,'home']);
+    Route::get('/about',[prefixhomeController::class,'about']);
+});
+
+// route group with controller
+
+Route::controller(prefixhomeController::class)->group(function(){
+    Route::get('pc/home','home');
+    Route::get('pc/about','about');
+    Route::get('pc/{name}','name');
+});

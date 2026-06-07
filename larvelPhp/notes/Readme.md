@@ -44,3 +44,7 @@ custom rule
 ![alt text](image-16.png)
 
 php artisan make:rule Uppercase 
+
+
+![alt text](image-17.png)
+![alt text](image-18.png)
