@@ -40,4 +40,7 @@ php artisan puplish lang
 can chnage message from validation for whole
 lang -> validation.php 
 
+custom rule
 ![alt text](image-16.png)
+
+php artisan make:rule Uppercase 
