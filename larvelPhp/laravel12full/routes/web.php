@@ -27,7 +27,9 @@ Route::get("/about/{name}",function($name){
 Route::get('userId/{id}',[HomeController::class,'getId']);
 Route::get('test/{id}',[HomeController::class,'test']);
 
-Route::view('userform','user-form');
+Route::view('userform','user-form')->name('profile');
 use App\Http\Controllers\userController;
 
 Route::post('addUser',[userController::class,'addUser']);
+
+Route::view('urls','urls');
