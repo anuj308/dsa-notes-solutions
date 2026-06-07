@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class userController extends Controller
 {
@@ -22,5 +23,10 @@ class userController extends Controller
         'skill.required'=>"skill is imp plz add",
     ]);
         return $req;
+    }
+    function users(){
+       $user = DB::select('select * from users');
+
+       return view('users',['users'=>$user]);
     }
 }

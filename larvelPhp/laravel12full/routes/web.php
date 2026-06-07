@@ -12,7 +12,7 @@ use App\Http\Controllers\prefixhomeController;
 // // Route::get('/home', function () {
 // //     return view('Home');
 // // });
-// // Route::view('home','Home');
+// Route::view('home','Home');
 
 // Route::get("/user/{name}",function($name){
 //     return "hi ". $name;
@@ -64,9 +64,16 @@ use App\Http\Controllers\prefixhomeController;
 //     Route::view('aboutm','homem');
 // });
 
-use App\Http\middlware\AgeCheck;
-use App\Http\middlware\CountryCheck;
+// use App\Http\middlware\AgeCheck;
+// use App\Http\middlware\CountryCheck;
 
-Route::view('homem','homem')->middleware(AgeCheck::class);
-Route::view('homem','homem')->middleware([AgeCheck::class,CountryCheck::class]);
+// Route::view('homem','homem')->middleware(AgeCheck::class);
+// Route::view('homem','homem')->middleware([AgeCheck::class,CountryCheck::class]);
 
+
+
+Route::view('home','Home');
+
+use App\Http\Controllers\userController;
+
+Route::get('users',[userController::class,'users']);
