@@ -77,3 +77,4 @@ Route::view('home','Home');
 use App\Http\Controllers\userController;
 
 Route::get('users',[userController::class,'users']);
+Route::get('students',[studentController::class,'students']);

@@ -58,3 +58,15 @@ middleware
 connect to mysql
 ![alt text](image-23.png)
 ![alt text](image-24.png)
+
+eloquent model in laravel
+![alt text](image-25.png)
+![alt text](image-26.png)
+
+if model and table do not match the in model do this
+protected $table = "give the table name";
+
+![alt text](image-27.png)
+
+php artisan model:show student(modelname)
+give all the info 
