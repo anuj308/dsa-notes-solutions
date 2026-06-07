@@ -75,10 +75,15 @@ use App\Http\Controllers\prefixhomeController;
 Route::view('home','Home');
 
 use App\Http\Controllers\userController;
-use App\Http\Controllers\studentController;
+// use App\Http\Controllers\studentController;
 
-Route::get('users',[userController::class,'users']);
-Route::get('data',[userController::class,'getData']);
+// Route::get('users',[userController::class,'users']);
+// Route::get('data',[userController::class,'getData']);
 
-// http api request 
-Route::get('students',[studentController::class,'students']);
+// // http api request 
+// Route::get('students',[studentController::class,'students']);
+
+// database query builder
+
+Route::get('getUserData',[userController::class,'getUserData']);
+Route::get('getStudentData',[userController::class,'getStudentData']);
