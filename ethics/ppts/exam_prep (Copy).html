@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSE332 - Exam Prep (Units 1-6)</title>
+    <title>CSE332 - Exam Prep (Units 1-4)</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -29,6 +29,8 @@
             margin-bottom: 8px;
         }
         .header p { color: #94a3b8; font-size: 1.1em; }
+
+        /* Tabs */
         .tabs {
             display: flex;
             gap: 6px;
@@ -59,6 +61,8 @@
         }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
+
+        /* Notes Section */
         .notes-section {
             background: rgba(30, 30, 60, 0.8);
             border-radius: 14px;
@@ -122,6 +126,8 @@
             color: #818cf8;
         }
         .notes-body table td { color: #cbd5e1; }
+
+        /* Quiz Section */
         .quiz-section {
             background: rgba(30, 30, 60, 0.8);
             border-radius: 14px;
@@ -171,6 +177,7 @@
         .quiz-stats span { display: flex; align-items: center; gap: 4px; }
         .quiz-stats .correct { color: #34d399; }
         .quiz-stats .wrong { color: #f87171; }
+
         .quiz-question {
             padding: 20px 24px;
             border-bottom: 1px solid rgba(99, 102, 241, 0.1);
@@ -212,6 +219,7 @@
             color: #f87171 !important;
         }
         .quiz-question .q-option.disabled { pointer-events: none; opacity: 0.7; }
+
         .quiz-question .feedback {
             margin-top: 10px;
             padding: 10px 14px;
@@ -230,6 +238,7 @@
             color: #f87171;
             border: 1px solid rgba(248, 113, 113, 0.2);
         }
+
         @media (max-width: 640px) {
             .container { padding: 12px; }
             .header h1 { font-size: 1.5em; }
@@ -238,11 +247,13 @@
             .quiz-header { flex-direction: column; align-items: stretch; }
             .quiz-stats { justify-content: center; }
         }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .tab-content.active { animation: fadeIn 0.3s ease; }
+
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f0f1a; }
         ::-webkit-scrollbar-thumb { background: rgba(99, 102, 241, 0.3); border-radius: 4px; }
@@ -251,25 +262,28 @@
 </head>
 <body>
 <div class="container">
+
     <div class="header">
         <h1>📚 CSE332 Exam Prep</h1>
-        <p>Industry Ethics &amp; Legal Issues — Units 1 to 6</p>
+        <p>Industry Ethics &amp; Legal Issues — Units 1 to 4</p>
         <p style="margin-top:6px;font-size:0.85em;color:#64748b;">Quick Notes + Interactive MCQs</p>
     </div>
 
+    <!-- TABS -->
     <div class="tabs" id="unitTabs">
         <button class="tab-btn active" onclick="switchTab('unit1')">📖 Unit 1</button>
         <button class="tab-btn" onclick="switchTab('unit2')">📖 Unit 2</button>
         <button class="tab-btn" onclick="switchTab('unit3')">📖 Unit 3</button>
         <button class="tab-btn" onclick="switchTab('unit4')">📖 Unit 4</button>
-        <button class="tab-btn" onclick="switchTab('unit5')">📖 Unit 5</button>
-        <button class="tab-btn" onclick="switchTab('unit6')">📖 Unit 6</button>
     </div>
 
-    <!-- ========== UNIT 1 ========== -->
+    <!-- UNIT 1 -->
     <div class="tab-content active" id="unit1">
         <div class="notes-section">
-            <div class="notes-header"><h2>📝 Unit 1: Ethics</h2><span class="badge">Quick Notes</span></div>
+            <div class="notes-header">
+                <h2>📝 Unit 1: Ethics</h2>
+                <span class="badge">Quick Notes</span>
+            </div>
             <div class="notes-body">
                 <h3>Definition of Ethics</h3>
                 <ul>
@@ -277,18 +291,21 @@
                     <li>Derived from Greek word "ethos" meaning character</li>
                     <li>Helps distinguish between right and wrong</li>
                 </ul>
+
                 <h3>Importance of Integrity</h3>
                 <ul>
                     <li>Integrity = consistency of actions, values, methods &amp; principles</li>
                     <li>Builds trust and credibility</li>
                     <li>Essential for long-term professional success</li>
                 </ul>
+
                 <h3>Ethics in Business World</h3>
                 <ul>
                     <li>Corporate ethics = applying ethical principles in business context</li>
                     <li>Covers fair treatment, transparency, accountability</li>
                     <li>Improves corporate image and stakeholder trust</li>
                 </ul>
+
                 <h3>Improving Corporate Ethics</h3>
                 <ul>
                     <li>Establish clear code of conduct</li>
@@ -296,12 +313,14 @@
                     <li>Lead by example from top management</li>
                     <li>Create reporting mechanisms for unethical behavior</li>
                 </ul>
+
                 <h3>Creating an Ethical Work Environment</h3>
                 <ul>
                     <li>Employees need a knowledgeable resource to discuss ethical concerns</li>
                     <li>Manager's checklist: set clear expectations, model ethical behavior, reward integrity</li>
                     <li>Open-door policy for ethical discussions</li>
                 </ul>
+
                 <h3>Ethical Decision Making</h3>
                 <ul>
                     <li>Develop a Problem Statement: What is wrong? Who is affected? How serious?</li>
@@ -310,6 +329,7 @@
                     <li>Implement: Efficient, effective, timely execution</li>
                     <li>Evaluate Results: Success criteria met? Unintended consequences?</li>
                 </ul>
+
                 <h3>Ethics in Information Technology</h3>
                 <ul>
                     <li>Privacy concerns, cybersecurity risks, misuse of IT resources</li>
@@ -317,22 +337,26 @@
                     <li>Spam emails, hacking, plagiarism, tracking</li>
                     <li>Ethical use of AI and automation</li>
                 </ul>
+
                 <h3>Ethical Behavior of IT Professional</h3>
                 <ul>
                     <li>Profession: Requires specialized knowledge &amp; intensive academic preparation</li>
                     <li>Professional Employee: Exercises discretion &amp; judgment</li>
                     <li>Key traits: specialized knowledge, ethical behavior, accountability, commitment to continuous learning</li>
                 </ul>
+
                 <h3>Common Ethical Issues for IT Users</h3>
                 <ul>
                     <li>Privacy concerns, Cybersecurity risks, Misuse of IT resources, Surveillance and monitoring</li>
                 </ul>
+
                 <h3>Business Software Alliance (BSA)</h3>
                 <ul>
                     <li>Trade group representing world's largest software &amp; hardware manufacturers</li>
                     <li>Mission: stop unauthorized copying of software</li>
                     <li>Over 100 lawyers &amp; investigators prosecute piracy cases</li>
                 </ul>
+
                 <h3>Supporting Ethical Practices of IT Users</h3>
                 <ul>
                     <li>Education &amp; awareness programs</li>
@@ -341,11 +365,16 @@
                 </ul>
             </div>
         </div>
+
         <div class="quiz-section">
             <div class="quiz-header">
                 <h2>🧠 Unit 1 Quiz</h2>
                 <div class="quiz-controls">
-                    <div class="quiz-stats"><span class="correct">✅ <span id="c1">0</span></span><span class="wrong">❌ <span id="w1">0</span></span><span>📊 <span id="t1">0</span></span></div>
+                    <div class="quiz-stats">
+                        <span class="correct">✅ <span id="c1">0</span></span>
+                        <span class="wrong">❌ <span id="w1">0</span></span>
+                        <span>📊 <span id="t1">0</span></span>
+                    </div>
                     <button onclick="renderQuiz('unit1')">🔀 Shuffle</button>
                     <button class="primary" onclick="renderQuiz('unit1')">🔄 Reset</button>
                 </div>
@@ -354,10 +383,13 @@
         </div>
     </div>
 
-    <!-- ========== UNIT 2 ========== -->
+    <!-- UNIT 2 -->
     <div class="tab-content" id="unit2">
         <div class="notes-section">
-            <div class="notes-header"><h2>📝 Unit 2: Intellectual Properties</h2><span class="badge">Quick Notes</span></div>
+            <div class="notes-header">
+                <h2>📝 Unit 2: Intellectual Properties</h2>
+                <span class="badge">Quick Notes</span>
+            </div>
             <div class="notes-body">
                 <h3>Intellectual Property Rights (IPR)</h3>
                 <ul>
@@ -365,6 +397,7 @@
                     <li>Encourage development &amp; distribution of new products/services</li>
                     <li>Granted over inventions, designs, trademarks, creative content</li>
                 </ul>
+
                 <h3>Types of IP</h3>
                 <table>
                     <tr><th>Type</th><th>Protects</th></tr>
@@ -376,6 +409,7 @@
                     <tr><td>Design</td><td>Visual appearance (shape, color, pattern, texture)</td></tr>
                     <tr><td>Plant Variety (PVR)</td><td>New plant varieties from unauthorized reproduction</td></tr>
                 </table>
+
                 <h3>Patents — Detailed</h3>
                 <ul>
                     <li>Statutory grant by government for new inventions</li>
@@ -385,18 +419,21 @@
                     <li>Patentable: Process/method, machine/apparatus, article of manufacture, composition of matter, improvements</li>
                     <li>Types of applications: Ordinary, Convention, Patent of Addition, Divisional, PCT International, PCT National</li>
                 </ul>
+
                 <h3>Provisional vs Complete Specification</h3>
                 <ul>
                     <li>Provisional: Early priority, less expensive, no claims, no abstract</li>
                     <li>Complete: Must be filed within 12 months of provisional filing</li>
                     <li>Contents: Title, Field, Background (Prior Art), Object, Summary, Drawings, Detailed Description, Examples, Claims, Abstract</li>
                 </ul>
+
                 <h3>Who Can File a Patent? (Section 6)</h3>
                 <ul>
                     <li>True and first inventor</li>
                     <li>Assignee of true and first inventor</li>
                     <li>Legal representative of deceased person entitled to apply</li>
                 </ul>
+
                 <h3>Patent Grant Stages</h3>
                 <ul>
                     <li>Publication and Examination</li>
@@ -405,6 +442,7 @@
                     <li>Examiner prepares report in 1-3 months</li>
                     <li>Renewal fees paid every year till end of term</li>
                 </ul>
+
                 <h3>Types of Trademarks</h3>
                 <ul>
                     <li>Product Mark: Identifies goods/products (e.g., Pepsi, Nike Swoosh)</li>
@@ -415,13 +453,18 @@
                     <li>Pattern Mark: Specific pattern/design (Gucci GG, Louis Vuitton)</li>
                     <li>Sound Mark: Protects specific sound (e.g., Netflix intro)</li>
                 </ul>
+
                 <h3>Trademark — Loss of Rights &amp; Benefits</h3>
                 <ul>
                     <li>Loss: Improper use, genericide, non-use, improper assignment, failure to police/renew</li>
                     <li>Benefits: Prima facie evidence, exclusive right, assignable, perpetual goodwill with renewal</li>
                 </ul>
+
                 <h3>Trade Secret Requirements</h3>
-                <ul><li>Secrecy, Commercial Value, Reasonable Efforts to keep secret</li></ul>
+                <ul>
+                    <li>Secrecy, Commercial Value, Reasonable Efforts to keep secret</li>
+                </ul>
+
                 <h3>Litigation vs Licensing</h3>
                 <ul>
                     <li>Litigation: Stop competitor from infringing — costly, timely, disruptive</li>
@@ -430,11 +473,16 @@
                 </ul>
             </div>
         </div>
+
         <div class="quiz-section">
             <div class="quiz-header">
                 <h2>🧠 Unit 2 Quiz</h2>
                 <div class="quiz-controls">
-                    <div class="quiz-stats"><span class="correct">✅ <span id="c2">0</span></span><span class="wrong">❌ <span id="w2">0</span></span><span>📊 <span id="t2">0</span></span></div>
+                    <div class="quiz-stats">
+                        <span class="correct">✅ <span id="c2">0</span></span>
+                        <span class="wrong">❌ <span id="w2">0</span></span>
+                        <span>📊 <span id="t2">0</span></span>
+                    </div>
                     <button onclick="renderQuiz('unit2')">🔀 Shuffle</button>
                     <button class="primary" onclick="renderQuiz('unit2')">🔄 Reset</button>
                 </div>
@@ -443,10 +491,13 @@
         </div>
     </div>
 
-    <!-- ========== UNIT 3 ========== -->
+    <!-- UNIT 3 -->
     <div class="tab-content" id="unit3">
         <div class="notes-section">
-            <div class="notes-header"><h2>📝 Unit 3: Government Funding &amp; Startup Schemes</h2><span class="badge">Quick Notes</span></div>
+            <div class="notes-header">
+                <h2>📝 Unit 3: Government Funding &amp; Startup Schemes</h2>
+                <span class="badge">Quick Notes</span>
+            </div>
             <div class="notes-body">
                 <h3>What is a Startup? (DPIIT Definition)</h3>
                 <ul>
@@ -456,12 +507,14 @@
                     <li>Scalable business model with high employment &amp; wealth creation potential</li>
                     <li>Should NOT be formed by splitting/reconstructing existing business</li>
                 </ul>
+
                 <h3>Startup India Initiative (Launched Jan 16, 2016)</h3>
                 <ul>
                     <li>Aims: Promote entrepreneurship, innovation, job creation</li>
                     <li>Over 100,000 startups recognized by DPIIT</li>
                     <li>India = 3rd largest startup ecosystem globally</li>
                 </ul>
+
                 <h3>Startup India — Benefits</h3>
                 <ul>
                     <li>Tax Holiday: 100% tax exemption for 3 consecutive years (Section 80-IAC)</li>
@@ -470,6 +523,7 @@
                     <li>Fast-Track Patent: 80% reduction in patent filing fees</li>
                     <li>Fund of Funds (FFS): ₹10,000 crore managed by SIDBI</li>
                 </ul>
+
                 <h3>MUDRA Loan (PMMY)</h3>
                 <table>
                     <tr><th>Category</th><th>Amount</th><th>Purpose</th></tr>
@@ -478,23 +532,27 @@
                     <tr><td>Tarun</td><td>₹5 lakh - ₹10 lakh</td><td>Established businesses</td></tr>
                 </table>
                 <div class="highlight-box">No collateral required | Interest: 8%-12%</div>
+
                 <h3>Other Loan Schemes</h3>
                 <ul>
                     <li>Stand-Up India: ₹10 lakh - ₹1 crore (Women/SC/ST, 51% ownership)</li>
                     <li>CGTMSE: Up to ₹2 crore (collateral-free, MSMEs)</li>
                     <li>SIDBI: ₹10 lakh - ₹10 crore (innovation, technology)</li>
                 </ul>
+
                 <h3>NASSCOM — 10,000 Startups Initiative (2013)</h3>
                 <ul>
                     <li>7,500+ startups incubated, 300+ scaled globally, $4B+ funding raised</li>
                     <li>Success: Razorpay, Unacademy, Freshworks (1st SaaS unicorn), Digit Insurance</li>
                     <li>Future: Tier-2/3 cities, AI/DeepTech/Sustainability</li>
                 </ul>
+
                 <h3>STP Scheme (Software Technology Parks) — 1991</h3>
                 <ul>
                     <li>10-year income tax exemption, duty-free imports, 100% FDI</li>
                     <li>~4.5 million jobs, ~45% of IT exports</li>
                 </ul>
+
                 <h3>SEZ Scheme (Special Economic Zones) — 2005</h3>
                 <ul>
                     <li>15-year corporate tax holiday, duty-free import/export</li>
@@ -503,11 +561,16 @@
                 </ul>
             </div>
         </div>
+
         <div class="quiz-section">
             <div class="quiz-header">
                 <h2>🧠 Unit 3 Quiz</h2>
                 <div class="quiz-controls">
-                    <div class="quiz-stats"><span class="correct">✅ <span id="c3">0</span></span><span class="wrong">❌ <span id="w3">0</span></span><span>📊 <span id="t3">0</span></span></div>
+                    <div class="quiz-stats">
+                        <span class="correct">✅ <span id="c3">0</span></span>
+                        <span class="wrong">❌ <span id="w3">0</span></span>
+                        <span>📊 <span id="t3">0</span></span>
+                    </div>
                     <button onclick="renderQuiz('unit3')">🔀 Shuffle</button>
                     <button class="primary" onclick="renderQuiz('unit3')">🔄 Reset</button>
                 </div>
@@ -516,10 +579,13 @@
         </div>
     </div>
 
-    <!-- ========== UNIT 4 ========== -->
+    <!-- UNIT 4 -->
     <div class="tab-content" id="unit4">
         <div class="notes-section">
-            <div class="notes-header"><h2>📝 Unit 4: Startup in IT</h2><span class="badge">Quick Notes</span></div>
+            <div class="notes-header">
+                <h2>📝 Unit 4: Startup in IT</h2>
+                <span class="badge">Quick Notes</span>
+            </div>
             <div class="notes-body">
                 <h3>Executive Summary</h3>
                 <ul>
@@ -530,21 +596,25 @@
                     <li>Goals: Launch MVP, acquire clients, expand team, achieve revenue growth</li>
                     <li>Financial overview: Initial investment, revenue streams, projected ROI</li>
                 </ul>
+
                 <h3>General Company Description</h3>
                 <ul>
                     <li>Company name, founded date, location, business structure</li>
                     <li>Mission, Vision, Core values (Innovation, Customer-Centric, Integrity, Scalability)</li>
                 </ul>
+
                 <h3>Marketing Plan</h3>
                 <ul>
                     <li>Target market analysis, Digital strategy (paid ads, email, social media)</li>
                     <li>Customer engagement (AI chatbots, feedback), Performance measurement (KPIs, ROI)</li>
                 </ul>
+
                 <h3>Operational Plan</h3>
                 <ul>
                     <li>Business process management, Resource allocation, Technology infrastructure</li>
                     <li>Risk management &amp; compliance, Performance monitoring</li>
                 </ul>
+
                 <h3>Product-Based vs Service-Based IT Companies</h3>
                 <table>
                     <tr><th>Product-Based</th><th>Service-Based</th></tr>
@@ -552,23 +622,27 @@
                     <tr><td>Revenue: licensing &amp; subscriptions</td><td>Revenue: contracts &amp; projects</td></tr>
                     <tr><td>Examples: Microsoft, Google, Adobe</td><td>Examples: TCS, Infosys, Wipro, Accenture</td></tr>
                 </table>
+
                 <h3>Financial Plan</h3>
                 <ul>
                     <li>Opening Day Balance Sheet, Break-Even Analysis, Cash Flow</li>
                     <li>Startup Expenses &amp; Capitalization</li>
                 </ul>
+
                 <h3>Appendices &amp; Refining the Plan</h3>
                 <ul>
                     <li>Brochures, studies, maps, equipment lists, leases, contracts</li>
                     <li>For bankers: Loan amount, repayment terms, collateral</li>
                     <li>For investors: Short-term &amp; long-term needs, ROI projections</li>
                 </ul>
+
                 <h3>Case Study — Flipkart</h3>
                 <ul>
                     <li>Founded 2007 by Sachin Bansal &amp; Binny Bansal (IIT Delhi, ex-Amazon)</li>
                     <li>Started with books, introduced COD in India</li>
                     <li>Acquired Myntra, LetsBuy. Valued at ~$15 billion</li>
                 </ul>
+
                 <h3>Case Study — MakeMyTrip</h3>
                 <ul>
                     <li>Founded by Deep Kalra (IIM-A), based in Gurgaon</li>
@@ -576,11 +650,16 @@
                 </ul>
             </div>
         </div>
+
         <div class="quiz-section">
             <div class="quiz-header">
                 <h2>🧠 Unit 4 Quiz</h2>
                 <div class="quiz-controls">
-                    <div class="quiz-stats"><span class="correct">✅ <span id="c4">0</span></span><span class="wrong">❌ <span id="w4">0</span></span><span>📊 <span id="t4">0</span></span></div>
+                    <div class="quiz-stats">
+                        <span class="correct">✅ <span id="c4">0</span></span>
+                        <span class="wrong">❌ <span id="w4">0</span></span>
+                        <span>📊 <span id="t4">0</span></span>
+                    </div>
                     <button onclick="renderQuiz('unit4')">🔀 Shuffle</button>
                     <button class="primary" onclick="renderQuiz('unit4')">🔄 Reset</button>
                 </div>
@@ -589,357 +668,134 @@
         </div>
     </div>
 
-    <!-- ========== UNIT 5 ========== -->
-    <div class="tab-content" id="unit5">
-        <div class="notes-section">
-            <div class="notes-header"><h2>📝 Unit 5: IT &amp; ITES Industry</h2><span class="badge">Quick Notes</span></div>
-            <div class="notes-body">
-                <h3>What is IT &amp; ITES?</h3>
-                <ul>
-                    <li>IT (Information Technology) = use of computers, networks, software to store, process &amp; transmit data</li>
-                    <li>ITES (IT-Enabled Services) = services delivered via IT infrastructure — BPO, KPO, call centers, banking support</li>
-                    <li>India is the world's largest IT outsourcing destination</li>
-                </ul>
-                <h3>Product-Based vs Service-Based Companies</h3>
-                <table>
-                    <tr><th>Product-Based</th><th>Service-Based</th></tr>
-                    <tr><td>Develop &amp; sell own software/products</td><td>Offer IT services &amp; consulting to clients</td></tr>
-                    <tr><td>Revenue: licensing, subscriptions, sales</td><td>Revenue: contracts, projects, hourly billing</td></tr>
-                    <tr><td>Examples: Microsoft, Google, Apple, Adobe, Sony</td><td>Examples: TCS, Infosys, Accenture, Wipro</td></tr>
-                    <tr><td>Innovation-driven, IP-focused</td><td>Client-driven, customization-focused</td></tr>
-                </table>
-                <div class="highlight-box">Hybrid companies exist — Amazon (AWS = product + e-commerce = service), Microsoft (Azure product + consulting services)</div>
-                <h3>Key Industry Bodies</h3>
-                <ul>
-                    <li><strong>NASSCOM</strong> — National Association of Software &amp; Services Companies; represents $250B+ Indian IT-BPM industry</li>
-                    <li><strong>STPI</strong> — Software Technology Parks of India; government body facilitating IT exports, providing high-speed datacom, single-window clearance</li>
-                    <li><strong>DPIIT</strong> — Dept for Promotion of Industry &amp; Internal Trade; startup recognition &amp; policy</li>
-                </ul>
-                <h3>Major Indian IT Companies (Services)</h3>
-                <table>
-                    <tr><th>Company</th><th>Founded</th><th>Key Facts</th></tr>
-                    <tr><td>TCS</td><td>1968</td><td>Largest IT services company in India; part of Tata Group; 600K+ employees</td></tr>
-                    <tr><td>Infosys</td><td>1981</td><td>Pioneered Global Delivery Model; Narayana Murthy founder; 300K+ employees</td></tr>
-                    <tr><td>Accenture</td><td>1989</td><td>Global consulting &amp; tech services; 700K+ employees worldwide</td></tr>
-                </table>
-                <h3>Major Global Product/Hybrid Companies</h3>
-                <table>
-                    <tr><th>Company</th><th>Type</th><th>Key Facts</th></tr>
-                    <tr><td>Microsoft</td><td>Product</td><td>Windows, Office, Azure cloud; $2.8T+ market cap</td></tr>
-                    <tr><td>Amazon</td><td>Hybrid</td><td>E-commerce + AWS cloud; largest cloud provider globally</td></tr>
-                    <tr><td>Apple</td><td>Product</td><td>iPhone, Mac, Vision Pro; $3T+ market cap</td></tr>
-                    <tr><td>Adobe</td><td>Product</td><td>Creative Cloud; shifted to SaaS subscription model</td></tr>
-                    <tr><td>Sony</td><td>Product</td><td>PlayStation, cameras, entertainment</td></tr>
-                </table>
-                <h3>Emerging Technologies</h3>
-                <ul>
-                    <li><strong>AI/ML</strong> — ChatGPT, Copilot, automation</li>
-                    <li><strong>IoT</strong> — Smart devices, industrial automation</li>
-                    <li><strong>Cloud Computing</strong> — AWS, Azure, GCP</li>
-                    <li><strong>Blockchain</strong> — Cryptocurrency, supply chain, smart contracts</li>
-                    <li><strong>Quantum Computing</strong> — Amazon chip (Ocelot), Google Sycamore</li>
-                    <li><strong>Mixed Reality</strong> — Apple Vision Pro, Meta Quest</li>
-                </ul>
-                <h3>Government Initiatives for IT</h3>
-                <ul>
-                    <li><strong>Digital India</strong> — Digital infrastructure, governance, literacy</li>
-                    <li><strong>Make in India</strong> — Domestic manufacturing of electronics &amp; IT hardware</li>
-                    <li><strong>Startup India</strong> — Tax holidays, Fund of Funds, fast-track patents</li>
-                    <li><strong>Smart Cities Mission</strong> — IT-driven urban infrastructure</li>
-                </ul>
-                <h3>Workforce Diversity</h3>
-                <ul>
-                    <li>Women hold only ~26% of computing jobs globally</li>
-                    <li>Underrepresentation of minorities in leadership</li>
-                    <li>Diversity linked to better innovation &amp; financial performance</li>
-                </ul>
-            </div>
-        </div>
-        <div class="quiz-section">
-            <div class="quiz-header">
-                <h2>🧠 Unit 5 Quiz</h2>
-                <div class="quiz-controls">
-                    <div class="quiz-stats"><span class="correct">✅ <span id="c5">0</span></span><span class="wrong">❌ <span id="w5">0</span></span><span>📊 <span id="t5">0</span></span></div>
-                    <button onclick="renderQuiz('unit5')">🔀 Shuffle</button>
-                    <button class="primary" onclick="renderQuiz('unit5')">🔄 Reset</button>
-                </div>
-            </div>
-            <div id="quiz-container-unit5"></div>
-        </div>
-    </div>
-
-    <!-- ========== UNIT 6 ========== -->
-    <div class="tab-content" id="unit6">
-        <div class="notes-section">
-            <div class="notes-header"><h2>📝 Unit 6: Cyber Law &amp; Information Security</h2><span class="badge">Quick Notes</span></div>
-            <div class="notes-body">
-                <h3>Information Security — Overview</h3>
-                <ul>
-                    <li>InfoSec = protecting data from unauthorized access, disclosure, disruption, modification, destruction</li>
-                    <li>CIA Triad: <strong>Confidentiality</strong>, <strong>Integrity</strong>, <strong>Availability</strong></li>
-                    <li>Organizations must implement security policies, training, and incident response plans</li>
-                </ul>
-                <h3>Policy vs Law</h3>
-                <table>
-                    <tr><th>Policy</th><th>Law</th></tr>
-                    <tr><td>Internal to organization</td><td>Enforced by government</td></tr>
-                    <tr><td>Flexible, can be updated</td><td>Strict, requires legislative process</td></tr>
-                    <tr><td>Voluntary compliance expected</td><td>Mandatory compliance; penalties</td></tr>
-                    <tr><td>Examples: AUP, BYOD policy</td><td>Examples: IT Act 2000, GDPR, HIPAA</td></tr>
-                </table>
-                <h3>Types of Security Policies</h3>
-                <ul>
-                    <li><strong>AUP (Acceptable Use Policy)</strong> — defines allowed use of company IT resources</li>
-                    <li><strong>BYOD Policy</strong> — rules for using personal devices for work</li>
-                    <li><strong>Data Classification Policy</strong> — Public, Internal, Confidential, Restricted</li>
-                    <li><strong>Incident Response Policy</strong> — steps to handle security breaches</li>
-                </ul>
-                <h3>Organizational Liability</h3>
-                <ul>
-                    <li>Companies legally responsible for data breaches</li>
-                    <li>Must appoint legal counsel for cybersecurity compliance</li>
-                    <li><strong>Facebook–Cambridge Analytica</strong>: $5B FTC fine</li>
-                    <li><strong>Equifax breach (2017)</strong>: 147M records; $700M+ settlement</li>
-                </ul>
-                <h3>Key Cybersecurity Laws (Global)</h3>
-                <table>
-                    <tr><th>Law</th><th>Region</th><th>Key Points</th></tr>
-                    <tr><td>GDPR</td><td>EU</td><td>Consent required; right to erasure; fines up to 4% global revenue</td></tr>
-                    <tr><td>HIPAA</td><td>USA</td><td>Protects health information</td></tr>
-                    <tr><td>CCPA/CPRA</td><td>California</td><td>Consumer right to know, delete, opt-out; $25M+ revenue companies</td></tr>
-                    <tr><td>SOX</td><td>USA</td><td>Financial reporting integrity; IT controls</td></tr>
-                </table>
-                <h3>Cyber Law in India — IT Act 2000</h3>
-                <ul>
-                    <li><strong>Section 43</strong> — unauthorized access (compensation up to ₹5 crore)</li>
-                    <li><strong>Section 65</strong> — tampering with source code (3 years + fine)</li>
-                    <li><strong>Section 66</strong> — computer-related offenses (3 years + fine)</li>
-                    <li><strong>Section 66A</strong> — offensive messages (struck down in 2015)</li>
-                    <li><strong>Section 67</strong> — publishing obscene material (3 years + fine)</li>
-                    <li><strong>Section 72A</strong> — breach of lawful contract (3 years + ₹5 lakh)</li>
-                    <li><strong>Section 79</strong> — safe harbor for intermediaries</li>
-                </ul>
-                <h3>DPDP Act 2023</h3>
-                <ul>
-                    <li><strong>Data Principal</strong> — individual whose data is processed</li>
-                    <li><strong>Data Fiduciary</strong> — entity determining purpose &amp; means of processing</li>
-                    <li>Consent: free, specific, informed, unconditional, unambiguous</li>
-                    <li>Data Protection Board of India — adjudicatory body</li>
-                    <li>Penalties up to ₹250 crore</li>
-                </ul>
-                <h3>Types of Cybercrimes</h3>
-                <ul>
-                    <li><strong>Cyber Fraud</strong> — phishing, identity theft, scams</li>
-                    <li><strong>Hacking</strong> — unauthorized access, website defacement</li>
-                    <li><strong>Cyberbullying</strong> — online harassment, stalking</li>
-                    <li><strong>IP Theft</strong> — trade secrets, copyrighted material</li>
-                    <li><strong>Cyber Terrorism</strong> — critical infrastructure attacks</li>
-                    <li><strong>Ransomware</strong> — encrypt data, demand payment</li>
-                </ul>
-                <h3>Cybersecurity Tools</h3>
-                <table>
-                    <tr><th>Category</th><th>Tools</th><th>Purpose</th></tr>
-                    <tr><td>Network Security</td><td>Wireshark, Nmap</td><td>Packet analysis, scanning</td></tr>
-                    <tr><td>Endpoint Security</td><td>CrowdStrike, SentinelOne</td><td>Malware/ransomware protection</td></tr>
-                    <tr><td>Pen Testing</td><td>Metasploit, Burp Suite</td><td>Ethical hacking, vuln assessment</td></tr>
-                    <tr><td>Forensics</td><td>Autopsy, Volatility</td><td>Digital evidence analysis</td></tr>
-                    <tr><td>Vuln Scanning</td><td>Nessus, OpenVAS</td><td>Identify known vulnerabilities</td></tr>
-                </table>
-                <h3>Case Studies</h3>
-                <ul>
-                    <li><strong>Colonial Pipeline (2021)</strong> — Ransomware; $4.4M ransom paid</li>
-                    <li><strong>Equifax (2017)</strong> — 147M records; unpatched Apache Struts</li>
-                    <li><strong>Fortune 500 Phishing</strong> — CEO fraud; $47M lost</li>
-                </ul>
-                <h3>Best Practices</h3>
-                <ul>
-                    <li>Multi-Factor Authentication (MFA)</li>
-                    <li>Regular patching &amp; updates</li>
-                    <li>Employee security training</li>
-                    <li>Data encryption at rest &amp; in transit</li>
-                    <li>Zero-trust architecture</li>
-                    <li>Regular backups &amp; incident response drills</li>
-                </ul>
-            </div>
-        </div>
-        <div class="quiz-section">
-            <div class="quiz-header">
-                <h2>🧠 Unit 6 Quiz</h2>
-                <div class="quiz-controls">
-                    <div class="quiz-stats"><span class="correct">✅ <span id="c6">0</span></span><span class="wrong">❌ <span id="w6">0</span></span><span>📊 <span id="t6">0</span></span></div>
-                    <button onclick="renderQuiz('unit6')">🔀 Shuffle</button>
-                    <button class="primary" onclick="renderQuiz('unit6')">🔄 Reset</button>
-                </div>
-            </div>
-            <div id="quiz-container-unit6"></div>
-        </div>
-    </div>
-
 </div>
 
 <script>
 (function() {
+    // ======================== QUIZ DATA ========================
     var QUIZ_DATA = {
         unit1: [
             { q: 'Ethics is derived from which Greek word?', opts: ['Ethos', 'Pathos', 'Logos', 'Ethikos'], a: 0 },
             { q: 'What does BSA stand for?', opts: ['Business Software Alliance', 'Business Security Association', 'Basic Software Agreement', 'Broadband Service Alliance'], a: 0 },
-            { q: 'Which is NOT an ethical issue for IT users?', opts: ['Privacy concerns', 'Cybersecurity risks', 'Software licensing revenue', 'Surveillance and monitoring'], a: 2 },
-            { q: 'How many BSA lawyers prosecute piracy cases?', opts: ['50', 'Over 100', 'Over 200', 'Exactly 75'], a: 1 },
+            { q: 'Which of the following is NOT an ethical issue for IT users?', opts: ['Privacy concerns', 'Cybersecurity risks', 'Software licensing revenue', 'Surveillance and monitoring'], a: 2 },
+            { q: 'How many BSA lawyers and investigators prosecute piracy cases each year?', opts: ['50', 'Over 100', 'Over 200', 'Exactly 75'], a: 1 },
             { q: 'Which step comes FIRST in ethical decision making?', opts: ['Implement the decision', 'Develop a problem statement', 'Identify alternatives', 'Evaluate the results'], a: 1 },
-            { q: 'Primary mission of BSA?', opts: ['Promote open source', 'Stop unauthorized copying of software', 'Develop new software', 'Train IT professionals'], a: 1 },
-            { q: 'Core values for an ethical IT startup:', opts: ['Profit-only', 'Innovation, Customer-Centric, Integrity', 'Aggressive marketing', 'Monopoly creation'], a: 1 },
+            { q: 'What is the primary mission of BSA?', opts: ['Promote open source software', 'Stop unauthorized copying of software', 'Develop new software', 'Train IT professionals'], a: 1 },
+            { q: 'Core values that an ethical IT startup should have include:', opts: ['Profit-only approach', 'Innovation, Customer-Centric, Integrity', 'Aggressive marketing', 'Monopoly creation'], a: 1 },
             { q: 'A profession requires:', opts: ['Specialized knowledge & intensive preparation', 'Only basic training', 'No accountability', 'No ethical behavior'], a: 0 },
             { q: 'What triggers BSA investigations?', opts: ['Government orders', 'BSA hotline calls & web reports', 'Police complaints', 'Company self-reports'], a: 1 },
-            { q: 'After implementing a decision, what comes next?', opts: ['Identify alternatives', 'Evaluate the results', 'Develop problem statement', 'Choose an alternative'], a: 1 },
+            { q: 'In ethical decision-making, what comes after implementing the decision?', opts: ['Identify alternatives', 'Evaluate the results', 'Develop problem statement', 'Choose an alternative'], a: 1 },
             { q: 'Integrity means:', opts: ['Consistency of actions, values & principles', 'Making maximum profit', 'Following trends', 'Competing aggressively'], a: 0 },
-            { q: 'Ethical concerns in technology include:', opts: ['Only hardware issues', 'Copyright violation, hacking, plagiarism', 'Only network issues', 'No concerns'], a: 1 },
-            { q: 'Supporting ethical practices includes:', opts: ['Education & awareness', 'Ignoring compliance', 'Reducing security', 'Limiting access'], a: 0 },
-            { q: 'Key trait of an IT professional:', opts: ['Commitment to continuous learning', 'Avoiding accountability', 'Lack of knowledge', 'Ignoring ethics'], a: 0 },
-            { q: 'Creating ethical work environment requires:', opts: ['No policies', 'Knowledgeable resource for ethics discussions', 'Punitive measures only', 'Ignoring concerns'], a: 1 }
+            { q: 'Ethical concerns in technology include:', opts: ['Only hardware issues', 'Copyright violation, hacking, plagiarism, tracking', 'Only network issues', 'No concerns exist'], a: 1 },
+            { q: 'Supporting ethical practices of IT users includes:', opts: ['Education & awareness', 'Ignoring compliance', 'Reducing security', 'Limiting access'], a: 0 },
+            { q: 'Which is a key trait of an IT professional?', opts: ['Commitment to continuous learning', 'Avoiding accountability', 'Lack of specialized knowledge', 'Ignoring ethics'], a: 0 },
+            { q: 'Creating an ethical work environment requires:', opts: ['No policies needed', 'A knowledgeable resource for discussing ethics', 'Punitive measures only', 'Ignoring employee concerns'], a: 1 }
         ],
         unit2: [
-            { q: 'Full form of IPR?', opts: ['Intellectual Property Rights', 'International Property Rights', 'Integrated Patent Rights', 'Internet Privacy Rights'], a: 0 },
-            { q: 'Patent valid for how many years?', opts: ['10', '15', '20', '25'], a: 2 },
-            { q: 'NOT a type of trademark?', opts: ['Service Mark', 'Collective Mark', 'Patent Mark', 'Certification Mark'], a: 2 },
-            { q: 'GI identifies?', opts: ['Product price', 'Product geographical origin', 'Product manufacturer', 'Product expiry'], a: 1 },
-            { q: 'Trade secret must have:', opts: ['Secrecy, Commercial value, Reasonable efforts', 'Patent registration', 'Government approval', 'Public disclosure'], a: 0 },
-            { q: 'Who can file a patent (Section 6)?', opts: ['True and first inventor only', 'Inventor, Assignee, Legal representative', 'Any citizen of India', 'Only companies'], a: 1 },
-            { q: 'Complete spec must be filed within ___ of provisional?', opts: ['6 months', '12 months', '24 months', '36 months'], a: 1 },
-            { q: 'Mark protecting 3D shape?', opts: ['Sound Mark', 'Pattern Mark', 'Shape Mark', 'Service Mark'], a: 2 },
-            { q: 'Service mark symbol?', opts: ['®', 'TM', 'SM', '©'], a: 2 },
-            { q: 'Loss of trademark rights caused by:', opts: ['Genericide', 'Renewal', 'Active use', 'Proper licensing'], a: 0 },
-            { q: 'Protects visual appearance?', opts: ['Patent', 'Copyright', 'Design', 'Trademark'], a: 2 },
+            { q: 'What is the full form of IPR?', opts: ['Intellectual Property Rights', 'International Property Rights', 'Integrated Patent Rights', 'Internet Privacy Rights'], a: 0 },
+            { q: 'How many years is a patent valid from the date of filing?', opts: ['10 years', '15 years', '20 years', '25 years'], a: 2 },
+            { q: 'Which of these is NOT a type of trademark?', opts: ['Service Mark', 'Collective Mark', 'Patent Mark', 'Certification Mark'], a: 2 },
+            { q: 'What does a GI (Geographical Indication) identify?', opts: ['Product price', 'Product geographical origin', 'Product manufacturer', 'Product expiry'], a: 1 },
+            { q: 'A trade secret must have:', opts: ['Secrecy, Commercial value, Reasonable efforts', 'Patent registration', 'Government approval', 'Public disclosure'], a: 0 },
+            { q: 'Under Section 6, who can file a patent?', opts: ['True and first inventor only', 'True and first inventor, Assignee, Legal representative', 'Any citizen of India', 'Only companies'], a: 1 },
+            { q: 'What must be filed within 12 months of a provisional patent application?', opts: ['Renewal application', 'Complete specification', 'Another provisional application', 'Abandonment notice'], a: 1 },
+            { q: 'Which type of mark protects a 3D shape of a product?', opts: ['Sound Mark', 'Pattern Mark', 'Shape Mark', 'Service Mark'], a: 2 },
+            { q: 'What symbol is used for a service mark?', opts: ['®', 'TM', 'SM', '©'], a: 2 },
+            { q: 'What can cause loss of trademark rights?', opts: ['Genericide', 'Renewal', 'Active use', 'Proper licensing'], a: 0 },
+            { q: 'Which protects the visual appearance of a product?', opts: ['Patent', 'Copyright', 'Design', 'Trademark'], a: 2 },
             { q: 'Copyright protects:', opts: ['Inventions only', 'Original creative works', 'Business methods', 'Domain names'], a: 1 },
-            { q: 'Benefit of trademark registration?', opts: ['Perpetual without renewal', 'Prima facie evidence', 'Global protection', 'No commercial use needed'], a: 1 },
-            { q: 'Patent rights are:', opts: ['Global', 'Territorial (country-specific)', 'Lifetime', 'Renewable indefinitely'], a: 1 },
-            { q: 'NOT patentable?', opts: ['Process/method', 'Machine/apparatus', 'Mathematical formula alone', 'Composition of matter'], a: 2 },
-            { q: 'Litigation is for:', opts: ['Obtaining royalties', 'Stopping competitor from infringing', 'Collaborative research', 'Joint venture'], a: 1 },
-            { q: 'Patent examination request time limit?', opts: ['12 months', '24 months', '48 months', '6 months'], a: 2 },
-            { q: 'Example of Product Mark?', opts: ["McDonald's Arches", "Nike's Swoosh", 'FedEx logo', 'Netflix sound'], a: 1 },
-            { q: 'Protects plant varieties?', opts: ['Patent', 'Copyright', 'PVR', 'Trademark'], a: 2 },
-            { q: 'ADR includes:', opts: ['Litigation only', 'Mediation & Arbitration', 'Only court cases', 'Patent filing'], a: 1 }
+            { q: 'What is a benefit of trademark registration?', opts: ['Perpetual protection without renewal', 'Prima facie evidence of proprietorship', 'Automatic global protection', 'No need for commercial use'], a: 1 },
+            { q: 'Patent rights are:', opts: ['Global automatically', 'Territorial (country-specific)', 'Lifetime of inventor', 'Renewable indefinitely'], a: 1 },
+            { q: 'Which is NOT patentable subject matter?', opts: ['Process or method', 'Machine or apparatus', 'Mathematical formula alone', 'Composition of matter'], a: 2 },
+            { q: 'Litigation vs Licensing: Litigation is for:', opts: ['Obtaining royalties', 'Stopping competitor from infringing', 'Collaborative research', 'Joint venture'], a: 1 },
+            { q: 'What is the time limit to request patent examination?', opts: ['12 months from filing', '24 months from filing', '48 months from filing', '6 months from filing'], a: 2 },
+            { q: 'An example of a Product Mark is:', opts: ["McDonald's Golden Arches", "Nike's Swoosh", 'FedEx logo', 'Netflix sound'], a: 1 },
+            { q: 'Which IP type protects plant varieties?', opts: ['Patent', 'Copyright', 'PVR (Plant Variety Rights)', 'Trademark'], a: 2 },
+            { q: 'Alternative Dispute Resolution (ADR) includes:', opts: ['Litigation only', 'Mediation & Arbitration', 'Only court cases', 'Patent filing'], a: 1 }
         ],
         unit3: [
-            { q: 'Startup India launched?', opts: ['Jan 16, 2015', 'Jan 16, 2016', 'Jan 26, 2016', 'Aug 15, 2016'], a: 1 },
-            { q: 'Max turnover for DPIIT startup?', opts: ['₹50 crore', '₹75 crore', '₹100 crore', '₹200 crore'], a: 2 },
-            { q: 'Startup age limit (DPIIT)?', opts: ['<5 years', '<7 years', '<10 years', '<15 years'], a: 2 },
-            { q: 'MUDRA Tarun loan amount?', opts: ['Up to ₹50K', '₹50K-₹5L', '₹5L-₹10L', 'Up to ₹1Cr'], a: 2 },
-            { q: 'MUDRA interest range?', opts: ['5-8%', '8-12%', '12-18%', '10-15%'], a: 1 },
-            { q: 'Stand-Up India loan range?', opts: ['₹1L-₹10L', '₹10L-₹1Cr', '₹1Cr-₹10Cr', 'Up to ₹50K'], a: 1 },
-            { q: 'Collateral-free loans up to ₹2Cr?', opts: ['MUDRA', 'Stand-Up India', 'CGTMSE', 'SIDBI'], a: 2 },
-            { q: 'NASSCOM 10K Startups launched?', opts: ['2010', '2013', '2015', '2016'], a: 1 },
-            { q: 'Fund of Funds amount?', opts: ['₹1K Cr', '₹5K Cr', '₹10K Cr', '₹50K Cr'], a: 2 },
-            { q: 'STP scheme launched?', opts: ['1985', '1991', '2000', '2005'], a: 1 },
-            { q: 'SEZ Act passed?', opts: ['1991', '2000', '2005', '2010'], a: 2 },
-            { q: 'STP tax holiday?', opts: ['5 years', '10 years', '15 years', '20 years'], a: 1 },
-            { q: 'SEZ tax holiday?', opts: ['5 years', '10 years', '15 years', '20 years'], a: 2 },
-            { q: 'Covers multiple sectors (not just IT)?', opts: ['STP only', 'SEZ', 'Both', 'Neither'], a: 1 },
-            { q: 'NASSCOM startups incubated?', opts: ['1K+', '5K+', '7.5K+', '10K+'], a: 2 },
-            { q: 'Shishu loan up to?', opts: ['₹10K', '₹25K', '₹50K', '₹1L'], a: 2 },
-            { q: 'Which startup from Startup India?', opts: ['Zerodha', 'Freshworks', 'Razorpay', 'All of above'], a: 3 },
-            { q: 'STP jobs generated?', opts: ['1M', '2.5M', '4.5M', '10M'], a: 2 },
-            { q: 'SEZ % of India exports?', opts: ['10%', '20%', '35%', '50%'], a: 1 },
-            { q: 'NOT a Startup India benefit?', opts: ['Tax holiday', 'Self-certification', 'Free office space', 'Fast-track patent'], a: 2 },
-            { q: 'Kishor loan range?', opts: ['Up to ₹50K', '₹50K-₹5L', '₹5L-₹10L', '₹10L-₹1Cr'], a: 1 },
-            { q: 'India startup ecosystem rank?', opts: ['1st', '2nd', '3rd', '5th'], a: 2 },
-            { q: 'FFS managed by?', opts: ['RBI', 'SIDBI', 'SEBI', 'NABARD'], a: 1 },
-            { q: 'NASSCOM success startup?', opts: ['Freshworks', 'Infosys', 'TCS', 'Wipro'], a: 0 },
-            { q: 'STPI portal URL?', opts: ['startupindia.gov.in', 'stpi.in', 'sezindia.in', 'sidbi.in'], a: 1 }
+            { q: 'When was Startup India launched?', opts: ['Jan 16, 2015', 'Jan 16, 2016', 'Jan 26, 2016', 'Aug 15, 2016'], a: 1 },
+            { q: 'What is the max turnover for a DPIIT-recognized startup?', opts: ['\u20b950 crore', '\u20b975 crore', '\u20b9100 crore', '\u20b9200 crore'], a: 2 },
+            { q: 'How long can a company exist and still be considered a startup as per DPIIT?', opts: ['Less than 5 years', 'Less than 7 years', 'Less than 10 years', 'Less than 15 years'], a: 2 },
+            { q: 'Under MUDRA scheme, Tarun loan amount is:', opts: ['Up to \u20b950,000', '\u20b950,000 to \u20b95 lakh', '\u20b95 lakh to \u20b910 lakh', 'Up to \u20b91 crore'], a: 2 },
+            { q: 'What is the interest rate range for MUDRA loans?', opts: ['5% to 8%', '8% to 12%', '12% to 18%', '10% to 15%'], a: 1 },
+            { q: 'Stand-Up India scheme provides loans between:', opts: ['\u20b91 lakh to \u20b910 lakh', '\u20b910 lakh to \u20b91 crore', '\u20b91 crore to \u20b910 crore', 'Up to \u20b950,000'], a: 1 },
+            { q: 'Which scheme offers collateral-free loans up to \u20b92 crore?', opts: ['MUDRA', 'Stand-Up India', 'CGTMSE', 'SIDBI'], a: 2 },
+            { q: 'NASSCOM 10,000 Startups initiative was launched in which year?', opts: ['2010', '2013', '2015', '2016'], a: 1 },
+            { q: 'How much is the Fund of Funds for Startups (FFS)?', opts: ['\u20b91,000 crore', '\u20b95,000 crore', '\u20b910,000 crore', '\u20b950,000 crore'], a: 2 },
+            { q: 'STP scheme was launched in which year?', opts: ['1985', '1991', '2000', '2005'], a: 1 },
+            { q: 'SEZ Act was passed in which year?', opts: ['1991', '2000', '2005', '2010'], a: 2 },
+            { q: 'What is the tax holiday period under STP?', opts: ['5 years', '10 years', '15 years', '20 years'], a: 1 },
+            { q: 'What is the tax holiday period under SEZ?', opts: ['5 years', '10 years', '15 years', '20 years'], a: 2 },
+            { q: 'Which scheme covers multiple sectors (not just IT)?', opts: ['STP only', 'SEZ', 'Both STP and SEZ', 'Neither'], a: 1 },
+            { q: 'How many startups have been incubated under NASSCOM 10,000 Startups?', opts: ['1,000+', '5,000+', '7,500+', '10,000+'], a: 2 },
+            { q: 'Shishu category under MUDRA provides loan up to:', opts: ['\u20b910,000', '\u20b925,000', '\u20b950,000', '\u20b91 lakh'], a: 2 },
+            { q: 'Which Indian startup benefited from Startup India scheme and became a market leader?', opts: ['Zerodha', 'Freshworks', 'Razorpay', 'All of the above'], a: 3 },
+            { q: 'STPs have generated approximately how many jobs in the IT sector?', opts: ['1 million', '2.5 million', '4.5 million', '10 million'], a: 2 },
+            { q: "SEZs contributed to what percentage of India's total exports?", opts: ['10%', '20%', '35%', '50%'], a: 1 },
+            { q: 'Which is NOT a benefit under Startup India?', opts: ['3-year tax holiday', 'Self-certification for labor laws', 'Free office space', 'Fast-track patent process'], a: 2 },
+            { q: 'Kishor category under MUDRA loan ranges from:', opts: ['Up to \u20b950,000', '\u20b950,000 to \u20b95 lakh', '\u20b95 lakh to \u20b910 lakh', '\u20b910 lakh to \u20b91 crore'], a: 1 },
+            { q: "What was India's rank in the startup ecosystem globally?", opts: ['1st', '2nd', '3rd', '5th'], a: 2 },
+            { q: 'SIDBI Fund of Funds is managed by:', opts: ['RBI', 'SIDBI', 'SEBI', 'NABARD'], a: 1 },
+            { q: 'Which is an example of a successful startup from NASSCOM ecosystem?', opts: ['Freshworks', 'Infosys', 'TCS', 'Wipro'], a: 0 },
+            { q: 'Registration on STPI portal is done through:', opts: ['www.startupindia.gov.in', 'www.stpi.in', 'www.sezindia.in', 'www.sidbi.in'], a: 1 }
         ],
         unit4: [
-            { q: 'First element of a startup business plan?', opts: ['Financial Plan', 'Executive Summary', 'Marketing Plan', 'Appendices'], a: 1 },
-            { q: 'NOT mentioned for IT startups?', opts: ['Subscription', 'SaaS', 'Franchise', 'Consulting'], a: 2 },
-            { q: 'Product-Based IT company?', opts: ['TCS', 'Infosys', 'Microsoft', 'Wipro'], a: 2 },
-            { q: 'Service-Based IT company?', opts: ['Microsoft', 'Google', 'Adobe', 'Infosys'], a: 3 },
-            { q: 'Flipkart founded by?', opts: ['Deep Kalra', 'Sachin & Binny Bansal', 'Ratan Tata', 'Narayana Murthy'], a: 1 },
-            { q: 'Flipkart started selling?', opts: ['Electronics', 'Books', 'Clothing', 'Groceries'], a: 1 },
-            { q: 'Flipkart payment innovation?', opts: ['Net Banking', 'Cash on Delivery', 'UPI', 'Credit Card only'], a: 1 },
-            { q: 'MakeMyTrip founded by?', opts: ['Sachin Bansal', 'Binny Bansal', 'Deep Kalra', 'Vijay Shekhar Sharma'], a: 2 },
-            { q: 'Deep Kalra alumni of?', opts: ['IIT Delhi', 'IIM Ahmedabad', 'IIT Bombay', 'IIM Bangalore'], a: 1 },
-            { q: 'Flipkart acquired?', opts: ['MakeMyTrip', 'Myntra', 'Zomato', 'Paytm'], a: 1 },
-            { q: 'Operational plan defines?', opts: ['Mission only', 'Processes, workflows & execution', 'Marketing only', 'Salaries only'], a: 1 },
-            { q: 'Marketing plan includes?', opts: ['Target analysis, digital strategy, measurement', 'Only pricing', 'Only team', 'Only projections'], a: 0 },
-            { q: 'IT startup revenue streams?', opts: ['Subscriptions, licensing, consulting', 'Only sales', 'Only ads', 'Only donations'], a: 0 },
-            { q: 'Appendices include?', opts: ['Brochures, research, leases, contracts', 'Only financials', 'Only resumes', 'Only designs'], a: 0 },
-            { q: 'Break-Even determines?', opts: ['Max profit', 'Sales level to break even', 'Total investment', 'Employee count'], a: 1 },
-            { q: 'Refine for bankers?', opts: ['Loan, usage, repayment, collateral', 'Only marketing', 'Only features', 'Only team size'], a: 0 },
-            { q: 'COD stands for?', opts: ['Code of Conduct', 'Cash on Delivery', 'Certificate of Deposit', 'Company Operating Data'], a: 1 },
-            { q: 'Flipkart founders worked at?', opts: ['Google', 'Microsoft', 'Amazon', 'Facebook'], a: 2 },
-            { q: 'MakeMyTrip HQ?', opts: ['Mumbai', 'Bangalore', 'Gurgaon', 'Delhi'], a: 2 },
-            { q: 'Core values for IT startup?', opts: ['Innovation, Customer-Centric, Integrity', 'Cost-cutting', 'Outsourcing', 'MVP'], a: 0 },
-            { q: 'Opening Day Balance Sheet?', opts: ['Profit for year', 'Financial report at start', 'Tax liability', 'Marketing budget'], a: 1 },
-            { q: 'Service business key factors?', opts: ['Pricing, quality, flexibility', 'Only location', 'Only brand', 'Only advertising'], a: 0 },
-            { q: 'Scalability means?', opts: ['Limited growth', 'Adaptable to growth', 'Fixed operations', 'Small customer base'], a: 1 },
-            { q: 'Flipkart valuation?', opts: ['$5B', '$10B', '$15B', '$20B'], a: 2 },
-            { q: 'Mission statement focus?', opts: ['Only profit', 'Innovative solutions & efficiency', 'Only employees', 'Only domination'], a: 1 }
-        ],
-        unit5: [
-            { q: 'ITES stands for?', opts: ['IT-Enabled Services', 'Internet Technology Electronic Systems', 'Integrated Tech Enterprise Solutions', 'Information Technology Enterprise Services'], a: 0 },
-            { q: 'Product-Based IT company?', opts: ['TCS', 'Infosys', 'Adobe', 'Accenture'], a: 2 },
-            { q: 'Service-Based IT company?', opts: ['Microsoft', 'Apple', 'TCS', 'Sony'], a: 2 },
-            { q: 'NASSCOM stands for?', opts: ['National Association of Software & Services Companies', 'National Association of System Software Companies', 'New Age Software & Services Committee', 'None of the above'], a: 0 },
-            { q: 'STPI facilitates?', opts: ['Hardware manufacturing', 'IT exports & high-speed datacom', 'Only government projects', 'Agricultural IT'], a: 1 },
-            { q: 'TCS founded in?', opts: ['1968', '1975', '1981', '1990'], a: 0 },
-            { q: 'Infosys founder?', opts: ['Sachin Bansal', 'Narayana Murthy', 'Ratan Tata', 'Azim Premji'], a: 1 },
-            { q: 'Amazon is classified as?', opts: ['Pure product-based', 'Pure service-based', 'Hybrid (product + service)', 'Non-IT'], a: 2 },
-            { q: 'ChatGPT uses which technology?', opts: ['Blockchain', 'AI/ML', 'IoT', 'Quantum Computing'], a: 1 },
-            { q: 'AWS is?', opts: ['Government initiative', 'Amazon Web Services — cloud platform', 'Cybersecurity tool', 'Indian IT policy'], a: 1 },
-            { q: 'Digital infrastructure initiative?', opts: ['Make in India', 'Digital India', 'Startup India', 'Skill India'], a: 1 },
-            { q: 'Women in computing jobs (approx)?', opts: ['10%', '18%', '26%', '40%'], a: 2 },
-            { q: 'Amazon quantum chip called?', opts: ['Sycamore', 'Ocelot', 'Graviton', 'Aurora'], a: 1 },
-            { q: 'Apple Vision Pro is example of?', opts: ['Cloud computing', 'Mixed Reality', 'Blockchain', 'Quantum Computing'], a: 1 },
-            { q: 'Global Delivery Model pioneer?', opts: ['TCS', 'Infosys', 'Accenture', 'Wipro'], a: 1 },
-            { q: 'Adobe shifted to?', opts: ['One-time licenses', 'SaaS subscription model', 'Hardware sales', 'Free open source'], a: 1 },
-            { q: 'NOT an emerging technology?', opts: ['AI/ML', 'IoT', 'Blockchain', 'Analog Computing'], a: 3 },
-            { q: 'Microsoft market cap (approx)?', opts: ['$500B', '$1 Trillion', '$2.8 Trillion', '$10 Trillion'], a: 2 },
-            { q: 'Sony is primarily?', opts: ['Service-based', 'Product-based', 'Consulting', 'Non-profit'], a: 1 },
-            { q: 'Smart Cities Mission uses?', opts: ['Paper-based records', 'IT-driven urban infrastructure', 'Manual governance', 'Offline systems'], a: 1 }
-        ],
-        unit6: [
-            { q: 'CIA triad stands for?', opts: ['Confidentiality, Integrity, Availability', 'Computer, Internet, Access', 'Cyber, Intelligence, Authentication', 'Control, Identity, Authorization'], a: 0 },
-            { q: 'Main difference between policy and law?', opts: ['Policy=govt enforced, law=voluntary', 'Policy=internal/flexible, law=govt-enforced/strict', 'Same thing', 'Policies are criminal'], a: 1 },
-            { q: 'AUP stands for?', opts: ['Automated User Protocol', 'Acceptable Use Policy', 'Advanced User Protection', 'Approved Usage Plan'], a: 1 },
-            { q: 'GDPR applies to?', opts: ['USA only', 'European Union', 'India only', 'All countries equally'], a: 1 },
-            { q: 'Maximum GDPR fine?', opts: ['€1M', '€10M', '4% of global annual revenue', '€500M'], a: 2 },
-            { q: 'HIPAA protects?', opts: ['Financial data', 'Health information', 'Social media data', 'Government secrets'], a: 1 },
-            { q: 'IT Act unauthorized access section?', opts: ['Section 43', 'Section 65', 'Section 66', 'Section 79'], a: 0 },
-            { q: 'Section 65 deals with?', opts: ['Phishing', 'Tampering with source code', 'Cyberbullying', 'Data protection'], a: 1 },
-            { q: 'Section 66A struck down in?', opts: ['2010', '2012', '2015', '2018'], a: 2 },
-            { q: 'Section 79 provides?', opts: ['Hacking penalties', 'Safe harbor for intermediaries', 'Encryption rules', 'Digital signatures'], a: 1 },
-            { q: 'DPDP Act 2023 full form?', opts: ['Digital Privacy & Data Protection', 'Digital Personal Data Protection', 'Data Processing & Digital Privacy', 'Domestic Policy & Data Protection'], a: 1 },
-            { q: 'Data Principal is?', opts: ['Government regulator', 'Individual whose data is processed', 'Company storing data', 'The hacker'], a: 1 },
-            { q: 'Max penalty under DPDP?', opts: ['₹10 crore', '₹50 crore', '₹100 crore', '₹250 crore'], a: 3 },
-            { q: 'Packet analysis tool?', opts: ['Nmap', 'Wireshark', 'Metasploit', 'Autopsy'], a: 1 },
-            { q: 'Metasploit used for?', opts: ['Packet sniffing', 'Penetration testing', 'Digital forensics', 'Antivirus scanning'], a: 1 },
-            { q: 'Autopsy is a ___ tool.', opts: ['Network scanning', 'Pen testing', 'Digital forensics', 'Firewall'], a: 2 },
-            { q: 'Colonial Pipeline attack type?', opts: ['DDoS', 'Phishing', 'Ransomware', 'SQL injection'], a: 2 },
-            { q: 'Colonial Pipeline ransom paid?', opts: ['$500K', '$1M', '$4.4M', '$10M'], a: 2 },
-            { q: 'Equifax breach cause?', opts: ['Phishing', 'Unpatched Apache Struts', 'Insider threat', 'DDoS'], a: 1 },
-            { q: 'Equifax records exposed?', opts: ['1M', '14M', '147M', '500M'], a: 2 },
-            { q: 'MFA stands for?', opts: ['Multi-Factor Authentication', 'Main Firewall Application', 'Managed File Access', 'Maximum Financial Approval'], a: 0 },
-            { q: 'CCPA applies to revenue above?', opts: ['$1M', '$10M', '$25M', '$100M'], a: 2 },
-            { q: 'Zero-trust architecture means?', opts: ['Trust all internal', 'Never trust, always verify', 'No security needed', 'Only external verified'], a: 1 },
-            { q: 'Cyber terrorism targets?', opts: ['Personal blogs', 'Critical infrastructure & govt systems', 'Social media', 'Shopping sites'], a: 1 },
-            { q: 'Data Fiduciary under DPDP is?', opts: ['Individual whose data is processed', 'Entity determining purpose & means of processing', 'Government body', 'Software developer'], a: 1 }
+            { q: 'What is the first element of a startup business plan?', opts: ['Financial Plan', 'Executive Summary', 'Marketing Plan', 'Appendices'], a: 1 },
+            { q: 'Which business model is NOT mentioned for IT startups?', opts: ['Subscription-based', 'SaaS', 'Franchise', 'Consulting'], a: 2 },
+            { q: 'Which of these is a Product-Based IT company?', opts: ['TCS', 'Infosys', 'Microsoft', 'Wipro'], a: 2 },
+            { q: 'Which of these is a Service-Based IT company?', opts: ['Microsoft', 'Google', 'Adobe', 'Infosys'], a: 3 },
+            { q: 'Flipkart was founded by:', opts: ['Deep Kalra', 'Sachin & Binny Bansal', 'Ratan Tata', 'Narayana Murthy'], a: 1 },
+            { q: 'Flipkart started by selling:', opts: ['Electronics', 'Books', 'Clothing', 'Groceries'], a: 1 },
+            { q: 'Which payment innovation did Flipkart pioneer in India?', opts: ['Net Banking', 'Cash on Delivery (COD)', 'UPI', 'Credit Card only'], a: 1 },
+            { q: 'MakeMyTrip was founded by:', opts: ['Sachin Bansal', 'Binny Bansal', 'Deep Kalra', 'Vijay Shekhar Sharma'], a: 2 },
+            { q: 'Deep Kalra is an alumnus of:', opts: ['IIT Delhi', 'IIM Ahmedabad', 'IIT Bombay', 'IIM Bangalore'], a: 1 },
+            { q: 'Which company did Flipkart acquire?', opts: ['MakeMyTrip', 'Myntra', 'Zomato', 'Paytm'], a: 1 },
+            { q: 'An operational plan defines:', opts: ['Company mission only', 'Processes, workflows & execution', 'Marketing strategies only', 'Employee salaries only'], a: 1 },
+            { q: 'A marketing plan includes:', opts: ['Target market analysis, digital strategy, performance measurement', 'Only product pricing', 'Only team structure', 'Only financial projections'], a: 0 },
+            { q: 'Revenue streams for an IT startup include:', opts: ['Subscription fees, software licensing, consulting', 'Only product sales', 'Only advertisements', 'Only donations'], a: 0 },
+            { q: 'Appendices in a business plan may include:', opts: ['Brochures, market research, leases, contracts', 'Only financial statements', 'Only team resumes', 'Only product designs'], a: 0 },
+            { q: 'Break-Even Analysis determines:', opts: ['Maximum profit possible', 'Sales level needed to break even', 'Total investment needed', 'Number of employees needed'], a: 1 },
+            { q: 'What should be refined in a business plan for bankers?', opts: ['Loan amount, fund usage, repayment terms, collateral', 'Only marketing budget', 'Only product features', 'Only team size'], a: 0 },
+            { q: 'What does "COD" stand for in Flipkart context?', opts: ['Code of Conduct', 'Cash on Delivery', 'Certificate of Deposit', 'Company Operating Data'], a: 1 },
+            { q: "Flipkart's founders previously worked at:", opts: ['Google', 'Microsoft', 'Amazon', 'Facebook'], a: 2 },
+            { q: 'MakeMyTrip is headquartered in:', opts: ['Mumbai', 'Bangalore', 'Gurgaon', 'Delhi'], a: 2 },
+            { q: 'Core values for an IT startup business should include:', opts: ['Innovation, Customer-Centric, Integrity', 'Aggressive cost-cutting', 'Outsourcing all operations', 'Minimum Viable Product'], a: 0 },
+            { q: 'What does Opening Day Balance Sheet represent?', opts: ['Profit for the year', 'Financial report at start', 'Tax liability', 'Marketing budget'], a: 1 },
+            { q: 'For service businesses, key competitive factors include:', opts: ['Pricing, quality, service flexibility', 'Only location', 'Only brand name', 'Only advertising'], a: 0 },
+            { q: 'Scalability in IT startups means:', opts: ['Limited growth', 'Solutions adaptable to business growth', 'Fixed operations', 'Small customer base'], a: 1 },
+            { q: "Flipkart's valuation in last funding round was:", opts: ['$5 billion', '$10 billion', '$15 billion', '$20 billion'], a: 2 },
+            { q: 'The mission statement of an IT startup should focus on:', opts: ['Only profit goals', 'Innovative solutions & efficiency', 'Only employee benefits', 'Only market domination'], a: 1 }
         ]
     };
 
+    // ======================== TAB SWITCHING ========================
     window.switchTab = function(tabId) {
+        // Remove active from all tabs
         var tabs = document.querySelectorAll('.tab-btn');
-        for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+        for (var i = 0; i < tabs.length; i++) {
+            tabs[i].classList.remove('active');
+        }
+        // Remove active from all content
         var contents = document.querySelectorAll('.tab-content');
-        for (var i = 0; i < contents.length; i++) contents[i].classList.remove('active');
+        for (var i = 0; i < contents.length; i++) {
+            contents[i].classList.remove('active');
+        }
+        // Activate this tab
         var activeTab = document.querySelector('.tab-btn[onclick="switchTab(\'' + tabId + '\')"]');
         if (activeTab) activeTab.classList.add('active');
         var activeContent = document.getElementById(tabId);
         if (activeContent) activeContent.classList.add('active');
     };
 
+    // ======================== QUIZ ENGINE ========================
     function shuffle(arr) {
         var a = arr.slice();
         for (var i = a.length - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
-            var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+            var tmp = a[i];
+            a[i] = a[j];
+            a[j] = tmp;
         }
         return a;
     }
@@ -949,18 +805,25 @@
         if (!data) return;
         var container = document.getElementById('quiz-container-' + unitId);
         if (!container) return;
+
         var shuffled = shuffle(data);
         var html = '';
+
         for (var i = 0; i < shuffled.length; i++) {
             var q = shuffled[i];
+            // Deep copy to avoid mutating original data
             var optsCopy = q.opts.slice();
-            var correctText = optsCopy[q.a];
+            var correctIdx = q.a;
+            var correctText = optsCopy[correctIdx];
+
+            // Shuffle options
             var shuffledOpts = shuffle(optsCopy);
             var newCorrectIdx = shuffledOpts.indexOf(correctText);
+
             html += '<div class="quiz-question" id="q-' + unitId + '-' + i + '">';
-            html += '<div class="q-text">' + (i+1) + '. ' + q.q + '</div>';
+            html += '<div class="q-text">' + (i + 1) + '. ' + q.q + '</div>';
             html += '<div class="q-options">';
-            var letters = ['A','B','C','D'];
+            var letters = ['A', 'B', 'C', 'D'];
             for (var j = 0; j < shuffledOpts.length; j++) {
                 html += '<div class="q-option" data-correct="' + (j === newCorrectIdx) + '" onclick="handleAnswer(this, \'' + unitId + '\')">' + letters[j] + ') ' + shuffledOpts[j] + '</div>';
             }
@@ -968,7 +831,10 @@
             html += '<div class="feedback" id="fb-' + unitId + '-' + i + '"></div>';
             html += '</div>';
         }
+
         container.innerHTML = html;
+
+        // Reset stats
         var num = unitId.replace('unit', '');
         document.getElementById('c' + num).textContent = '0';
         document.getElementById('w' + num).textContent = '0';
@@ -978,11 +844,20 @@
     window.handleAnswer = function(el, unitId) {
         var qDiv = el.closest('.quiz-question');
         if (!qDiv) return;
+
         var options = qDiv.querySelectorAll('.q-option');
         var feedback = qDiv.querySelector('.feedback');
+
+        // Check if already answered
         if (options[0].classList.contains('disabled')) return;
-        for (var i = 0; i < options.length; i++) options[i].classList.add('disabled');
+
+        // Disable all options
+        for (var i = 0; i < options.length; i++) {
+            options[i].classList.add('disabled');
+        }
+
         var isCorrect = el.getAttribute('data-correct') === 'true';
+
         if (isCorrect) {
             el.classList.add('correct');
             feedback.className = 'feedback show correct';
@@ -990,13 +865,18 @@
         } else {
             el.classList.add('wrong');
             feedback.className = 'feedback show wrong';
+            // Find and highlight correct answer
+            var correctText = '';
             for (var i = 0; i < options.length; i++) {
                 if (options[i].getAttribute('data-correct') === 'true') {
                     options[i].classList.add('correct');
-                    feedback.textContent = '❌ Wrong! Correct: ' + options[i].textContent;
+                    correctText = options[i].textContent;
                 }
             }
+            feedback.textContent = '❌ Wrong! Correct answer: ' + correctText;
         }
+
+        // Update stats
         updateStats(unitId);
     };
 
@@ -1005,6 +885,7 @@
         if (!container) return;
         var questions = container.querySelectorAll('.quiz-question');
         var correct = 0, wrong = 0, answered = 0;
+
         for (var i = 0; i < questions.length; i++) {
             var fb = questions[i].querySelector('.feedback');
             if (fb && fb.classList.contains('show')) {
@@ -1013,18 +894,18 @@
                 else if (fb.classList.contains('wrong')) wrong++;
             }
         }
+
         var num = unitId.replace('unit', '');
         document.getElementById('c' + num).textContent = correct;
         document.getElementById('w' + num).textContent = wrong;
         document.getElementById('t' + num).textContent = answered;
     }
 
+    // ======================== INIT ========================
     renderQuiz('unit1');
     renderQuiz('unit2');
     renderQuiz('unit3');
     renderQuiz('unit4');
-    renderQuiz('unit5');
-    renderQuiz('unit6');
 })();
 </script>
 </body>
