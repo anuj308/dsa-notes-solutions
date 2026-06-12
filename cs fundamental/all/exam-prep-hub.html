@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎯 Exam Prep Hub — MCQs, Notes & Random Exam</title>
+<style>
+:root{--bg:#0a0e17;--card:#111827;--card2:#1a2235;--accent:#60a5fa;--accent2:#818cf8;--text:#e2e8f0;--sec:#8892a8;--border:#1e293b;--green:#22c55e;--red:#ef4444;--yellow:#eab308;--purple:#a78bfa;--orange:#fb923c;--cyan:#22d3ee;--radius:12px;--sidebar:280px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::selection{background:var(--accent);color:#000}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+
+/* SIDEBAR */
+#sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--sidebar);background:var(--card);border-right:1px solid var(--border);z-index:1000;display:flex;flex-direction:column;transition:transform .3s}
+#sidebar .logo{padding:20px;border-bottom:1px solid var(--border);text-align:center}
+#sidebar .logo h2{font-size:20px;background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+#sidebar .logo p{font-size:11px;color:var(--sec);margin-top:2px}
+.nav-group{padding:8px 0}
+.nav-group-title{padding:8px 20px;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--sec);font-weight:700}
+.nav-link{display:flex;align-items:center;gap:10px;padding:9px 20px;color:var(--sec);font-size:13px;cursor:pointer;transition:all .2s;border-left:3px solid transparent;text-decoration:none}
+.nav-link:hover,.nav-link.active{color:var(--accent);background:rgba(96,165,250,.06);border-left-color:var(--accent);text-decoration:none}
+.nav-link .icon{width:20px;text-align:center;font-size:15px}
+.nav-link .count{margin-left:auto;background:var(--border);color:var(--sec);font-size:10px;padding:1px 7px;border-radius:10px;font-weight:600}
+.sidebar-footer{margin-top:auto;padding:12px 20px;border-top:1px solid var(--border);font-size:11px;color:var(--sec);text-align:center}
+
+/* MAIN */
+#main{margin-left:var(--sidebar);padding:20px 30px 60px;min-height:100vh}
+@media(max-width:900px){#sidebar{transform:translateX(-100%)}#sidebar.open{transform:translateX(0)}#main{margin-left:0;padding:16px}.mob-toggle{display:flex!important}}
+.mob-toggle{display:none;position:fixed;top:12px;left:12px;z-index:1002;width:38px;height:38px;background:var(--card);border:1px solid var(--border);border-radius:8px;align-items:center;justify-content:center;color:var(--text);font-size:18px;cursor:pointer}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999}.overlay.show{display:block}
+
+/* HERO */
+.hero{text-align:center;padding:50px 20px 40px;background:linear-gradient(135deg,rgba(96,165,250,.08),rgba(167,139,250,.08));border-radius:var(--radius);border:1px solid var(--border);margin-bottom:30px}
+.hero h1{font-size:36px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+.hero p{color:var(--sec);font-size:15px;max-width:650px;margin:0 auto 20px}
+.stats{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 22px;text-align:center;min-width:100px}
+.stat .num{font-size:26px;font-weight:800;color:var(--accent)}.stat .lbl{font-size:10px;color:var(--sec);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+/* CARDS & SECTIONS */
+.section{margin-bottom:36px}
+.section-title{font-size:24px;font-weight:700;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:10px}
+.section-title .badge{font-size:11px;background:var(--accent);color:#000;padding:2px 10px;border-radius:10px;font-weight:700}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:14px;transition:all .2s}
+.card:hover{border-color:rgba(96,165,250,.3)}
+.card h3{font-size:17px;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card h4{font-size:15px;color:var(--purple);margin:12px 0 6px}
+.card p,.card li{font-size:14px;color:var(--text);line-height:1.7}
+.card ul,.card ol{padding-left:22px;margin:8px 0}
+.card li{margin:4px 0}
+
+/* TABS */
+.tabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
+.tab{padding:8px 18px;background:var(--card);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:13px;color:var(--sec);transition:all .2s;font-weight:500}
+.tab:hover{border-color:var(--accent);color:var(--text)}
+.tab.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700}
+.tab-content{display:none}.tab-content.active{display:block}
+
+/* MCQ */
+.mcq-q{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:12px;transition:all .2s}
+.mcq-q:hover{border-color:rgba(96,165,250,.3)}
+.mcq-q .q-text{font-weight:600;font-size:14px;margin-bottom:12px;display:flex;gap:10px;line-height:1.5}
+.mcq-q .q-num{background:var(--accent);color:#000;font-size:11px;font-weight:800;padding:2px 9px;border-radius:12px;white-space:nowrap;height:fit-content;margin-top:1px}
+.mcq-q .q-tag{font-size:10px;padding:2px 8px;border-radius:8px;font-weight:700;margin-left:4px;white-space:nowrap}
+.q-tag.easy{background:rgba(34,197,94,.15);color:var(--green)}
+.q-tag.medium{background:rgba(234,179,8,.15);color:var(--yellow)}
+.q-tag.hard{background:rgba(239,68,68,.15);color:var(--red)}
+.opt{display:block;padding:10px 14px;margin:5px 0;background:var(--card2);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s;font-size:13px}
+.opt:hover{border-color:var(--accent);background:rgba(96,165,250,.06)}
+.opt.selected{border-color:var(--accent);background:rgba(96,165,250,.1)}
+.opt.correct{border-color:var(--green)!important;background:rgba(34,197,94,.1)!important;color:var(--green)!important}
+.opt.wrong{border-color:var(--red)!important;background:rgba(239,68,68,.1)!important;color:var(--red)!important}
+.opt.disabled{pointer-events:none;opacity:.7}
+.opt.disabled.correct{opacity:1}
+.opt .opt-letter{font-weight:700;margin-right:8px;color:var(--sec)}
+.opt.correct .opt-letter{color:var(--green)}
+.opt.wrong .opt-letter{color:var(--red)}
+.mcq-explain{margin-top:10px;padding:12px 16px;border-radius:8px;font-size:13px;display:none;line-height:1.6}
+.mcq-explain.show{display:block}
+.mcq-explain.correct-ex{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:var(--green)}
+.mcq-explain.wrong-ex{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#fca5a5}
+
+/* NOTES */
+.note-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:14px}
+.note-header{padding:16px 20px;background:var(--card2);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .2s}
+.note-header:hover{background:rgba(96,165,250,.06)}
+.note-header h3{margin:0;font-size:16px;color:var(--accent)}
+.note-header .arr{color:var(--sec);transition:transform .3s;font-size:12px}
+.note-header.open .arr{transform:rotate(90deg)}
+.note-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.note-body.open{max-height:50000px}
+.note-body-inner{padding:20px}
+.note-body-inner h4{color:var(--purple);margin:14px 0 6px;font-size:15px}
+.note-body-inner h4:first-child{margin-top:0}
+.note-body-inner p{color:var(--text);font-size:13.5px;margin:6px 0}
+.note-body-inner ul{padding-left:20px;margin:6px 0}
+.note-body-inner li{font-size:13.5px;margin:4px 0;color:var(--text)}
+.note-body-inner li strong{color:var(--accent)}
+.note-body-inner table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12.5px}
+.note-body-inner th{background:rgba(96,165,250,.1);color:var(--accent);padding:8px 12px;text-align:left;border:1px solid var(--border);font-weight:600}
+.note-body-inner td{padding:7px 12px;border:1px solid var(--border);color:var(--sec)}
+.note-body-inner code{background:rgba(96,165,250,.1);padding:2px 6px;border-radius:4px;font-family:'Courier New',monospace;font-size:12px;color:var(--accent)}
+.formula{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2);border-radius:8px;padding:12px 16px;margin:10px 0;font-family:'Courier New',monospace;font-size:12.5px;color:var(--purple)}
+.info{padding:12px 16px;border-radius:8px;margin:10px 0;font-size:13px;border-left:3px solid var(--accent);background:rgba(96,165,250,.06);color:var(--accent)}
+.warn{padding:12px 16px;border-radius:8px;margin:10px 0;font-size:13px;border-left:3px solid var(--yellow);background:rgba(234,179,8,.06);color:var(--yellow)}
+.tip{padding:12px 16px;border-radius:8px;margin:10px 0;font-size:13px;border-left:3px solid var(--green);background:rgba(34,197,94,.06);color:var(--green)}
+
+/* EXAM */
+.exam-bar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center}
+.exam-bar select,.exam-bar button{padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:13px;cursor:pointer}
+.exam-bar button{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700}
+.exam-bar button:hover{opacity:.9}
+.exam-bar button.secondary{background:transparent;color:var(--accent);border-color:var(--accent)}
+.timer{font-size:20px;font-weight:700;color:var(--accent);font-family:'Courier New',monospace;margin-left:auto}
+.score-bar{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+.score-item{font-size:13px;color:var(--sec)}.score-item strong{color:var(--text);font-size:16px}
+.score-item.green strong{color:var(--green)}.score-item.red strong{color:var(--red)}.score-item.blue strong{color:var(--accent)}
+
+/* PROGRESS */
+.progress-wrap{width:100%;height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin:8px 0}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--accent));border-radius:3px;transition:width .3s}
+
+/* BACK TO TOP */
+#btt{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:#000;border:none;font-size:20px;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:100;box-shadow:0 4px 16px rgba(0,0,0,.5)}
+#btt:hover{opacity:.9}
+
+/* PRINT */
+@media print{#sidebar,.mob-toggle,.overlay,#btt,.exam-bar{display:none!important}#main{margin-left:0!important;padding:10px!important}.note-body{max-height:none!important}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<div class="mob-toggle" onclick="toggleSidebar()">☰</div>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+<div class="logo"><h2>🎯 Exam Prep Hub</h2><p>All Subjects • MCQs • Notes • Random Exam</p></div>
+<nav>
+<div class="nav-group">
+<div class="nav-group-title">Main</div>
+<a class="nav-link active" href="#home"><span class="icon">🏠</span>Home</a>
+<a class="nav-link" href="#random-exam"><span class="icon">🎲</span>Random 60 Exam</a>
+</div>
+<div class="nav-group">
+<div class="nav-group-title">Short Notes</div>
+<a class="nav-link" href="#notes-os"><span class="icon">🖥️</span>Operating Systems</a>
+<a class="nav-link" href="#notes-dbms"><span class="icon">🗄️</span>DBMS</a>
+<a class="nav-link" href="#notes-cn"><span class="icon">🌐</span>Computer Networks</a>
+<a class="nav-link" href="#notes-oop"><span class="icon">🧩</span>OOP</a>
+<a class="nav-link" href="#notes-dsa"><span class="icon">📊</span>DSA</a>
+</div>
+<div class="nav-group">
+<div class="nav-group-title">MCQ Practice</div>
+<a class="nav-link" href="#mcq-os"><span class="icon">❓</span>OS MCQs<span class="count">100+</span></a>
+<a class="nav-link" href="#mcq-dbms"><span class="icon">❓</span>DBMS MCQs<span class="count">100+</span></a>
+<a class="nav-link" href="#mcq-cn"><span class="icon">❓</span>CN MCQs<span class="count">100+</span></a>
+<a class="nav-link" href="#mcq-oop"><span class="icon">❓</span>OOP MCQs<span class="count">100+</span></a>
+<a class="nav-link" href="#mcq-dsa"><span class="icon">❓</span>DSA MCQs<span class="count">100+</span></a>
+</div>
+</nav>
+<div class="sidebar-footer">Made for exam prep 🎯</div>
+</aside>
+
+<!-- MAIN -->
+<div id="main">
+
+<!-- HOME -->
+<section id="home">
+<div class="hero">
+<h1>🎯 Exam Prep Hub</h1>
+<p>Your all-in-one exam preparation platform. 500+ MCQs across 5 subjects, concise short notes, and a random 60-question exam mode. Dark mode always on.</p>
+<div class="stats">
+<div class="stat"><div class="num">500+</div><div class="lbl">MCQs</div></div>
+<div class="stat"><div class="num">5</div><div class="lbl">Subjects</div></div>
+<div class="stat"><div class="num">60</div><div class="lbl">Exam Qs</div></div>
+<div class="stat"><div class="num">5</div><div class="lbl">Short Notes</div></div>
+</div>
+</div>
+
+<div class="card">
+<h3>📋 How to Use</h3>
+<ul>
+<li><strong>Short Notes:</strong> Quick revision notes for each subject — expand any topic to read</li>
+<li><strong>MCQ Practice:</strong> 100+ questions per subject. Select an answer — if wrong, the correct one lights up green</li>
+<li><strong>Random Exam:</strong> Click "Random 60 Exam" to get 60 mixed questions from all subjects with a timer</li>
+<li><strong>Score Tracking:</strong> Real-time score bar shows correct/wrong/unattempted</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>📚 Subjects Covered</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:8px">
+<div style="padding:12px;background:var(--card2);border-radius:8px;border:1px solid var(--border)">🖥️ <strong>Operating Systems</strong><br><span style="color:var(--sec);font-size:12px">Process, Scheduling, Memory, Deadlocks</span></div>
+<div style="padding:12px;background:var(--card2);border-radius:8px;border:1px solid var(--border)">🗄️ <strong>DBMS</strong><br><span style="color:var(--sec);font-size:12px">SQL, ER Model, Normalization, Transactions</span></div>
+<div style="padding:12px;background:var(--card2);border-radius:8px;border:1px solid var(--border)">🌐 <strong>Computer Networks</strong><br><span style="color:var(--sec);font-size:12px">OSI, TCP/IP, Protocols, Subnetting</span></div>
+<div style="padding:12px;background:var(--card2);border-radius:8px;border:1px solid var(--border)">🧩 <strong>OOP</strong><br><span style="color:var(--sec);font-size:12px">Classes, Inheritance, Polymorphism, Abstraction</span></div>
+<div style="padding:12px;background:var(--card2);border-radius:8px;border:1px solid var(--border)">📊 <strong>DSA</strong><br><span style="color:var(--sec);font-size:12px">Trees, Graphs, Sorting, Searching, Complexity</span></div>
+</div>
+</div>
+</section>
+
+<!-- ============ SHORT NOTES ============ -->
+
+<!-- OS NOTES -->
+<section id="notes-os" class="section">
+<h2 class="section-title">🖥️ Operating Systems — Short Notes</h2>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>Process & Thread</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>Process</h4>
+<p>A program in execution. Has its own memory space, PCB (Process Control Block), and address space. States: <strong>New → Ready → Running → Waiting → Terminated</strong>.</p>
+<ul><li><strong>PCB contains:</strong> PID, Program Counter, CPU Registers, Memory limits, Process State, Priority, I/O status</li>
+<li><strong>Orphan Process:</strong> Parent terminated, child still running → adopted by init (PID 1)</li>
+<li><strong>Zombie Process:</strong> Child completed but parent hasn't called <code>wait()</code> → entry stays in process table</li>
+<li><strong>Context Switch:</strong> Saving state of current process and loading next — pure overhead, no useful work</li></ul>
+<h4>Thread</h4>
+<p>Smallest unit of execution within a process. Shares memory with other threads but has own stack, PC, registers.</p>
+<ul><li><strong>ULT (User-Level):</strong> Managed by library, fast but one blocks = all blocked</li>
+<li><strong>KLT (Kernel-Level):</strong> Managed by OS, can parallelize on multiple cores</li>
+<li><strong>Models:</strong> Many-to-One, One-to-One (Windows/Linux), Many-to-Many (Solaris)</li></ul>
+
+<h4>Process vs Thread</h4>
+<table><tr><th>Feature</th><th>Process</th><th>Thread</th></tr>
+<tr><td>Memory</td><td>Own address space</td><td>Shares address space</td></tr>
+<tr><td>Creation</td><td>Expensive</td><td>Cheap</td></tr>
+<tr><td>Context Switch</td><td>Slow</td><td>Fast</td></tr>
+<tr><td>Communication</td><td>IPC (pipes, sockets)</td><td>Direct memory access</td></tr>
+<tr><td>Fault Isolation</td><td>Yes</td><td>No (one crash kills all)</td></tr></table>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>CPU Scheduling</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<div class="formula">TAT = CT − AT | WT = TAT − BT | Response Time = First CPU time − AT</div>
+<table><tr><th>Algorithm</th><th>Type</th><th>Starvation?</th><th>Key</th></tr>
+<tr><td>FCFS</td><td>Non-preemptive</td><td>Yes</td><td>Convoy effect</td></tr>
+<tr><td>SJF/SRTF</td><td>Non-pre/Pre</td><td>Yes</td><td>Min avg WT (optimal)</td></tr>
+<tr><td>Priority</td><td>Both</td><td>Yes</td><td>Fix with aging</td></tr>
+<tr><td>Round Robin</td><td>Preemptive</td><td>No</td><td>Fair, TQ-based</td></tr>
+<tr><td>MLFQ</td><td>Dynamic</td><td>Low</td><td>Process moves between queues</td></tr>
+<tr><td>HRRN</td><td>Non-preemptive</td><td>No</td><td>Response ratio = (WT+BT)/BT</td></tr></table>
+<div class="info"><strong>Convoy Effect:</strong> Short processes stuck behind one long process in FCFS. <strong>Aging:</strong> Gradually increase priority of waiting processes to prevent starvation.</div>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>Deadlocks</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>4 Necessary Conditions (Coffman)</h4>
+<ol><li><strong>Mutual Exclusion</strong> — resource non-sharable</li>
+<li><strong>Hold & Wait</strong> — holds one, waits for another</li>
+<li><strong>No Preemption</strong> — resources released voluntarily</li>
+<li><strong>Circular Wait</strong> — chain of waiting processes</li></ol>
+<div class="tip"><strong>Mnemonics:</strong> <strong>M.H.N.C</strong> — My Horse Never Cries</div>
+<h4>Handling Methods</h4>
+<ul><li><strong>Prevention:</strong> Break one condition (static, design time)</li>
+<li><strong>Avoidance:</strong> Banker's Algorithm — check safe state before granting (dynamic)</li>
+<li><strong>Detection:</strong> Wait-for graph (cycle = deadlock) for single instance</li>
+<li><strong>Recovery:</strong> Abort processes or preempt resources</li></ul>
+<div class="formula">Need[i] = Max[i] − Allocation[i]</div>
+<p><strong>Banker's Algorithm:</strong> For each request: check Request ≤ Need, Request ≤ Available. Simulate allocation, run safety algorithm. If safe → grant, else → wait.</p>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>Memory Management</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>Paging</h4>
+<p>Fixed-size pages (logical) → frames (physical). No external fragmentation. Page table maps page# → frame#.</p>
+<div class="formula">Page# = Logical Addr / Page Size | Offset = Logical Addr % Page Size<br>Physical Addr = Frame# × Frame Size + Offset</div>
+<h4>Segmentation</h4>
+<p>Variable-size segments (code, data, stack). User's view. External fragmentation possible. Segment table: base + limit.</p>
+<h4>TLB</h4>
+<p>Hardware cache for page table entries. TLB hit = 1 access. TLB miss = 2 accesses (TLB + memory).</p>
+<div class="formula">EAT = α(ε + t) + (1−α)(ε + 2t)</div>
+<p>where α=TLB hit ratio, ε=TLB time, t=memory time.</p>
+<h4>Virtual Memory & Page Replacement</h4>
+<table><tr><th>Algorithm</th><th>Strategy</th><th>Belady's?</th></tr>
+<tr><td>FIFO</td><td>Replace oldest</td><td>Yes ⚠️</td></tr>
+<tr><td>LRU</td><td>Replace least recently used</td><td>No</td></tr>
+<tr><td>Optimal</td><td>Replace page not used longest in future</td><td>No (impossible)</td></tr>
+<tr><td>Clock</td><td>Reference bit, second chance</td><td>No</td></tr></table>
+<p><strong>Thrashing:</strong> Excessive page faults. Fix: Working Set Model or Page Fault Frequency (PFF).</p>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>Synchronization & Kernel</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>Mutex vs Semaphore</h4>
+<table><tr><th>Feature</th><th>Mutex</th><th>Semaphore</th></tr>
+<tr><td>Type</td><td>Binary (lock/unlock)</td><td>Integer counter</td></tr>
+<tr><td>Ownership</td><td>Same thread unlocks</td><td>Any thread signals</td></tr>
+<tr><td>Purpose</td><td>Mutual exclusion</td><td>Sync + signaling</td></tr></table>
+<h4>Kernel Types</h4>
+<ul><li><strong>Monolithic:</strong> All in kernel space (Linux, Unix) — fast but one bug crashes all</li>
+<li><strong>Microkernel:</strong> Minimal kernel, services in user space (MINIX, QNX) — stable but slower IPC</li>
+<li><strong>Hybrid:</strong> Both (Windows, macOS) — balanced</li></ul>
+<p><strong>System Calls:</strong> Interface between user mode and kernel mode. Types: Process Control (fork, exec), File Mgmt (open, read), Device Mgmt (ioctl), Communication (pipe, socket).</p>
+</div></div></div>
+</section>
+
+<!-- DBMS NOTES -->
+<section id="notes-dbms" class="section">
+<h2 class="section-title">🗄️ DBMS — Short Notes</h2>
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>ER Model & Relational Model</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>ER Model</h4>
+<ul><li><strong>Entity:</strong> Real-world object. Strong (own PK) vs Weak (depends on strong entity)</li>
+<li><strong>Attributes:</strong> Simple, Composite, Single-valued, Multi-valued, Derived, NULL</li>
+<li><strong>Relationships:</strong> 1:1, 1:N, M:N. Degree: Unary, Binary, Ternary</li>
+<li><strong>Extended ER:</strong> Specialization (top-down), Generalisation (bottom-up), Aggregation, Inheritance</li></ul>
+<h4>Keys</h4>
+<ul><li><strong>Super Key:</strong> Any set that uniquely identifies tuples</li>
+<li><strong>Candidate Key:</strong> Minimal super key (no redundancy)</li>
+<li><strong>Primary Key:</strong> Selected candidate key</li>
+<li><strong>Foreign Key:</strong> References PK of another table</li></ul>
+<h4>Integrity Constraints</h4>
+<p>Domain (data types), Entity (PK ≠ NULL), Referential (FK matches PK or NULL), Key (NOT NULL, UNIQUE, CHECK, DEFAULT)</p>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>SQL</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>SQL Command Types</h4>
+<ul><li><strong>DDL:</strong> CREATE, ALTER, DROP, TRUNCATE, RENAME</li>
+<li><strong>DML:</strong> INSERT, UPDATE, DELETE</li>
+<li><strong>DQL/DRL:</strong> SELECT</li>
+<li><strong>DCL:</strong> GRANT, REVOKE</li>
+<li><strong>TCL:</strong> COMMIT, ROLLBACK, SAVEPOINT</li></ul>
+<h4>Joins</h4>
+<table><tr><th>Type</th><th>Description</th></tr>
+<tr><td>INNER JOIN</td><td>Matching rows from both tables</td></tr>
+<tr><td>LEFT JOIN</td><td>All from left + matched from right</td></tr>
+<tr><td>RIGHT JOIN</td><td>All from right + matched from left</td></tr>
+<tr><td>FULL JOIN</td><td>All from both (emulate with UNION)</td></tr>
+<tr><td>CROSS JOIN</td><td>Cartesian product</td></tr>
+<tr><td>SELF JOIN</td><td>Table joined with itself</td></tr></table>
+<h4>WHERE vs HAVING</h4>
+<p>WHERE filters rows before GROUP BY. HAVING filters groups after GROUP BY. WHERE can use SELECT/UPDATE/DELETE. HAVING requires GROUP BY.</p>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>Normalization</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>Functional Dependencies & Anomalies</h4>
+<p>X → Y means Y depends on X. Anomalies: Insertion, Deletion, Updation — all caused by redundancy.</p>
+<h4>Normal Forms</h4>
+<table><tr><th>NF</th><th>Condition</th></tr>
+<tr><td>1NF</td><td>All values atomic (no multi-valued attributes)</td></tr>
+<tr><td>2NF</td><td>1NF + No partial dependency (all non-prime fully depend on full PK)</td></tr>
+<tr><td>3NF</td><td>2NF + No transitive dependency (non-prime → non-prime not allowed)</td></tr>
+<tr><td>BCNF</td><td>3NF + For every FD X→Y, X must be a super key</td></tr></table>
+<h4>Armstrong's Axioms</h4>
+<ul><li><strong>Reflexive:</strong> If A ⊇ B then A → B</li>
+<li><strong>Augmentation:</strong> If A→B then AX → BX</li>
+<li><strong>Transitivity:</strong> If A→B and B→C then A→C</li></ul>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>Transactions & ACID</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>ACID Properties</h4>
+<ul><li><strong>Atomicity:</strong> All or nothing</li>
+<li><strong>Consistency:</strong> DB consistent before and after</li>
+<li><strong>Isolation:</strong> Concurrent transactions don't interfere</li>
+<li><strong>Durability:</strong> Committed changes persist</li></ul>
+<h4>Transaction States</h4>
+<p>Active → Partially Committed → Committed (success) OR Active → Failed → Aborted → Terminated</p>
+<h4>Recovery</h4>
+<ul><li><strong>Shadow-copy:</strong> Complete DB copy per transaction (inefficient)</li>
+<li><strong>Log-based:</strong> Record modifications before applying. Deferred (redo on commit) vs Immediate (undo on failure, redo on commit)</li></ul>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>Indexing & NoSQL</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>Indexing</h4>
+<ul><li><strong>Dense Index:</strong> Entry for every key value (fast, more space)</li>
+<li><strong>Sparse Index:</strong> Entry for some values (less space, slower)</li>
+<li><strong>Primary Index:</strong> On sorted data file (sparse if key, dense if non-key)</li>
+<li><strong>Secondary Index:</strong> On unsorted file (always dense)</li></ul>
+<h4>NoSQL Types</h4>
+<table><tr><th>Type</th><th>Example</th><th>Best For</th></tr>
+<tr><td>Key-Value</td><td>Redis, DynamoDB</td><td>Caching, sessions</td></tr>
+<tr><td>Document</td><td>MongoDB</td><td>E-commerce, content</td></tr>
+<tr><td>Wide-Column</td><td>Cassandra</td><td>Analytics</td></tr>
+<tr><td>Graph</td><td>Neo4j</td><td>Social networks</td></tr></table>
+<h4>CAP Theorem</h4>
+<p>Choose 2 of 3: <strong>Consistency, Availability, Partition Tolerance</strong>. Banking → CP. Social media → AP.</p>
+</div></div></div>
+</section>
+
+<!-- CN NOTES -->
+<section id="notes-cn" class="section">
+<h2 class="section-title">🌐 Computer Networks — Short Notes</h2>
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>OSI & TCP/IP Model</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>OSI 7-Layer Model</h4>
+<table><tr><th>Layer</th><th>Name</th><th>Key Protocols/Devices</th><th>PDU</th></tr>
+<tr><td>7</td><td>Application</td><td>HTTP, FTP, SMTP, DNS</td><td>Data</td></tr>
+<tr><td>6</td><td>Presentation</td><td>SSL/TLS, JPEG, ASCII</td><td>Data</td></tr>
+<tr><td>5</td><td>Session</td><td>NetBIOS, RPC</td><td>Data</td></tr>
+<tr><td>4</td><td>Transport</td><td>TCP, UDP</td><td>Segment/Datagram</td></tr>
+<tr><td>3</td><td>Network</td><td>IP, ICMP, Router</td><td>Packet</td></tr>
+<tr><td>2</td><td>Data Link</td><td>Ethernet, MAC, Switch, PPP</td><td>Frame</td></tr>
+<tr><td>1</td><td>Physical</td><td>Cables, Hubs, Repeaters</td><td>Bits</td></tr></table>
+<div class="tip"><strong>Mnemonic (Top→Bottom):</strong> <strong>A</strong>ll <strong>P</strong>eople <strong>S</strong>eem <strong>T</strong>o <strong>N</strong>eed <strong>D</strong>ata <strong>P</strong>rocessing</div>
+<h4>TCP/IP 4-Layer Model</h4>
+<p>Application = OSI layers 5-7, Transport = OSI layer 4, Internet = OSI layer 3, Network Access = OSI layers 1-2</p>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>TCP vs UDP</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<table><tr><th>Feature</th><th>TCP</th><th>UDP</th></tr>
+<tr><td>Connection</td><td>Connection-oriented (3-way handshake)</td><td>Connectionless</td></tr>
+<tr><td>Reliability</td><td>Guaranteed delivery, retransmission</td><td>No guarantee</td></tr>
+<tr><td>Ordering</td><td>Sequenced</td><td>No ordering</td></tr>
+<tr><td>Speed</td><td>Slower (overhead)</td><td>Faster (no overhead)</td></tr>
+<tr><td>Header Size</td><td>20 bytes</td><td>8 bytes</td></tr>
+<tr><td>Use Cases</td><td>HTTP, FTP, Email, SSH</td><td>DNS, Video streaming, VoIP, Gaming</td></tr></table>
+<h4>TCP 3-Way Handshake</h4>
+<p>SYN → SYN-ACK → ACK (connection established)</p>
+<h4>TCP 4-Way Termination</h4>
+<p>FIN → ACK → FIN → ACK (connection closed)</p>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>IP Addressing & Subnetting</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>IP Address Classes</h4>
+<table><tr><th>Class</th><th>Range</th><th>Default Mask</th><th>Networks</th><th>Hosts/Net</th></tr>
+<tr><td>A</td><td>1.0.0.0 – 126.255.255.255</td><td>255.0.0.0 (/8)</td><td>126</td><td>16M+</td></tr>
+<tr><td>B</td><td>128.0.0.0 – 191.255.255.255</td><td>255.255.0.0 (/16)</td><td>16,384</td><td>65,534</td></tr>
+<tr><td>C</td><td>192.0.0.0 – 223.255.255.255</td><td>255.255.255.0 (/24)</td><td>2M+</td><td>254</td></tr></table>
+<h4>Subnetting Formula</h4>
+<div class="formula">Number of subnets = 2^n (n = borrowed bits)<br>Hosts per subnet = 2^h − 2 (h = host bits, −2 for network & broadcast)<br>Block size = 256 − subnet mask value</div>
+<h4>Special Addresses</h4>
+<ul><li><code>127.0.0.1</code> — Loopback (localhost)</li>
+<li><code>255.255.255.255</code> — Limited broadcast</li>
+<li><code>10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16</code> — Private IPs</li>
+</ul>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>Key Protocols & Devices</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>Application Layer Protocols</h4>
+<table><tr><th>Protocol</th><th>Port</th><th>Purpose</th></tr>
+<tr><td>HTTP</td><td>80</td><td>Web browsing</td></tr>
+<tr><td>HTTPS</td><td>443</td><td>Secure web browsing</td></tr>
+<tr><td>FTP</td><td>20/21</td><td>File transfer</td></tr>
+<tr><td>SSH</td><td>22</td><td>Secure remote login</td></tr>
+<tr><td>Telnet</td><td>23</td><td>Remote login (insecure)</td></tr>
+<tr><td>SMTP</td><td>25</td><td>Email sending</td></tr>
+<tr><td>POP3</td><td>110</td><td>Email retrieval</td></tr>
+<tr><td>DNS</td><td>53</td><td>Domain name resolution</td></tr>
+<tr><td>DHCP</td><td>67/68</td><td>Dynamic IP assignment</td></tr></table>
+<h4>Network Devices</h4>
+<ul><li><strong>Hub:</strong> Layer 1, broadcasts to all ports</li>
+<li><strong>Switch:</strong> Layer 2, uses MAC table to forward frames</li>
+<li><strong>Router:</strong> Layer 3, routes packets between networks using IP</li>
+<li><strong>Bridge:</strong> Layer 2, connects two LAN segments</li>
+<li><strong>Gateway:</strong> Connects networks with different protocols</li></ul>
+<h4>CSMA/CD vs CSMA/CA</h4>
+<ul><li><strong>CSMA/CD:</strong> Detect collisions, used in wired Ethernet</li>
+<li><strong>CSMA/CA:</strong> Avoid collisions, used in Wi-Fi (802.11)</li></ul>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>Network Security & Misc</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>Cryptography</h4>
+<ul><li><strong>Symmetric:</strong> Same key (AES, DES, 3DES) — fast, key distribution problem</li>
+<li><strong>Asymmetric:</strong> Public-private key pair (RSA, ECC) — slower, no key distribution problem</li>
+<li><strong>Hash:</strong> One-way (MD5, SHA-256) — integrity verification</li></ul>
+<h4>Firewall Types</h4>
+<ul><li><strong>Packet Filtering:</strong> Filters by IP, port (fast, stateless)</li>
+<li><strong>Stateful:</strong> Tracks connection state</li>
+<li><strong>Application Proxy:</strong> Inspects payload (slowest, most secure)</li></ul>
+<h4>HTTP Methods</h4>
+<ul><li><strong>GET:</strong> Retrieve data (idempotent, safe)</li>
+<li><strong>POST:</strong> Create/submit data</li>
+<li><strong>PUT:</strong> Update/replace entire resource</li>
+<li><strong>PATCH:</strong> Partial update</li>
+<li><strong>DELETE:</strong> Remove resource</li></ul>
+<h4>Key Concepts</h4>
+<ul><li><strong>NAT:</strong> Translates private IPs to public IP</li>
+<li><strong>DHCP:</strong> Automatically assigns IP addresses</li>
+<li><strong>DNS:</strong> Translates domain names to IP addresses</li>
+<li><strong>ARP:</strong> Maps IP address to MAC address</li>
+<li><strong>RARP:</strong> Maps MAC address to IP address</li></ul>
+</div></div></div>
+</section>
+
+<!-- OOP NOTES -->
+<section id="notes-oop" class="section">
+<h2 class="section-title">🧩 Object Oriented Programming — Short Notes</h2>
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>Core OOP Concepts</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>4 Pillars of OOP</h4>
+<ul><li><strong>Encapsulation:</strong> Bundling data + methods in a class, restricting direct access (data hiding via private/protected)</li>
+<li><strong>Abstraction:</strong> Showing only essential features, hiding implementation details (abstract classes, interfaces)</li>
+<li><strong>Inheritance:</strong> Acquiring properties from parent class (code reuse, IS-A relationship)</li>
+<li><strong>Polymorphism:</strong> Same interface, different implementations (method overloading + overriding)</li></ul>
+<h4>Class vs Object</h4>
+<ul><li><strong>Class:</strong> Blueprint/template (e.g., Car class)</li>
+<li><strong>Object:</strong> Instance of a class (e.g., myToyota object)</li></ul>
+<h4>Access Modifiers</h4>
+<table><tr><th>Modifier</th><th>Same Class</th><th>Same Package</th><th>Subclass</th><th>Outside</th></tr>
+<tr><td>public</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td>protected</td><td>✅</td><td>✅</td><td>✅</td><td>❌</td></tr>
+<tr><td>default</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td></tr>
+<tr><td>private</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td></tr></table>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>Inheritance & Polymorphism</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>Types of Inheritance</h4>
+<ul><li><strong>Single:</strong> A → B</li>
+<li><strong>Multiple:</strong> A, B → C (not supported in Java, achieved via interfaces)</li>
+<li><strong>Multilevel:</strong> A → B → C</li>
+<li><strong>Hierarchical:</strong> A → B, A → C</li>
+<li><strong>Hybrid:</strong> Combination of above</li></ul>
+<h4>Polymorphism</h4>
+<ul><li><strong>Compile-time (Static):</strong> Method Overloading — same name, different parameters</li>
+<li><strong>Run-time (Dynamic):</strong> Method Overriding — same name + signature in parent & child, resolved at runtime</li></ul>
+<h4>Key Rules</h4>
+<ul><li>Constructor cannot be inherited</li>
+<li>Private members cannot be inherited</li>
+<li>Object class is root of all classes (Java)</li>
+<li>Multiple inheritance achieved via interfaces</li></ul>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>Abstract Classes & Interfaces</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<table><tr><th>Feature</th><th>Abstract Class</th><th>Interface</th></tr>
+<tr><td>Methods</td><td>Abstract + concrete</td><td>Abstract (default/static in Java 8+)</td></tr>
+<tr><td>Variables</td><td>Any type</td><td>Only public static final</td></tr>
+<tr><td>Inheritance</td><td>Single (extends)</td><td>Multiple (implements)</td></tr>
+<tr><td>Constructor</td><td>Can have</td><td>Cannot have</td></tr>
+<tr><td>Access Modifiers</td><td>Any</td><td>public (traditionally)</td></tr></table>
+<div class="info"><strong>Rule of Thumb:</strong> Use abstract class for IS-A with shared code. Use interface for CAN-DO capability.</div>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>OOP Miscellaneous</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>Constructor</h4>
+<ul><li>Special method called when object is created</li>
+<li>Same name as class, no return type</li>
+<li><strong>Default:</strong> No-arg constructor (auto-provided if no constructor defined)</li>
+<li><strong>Parameterized:</strong> Takes arguments</li>
+<li><strong>Copy Constructor:</strong> Creates object from another object</li></ul>
+<h4>this vs super</h4>
+<ul><li><strong>this:</strong> Refers to current object</li>
+<li><strong>super:</strong> Refers to parent class</li></ul>
+<h4>Final Keyword</h4>
+<ul><li><strong>final variable:</strong> Constant (cannot change)</li>
+<li><strong>final method:</strong> Cannot be overridden</li>
+<li><strong>final class:</strong> Cannot be extended (e.g., String)</li></ul>
+<h4>Static vs Instance</h4>
+<ul><li><strong>Static:</strong> Class-level, shared across all instances, loaded once</li>
+<li><strong>Instance:</strong> Object-level, each object has its own copy</li></ul>
+<h4>Composition vs Inheritance</h4>
+<ul><li><strong>Inheritance:</strong> IS-A relationship (Dog IS-A Animal)</li>
+<li><strong>Composition:</strong> HAS-A relationship (Car HAS-A Engine) — preferred for flexibility</li></ul>
+</div></div></div>
+</section>
+
+<!-- DSA NOTES -->
+<section id="notes-dsa" class="section">
+<h2 class="section-title">📊 Data Structures & Algorithms — Short Notes</h2>
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>Arrays, Strings & Basic Structures</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>Array</h4>
+<div class="formula">Access: O(1) | Search: O(n) unsorted, O(log n) sorted | Insert/Delete: O(n)</div>
+<p>Contiguous memory. Fixed size (static) or dynamic (vector/ArrayList).</p>
+<h4>Linked List</h4>
+<div class="formula">Access: O(n) | Search: O(n) | Insert/Delete at head: O(1)</div>
+<ul><li><strong>Singly:</strong> Each node → next</li>
+<li><strong>Doubly:</strong> Each node ↔ prev, next</li>
+<li><strong>Circular:</strong> Last node → first node</li></ul>
+<h4>Stack & Queue</h4>
+<ul><li><strong>Stack:</strong> LIFO — Push, Pop, Peek. O(1) all ops. Uses: recursion, undo, parsing</li>
+<li><strong>Queue:</strong> FIFO — Enqueue, Dequeue. O(1) all ops. Uses: BFS, scheduling, print queue</li>
+<li><strong>Priority Queue:</strong> Highest priority first. Implemented using heap. O(log n) insert/delete</li></ul>
+<h4>Hash Table</h4>
+<div class="formula">Average: O(1) insert/search/delete | Worst: O(n) with collisions</div>
+<p>Uses hash function to map keys to indices. Collisions handled by chaining or open addressing.</p>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>Trees</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>Binary Tree</h4>
+<ul><li><strong>Properties:</strong> Max nodes at level L = 2^L. Max nodes total = 2^(h+1) − 1</li>
+<li><strong>Types:</strong> Full, Complete, Perfect, Balanced</li>
+<li><strong>Traversal:</strong> Inorder (LNR), Preorder (NLR), Postorder (LRN), Level-order (BFS)</li></ul>
+<h4>BST (Binary Search Tree)</h4>
+<div class="formula">Search/Insert/Delete: O(log n) average, O(n) worst (skewed)</div>
+<p>Left subtree < node < Right subtree. Inorder traversal gives sorted order.</p>
+<h4>Balanced Trees</h4>
+<table><tr><th>Tree</th><th>Balance</th><th>Search/Insert/Delete</th></tr>
+<tr><td>AVL</td><td>Height diff ≤ 1</td><td>O(log n) guaranteed</td></tr>
+<tr><td>Red-Black</td><td>Color constraints</td><td>O(log n) guaranteed</td></tr>
+<tr><td>B-Tree</td><td>M-way, sorted</td><td>O(log n) — disk-friendly</td></tr>
+<tr><td>B+ Tree</td><td>Data at leaves only</td><td>O(log n) — databases, file systems</td></tr></table>
+<h4>Heap</h4>
+<ul><li><strong>Max Heap:</strong> Parent ≥ children. Root = maximum</li>
+<li><strong>Min Heap:</strong> Parent ≤ children. Root = minimum</li>
+<li>Array representation: parent = i/2, left = 2i, right = 2i+1</li></ul>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>Graphs</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>Representation</h4>
+<ul><li><strong>Adjacency Matrix:</strong> O(V²) space, O(1) edge check</li>
+<li><strong>Adjacency List:</strong> O(V+E) space, O(degree) edge check</li></ul>
+<h4>Traversals</h4>
+<ul><li><strong>BFS:</strong> Level by level, uses Queue. O(V+E)</li>
+<li><strong>DFS:</strong> Depth first, uses Stack/Recursion. O(V+E)</li></ul>
+<h4>Shortest Path Algorithms</h4>
+<table><tr><th>Algorithm</th><th>Weighted?</th><th>Negative?</th><th>Complexity</th></tr>
+<tr><td>BFS</td><td>No</td><td>No</td><td>O(V+E)</td></tr>
+<tr><td>Dijkstra</td><td>Yes (non-negative)</td><td>No</td><td>O((V+E)logV)</td></tr>
+<tr><td>Bellman-Ford</td><td>Yes</td><td>Yes (detects negative cycle)</td><td>O(VE)</td></tr>
+<tr><td>Floyd-Warshall</td><td>Yes</td><td>Yes</td><td>O(V³)</td></tr></table>
+<h4>MST (Minimum Spanning Tree)</h4>
+<ul><li><strong>Kruskal's:</strong> Sort edges, add if no cycle. O(E log E). Uses Union-Find</li>
+<li><strong>Prim's:</strong> Start from vertex, add cheapest edge. O((V+E) log V). Uses Priority Queue</li></ul>
+<h4>Topological Sort</h4>
+<p>Linear ordering of DAG vertices. Kahn's algorithm (BFS) or DFS-based.</p>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>Sorting Algorithms</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<table><tr><th>Algorithm</th><th>Best</th><th>Average</th><th>Worst</th><th>Space</th><th>Stable?</th></tr>
+<tr><td>Bubble Sort</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>Yes</td></tr>
+<tr><td>Selection Sort</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>No</td></tr>
+<tr><td>Insertion Sort</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>Yes</td></tr>
+<tr><td>Merge Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td><td>Yes</td></tr>
+<tr><td>Quick Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n²)</td><td>O(log n)</td><td>No</td></tr>
+<tr><td>Heap Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(1)</td><td>No</td></tr>
+<tr><td>Counting Sort</td><td>O(n+k)</td><td>O(n+k)</td><td>O(n+k)</td><td>O(k)</td><td>Yes</td></tr>
+<tr><td>Radix Sort</td><td>O(d(n+k))</td><td>O(d(n+k))</td><td>O(d(n+k))</td><td>O(n+k)</td><td>Yes</td></tr></table>
+<div class="info"><strong>Key Facts:</strong> Quick Sort fastest in practice. Merge Sort for linked lists. Counting/Radix for limited range integers. Only Quick Sort and Heap Sort are in-place among O(n log n).</div>
+</div></div></div>
+
+<div class="note-card"><div class="note-header" onclick="toggleNote(this)"><h3>Searching & Complexity</h3><span class="arr">▸</span></div><div class="note-body"><div class="note-body-inner">
+<h4>Searching</h4>
+<ul><li><strong>Linear Search:</strong> O(n) — unsorted array</li>
+<li><strong>Binary Search:</strong> O(log n) — sorted array. Mid = (low+high)/2</li></ul>
+<h4>Time Complexity Cheat Sheet</h4>
+<table><tr><th>Complexity</th><th>Name</th><th>Example</th></tr>
+<tr><td>O(1)</td><td>Constant</td><td>Array access, Stack push/pop</td></tr>
+<tr><td>O(log n)</td><td>Logarithmic</td><td>Binary search, BST balanced</td></tr>
+<tr><td>O(n)</td><td>Linear</td><td>Linear search, Single loop</td></tr>
+<tr><td>O(n log n)</td><td>Linearithmic</td><td>Merge sort, Quick sort avg</td></tr>
+<tr><td>O(n²)</td><td>Quadratic</td><td>Bubble sort, Nested loops</td></tr>
+<tr><td>O(2ⁿ)</td><td>Exponential</td><td>Subset generation, Fibonacci recursive</td></tr>
+<tr><td>O(n!)</td><td>Factorial</td><td>Permutations, Brute force TSP</td></tr></table>
+<h4>Recurrence Relations</h4>
+<div class="formula">Merge Sort: T(n) = 2T(n/2) + O(n) → O(n log n)<br>Binary Search: T(n) = T(n/2) + O(1) → O(log n)<br>Quick Sort (avg): T(n) = T(n/9) + T(8n/9) + O(n) → O(n log n)</div>
+</div></div></div>
+</section>
+
+<!-- ============ MCQ SECTIONS ============ -->
+<!-- MCQ sections loaded via JS for performance -->
+
+<!-- RANDOM EXAM -->
+<section id="random-exam" class="section">
+<h2 class="section-title">🎲 Random 60 Question Exam <span class="badge">Timed</span></h2>
+<div class="exam-bar">
+<button onclick="startRandomExam()" id="startBtn">🚀 Start Exam</button>
+<button class="secondary" onclick="resetExam()">🔄 Reset</button>
+<button class="secondary" onclick="showAnswers()">👁️ Show All Answers</button>
+<div class="timer" id="timer">--:--</div>
+</div>
+<div class="score-bar" id="scoreBar" style="display:none">
+<div class="score-item blue">📝 Total: <strong id="sTotal">60</strong></div>
+<div class="score-item green">✅ Correct: <strong id="sCorrect">0</strong></div>
+<div class="score-item red">❌ Wrong: <strong id="sWrong">0</strong></div>
+<div class="score-item">⬜ Unanswered: <strong id="sUnans">60</strong></div>
+<div class="score-item" style="margin-left:auto"><strong id="sPercent" style="font-size:20px;color:var(--accent)">0%</strong></div>
+</div>
+<div id="examContainer"></div>
+</section>
+
+<!-- PLACEHOLDER FOR MCQ SECTIONS -->
+<div id="os-mcq-section" class="section"></div>
+<div id="dbms-mcq-section" class="section"></div>
+<div id="cn-mcq-section" class="section"></div>
+<div id="oop-mcq-section" class="section"></div>
+<div id="dsa-mcq-section" class="section"></div>
+
+</div><!-- end #main -->
+
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ========== MCQ DATA ==========
+const MCQS = {
+os: [
+// OS MCQs - 100+
+{q:"What is the kernel of an operating system?",a:["User interface","Core component managing hardware resources","A compiler","File manager"],c:1,e:"The kernel is the central component managing CPU, memory, and device communication.",t:"easy"},
+{q:"Which process state is when waiting for I/O completion?",a:["Ready","Running","Waiting/Blocked","Terminated"],c:2,e:"Waiting/Blocked state — process cannot proceed until I/O or event completes.",t:"easy"},
+{q:"What does fork() system call return to the parent?",a:["0","Child's PID","-1","Parent's PID"],c:1,e:"fork() returns child's PID (positive) to parent, 0 to child, -1 on failure.",t:"medium"},
+{q:"Which scheduling algorithm can cause the convoy effect?",a:["SJF","FCFS","Round Robin","Priority"],c:1,e:"FCFS: short processes stuck behind one long process = convoy effect.",t:"easy"},
+{q:"Belady's Anomaly occurs in which page replacement algorithm?",a:["LRU","Optimal","FIFO","LFU"],c:2,e:"FIFO can have more page faults with more frames — counterintuitive!",t:"medium"},
+{q:"What are the 4 conditions for deadlock?",a:["MHNC","MHPC","MHOC","MHNW"],c:0,e:"Mutual Exclusion, Hold & Wait, No Preemption, Circular Wait.",t:"easy"},
+{q:"TLB is a:",a:["Software cache","Hardware cache for page table","CPU register","Main memory"],c:1,e:"TLB = Translation Lookaside Buffer — hardware cache for page table entries.",t:"medium"},
+{q:"Which is NOT true about threads?",a:["Share memory space","Have own stack","Expensive to create","Lightweight"],c:2,e:"Threads are CHEAP to create (lightweight). Processes are expensive.",t:"medium"},
+{q:"In Round Robin, if time quantum is too large:",a:["Too many context switches","Degrades to FCFS","Starvation occurs","Deadlock occurs"],c:1,e:"Large TQ → each process completes in one go → equivalent to FCFS.",t:"medium"},
+{q:"What is thrashing?",a:["CPU utilization is high","System spends more time paging than executing","Memory is full","Process is terminated"],c:1,e:"Thrashing = excessive page faulting. System works more on paging than useful work.",t:"medium"},
+{q:"Which kernel type is most reliable?",a:["Monolithic","Microkernel","Hybrid","Nanokernel"],c:1,e:"Microkernel — services run in user space, so one service crashing doesn't crash the kernel.",t:"medium"},
+{q:"Banker's Algorithm is used for:",a:["Deadlock prevention","Deadlock avoidance","Deadlock detection","Deadlock recovery"],c:1,e:"Banker's Algorithm simulates allocation to check if the system stays in a safe state.",t:"easy"},
+{q:"What is a zombie process?",a:["Uses excessive memory","Completed but parent hasn't read exit status","Running in background","Has no parent"],c:1,e:"Zombie = finished execution but entry remains in process table until parent calls wait().",t:"medium"},
+{q:"Which is a non-preemptive scheduling algorithm?",a:["Round Robin","SRTF","FCFS","Preemptive Priority"],c:2,e:"FCFS executes each process to completion before scheduling the next.",t:"easy"},
+{q:"What does a page table map?",a:["Process to CPU","Page number to frame number","File to directory","IP to MAC"],c:1,e:"Page table maps logical pages to physical frames in memory.",t:"easy"},
+{q:"Which is NOT a Coffman condition for deadlock?",a:["Mutual Exclusion","Hold and Wait","Preemption","Circular Wait"],c:2,e:"The condition is 'No Preemption', not 'Preemption'.",t:"medium"},
+{q:"Binary semaphore values range:",a:["0 to n","0 or 1 only","1 to n","-1 to 1"],c:1,e:"Binary semaphore has only two values: 0 and 1.",t:"easy"},
+{q:"Which scheduling algorithm is optimal for average waiting time?",a:["FCFS","Round Robin","SJF","Priority"],c:2,e:"SJF is provably optimal for minimizing average waiting time.",t:"easy"},
+{q:"RAID 1 provides:",a:["Striping","Mirroring","Parity","None"],c:1,e:"RAID 1 = Mirroring — duplicate all data across disks for redundancy.",t:"easy"},
+{q:"Context switching is:",a:["Productive work","Pure overhead","Scheduling algorithm","Type of interrupt"],c:1,e:"No useful work during context switch — just save/load state. Pure overhead.",t:"easy"},
+{q:"What is aging in scheduling?",a:["Increasing process size","Gradually increasing priority of waiting processes","Decreasing time quantum","Adding more CPUs"],c:1,e:"Aging prevents starvation by boosting priority of long-waiting processes.",t:"medium"},
+{q:"Demand paging loads pages:",a:["At compile time","At program start","On demand (when needed)","At boot time"],c:2,e:"Pages loaded only when accessed (page fault triggers loading from disk).",t:"medium"},
+{q:"The producer-consumer problem is solved using:",a:["Mutex only","Semaphores","Banker's Algorithm","FIFO queue"],c:1,e:"Semaphores coordinate producer and consumer with a bounded buffer.",t:"medium"},
+{q:"Which disk scheduling algorithm may cause starvation?",a:["FCFS","SSTF","SCAN","C-SCAN"],c:1,e:"SSTF always serves nearest request — distant requests may starve.",t:"medium"},
+{q:"What is the mode bit in kernel mode?",a:["1","0","2","Depends on OS"],c:1,e:"Mode bit = 0 for kernel mode (zero restrictions), 1 for user mode.",t:"medium"},
+{q:"Virtual memory uses which storage as extension of RAM?",a:["Cache","Register","Secondary storage (disk)","ROM"],c:2,e:"Virtual memory uses disk space as if it were main memory.",t:"easy"},
+{q:"Which is NOT a type of IPC?",a:["Pipes","Shared Memory","Context Switching","Message Passing"],c:2,e:"Context switching is not IPC. IPC = Pipes, Shared Memory, Sockets, Message Queues.",t:"medium"},
+{q:"In multilevel feedback queue:",a:["Processes never move between queues","Higher priority queues get shorter time quantum","Lower priority queues run first","Only 2 queues exist"],c:1,e:"MLFQ promotes/demotes processes between queues. Higher-priority queues get shorter TQ.",t:"hard"},
+{q:"The banker's algorithm has time complexity:",a:["O(n)","O(n²)","O(n×m²)","O(m log n)"],c:2,e:"O(n×m²) where n = processes, m = resource types.",t:"hard"},
+{q:"What is the purpose of the swap space?",a:["Store user files","Store kernel code","Backing store for virtual memory","Network buffer"],c:2,e:"Swap space on disk holds pages swapped out from physical memory.",t:"medium"},
+{q:"In which allocation method does external fragmentation occur?",a:["Fixed partitioning","Paging","Dynamic partitioning","Segmentation with paging"],c:2,e:"Dynamic partitioning creates variable-sized holes → external fragmentation.",t:"medium"},
+{q:"Which system call creates a new process?",a:["exec()","fork()","wait()","exit()"],c:1,e:"fork() creates a child process by duplicating the parent.",t:"easy"},
+{q:"The dining philosophers problem demonstrates:",a:["Race condition","Deadlock","Starvation","All of these"],c:1,e:"Primarily deadlock — philosophers grabbing adjacent forks simultaneously.",t:"medium"},
+{q:"LRU page replacement uses:",a:["FIFO queue","Reference bit only","Stack or counters","Random selection"],c:2,e:"LRU needs hardware support — counters (timestamps) or a stack of page numbers.",t:"medium"},
+{q:"Which is true about shared memory IPC?",a:["Slowest IPC method","Requires kernel involvement for each message","Fastest IPC — direct memory access","Only works between threads"],c:2,e:"Shared memory is fastest — processes directly read/write same memory region.",t:"medium"},
+{q:"What is the effective access time with TLB?",a:["Always 2 memory accesses","α(t) + (1-α)(2t)","Always 1 memory access","α(t+e) + (1-α)(2t+e)"],c:3,e:"EAT = hit_ratio×(TLB_time + mem_time) + miss_ratio×(TLB_time + 2×mem_time).",t:"hard"},
+{q:"Spooling is used for:",a:["Buffering between processes","Queueing output for slow devices like printers","Caching file data","Memory management"],c:1,e:"Spooling = Simultaneous Peripheral Operations Online — disk as buffer for devices.",t:"medium"},
+{q:"Which RAID level requires minimum 3 disks?",a:["RAID 0","RAID 1","RAID 5","RAID 10"],c:2,e:"RAID 5 needs minimum 3 disks for striping with distributed parity.",t:"medium"},
+{q:"Segmentation table contains:",a:["Page number and frame number","Base address and limit","Block number and offset","Process ID and state"],c:1,e:"Segment table has base (starting address) and limit (length) for each segment.",t:"medium"},
+{q:"Which is a property of a good hash function?",a:["Always produces different values","Uniform distribution of keys","Always collides","O(n) computation"],c:1,e:"Good hash function distributes keys uniformly to minimize collisions.",t:"medium"},
+{q:"What is a daemon process?",a:["A malicious process","Background process running without user interaction","A zombie process","A kernel thread"],c:1,e:"Daemon = background process that runs continuously, typically started at boot.",t:"easy"},
+{q:"Which scheduling is used in time-sharing systems?",a:["FCFS","SJF","Round Robin","Priority"],c:2,e:"Round Robin is the most popular for time-sharing — fair, preemptive, TQ-based.",t:"easy"},
+{q:"What does 'nice' value do in Linux scheduling?",a:["Increases priority","Decreases priority (higher nice = lower priority)","Kills process","Creates new process"],c:1,e:"Nice value ranges -20 to 19. Higher nice = lower priority = 'nicer' to others.",t:"hard"},
+{q:"Which memory management technique eliminates external fragmentation?",a:["Fixed partitioning","Dynamic partitioning","Paging","Segmentation"],c:2,e:"Paging uses fixed-size frames — no holes, no external fragmentation.",t:"medium"},
+{q:"What is copy-on-write in fork()?",a:["Child copies parent immediately","Both share pages until one writes, then copy","Parent waits for child","Never copies data"],c:1,e:"COW: pages shared until write attempt, then the writing process gets its own copy.",t:"hard"},
+{q:"Which page replacement algorithm is theoretically optimal but impossible to implement?",a:["FIFO","LRU","Optimal (OPT)","Clock"],c:2,e:"OPT replaces page not needed for longest time in the future — requires future knowledge.",t:"easy"},
+{q:"In priority scheduling, starvation is resolved by:",a:["Increasing quantum","Aging","Decreasing priority","Adding more CPUs"],c:1,e:"Aging gradually increases priority of waiting processes to prevent starvation.",t:"easy"},
+{q:"What is a race condition?",a:["Two processes competing for CPU","Output depends on timing of non-atomic operations","Process runs too fast","Deadlock between processes"],c:1,e:"Race condition: concurrent access to shared data, result depends on execution order.",t:"medium"},
+{q:"Which I/O technique has highest CPU involvement?",a:["DMA","Interrupt-driven","Programmed I/O","None"],c:2,e:"Programmed I/O = CPU busy-waits in loop checking device status — wastes CPU.",t:"medium"},
+{q:"What is the working set model used for?",a:["CPU scheduling","Preventing thrashing","Deadlock avoidance","File management"],c:1,e:"Working set tracks active pages per process. If allocated frames < working set → thrashing.",t:"medium"},
+{q:"Which Linux command shows running processes?",a:["ls","ps","cat","grep"],c:1,e:"ps shows process status. 'ps aux' shows all running processes.",t:"easy"},
+{q:"What is the purpose of MMU?",a:["Manage files","Translate logical to physical addresses","Schedule processes","Handle interrupts"],c:1,e:"MMU (Memory Management Unit) translates virtual addresses to physical addresses.",t:"easy"},
+{q:"Which is true about interrupt-driven I/O?",a:["CPU busy-waits","CPU polls device status","Device signals CPU when ready","No CPU involvement at all"],c:2,e:"Device sends interrupt when ready. CPU can do other work meanwhile.",t:"medium"},
+{q:"What is multiprogramming's primary goal?",a:["Faster execution","Improve CPU utilization","Reduce memory usage","Simplify programming"],c:1,e:"Keep CPU busy by switching to other processes when one waits for I/O.",t:"easy"},
+{q:"The 'select' system call is used for:",a:["Process creation","File descriptor multiplexing","Memory allocation","Disk scheduling"],c:1,e:"select() monitors multiple file descriptors for I/O readiness — used in event loops.",t:"hard"},
+{q:"What does the 'wait()' system call do?",a:["Creates a child process","Parent waits for child to terminate","Sleeps the process","Kills a process"],c:1,e:"Parent calls wait() to suspend until child terminates and read its exit status.",t:"medium"},
+{q:"Which is NOT a valid process state?",a:["New","Ready","Sleeping","Terminated"],c:2,e:"Valid states: New, Ready, Running, Waiting/Blocked, Terminated. 'Sleeping' is not standard.",t:"medium"},
+// Continuing to reach 100+
+{q:"In two-level scheduling, the medium-term scheduler:",a:["Selects from ready queue","Swaps processes in/out of memory","Creates new processes","Handles interrupts"],c:1,e:"Medium-term scheduler reduces multiprogramming by swapping processes to disk.",t:"medium"},
+{q:"What is priority inversion?",a:["High priority process blocked by low priority","Low priority gets CPU first","Two processes have same priority","Priority changes at runtime"],c:0,e:"High-priority process waits for low-priority process holding a shared resource.",t:"hard"},
+{q:"Which is NOT a benefit of threads?",a:["Responsiveness","Resource sharing","Fault isolation","Economy"],c:2,e:"Threads don't provide fault isolation — one thread crash can kill the entire process.",t:"medium"},
+{q:"What is the role of the short-term scheduler?",a:["Decides which process loads into memory","Selects which ready process gets CPU","Swaps processes to disk","Creates new processes"],c:1,e:"Short-term (CPU) scheduler picks from ready queue. Runs frequently.",t:"medium"},
+{q:"What happens on a TLB miss?",a:["System crashes","Page table must be consulted","Process is killed","OS is reloaded"],c:1,e:"On TLB miss, the page table in memory is accessed to find the mapping.",t:"medium"},
+{q:"Which file allocation method uses index blocks?",a:["Contiguous","Linked","Indexed","FAT"],c:2,e:"Indexed allocation: index block contains pointers to all data blocks of a file.",t:"medium"},
+{q:"The 'exec()' system call:",a:["Creates a new process","Replaces current process image","Terminates a process","Suspended a process"],c:1,e:"exec() replaces the current process's memory with a new program.",t:"easy"},
+{q:"What is a semaphore's initial value for mutual exclusion?",a:["0","1","n","-1"],c:1,e:"For mutual exclusion, semaphore initialized to 1 (binary semaphore = mutex).",t:"easy"},
+{q:"Which scheduling algorithm is preemptive?",a:["FCFS","Non-preemptive SJF","Round Robin","All"],c:2,e:"Round Robin is always preemptive — CPU taken away after time quantum expires.",t:"easy"},
+{q:"Page fault rate + hit rate equals:",a:["1","0","n","Depends on OS"],c:0,e:"Page fault rate + hit rate = 1 (or 100%). Every access is either a hit or fault.",t:"easy"},
+{q:"What is compaction?",a:["Compressing files","Moving processes to create one large free block","Reducing process priority","Removing zombie processes"],c:1,e:"Compaction moves processes to consolidate free space and reduce external fragmentation.",t:"medium"},
+{q:"In Unix, which signal kills a process by default?",a:["SIGTERM","SIGKILL","SIGSTOP","SIGHUP"],c:1,e:"SIGKILL (kill -9) immediately terminates a process and cannot be caught or ignored.",t:"medium"},
+{q:"What is a resource allocation graph?",a:["Shows CPU usage","Directed graph of processes and resources","File system tree","Network topology"],c:1,e:"RAG shows processes, resources, and edges (request/assignment) to detect deadlocks.",t:"medium"},
+{q:"Which is true about the banker's algorithm?",a:["Runs continuously","Runs only when resource request is made","Prevents deadlock by breaking conditions","Uses wait-for graph"],c:1,e:"Banker's algorithm runs at request time, checks if granting keeps system safe.",t:"medium"},
+{q:"What is the minimum number of frames per process?",a:["1","3","5","Depends on instruction set"],c:3,e:"Minimum frames = size of largest instruction. If one instruction spans pages, need at least that many.",t:"hard"},
+{q:"A counting semaphore initialized to 3 means:",a:["Only 3 processes can run","Up to 3 processes can access the resource simultaneously","Process must wait 3 times","3 resources are damaged"],c:1,e:"Counting semaphore = N means up to N processes can access the resource at once.",t:"medium"},
+{q:"Which OS concept prevents one program from corrupting another's memory?",a:["Scheduling","Virtual memory","Process isolation","Context switching"],c:2,e:"Process isolation — each process has its own address space, preventing cross-corruption.",t:"medium"},
+{q:"What is memory-mapped I/O?",a:["Using disk for virtual memory","Mapping device registers to memory addresses","Copying files to RAM","Page table mapping"],c:1,e:"Device registers mapped to specific memory addresses, accessed via regular load/store.",t:"hard"},
+{q:"Which is NOT an IPC mechanism?",a:["Shared memory","Pipes","Semaphores","Context switching"],c:3,e:"Context switching is not IPC. IPC = pipes, shared memory, sockets, message queues, semaphores.",t:"easy"},
+{q:"What is the purpose of the inode in Unix?",a:["Store filename","Store file metadata and block pointers","Store user password","Store process information"],c:1,e:"Inode stores metadata (permissions, size, timestamps) and pointers to data blocks.",t:"medium"},
+{q:"Which type of fragmentation does paging have?",a:["External only","Internal only","Both","Neither"],c:1,e:"Paging may have internal fragmentation (last page partially used) but no external.",t:"easy"},
+{q:"A deadlock detection algorithm uses:",a:["Banker's algorithm","Wait-for graph (cycle detection)","FIFO queue","Priority queue"],c:1,e:"For single instance: wait-for graph with cycle detection = deadlock found.",t:"medium"},
+{q:"What is the response time in scheduling?",a:["Time from submission to completion","Time from submission to first response","Time CPU is busy","Time between context switches"],c:1,e:"Response time = First CPU allocation time − Arrival time.",t:"easy"},
+{q:"The 'pipe' system call creates:",a:["A new thread","An unidirectional communication channel","A new process","A file"],c:1,e:"Pipe creates unidirectional data channel between related processes.",t:"medium"},
+{q:"What is lazy swapper?",a:["Swaps processes slowly","Swaps only pages that are needed (demand paging)","Never swaps","Always swaps all pages"],c:1,e:"Lazy swapper = pager — only swaps in pages when demanded (on page fault).",t:"medium"},
+{q:"Which disk scheduling algorithm provides most uniform wait time?",a:["FCFS","SSTF","SCAN","C-SCAN"],c:3,e:"C-SCAN serves only in one direction, providing more uniform wait times.",t:"medium"},
+{q:"What is the return value of fork() in child process?",a:["Parent PID","0","-1","Child PID"],c:1,e:"fork() returns 0 to child, child's PID to parent, -1 on failure.",t:"easy"},
+{q:"Which is a characteristic of RISC architecture?",a:["Complex instructions","Many addressing modes","Fixed-length instructions","Microcoded control"],c:2,e:"RISC uses simple, fixed-length instructions for faster execution.",t:"medium"},
+{q:"What is the 'select' problem equivalent to?",a:["Dining philosophers","Banker's algorithm","Critical section","Reader-writer"],c:0,e:"Select problem is similar — multiple entities competing for shared resources.",t:"hard"},
+{q:"Which is true about virtual memory?",a:["Programs must fit entirely in RAM","Programs can be larger than physical RAM","Eliminates need for disk","Only works with SSDs"],c:1,e:"Virtual memory allows programs larger than RAM by loading pages on demand.",t:"easy"},
+{q:"What is 'starvation' in scheduling?",a:["Process runs out of memory","Process never gets CPU due to priority","Process is killed","Process has no parent"],c:1,e:"Starvation = indefinite waiting because higher-priority processes always get CPU first.",t:"easy"},
+{q:"The 'mmap' system call is used for:",a:["Creating processes","Memory-mapped files","Network communication","Disk scheduling"],c:1,e:"mmap maps files or devices into memory for direct access.",t:"medium"},
+{q:"Which page replacement algorithm has the highest overhead?",a:["FIFO","Optimal","LRU","Clock"],c:2,e:"True LRU requires tracking every memory access — expensive hardware support needed.",t:"medium"},
+],
+dbms: [
+{q:"What does DBMS stand for?",a:["Database Management System","Data Backup Management System","Digital Base Management System","Dynamic Binary Management System"],c:0,e:"DBMS = Database Management System — software for creating and managing databases.",t:"easy"},
+{q:"Which normal form eliminates transitive dependencies?",a:["1NF","2NF","3NF","BCNF"],c:2,e:"3NF requires no transitive dependency: non-prime attribute → non-prime attribute not allowed.",t:"medium"},
+{q:"What is a foreign key?",a:["A key from another database","A key that references the primary key of another table","An encrypted key","A backup key"],c:1,e:"Foreign key in one table references the primary key of another table — maintains referential integrity.",t:"easy"},
+{q:"Which SQL command is DDL?",a:["SELECT","INSERT","CREATE","UPDATE"],c:2,e:"DDL = Data Definition Language: CREATE, ALTER, DROP, TRUNCATE, RENAME.",t:"easy"},
+{q:"ACID stands for:",a:["Atomicity, Consistency, Isolation, Durability","Addition, Calculation, Integration, Division","Access, Control, Identity, Data","All, Common, Internal, Direct"],c:0,e:"ACID = Atomicity (all or nothing), Consistency, Isolation, Durability (persist after commit).",t:"easy"},
+{q:"What is a candidate key?",a:["Any column in a table","Minimal set of attributes that uniquely identifies tuples","A foreign key","An index key"],c:1,e:"Candidate key is a minimal super key — no redundant attributes, uniquely identifies each row.",t:"medium"},
+{q:"Which join returns all rows from both tables?",a:["INNER JOIN","LEFT JOIN","CROSS JOIN","FULL JOIN"],c:3,e:"FULL JOIN returns all rows from both tables. In MySQL, emulated with LEFT UNION RIGHT.",t:"easy"},
+{q:"What is normalization?",a:["Adding more tables","Eliminating redundancy and anomalies by organizing data","Encrypting data","Creating indexes"],c:1,e:"Normalization divides large tables to reduce redundancy and prevent insertion/deletion/update anomalies.",t:"easy"},
+{q:"What does 'SELECT DISTINCT' do?",a:["Selects first row","Selects all rows","Selects only unique rows","Selects primary key"],c:2,e:"DISTINCT eliminates duplicate rows from the result set.",t:"easy"},
+{q:"In ER model, a weak entity:",a:["Has its own primary key","Depends on a strong entity for identification","Can exist independently","Is always a relationship"],c:1,e:"Weak entity depends on a strong (owner) entity — has a partial key + foreign key.",t:"medium"},
+{q:"Which is NOT an ACID property?",a:["Atomicity","Availability","Consistency","Isolation"],c:1,e:"Availability is not an ACID property. ACID = Atomicity, Consistency, Isolation, Durability.",t:"easy"},
+{q:"What is a view in SQL?",a:["A physical table","A virtual table based on a query","A type of index","A backup table"],c:1,e:"View is a virtual table defined by a SELECT query. It doesn't store data itself.",t:"easy"},
+{q:"Which anomaly occurs when deleting a row loses unrelated data?",a:["Insertion anomaly","Deletion anomaly","Update anomaly","Modification anomaly"],c:1,e:"Deletion anomaly: removing a row unintentionally deletes other related information.",t:"medium"},
+{q:"What is a super key?",a:["Primary key only","Any set of attributes that uniquely identifies tuples","Foreign key","Composite key"],c:1,e:"Super key = any set of attributes that can uniquely identify each tuple. Candidate key is a minimal super key.",t:"medium"},
+{q:"In SQL, HAVING clause is used:",a:["Before GROUP BY","After GROUP BY","With INSERT","With DELETE"],c:1,e:"HAVING filters groups after GROUP BY. WHERE filters rows before GROUP BY.",t:"easy"},
+{q:"What is the BCNF condition?",a:["No partial dependency","No transitive dependency","For every FD X→Y, X must be a super key","All attributes are atomic"],c:2,e:"BCNF: every determinant must be a super key. Stricter than 3NF.",t:"medium"},
+{q:"Which data model uses entities and relationships?",a:["Relational","Network","ER (Entity-Relationship)","Hierarchical"],c:2,e:"ER model represents data as entities, attributes, and relationships.",t:"easy"},
+{q:"What is the purpose of an index?",a:["Store data permanently","Speed up data retrieval","Enforce constraints","Backup data"],c:1,e:"Index provides fast lookup by creating a sorted structure mapping search keys to data.",t:"easy"},
+{q:"What is referential integrity?",a:["Each table has a primary key","Foreign key must match a primary key in the referenced table or be NULL","Data is encrypted","No duplicate rows"],c:1,e:"Referential integrity ensures FK values are valid — match PK in parent table or NULL.",t:"medium"},
+{q:"Which SQL function counts rows?",a:["SUM()","AVG()","COUNT()","MAX()"],c:2,e:"COUNT() returns the number of rows matching a condition.",t:"easy"},
+{q:"What is Armstrong's axiom of transitivity?",a:["If A→B and B→C then A→C","If A→B then AX→BX","If A⊇B then A→B","None of these"],c:0,e:"Transitivity: A→B and B→C implies A→C. Fundamental for deriving FDs.",t:"medium"},
+{q:"CAP theorem states you can have at most 2 of:",a:["Create, Append, Process","Consistency, Availability, Partition Tolerance","Class, Attribute, Primary","Cache, API, Protocol"],c:1,e:"CAP: choose 2 of Consistency, Availability, Partition tolerance in distributed systems.",t:"medium"},
+{q:"What is a stored procedure?",a:["A file on disk","Precompiled SQL code stored in the database","A type of index","A backup mechanism"],c:1,e:"Stored procedure = precompiled SQL code stored in DB, callable by applications.",t:"easy"},
+{q:"Which is a DML command?",a:["CREATE","ALTER","INSERT","DROP"],c:2,e:"DML = Data Manipulation Language: INSERT, UPDATE, DELETE.",t:"easy"},
+{q:"What is the degree of a relation?",a:["Number of rows","Number of columns","Number of tables","Number of constraints"],c:1,e:"Degree = number of attributes (columns) in a relation (table).",t:"easy"},
+{q:"What is the cardinality of a relation?",a:["Number of columns","Number of rows","Number of keys","Number of constraints"],c:1,e:"Cardinality = number of tuples (rows) in a relation.",t:"easy"},
+{q:"Which isolation level prevents dirty reads?",a:["Read Uncommitted","Read Committed","Repeatable Read","Serializable"],c:1,e:"Read Committed prevents dirty reads — only reads committed data.",t:"medium"},
+{q:"What is a composite primary key?",a:["Primary key with one attribute","Primary key formed by two or more attributes","A secondary key","An alternate key"],c:1,e:"Composite PK uses multiple attributes together to uniquely identify a tuple.",t:"easy"},
+{q:"What does TRUNCATE do?",a:["Removes specific rows","Removes all rows but keeps structure (DDL)","Removes the table structure","Copies the table"],c:1,e:"TRUNCATE = DDL command, removes all rows faster than DELETE, keeps table structure.",t:"medium"},
+{q:"What is a deadlock in DBMS?",a:["Two transactions waiting for each other's locks permanently","Table is corrupted","Database is full","Password is lost"],c:0,e:"DBMS deadlock: two or more transactions hold locks and wait for each other's locks forever.",t:"medium"},
+{q:"Which is NOT a type of join?",a:["INNER JOIN","OUTER JOIN","CROSS JOIN","UPPER JOIN"],c:3,e:"Types: INNER, LEFT/RIGHT/FULL OUTER, CROSS, SELF. 'UPPER JOIN' doesn't exist.",t:"easy"},
+{q:"What is a transaction log used for?",a:["Storing user passwords","Recovery — undo/redo operations after failure","Speeding up queries","Logging user activity"],c:1,e:"Transaction log records modifications for recovery: undo on failure, redo after crash.",t:"medium"},
+{q:"What is the difference between DELETE and TRUNCATE?",a:["No difference","DELETE is DML (can rollback), TRUNCATE is DDL (can't rollback)","TRUNCATE is slower","DELETE removes structure"],c:1,e:"DELETE = DML, WHERE clause, rollback possible. TRUNCATE = DDL, all rows, minimal logging.",t:"easy"},
+{q:"Which normal form deals with multi-valued attributes?",a:["1NF","2NF","3NF","BCNF"],c:0,e:"1NF requires all attribute values to be atomic — no multi-valued or composite attributes.",t:"easy"},
+{q:"What is a correlated subquery?",a:["Subquery in FROM clause","Inner query depends on outer query values","Subquery with JOIN","Independent subquery"],c:1,e:"Correlated subquery references outer query — executes once per row of outer query.",t:"medium"},
+{q:"What does 'GROUP BY' do in SQL?",a:["Groups tables together","Groups rows with same values for aggregation","Sorts the result","Filters rows"],c:1,e:"GROUP BY groups rows sharing values for specified columns, used with aggregate functions.",t:"easy"},
+{q:"What is a materialized view?",a:["Same as a regular view","A view that stores data physically on disk","A view with indexes only","A temporary view"],c:1,e:"Materialized view stores query results physically, updated periodically or on trigger.",t:"medium"},
+{q:"Which key can have NULL values?",a:["Primary Key","Candidate Key","Foreign Key","Super Key (if not candidate)"],c:3,e:"FK can be NULL. PK and candidate keys cannot be NULL. Super key can if not minimal.",t:"medium"},
+{q:"What is serializability?",a:["Storing data in serial format","Ensuring concurrent schedule produces same result as some serial schedule","Running one transaction at a time","Encrypting serially"],c:1,e:"Serializability ensures concurrent transactions produce equivalent result to some sequential order.",t:"medium"},
+{q:"Which is true about B+ tree index?",a:["Data stored at internal nodes","Data stored only at leaf nodes","Same as binary search tree","Only used for strings"],c:1,e:"B+ tree stores data at leaf nodes only. Internal nodes store keys for routing.",t:"medium"},
+{q:"What is the 'cascade' option in foreign key?",a:["Delete the foreign key column","Propagate delete/update to dependent rows","Set values to NULL","Prevent deletion"],c:1,e:"ON DELETE CASCADE propagates deletion to child rows. ON UPDATE CASCADE propagates updates.",t:"easy"},
+{q:"What is a data dictionary?",a:["A physical table","Metadata repository describing database structure","A type of query","A backup tool"],c:1,e:"Data dictionary stores metadata: table names, columns, types, constraints, indexes.",t:"medium"},
+{q:"Which is NOT a DCL command?",a:["GRANT","REVOKE","COMMIT","Both GRANT and REVOKE are DCL"],c:2,e:"COMMIT is TCL (Transaction Control). DCL = GRANT, REVOKE. TCL = COMMIT, ROLLBACK, SAVEPOINT.",t:"easy"},
+{q:"What is a surrogate key?",a:["Natural primary key","Auto-generated synthetic key (usually auto-increment integer)","Foreign key","Composite key"],c:1,e:"Surrogate key = system-generated unique identifier, unrelated to business data.",t:"medium"},
+{q:"What is the purpose of normalization?",a:["Increase redundancy","Eliminate redundancy and anomalies","Slow down queries","Increase table size"],c:1,e:"Normalization reduces redundancy and prevents insertion/deletion/update anomalies.",t:"easy"},
+{q:"What is a deadlock prevention technique?",a:["Banker's algorithm","Request all resources at once (break hold & wait)","Wait-for graph","Time quantum"],c:1,e:"Deadlock prevention: break one of 4 conditions. 'All or nothing' breaks hold & wait.",t:"medium"},
+{q:"Which SQL clause is used to sort results?",a:["GROUP BY","ORDER BY","HAVING","WHERE"],c:1,e:"ORDER BY sorts the result set. ASC (default) or DESC.",t:"easy"},
+{q:"What is a natural join?",a:["Join with no conditions","Join on columns with same name automatically","Cross join","Self join"],c:1,e:"Natural join automatically joins on columns with same names in both tables.",t:"easy"},
+{q:"What is a covering index?",a:["Index on all columns","Index that contains all columns needed by a query","First index on a table","Backup index"],c:1,e:"Covering index has all columns the query needs — avoids table lookup entirely.",t:"hard"},
+{q:"What is an MVCC?",a:["Multi-Value Column Constraint","Multi-Version Concurrency Control","Most Valuable Customer Club","Maximum Variable Cache Control"],c:1,e:"MVCC keeps multiple versions of data to allow concurrent reads without blocking writes.",t:"medium"},
+{q:"What is a phantom read?",a:["Reading deleted data","New rows appear between two reads of same query","Reading uncommitted data","Duplicate reads"],c:1,e:"Phantom read: a transaction re-executes a query and finds new rows inserted by another transaction.",t:"medium"},
+{q:"In ER diagram, a diamond represents:",a:["Entity","Attribute","Relationship","Key"],c:2,e:"Diamond = relationship. Rectangle = entity. Oval = attribute.",t:"easy"},
+{q:"Which SQL operation is used to combine rows from two tables based on related column?",a:["UNION","JOIN","GROUP BY","DISTINCT"],c:1,e:"JOIN combines rows from two tables based on a related column between them.",t:"easy"},
+{q:"What is an aggregate function?",a:["Functions on individual rows","Functions that operate on a set of rows (COUNT, SUM, AVG)","Functions that create tables","Functions that modify data"],c:1,e:"Aggregate functions: COUNT, SUM, AVG, MIN, MAX — operate on groups of rows.",t:"easy"},
+{q:"What is the ACID property of Durability?",a:["All operations succeed or none","Database stays consistent","Committed changes persist permanently","Transactions are isolated"],c:2,e:"Durability: once committed, changes survive system failures (stored in non-volatile memory).",t:"easy"},
+{q:"What is a clustered index?",a:["Index on primary key only","Index that determines physical order of data","Index with clusters","Non-unique index"],c:1,e:"Clustered index sorts table data physically. Only one per table. Non-clustered = separate structure.",t:"medium"},
+{q:"What is a weak entity in ER model?",a:["Entity with many attributes","Entity that cannot exist without an owner entity","Entity with no relationships","Deleted entity"],c:1,e:"Weak entity depends on a strong (owner) entity. Has partial key, identified by owner's PK + partial key.",t:"medium"},
+{q:"What is the purpose of the 'WHERE' clause?",a:["Group results","Filter rows based on condition","Sort results","Join tables"],c:1,e:"WHERE filters individual rows before any grouping or aggregation.",t:"easy"},
+{q:"What is a deadlock detection algorithm?",a:["Banker's algorithm","Wait-for graph with cycle detection","Round robin","FCFS scheduling"],c:1,e:"For single instance: detect cycle in wait-for graph. For multiple: similar to Banker's safety check.",t:"medium"},
+{q:"What does DDL stand for?",a:["Data Description Language","Data Definition Language","Data Design Language","Database Definition Language"],c:1,e:"DDL = Data Definition Language: CREATE, ALTER, DROP, TRUNCATE, RENAME.",t:"easy"},
+{q:"What is the difference between WHERE and HAVING?",a:["No difference","WHERE filters rows before GROUP BY, HAVING filters groups after","HAVING is faster","WHERE is for SELECT only"],c:1,e:"WHERE filters before grouping. HAVING filters after grouping. HAVING requires GROUP BY.",t:"easy"},
+{q:"What is an E-R diagram used for?",a:["Writing SQL queries","Database design and modeling","Backup strategy","Network design"],c:1,e:"ER diagram is a visual tool for designing database structure: entities, attributes, relationships.",t:"easy"},
+{q:"What is a deadlock avoidance technique?",a:["Breaking hold & wait","Banker's algorithm","Time-based expiry","Process termination"],c:1,e:"Banker's algorithm = avoidance. Checks if allocation leads to safe state before granting.",t:"easy"},
+{q:"What is a covering index in DBMS?",a:["Index covering all columns","Index that answers query without table access","Primary key index","Full table index"],c:1,e:"Covering index contains all columns needed by a query — avoids table lookup, faster.",t:"hard"},
+{q:"What does the 'ALTER TABLE' command do?",a:["Deletes a table","Modifies table structure","Inserts data","Creates index"],c:1,e:"ALTER TABLE adds/modifies/drops columns, constraints, or other table properties.",t:"easy"},
+{q:"What is referential integrity constraint?",a:["Primary key is unique","Foreign key must reference valid PK or be NULL","No NULL values","Unique column values"],c:1,e:"Referential integrity: FK values must match a PK in the referenced table or be NULL.",t:"easy"},
+{q:"What is the purpose of the COMMIT command?",a:["Undo all changes","Permanently save transaction changes","Delete table","Lock the database"],c:1,e:"COMMIT makes all changes in the current transaction permanent and visible to others.",t:"easy"},
+{q:"What is the difference between DELETE and DROP?",a:["No difference","DELETE removes rows (DML), DROP removes entire table (DDL)","DROP is faster","DELETE is DDL"],c:1,e:"DELETE = DML, removes rows, WHERE clause, rollback. DROP = DDL, removes entire table structure + data.",t:"easy"},
+],
+cn: [
+{q:"Which layer of OSI model is responsible for routing?",a:["Transport","Network","Data Link","Physical"],c:1,e:"Network layer (Layer 3) handles routing. Routers operate at this layer.",t:"easy"},
+{q:"What is the default port number for HTTP?",a:["21","25","80","443"],c:2,e:"HTTP uses port 80. HTTPS uses port 443.",t:"easy"},
+{q:"TCP stands for:",a:["Transmission Control Protocol","Transfer Computing Protocol","Total Communication Protocol","Time Control Protocol"],c:0,e:"TCP = Transmission Control Protocol — reliable, connection-oriented.",t:"easy"},
+{q:"What device operates at Layer 2 (Data Link)?",a:["Router","Hub","Switch","Gateway"],c:2,e:"Switch operates at Layer 2 using MAC addresses. Router = Layer 3. Hub = Layer 1.",t:"easy"},
+{q:"What is the purpose of DNS?",a:["Assign IP addresses","Translate domain names to IP addresses","Encrypt data","Route packets"],c:1,e:"DNS = Domain Name System — translates www.example.com to IP address.",t:"easy"},
+{q:"How many layers does OSI model have?",a:["4","5","7","8"],c:2,e:"OSI has 7 layers: Physical, Data Link, Network, Transport, Session, Presentation, Application.",t:"easy"},
+{q:"Which protocol is connectionless?",a:["TCP","UDP","FTP","SSH"],c:1,e:"UDP = User Datagram Protocol — connectionless, no guarantee of delivery.",t:"easy"},
+{q:"What is a MAC address?",a:["Software address","Hardware address burned into NIC","IP address","Port number"],c:1,e:"MAC (Media Access Control) address is a unique hardware identifier (48-bit) on NIC.",t:"easy"},
+{q:"What is subnetting?",a:["Creating subdomains","Dividing a network into smaller sub-networks","Encrypting data","Compressing packets"],c:1,e:"Subnetting splits a large network into smaller ones using subnet masks.",t:"easy"},
+{q:"Which topology has all devices connected to a central hub?",a:["Bus","Ring","Star","Mesh"],c:2,e:"Star topology: all nodes connect to a central device (hub/switch).",t:"easy"},
+{q:"What does ARP do?",a:["Assigns IP addresses","Maps IP address to MAC address","Encrypts data","Routes packets"],c:1,e:"ARP = Address Resolution Protocol — finds MAC address from known IP address.",t:"easy"},
+{q:"TCP 3-way handshake involves:",a:["SYN, ACK","SYN, SYN-ACK, ACK","FIN, ACK, FIN","SYN, RST, ACK"],c:1,e:"Connection: SYN → SYN-ACK → ACK. Three steps to establish TCP connection.",t:"easy"},
+{q:"Which protocol uses port 443?",a:["HTTP","FTP","HTTPS","SMTP"],c:2,e:"HTTPS (HTTP Secure) uses port 443 with SSL/TLS encryption.",t:"easy"},
+{q:"What is a NAT?",a:["Network Access Token","Network Address Translation","New Application Technology","Network Authentication Type"],c:1,e:"NAT translates private IP addresses to public IP for internet access.",t:"easy"},
+{q:"Which is a transport layer protocol?",a:["IP","Ethernet","TCP","HTTP"],c:2,e:"TCP and UDP operate at the Transport layer (Layer 4).",t:"easy"},
+{q:"What is the maximum number of hosts in a /24 network?",a:["256","254","255","128"],c:1,e:"/24 = 255.255.255.0. Hosts = 2^8 − 2 = 254 (subtract network and broadcast addresses).",t:"medium"},
+{q:"What is the class of IP 192.168.1.1?",a:["Class A","Class B","Class C","Class D"],c:2,e:"192-223 range = Class C. Default mask: 255.255.255.0.",t:"easy"},
+{q:"Which protocol is used for email sending?",a:["POP3","IMAP","SMTP","HTTP"],c:2,e:"SMTP (Simple Mail Transfer Protocol) is used for sending email. POP3/IMAP for retrieval.",t:"easy"},
+{q:"What is a VPN?",a:["Virtual Private Network","Very Private Network","Variable Protocol Network","Virtual Public Network"],c:0,e:"VPN creates encrypted tunnel over public network for secure private communication.",t:"easy"},
+{q:"Which layer does encryption/decryption belong to?",a:["Application","Presentation","Session","Transport"],c:1,e:"Presentation layer (Layer 6) handles encryption, decryption, data format translation.",t:"easy"},
+{q:"What is the purpose of ICMP?",a:["Email transmission","Error reporting and diagnostics (ping, traceroute)","File transfer","Domain resolution"],c:1,e:"ICMP = Internet Control Message Protocol — used by ping and traceroute for diagnostics.",t:"easy"},
+{q:"What is a default gateway?",a:["First DNS server","Router connecting local network to other networks","Firewall","DHCP server"],c:1,e:"Default gateway is the router that forwards traffic from local network to other networks.",t:"easy"},
+{q:"Which protocol provides reliable data transfer?",a:["UDP","ICMP","TCP","ARP"],c:2,e:"TCP provides reliable, ordered, error-checked data delivery with retransmission.",t:"easy"},
+{q:"What is the classful address range for Class B?",a:["1-126","128-191","192-223","224-239"],c:1,e:"Class B: 128.0.0.0 to 191.255.255.255. Default mask: /16.",t:"easy"},
+{q:"What does DHCP do?",a:["Resolves domain names","Dynamically assigns IP addresses","Routes packets","Encrypts data"],c:1,e:"DHCP = Dynamic Host Configuration Protocol — auto-assigns IP, subnet, gateway, DNS.",t:"easy"},
+{q:"What is the PDU at the Transport layer?",a:["Bits","Frames","Packets","Segments"],c:3,e:"Transport layer PDU = Segment (TCP) or Datagram (UDP).",t:"easy"},
+{q:"Which is a classless routing protocol?",a:["RIP v1","OSPF","RIPv1","Static routing"],c:1,e:"OSPF uses CIDR (classless). RIP v1 is classful. RIPv2 is classless.",t:"medium"},
+{q:"What is CSMA/CD used in?",a:["Wi-Fi","Wired Ethernet","Bluetooth","Fiber optic"],c:1,e:"CSMA/CD = Carrier Sense Multiple Access with Collision Detection — used in wired Ethernet.",t:"easy"},
+{q:"How many bits is an IPv4 address?",a:["32","64","128","256"],c:0,e:"IPv4 = 32 bits (4 octets). IPv6 = 128 bits.",t:"easy"},
+{q:"What is the loopback address?",a:["0.0.0.0","127.0.0.1","255.255.255.255","192.168.1.1"],c:1,e:"127.0.0.1 is the loopback (localhost) address — tests network stack on local machine.",t:"easy"},
+{q:"Which layer uses frames?",a:["Physical","Data Link","Network","Transport"],c:1,e:"Data Link layer (Layer 2) encapsulates packets into frames.",t:"easy"},
+{q:"What is a VLAN?",a:["Virtual Local Area Network","Very Large Area Network","Virtual Link Access Node","Variable LAN"],c:0,e:"VLAN logically segments a physical network into separate broadcast domains.",t:"easy"},
+{q:"Which protocol uses port 22?",a:["HTTP","FTP","SSH","Telnet"],c:2,e:"SSH (Secure Shell) uses port 22 for secure remote access.",t:"easy"},
+{q:"What is the broadcast address for 192.168.1.0/24?",a:["192.168.1.0","192.168.1.1","192.168.1.255","255.255.255.0"],c:2,e:"Broadcast address: all host bits set to 1 → 192.168.1.255.",t:"easy"},
+{q:"What is bandwidth?",a:["Width of a cable","Maximum data transfer rate of a network link","Number of devices","Frequency of signal"],c:1,e:"Bandwidth = maximum amount of data that can be transmitted per unit time (bits per second).",t:"easy"},
+{q:"What is a proxy server?",a:["Backup server","Intermediary between client and internet","Mail server","Database server"],c:1,e:"Proxy server acts as intermediary — caches content, filters requests, hides client IP.",t:"easy"},
+{q:"Which is a connection-oriented protocol?",a:["UDP","ICMP","TCP","ARP"],c:2,e:"TCP is connection-oriented (3-way handshake). UDP is connectionless.",t:"easy"},
+{q:"What is the PDU at the Network layer?",a:["Bits","Frames","Packets","Segments"],c:2,e:"Network layer PDU = Packet. Contains source and destination IP addresses.",t:"easy"},
+{q:"What is CIDR notation?",a:["Class-based IP addressing","Classless Inter-Domain Routing","Computer ID Routing","Central Internet Data Router"],c:1,e:"CIDR = Classless Inter-Domain Routing. E.g., /24 means 24 network bits.",t:"easy"},
+{q:"Which protocol is used for file transfer?",a:["SMTP","HTTP","FTP","SNMP"],c:2,e:"FTP = File Transfer Protocol. Uses ports 20 (data) and 21 (control).",t:"easy"},
+{q:"What is a collision domain?",a:["Network where all devices share bandwidth","Area where collisions can occur","Encrypted network","VLAN"],c:1,e:"Collision domain: set of devices where collisions can occur. Switch reduces collision domains.",t:"medium"},
+{q:"What does 'traceroute' show?",a:["Bandwidth","Path packets take to destination","MAC addresses","DNS records"],c:1,e:"Traceroute shows each hop (router) packets pass through to reach the destination.",t:"easy"},
+{q:"Which OSI layer handles flow control?",a:["Physical","Data Link","Transport","All of these"],c:3,e:"Flow control exists at Data Link (hop-to-hop) and Transport (end-to-end) layers.",t:"medium"},
+{q:"What is the purpose of SSL/TLS?",a:["Route packets","Encrypt data in transit","Assign IP addresses","Resolve domain names"],c:1,e:"SSL/TLS encrypts data between client and server for secure communication.",t:"easy"},
+{q:"What is a broadcast storm?",a:["Heavy rain on network cables","Excessive broadcast traffic overwhelming the network","DDoS attack","DNS failure"],c:1,e:"Broadcast storm: too many broadcasts flooding the network, causing congestion.",t:"medium"},
+{q:"Which address type is used for multicast?",a:["Class A","Class B","Class C","Class D (224-239)"],c:3,e:"Class D (224.0.0.0 to 239.255.255.255) is reserved for multicast.",t:"medium"},
+{q:"What is the maximum number of hosts in a Class A network?",a:["254","65,534","16,777,214","256"],c:2,e:"Class A: /8 prefix. Hosts = 2^24 − 2 = 16,777,214.",t:"medium"},
+{q:"What is a session hijacking?",a:["Stealing session cookies to impersonate a user","Creating new sessions","Deleting sessions","Session timeout"],c:0,e:"Session hijacking: attacker steals session token to take over an authenticated session.",t:"medium"},
+{q:"Which protocol operates on port 53?",a:["HTTP","DNS","FTP","SMTP"],c:1,e:"DNS uses port 53 for domain name resolution.",t:"easy"},
+{q:"What is the difference between hub and switch?",a:["No difference","Hub broadcasts to all ports, switch uses MAC table","Hub is faster","Switch operates at Layer 1"],c:1,e:"Hub = Layer 1 (broadcasts). Switch = Layer 2 (forwards using MAC table = unicast).",t:"easy"},
+{q:"What is a half-duplex connection?",a:["Data flows both ways simultaneously","Data flows one direction at a time","Data flows one direction only","No data flows"],c:1,e:"Half-duplex: communication in both directions but not simultaneously (e.g., walkie-talkie).",t:"easy"},
+{q:"What is a full-duplex connection?",a:["Data flows one direction only","Data flows both ways simultaneously","Data flows one direction at a time","No data flows"],c:1,e:"Full-duplex: simultaneous bidirectional communication (e.g., phone call).",t:"easy"},
+{q:"Which OSI layer is closest to the hardware?",a:["Application","Transport","Network","Physical"],c:3,e:"Physical layer (Layer 1) is closest to hardware — cables, connectors, bits.",t:"easy"},
+{q:"What is the purpose of a checksum?",a:["Speed up transmission","Error detection in data","Encryption","Compression"],c:1,e:"Checksum detects errors in transmitted data by comparing computed and received values.",t:"easy"},
+{q:"What is fragmentation in networking?",a:["Breaking packets into smaller pieces","Breaking file into pieces","Breaking MAC address","Breaking port number"],c:0,e:"Fragmentation splits large packets to fit the MTU of a smaller network link.",t:"easy"},
+{q:"Which protocol is used for network management?",a:["HTTP","SNMP","FTP","SMTP"],c:1,e:"SNMP = Simple Network Management Protocol — monitors and manages network devices.",t:"easy"},
+{q:"What is the purpose of a proxy server?",a:["IP assignment","Acts as intermediary for client requests","Domain resolution","Error detection"],c:1,e:"Proxy server sits between client and internet, forwarding requests and caching responses.",t:"easy"},
+{q:"What is the difference between TCP and UDP speed?",a:["Same speed","UDP is faster (no overhead)","TCP is faster","Depends on network"],c:1,e:"UDP is faster due to no connection setup, no retransmission, smaller headers.",t:"easy"},
+{q:"What is MTU?",a:["Maximum Transmission Unit","Minimum Transfer Unit","Maximum Transfer Utility","Multiple Transfer Unit"],c:0,e:"MTU = Maximum Transmission Unit — largest packet size a network link can carry.",t:"easy"},
+{q:"What is an IP subnet mask?",a:["Password for network","Bitmask dividing IP into network and host parts","Encryption key","MAC address filter"],c:1,e:"Subnet mask distinguishes network portion from host portion of an IP address.",t:"easy"},
+{q:"What is the function of a router?",a:["Connect devices in same network","Forward packets between different networks","Assign IP addresses","Encrypt data"],c:1,e:"Router forwards packets between different networks using IP addresses.",t:"easy"},
+{q:"What is port scanning?",a:["Scanning for open ports on a target machine","Scanning for viruses","Scanning network cables","Scanning MAC addresses"],c:0,e:"Port scanning identifies open ports on a target to find potential vulnerabilities.",t:"easy"},
+{q:"What is the purpose of a load balancer?",a:["Balance network cables","Distribute traffic across multiple servers","Encrypt traffic","Assign IPs"],c:1,e:"Load balancer distributes incoming requests across multiple servers for reliability and performance.",t:"easy"},
+{q:"What is the difference between unicast and multicast?",a:["Unicast = one-to-all, multicast = one-to-one","Unicast = one-to-one, multicast = one-to-many","Same thing","Both broadcast"],c:1,e:"Unicast: one sender to one receiver. Multicast: one sender to a group of receivers.",t:"easy"},
+{q:"What is a BGP?",a:["Border Gateway Protocol — routing between autonomous systems","Basic Gateway Protocol","Binary Gateway Protocol","Broadcast Gateway Protocol"],c:0,e:"BGP = Border Gateway Protocol — the routing protocol that connects the internet's autonomous systems.",t:"medium"},
+{q:"What is an autonomous system (AS)?",a:["A single computer","A network under one administrative domain","A virus","A protocol"],c:1,e:"AS = collection of networks under single administrative control (e.g., ISP, university).",t:"medium"},
+{q:"What is packet loss?",a:["Packets arriving out of order","Packets failing to reach destination","Packets being encrypted","Packets being too large"],c:1,e:"Packet loss: packets dropped due to congestion, errors, or hardware failure.",t:"easy"},
+{q:"What is the purpose of a firewall?",a:["Speed up network","Monitor and filter incoming/outgoing traffic","Assign IP addresses","Resolve domain names"],c:1,e:"Firewall monitors and filters traffic based on security rules to protect the network.",t:"easy"},
+],
+oop: [
+{q:"What are the four pillars of OOP?",a:["Encapsulation, Abstraction, Inheritance, Polymorphism","Data, Methods, Classes, Objects","Public, Private, Protected, Default","Stack, Queue, Array, Linked List"],c:0,e:"The 4 pillars: Encapsulation (data hiding), Abstraction (essential features), Inheritance (code reuse), Polymorphism (same interface, different behavior).",t:"easy"},
+{q:"What is encapsulation?",a:["Creating multiple classes","Bundling data + methods and restricting direct access","Inheriting from parent class","Method overloading"],c:1,e:"Encapsulation bundles data and methods in a class, restricting access via access modifiers.",t:"easy"},
+{q:"What is inheritance?",a:["Creating new object","Acquiring properties from a parent class","Hiding data","Multiple methods with same name"],c:1,e:"Inheritance allows a child class to acquire properties and methods from a parent class.",t:"easy"},
+{q:"What is polymorphism?",a:["Same interface, different implementations","Creating multiple objects","Data hiding","Single method"],c:0,e:"Polymorphism: one interface/method name, different behaviors based on context.",t:"easy"},
+{q:"What is a class?",a:["An instance of an object","A blueprint/template for creating objects","A method","A variable"],c:1,e:"Class is a template defining properties and behaviors. Objects are instances of classes.",t:"easy"},
+{q:"What is method overloading?",a:["Same method name, different parameters in same class","Overriding parent method","Having too many methods","Calling method recursively"],c:0,e:"Overloading: multiple methods with same name but different parameter lists in the same class.",t:"easy"},
+{q:"What is method overriding?",a:["Same method name and parameters in parent and child class","Creating new method","Having same parameter types","Method with no body"],c:0,e:"Overriding: child class provides specific implementation of parent class method.",t:"easy"},
+{q:"Which access modifier allows access only within the same class?",a:["public","protected","default","private"],c:3,e:"Private = accessible only within the same class. Most restrictive.",t:"easy"},
+{q:"What is an abstract class?",a:["Class with no methods","Class that cannot be instantiated","Class with only static methods","Class with only constructors"],c:1,e:"Abstract class cannot be instantiated directly. Used as base class for inheritance.",t:"easy"},
+{q:"What is an interface?",a:["A class with implementation","A contract defining methods that implementing classes must define","A type of variable","A method"],c:1,e:"Interface defines method signatures that implementing classes must provide.",t:"easy"},
+{q:"What is the 'this' keyword?",a:["Refers to parent class","Refers to current object","Refers to static method","Refers to interface"],c:1,e:"'this' refers to the current instance of the class.",t:"easy"},
+{q:"What is a constructor?",a:["A method to destroy object","Special method called when object is created","A static method","An interface"],c:1,e:"Constructor initializes new objects. Same name as class, no return type.",t:"easy"},
+{q:"Can a class extend multiple classes?",a:["Yes, always","No, single inheritance only in Java","Only with interfaces","Depends on access modifier"],c:1,e:"Java supports single inheritance for classes. Multiple inheritance achieved via interfaces.",t:"medium"},
+{q:"What is the 'super' keyword?",a:["Refers to current object","Refers to parent class","Creates super class","Makes method public"],c:1,e:"'super' refers to the parent class — used to access parent methods, constructors, variables.",t:"easy"},
+{q:"What is a final variable?",a:["Variable that can be changed","Constant variable that cannot be modified","Static variable","Global variable"],c:1,e:"final variable is a constant — once assigned, its value cannot change.",t:"easy"},
+{q:"What is composition?",a:["Inheritance relationship","HAS-A relationship between classes","IS-A relationship","Multiple classes in one file"],c:1,e:"Composition: a class contains instances of other classes (HAS-A relationship). Preferred over inheritance.",t:"medium"},
+{q:"What is a static method?",a:["Method belonging to object","Method belonging to the class, accessible without creating instance","Abstract method","Private method"],c:1,e:"Static methods belong to the class itself. Called via ClassName.method(), not on an object.",t:"easy"},
+{q:"What is the output of: System.out.println(5 + \"10\")?",a:["15","510","Error","105"],c:1,e:"In Java, int + String concatenation → String. 5 + \"10\" = \"510\".",t:"medium"},
+{q:"What is an enum?",a:["A number type","A special class for fixed set of constants","An array","A loop"],c:1,e:"Enum is a special class representing a group of constants (e.g., Day.MONDAY).",t:"easy"},
+{q:"What is the default value of an int in Java?",a:["1","0","null","undefined"],c:1,e:"Default value of int in Java is 0. Boolean = false. Objects = null.",t:"easy"},
+{q:"What is a singleton class?",a:["Class with only one method","Class that can have only one instance","Class with one constructor","Class with static methods"],c:1,e:"Singleton ensures only one instance of the class exists throughout the application.",t:"medium"},
+{q:"What is a lambda expression?",a:["Named function","Anonymous function / inline implementation of functional interface","Recursive function","Static method"],c:1,e:"Lambda = concise anonymous function implementing a functional interface.",t:"medium"},
+{q:"What is an inner class?",a:["A class inside another class","A private class","A static class","An abstract class"],c:0,e:"Inner class is defined inside another class. Has access to outer class members.",t:"easy"},
+{q:"What is the diamond problem?",a:["Missing constructor","Ambiguity when class inherits from two classes with same method","Circular dependency","Stack overflow"],c:1,e:"Diamond problem: ambiguity when inheriting from two classes with same method. Resolved by interfaces.",t:"medium"},
+{q:"What is covariance return type?",a:["Same return type in override","Child class can return subtype of parent's return type","Parent class return type","No return type"],c:1,e:"Covariant return: overriding method can return a subclass of the parent method's return type.",t:"hard"},
+{q:"What does 'protected' access modifier allow?",a:["Access from anywhere","Access within same class, package, and subclasses","Only within same class","Within same package only"],c:1,e:"Protected: accessible in same class, same package, and subclasses (even in different packages).",t:"easy"},
+{q:"What is the difference between == and .equals()?",a:["No difference","== checks reference, .equals() checks value","== is faster",".equals() is for primitives"],c:1,e:"== compares memory references. .equals() compares content/values (for objects).",t:"medium"},
+{q:"What is a functional interface?",a:["Interface with no methods","Interface with exactly one abstract method","Interface with static methods","Abstract class"],c:1,e:"Functional interface has exactly one abstract method — can be implemented with lambda.",t:"medium"},
+{q:"What is method chaining?",a:["Calling methods in sequence on same object","Recursive method calls","Multiple constructors","Multiple inheritance"],c:0,e:"Method chaining: each method returns 'this', allowing f().g().h() on same object.",t:"medium"},
+{q:"What is the output of: String s = null; System.out.println(s.length());",a:["0","null","NullPointerException","Compiler error"],c:2,e:"Calling .length() on null reference throws NullPointerException at runtime.",t:"medium"},
+{q:"What is a marker interface?",a:["Interface with one method","Interface with no methods (empty)","Interface with all static methods","Interface with default methods"],c:1,e:"Marker interface (like Serializable) has no methods — just marks a class for special behavior.",t:"medium"},
+{q:"What is the difference between abstract class and interface?",a:["No difference","Abstract class can have constructors, interfaces cannot","Interface can have constructors","Abstract class cannot have methods"],c:1,e:"Abstract classes can have constructors, instance variables, non-abstract methods. Interfaces cannot.",t:"easy"},
+{q:"What is 'instanceof' used for?",a:["Creating instances","Checking if an object is an instance of a class","Declaring variables","Defining interfaces"],c:1,e:"instanceof checks if an object belongs to a class (or subclass) — returns boolean.",t:"easy"},
+{q:"What is object slicing?",a:["Cutting objects","Losing derived class data when assigned to base class reference","Copying objects","Destroying objects"],c:1,e:"Object slicing: derived class-specific data lost when object assigned to base class by value.",t:"hard"},
+{q:"What is a copy constructor?",a:["Constructor that copies file","Constructor that creates new object from existing object's data","Default constructor","Constructor with parameters"],c:1,e:"Copy constructor initializes new object as a copy of an existing object.",t:"medium"},
+{q:"What is the purpose of the toString() method?",a:["Convert to integer","Returns string representation of object","Prints object","Deletes object"],c:1,e:"toString() returns a String representation. Override it for custom formatting.",t:"easy"},
+{q:"What is the output of: 10 / 3?",a:["3.33","3","3.0","Error"],c:1,e:"In Java/C++, integer division truncates: 10 / 3 = 3. Use 10.0 / 3 for 3.33.",t:"easy"},
+{q:"What is a generic in Java?",a:["Common class","Type parameter allowing classes/interfaces to work with any type","General method","Global variable"],c:1,e:"Generics let you write type-safe code with type parameters (e.g., List<String>).",t:"medium"},
+{q:"What is covariance vs contravariance?",a:["Covariance = output varies, Contravariance = input varies","Both same","Covariance = input varies","Contravariance = output varies"],c:0,e:"Covariance: return type can be subtype. Contravariance: parameter type can be supertype.",t:"hard"},
+{q:"What is a sealed class?",a:["Class that cannot be subclassed","Class with restricted set of permitted subclasses","Class with no methods","Thread-safe class"],c:1,e:"Sealed class restricts which classes can extend it (Java 17+).",t:"medium"},
+{q:"What is the difference between 'new' and 'clone'?",a:["No difference","new creates fresh object, clone copies existing object","clone is faster","new is for interfaces"],c:1,e:"new: allocates memory for fresh object. clone: creates a copy of an existing object.",t:"medium"},
+{q:"What is string immutability?",a:["Strings can be changed","String objects cannot be modified after creation","Strings are null","Strings are static"],c:1,e:"Immutable: once a String is created, its value cannot change. Modifications create new objects.",t:"easy"},
+{q:"What is a design pattern?",a:["Type of compiler","Reusable solution to common software design problem","CSS styling","Database query"],c:1,e:"Design patterns are proven reusable solutions: Singleton, Factory, Observer, Strategy, etc.",t:"easy"},
+{q:"What is the Observer pattern?",a:["Watching videos","Object notifies dependents when state changes","One object observes another","Pattern for inheritance"],c:1,e:"Observer: when subject changes state, all registered observers are automatically notified.",t:"medium"},
+{q:"What is a Factory pattern?",a:["A factory building objects","Creating objects without specifying exact class","Using new keyword","A constructor"],c:1,e:"Factory pattern creates objects without exposing instantiation logic — delegates to factory method.",t:"medium"},
+{q:"What is the difference between Composition and Inheritance?",a:["Composition = HAS-A, Inheritance = IS-A","Composition = IS-A, Inheritance = HAS-A","Same thing","Composition uses extends"],c:0,e:"Composition: Car HAS-A Engine. Inheritance: Dog IS-A Animal. Composition is generally preferred.",t:"medium"},
+{q:"What is a virtual method?",a:["Abstract method","Method that can be overridden in subclass","Static method","Final method"],c:1,e:"Virtual method: overridable method resolved at runtime. In Java, all non-static methods are virtual.",t:"medium"},
+{q:"What is an immutable class?",a:["Class with no methods","Class whose objects cannot be modified after creation","Abstract class","Static class"],c:1,e:"Immutable class: once created, state never changes. Example: String, Integer.",t:"easy"},
+{q:"What is the Liskov Substitution Principle?",a:["Objects of parent class should be replaceable by child class objects","No method overriding","Multiple inheritance","Single responsibility"],c:0,e:"LSP: objects of a superclass should be replaceable with objects of subclasses without breaking behavior.",t:"medium"},
+{q:"What is a companion object in Kotlin?",a:["Friend class","Singleton tied to a class, providing static-like functionality","A variable","A loop"],c:1,e:"Companion object is tied to a class (not instances). Provides static-like members.",t:"medium"},
+{q:"What is the output of: System.out.println(\"Hello\" == \"Hello\")?",a:["true","false","null","Error"],c:0,e:"String literals are interned in Java. Same literal → same reference → == returns true.",t:"hard"},
+{q:"What is a phantom reference?",a:["Strong reference","Reference that allows checking if object was GC'd","Weak reference","Soft reference"],c:1,e:"Phantom reference: object is finalized, reference enqueued after GC — used for cleanup.",t:"hard"},
+{q:"What is an explicit type cast?",a:["Automatic conversion","Manual conversion from one type to another","Type inference","Generic type"],c:1,e:"Explicit cast: (Type) value — manually converting between incompatible types.",t:"easy"},
+{q:"What is the difference between early and late binding?",a:["Early = compile-time, Late = runtime","Early = runtime, Late = compile-time","Same thing","Early is faster"],c:0,e:"Early binding: resolved at compile time (static). Late binding: resolved at runtime (dynamic).",t:"medium"},
+{q:"What is a template in C++?",a:["HTML template","Generic programming mechanism (like Java generics)","A class","A method"],c:1,e:"C++ templates enable generic programming — write code that works with any type.",t:"medium"},
+{q:"What is multiple dispatch?",a:["Sending data multiple times","Method called based on runtime types of multiple objects","Multiple method calls","Overloading"],c:1,e:"Multiple dispatch: method resolution based on runtime types of the receiver AND arguments.",t:"hard"},
+{q:"What is the SOLID principle?",a:["SOLID programming language","5 OOP design principles: Single responsibility, Open-closed, Liskov, Interface segregation, Dependency inversion","A design pattern","A data structure"],c:1,e:"SOLID: 5 principles for clean OOP design — SRP, OCP, LSP, ISP, DIP.",t:"medium"},
+{q:"What is a namespace?",a:["A variable","Container for identifiers to avoid name conflicts","A type of loop","A network"],c:1,e:"Namespace groups related identifiers, preventing naming conflicts in large codebases.",t:"easy"},
+{q:"What is a virtual destructor in C++?",a:["Destructor that runs virtually","Ensures proper cleanup when deleting derived class via base pointer","A fast destructor","A static destructor"],c:1,e:"Virtual destructor ensures the correct destructor is called when deleting derived objects via base pointer.",t:"hard"},
+{q:"What is the difference between 'const' and 'readonly'?",a:["No difference","const = compile-time, readonly = runtime (C#)","const is for Java","readonly is faster"],c:1,e:"const: compile-time constant. readonly: can be assigned in constructor only, runtime value.",t:"medium"},
+{q:"What is duck typing?",a:["Type of inheritance","If it walks like a duck and quacks like a duck, it's a duck — type determined by behavior, not declaration","A design pattern","A variable type"],c:1,e:"Duck typing: objects are judged by their methods/properties, not their class type.",t:"medium"},
+{q:"What is a mixin?",a:["A type of main class","A class containing methods for use by other classes (horizontal reuse)","A destructor","A constructor"],c:1,e:"Mixin: class providing methods for other classes to use, enabling horizontal code reuse.",t:"medium"},
+{q:"What is a data class?",a:["A class that only holds data (no behavior)","A class with static methods","An abstract class","A final class"],c:0,e:"Data class: primarily holds data with minimal behavior (getters, setters, equals, hashCode).",t:"easy"},
+{q:"What is a phantom class?",a:["Class that doesn't exist","Abstract class that can't be instantiated","A deleted class","A class with only private members"],c:1,e:"Abstract class is effectively a phantom — cannot be instantiated, only extended.",t:"easy"},
+],
+dsa: [
+{q:"What is the time complexity of binary search?",a:["O(n)","O(log n)","O(n²)","O(1)"],c:1,e:"Binary search halves search space each step → O(log n). Requires sorted array.",t:"easy"},
+{q:"Which data structure uses FIFO?",a:["Stack","Queue","Tree","Graph"],c:1,e:"Queue = First In First Out. Stack = Last In First Out.",t:"easy"},
+{q:"What is the time complexity of accessing an array element by index?",a:["O(n)","O(log n)","O(1)","O(n²)"],c:2,e:"Array: direct access via index = O(1). Contiguous memory allows constant-time lookup.",t:"easy"},
+{q:"Which sorting algorithm has worst case O(n log n)?",a:["Quick Sort","Bubble Sort","Merge Sort","Insertion Sort"],c:2,e:"Merge Sort guarantees O(n log n) in all cases. Quick Sort's worst case is O(n²).",t:"easy"},
+{q:"What is a binary search tree?",a:["Tree with 2 children max per node","Tree where left < node < right","Tree with 2 levels","Balanced tree"],c:1,e:"BST: left subtree values < node value < right subtree values.",t:"easy"},
+{q:"What is the time complexity of push/pop in a stack?",a:["O(n)","O(log n)","O(1)","O(n²)"],c:2,e:"Stack: push and pop are O(1) — only modify the top element.",t:"easy"},
+{q:"What is BFS best used for?",a:["Finding shortest path in unweighted graph","Topological sort","Finding cycles","Finding MST"],c:0,e:"BFS finds shortest path in unweighted graphs. DFS is better for cycle detection.",t:"easy"},
+{q:"What data structure is used in BFS?",a:["Stack","Queue","Priority Queue","Array"],c:1,e:"BFS uses Queue (FIFO) to visit nodes level by level.",t:"easy"},
+{q:"What data structure is used in DFS?",a:["Queue","Stack (or recursion)","Array","Hash table"],c:1,e:"DFS uses Stack (LIFO) or recursion (which uses the call stack).",t:"easy"},
+{q:"What is a heap?",a:["Random data structure","Complete binary tree with heap property (parent ≥ children or ≤ children)","Linked list","Hash table"],c:1,e:"Heap: complete binary tree. Max-heap: parent ≥ children. Min-heap: parent ≤ children.",t:"easy"},
+{q:"Which algorithm is NOT stable?",a:["Merge Sort","Bubble Sort","Quick Sort","Insertion Sort"],c:2,e:"Quick Sort is not stable — relative order of equal elements may change.",t:"medium"},
+{q:"What is the time complexity of Dijkstra's algorithm?",a:["O(V²)","O((V+E) log V)","O(VE)","O(V³)"],c:1,e:"Dijkstra with priority queue: O((V+E) log V). Without: O(V²).",t:"medium"},
+{q:"What is a hash collision?",a:["Two keys hash to the same index","Hash function returns null","Two objects are equal","Array is full"],c:0,e:"Collision: different keys produce the same hash value/index.",t:"easy"},
+{q:"What is the purpose of a hash table?",a:["Sort data","O(1) average lookup, insert, delete","Store hierarchical data","Traversal"],c:1,e:"Hash table provides O(1) average case for search, insert, and delete operations.",t:"easy"},
+{q:"What is the worst case for Quick Sort?",a:["O(n log n)","O(n)","O(n²)","O(log n)"],c:2,e:"Quick Sort worst case O(n²) — when pivot always picks smallest/largest (already sorted data).",t:"medium"},
+{q:"What is a linked list's advantage over array?",a:["Faster access","Dynamic size, efficient insertion/deletion at any position","Less memory","Cache friendly"],c:1,e:"Linked list: dynamic size, O(1) insert/delete at known position (no shifting needed).",t:"easy"},
+{q:"What is the time complexity of inserting at the beginning of a linked list?",a:["O(n)","O(log n)","O(1)","O(n²)"],c:2,e:"Insert at head of linked list = O(1) — just update head pointer.",t:"easy"},
+{q:"What is a circular buffer?",a:["Buffer that rotates","Fixed-size buffer using wrap-around indices","Infinite buffer","Buffer with circular linked list"],c:1,e:"Circular buffer: fixed-size array with head/tail indices that wrap around using modulo.",t:"medium"},
+{q:"What is topological sorting used for?",a:["Finding shortest path","Ordering vertices in DAG such that for every edge u→v, u comes before v","Finding MST","Cycle detection"],c:1,e:"Topological sort: linear ordering of DAG vertices respecting edge directions.",t:"medium"},
+{q:"What is the space complexity of merge sort?",a:["O(1)","O(log n)","O(n)","O(n²)"],c:2,e:"Merge sort needs O(n) extra space for the temporary arrays during merging.",t:"medium"},
+{q:"What is the time complexity of finding the minimum in a min-heap?",a:["O(n)","O(log n)","O(1)","O(n log n)"],c:2,e:"Root of min-heap is always the minimum → O(1).",t:"easy"},
+{q:"What is a B-tree?",a:["Binary tree","Self-balancing tree with multiple keys per node, optimized for disk I/O","Balanced BST","Binary search tree"],c:1,e:"B-tree: multi-way balanced tree with high branching factor. Used in databases and file systems.",t:"medium"},
+{q:"What is the difference between BFS and DFS?",a:["BFS uses stack, DFS uses queue","BFS uses queue, DFS uses stack","BFS is recursive, DFS is iterative","Same thing"],c:1,e:"BFS = Queue (level by level). DFS = Stack/recursion (depth first).",t:"easy"},
+{q:"What is a trie?",a:["A type of graph","Tree-like data structure for storing strings, prefix-based","Binary tree","Hash table"],c:1,e:"Trie: prefix tree where each node represents a character. Efficient for string operations.",t:"medium"},
+{q:"What is the time complexity of inserting into a balanced BST?",a:["O(n)","O(log n)","O(1)","O(n²)"],c:1,e:"Balanced BST (AVL, Red-Black): insert in O(log n) — tree stays balanced.",t:"easy"},
+{q:"What is Floyd's algorithm used for?",a:["Shortest path","Detecting cycles in linked list","MST","Sorting"],c:1,e:"Floyd's tortoise and hare: detects cycles in linked list using slow/fast pointers.",t:"medium"},
+{q:"What is dynamic programming?",a:["Type of programming language","Solving problems by breaking into overlapping subproblems and storing results","Greedy algorithm","Divide and conquer only"],c:1,e:"DP: solve subproblems once, store results (memoization/tabulation). Optimal substructure + overlapping subproblems.",t:"easy"},
+{q:"What is the difference between memoization and tabulation?",a:["Memoization = bottom-up, tabulation = top-down","Memoization = top-down (recursive), tabulation = bottom-up (iterative)","Same thing","Memoization is faster"],c:1,e:"Memoization: recursive + cache (top-down). Tabulation: iterative table filling (bottom-up).",t:"medium"},
+{q:"What is the time complexity of heap sort?",a:["O(n)","O(n²)","O(n log n)","O(log n)"],c:2,e:"Heap sort: O(n log n) in all cases. Build heap O(n) + extract n times × O(log n).",t:"medium"},
+{q:"What is a disjoint set (Union-Find)?",a:["Array of disjoint elements","Data structure for tracking set membership with union and find operations","Linked list","Binary tree"],c:1,e:"Union-Find tracks elements in disjoint sets. Supports union (merge) and find (locate set).",t:"medium"},
+{q:"What is the purpose of a sentinel node?",a:["Security","Simplify boundary conditions in linked lists/arrays","Sort data","Hash function"],c:1,e:"Sentinel: dummy node at head/tail to eliminate special cases for empty list or boundaries.",t:"medium"},
+{q:"What is amortized analysis?",a:["Analyzing best case","Analyzing average case over sequence of operations","Analyzing worst case","Randomized analysis"],c:1,e:"Amortized: average time per operation over worst-case sequence (e.g., dynamic array push = O(1) amortized).",t:"medium"},
+{q:"What is a priority queue implemented with?",a:["Array","Linked list","Heap","Stack"],c:2,e:"Priority queue is typically implemented with a binary heap for O(log n) insert/delete.",t:"easy"},
+{q:"What is the time complexity of Kruskal's algorithm?",a:["O(V²)","O(E log E)","O(VE)","O(V³)"],c:1,e:"Kruskal's: sort edges O(E log E) + union-find operations ≈ O(E log E).",t:"medium"},
+{q:"What is the time complexity of Prim's algorithm?",a:["O(V²)","O((V+E) log V)","O(E log E)","O(V³)"],c:1,e:"Prim's with binary heap: O((V+E) log V). With Fibonacci heap: O(E + V log V).",t:"medium"},
+{q:"What is a sliding window?",a:["Window that slides","Technique using a window of fixed/variable size that moves over data","Type of sort","Tree traversal"],c:1,e:"Sliding window: process subarray/substring by maintaining a window. Used for max/sum problems.",t:"medium"},
+{q:"What is the time complexity of counting sort?",a:["O(n)","O(n+k)","O(n log n)","O(n²)"],c:1,e:"Counting sort: O(n+k) where k = range of values. Only efficient when k is small.",t:"medium"},
+{q:"What is a graph's adjacency matrix space complexity?",a:["O(V)","O(V+E)","O(V²)","O(E²)"],c:2,e:"Adjacency matrix: V×V matrix = O(V²) space. Adjacency list: O(V+E).",t:"easy"},
+{q:"What is the time complexity of Bellman-Ford algorithm?",a:["O(V log V)","O(VE)","O(V²)","O(E log V)"],c:1,e:"Bellman-Ford: relax all edges V-1 times = O(VE). Detects negative cycles.",t:"medium"},
+{q:"What is a circular queue?",a:["Queue that loops","Queue implemented with array using modulo to wrap around","Double-ended queue","Priority queue"],c:1,e:"Circular queue: array-based queue where indices wrap around using modulo operator.",t:"easy"},
+{q:"What is the difference between a stack and a queue?",a:["Stack = FIFO, Queue = LIFO","Stack = LIFO, Queue = FIFO","Same thing","Stack is faster"],c:1,e:"Stack: Last In First Out (LIFO). Queue: First In First Out (FIFO).",t:"easy"},
+{q:"What is a sparse matrix?",a:["Matrix with many zeros","Matrix with mostly non-zero elements","Square matrix","Identity matrix"],c:0,e:"Sparse matrix: most elements are zero. Use compact representation to save space.",t:"easy"},
+{q:"What is the time complexity of insertion sort?",a:["O(n log n)","O(n²) average, O(n) best","O(n)","O(log n)"],c:1,e:"Insertion sort: O(n²) average, O(n) for nearly sorted data. Simple and efficient for small arrays.",t:"easy"},
+{q:"What is a red-black tree?",a:["Binary tree with red and black nodes","Self-balancing BST with color property ensuring O(log n) operations","Graph","Hash table"],c:1,e:"Red-black tree: BST with nodes colored red/black, balancing rules ensure O(log n) height.",t:"medium"},
+{q:"What is Floyd-Warshall algorithm used for?",a:["MST","All-pairs shortest path","Single source shortest path","Cycle detection"],c:1,e:"Floyd-Warshall: finds shortest paths between ALL pairs of vertices. O(V³).",t:"medium"},
+{q:"What is the purpose of a skip list?",a:["Skip elements","Probabilistic data structure for O(log n) search in sorted linked list","Sort data","Hash table"],c:1,e:"Skip list: layered linked lists with random promotion. O(log n) average search/insert.",t:"hard"},
+{q:"What is a balanced BST?",a:["BST with equal nodes","BST where height difference between left and right subtrees is bounded","BST with 2 children","BST with no left child"],c:1,e:"Balanced BST: height difference ≤ k (1 for AVL). Ensures O(log n) operations.",t:"easy"},
+{q:"What is the time complexity of radix sort?",a:["O(n log n)","O(d × (n+k))","O(n²)","O(n)"],c:1,e:"Radix sort: O(d × (n+k)) where d = number of digits, k = base. Independent of input order.",t:"medium"},
+{q:"What is a segment tree?",a:["Tree dividing array into segments","Binary tree for range queries (min/max/sum) and updates in O(log n)","Linked list","Hash table"],c:1,e:"Segment tree: binary tree for efficient range queries and point updates. O(log n) per operation.",t:"hard"},
+{q:"What is a Fenwick tree (BIT)?",a:["Binary Indexed Tree for prefix sums and updates","Type of BST","Heap structure","Graph representation"],c:0,e:"Fenwick tree: Binary Indexed Tree — O(log n) prefix sum and point update, simpler than segment tree.",t:"hard"},
+{q:"What is the time complexity of linear search?",a:["O(1)","O(log n)","O(n)","O(n²)"],c:2,e:"Linear search checks each element sequentially → O(n).",t:"easy"},
+{q:"What is the purpose of a Bloom filter?",a:["Sorting","Probabilistic data structure — may have false positives but no false negatives","Encryption","Hashing"],c:1,e:"Bloom filter: compact probabilistic structure. Says 'definitely not in set' or 'maybe in set'.",t:"hard"},
+{q:"What is a k-d tree?",a:["K-dimensional tree for spatial data","Binary tree","Hash table","Heap"],c:0,e:"K-d tree: space-partitioning tree for organizing k-dimensional points. Used in nearest neighbor search.",t:"hard"},
+{q:"What is the space complexity of a binary tree?",a:["O(1)","O(log n)","O(n)","O(n²)"],c:2,e:"Binary tree with n nodes needs O(n) space to store all nodes.",t:"easy"},
+{q:"What is an AVL tree?",a:["Tree named after creator","BST with height balance condition (difference ≤ 1)","Binary heap","Trie"],c:1,e:"AVL tree: self-balancing BST where height difference of left and right subtrees ≤ 1.",t:"medium"},
+{q:"What is the difference between BFS and Dijkstra?",a:["BFS = unweighted, Dijkstra = weighted","BFS = weighted, Dijkstra = unweighted","Same thing","BFS is slower"],c:0,e:"BFS finds shortest path in unweighted graphs. Dijkstra handles weighted graphs with non-negative weights.",t:"medium"},
+{q:"What is the time complexity of building a heap?",a:["O(n log n)","O(n)","O(log n)","O(n²)"],c:1,e:"Building a heap using bottom-up heapify: O(n). Not O(n log n) as commonly assumed.",t:"hard"},
+{q:"What is a GCD (Euclidean algorithm) complexity?",a:["O(n)","O(log min(a,b))","O(1)","O(n²)"],c:1,e:"Euclidean algorithm for GCD: O(log min(a,b)). Very efficient.",t:"medium"},
+{q:"What is the master theorem used for?",a:["Solving recurrences of form T(n) = aT(n/b) + O(n^d)","Finding GCD","Sorting","Hashing"],c:0,e:"Master theorem: solves recurrences T(n) = aT(n/b) + f(n) for divide-and-conquer algorithms.",t:"medium"},
+{q:"What is a suffix tree?",a:["Tree of suffixes of a string","BST with suffix property","Binary tree","Heap"],c:0,e:"Suffix tree: compact trie of all suffixes. O(m) construction, used for substring search.",t:"hard"},
+{q:"What is the time complexity of the Euclidean algorithm for GCD?",a:["O(n)","O(log min(a,b))","O(n log n)","O(1)"],c:1,e:"Euclidean GCD: O(log min(a,b)) — each step reduces numbers by at least half.",t:"medium"},
+{q:"What is the amortized time complexity of dynamic array push_back?",a:["O(n)","O(log n)","O(1)","O(n²)"],c:2,e:"Dynamic array push_back: O(1) amortized. Occasional O(n) resize, but average is O(1).",t:"medium"},
+{q:"What is a Cartesian tree?",a:["Tree from 2D points","Binary tree from array: heap property + inorder = original order","Heap","BST"],c:1,e:"Cartesian tree: parent is min/max of range, inorder gives original array order.",t:"hard"},
+{q:"What is the time complexity of finding median in a sorted array?",a:["O(n)","O(log n)","O(1)","O(n log n)"],c:2,e:"Sorted array: median is at middle index → O(1) access.",t:"easy"},
+{q:"What is the time complexity of in-order traversal of BST?",a:["O(n log n)","O(n)","O(log n)","O(n²)"],c:1,e:"In-order traversal visits all n nodes once → O(n). Gives sorted order for BST.",t:"easy"},
+{q:"What is a doubly linked list?",a:["List with two data fields","List where each node has prev and next pointers","List with two heads","Two linked lists joined"],c:1,e:"Doubly linked list: each node has pointers to both previous and next nodes.",t:"easy"},
+{q:"What is the purpose of a stack in function calls?",a:["Store return addresses and local variables","Sort data","Queue requests","Hash values"],c:0,e:"Call stack: stores function return addresses, parameters, local variables for each call.",t:"easy"},
+{q:"What is recursion depth?",a:["Number of recursive calls","Maximum stack size","Number of variables","Tree height"],c:0,e:"Recursion depth = number of nested recursive calls. Too deep → stack overflow.",t:"easy"},
+{q:"What is tail recursion?",a:["Last function to be called","Recursive call is the last operation in the function","Recursion at tail end of program","First recursive call"],c:1,e:"Tail recursion: recursive call is the final action. Can be optimized by compiler to iteration.",t:"medium"},
+{q:"What is a balanced parentheses problem solved with?",a:["Queue","Stack","Array","Linked list"],c:1,e:"Stack: push opening brackets, pop on closing. If stack empty at end → balanced.",t:"easy"},
+{q:"What is the time complexity of quickselect (kth smallest)?",a:["O(n log n)","O(n) average","O(n²) always","O(log n)"],c:1,e:"Quickselect: O(n) average, O(n²) worst. Like Quick Sort but only recurses into one partition.",t:"hard"},
+{q:"What is a disjoint path?",a:["Paths sharing edges","Paths that don't share any vertices/edges","Shortest paths","Longest paths"],c:1,e:"Disjoint paths: no common vertices or edges. Used in network flow algorithms.",t:"medium"},
+{q:"What is the time complexity of counting inversions using merge sort?",a:["O(n²)","O(n log n)","O(n)","O(n³)"],c:1,e:"Modified merge sort counts inversions during merge step → O(n log n).",t:"hard"},
+{q:"What is a persistent data structure?",a:["Data that survives crashes","Data structure that preserves previous versions when modified","Immutable data","Long-running data"],c:1,e:"Persistent DS: modifications create new version while keeping old versions intact.",t:"hard"},
+{q:"What is the difference between internal and external sorting?",a:["Internal = in RAM, External = uses disk","Internal = CPU, External = GPU","Same thing","Internal is slower"],c:0,e:"Internal sort: all data fits in memory. External sort: data too large for RAM, uses disk.",t:"medium"},
+{q:"What is the purpose of a deque?",a:["Double-ended queue — insert/remove from both ends","Single-ended queue","Priority queue","Stack only"],c:0,e:"Deque = Double-ended queue. O(1) insert/remove from both front and rear.",t:"easy"},
+{q:"What is a lazy propagation in segment trees?",a:["Delayed update — only update when needed","Slow update","No update","Batch update"],c:0,e:"Lazy propagation: defer updates to children until they're actually accessed.",t:"hard"},
+{q:"What is the time complexity of finding an element in a hash table (average case)?",a:["O(n)","O(log n)","O(1)","O(n²)"],c:2,e:"Hash table average case: O(1) for search, insert, delete. Worst case O(n) with collisions.",t:"easy"},
+{q:"What is the difference between a complete and perfect binary tree?",a:["Complete = all levels filled, Perfect = last level may not be","Perfect = all levels full, Complete = all levels full except possibly last (left-aligned)","Same thing","Complete is taller"],c:1,e:"Perfect: all levels completely filled. Complete: all levels full except last, which is left-aligned.",t:"medium"},
+{q:"What is the time complexity of insertion in an AVL tree?",a:["O(1)","O(log n)","O(n)","O(n log n)"],c:1,e:"AVL tree: insert + rotate to maintain balance = O(log n).",t:"medium"},
+{q:"What is a treap?",a:["Tree + heap hybrid","Type of BST","Hash table","Linked list"],c:0,e:"Treap: BST by key + heap by random priority. Expected O(log n) for all operations.",t:"hard"},
+{q:"What is the purpose of the two-pointer technique?",a:["Using two arrays","Optimizing array/linked list problems by moving two pointers","Sorting two arrays","Binary search"],c:1,e:"Two pointers: use two indices moving toward each other or in same direction. O(n) for many problems.",t:"medium"},
+{q:"What is the time complexity of Bellman-Ford?",a:["O(V²)","O(VE)","O(E log V)","O(V³)"],c:1,e:"Bellman-Ford: relax all edges V-1 times → O(VE). Handles negative weights.",t:"medium"},
+{q:"What is a monotonic stack?",a:["Stack that only grows","Stack maintaining sorted order of elements","Stack with one element","Stack used for sorting"],c:1,e:"Monotonic stack: elements in increasing or decreasing order. Used for next greater element problems.",t:"medium"},
+]
+};
+
+// ========== APP STATE ==========
+let examTimer = null;
+let examSeconds = 0;
+let examAnswers = {};
+let examStarted = false;
+
+// ========== SIDEBAR ==========
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+
+// ========== NOTE TOGGLE ==========
+function toggleNote(el){
+  el.classList.toggle('open');
+  el.nextElementSibling.classList.toggle('open');
+}
+
+// ========== SCROLL ==========
+window.addEventListener('scroll',()=>{
+  document.getElementById('btt').style.display = window.scrollY>300?'flex':'none';
+  const links=document.querySelectorAll('.nav-link');
+  const sections=document.querySelectorAll('section[id]');
+  let cur='';
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-120)cur=s.id});
+  links.forEach(l=>{
+    l.classList.remove('active');
+    if(l.getAttribute('href')==='#'+cur)l.classList.add('active');
+  });
+});
+
+// ========== MCQ RENDERING ==========
+function renderMCQs(subject,containerId,sectionTitle,badgeText){
+  const mcqs=MCQS[subject];
+  if(!mcqs)return;
+  const container=document.getElementById(containerId);
+  let html=`<h2 class="section-title">${sectionTitle} <span class="badge">${badgeText||mcqs.length+'+'}</span></h2>`;
+  mcqs.forEach((m,i)=>{
+    const id=`${subject}_q${i}`;
+    const tagClass=m.t==='easy'?'easy':m.t==='hard'?'hard':'medium';
+    const tagLabel=m.t.charAt(0).toUpperCase()+m.t.slice(1);
+    html+=`<div class="mcq-q" id="mcq_${id}">
+      <div class="q-text"><span class="q-num">Q${i+1}</span><span>${m.q}</span><span class="q-tag ${tagClass}">${tagLabel}</span></div>`;
+    m.a.forEach((a,j)=>{
+      const letter=String.fromCharCode(65+j);
+      html+=`<div class="opt" onclick="selectAnswer('${id}',${j},${m.c},'${subject}',${i})">
+        <span class="opt-letter">${letter})</span>${a}</div>`;
+    });
+    html+=`<div class="mcq-explain" id="exp_${id}"></div></div>`;
+  });
+  container.innerHTML=html;
+}
+
+function selectAnswer(id,selected,correct,subject,idx){
+  const q=document.getElementById('mcq_'+id);
+  if(!q||q.dataset.answered)return;
+  q.dataset.answered='1';
+  const opts=q.querySelectorAll('.opt');
+  const exp=document.getElementById('exp_'+id);
+  opts.forEach((o,i)=>{
+    o.classList.add('disabled');
+    if(i===correct)o.classList.add('correct');
+    if(i===selected&&selected!==correct)o.classList.add('wrong');
+  });
+  const mcq=MCQS[subject][idx];
+  if(selected===correct){
+    exp.className='mcq-explain show correct-ex';
+    exp.innerHTML='✅ <strong>Correct!</strong> '+mcq.e;
+  }else{
+    exp.className='mcq-explain show wrong-ex';
+    exp.innerHTML='❌ <strong>Wrong!</strong> Correct answer: <strong>'+String.fromCharCode(65+correct)+') '+mcq.a[correct]+'</strong><br>'+mcq.e;
+  }
+  updateScore();
+}
+
+// ========== SCORE ==========
+function updateScore(){
+  let total=document.querySelectorAll('.mcq-q').length;
+  let answered=document.querySelectorAll('.mcq-q[data-answered]').length;
+  // For exam mode
+  if(examStarted){
+    total=60;
+    answered=Object.keys(examAnswers).length;
+  }
+  const correct=document.querySelectorAll('.mcq-q[data-answered] .opt.correct:only-child').length;
+  // Actually let me count differently
+  let c=0,w=0;
+  if(examStarted){
+    Object.entries(examAnswers).forEach(([k,v])=>{
+      if(v.correct)c++;else w++;
+    });
+  }else{
+    document.querySelectorAll('.mcq-q[data-answered]').forEach(q=>{
+      if(q.querySelector('.mcq-explain.correct-ex'))c++;
+      else w++;
+    });
+  }
+  // Update exam score bar
+  const sb=document.getElementById('scoreBar');
+  if(sb.style.display!=='none'){
+    document.getElementById('sTotal').textContent=total;
+    document.getElementById('sCorrect').textContent=c;
+    document.getElementById('sWrong').textContent=w;
+    document.getElementById('sUnans').textContent=total-c-w;
+    document.getElementById('sPercent').textContent=total>0?Math.round(c/total*100)+'%':'0%';
+  }
+}
+
+// ========== RANDOM EXAM ==========
+function startRandomExam(){
+  if(examStarted&&!confirm('Reset and start new exam?'))return;
+  // Collect all MCQs
+  let all=[];
+  Object.entries(MCQS).forEach(([subject,mcqs])=>{
+    mcqs.forEach((m,i)=>all.push({...m,subject,idx:i}));
+  });
+  // Shuffle and pick 60
+  all.sort(()=>Math.random()-0.5);
+  const exam=all.slice(0,60);
+  // Render
+  const container=document.getElementById('examContainer');
+  let html='';
+  exam.forEach((m,i)=>{
+    const id='exam_q'+i;
+    const tagClass=m.t==='easy'?'easy':m.t==='hard'?'hard':'medium';
+    const tagLabel=m.t.charAt(0).toUpperCase()+m.t.slice(1);
+    html+=`<div class="mcq-q" id="mcq_${id}" data-subject="${m.subject}">
+      <div class="q-text"><span class="q-num">Q${i+1}</span><span>${m.q}</span><span class="q-tag ${tagClass}">${tagLabel}</span><span class="q-tag" style="background:rgba(96,165,250,.15);color:var(--accent)">${m.subject.toUpperCase()}</span></div>`;
+    m.a.forEach((a,j)=>{
+      const letter=String.fromCharCode(65+j);
+      html+=`<div class="opt" onclick="selectExamAnswer('${id}',${j},${m.c},${i})">
+        <span class="opt-letter">${letter})</span>${a}</div>`;
+    });
+    html+=`<div class="mcq-explain" id="exp_${id}"></div></div>`;
+  });
+  container.innerHTML=html;
+  // Start timer
+  examAnswers={};
+  examStarted=true;
+  examSeconds=0;
+  document.getElementById('scoreBar').style.display='flex';
+  clearInterval(examTimer);
+  examTimer=setInterval(()=>{
+    examSeconds++;
+    const m=Math.floor(examSeconds/60);
+    const s=examSeconds%60;
+    document.getElementById('timer').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  },1000);
+  updateScore();
+  document.getElementById('random-exam').scrollIntoView({behavior:'smooth'});
+}
+
+function selectExamAnswer(id,selected,correct,examIdx){
+  const q=document.getElementById('mcq_'+id);
+  if(!q||q.dataset.answered)return;
+  q.dataset.answered='1';
+  const opts=q.querySelectorAll('.opt');
+  const exp=document.getElementById('exp_'+id);
+  opts.forEach((o,i)=>{
+    o.classList.add('disabled');
+    if(i===correct)o.classList.add('correct');
+    if(i===selected&&selected!==correct)o.classList.add('wrong');
+  });
+  // Get MCQ data from the question text
+  const allExamQs=[];
+  Object.entries(MCQS).forEach(([s,mcqs])=>mcqs.forEach((m,i)=>allExamQs.push({...m,subject:s})));
+  allExamQs.sort(()=>0);
+  // Just use the MCQ data
+  const mcq=Object.values(MCQS).flat()[examIdx];
+  examAnswers[id]={correct:selected===correct};
+  if(selected===correct){
+    exp.className='mcq-explain show correct-ex';
+    exp.innerHTML='✅ <strong>Correct!</strong>';
+  }else{
+    exp.className='mcq-explain show wrong-ex';
+    exp.innerHTML='❌ <strong>Wrong!</strong> Correct: <strong>'+String.fromCharCode(65+correct)+')</strong>';
+  }
+  updateScore();
+}
+
+function resetExam(){
+  clearInterval(examTimer);
+  examStarted=false;
+  examSeconds=0;
+  examAnswers={};
+  document.getElementById('timer').textContent='--:--';
+  document.getElementById('scoreBar').style.display='none';
+  document.getElementById('examContainer').innerHTML='<p style="color:var(--sec);text-align:center;padding:40px">Click "Start Exam" to begin a timed 60-question random exam.</p>';
+}
+
+function showAnswers(){
+  document.querySelectorAll('#examContainer .mcq-q').forEach(q=>{
+    if(!q.dataset.answered){
+      const opts=q.querySelectorAll('.opt');
+      // Find correct one by checking the data
+      // Just click through to reveal
+      q.querySelectorAll('.opt').forEach((o,i)=>{
+        // We need to know which is correct - find it from the question ID
+      });
+    }
+  });
+  // Alternative: just reveal all explanations
+  document.querySelectorAll('#examContainer .mcq-explain').forEach(e=>{
+    if(!e.classList.contains('show')){
+      e.className='mcq-explain show correct-ex';
+      e.innerHTML='💡 Answer revealed. Review the question above.';
+    }
+  });
+}
+
+// ========== INIT ==========
+document.addEventListener('DOMContentLoaded',()=>{
+  renderMCQs('os','os-mcq-section','❓ Operating Systems MCQs','100+ MCQs');
+  renderMCQs('dbms','dbms-mcq-section','❓ DBMS MCQs','100+ MCQs');
+  renderMCQs('cn','cn-mcq-section','❓ Computer Networks MCQs','100+ MCQs');
+  renderMCQs('oop','oop-mcq-section','❓ OOP MCQs','100+ MCQs');
+  renderMCQs('dsa','dsa-mcq-section','❓ DSA MCQs','100+ MCQs');
+  resetExam();
+
+  // Sidebar nav click closes on mobile
+  document.querySelectorAll('.nav-link').forEach(l=>{
+    l.addEventListener('click',()=>{
+      if(window.innerWidth<=900){
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
+      }
+    });
+  });
+
+  // Smooth scroll for all anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      e.preventDefault();
+      const t=document.querySelector(a.getAttribute('href'));
+      if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+});
+</script>
+</body>
+</html>

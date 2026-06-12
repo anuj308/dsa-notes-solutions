@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OS Master Guide - Complete Operating System Study Resource</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0d1117;--card:#161b22;--accent:#58a6ff;--text:#e6edf3;--sec:#8b949e;--border:#30363d;--hover:#1f2937;--green:#3fb950;--red:#f85149;--yellow:#d29922;--purple:#bc8cff;--orange:#f0883e}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}::-webkit-scrollbar-thumb:hover{background:var(--sec)}
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--purple));z-index:10000;transition:width .2s}
+.sidebar{position:fixed;left:0;top:0;width:260px;height:100vh;background:var(--card);border-right:1px solid var(--border);overflow-y:auto;z-index:1000;transition:transform .3s;padding-bottom:20px}
+.sidebar-header{padding:20px 16px;border-bottom:1px solid var(--border);text-align:center}
+.sidebar-header h2{font-size:18px;color:var(--accent);margin-bottom:4px}
+.sidebar-header p{font-size:11px;color:var(--sec)}
+.sidebar nav a{display:flex;align-items:center;gap:10px;padding:10px 16px;color:var(--sec);text-decoration:none;font-size:13px;border-left:3px solid transparent;transition:all .2s}
+.sidebar nav a:hover,.sidebar nav a.active{background:var(--hover);color:var(--accent);border-left-color:var(--accent)}
+.sidebar nav a .icon{width:18px;text-align:center;font-size:14px}
+.sidebar nav .section-label{padding:12px 16px 4px;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--sec);font-weight:600}
+.main{margin-left:260px;padding:20px 40px 60px;min-height:100vh}
+.search-container{position:sticky;top:0;z-index:999;background:var(--bg);padding:12px 0;border-bottom:1px solid var(--border);margin-bottom:20px}
+.search-box{width:100%;padding:12px 16px 12px 42px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;outline:none;transition:border .2s}
+.search-box:focus{border-color:var(--accent)}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--sec)}
+.search-results{position:absolute;top:100%;left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:0 0 8px 8px;max-height:400px;overflow-y:auto;display:none;z-index:1001}
+.search-results.active{display:block}
+.search-result-item{padding:10px 16px;cursor:pointer;border-bottom:1px solid var(--border);font-size:13px;transition:background .15s}
+.search-result-item:hover{background:var(--hover)}
+.search-result-item .sr-title{color:var(--accent);font-weight:600}.search-result-item .sr-section{color:var(--sec);font-size:11px}
+.hero{text-align:center;padding:40px 20px;margin-bottom:30px;background:linear-gradient(135deg,rgba(88,166,255,.1),rgba(188,140,255,.1));border-radius:16px;border:1px solid var(--border)}
+.hero h1{font-size:32px;margin-bottom:8px;background:linear-gradient(90deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--sec);font-size:15px;max-width:600px;margin:0 auto 20px}
+.stats-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 24px;text-align:center;min-width:120px}
+.stat-card .num{font-size:24px;font-weight:700;color:var(--accent)}.stat-card .label{font-size:11px;color:var(--sec);margin-top:2px}
+.section{margin-bottom:32px}
+.section-title{font-size:22px;font-weight:700;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:10px;cursor:pointer}
+.section-title .badge{font-size:11px;background:var(--accent);color:#000;padding:2px 8px;border-radius:10px;font-weight:600}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;transition:all .2s}
+.card:hover{border-color:var(--accent);box-shadow:0 0 20px rgba(88,166,255,.08)}
+.card h3{font-size:17px;margin-bottom:10px;color:var(--accent);display:flex;align-items:center;gap:8px}
+.card h4{font-size:14px;margin:12px 0 6px;color:var(--purple)}
+.card p,.card li{font-size:14px;color:var(--text);line-height:1.7}
+.card ul,.card ol{padding-left:20px;margin:8px 0}
+.card li{margin:4px 0}
+.tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;margin-right:4px}
+.tag-easy{background:rgba(63,185,80,.2);color:var(--green)}.tag-medium{background:rgba(210,153,34,.2);color:var(--yellow)}.tag-hard{background:rgba(248,81,73,.2);color:var(--red)}.tag-info{background:rgba(88,166,255,.2);color:var(--accent)}
+.collapsible{cursor:pointer;user-select:none}
+.collapsible::before{content:'▸';display:inline-block;margin-right:8px;transition:transform .2s;font-size:12px}
+.collapsible.open::before{transform:rotate(90deg)}
+.collapsible-content{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.collapsible-content.open{max-height:10000px}
+.comparison-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.comparison-table th{background:rgba(88,166,255,.15);color:var(--accent);padding:10px 12px;text-align:left;border:1px solid var(--border);font-weight:600}
+.comparison-table td{padding:10px 12px;border:1px solid var(--border);vertical-align:top}
+.comparison-table tr:nth-child(even){background:rgba(255,255,255,.02)}
+.comparison-table tr:hover{background:rgba(88,166,255,.05)}
+.correct{color:var(--green);font-weight:600}
+.answer-box{background:rgba(63,185,80,.1);border:1px solid rgba(63,185,80,.3);border-radius:8px;padding:12px 16px;margin:8px 0;font-size:13px}
+.explanation{background:rgba(88,166,255,.08);border-left:3px solid var(--accent);padding:10px 14px;margin:8px 0;border-radius:0 6px 6px 0;font-size:13px}
+.formula-box{background:rgba(188,140,255,.1);border:1px solid rgba(188,140,255,.3);border-radius:8px;padding:14px 18px;margin:10px 0;font-family:'Courier New',monospace;font-size:13px;color:var(--purple)}
+.diagram{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin:12px 0;text-align:center;overflow-x:auto}
+.state-diagram{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:16px}
+.state-node{background:var(--card);border:2px solid var(--accent);border-radius:50%;width:80px;height:80px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--accent);text-align:center;line-height:1.2}
+.state-arrow{color:var(--sec);font-size:18px}
+.btn{padding:8px 16px;border:1px solid var(--border);border-radius:6px;background:var(--card);color:var(--text);cursor:pointer;font-size:12px;transition:all .2s}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn-primary{background:var(--accent);color:#000;border-color:var(--accent)}.btn-primary:hover{opacity:.9}
+.float-btn{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:#000;border:none;font-size:18px;cursor:pointer;display:none;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,.4);align-items:center;justify-content:center}
+.bookmark-btn{background:none;border:1px solid var(--border);color:var(--sec);cursor:pointer;padding:4px 10px;border-radius:14px;font-size:11px;transition:all .2s}
+.bookmark-btn:hover,.bookmark-btn.active{color:var(--yellow);border-color:var(--yellow)}
+.topic-progress{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:12px}
+.topic-progress input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px;cursor:pointer}
+.progress-bar-bg{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--accent));border-radius:3px;transition:width .3s}
+.print-btn{position:fixed;top:20px;right:20px;z-index:999}
+@media print{.sidebar,.search-container,.float-btn,.print-btn,.bookmark-btn,#progress-bar{display:none!important}.main{margin-left:0!important;padding:10px!important}.card{break-inside:avoid}}
+@media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.main{margin-left:0;padding:16px}.mobile-toggle{display:flex!important}.hero h1{font-size:24px}.stats-row{gap:8px}.stat-card{min-width:90px;padding:10px 14px}.stat-card .num{font-size:18px}}
+.mobile-toggle{display:none;position:fixed;top:12px;left:12px;z-index:1001;width:36px;height:36px;background:var(--card);border:1px solid var(--border);border-radius:8px;align-items:center;justify-content:center;color:var(--text);font-size:18px;cursor:pointer}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999}
+.overlay.active{display:block}
+.tabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
+.tab{padding:8px 16px;background:var(--card);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:13px;color:var(--sec);transition:all .2s}
+.tab.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600}
+.tab-content{display:none}.tab-content.active{display:block}
+.alert{padding:12px 16px;border-radius:8px;margin:10px 0;font-size:13px}
+.alert-info{background:rgba(88,166,255,.1);border:1px solid rgba(88,166,255,.3);color:var(--accent)}
+.alert-warn{background:rgba(210,153,34,.1);border:1px solid rgba(210,153,34,.3);color:var(--yellow)}
+.alert-tip{background:rgba(63,185,80,.1);border:1px solid rgba(63,185,80,.3);color:var(--green)}
+.mnemonic{background:linear-gradient(135deg,rgba(188,140,255,.15),rgba(88,166,255,.15));border:1px solid rgba(188,140,255,.3);border-radius:10px;padding:14px 18px;margin:10px 0;font-size:13px}
+.mnemonic strong{color:var(--purple)}
+.interview-q{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin:10px 0}
+.interview-q h4{color:var(--accent);margin-bottom:8px;font-size:14px}
+.interview-q .short-ans{background:rgba(63,185,80,.08);border-left:3px solid var(--green);padding:8px 12px;margin:6px 0;border-radius:0 6px 6px 0;font-size:13px}
+.interview-q .detail-ans{padding:8px 0;font-size:13px;line-height:1.7}
+.followup{color:var(--sec);font-size:12px;margin-top:6px}.followup span{color:var(--purple)}
+.mistake{color:var(--red);font-size:12px;margin-top:4px}
+code{background:rgba(88,166,255,.15);padding:2px 6px;border-radius:4px;font-family:'Courier New',monospace;font-size:13px;color:var(--accent)}
+pre{background:#0d1117;border:1px solid var(--border);border-radius:8px;padding:14px;overflow-x:auto;font-size:12px;line-height:1.5;margin:8px 0}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<button class="mobile-toggle" onclick="toggleSidebar()">☰</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+<button class="btn btn-primary print-btn" onclick="window.print()">🖨️ Print</button>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<h2>🎓 OS Master Guide</h2>
+<p>Complete Study Resource</p>
+</div>
+<nav>
+<div class="section-label">Main</div>
+<a href="#home" class="active"><span class="icon">🏠</span>Home</a>
+<a href="#complete-notes"><span class="icon">📖</span>Complete Notes</a>
+<a href="#important-topics"><span class="icon">⭐</span>Important Topics</a>
+<div class="section-label">Practice</div>
+<a href="#mcq-bank"><span class="icon">📝</span>MCQ Bank</a>
+<a href="#interview-questions"><span class="icon">🎤</span>Interview Questions</a>
+<a href="#faqs"><span class="icon">❓</span>FAQs</a>
+<div class="section-label">Quick Access</div>
+<a href="#cheat-sheets"><span class="icon">📋</span>Cheat Sheets</a>
+<a href="#revision"><span class="icon">⚡</span>One Night Revision</a>
+<a href="#placement"><span class="icon">🚀</span>Placement Crash</a>
+<a href="#formulas"><span class="icon">📐</span>Formulas</a>
+<div class="section-label">Reference</div>
+<a href="#comparisons"><span class="icon">📊</span>Comparison Tables</a>
+<a href="#linux-commands"><span class="icon">💻</span>Linux Commands</a>
+<a href="#bookmarks"><span class="icon">🔖</span>Bookmarks</a>
+</nav>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<!-- SEARCH -->
+<div class="search-container" style="position:relative">
+<span class="search-icon">🔍</span>
+<input type="text" class="search-box" id="searchBox" placeholder="Search topics, MCQs, interview questions..." oninput="handleSearch(this.value)">
+<div class="search-results" id="searchResults"></div>
+</div>
+
+<!-- HOME -->
+<section id="home">
+<div class="hero">
+<h1>🖥️ Operating System Master Guide</h1>
+<p>Everything you need: Complete Notes, 274+ Interview Questions, MCQs, Cheat Sheets, and Placement Preparation — all in one place.</p>
+<div class="stats-row">
+<div class="stat-card"><div class="num">30+</div><div class="label">Topics Covered</div></div>
+<div class="stat-card"><div class="num">274+</div><div class="label">Interview Qs</div></div>
+<div class="stat-card"><div class="num">50+</div><div class="label">MCQs</div></div>
+<div class="stat-card"><div class="num">10+</div><div class="label">Cheat Sheets</div></div>
+</div>
+</div>
+<div class="card">
+<h3>📚 How to Use This Guide</h3>
+<ul>
+<li><strong>Complete Notes:</strong> Full theory for deep learning</li>
+<li><strong>Important Topics:</strong> High-yield areas for quick study</li>
+<li><strong>MCQ Bank:</strong> Practice with detailed explanations</li>
+<li><strong>Interview Questions:</strong> 30-sec + detailed answers</li>
+<li><strong>Cheat Sheets:</strong> Quick revision tables</li>
+<li><strong>One Night Revision:</strong> Last-minute exam prep</li>
+<li><strong>Placement Crash:</strong> 30-min intensive revision</li>
+</ul>
+</div>
+</section>
+
+<!-- ==================== COMPLETE NOTES ==================== -->
+<section id="complete-notes">
+<h2 class="section-title" onclick="toggleSection(this)">📖 Complete OS Notes <span class="badge">30+ Topics</span></h2>
+
+<!-- 1. Introduction to OS -->
+<div class="card" data-topic="introduction operating system">
+<h3 class="collapsible" onclick="toggleCollapse(this)">1. Introduction to Operating System</h3>
+<div class="collapsible-content">
+<h4>Definition</h4>
+<p>An <strong>Operating System (OS)</strong> is system software that manages all computer resources (hardware and software) and provides an environment for users to execute programs conveniently and efficiently.</p>
+<h4>Why Does OS Exist?</h4>
+<ul>
+<li>Without OS: Every app would need complex hardware interaction code</li>
+<li>Without OS: A single app could exploit all resources</li>
+<li>Without OS: No memory protection between programs</li>
+</ul>
+<h4>🔧 Real-World Analogy</h4>
+<div class="alert alert-info">Think of OS as a <strong>restaurant manager</strong> — customers (users) place orders (requests), the manager coordinates chefs (CPU), waiters (I/O), and ingredients (memory/resources) to serve food efficiently.</div>
+<h4>Functions of OS</h4>
+<ul>
+<li><strong>Resource Management:</strong> Manages memory, devices, files, security, processes</li>
+<li><strong>Abstraction:</strong> Hides hardware complexity from users</li>
+<li><strong>Protection & Isolation:</strong> Prevents programs from interfering with each other</li>
+<li><strong>Interface:</strong> Provides GUI/CLI for user interaction</li>
+</ul>
+<h4>Key Goals of OS</h4>
+<ul>
+<li>Maximum CPU utilization</li>
+<li>Minimum process starvation</li>
+<li>Higher priority job execution</li>
+<li>Maximum throughput</li>
+</ul>
+<div class="mnemonic"><strong>🧠 Memory Trick:</strong> OS = <strong>R.A.P.I</strong> — <strong>R</strong>esource management, <strong>A</strong>bstraction, <strong>P</strong>rotection, <strong>I</strong>nterface</div>
+</div>
+</div>
+
+<!-- 2. Types of OS -->
+<div class="card" data-topic="types operating system batch multiprogramming">
+<h3 class="collapsible" onclick="toggleCollapse(this)">2. Types of Operating Systems</h3>
+<div class="collapsible-content">
+<div class="tabs">
+<div class="tab active" onclick="switchTab(event,'types-tab','tab-single')">Single Process</div>
+<div class="tab" onclick="switchTab(event,'types-tab','tab-batch')">Batch</div>
+<div class="tab" onclick="switchTab(event,'types-tab','tab-multiprog')">Multiprogramming</div>
+<div class="tab" onclick="switchTab(event,'types-tab','tab-mt')">Multitasking</div>
+<div class="tab" onclick="switchTab(event,'types-tab','tab-mp')">Multiprocessing</div>
+<div class="tab" onclick="switchTab(event,'types-tab','tab-dist')">Distributed</div>
+<div class="tab" onclick="switchTab(event,'types-tab','tab-rt')">RTOS</div>
+</div>
+<div id="types-tab">
+<div class="tab-content active" data-tab="tab-single">
+<h4>Single Process OS</h4>
+<p>Only 1 process executes at a time from the ready queue. <span class="tag tag-info">Oldest Type</span></p>
+</div>
+<div class="tab-content" data-tab="tab-batch">
+<h4>Batch Processing OS</h4>
+<ul>
+<li>User prepares job using punch cards → submits to operator → operator sorts into batches → executes batch by batch</li>
+<li>❌ No priority setting, may cause starvation, CPU idle during I/O</li>
+</ul>
+</div>
+<div class="tab-content" data-tab="tab-multiprog">
+<h4>Multiprogramming OS</h4>
+<ul>
+<li>Multiple jobs kept in memory; CPU switches when current process goes to wait state</li>
+<li>Single CPU, context switching</li>
+<li>✅ Reduces CPU idle time</li>
+</ul>
+</div>
+<div class="tab-content" data-tab="tab-mt">
+<h4>Multitasking OS</h4>
+<ul>
+<li>Logical extension of multiprogramming</li>
+<li>Time sharing + context switching → appears to run multiple tasks simultaneously</li>
+<li>✅ Increases responsiveness, further reduces CPU idle time</li>
+</ul>
+</div>
+<div class="tab-content" data-tab="tab-mp">
+<h4>Multiprocessing OS</h4>
+<ul>
+<li>More than 1 CPU in a single computer</li>
+<li>✅ Better reliability (if 1 CPU fails, others work), better throughput, lesser starvation</li>
+</ul>
+</div>
+<div class="tab-content" data-tab="tab-dist">
+<h4>Distributed OS</h4>
+<ul>
+<li>Manages resources across loosely connected autonomous computer nodes</li>
+<li>Collection of independent, networked, physically separate computational nodes</li>
+</ul>
+</div>
+<div class="tab-content" data-tab="tab-rt">
+<h4>Real-Time OS (RTOS)</h4>
+<ul>
+<li>Error-free computations within tight time boundaries</li>
+<li>Used in: Air Traffic Control, Robots, Medical Devices</li>
+</ul>
+</div>
+</div>
+<h4>Additional Types</h4>
+<ul>
+<li><strong>Network OS (NOS):</strong> Supports file sharing, printer sharing in networks</li>
+<li><strong>Embedded OS:</strong> For smartphones, IoT devices, industrial machines</li>
+<li><strong>Mobile OS:</strong> Touch input, app management, wireless communication</li>
+<li><strong>Multi-User OS:</strong> Multiple concurrent users with access control</li>
+</ul>
+</div>
+</div>
+
+<!-- 3. Kernel -->
+<div class="card" data-topic="kernel monolithic microkernel hybrid">
+<h3 class="collapsible" onclick="toggleCollapse(this)">3. Kernel & Its Types</h3>
+<div class="collapsible-content">
+<h4>Definition</h4>
+<p>The <strong>kernel</strong> is the core component of the OS that interacts directly with hardware and performs the most crucial tasks. It is the first part of the OS to load on startup.</p>
+<h4>Functions of Kernel</h4>
+<ul>
+<li><strong>Process Management:</strong> Scheduling, creating/deleting processes, synchronization</li>
+<li><strong>Memory Management:</strong> Allocating/deallocating memory, tracking usage</li>
+<li><strong>File Management:</strong> Creating/deleting files and directories</li>
+<li><strong>I/O Management:</strong> Buffering, caching, and spooling</li>
+</ul>
+<h4>Spooling vs Buffering vs Caching</h4>
+<table class="comparison-table">
+<tr><th>Technique</th><th>Scope</th><th>Example</th></tr>
+<tr><td><strong>Spooling</strong></td><td>Between differing speed jobs</td><td>Print spooling, mail spooling</td></tr>
+<tr><td><strong>Buffering</strong></td><td>Within one job</td><td>YouTube video buffering</td></tr>
+<tr><td><strong>Caching</strong></td><td>Frequent access optimization</td><td>Memory caching, web caching</td></tr>
+</table>
+<h4>Types of Kernels</h4>
+<table class="comparison-table">
+<tr><th>Feature</th><th>Monolithic</th><th>Microkernel</th><th>Hybrid</th></tr>
+<tr><td><strong>Functions in Kernel</strong></td><td>All functions</td><td>Only major (memory, process mgmt)</td><td>Combined approach</td></tr>
+<tr><td><strong>Size</strong></td><td>Bulky</td><td>Smaller</td><td>Medium</td></tr>
+<tr><td><strong>Reliability</strong></td><td>Less (one crash = whole kernel down)</td><td>More reliable</td><td>Balanced</td></tr>
+<tr><td><strong>Performance</strong></td><td>High (fast communication)</td><td>Slow (user/kernel mode overhead)</td><td>Good</td></tr>
+<tr><td><strong>Examples</strong></td><td>Linux, Unix, MS-DOS</td><td>L4 Linux, Symbian, MINIX</td><td>macOS, Windows NT/7/10</td></tr>
+</table>
+<div class="alert alert-info"><strong>User Mode vs Kernel Mode:</strong> Communication between them happens via <strong>IPC (Inter-Process Communication)</strong> — using shared memory and message passing.</div>
+</div>
+</div>
+
+<!-- 4. System Calls -->
+<div class="card" data-topic="system calls types process control file management">
+<h3 class="collapsible" onclick="toggleCollapse(this)">4. System Calls</h3>
+<div class="collapsible-content">
+<h4>Definition</h4>
+<p>A <strong>system call</strong> is the mechanism by which a user program requests a service from the kernel for which it doesn't have permission. It is the <strong>only way</strong> a process can go from user mode to kernel mode.</p>
+<h4>How It Works</h4>
+<div class="alert alert-info">User executes command (User Space) → System Call (transition via software interrupt) → Kernel executes service (Kernel Space) → Returns to User Space</div>
+<h4>Types of System Calls</h4>
+<table class="comparison-table">
+<tr><th>Category</th><th>Operations</th><th>Unix Examples</th><th>Windows Examples</th></tr>
+<tr><td><strong>Process Control</strong></td><td>end, abort, create/terminate process, wait</td><td><code>fork()</code>, <code>exit()</code>, <code>wait()</code></td><td><code>CreateProcess()</code>, <code>ExitProcess()</code></td></tr>
+<tr><td><strong>File Management</strong></td><td>create/delete, open/close, read/write</td><td><code>open()</code>, <code>read()</code>, <code>write()</code>, <code>close()</code></td><td><code>CreateFile()</code>, <code>ReadFile()</code>, <code>WriteFile()</code></td></tr>
+<tr><td><strong>Device Management</strong></td><td>request/release, read/write, set attributes</td><td><code>ioctl()</code>, <code>read()</code>, <code>write()</code></td><td><code>SetConsoleMode()</code></td></tr>
+<tr><td><strong>Information</strong></td><td>get/set time, system data, process attributes</td><td><code>getpid()</code>, <code>alarm()</code>, <code>sleep()</code></td><td><code>GetCurrentProcessID()</code></td></tr>
+<tr><td><strong>Communication</strong></td><td>create/delete connections, send/receive messages</td><td><code>pipe()</code>, <code>shmget()</code>, <code>mmap()</code></td><td><code>CreatePipe()</code>, <code>CreateFileMapping()</code></td></tr>
+</table>
+</div>
+</div>
+
+<!-- 5. Process Management -->
+<div class="card" data-topic="process states PCB context switching swapping orphan zombie">
+<h3 class="collapsible" onclick="toggleCollapse(this)">5. Process Management</h3>
+<div class="collapsible-content">
+<h4>Program vs Process</h4>
+<table class="comparison-table">
+<tr><th>Aspect</th><th>Program</th><th>Process</th></tr>
+<tr><td>Definition</td><td>Compiled code ready to execute</td><td>Program under execution</td></tr>
+<tr><td>Location</td><td>Stored in Disk</td><td>Resides in RAM</td></tr>
+<tr><td>State</td><td>Passive</td><td>Active</td></tr>
+</table>
+<h4>Process States</h4>
+<div class="diagram">
+<div class="state-diagram">
+<div class="state-node" style="border-color:var(--purple)">NEW</div>
+<div class="state-arrow">→</div>
+<div class="state-node">READY</div>
+<div class="state-arrow">→</div>
+<div class="state-node" style="border-color:var(--green)">RUNNING</div>
+<div class="state-arrow">→</div>
+<div class="state-node" style="border-color:var(--yellow)">WAITING</div>
+<div class="state-arrow" style="font-size:12px">←</div>
+<div class="state-node" style="border-color:var(--red)">TERMINATED</div>
+</div>
+<p style="font-size:12px;color:var(--sec);margin-top:8px">Ready ← Running (on I/O completion) | Running → Waiting (on I/O request) | Waiting → Ready (I/O complete)</p>
+</div>
+<h4>Process Control Block (PCB)</h4>
+<p>Data structure storing: Process ID, Program Counter, Process State, Priority, CPU Registers, Memory limits, I/O status, Accounting info.</p>
+<h4>Process Types</h4>
+<ul>
+<li><strong>Foreground:</strong> Interacts with user, may block UI</li>
+<li><strong>Background (Daemon):</strong> Runs independently, no user interaction</li>
+<li><strong>Orphan:</strong> Parent terminated, still running → adopted by init process</li>
+<li><strong>Zombie:</strong> Execution complete but entry remains in process table until parent reads exit status</li>
+</ul>
+<div class="mnemonic"><strong>🧠 Memory Trick:</strong> Orphan = Parent gone, Child alive. Zombie = Child gone, Parent hasn't checked.</div>
+<h4>Context Switching</h4>
+<p>Switching CPU to another process — saves current process state (PCB) and loads new process state. Pure overhead (no useful work during switch).</p>
+<h4>Swapping</h4>
+<p>Medium-term scheduler removes processes from memory to disk (swap-out) and reintroduces them later (swap-in). Used to reduce degree of multi-programming.</p>
+</div>
+</div>
+
+<!-- 6. CPU Scheduling -->
+<div class="card" data-topic="cpu scheduling FCFS SJF priority round robin MLQ MLFQ convoy effect">
+<h3 class="collapsible" onclick="toggleCollapse(this)">6. CPU Scheduling Algorithms</h3>
+<div class="collapsible-content">
+<h4>Key Metrics</h4>
+<div class="formula-box">
+TAT = CT - AT (Turnaround Time = Completion - Arrival)
+WT = TAT - BT (Waiting Time = Turnaround - Burst)
+Response Time = First CPU time - Arrival Time
+Throughput = Processes completed per unit time
+</div>
+<table class="comparison-table">
+<tr><th>Algorithm</th><th>Type</th><th>Convoy Effect</th><th>Starvation</th><th>Best For</th></tr>
+<tr><td><strong>FCFS</strong></td><td>Non-preemptive</td><td>Yes</td><td>Yes</td><td>Simple systems</td></tr>
+<tr><td><strong>SJF (Non-preemptive)</strong></td><td>Non-preemptive</td><td>Yes (if 1st process long)</td><td>Yes</td><td>Minimum avg WT</td></tr>
+<tr><td><strong>SRTF (Preemptive SJF)</strong></td><td>Preemptive</td><td>No</td><td>Yes</td><td>Best avg WT</td></tr>
+<tr><td><strong>Priority</strong></td><td>Both</td><td>No</td><td>Yes (low priority)</td><td>Important processes first</td></tr>
+<tr><td><strong>Round Robin</strong></td><td>Preemptive</td><td>No</td><td>Very Low</td><td>Time-sharing systems</td></tr>
+<tr><td><strong>MLQ</strong></td><td>Fixed Priority</td><td>Yes</td><td>Yes</td><td>Diverse workloads</td></tr>
+<tr><td><strong>MLFQ</strong></td><td>Dynamic</td><td>No</td><td>Low (aging)</td><td>Adaptive scheduling</td></tr>
+<tr><td><strong>HRRN</strong></td><td>Non-preemptive</td><td>No</td><td>No</td><td>Response ratio optimization</td></tr>
+</table>
+<div class="alert alert-warn"><strong>⚠️ Convoy Effect:</strong> Situation where many short processes are blocked by one long process holding resources. Causes poor resource utilization.</div>
+<div class="alert alert-tip"><strong>💡 Round Robin:</strong> Most popular for time-sharing. If TQ is too small → too many context switches (overhead). If TQ is too large → becomes FCFS.</div>
+<h4>Starvation Solution: Ageing</h4>
+<p>Gradually increase priority of waiting processes. E.g., increase priority by 1 every 15 minutes.</p>
+</div>
+</div>
+
+<!-- 7. Threads -->
+<div class="card" data-topic="threads multithreading user level kernel level thread models">
+<h3 class="collapsible" onclick="toggleCollapse(this)">7. Threads & Multithreading</h3>
+<div class="collapsible-content">
+<h4>Definition</h4>
+<p>A <strong>thread</strong> is the smallest unit of execution within a process. It's a lightweight process with its own program counter, registers, and stack, but shares memory with other threads in the same process.</p>
+<h4>Thread vs Process Context Switch</h4>
+<table class="comparison-table">
+<tr><th>Feature</th><th>Thread Context Switch</th><th>Process Context Switch</th></tr>
+<tr><td>Memory Address Space</td><td>Not switched (same process)</td><td>Switched (different process)</td></tr>
+<tr><td>Speed</td><td>Fast</td><td>Slow</td></tr>
+<tr><td>CPU Cache</td><td>Preserved</td><td>Flushed</td></tr>
+</table>
+<h4>Thread Models</h4>
+<table class="comparison-table">
+<tr><th>Model</th><th>Description</th><th>Parallelism</th><th>Pros</th><th>Cons</th></tr>
+<tr><td><strong>Many-to-One</strong></td><td>Many ULT → 1 KLT</td><td>No</td><td>Lightweight</td><td>One blocked = all blocked</td></tr>
+<tr><td><strong>One-to-One</strong></td><td>1 ULT → 1 KLT</td><td>Yes</td><td>Better parallelism</td><td>Resource-intensive</td></tr>
+<tr><td><strong>Many-to-Many</strong></td><td>Many ULT → Many KLT</td><td>Yes</td><td>Balanced</td><td>Complex management</td></tr>
+<tr><td><strong>Hybrid</strong></td><td>Combination</td><td>Yes</td><td>Flexible</td><td>Complex</td></tr>
+</table>
+<div class="alert alert-info"><strong>Single CPU + Multithreading:</strong> No performance gain! Threads just context-switch on the same CPU. Multithreading shines on multi-core systems.</div>
+</div>
+</div>
+
+<!-- 8. Synchronization -->
+<div class="card" data-topic="synchronization critical section race condition mutex semaphore">
+<h3 class="collapsible" onclick="toggleCollapse(this)">8. Process Synchronization</h3>
+<div class="collapsible-content">
+<h4>Critical Section Problem</h4>
+<p>The segment of code where processes access shared resources. Only one process/thread should be in the critical section at a time.</p>
+<h4>Desired Properties</h4>
+<ul>
+<li><strong>Mutual Exclusion:</strong> Only one process in CS at a time</li>
+<li><strong>Progress:</strong> If no one is in CS, a waiting process must be able to enter</li>
+<li><strong>Bounded Waiting:</strong> Finite bound on how long a process waits</li>
+</ul>
+<h4>Mutex vs Semaphore</h4>
+<table class="comparison-table">
+<tr><th>Feature</th><th>Mutex</th><th>Semaphore</th></tr>
+<tr><td>Access</td><td>Exclusive (one thread)</td><td>Multiple threads (counting)</td></tr>
+<tr><td>State</td><td>Binary (locked/unlocked)</td><td>Integer counter</td></tr>
+<tr><td>Owner</td><td>Same thread acquires & releases</td><td>Any thread can signal</td></tr>
+<tr><td>Complexity</td><td>Simple</td><td>More versatile</td></tr>
+<tr><td>Use Case</td><td>Mutual exclusion</td><td>Resource pool, signaling, coordination</td></tr>
+</table>
+<h4>Binary vs Counting Semaphore</h4>
+<ul>
+<li><strong>Binary:</strong> Value 0 or 1 (equivalent to mutex)</li>
+<li><strong>Counting:</strong> Range over unrestricted domain (controls finite instances of resources)</li>
+</ul>
+<h4>Conditional Variables</h4>
+<p>Used to avoid busy waiting. Thread releases lock, enters wait state until notified. No contention.</p>
+<h4>Classical Synchronization Problems</h4>
+<ul>
+<li><strong>Producer-Consumer:</strong> Producers generate data, consumers consume it</li>
+<li><strong>Reader-Writer:</strong> Multiple readers, exclusive writers</li>
+<li><strong>Dining Philosophers:</strong> 5 philosophers, 5 forks, avoid deadlock</li>
+<li><strong>Sleeping Barber:</strong> Barber and customer synchronization</li>
+</ul>
+<div class="mnemonic"><strong>🧠 Memory Trick:</strong> <strong>M</strong>utex = <strong>M</strong>an (one owner). <strong>S</strong>emaphore = <strong>S</strong>ignal (anyone can signal).</div>
+</div>
+</div>
+
+<!-- 9. Deadlocks -->
+<div class="card" data-topic="deadlock prevention avoidance detection banker algorithm">
+<h3 class="collapsible" onclick="toggleCollapse(this)">9. Deadlocks</h3>
+<div class="collapsible-content">
+<h4>Definition</h4>
+<p>Deadlock occurs when two or more processes are unable to proceed because each is waiting for the other to release a resource — forever.</p>
+<h4>Four Necessary Conditions (Coffman)</h4>
+<ol>
+<li><strong>Mutual Exclusion:</strong> Resource is non-sharable</li>
+<li><strong>Hold & Wait:</strong> Process holds resource while waiting for another</li>
+<li><strong>No Preemption:</strong> Resources released only voluntarily</li>
+<li><strong>Circular Wait:</strong> Chain of processes each waiting for the next's resource</li>
+</ol>
+<div class="mnemonic"><strong>🧠 Memory Trick:</strong> <strong>M.H.N.C</strong> — <strong>M</strong>y <strong>H</strong>orse <strong>N</strong>ever <strong>C</strong>ries</div>
+<h4>Methods for Handling Deadlocks</h4>
+<table class="comparison-table">
+<tr><th>Method</th><th>Description</th><th>Approach</th></tr>
+<tr><td><strong>Prevention</strong></td><td>Break at least one of the 4 conditions</td><td>Static (design phase)</td></tr>
+<tr><td><strong>Avoidance</strong></td><td>Check if allocation leads to safe state before granting</td><td>Dynamic (runtime)</td></tr>
+<tr><td><strong>Detection + Recovery</strong></td><td>Allow deadlock, detect it, then recover</td><td>Runtime</td></tr>
+<tr><td><strong>Ignorance (Ostrich)</strong></td><td>Pretend deadlocks don't exist</td><td>Most OSes do this!</td></tr>
+</table>
+<h4>Deadlock Prevention Details</h4>
+<ul>
+<li><strong>Break Mutual Exclusion:</strong> Use sharable resources (read-only files) — can't always do this</li>
+<li><strong>Break Hold & Wait:</strong> Request all resources at once, or release all before requesting new</li>
+<li><strong>Break No Preemption:</strong> Preempt resources from waiting processes (may cause livelock)</li>
+<li><strong>Break Circular Wait:</strong> Impose resource ordering — all processes request in increasing order</li>
+</ul>
+<h4>Banker's Algorithm (Deadlock Avoidance)</h4>
+<div class="formula-box">
+Need[i] = Max[i] - Allocation[i]
+
+For each request:
+1. Check Request ≤ Need (otherwise error)
+2. Check Request ≤ Available (otherwise wait)
+3. Pretend to allocate: Available -= Request, Allocation += Request, Need -= Request
+4. Run safety algorithm — if safe, grant; else, rollback and wait
+</div>
+<p><strong>Complexity:</strong> O(n × m²) where n = processes, m = resource types</p>
+<h4>Deadlock Detection</h4>
+<ul>
+<li><strong>Single instance per resource type:</strong> Wait-for graph — cycle = deadlock</li>
+<li><strong>Multiple instances:</strong> Banker's algorithm (similar approach)</li>
+</ul>
+<h4>Recovery from Deadlock</h4>
+<ul>
+<li><strong>Process Termination:</strong> Abort all deadlocked processes, or one at a time until cycle breaks</li>
+<li><strong>Resource Preemption:</strong> Take resources from processes until cycle breaks</li>
+</ul>
+</div>
+</div>
+
+<!-- 10. Memory Management -->
+<div class="card" data-topic="memory management paging segmentation virtual memory thrashing">
+<h3 class="collapsible" onclick="toggleCollapse(this)">10. Memory Management</h3>
+<div class="collapsible-content">
+<h4>Logical vs Physical Address</h4>
+<table class="comparison-table">
+<tr><th>Feature</th><th>Logical Address</th><th>Physical Address</th></tr>
+<tr><td>Generated by</td><td>CPU</td><td>Memory Unit</td></tr>
+<tr><td>Visible to</td><td>User program</td><td>Never by user directly</td></tr>
+<tr><td>Also called</td><td>Virtual address</td><td>Real address</td></tr>
+<tr><td>Computed by</td><td>CPU</td><td>MMU (Memory Management Unit)</td></tr>
+</table>
+<h4>Memory Management Techniques</h4>
+<h4>A. Contiguous Allocation</h4>
+<ul>
+<li><strong>Fixed Partitioning:</strong> Memory divided into fixed-size partitions → Internal fragmentation, external fragmentation, limited process size</li>
+<li><strong>Dynamic Partitioning:</strong> Partition size decided at load time → No internal fragmentation, but external fragmentation exists</li>
+</ul>
+<h4>Free Space Allocation Algorithms</h4>
+<table class="comparison-table">
+<tr><th>Algorithm</th><th>Strategy</th><th>Pros</th><th>Cons</th></tr>
+<tr><td><strong>First Fit</strong></td><td>First hole big enough</td><td>Simple, fast</td><td>May cause fragmentation</td></tr>
+<tr><td><strong>Next Fit</strong></td><td>Start from last allocated</td><td>Fast</td><td>Distributed fragments</td></tr>
+<tr><td><strong>Best Fit</strong></td><td>Smallest hole big enough</td><td>Less internal frag</td><td>Many small holes (ext. frag)</td></tr>
+<tr><td><strong>Worst Fit</strong></td><td>Largest hole</td><td>Leaves larger holes</td><td>Slow, inefficient</td></tr>
+</table>
+<h4>B. Paging (Non-Contiguous)</h4>
+<p>Physical memory → fixed-size <strong>Frames</strong>. Logical memory → same-size <strong>Pages</strong>. Eliminates external fragmentation.</p>
+<ul>
+<li><strong>Page Table:</strong> Maps page number → frame number. Stored in main memory, base address in PCB.</li>
+<li><strong>PTBR:</strong> Page Table Base Register — points to current page table. Single register update on context switch.</li>
+<li><strong>TLB (Translation Lookaside Buffer):</strong> Hardware cache for page table entries. Speeds up address translation. ASID identifies each process.</li>
+</ul>
+<h4>C. Segmentation (Non-Contiguous)</h4>
+<p>Divides process into variable-sized segments based on user view (code, data, stack, heap). Address: &lt;segment-number, offset&gt;</p>
+<ul>
+<li>✅ No internal fragmentation, user-friendly view</li>
+<li>❌ External fragmentation, complex swapping</li>
+</ul>
+<h4>Virtual Memory</h4>
+<p>Allows execution of processes not completely in memory. Programs can be larger than physical RAM.</p>
+<h4>Demand Paging</h4>
+<ul>
+<li>Pages loaded only when needed (lazy swapper/pager)</li>
+<li><strong>Valid-Invalid Bit:</strong> 1 = page in memory; 0 = page on disk or invalid</li>
+<li><strong>Page Fault:</strong> Accessing invalid page → trap to OS → find free frame → load page from disk → restart instruction</li>
+</ul>
+<h4>Page Replacement Algorithms</h4>
+<table class="comparison-table">
+<tr><th>Algorithm</th><th>Strategy</th><th>Belady's Anomaly</th><th>Notes</th></tr>
+<tr><td><strong>FIFO</strong></td><td>Replace oldest page</td><td>Yes ⚠️</td><td>Simple, but poor performance</td></tr>
+<tr><td><strong>Optimal</strong></td><td>Replace page not used longest in future</td><td>No</td><td>Best but impossible to implement</td></tr>
+<tr><td><strong>LRU</strong></td><td>Replace least recently used</td><td>No</td><td>Good approximation of optimal</td></tr>
+<tr><td><strong>LFU</strong></td><td>Replace least frequently used</td><td>No</td><td>May not adapt to changing patterns</td></tr>
+<tr><td><strong>Clock</strong></td><td>Reference bit approximation of LRU</td><td>No</td><td>Practical, low overhead</td></tr>
+</table>
+<h4>Thrashing</h4>
+<p>When a process spends more time paging (servicing page faults) than executing. Occurs when total demand for frames exceeds available frames.</p>
+<div class="alert alert-warn"><strong>Thrashing Solutions:</strong></div>
+<ul>
+<li><strong>Working Set Model:</strong> Allocate frames based on current locality. If frames < locality size → thrashing.</li>
+<li><strong>Page Fault Frequency:</strong> Set upper/lower bounds on page fault rate. Too high → add frames. Too low → remove frames.</li>
+</ul>
+</div>
+</div>
+
+<!-- 11. File Systems & Disk Scheduling -->
+<div class="card" data-topic="file system disk scheduling inode RAID HDD SSD">
+<h3 class="collapsible" onclick="toggleCollapse(this)">11. File Systems & Disk Scheduling</h3>
+<div class="collapsible-content">
+<h4>File System Concepts</h4>
+<ul>
+<li><strong>Inode:</strong> Data structure storing metadata (type, permissions, owner, size, timestamps, data block pointers)</li>
+<li><strong>File Descriptor:</strong> Non-negative integer identifying open file. Standard: 0=stdin, 1=stdout, 2=stderr</li>
+<li><strong>Superblock:</strong> Contains filesystem-wide information</li>
+</ul>
+<h4>HDD vs SSD</h4>
+<table class="comparison-table">
+<tr><th>Feature</th><th>HDD</th><th>SSD</th></tr>
+<tr><td>Technology</td><td>Magnetic platters + read/write heads</td><td>NAND flash memory (no moving parts)</td></tr>
+<tr><td>Speed</td><td>Slower (seek time + rotational latency)</td><td>Significantly faster</td></tr>
+<tr><td>Durability</td><td>Less (mechanical failure risk)</td><td>More durable</td></tr>
+<tr><td>Capacity</td><td>Higher for lower cost</td><td>Lower capacity per dollar</td></tr>
+</table>
+<h4>RAID Levels</h4>
+<table class="comparison-table">
+<tr><th>Level</th><th>Technique</th><th>Redundancy</th><th>Performance</th></tr>
+<tr><td><strong>RAID 0</strong></td><td>Striping</td><td>None</td><td>Highest speed</td></tr>
+<tr><td><strong>RAID 1</strong></td><td>Mirroring</td><td>Full (duplicate)</td><td>Good read</td></tr>
+<tr><td><strong>RAID 5</strong></td><td>Striping + Distributed Parity</td><td>1 disk fault tolerant</td><td>Good balance</td></tr>
+<tr><td><strong>RAID 6</strong></td><td>Striping + Dual Parity</td><td>2 disk fault tolerant</td><td>Higher overhead</td></tr>
+<tr><td><strong>RAID 10</strong></td><td>Striping + Mirroring</td><td>High</td><td>Highest performance + redundancy</td></tr>
+</table>
+<h4>Disk Scheduling Algorithms</h4>
+<table class="comparison-table">
+<tr><th>Algorithm</th><th>Strategy</th><th>Pros</th><th>Cons</th></tr>
+<tr><td><strong>FCFS</strong></td><td>Serve in order</td><td>Simple, fair</td><td>High seek time</td></tr>
+<tr><td><strong>SSTF</strong></td><td>Nearest request first</td><td>Minimizes seek time</td><td>Starvation possible</td></tr>
+<tr><td><strong>SCAN</strong></td><td>Elevator (go to end, reverse)</td><td>Avoids starvation</td><td>Delays at ends</td></tr>
+<tr><td><strong>C-SCAN</strong></td><td>Circular SCAN</td><td>Uniform wait time</td><td>More head movement</td></tr>
+<tr><td><strong>LOOK</strong></td><td>Like SCAN but don't go to ends</td><td>Less delay than SCAN</td><td>Some delays</td></tr>
+<tr><td><strong>C-LOOK</strong></td><td>Circular LOOK</td><td>Best of both</td><td>Minor delays</td></tr>
+</table>
+</div>
+</div>
+
+</section>
+
+<!-- ==================== IMPORTANT TOPICS ==================== -->
+<section id="important-topics">
+<h2 class="section-title" onclick="toggleSection(this)">⭐ Important Topics</h2>
+<div class="card">
+<h3>🎯 High-Yield Topics for Exams & Interviews</h3>
+<ul>
+<li>⭐ Process States & Transitions</li>
+<li>⭐ CPU Scheduling Algorithms (calculate TAT, WT)</li>
+<li>⭐ Deadlock: 4 Conditions + Prevention vs Avoidance</li>
+<li>⭐ Banker's Algorithm (safety check)</li>
+<li>⭐ Paging vs Segmentation</li>
+<li>⭐ Page Replacement Algorithms (FIFO, LRU, Optimal)</li>
+<li>⭐ Virtual Memory & Demand Paging</li>
+<li>⭐ Semaphore vs Mutex</li>
+<li>⭐ Critical Section Problem</li>
+<li>⭐ Kernel Types (Monolithic vs Microkernel)</li>
+<li>⭐ System Calls</li>
+<li>⭐ Thread Models</li>
+<li>⭐ Disk Scheduling Algorithms</li>
+<li>⭐ Thrashing & Working Set Model</li>
+</ul>
+</div>
+<div class="alert alert-tip"><strong>💡 Interview Pro Tip:</strong> Always start with definition → explain with analogy → give real-world example → mention trade-offs.</div>
+</section>
+
+<!-- ==================== MCQ BANK ==================== -->
+<section id="mcq-bank">
+<h2 class="section-title" onclick="toggleSection(this)">📝 Complete MCQ Bank</h2>
+
+<div class="card" data-topic="MCQ operating system process">
+<h4>Q1. What is an operating system?</h4>
+<div class="tabs" style="margin:8px 0">
+<div class="tab" onclick="showMCQAnswer(this,'mcq1')">(A) A hardware component</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq1')">(B) System software managing resources</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq1')">(C) An application program</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq1')">(D) A programming language</div>
+</div>
+<div id="mcq1" style="display:none">
+<div class="answer-box">✅ <strong>Correct: (B)</strong> System software managing computer hardware and software resources</div>
+<div class="explanation">An OS acts as an intermediary between hardware and user applications, managing resources like CPU, memory, and I/O devices. <span class="tag tag-easy">Easy</span></div>
+</div>
+</div>
+
+<div class="card" data-topic="MCQ kernel">
+<h4>Q2. Which is the first program loaded on startup?</h4>
+<div class="tabs" style="margin:8px 0">
+<div class="tab" onclick="showMCQAnswer(this,'mcq2')">(A) Application</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq2')">(B) Shell</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq2')">(C) Kernel</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq2')">(D) BIOS</div>
+</div>
+<div id="mcq2" style="display:none">
+<div class="answer-box">✅ <strong>Correct: (C) Kernel</strong></div>
+<div class="explanation">The kernel is the core component of OS and the first part to load during boot. BIOS loads first, but kernel is the first OS component. <span class="tag tag-easy">Easy</span></div>
+</div>
+</div>
+
+<div class="card" data-topic="MCQ process state">
+<h4>Q3. Which process state is when a process is waiting for I/O?</h4>
+<div class="tabs" style="margin:8px 0">
+<div class="tab" onclick="showMCQAnswer(this,'mcq3')">(A) Ready</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq3')">(B) Running</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq3')">(C) Waiting/Blocked</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq3')">(D) Terminated</div>
+</div>
+<div id="mcq3" style="display:none">
+<div class="answer-box">✅ <strong>Correct: (C) Waiting/Blocked</strong></div>
+<div class="explanation">When a process needs I/O or some event to complete before continuing, it enters the waiting/blocked state. <span class="tag tag-easy">Easy</span></div>
+</div>
+</div>
+
+<div class="card" data-topic="MCQ scheduling FCFS convoy">
+<h4>Q4. Convoy effect is associated with which scheduling algorithm?</h4>
+<div class="tabs" style="margin:8px 0">
+<div class="tab" onclick="showMCQAnswer(this,'mcq4')">(A) SJF</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq4')">(B) FCFS</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq4')">(C) Round Robin</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq4')">(D) Priority</div>
+</div>
+<div id="mcq4" style="display:none">
+<div class="answer-box">✅ <strong>Correct: (B) FCFS</strong></div>
+<div class="explanation">In FCFS, if the first process has a long burst time, all short processes behind it wait → convoy effect. <span class="tag tag-medium">Medium</span></div>
+</div>
+</div>
+
+<div class="card" data-topic="MCQ deadlock">
+<h4>Q5. Which is NOT a necessary condition for deadlock?</h4>
+<div class="tabs" style="margin:8px 0">
+<div class="tab" onclick="showMCQAnswer(this,'mcq5')">(A) Mutual Exclusion</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq5')">(B) Hold and Wait</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq5')">(C) Preemption</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq5')">(D) Circular Wait</div>
+</div>
+<div id="mcq5" style="display:none">
+<div class="answer-box">✅ <strong>Correct: (C) Preemption</strong></div>
+<div class="explanation">The 4 necessary conditions are: Mutual Exclusion, Hold & Wait, No Preemption, Circular Wait. Preemption is NOT a condition — "No Preemption" is. <span class="tag tag-medium">Medium</span></div>
+</div>
+</div>
+
+<div class="card" data-topic="MCQ paging memory">
+<h4>Q6. What does a page table map?</h4>
+<div class="tabs" style="margin:8px 0">
+<div class="tab" onclick="showMCQAnswer(this,'mcq6')">(A) Process to CPU</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq6')">(B) Page number to frame number</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq6')">(C) Logical address to IP address</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq6')">(D) File to directory</div>
+</div>
+<div id="mcq6" style="display:none">
+<div class="answer-box">✅ <strong>Correct: (B) Page number to frame number</strong></div>
+<div class="explanation">Page table stores the mapping between logical pages and physical frames in memory. <span class="tag tag-easy">Easy</span></div>
+</div>
+</div>
+
+<div class="card" data-topic="MCQ semaphore mutex">
+<h4>Q7. A semaphore that can only have values 0 or 1 is called:</h4>
+<div class="tabs" style="margin:8px 0">
+<div class="tab" onclick="showMCQAnswer(this,'mcq7')">(A) Counting Semaphore</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq7')">(B) Binary Semaphore</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq7')">(C) Mutex</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq7')">(D) Monitor</div>
+</div>
+<div id="mcq7" style="display:none">
+<div class="answer-box">✅ <strong>Correct: (B) Binary Semaphore</strong></div>
+<div class="explanation">Binary semaphore values range from 0 to 1 only. It's also called a mutex lock. Counting semaphores can have any non-negative value. <span class="tag tag-easy">Easy</span></div>
+</div>
+</div>
+
+<div class="card" data-topic="MCQ virtual memory thrashing">
+<h4>Q8. Thrashing occurs when:</h4>
+<div class="tabs" style="margin:8px 0">
+<div class="tab" onclick="showMCQAnswer(this,'mcq8')">(A) CPU utilization is very high</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq8')">(B) Process spends more time paging than executing</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq8')">(C) Memory is fully allocated</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq8')">(D) All processes are in ready state</div>
+</div>
+<div id="mcq8" style="display:none">
+<div class="answer-box">✅ <strong>Correct: (B) Process spends more time paging than executing</strong></div>
+<div class="explanation">Thrashing = high page fault rate causing constant swapping. System degrades because it's doing more paging work than useful computation. <span class="tag tag-medium">Medium</span></div>
+</div>
+</div>
+
+<div class="card" data-topic="MCQ Belady anomaly FIFO">
+<h4>Q9. Belady's Anomaly is observed in:</h4>
+<div class="tabs" style="margin:8px 0">
+<div class="tab" onclick="showMCQAnswer(this,'mcq9')">(A) LRU</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq9')">(B) Optimal</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq9')">(C) FIFO</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq9')">(D) LFU</div>
+</div>
+<div id="mcq9" style="display:none">
+<div class="answer-box">✅ <strong>Correct: (C) FIFO</strong></div>
+<div class="explanation">Belady's Anomaly: Increasing frames increases page faults (counterintuitive). Only occurs in FIFO. LRU, Optimal, and LFU don't exhibit this. <span class="tag tag-hard">Hard</span></div>
+</div>
+</div>
+
+<div class="card" data-topic="MCQ TLB cache">
+<h4>Q10. TLB (Translation Lookaside Buffer) is a:</h4>
+<div class="tabs" style="margin:8px 0">
+<div class="tab" onclick="showMCQAnswer(this,'mcq10')">(A) Software cache</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq10')">(B) Hardware cache for page table</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq10')">(C) Type of memory</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq10')">(D) CPU register</div>
+</div>
+<div id="mcq10" style="display:none">
+<div class="answer-box">✅ <strong>Correct: (B) Hardware cache for page table entries</strong></div>
+<div class="explanation">TLB is a high-speed hardware cache that stores recent page table translations. TLB hit = fast lookup. TLB miss = must access page table in memory. <span class="tag tag-medium">Medium</span></div>
+</div>
+</div>
+
+<div class="card" data-topic="MCQ kernel types">
+<h4>Q11. Which kernel type has all OS functions in kernel space?</h4>
+<div class="tabs" style="margin:8px 0">
+<div class="tab" onclick="showMCQAnswer(this,'mcq11')">(A) Microkernel</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq11')">(B) Monolithic Kernel</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq11')">(C) Hybrid Kernel</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq11')">(D) Nanokernel</div>
+</div>
+<div id="mcq11" style="display:none">
+<div class="answer-box">✅ <strong>Correct: (B) Monolithic Kernel</strong></div>
+<div class="explanation">Monolithic kernel includes all OS functions (process mgmt, memory mgmt, file mgmt, I/O) in one large executable in kernel space. <span class="tag tag-easy">Easy</span></div>
+</div>
+</div>
+
+<div class="card" data-topic="MCQ zombie orphan process">
+<h4>Q12. A zombie process is:</h4>
+<div class="tabs" style="margin:8px 0">
+<div class="tab" onclick="showMCQAnswer(this,'mcq12')">(A) A process that uses excessive memory</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq12')">(B) Completed execution but still in process table</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq12')">(C) A process running in background</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq12')">(D) A process with no parent</div>
+</div>
+<div id="mcq12" style="display:none">
+<div class="answer-box">✅ <strong>Correct: (B) Completed execution but still in process table</strong></div>
+<div class="explanation">Zombie = process finished but parent hasn't read its exit status via wait(). It remains in process table until reaped. Option D describes an orphan process. <span class="tag tag-medium">Medium</span></div>
+</div>
+</div>
+
+<div class="card" data-topic="MCQ disk scheduling SSTF starvation">
+<h4>Q13. Which disk scheduling algorithm may cause starvation?</h4>
+<div class="tabs" style="margin:8px 0">
+<div class="tab" onclick="showMCQAnswer(this,'mcq13')">(A) FCFS</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq13')">(B) SSTF</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq13')">(C) SCAN</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq13')">(D) C-SCAN</div>
+</div>
+<div id="mcq13" style="display:none">
+<div class="answer-box">✅ <strong>Correct: (B) SSTF</strong></div>
+<div class="explanation">SSTF always serves nearest request. If there's a continuous stream of nearby requests, distant requests may starve. <span class="tag tag-medium">Medium</span></div>
+</div>
+</div>
+
+<div class="card" data-topic="MCQ RAID storage">
+<h4>Q14. RAID 1 provides:</h4>
+<div class="tabs" style="margin:8px 0">
+<div class="tab" onclick="showMCQAnswer(this,'mcq14')">(A) Striping only</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq14')">(B) Mirroring (full redundancy)</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq14')">(C) Parity</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq14')">(D) Striping + Parity</div>
+</div>
+<div id="mcq14" style="display:none">
+<div class="answer-box">✅ <strong>Correct: (B) Mirroring (full redundancy)</strong></div>
+<div class="explanation">RAID 1 duplicates all data across two or more disks. If one disk fails, data is available on the mirror. RAID 0 = striping, RAID 5 = striping + parity. <span class="tag tag-easy">Easy</span></div>
+</div>
+</div>
+
+<div class="card" data-topic="MCQ context switch">
+<h4>Q15. Context switching is:</h4>
+<div class="tabs" style="margin:8px 0">
+<div class="tab" onclick="showMCQAnswer(this,'mcq15')">(A) Productive work by CPU</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq15')">(B) Pure overhead</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq15')">(C) A scheduling algorithm</div>
+<div class="tab" onclick="showMCQAnswer(this,'mcq15')">(D) A type of interrupt</div>
+</div>
+<div id="mcq15" style="display:none">
+<div class="answer-box">✅ <strong>Correct: (B) Pure overhead</strong></div>
+<div class="explanation">Context switching saves the state of one process and loads another. No useful work is done during this time — it's pure overhead. <span class="tag tag-easy">Easy</span></div>
+</div>
+</div>
+</section>
+
+<!-- ==================== INTERVIEW QUESTIONS ==================== -->
+<section id="interview-questions">
+<h2 class="section-title" onclick="toggleSection(this)">🎤 Top Placement Interview Questions <span class="badge">30+ Key Questions</span></h2>
+
+<div class="interview-q" data-topic="interview OS definition">
+<h4>1. What is an Operating System?</h4>
+<div class="short-ans"><strong>Short Answer (30s):</strong> An OS is system software that manages hardware resources, provides services to applications, and acts as an interface between users and computer hardware.</div>
+<div class="detail-ans"><strong>Detailed Answer (2-3 min):</strong> An Operating System is the most fundamental software layer that sits between computer hardware and user applications. It performs four key functions: <strong>Resource Management</strong> (CPU scheduling, memory allocation, I/O device management), <strong>Abstraction</strong> (hides hardware complexity), <strong>Protection</strong> (isolates processes from each other), and <strong>User Interface</strong> (GUI/CLI). Without an OS, every application would need to directly manage hardware, leading to conflicts and inefficiency. Modern examples include Linux, Windows, macOS.</div>
+<div class="followup">Follow-up: <span>Can you explain the difference between a kernel and an OS?</span></div>
+</div>
+
+<div class="interview-q" data-topic="interview process thread">
+<h4>2. Difference between Process and Thread?</h4>
+<div class="short-ans"><strong>Short Answer:</strong> A process is an executing program with its own memory space. A thread is a lightweight unit of execution within a process that shares memory with other threads.</div>
+<div class="detail-ans"><strong>Detailed Answer:</strong> A <strong>Process</strong> has its own address space, PCB, resources, and memory protection. Creating a process is expensive. A <strong>Thread</strong> shares address space, files, and resources with other threads in the same process but has its own program counter, registers, and stack. Thread context switching is faster (no memory space switch). Benefits of multithreading: responsiveness, resource sharing, economy, and better CPU utilization on multi-core systems.</div>
+<div class="followup">Follow-up: <span>When would you use threads over processes?</span></div>
+</div>
+
+<div class="interview-q" data-topic="interview deadlock prevention avoidance">
+<h4>3. What is Deadlock? Explain Prevention vs Avoidance.</h4>
+<div class="short-ans"><strong>Short Answer:</strong> Deadlock is when processes are stuck waiting for each other's resources forever. Prevention breaks one of the 4 necessary conditions. Avoidance checks safety before allocating.</div>
+<div class="detail-ans"><strong>Detailed Answer:</strong> Deadlock occurs when 4 conditions hold simultaneously: Mutual Exclusion, Hold & Wait, No Preemption, Circular Wait. <strong>Prevention</strong> is a static approach — we break one condition at design time (e.g., request all resources at once to break Hold & Wait). <strong>Avoidance</strong> is dynamic — we check if granting a request keeps the system in a safe state using Banker's Algorithm. The trade-off: Prevention is restrictive (lower resource utilization) but simpler. Avoidance is flexible but adds runtime overhead and may still underutilize resources.</div>
+<div class="followup">Follow-up: <span>What is a safe sequence? Can you walk through Banker's Algorithm?</span></div>
+</div>
+
+<div class="interview-q" data-topic="interview paging segmentation">
+<h4>4. Paging vs Segmentation?</h4>
+<div class="short-ans"><strong>Short Answer:</strong> Paging divides memory into fixed-size blocks (OS view). Segmentation divides into variable-size logical blocks (user view).</div>
+<div class="detail-ans"><strong>Detailed Answer:</strong> <strong>Paging</strong> divides physical memory into fixed-size frames and logical memory into same-size pages. It eliminates external fragmentation but may cause internal fragmentation. Address: page number + offset. Uses page table for mapping. <strong>Segmentation</strong> divides process into variable-sized segments based on logical units (code, data, stack). It supports user's view of memory but causes external fragmentation. Address: segment number + offset. Uses segment table with base and limit. Modern systems often use a <strong>combination</strong> of both.</div>
+<div class="followup">Follow-up: <span>What is TLB and why is it needed?</span></div>
+</div>
+
+<div class="interview-q" data-topic="interview virtual memory">
+<h4>5. What is Virtual Memory?</h4>
+<div class="short-ans"><strong>Short Answer:</strong> Virtual memory gives programs the illusion of large contiguous memory by using disk as extension of RAM. Pages are loaded on demand.</div>
+<div class="detail-ans"><strong>Detailed Answer:</strong> Virtual memory allows execution of processes not fully loaded in physical memory. The OS treats a portion of secondary storage (swap space) as main memory. Key mechanism: <strong>Demand Paging</strong> — only load pages when needed. When a process accesses a page not in memory → <strong>Page Fault</strong> → OS loads it from disk → may need to replace an existing page. Advantages: programs larger than RAM can run, more processes in memory (higher multiprogramming). Disadvantages: overhead of page replacement, potential thrashing.</div>
+<div class="followup">Follow-up: <span>What is thrashing and how do you handle it?</span></div>
+</div>
+
+<div class="interview-q" data-topic="interview semaphore mutex">
+<h4>6. Semaphore vs Mutex?</h4>
+<div class="short-ans"><strong>Short Answer:</strong> Mutex is binary (locked/unlocked), same thread locks/unlocks. Semaphore is an integer counter, any thread can signal.</div>
+<div class="detail-ans"><strong>Detailed Answer:</strong> <strong>Mutex</strong> provides exclusive access — only the thread that locks it can unlock it. Simple, used for mutual exclusion. <strong>Semaphore</strong> is more versatile — it's an integer where wait() decrements and signal() increments. Binary semaphore (0/1) is similar to mutex. Counting semaphore can control access to a pool of resources. Any thread can call signal() on a semaphore, unlike mutex. Semaphores are used for signaling and coordination, not just mutual exclusion.</div>
+<div class="followup">Follow-up: <span>How would you solve the Producer-Consumer problem?</span></div>
+</div>
+
+<div class="interview-q" data-topic="interview CPU scheduling">
+<h4>7. Explain Round Robin Scheduling.</h4>
+<div class="short-ans"><strong>Short Answer:</strong> Each process gets a fixed time quantum. When time expires, process goes to back of queue. Fair, preemptive, designed for time-sharing.</div>
+<div class="detail-ans"><strong>Detailed Answer:</strong> Round Robin is the most popular preemptive algorithm. Each process gets a time quantum (TQ). CPU switches to next process when TQ expires. If TQ is too small: excessive context switching overhead. If TQ is too large: degenerates to FCFS. No starvation, no convoy effect. Average waiting time depends on TQ and number of processes. Performance degrades with more processes as each gets smaller time slice.</div>
+<div class="followup">Follow-up: <span>How do you determine optimal TQ?</span></div>
+</div>
+
+<div class="interview-q" data-topic="interview system call">
+<h4>8. What is a System Call? Give examples.</h4>
+<div class="short-ans"><strong>Short Answer:</strong> System calls are the interface between user applications and the OS kernel. They allow user programs to request privileged operations.</div>
+<div class="detail-ans"><strong>Detailed Answer:</strong> When a user program needs hardware access or privileged operations (file I/O, process creation, memory allocation), it makes a system call. This triggers a software interrupt, switching from user mode to kernel mode. Types include: Process Control (fork, exit, wait), File Management (open, read, write), Device Management (ioctl), Communication (pipe, shmget), and Information (getpid, time). After the kernel completes the service, control returns to user mode.</div>
+<div class="followup">Follow-up: <span>What happens during a mode switch from user to kernel?</span></div>
+</div>
+
+<div class="interview-q" data-topic="interview zombie orphan">
+<h4>9. What are Zombie and Orphan Processes?</h4>
+<div class="short-ans"><strong>Short Answer:</strong> Zombie = completed child process waiting for parent to read exit status. Orphan = child whose parent has terminated, adopted by init.</div>
+<div class="detail-ans"><strong>Detailed Answer:</strong> A <strong>Zombie process</strong> has finished execution but still has an entry in the process table because the parent hasn't called wait() to read its exit status. Zombies consume process table entries but no other resources. They're "reaped" when the parent calls wait(). An <strong>Orphan process</strong> is a running child whose parent has terminated. Orphans are automatically adopted by the init process (PID 1), which eventually reaps them. Zombies are a concern for resource leaks; orphans are generally not problematic.</div>
+</div>
+
+<div class="interview-q" data-topic="interview thrashing">
+<h4>10. What is Thrashing? How to handle it?</h4>
+<div class="short-ans"><strong>Short Answer:</strong> Thrashing = system spends more time paging than executing. Happens when processes don't have enough frames for their working set.</div>
+<div class="detail-ans"><strong>Detailed Answer:</strong> Thrashing occurs when total demand for frames exceeds physical memory, causing excessive page faults and swapping. Solutions: <strong>1. Working Set Model:</strong> Track each process's working set (set of pages in active use). Allocate enough frames for the working set. <strong>2. Page Fault Frequency (PFF):</strong> Set upper and lower bounds on page fault rate. If rate > upper bound → allocate more frames. If rate < lower bound → reclaim frames. <strong>3. Swapping out</strong> entire processes to reduce multiprogramming level.</div>
+</div>
+</section>
+
+<!-- ==================== FAQs ==================== -->
+<section id="faqs">
+<h2 class="section-title" onclick="toggleSection(this)">❓ Frequently Asked Questions</h2>
+
+<div class="card" data-topic="FAQ fork exec">
+<h4 class="collapsible" onclick="toggleCollapse(this)">Q: What is the difference between fork() and exec()?</h4>
+<div class="collapsible-content">
+<p><strong>Answer:</strong> <code>fork()</code> creates a child process by duplicating the parent process. Both parent and child run the same code. <code>exec()</code> replaces the current process's memory image with a new program. Typically, fork() is called first to create a child, then exec() is called in the child to load a different program.</p>
+<p><strong>Related:</strong> wait(), exit(), zombie process, process creation</p>
+</div>
+</div>
+
+<div class="card" data-topic="FAQ context switch overhead">
+<h4 class="collapsible" onclick="toggleCollapse(this)">Q: Why is context switching considered overhead?</h4>
+<div class="collapsible-content">
+<p><strong>Answer:</strong> During context switching, the CPU saves the state of the current process (registers, PC, memory maps) and loads the state of the next process. No useful computation is done during this time. It also flushes the CPU cache, which can cause cache misses when the new process runs. Speed depends on memory speed and number of registers.</p>
+</div>
+</div>
+
+<div class="card" data-topic="FAQ internal external fragmentation">
+<h4 class="collapsible" onclick="toggleCollapse(this)">Q: What is Internal vs External Fragmentation?</h4>
+<div class="collapsible-content">
+<p><strong>Answer:</strong> <strong>Internal Fragmentation:</strong> Space inside an allocated block is wasted because the process is smaller than the block. E.g., fixed partitioning where a 50KB process uses a 100KB partition. <strong>External Fragmentation:</strong> Total free memory is enough, but it's not contiguous. E.g., after dynamic partitioning, scattered free holes can't fit a large process. Paging eliminates external fragmentation but may have internal fragmentation (last page).</p>
+</div>
+</div>
+
+<div class="card" data-topic="FAQ banker algorithm complexity">
+<h4 class="collapsible" onclick="toggleCollapse(this)">Q: What is the complexity of Banker's Algorithm?</h4>
+<div class="collapsible-content">
+<p><strong>Answer:</strong> O(n × m²) where n = number of processes and m = number of resource types. The safety algorithm runs in O(m × n²). For each process, we check if Need ≤ Work (O(m)), and there are n processes. This runs potentially n times. In practice, it's run when processes request resources, not continuously.</p>
+</div>
+</div>
+
+<div class="card" data-topic="FAQ demand paging pure">
+<h4 class="collapsible" onclick="toggleCollapse(this)">Q: What is Pure Demand Paging?</h4>
+<div class="collapsible-content">
+<p><strong>Answer:</strong> In pure demand paging, a process starts with NO pages in memory. Every instruction access causes a page fault, and pages are loaded only when demanded. This is the extreme case of demand paging. In practice, we use locality of reference — a process tends to access nearby pages — to achieve reasonable performance.</p>
+</div>
+</div>
+
+<div class="card" data-topic="FAQ kernel mode user mode">
+<h4 class="collapsible" onclick="toggleCollapse(this)">Q: Why do we need User Mode and Kernel Mode?</h4>
+<div class="collapsible-content">
+<p><strong>Answer:</strong> <strong>Protection and security.</strong> User mode restricts access to privileged instructions (direct hardware access, memory management). Kernel mode has full access. This prevents buggy or malicious programs from crashing the system or accessing other processes' memory. Transitions happen via system calls (user→kernel) and interrupts/traps (kernel→user).</p>
+</div>
+</div>
+</section>
+
+<!-- ==================== CHEAT SHEETS ==================== -->
+<section id="cheat-sheets">
+<h2 class="section-title" onclick="toggleSection(this)">📋 Cheat Sheets</h2>
+
+<div class="card">
+<h3>🔄 Process States Cheat Sheet</h3>
+<table class="comparison-table">
+<tr><th>State</th><th>Description</th><th>Transition To</th></tr>
+<tr><td><strong>New</strong></td><td>Process is being created</td><td>→ Ready</td></tr>
+<tr><td><strong>Ready</strong></td><td>Waiting for CPU assignment</td><td>→ Running</td></tr>
+<tr><td><strong>Running</strong></td><td>CPU executing instructions</td><td>→ Waiting, Ready, or Terminated</td></tr>
+<tr><td><strong>Waiting</strong></td><td>Waiting for I/O or event</td><td>→ Ready</td></tr>
+<tr><td><strong>Terminated</strong></td><td>Execution complete</td><td>→ Removed from system</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>📊 Scheduling Cheat Sheet</h3>
+<table class="comparison-table">
+<tr><th>Algorithm</th><th>Type</th><th>Starvation</th><th>Convoy</th><th>Best Metric</th></tr>
+<tr><td>FCFS</td><td>Non-preemptive</td><td>Yes</td><td>Yes</td><td>Simplicity</td></tr>
+<tr><td>SJF/SRTF</td><td>Non-pre/Pre</td><td>Yes</td><td>No</td><td>Min avg WT</td></tr>
+<tr><td>Priority</td><td>Both</td><td>Yes</td><td>No</td><td>Important jobs first</td></tr>
+<tr><td>Round Robin</td><td>Preemptive</td><td>Very Low</td><td>No</td><td>Fairness</td></tr>
+<tr><td>MLFQ</td><td>Dynamic</td><td>Low</td><td>No</td><td>Adaptability</td></tr>
+<tr><td>HRRN</td><td>Non-preemptive</td><td>No</td><td>No</td><td>Response ratio</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>🔒 Deadlock Cheat Sheet</h3>
+<table class="comparison-table">
+<tr><th>Condition</th><th>What It Means</th><th>How to Break</th></tr>
+<tr><td><strong>Mutual Exclusion</strong></td><td>Resource is non-sharable</td><td>Use sharable resources (read-only files)</td></tr>
+<tr><td><strong>Hold & Wait</strong></td><td>Hold one resource, wait for another</td><td>Request all at once, or release before requesting</td></tr>
+<tr><td><strong>No Preemption</strong></td><td>Resources released voluntarily only</td><td>Preempt resources from waiting processes</td></tr>
+<tr><td><strong>Circular Wait</strong></td><td>Circular chain of waiting processes</td><td>Impose resource ordering (request in increasing order)</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>🧠 Memory Management Cheat Sheet</h3>
+<table class="comparison-table">
+<tr><th>Concept</th><th>Key Points</th></tr>
+<tr><td><strong>Paging</strong></td><td>Fixed-size pages/frames. No external frag. Needs page table. TLB for speed.</td></tr>
+<tr><td><strong>Segmentation</strong></td><td>Variable-size segments. User view. External frag possible. Segment table (base + limit).</td></tr>
+<tr><td><strong>Virtual Memory</strong></td><td>Illusion of large memory. Demand paging. Page fault → load from disk.</td></tr>
+<tr><td><strong>Thrashing</strong></td><td>Too many page faults. Fix: Working Set Model or PFF (Page Fault Frequency).</td></tr>
+<tr><td><strong>FIFO</strong></td><td>Replace oldest. Belady's anomaly possible.</td></tr>
+<tr><td><strong>LRU</strong></td><td>Replace least recently used. No Belady's. Good approximation of optimal.</td></tr>
+<tr><td><strong>Optimal</strong></td><td>Replace page not used longest in future. Best but impossible to implement.</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>📁 File System Cheat Sheet</h3>
+<table class="comparison-table">
+<tr><th>Concept</th><th>Description</th></tr>
+<tr><td><strong>Inode</strong></td><td>Stores metadata: type, permissions, owner, size, timestamps, data block pointers</td></tr>
+<tr><td><strong>File Descriptor</strong></td><td>Integer ID for open file. 0=stdin, 1=stdout, 2=stderr</td></tr>
+<tr><td><strong>Superblock</strong></td><td>Filesystem-wide metadata (total blocks, free blocks, root inode)</td></tr>
+<tr><td><strong>FAT</strong></td><td>File Allocation Table — maps file clusters to disk blocks</td></tr>
+<tr><td><strong>Hard Link</strong></td><td>Points to same inode. Deleting original doesn't affect link.</td></tr>
+<tr><td><strong>Soft Link</strong></td><td>Shortcut pointing to path. If original deleted, link breaks.</td></tr>
+</table>
+</div>
+</section>
+
+<!-- ==================== REVISION ==================== -->
+<section id="revision">
+<h2 class="section-title" onclick="toggleSection(this)">⚡ One Night Before Exam — Quick Revision</h2>
+<div class="card">
+<h3>🎯 Most Important Concepts</h3>
+<div class="formula-box">
+<strong>Key Formulas:</strong>
+TAT = CT - AT    |    WT = TAT - BT    |    Response Time = First CPU time - AT
+Throughput = Processes completed / Total time
+Disk Access Time = Seek Time + Rotational Latency + Transfer Time
+EAT = (1-p) × MAT + p × Page Fault Rate × PF Service Time
+Page Table Size = Logical Address Space / Page Size
+</div>
+</div>
+<div class="card">
+<h3>🔥 Must-Know Definitions</h3>
+<ul>
+<li><strong>OS:</strong> Resource manager + abstraction layer between hardware and applications</li>
+<li><strong>Process:</strong> Program under execution with own memory space</li>
+<li><strong>Thread:</strong> Lightweight unit of execution sharing process memory</li>
+<li><strong>System Call:</strong> Interface between user programs and kernel (user mode → kernel mode)</li>
+<li><strong>Deadlock:</strong> Processes stuck waiting for each other (4 conditions: MHNC)</li>
+<li><strong>Paging:</strong> Non-contiguous memory allocation using fixed-size pages and frames</li>
+<li><strong>Virtual Memory:</strong> Illusion of large memory using disk as extension of RAM</li>
+<li><strong>Semaphore:</strong> Integer-based synchronization primitive (binary: 0/1, counting: 0..n)</li>
+<li><strong>Mutex:</strong> Binary lock for mutual exclusion, same thread locks/unlocks</li>
+<li><strong>Thrashing:</strong> Excessive paging activity; system spends more time paging than executing</li>
+<li><strong>Zombie:</strong> Completed process still in process table (parent hasn't reaped)</li>
+<li><strong>Orphan:</strong> Running child whose parent terminated (adopted by init)</li>
+</ul>
+</div>
+<div class="card">
+<h3>🧠 Memory Tricks</h3>
+<div class="mnemonic"><strong>Deadlock Conditions:</strong> <strong>M.H.N.C</strong> — My Horse Never Cries (Mutual exclusion, Hold & Wait, No preemption, Circular wait)</div>
+<div class="mnemonic"><strong>Kernel Types:</strong> <strong>Mono</strong> = Everything, <strong>Micro</strong> = Minimal, <strong>Hybrid</strong> = Both</div>
+<div class="mnemonic"><strong>OS Functions:</strong> <strong>R.A.P.I</strong> — Resource management, Abstraction, Protection, Interface</div>
+<div class="mnemonic"><strong>Page Replacement:</strong> FIFO = oldest, LRU = least recent, Optimal = future (impossible)</div>
+<div class="mnemonic"><strong>Fragmentation:</strong> Internal = wasted space INSIDE allocated block, External = not enough CONTIGUOUS free space</div>
+</div>
+<div class="card">
+<h3>⚠️ Common Exam Mistakes</h3>
+<ul>
+<li>Confusing <strong>orphan</strong> (parent gone) with <strong>zombie</strong> (child done, parent hasn't checked)</li>
+<li>Thinking multithreading helps on single CPU — it doesn't (just context switching overhead)</li>
+<li>Forgetting that <strong>FIFO can have Belady's Anomaly</strong> but LRU/Optimal cannot</li>
+<li>Confusing <strong>internal</strong> (within partition) vs <strong>external</strong> (between partitions) fragmentation</li>
+<li>Believing <strong>deadlock prevention</strong> and <strong>deadlock avoidance</strong> are the same — prevention is static, avoidance is dynamic</li>
+<li>Thinking <strong>mutex</strong> and <strong>binary semaphore</strong> are identical — mutex has owner concept</li>
+</ul>
+</div>
+</section>
+
+<!-- ==================== PLACEMENT CRASH ==================== -->
+<section id="placement">
+<h2 class="section-title" onclick="toggleSection(this)">🚀 30-Minute Placement Crash Course</h2>
+<div class="card">
+<h3>🎯 Top 10 Interview Questions (Quick Answers)</h3>
+<ol>
+<li><strong>Process vs Thread?</strong> Process = own memory. Thread = shares memory, own stack/PC.</li>
+<li><strong>Deadlock conditions?</strong> MHNC: Mutual exclusion, Hold & Wait, No preemption, Circular wait.</li>
+<li><strong>Paging vs Segmentation?</strong> Paging = fixed blocks (OS view). Segmentation = variable logical blocks (user view).</li>
+<li><strong>Mutex vs Semaphore?</strong> Mutex = binary, owner-locked. Semaphore = integer counter, any thread signals.</li>
+<li><strong>Virtual Memory?</strong> Using disk as RAM extension. Pages loaded on demand via page faults.</li>
+<li><strong>Banker's Algorithm?</strong> Deadlock avoidance. Checks if allocation keeps system in safe state before granting.</li>
+<li><strong>Round Robin?</strong> Preemptive, fixed TQ. Fair, no starvation. Small TQ = overhead, large TQ = FCFS.</li>
+<li><strong>Zombie vs Orphan?</strong> Zombie = done but parent hasn't reaped. Orphan = parent terminated, adopted by init.</li>
+<li><strong>TLB?</strong> Hardware cache for page table. TLB hit = fast, TLB miss = access page table.</li>
+<li><strong>Thrashing?</strong> Excessive page faulting. Fix: Working Set Model or PFF.</li>
+</ol>
+</div>
+<div class="card">
+<h3>🔥 Most Asked MCQ Patterns</h3>
+<ul>
+<li>Deadlock condition identification → Know the 4 conditions (MHNC)</li>
+<li>Scheduling algorithm comparison → FCFS (convoy), SJF (best avg WT), RR (fair), Priority (starvation)</li>
+<li>Page replacement → FIFO (Belady's), LRU (no Belady's), Optimal (impossible)</li>
+<li>Memory allocation → Fixed (internal frag), Dynamic (external frag), Paging (no external frag)</li>
+<li>Kernel types → Monolithic (Linux), Micro (MINIX), Hybrid (Windows, macOS)</li>
+</ul>
+</div>
+<div class="card">
+<h3>📊 Frequently Confused Topics</h3>
+<table class="comparison-table">
+<tr><th>Topic A</th><th>Topic B</th><th>Key Difference</th></tr>
+<tr><td>Deadlock</td><td>Starvation</td><td>Deadlock = permanent block. Starvation = indefinite delay (may resolve).</td></tr>
+<tr><td>Process</td><td>Thread</td><td>Process = isolated memory. Thread = shared memory.</td></tr>
+<tr><td>Preemptive</td><td>Non-preemptive</td><td>Preemptive: CPU can be taken away. Non-preemptive: Process keeps CPU until done.</td></tr>
+<tr><td>Internal</td><td>External Frag</td><td>Internal = wasted inside block. External = no contiguous free block.</td></tr>
+<tr><td>Deadlock Prevention</td><td>Deadlock Avoidance</td><td>Prevention = break condition at design time. Avoidance = check safety at runtime.</td></tr>
+</table>
+</div>
+</section>
+
+<!-- ==================== FORMULAS ==================== -->
+<section id="formulas">
+<h2 class="section-title" onclick="toggleSection(this)">📐 Important Formulas</h2>
+<div class="card">
+<h3>CPU Scheduling Formulas</h3>
+<div class="formula-box">
+Turnaround Time (TAT) = Completion Time - Arrival Time
+Waiting Time (WT) = Turnaround Time - Burst Time
+Response Time = First CPU Allocation Time - Arrival Time
+Throughput = Number of Processes Completed / Total Time
+CPU Utilization = (CPU Busy Time / Total Time) × 100%
+Average WT = Σ(Waiting Time of each process) / Number of processes
+Average TAT = Σ(TAT of each process) / Number of processes
+</div>
+</div>
+<div class="card">
+<h3>Memory Management Formulas</h3>
+<div class="formula-box">
+Page Table Size = Logical Address Space / Page Size
+Internal Fragmentation = Partition Size - Process Size
+External Fragmentation = Total Free Memory - Largest Free Block
+Page Fault Rate = Number of Page Faults / Number of Memory Accesses
+EAT = (1 - p) × Memory Access Time + p × Page Fault Service Time
+Disk Access Time = Seek Time + Rotational Latency + Transfer Time
+Effective Access Time = Hit Ratio × Cache Time + Miss Ratio × Main Memory Time
+</div>
+</div>
+<div class="card">
+<h3>File System Formulas</h3>
+<div class="formula-box">
+Disk Space Efficiency = (Allocated File Space / Total Disk Space) × 100%
+Records per Block = Block Size / Record Size
+FAT Size = Total Disk Space / (Block Size × FAT Entry Size)
+Disk I/O Time = Seek Time + Rotational Delay + Transfer Time + Overhead
+Compression Ratio = Original File Size / Compressed File Size
+</div>
+</div>
+</section>
+
+<!-- ==================== COMPARISONS ==================== -->
+<section id="comparisons">
+<h2 class="section-title" onclick="toggleSection(this)">📊 Comparison Tables</h2>
+
+<div class="card">
+<h3>Process vs Thread</h3>
+<table class="comparison-table">
+<tr><th>Feature</th><th>Process</th><th>Thread</th></tr>
+<tr><td>Memory</td><td>Own address space</td><td>Shares address space</td></tr>
+<tr><td>Creation Cost</td><td>Expensive</td><td>Cheap</td></tr>
+<tr><td>Context Switch</td><td>Slow (memory switch)</td><td>Fast (no memory switch)</td></tr>
+<tr><td>Communication</td><td>IPC (pipes, shared memory)</td><td>Direct (shared memory)</td></tr>
+<tr><td>Fault Isolation</td><td>Yes (one crash doesn't affect others)</td><td>No (one crash can kill all threads)</td></tr>
+<tr><td>Resources</td><td>Independent</td><td>Shared (files, memory)</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>Paging vs Segmentation</h3>
+<table class="comparison-table">
+<tr><th>Feature</th><th>Paging</th><th>Segmentation</th></tr>
+<tr><td>Block Size</td><td>Fixed (page/frame)</td><td>Variable (segment)</td></tr>
+<tr><td>View</td><td>OS transparent</td><td>User logical view</td></tr>
+<tr><td>External Fragmentation</td><td>No</td><td>Yes</td></tr>
+<tr><td>Internal Fragmentation</td><td>Yes (last page)</td><td>No</td></tr>
+<tr><td>Address</td><td>Page number + offset</td><td>Segment number + offset</td></tr>
+<tr><td>Table</td><td>Page table (page→frame)</td><td>Segment table (base + limit)</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>Deadlock vs Starvation</h3>
+<table class="comparison-table">
+<tr><th>Feature</th><th>Deadlock</th><th>Starvation</th></tr>
+<tr><td>Definition</td><td>Processes permanently blocked</td><td>Process waits indefinitely</td></tr>
+<tr><td>Resolution</td><td>Requires external intervention</td><td>May resolve naturally</td></tr>
+<tr><td>Cause</td><td>Circular wait + 3 conditions</td><td>Unfair scheduling / priority</td></tr>
+<tr><td>Solution</td><td>Prevention/Avoidance/Detection</td><td>Ageing (increase priority over time)</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>User Mode vs Kernel Mode</h3>
+<table class="comparison-table">
+<tr><th>Feature</th><th>User Mode</th><th>Kernel Mode</th></tr>
+<tr><td>Access Level</td><td>Restricted</td><td>Full (privileged)</td></tr>
+<tr><td>Hardware Access</td><td>Indirect (via system calls)</td><td>Direct</td></tr>
+<tr><td>Memory Access</td><td>Only own address space</td><td>Entire memory</td></tr>
+<tr><td>Risk</td><td>Safe (can't crash system)</td><td>Dangerous (bug = system crash)</td></tr>
+<tr><td>Mode Bit</td><td>0</td><td>1</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>Monolithic vs Microkernel</h3>
+<table class="comparison-table">
+<tr><th>Feature</th><th>Monolithic</th><th>Microkernel</th></tr>
+<tr><td>Functions in Kernel</td><td>All (process, memory, file, I/O)</td><td>Minimal (process, memory only)</td></tr>
+<tr><td>Size</td><td>Large</td><td>Small</td></tr>
+<tr><td>Performance</td><td>Fast (direct communication)</td><td>Slower (IPC overhead)</td></tr>
+<tr><td>Reliability</td><td>Lower (one crash = total failure)</td><td>Higher (user-space crashes isolated)</td></tr>
+<tr><td>Examples</td><td>Linux, Unix, MS-DOS</td><td>L4, Symbian, MINIX</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>Mutex vs Semaphore</h3>
+<table class="comparison-table">
+<tr><th>Feature</th><th>Mutex</th><th>Semaphore</th></tr>
+<tr><td>Type</td><td>Binary lock</td><td>Integer counter</td></tr>
+<tr><td>Owner</td><td>Same thread unlocks</td><td>Any thread can signal</td></tr>
+<tr><td>Purpose</td><td>Mutual exclusion</td><td>Synchronization + signaling</td></tr>
+<tr><td>Multiple Access</td><td>No (one at a time)</td><td>Yes (counting semaphore)</td></tr>
+<tr><td>Priority Inversion</td><td>Can occur</td><td>Less likely</td></tr>
+</table>
+</div>
+</section>
+
+<!-- ==================== LINUX COMMANDS ==================== -->
+<section id="linux-commands">
+<h2 class="section-title" onclick="toggleSection(this)">💻 Important Linux Commands</h2>
+<div class="card">
+<table class="comparison-table">
+<tr><th>Category</th><th>Command</th><th>Description</th><th>Example</th></tr>
+<tr><td><strong>Basic</strong></td><td>ls</td><td>List directory contents</td><td><code>ls -l</code></td></tr>
+<tr><td><strong>Basic</strong></td><td>cd</td><td>Change directory</td><td><code>cd /path</code></td></tr>
+<tr><td><strong>Basic</strong></td><td>pwd</td><td>Print working directory</td><td><code>pwd</code></td></tr>
+<tr><td><strong>Basic</strong></td><td>cp / mv / rm</td><td>Copy / Move / Remove</td><td><code>cp -r dir1 dir2</code></td></tr>
+<tr><td><strong>Basic</strong></td><td>mkdir / rmdir</td><td>Create / Remove directory</td><td><code>mkdir new_dir</code></td></tr>
+<tr><td><strong>File</strong></td><td>cat / grep</td><td>Display / Search in files</td><td><code>grep pattern file</code></td></tr>
+<tr><td><strong>File</strong></td><td>chmod</td><td>Change permissions</td><td><code>chmod 755 file</code></td></tr>
+<tr><td><strong>File</strong></td><td>head / tail</td><td>First / Last lines of file</td><td><code>tail -f log.txt</code></td></tr>
+<tr><td><strong>Process</strong></td><td>ps</td><td>Show processes</td><td><code>ps aux</code></td></tr>
+<tr><td><strong>Process</strong></td><td>top / htop</td><td>Dynamic process view</td><td><code>htop</code></td></tr>
+<tr><td><strong>Process</strong></td><td>kill</td><td>Terminate process</td><td><code>kill -9 PID</code></td></tr>
+<tr><td><strong>System</strong></td><td>uname</td><td>System information</td><td><code>uname -a</code></td></tr>
+<tr><td><strong>System</strong></td><td>free</td><td>Memory usage</td><td><code>free -m</code></td></tr>
+<tr><td><strong>System</strong></td><td>df / du</td><td>Disk usage</td><td><code>df -h</code></td></tr>
+<tr><td><strong>Network</strong></td><td>ping</td><td>Check connectivity</td><td><code>ping google.com</code></td></tr>
+<tr><td><strong>Network</strong></td><td>netstat / ss</td><td>Network statistics</td><td><code>ss -t</code></td></tr>
+</table>
+</div>
+</section>
+
+<!-- ==================== BOOKMARKS ==================== -->
+<section id="bookmarks">
+<h2 class="section-title" onclick="toggleSection(this)">🔖 Bookmarks</h2>
+<div class="card" id="bookmarksList">
+<p style="color:var(--sec)">Click the 🔖 button on any card to bookmark it. Your bookmarks are saved locally.</p>
+</div>
+</section>
+
+</div><!-- end .main -->
+
+<!-- Back to Top -->
+<button class="float-btn" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// Search
+const searchableContent = [];
+document.querySelectorAll('[data-topic]').forEach(el => {
+  searchableContent.push({el, topic: el.dataset.topic, text: el.textContent.substring(0, 200)});
+});
+
+function handleSearch(query) {
+  const results = document.getElementById('searchResults');
+  if (!query || query.length < 2) { results.classList.remove('active'); return; }
+  const q = query.toLowerCase();
+  const matches = searchableContent.filter(item => item.topic.toLowerCase().includes(q) || item.text.toLowerCase().includes(q)).slice(0, 8);
+  if (matches.length === 0) { results.classList.remove('active'); return; }
+  results.innerHTML = matches.map(m => {
+    const title = m.el.querySelector('h3,h4')?.textContent || m.topic;
+    return `<div class="search-result-item" onclick="scrollToElement(this)" data-target="${m.el.id || ''}" data-hash="${getHashCode(m.el)}"><div class="sr-title">${title.substring(0, 80)}</div><div class="sr-section">${m.topic}</div></div>`;
+  }).join('');
+  results.classList.add('active');
+}
+
+function getHashCode(el) {
+  if (!el.id) { el.id = 'topic-' + Math.random().toString(36).substr(2, 6); }
+  return el.id;
+}
+
+function scrollToElement(item) {
+  const id = item.dataset.target || item.dataset.hash;
+  document.getElementById(id)?.scrollIntoView({behavior: 'smooth', block: 'start'});
+  document.getElementById('searchResults').classList.remove('active');
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-container')) document.getElementById('searchResults').classList.remove('active');
+});
+
+// Collapsible
+function toggleCollapse(el) {
+  el.classList.toggle('open');
+  const content = el.nextElementSibling;
+  content.classList.toggle('open');
+}
+
+function toggleSection(el) {
+  const section = el.parentElement;
+  section.querySelectorAll('.card .collapsible-content').forEach(c => {
+    c.classList.toggle('open');
+    c.previousElementSibling?.classList.toggle('open');
+  });
+}
+
+// Tabs
+function switchTab(event, groupId, tabName) {
+  const container = event.target.closest('.collapsible-content') || event.target.closest('.card');
+  container.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  container.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  container.querySelector(`[data-tab="${tabName}"]`)?.classList.add('active');
+}
+
+// MCQ Answers
+function showMCQAnswer(el, id) {
+  const answer = document.getElementById(id);
+  if (answer.style.display === 'none') answer.style.display = 'block';
+}
+
+// Sidebar active link
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.sidebar nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+  // Progress bar
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('progress-bar').style.width = (window.scrollY / total * 100) + '%';
+  // Back to top
+  document.getElementById('backToTop').style.display = window.scrollY > 300 ? 'flex' : 'none';
+});
+
+// Mobile sidebar
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('active');
+}
+
+// Close sidebar on nav click (mobile)
+navLinks.forEach(a => a.addEventListener('click', () => {
+  if (window.innerWidth <= 768) { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('active'); }
+}));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({behavior: 'smooth', block: 'start'});
+  });
+});
+</script>
+</body>
+</html>
