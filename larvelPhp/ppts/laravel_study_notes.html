@@ -244,6 +244,9 @@
             font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
             font-size: 0.85rem;
             line-height: 1.6;
+            white-space: pre-wrap;
+            tab-size: 4;
+            word-break: normal;
         }
 
         .code-block .comment { color: #8b949e; }
@@ -440,6 +443,75 @@
             margin: 0.75rem 0;
         }
 
+        .checklist {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .check-item {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.85rem;
+            background: rgba(88, 166, 255, 0.04);
+        }
+
+        .check-item strong {
+            display: block;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .check-item span {
+            color: var(--text-secondary);
+            font-size: 0.86rem;
+        }
+
+        .exam-line {
+            margin-top: 0.75rem;
+            padding: 0.65rem 0.8rem;
+            border-left: 4px solid var(--accent-cyan);
+            background: rgba(57, 210, 192, 0.08);
+            color: var(--accent-cyan);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .pyq-image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .pyq-image {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+        }
+
+        .answer-card {
+            border-left: 4px solid var(--accent-purple);
+        }
+
+        .mini-index {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 0.75rem 0;
+        }
+
+        .mini-index a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.25rem 0.55rem;
+            font-size: 0.82rem;
+        }
+
         @media (max-width: 600px) {
             .two-col {
                 grid-template-columns: 1fr;
@@ -469,6 +541,7 @@
             <div class="nav-section-title">Unit 2 - Request &amp; Routing</div>
             <a href="#lifecycle" class="nav-link">Request Lifecycle</a>
             <a href="#routing" class="nav-link">Routing Basics</a>
+            <a href="#responses" class="nav-link">Responses</a>
             <a href="#named-routes" class="nav-link">Named Routes</a>
             <a href="#redirection" class="nav-link">Redirection</a>
             <a href="#url-gen" class="nav-link">URL Generation</a>
@@ -485,6 +558,16 @@
             <a href="#route-groups" class="nav-link">Route Groups</a>
         </div>
         <div class="nav-section">
+            <div class="nav-section-title">Unit 4 - Data, Email &amp; Sessions</div>
+            <a href="#unit4" class="nav-link">Unit IV Overview</a>
+            <a href="#unit4-request-data" class="nav-link">Request Data</a>
+            <a href="#unit4-upload" class="nav-link">Uploaded Files</a>
+            <a href="#unit4-cookies" class="nav-link">Cookies</a>
+            <a href="#unit4-email" class="nav-link">Sending Emails</a>
+            <a href="#unit4-localization" class="nav-link">Localization</a>
+            <a href="#unit4-sessions" class="nav-link">Sessions</a>
+        </div>
+        <div class="nav-section">
             <div class="nav-section-title">Unit 5 - Forms &amp; Validation</div>
             <a href="#csrf" class="nav-link">CSRF &amp; Method Fields</a>
             <a href="#validation" class="nav-link">Form Validation</a>
@@ -499,6 +582,17 @@
             <a href="#mongodb" class="nav-link">MongoDB with Laravel</a>
             <a href="#mongo-crud" class="nav-link">MongoDB CRUD Project</a>
         </div>
+        <div class="nav-section">
+            <div class="nav-section-title">Exam Practice</div>
+            <a href="#practicals-checklist" class="nav-link">Practicals Checklist</a>
+        </div>
+        <div class="nav-section">
+            <div class="nav-section-title">Teacher + PYQ</div>
+            <a href="#teacher-material" class="nav-link">Teacher Material</a>
+            <a href="#teacher-code" class="nav-link">Teacher Code Examples</a>
+            <a href="#pyq-images" class="nav-link">PYQ Images</a>
+            <a href="#pyq-answers" class="nav-link">PYQ Answers Q1-Q10</a>
+        </div>
     </div>
 </nav>
 
@@ -510,6 +604,34 @@
     <h1>Laravel MVC Programming</h1>
     <p>INT 221 — Complete study notes covering Units 1–6</p>
 </div>
+
+<!-- ==================== PRACTICALS CHECKLIST ==================== -->
+<section id="practicals-checklist" class="section">
+    <div class="section-header">
+        <div class="section-number green">✓</div>
+        <h2>Tomorrow Practical Checklist</h2>
+    </div>
+
+    <div class="card">
+        <h3>How to revise this file</h3>
+        <p>For every practical, remember the order: <strong>command → route → controller → view/model → browser output</strong>. If you can explain this flow, you can handle viva questions also.</p>
+
+        <div class="checklist">
+            <div class="check-item"><strong>Laravel + Composer install</strong><span>Use <code>composer --version</code>, <code>composer create-project</code>, and <code>php artisan serve</code>.</span></div>
+            <div class="check-item"><strong>Sharing data with views</strong><span>Use <code>return view('page', ['name' =&gt; 'Anuj'])</code>, <code>compact()</code>, and <code>View::share()</code>.</span></div>
+            <div class="check-item"><strong>Route parameters</strong><span>Use <code>/user/{id}</code>, optional params, and <code>whereNumber()</code>/<code>whereAlpha()</code>.</span></div>
+            <div class="check-item"><strong>Redirects</strong><span>Practice <code>redirect()</code>, <code>redirect()-&gt;route()</code>, and controller action redirects.</span></div>
+            <div class="check-item"><strong>Middleware</strong><span>Create middleware, register alias in <code>bootstrap/app.php</code>, apply to route/group.</span></div>
+            <div class="check-item"><strong>Blade inheritance</strong><span>Use <code>@extends</code>, <code>@section</code>, <code>@yield</code>, and <code>@include</code>.</span></div>
+            <div class="check-item"><strong>Resource controller CRUD</strong><span>Use <code>php artisan make:controller StudentController --resource</code> and <code>Route::resource()</code>.</span></div>
+            <div class="check-item"><strong>Advanced routing + URLs</strong><span>Practice named routes, groups, prefixes, secure routes, domain routes, <code>url()</code>, <code>route()</code>, <code>asset()</code>.</span></div>
+            <div class="check-item"><strong>Email + upload</strong><span>Use a form, validate input, call <code>Mail::to()</code>, and store files using <code>store('uploads', 'public')</code>.</span></div>
+            <div class="check-item"><strong>Cookies + sessions</strong><span>Set/get/delete values using <code>cookie()</code>, <code>$request-&gt;cookie()</code>, <code>session()</code>, and <code>forget()</code>.</span></div>
+            <div class="check-item"><strong>Validation</strong><span>Use <code>@csrf</code>, <code>@method</code>, <code>$request-&gt;validate()</code>, old input, errors, custom rule.</span></div>
+            <div class="check-item"><strong>Database + migrations</strong><span>Configure <code>.env</code>, create model/migration, run <code>php artisan migrate</code>, use Query Builder/Eloquent.</span></div>
+        </div>
+    </div>
+</section>
 
 <!-- ==================== UNIT 1 ==================== -->
 <section id="intro" class="section">
@@ -828,6 +950,19 @@
             });
         </div>
 
+        <h4>Parameter Constraints</h4>
+        <div class="code-block">
+            <span class="comment">// id must be a number</span>
+            <span class="function">Route</span>::<span class="function">get</span>('/user/{id}', <span class="keyword">function</span> ($id) {
+                <span class="keyword">return</span> <span class="string">"User ID: "</span> . $id;
+            })-><span class="function">whereNumber</span>('id');
+
+            <span class="comment">// name must contain only alphabets</span>
+            <span class="function">Route</span>::<span class="function">get</span>('/user/{name}', <span class="keyword">function</span> ($name) {
+                <span class="keyword">return</span> <span class="string">"User: "</span> . $name;
+            })-><span class="function">whereAlpha</span>('name');
+        </div>
+
         <h4>View Routes</h4>
         <div class="code-block">
             <span class="comment">// Directly returns a view</span>
@@ -836,6 +971,60 @@
             <span class="comment">// View route with data</span>
             <span class="function">Route</span>::<span class="function">view</span>('/greeting', 'greeting', ['name' => 'John']);
         </div>
+    </div>
+
+    <div class="card" id="responses">
+        <h3>Laravel Responses: Headers, Cookies, JSON</h3>
+        <p><strong>Meaning:</strong> A response is what Laravel sends back to the browser/API client after a request. It can be text, HTML view, JSON, redirect, file, header, or cookie.</p>
+        <p><strong>Where used:</strong> APIs return JSON, login redirects users, cookies remember small browser values, custom headers send extra metadata.</p>
+
+        <h4>Attaching Headers</h4>
+        <div class="code-block">
+            <span class="function">Route</span>::<span class="function">get</span>('/header-demo', <span class="keyword">function</span> () {
+                <span class="keyword">return</span> <span class="function">response</span>('Custom Header Example')
+                    -><span class="function">header</span>('X-App-Name', 'MyLaravelApp')
+                    -><span class="function">header</span>('X-Version', '1.0');
+            });
+        </div>
+
+        <h4>Attaching Cookies</h4>
+        <div class="code-block">
+            <span class="function">Route</span>::<span class="function">get</span>('/response-cookie', <span class="keyword">function</span> () {
+                <span class="keyword">return</span> <span class="function">response</span>('Cookie attached')
+                    -><span class="function">cookie</span>('course', 'INT221', <span class="number">60</span>);
+            });
+        </div>
+
+        <h4>JSON Response</h4>
+        <div class="code-block">
+            <span class="function">Route</span>::<span class="function">get</span>('/json-demo', <span class="keyword">function</span> () {
+                <span class="keyword">return</span> <span class="function">response</span>()-><span class="function">json</span>([
+                    'status' => true,
+                    'course' => 'INT221',
+                    'topic' => 'Laravel Response'
+                ]);
+            });
+        </div>
+
+        <h4>Redirecting to Named Routes and Controller Actions</h4>
+        <div class="code-block">
+            <span class="keyword">use</span> App\<span class="function">Http</span>\<span class="function">Controllers</span>\<span class="function">UserController</span>;
+
+            <span class="function">Route</span>::<span class="function">get</span>('/profile', [UserController::class, 'show'])-><span class="function">name</span>('profile');
+
+            <span class="function">Route</span>::<span class="function">get</span>('/go-profile', <span class="keyword">function</span> () {
+                <span class="keyword">return</span> <span class="function">redirect</span>()-><span class="function">route</span>('profile');
+            });
+
+            <span class="function">Route</span>::<span class="function">get</span>('/go-controller', <span class="keyword">function</span> () {
+                <span class="keyword">return</span> <span class="function">redirect</span>()-><span class="function">action</span>([UserController::class, 'show']);
+            });
+        </div>
+
+        <div class="alert success">
+            <strong>Output check:</strong> Open <code>/json-demo</code>; browser shows JSON. Open <code>/header-demo</code>; inspect response headers in DevTools Network tab.
+        </div>
+        <div class="exam-line"><strong>Exam line:</strong> Laravel response helpers make it easy to return HTML, JSON, redirects, headers, and cookies from the same routing/controller system.</div>
     </div>
 
     <div class="card" id="named-routes">
@@ -914,7 +1103,7 @@
 <span class="comment">// http://127.0.0.1:8000/home</span></div>
             </div>
             <div>
-                <h4><code>asset()</code> Helper</h4>
+                <h4>Asset URLs: <code>asset()</code> Helper</h4>
                 <div class="code-block"><span class="keyword">echo</span> <span class="function">asset</span>('css/style.css');
 <span class="comment">// http://127.0.0.1:8000/css/style.css</span></div>
             </div>
@@ -933,6 +1122,7 @@
 
         <h4>In Blade Templates</h4>
         <div class="code-block">
+            <span class="comment">// Generation Shortcuts in Blade</span>
             &lt;a href=&quot;{{ <span class="function">url</span>('/home') }}&quot;&gt;Home&lt;/a&gt;
             &lt;a href=&quot;{{ <span class="function">route</span>('profile') }}&quot;&gt;Profile&lt;/a&gt;
             &lt;link rel=&quot;stylesheet&quot; href=&quot;{{ <span class="function">asset</span>('css/style.css') }}&quot;&gt;
@@ -1001,6 +1191,21 @@
             @foreach($students as $student)
                 &lt;p&gt;{{ $student['name'] }}&lt;/p&gt;
             @endforeach
+        </div>
+
+        <h4>Sharing Data with All Views</h4>
+        <p>Use this when the same data is needed on every page, such as app name, logged-in user info, or navigation data.</p>
+        <div class="code-block">
+            <span class="comment">// app/Providers/AppServiceProvider.php</span>
+            <span class="keyword">use</span> Illuminate\<span class="function">Support</span>\<span class="function">Facades</span>\<span class="function">View</span>;
+
+            <span class="keyword">public function</span> <span class="function">boot</span>(): <span class="keyword">void</span>
+            {
+                <span class="function">View</span>::<span class="function">share</span>('appName', 'INT221 Laravel Practical');
+            }
+
+            <span class="comment">// Any Blade file</span>
+            &lt;h1&gt;{{ $appName }}&lt;/h1&gt;
         </div>
 
         <h4>Dynamic Route Parameters</h4>
@@ -1335,6 +1540,9 @@
         <h3>Route Groups</h3>
         <p>Apply common properties (middleware, prefix, namespace) to multiple routes.</p>
 
+        <h4>Route Prefixing</h4>
+        <p>Route prefixing adds the same URL beginning to every route inside a group, such as <code>/admin</code> or <code>/student</code>.</p>
+
         <div class="code-block">
             <span class="comment">// With prefix</span>
             <span class="function">Route</span>::<span class="function">prefix</span>('admin')-><span class="function">group</span>(<span class="keyword">function</span> () {
@@ -1357,6 +1565,351 @@
                 });
             });
         </div>
+    </div>
+</section>
+
+<!-- ==================== UNIT 4 ==================== -->
+<section id="unit4" class="section">
+    <div class="section-header">
+        <div class="section-number red">4</div>
+        <h2>URL Generation, Request Data, Emails, Localization &amp; Sessions</h2>
+    </div>
+
+    <div class="card">
+        <h3>Unit IV practical flow</h3>
+        <p>This unit is about handling data coming from the user/browser and sending data back through URLs, files, cookies, sessions, language files, and emails.</p>
+        <div class="exam-line"><strong>Exam line:</strong> Request data is temporary input from the browser; sessions store server-side user data; cookies store small browser-side data; emails and uploads are common real-world request handling tasks.</div>
+    </div>
+
+    <div class="card" id="unit4-request-data">
+        <h3>Request Data Retrieval + Old Input</h3>
+        <p><strong>Meaning:</strong> Request data means form fields, query strings, files, headers, and cookies sent by the browser. Laravel gives a <code>Request</code> object to read them safely.</p>
+        <p><strong>Where used:</strong> login forms, search filters, registration forms, profile update forms, file upload forms.</p>
+
+        <h4>Step-by-step practical</h4>
+        <ol>
+            <li>Create a controller.</li>
+            <li>Create routes to show and submit the form.</li>
+            <li>Read data using <code>$request-&gt;input()</code>, <code>$request-&gt;query()</code>, or direct property access.</li>
+            <li>Use <code>old()</code> in Blade to refill values after validation errors.</li>
+        </ol>
+
+        <div class="code-block">
+            php artisan make:controller ProfileController
+        </div>
+
+        <h4>Routes: <code>routes/web.php</code></h4>
+        <div class="code-block">
+            <span class="keyword">use</span> App\<span class="function">Http</span>\<span class="function">Controllers</span>\<span class="function">ProfileController</span>;
+
+            <span class="function">Route</span>::<span class="function">get</span>('/profile-form', [ProfileController::class, 'create'])-><span class="function">name</span>('profile.create');
+            <span class="function">Route</span>::<span class="function">post</span>('/profile-form', [ProfileController::class, 'store'])-><span class="function">name</span>('profile.store');
+            <span class="function">Route</span>::<span class="function">get</span>('/search', [ProfileController::class, 'search'])-><span class="function">name</span>('profile.search');
+        </div>
+
+        <h4>Controller</h4>
+        <div class="code-block">
+            <span class="keyword">use</span> Illuminate\<span class="function">Http</span>\<span class="function">Request</span>;
+
+            <span class="keyword">class</span> <span class="function">ProfileController</span> <span class="keyword">extends</span> <span class="function">Controller</span>
+            {
+                <span class="keyword">public function</span> <span class="function">create</span>() {
+                    <span class="keyword">return</span> <span class="function">view</span>('profile_form');
+                }
+
+                <span class="keyword">public function</span> <span class="function">store</span>(Request $request) {
+                    $data = $request-><span class="function">validate</span>([
+                        'name' => 'required|min:3',
+                        'email' => 'required|email'
+                    ]);
+
+                    <span class="keyword">return</span> <span class="string">"Name: "</span> . $data['name'] . <span class="string">", Email: "</span> . $data['email'];
+                }
+
+                <span class="keyword">public function</span> <span class="function">search</span>(Request $request) {
+                    $keyword = $request-><span class="function">query</span>('q'); <span class="comment">// /search?q=laravel</span>
+                    <span class="keyword">return</span> <span class="string">"Searching for: "</span> . $keyword;
+                }
+            }
+        </div>
+
+        <h4>Blade view: <code>resources/views/profile_form.blade.php</code></h4>
+        <div class="code-block">
+            &lt;form method=&quot;POST&quot; action=&quot;{{ route('profile.store') }}&quot;&gt;
+                @csrf
+                Name:
+                &lt;input type=&quot;text&quot; name=&quot;name&quot; value=&quot;{{ old('name') }}&quot;&gt;
+                @error('name') &lt;small style=&quot;color:red&quot;&gt;{{ $message }}&lt;/small&gt; @enderror
+
+                Email:
+                &lt;input type=&quot;email&quot; name=&quot;email&quot; value=&quot;{{ old('email') }}&quot;&gt;
+                @error('email') &lt;small style=&quot;color:red&quot;&gt;{{ $message }}&lt;/small&gt; @enderror
+
+                &lt;button&gt;Submit&lt;/button&gt;
+            &lt;/form&gt;
+        </div>
+
+        <div class="alert success">
+            <strong>Output check:</strong> Open <code>/profile-form</code>. Empty submit shows validation errors. Correct submit prints submitted name and email. Open <code>/search?q=laravel</code> to test query data.
+        </div>
+        <div class="alert warning">
+            <strong>Common mistake:</strong> Forgetting <code>@csrf</code> in a POST form causes Laravel to reject the request.
+        </div>
+    </div>
+
+    <div class="card" id="unit4-upload">
+        <h3>Uploaded Files</h3>
+        <p><strong>Meaning:</strong> File upload means receiving a file from an HTML form and storing it in Laravel storage.</p>
+        <p><strong>Where used:</strong> profile photos, assignment uploads, PDF uploads, product images.</p>
+
+        <h4>Step-by-step practical</h4>
+        <ol>
+            <li>Create a form with <code>enctype="multipart/form-data"</code>.</li>
+            <li>Validate the uploaded file.</li>
+            <li>Store file using <code>$request-&gt;file('file')-&gt;store()</code>.</li>
+            <li>Run <code>php artisan storage:link</code> if you want browser access to public files.</li>
+        </ol>
+
+        <div class="code-block">
+            php artisan make:controller FileController
+            php artisan storage:link
+        </div>
+
+        <h4>Routes</h4>
+        <div class="code-block">
+            <span class="keyword">use</span> App\<span class="function">Http</span>\<span class="function">Controllers</span>\<span class="function">FileController</span>;
+
+            <span class="function">Route</span>::<span class="function">view</span>('/fileform', 'FileForm')-><span class="function">name</span>('file.form');
+            <span class="function">Route</span>::<span class="function">post</span>('/upload', [FileController::class, 'uploadData'])-><span class="function">name</span>('file.upload');
+        </div>
+
+        <h4>Blade form</h4>
+        <div class="code-block">
+            &lt;form action=&quot;{{ route('file.upload') }}&quot; method=&quot;POST&quot; enctype=&quot;multipart/form-data&quot;&gt;
+                @csrf
+                &lt;input type=&quot;file&quot; name=&quot;file&quot;&gt;
+                @error('file') &lt;small&gt;{{ $message }}&lt;/small&gt; @enderror
+                &lt;button&gt;Upload&lt;/button&gt;
+            &lt;/form&gt;
+        </div>
+
+        <h4>Controller based on local <code>tz</code> project pattern</h4>
+        <div class="code-block">
+            <span class="keyword">public function</span> <span class="function">uploadData</span>(Request $request) {
+                $request-><span class="function">validate</span>([
+                    'file' => 'required|file|mimes:jpg,png,pdf|max:2048'
+                ]);
+
+                $path = $request-><span class="function">file</span>('file')-><span class="function">store</span>('uploads', 'public');
+
+                <span class="keyword">return</span> <span class="string">"File uploaded successfully: "</span> . $path;
+            }
+        </div>
+
+        <div class="alert success">
+            <strong>Output check:</strong> Uploaded file is stored inside <code>storage/app/public/uploads</code>. Browser URL after storage link: <code>/storage/uploads/filename.ext</code>.
+        </div>
+        <div class="alert warning">
+            <strong>Common mistake:</strong> Missing <code>enctype="multipart/form-data"</code> makes <code>$request-&gt;file('file')</code> empty.
+        </div>
+    </div>
+
+    <div class="card" id="unit4-cookies">
+        <h3>Cookies</h3>
+        <p><strong>Meaning:</strong> A cookie is a small value stored in the browser. Laravel can attach cookies to responses and read them from requests.</p>
+        <p><strong>Where used:</strong> remember theme, remember language, lightweight browser preference.</p>
+
+        <h4>Set, get, delete cookie</h4>
+        <div class="code-block">
+            <span class="keyword">use</span> Illuminate\<span class="function">Http</span>\<span class="function">Request</span>;
+            <span class="keyword">use</span> Illuminate\<span class="function">Support</span>\<span class="function">Facades</span>\<span class="function">Cookie</span>;
+
+            <span class="function">Route</span>::<span class="function">get</span>('/cookie/set', <span class="keyword">function</span> () {
+                <span class="keyword">return</span> <span class="function">response</span>(<span class="string">'Cookie set'</span>)
+                    -><span class="function">cookie</span>('student_name', 'Anuj', <span class="number">60</span>); <span class="comment">// minutes</span>
+            });
+
+            <span class="function">Route</span>::<span class="function">get</span>('/cookie/get', <span class="keyword">function</span> (Request $request) {
+                <span class="keyword">return</span> $request-><span class="function">cookie</span>('student_name', 'No cookie found');
+            });
+
+            <span class="function">Route</span>::<span class="function">get</span>('/cookie/delete', <span class="keyword">function</span> () {
+                <span class="keyword">return</span> <span class="function">response</span>(<span class="string">'Cookie deleted'</span>)
+                    -><span class="function">withoutCookie</span>('student_name');
+            });
+        </div>
+
+        <div class="exam-line"><strong>Exam line:</strong> Cookies are stored in the browser, so do not store passwords or sensitive data in cookies.</div>
+    </div>
+
+    <div class="card" id="unit4-email">
+        <h3>Sending Emails</h3>
+        <p><strong>Meaning:</strong> Laravel sends email using Mailables. A Mailable class contains the email subject, data, and Blade email view.</p>
+        <p><strong>Where used:</strong> welcome email, OTP email, contact form, password reset.</p>
+
+        <h4>Step-by-step practical</h4>
+        <ol>
+            <li>Set mail config in <code>.env</code>.</li>
+            <li>Create a Mailable.</li>
+            <li>Create email Blade view.</li>
+            <li>Create form and controller.</li>
+            <li>Call <code>Mail::to($email)-&gt;send(new WelcomeMail(...))</code>.</li>
+        </ol>
+
+        <div class="code-block">
+            php artisan make:mail WelcomeMail
+            php artisan make:controller EmailController
+        </div>
+
+        <h4><code>.env</code> example for testing</h4>
+        <div class="code-block">
+            MAIL_MAILER=smtp
+            MAIL_HOST=smtp.gmail.com
+            MAIL_PORT=587
+            MAIL_USERNAME=your_email@gmail.com
+            MAIL_PASSWORD=your_app_password
+            MAIL_ENCRYPTION=tls
+            MAIL_FROM_ADDRESS=your_email@gmail.com
+            MAIL_FROM_NAME=&quot;Laravel App&quot;
+        </div>
+
+        <h4>Routes and controller based on local <code>tz</code> project</h4>
+        <div class="code-block">
+            <span class="keyword">use</span> App\<span class="function">Http</span>\<span class="function">Controllers</span>\<span class="function">EmailController</span>;
+
+            <span class="function">Route</span>::<span class="function">view</span>('/emailform', 'EmailForm')-><span class="function">name</span>('email.form');
+            <span class="function">Route</span>::<span class="function">post</span>('/email', [EmailController::class, 'EmailData'])-><span class="function">name</span>('email.send');
+        </div>
+
+        <div class="code-block">
+            <span class="keyword">use</span> App\<span class="function">Mail</span>\<span class="function">WelcomeMail</span>;
+            <span class="keyword">use</span> Illuminate\<span class="function">Support</span>\<span class="function">Facades</span>\<span class="function">Mail</span>;
+
+            <span class="keyword">public function</span> <span class="function">EmailData</span>(Request $request) {
+                $validated = $request-><span class="function">validate</span>([
+                    'to' => ['required', 'email'],
+                    'sub' => ['required', 'string', 'max:120'],
+                    'msg' => ['required', 'string', 'max:2000'],
+                ]);
+
+                <span class="function">Mail</span>::<span class="function">to</span>($validated['to'])
+                    -><span class="function">send</span>(<span class="keyword">new</span> <span class="function">WelcomeMail</span>($validated['sub'], $validated['msg']));
+
+                <span class="keyword">return</span> <span class="function">back</span>()-><span class="function">with</span>('success', 'Email sent successfully.');
+            }
+        </div>
+
+        <h4>Email form</h4>
+        <div class="code-block">
+            &lt;form method=&quot;POST&quot; action=&quot;{{ route('email.send') }}&quot;&gt;
+                @csrf
+                &lt;input type=&quot;email&quot; name=&quot;to&quot; placeholder=&quot;Receiver email&quot;&gt;
+                &lt;input type=&quot;text&quot; name=&quot;sub&quot; placeholder=&quot;Subject&quot;&gt;
+                &lt;textarea name=&quot;msg&quot; placeholder=&quot;Message&quot;&gt;&lt;/textarea&gt;
+                &lt;button&gt;Send Email&lt;/button&gt;
+            &lt;/form&gt;
+        </div>
+
+        <div class="alert warning">
+            <strong>Common mistake:</strong> Normal Gmail password will not work. Use an app password or a testing service such as Mailtrap.
+        </div>
+    </div>
+
+    <div class="card" id="unit4-localization">
+        <h3>Laravel Localization</h3>
+        <p><strong>Meaning:</strong> Localization means showing text in different languages using language files from the <code>lang</code> folder.</p>
+        <p><strong>Where used:</strong> multilingual websites, English/Hindi/Punjabi labels, custom validation messages.</p>
+
+        <h4>Step-by-step practical</h4>
+        <ol>
+            <li>Publish/create language files.</li>
+            <li>Create language folders such as <code>lang/en</code> and <code>lang/hn</code>.</li>
+            <li>Use <code>__('file.key')</code> in Blade.</li>
+            <li>Change locale using <code>App::setLocale()</code>.</li>
+        </ol>
+
+        <div class="code-block">
+            php artisan lang:publish
+        </div>
+
+        <h4>Language files</h4>
+        <div class="code-block">
+            <span class="comment">// lang/en/welcome.php</span>
+            <span class="keyword">return</span> [
+                'title' => 'Welcome Student',
+                'message' => 'Laravel practical is ready'
+            ];
+
+            <span class="comment">// lang/hn/welcome.php</span>
+            <span class="keyword">return</span> [
+                'title' => 'Swagat hai Student',
+                'message' => 'Laravel practical ready hai'
+            ];
+        </div>
+
+        <h4>Routes based on local <code>tz</code> localization pattern</h4>
+        <div class="code-block">
+            <span class="function">Route</span>::<span class="function">get</span>('/lang/en', <span class="keyword">function</span> () {
+                <span class="function">App</span>::<span class="function">setLocale</span>('en');
+                <span class="keyword">return</span> <span class="function">view</span>('Monday');
+            })-><span class="function">name</span>('lang.en');
+
+            <span class="function">Route</span>::<span class="function">get</span>('/lang/hn', <span class="keyword">function</span> () {
+                <span class="function">App</span>::<span class="function">setLocale</span>('hn');
+                <span class="keyword">return</span> <span class="function">view</span>('Monday');
+            })-><span class="function">name</span>('lang.hn');
+        </div>
+
+        <h4>Blade</h4>
+        <div class="code-block">
+            &lt;h1&gt;{{ __('welcome.title') }}&lt;/h1&gt;
+            &lt;p&gt;{{ __('welcome.message') }}&lt;/p&gt;
+
+            &lt;a href=&quot;{{ route('lang.en') }}&quot;&gt;English&lt;/a&gt;
+            &lt;a href=&quot;{{ route('lang.hn') }}&quot;&gt;Hindi&lt;/a&gt;
+        </div>
+
+        <div class="exam-line"><strong>Exam line:</strong> Localization separates text from code, so the same view can display different languages.</div>
+    </div>
+
+    <div class="card" id="unit4-sessions">
+        <h3>Laravel Sessions</h3>
+        <p><strong>Meaning:</strong> A session stores user-specific data on the server between requests. Laravel stores only a session ID in the browser cookie.</p>
+        <p><strong>Where used:</strong> login state, flash messages, cart data, temporary form success/error messages.</p>
+
+        <h4>Access, store, delete session data</h4>
+        <div class="code-block">
+            <span class="function">Route</span>::<span class="function">get</span>('/session/set', <span class="keyword">function</span> () {
+                <span class="function">session</span>(['student' => 'Anuj']);
+                <span class="keyword">return</span> <span class="string">'Session stored'</span>;
+            });
+
+            <span class="function">Route</span>::<span class="function">get</span>('/session/get', <span class="keyword">function</span> () {
+                <span class="keyword">return</span> <span class="function">session</span>('student', 'No session found');
+            });
+
+            <span class="function">Route</span>::<span class="function">get</span>('/session/delete', <span class="keyword">function</span> () {
+                <span class="function">session</span>()-><span class="function">forget</span>('student');
+                <span class="keyword">return</span> <span class="string">'Session deleted'</span>;
+            });
+
+            <span class="function">Route</span>::<span class="function">get</span>('/session/flash', <span class="keyword">function</span> () {
+                <span class="function">session</span>()-><span class="function">flash</span>('success', 'Saved successfully');
+                <span class="keyword">return</span> <span class="function">redirect</span>('/profile-form');
+            });
+        </div>
+
+        <h4>Show flash message in Blade</h4>
+        <div class="code-block">
+            @if(session('success'))
+                &lt;div class=&quot;alert alert-success&quot;&gt;{{ session('success') }}&lt;/div&gt;
+            @endif
+        </div>
+
+        <div class="alert success">
+            <strong>Output check:</strong> Open <code>/session/set</code>, then <code>/session/get</code>. Open <code>/session/delete</code>, then <code>/session/get</code> again.
+        </div>
+        <div class="exam-line"><strong>Exam line:</strong> Flash session data is available only for the next request, so it is perfect for success and error messages.</div>
     </div>
 </section>
 
@@ -1936,6 +2489,935 @@
     </div>
 </section>
 
+<!-- ==================== TEACHER MATERIAL + PYQ ANSWERS ==================== -->
+<section id="teacher-material" class="section">
+    <div class="section-header">
+        <div class="section-number purple">T</div>
+        <h2>Teacher Material Add-on</h2>
+    </div>
+
+    <div class="card">
+        <h3>Teacher PPT Quick Merge Notes</h3>
+        <p>These are the extra points from the teacher PPT/PDF set and the supplied <code>myproject</code> code folder. Use this section for last-minute practical and viva revision.</p>
+        <div class="checklist">
+            <div class="check-item"><strong>Install Composer + Laravel</strong><span>Install XAMPP, Git, Composer; check <code>php -v</code>, <code>git --version</code>, <code>composer --version</code>; create project with <code>composer create-project laravel/laravel app</code> or <code>laravel new app</code>.</span></div>
+            <div class="check-item"><strong>Route commands</strong><span><code>php artisan route:list</code>, <code>route:cache</code>, <code>route:clear</code>, <code>route:list --path=home</code>, <code>route:list --except-vendor</code>.</span></div>
+            <div class="check-item"><strong>Request lifecycle</strong><span>Request enters <code>public/index.php</code>, loads <code>vendor/autoload.php</code>, boots <code>bootstrap/app.php</code>, then routing, middleware, controller, response.</span></div>
+            <div class="check-item"><strong>Important folders</strong><span><code>routes/web.php</code>, <code>app/Http/Controllers</code>, <code>resources/views</code>, <code>database/migrations</code>, <code>storage</code>, <code>public</code>, <code>config</code>, <code>.env</code>.</span></div>
+            <div class="check-item"><strong>Responses</strong><span>Use <code>response()</code> for text, views, JSON, redirects, file download, status codes, and headers.</span></div>
+            <div class="check-item"><strong>MongoDB</strong><span>Install MongoDB driver, enable <code>extension=mongodb</code>, install <code>mongodb/laravel-mongodb</code>, set <code>DB_CONNECTION=mongodb</code>.</span></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Teacher PPT Commands You Should Remember</h3>
+        <div class="code-block"># Check tools
+php -v
+git --version
+composer --version
+
+# Create and run Laravel project
+composer create-project laravel/laravel myproject
+cd myproject
+php artisan serve
+
+# Route commands
+php artisan route:list
+php artisan route:list --except-vendor
+php artisan route:list --path=home
+php artisan route:cache
+php artisan route:clear
+
+# Performance cache, mainly production
+php artisan optimize</div>
+        <div class="exam-line"><strong>Viva line:</strong> <code>route:list</code> shows all registered routes with method, URI, name, action, and middleware.</div>
+    </div>
+
+    <div class="card">
+        <h3>Response Examples from Teacher PPT</h3>
+        <div class="code-block">use Illuminate\Support\Facades\Route;
+
+Route::get('/hello', function () {
+    return response('Hello Students');
+});
+
+Route::get('/home-response', function () {
+    return response()->view('welcome');
+});
+
+Route::get('/json', function () {
+    return response()->json([
+        'name' => 'John Doe',
+        'email' => 'abc@gmail.com',
+        'age' => 30
+    ]);
+});
+
+Route::get('/old-page', function () {
+    return response()->redirectTo('/new-page');
+});
+
+Route::get('/external', function () {
+    return redirect()->away('https://chat.openai.com/');
+});
+
+Route::get('/download-book', function () {
+    return response()->download(
+        public_path('books/syllabus.pdf'),
+        'Laravel_Guide.pdf'
+    );
+});
+
+Route::get('/notfound', function () {
+    return response('Page Not Found', 404);
+});</div>
+    </div>
+</section>
+
+<section id="teacher-code" class="section">
+    <div class="section-header">
+        <div class="section-number cyan">C</div>
+        <h2>Teacher Code Examples</h2>
+    </div>
+
+    <div class="card">
+        <h3>Custom Validation Rules</h3>
+        <p>Corrected pattern from <code>myproject/app/Rules</code>. Use this when default validation rules are not enough.</p>
+        <div class="code-block">php artisan make:rule CheckAge
+php artisan make:rule CheckUsername
+
+// app/Rules/CheckAge.php
+namespace App\Rules;
+
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
+
+class CheckAge implements ValidationRule
+{
+    public function validate(string $attribute, mixed $value, Closure $fail): void
+    {
+        if ($value < 18) {
+            $fail('Age must be 18 or above.');
+        }
+    }
+}
+
+// Controller usage
+use App\Rules\CheckAge;
+
+$request->validate([
+    'age' => ['required', 'numeric', new CheckAge],
+]);</div>
+    </div>
+
+    <div class="card">
+        <h3>File Upload Controller + View</h3>
+        <div class="code-block">// routes/web.php
+use App\Http\Controllers\FileController;
+
+Route::get('/upload', function () {
+    return view('upload');
+});
+Route::post('/upload', [FileController::class, 'upload'])->name('file.upload');
+
+// app/Http/Controllers/FileController.php
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class FileController extends Controller
+{
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:jpg,png,pdf|max:2048',
+        ]);
+
+        $file = $request->file('file');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $path = $file->storeAs('uploads', $filename, 'public');
+
+        return back()
+            ->with('success', 'File uploaded successfully!')
+            ->with('file', $path);
+    }
+}</div>
+        <div class="code-block">&lt;!-- resources/views/upload.blade.php --&gt;
+@if(session('success'))
+    &lt;p style="color:green"&gt;{{ session('success') }}&lt;/p&gt;
+@endif
+
+@if($errors->any())
+    &lt;p style="color:red"&gt;{{ $errors->first() }}&lt;/p&gt;
+@endif
+
+&lt;form action="{{ route('file.upload') }}" method="POST" enctype="multipart/form-data"&gt;
+    @csrf
+    &lt;input type="file" name="file"&gt;
+    &lt;button type="submit"&gt;Upload&lt;/button&gt;
+&lt;/form&gt;
+
+@if(session('file'))
+    &lt;a href="{{ asset('storage/' . session('file')) }}" target="_blank"&gt;View File&lt;/a&gt;
+@endif</div>
+    </div>
+
+    <div class="card">
+        <h3>Session + Cookie Set/Get/Delete</h3>
+        <div class="code-block">use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
+
+Route::get('/form', function () {
+    return view('form');
+});
+
+Route::post('/store', function (Request $request) {
+    session(['username' => $request->name]);
+    $cookie = Cookie::make('user_cookie', $request->name, 60);
+
+    return redirect('/show')->withCookie($cookie);
+});
+
+Route::get('/show', function (Request $request) {
+    $sessionData = session('username');
+    $cookieData = $request->cookie('user_cookie');
+
+    return view('show', compact('sessionData', 'cookieData'));
+});
+
+Route::get('/delete-session', function () {
+    session()->forget('username');
+    return redirect('/form');
+});
+
+Route::get('/delete-cookie', function () {
+    return response('Cookie Deleted')->withoutCookie('user_cookie');
+});</div>
+    </div>
+
+    <div class="card">
+        <h3>Mailable Example</h3>
+        <div class="code-block">php artisan make:mail TestMail
+
+// app/Mail/TestMail.php
+namespace App\Mail;
+
+use Illuminate\Mail\Mailable;
+
+class TestMail extends Mailable
+{
+    public function build()
+    {
+        return $this->subject('Test Email')
+            ->view('emails.test');
+    }
+}
+
+// routes/web.php
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMail;
+
+Route::get('/send-mail', function () {
+    Mail::to('student@example.com')->send(new TestMail());
+    return 'Mail Sent Successfully!';
+});</div>
+    </div>
+
+    <div class="card">
+        <h3>Query Builder CRUD: Employees</h3>
+        <div class="code-block">// Correct migration: database/migrations/create_employees_table.php
+Schema::create('employees', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+    $table->string('department');
+    $table->integer('salary');
+    $table->timestamps();
+});
+
+// Controller idea
+use Illuminate\Support\Facades\DB;
+
+public function index()
+{
+    $employees = DB::table('employees')->get();
+    return view('employee-index', compact('employees'));
+}
+
+public function store(Request $request)
+{
+    DB::table('employees')->insert([
+        'name' => $request->name,
+        'department' => $request->department,
+        'salary' => $request->salary,
+    ]);
+
+    return redirect('/employees');
+}
+
+public function update(Request $request, $id)
+{
+    DB::table('employees')->where('id', $id)->update([
+        'name' => $request->name,
+        'department' => $request->department,
+        'salary' => $request->salary,
+    ]);
+
+    return redirect('/employees');
+}
+
+public function delete($id)
+{
+    DB::table('employees')->where('id', $id)->delete();
+    return redirect('/employees');
+}</div>
+    </div>
+
+    <div class="card">
+        <h3>Eloquent ORM CRUD: Books</h3>
+        <div class="code-block">// app/Models/Book.php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Book extends Model
+{
+    protected $fillable = ['title', 'author', 'price'];
+}
+
+// routes/web.php
+Route::get('/', [BookController::class, 'index']);
+Route::get('/create', [BookController::class, 'create']);
+Route::post('/store', [BookController::class, 'store']);
+Route::get('/edit/{id}', [BookController::class, 'edit']);
+Route::post('/update/{id}', [BookController::class, 'update']);
+Route::get('/delete/{id}', [BookController::class, 'destroy']);
+
+// Controller methods
+public function index()
+{
+    $books = Book::all();
+    return view('index', compact('books'));
+}
+
+public function store(Request $request)
+{
+    Book::create($request->validate([
+        'title' => 'required',
+        'author' => 'required',
+        'price' => 'required|numeric',
+    ]));
+
+    return redirect('/');
+}</div>
+    </div>
+
+    <div class="card">
+        <h3>Laravel 12 Middleware Alias: Role Check</h3>
+        <div class="code-block">php artisan make:middleware CheckRole
+
+// app/Http/Middleware/CheckRole.php
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class CheckRole
+{
+    public function handle(Request $request, Closure $next): Response
+    {
+        if ($request->role !== 'admin') {
+            return response('Only Admin Can Access', 403);
+        }
+
+        return $next($request);
+    }
+}
+
+// bootstrap/app.php
+use Illuminate\Foundation\Configuration\Middleware;
+
+->withMiddleware(function (Middleware $middleware) {
+    $middleware->alias([
+        'checkrole' => \App\Http\Middleware\CheckRole::class,
+    ]);
+})
+
+// routes/web.php
+Route::get('/admin', function () {
+    return 'Welcome Admin';
+})->middleware('checkrole');</div>
+    </div>
+
+    <div class="card">
+        <h3>MongoDB Correct Setup Snippet</h3>
+        <div class="code-block">composer require mongodb/laravel-mongodb
+
+# .env
+DB_CONNECTION=mongodb
+DB_HOST=127.0.0.1
+DB_PORT=27017
+DB_DATABASE=laravelmongo
+DB_USERNAME=
+DB_PASSWORD=
+DB_AUTH_DATABASE=admin
+
+// config/database.php connection
+'mongodb' => [
+    'driver' => 'mongodb',
+    'host' => env('DB_HOST', '127.0.0.1'),
+    'port' => env('DB_PORT', 27017),
+    'database' => env('DB_DATABASE', 'laravelmongo'),
+    'username' => env('DB_USERNAME', ''),
+    'password' => env('DB_PASSWORD', ''),
+    'options' => [
+        'database' => env('DB_AUTH_DATABASE', 'admin'),
+    ],
+],
+
+// app/Models/Student.php
+namespace App\Models;
+
+use MongoDB\Laravel\Eloquent\Model;
+
+class Student extends Model
+{
+    protected $connection = 'mongodb';
+    protected $collection = 'students';
+    protected $fillable = ['name', 'email', 'age'];
+}</div>
+    </div>
+</section>
+
+<section id="pyq-images" class="section">
+    <div class="section-header">
+        <div class="section-number orange">P</div>
+        <h2>PYQ Images</h2>
+    </div>
+
+    <div class="card">
+        <h3>Question Paper Photos</h3>
+        <p>The images are included here so the typed answers below can be revised with the original paper.</p>
+        <div class="pyq-image-grid">
+            <img class="pyq-image" src="pyqs/WhatsApp Image 2026-06-03 at 7.52.57 PM (1).jpeg" alt="PYQ page 1 with Q1 to Q6">
+            <img class="pyq-image" src="pyqs/WhatsApp Image 2026-06-03 at 7.52.57 PM.jpeg" alt="PYQ page 2 with Q7 to Q10">
+        </div>
+    </div>
+</section>
+
+<section id="pyq-answers" class="section">
+    <div class="section-header">
+        <div class="section-number red">Q</div>
+        <h2>PYQ Answers Q1-Q10</h2>
+    </div>
+
+    <div class="card">
+        <h3>Quick Jump</h3>
+        <div class="mini-index">
+            <a href="#pyq-q1">Q1</a><a href="#pyq-q2">Q2</a><a href="#pyq-q3">Q3</a><a href="#pyq-q4">Q4</a><a href="#pyq-q5">Q5</a>
+            <a href="#pyq-q6">Q6</a><a href="#pyq-q7">Q7</a><a href="#pyq-q8">Q8</a><a href="#pyq-q9">Q9</a><a href="#pyq-q10">Q10</a>
+        </div>
+    </div>
+
+    <div class="card answer-card" id="pyq-q1">
+        <h3>Q1: Localization + Last Visited Page Session</h3>
+        <h4>a) English, Spanish, French dropdown</h4>
+        <div class="code-block">// lang/en/messages.php
+return ['welcome' => 'Welcome'];
+
+// lang/es/messages.php
+return ['welcome' => 'Bienvenido'];
+
+// lang/fr/messages.php
+return ['welcome' => 'Bienvenue'];
+
+// routes/web.php
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+
+Route::get('/language', function () {
+    return view('language');
+});
+
+Route::post('/language', function (Request $request) {
+    session(['locale' => $request->locale]);
+    return back();
+})->name('language.change');
+
+// app/Http/Middleware/SetLocale.php
+public function handle(Request $request, Closure $next)
+{
+    App::setLocale(session('locale', 'en'));
+    return $next($request);
+}</div>
+        <div class="code-block">&lt;!-- resources/views/language.blade.php --&gt;
+&lt;form method="POST" action="{{ route('language.change') }}"&gt;
+    @csrf
+    &lt;select name="locale" onchange="this.form.submit()"&gt;
+        &lt;option value="en"&gt;English&lt;/option&gt;
+        &lt;option value="es"&gt;Spanish&lt;/option&gt;
+        &lt;option value="fr"&gt;French&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/form&gt;
+
+&lt;h1&gt;{{ __('messages.welcome') }}&lt;/h1&gt;</div>
+        <h4>b) Store last visited page and redirect next visit</h4>
+        <div class="code-block">// app/Http/Middleware/LastVisitedPage.php
+public function handle(Request $request, Closure $next)
+{
+    if (!$request->is('go-last') && $request->method() === 'GET') {
+        session(['last_page' => $request->fullUrl()]);
+    }
+
+    return $next($request);
+}
+
+Route::get('/go-last', function () {
+    return redirect(session('last_page', '/'));
+});</div>
+        <div class="alert success"><strong>Output check:</strong> Change dropdown language; heading changes. Visit any page, then open <code>/go-last</code>; it redirects to the saved page.</div>
+    </div>
+
+    <div class="card answer-card" id="pyq-q2">
+        <h3>Q2: Registration Validation + Weekend Rule</h3>
+        <div class="code-block">php artisan make:rule NotWeekend
+
+// app/Rules/NotWeekend.php
+namespace App\Rules;
+
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
+
+class NotWeekend implements ValidationRule
+{
+    public function validate(string $attribute, mixed $value, Closure $fail): void
+    {
+        $day = date('N', strtotime($value)); // 6 = Saturday, 7 = Sunday
+        if ($day >= 6) {
+            $fail('Selected date must not be a weekend.');
+        }
+    }
+}
+
+// Controller
+use App\Rules\NotWeekend;
+
+public function register(Request $request)
+{
+    $data = $request->validate([
+        'username' => 'required|min:6',
+        'email' => 'required|email|unique:users,email',
+        'password' => [
+            'required',
+            'regex:/^(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*#?&]).+$/'
+        ],
+        'selected_date' => ['required', 'date', new NotWeekend],
+    ]);
+
+    User::create([
+        'name' => $data['username'],
+        'email' => $data['email'],
+        'password' => bcrypt($data['password']),
+    ]);
+
+    return 'Registered successfully';
+}</div>
+        <div class="alert warning"><strong>Common mistake:</strong> For unique email, the database table must have a users table and email column.</div>
+    </div>
+
+    <div class="card answer-card" id="pyq-q3">
+        <h3>Q3: Multiple Images Upload + Queued Email</h3>
+        <h4>a) Multiple images under 3MB</h4>
+        <div class="code-block">// routes/web.php
+Route::get('/images', fn () => view('images'));
+Route::post('/images', [ImageController::class, 'store'])->name('images.store');
+
+// Controller
+public function store(Request $request)
+{
+    $request->validate([
+        'images' => 'required',
+        'images.*' => 'image|mimes:jpg,jpeg,png,gif|max:3072',
+    ]);
+
+    foreach ($request->file('images') as $image) {
+        $image->store('images', 'public');
+    }
+
+    return back()->with('success', 'Images uploaded');
+}</div>
+        <div class="code-block">&lt;form method="POST" action="{{ route('images.store') }}" enctype="multipart/form-data"&gt;
+    @csrf
+    &lt;input type="file" name="images[]" multiple&gt;
+    &lt;button&gt;Upload&lt;/button&gt;
+&lt;/form&gt;</div>
+        <h4>b) Queue welcome email</h4>
+        <div class="code-block">php artisan make:mail WelcomeMail
+php artisan queue:table
+php artisan migrate
+
+# .env
+QUEUE_CONNECTION=database
+
+// After registration
+Mail::to($user->email)->queue(new WelcomeMail($user));
+
+// Process queued jobs
+php artisan queue:work</div>
+    </div>
+
+    <div class="card answer-card" id="pyq-q4">
+        <h3>Q4: Dynamic URLs + Theme Cookie</h3>
+        <div class="code-block">// URL helpers
+Route::get('/profile/{id}', fn ($id) => "Profile " . $id)->name('profile.show');
+
+$homeUrl = url('/home');
+$profileUrl = route('profile.show', 5);
+$cssUrl = asset('css/app.css');
+
+// Blade
+&lt;a href="{{ url('/home') }}"&gt;Home&lt;/a&gt;
+&lt;a href="{{ route('profile.show', 5) }}"&gt;Profile&lt;/a&gt;
+&lt;link rel="stylesheet" href="{{ asset('css/app.css') }}"&gt;</div>
+        <div class="code-block">// Theme cookie
+use Illuminate\Http\Request;
+
+Route::post('/theme', function (Request $request) {
+    return back()->cookie('theme', $request->theme, 60 * 24 * 30);
+})->name('theme.save');
+
+Route::get('/theme-page', function (Request $request) {
+    $theme = $request->cookie('theme', 'light');
+    return view('theme-page', compact('theme'));
+});
+
+// Blade
+&lt;body class="{{ $theme }}"&gt;
+&lt;form method="POST" action="{{ route('theme.save') }}"&gt;
+    @csrf
+    &lt;select name="theme" onchange="this.form.submit()"&gt;
+        &lt;option value="light"&gt;Light&lt;/option&gt;
+        &lt;option value="dark"&gt;Dark&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/form&gt;
+&lt;/body&gt;</div>
+    </div>
+
+    <div class="card answer-card" id="pyq-q5">
+        <h3>Q5: PDF Upload + Store Path + Download List</h3>
+        <div class="code-block">php artisan make:model Document -m
+
+// migration
+Schema::create('documents', function (Blueprint $table) {
+    $table->id();
+    $table->string('title');
+    $table->string('path');
+    $table->timestamps();
+});
+
+// model
+class Document extends Model
+{
+    protected $fillable = ['title', 'path'];
+}</div>
+        <div class="code-block">// Controller
+public function index()
+{
+    $documents = Document::latest()->get();
+    return view('documents', compact('documents'));
+}
+
+public function store(Request $request)
+{
+    $data = $request->validate([
+        'title' => 'required',
+        'pdf' => 'required|mimes:pdf|max:5120',
+    ]);
+
+    $path = $request->file('pdf')->store('documents', 'public');
+    Document::create(['title' => $data['title'], 'path' => $path]);
+
+    return back()->with('success', 'PDF uploaded');
+}
+
+public function download(Document $document)
+{
+    return response()->download(storage_path('app/public/' . $document->path));
+}</div>
+        <div class="code-block">&lt;form method="POST" action="/documents" enctype="multipart/form-data"&gt;
+    @csrf
+    &lt;input name="title" placeholder="Title"&gt;
+    &lt;input type="file" name="pdf"&gt;
+    &lt;button&gt;Upload&lt;/button&gt;
+&lt;/form&gt;
+
+@foreach($documents as $doc)
+    &lt;p&gt;
+        {{ $doc->title }}
+        &lt;a href="/documents/{{ $doc->id }}/download"&gt;Download&lt;/a&gt;
+    &lt;/p&gt;
+@endforeach</div>
+    </div>
+
+    <div class="card answer-card" id="pyq-q6">
+        <h3>Q6: Login by Email or Username + Clear Session on Logout</h3>
+        <div class="code-block">use Illuminate\Support\Facades\Auth;
+
+public function login(Request $request)
+{
+    $data = $request->validate([
+        'login' => 'required',
+        'password' => 'required',
+    ]);
+
+    $field = filter_var($data['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+
+    if (Auth::attempt([$field => $data['login'], 'password' => $data['password']])) {
+        $request->session()->regenerate();
+        return redirect('/dashboard');
+    }
+
+    return back()->withErrors(['login' => 'Invalid credentials'])->withInput();
+}
+
+public function logout(Request $request)
+{
+    Auth::logout();
+    $request->session()->flush();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect('/login');
+}</div>
+    </div>
+
+    <div class="card answer-card" id="pyq-q7">
+        <h3>Q7: Product API Resource Controller + Admin Middleware Group</h3>
+        <h4>a) API resource controller</h4>
+        <div class="code-block">php artisan make:model Product -m
+php artisan make:controller Api/ProductController --api
+
+// routes/api.php
+use App\Http\Controllers\Api\ProductController;
+
+Route::apiResource('products', ProductController::class);
+
+// Controller
+class ProductController extends Controller
+{
+    public function index()
+    {
+        return Product::all();
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required',
+            'price' => 'required|numeric',
+        ]);
+
+        return response()->json(Product::create($data), 201);
+    }
+
+    public function update(Request $request, Product $product)
+    {
+        $product->update($request->validate([
+            'name' => 'required',
+            'price' => 'required|numeric',
+        ]));
+
+        return response()->json($product);
+    }
+
+    public function destroy(Product $product)
+    {
+        $product->delete();
+        return response()->json(['message' => 'Deleted']);
+    }
+}</div>
+        <h4>b) Admin-only route group</h4>
+        <div class="code-block">// Middleware checks role
+public function handle(Request $request, Closure $next)
+{
+    if ($request->user()?->role !== 'admin') {
+        abort(403, 'Only admin allowed');
+    }
+
+    return $next($request);
+}
+
+// bootstrap/app.php
+$middleware->alias([
+    'admin' => \App\Http\Middleware\AdminMiddleware::class,
+]);
+
+// routes/web.php
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/products', fn () => 'Admin products');
+});</div>
+    </div>
+
+    <div class="card answer-card" id="pyq-q8">
+        <h3>Q8: Programming Language Form + Eloquent Table</h3>
+        <div class="code-block">php artisan make:model Programmer -m
+
+// migration
+Schema::create('programmers', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+    $table->integer('age');
+    $table->string('language');
+    $table->timestamps();
+});
+
+// model
+protected $fillable = ['name', 'age', 'language'];</div>
+        <div class="code-block">// Controller
+public function create()
+{
+    $programmers = Programmer::all();
+    return view('programmers', compact('programmers'));
+}
+
+public function store(Request $request)
+{
+    $data = $request->validate([
+        'name' => 'required|alpha',
+        'age' => 'required|integer|min:18',
+        'language' => 'required|in:PHP,JavaScript,Python',
+    ]);
+
+    Programmer::create($data);
+    return redirect('/programmers');
+}</div>
+        <div class="code-block">&lt;form method="POST" action="/programmers"&gt;
+    @csrf
+    &lt;input name="name" value="{{ old('name') }}"&gt;
+    &lt;input type="number" name="age" value="{{ old('age') }}"&gt;
+    &lt;select name="language"&gt;
+        &lt;option value=""&gt;Select&lt;/option&gt;
+        &lt;option&gt;PHP&lt;/option&gt;
+        &lt;option&gt;JavaScript&lt;/option&gt;
+        &lt;option&gt;Python&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;button&gt;Save&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;table border="1"&gt;
+@foreach($programmers as $p)
+    &lt;tr&gt;&lt;td&gt;{{ $p->name }}&lt;/td&gt;&lt;td&gt;{{ $p->age }}&lt;/td&gt;&lt;td&gt;{{ $p->language }}&lt;/td&gt;&lt;/tr&gt;
+@endforeach
+&lt;/table&gt;</div>
+    </div>
+
+    <div class="card answer-card" id="pyq-q9">
+        <h3>Q9: Student CRUD + Validation</h3>
+        <div class="code-block">php artisan make:model Student -m
+php artisan make:controller StudentController
+
+// migration
+Schema::create('students', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+    $table->string('roll_no')->unique();
+    $table->string('email');
+    $table->string('department');
+    $table->timestamps();
+});
+
+// model
+protected $fillable = ['name', 'roll_no', 'email', 'department'];</div>
+        <div class="code-block">// routes/web.php
+Route::get('/students', [StudentController::class, 'index']);
+Route::get('/students/create', [StudentController::class, 'create']);
+Route::post('/students', [StudentController::class, 'store']);
+Route::get('/students/{student}/edit', [StudentController::class, 'edit']);
+Route::put('/students/{student}', [StudentController::class, 'update']);
+Route::delete('/students/{student}', [StudentController::class, 'destroy']);
+
+// Controller validation
+private function rules($id = null)
+{
+    return [
+        'name' => 'required',
+        'roll_no' => 'required|unique:students,roll_no,' . $id,
+        'email' => 'required|email',
+        'department' => 'required|in:CSE,ECE,ME,CE',
+    ];
+}
+
+public function store(Request $request)
+{
+    Student::create($request->validate($this->rules()));
+    return redirect('/students');
+}
+
+public function update(Request $request, Student $student)
+{
+    $student->update($request->validate($this->rules($student->id)));
+    return redirect('/students');
+}
+
+public function destroy(Student $student)
+{
+    $student->delete();
+    return redirect('/students');
+}</div>
+        <div class="alert success"><strong>Output check:</strong> Add, view, edit, and delete student rows. Duplicate roll number must show validation error.</div>
+    </div>
+
+    <div class="card answer-card" id="pyq-q10">
+        <h3>Q10: Pass Data Types to Blade + Custom Header Middleware</h3>
+        <h4>a) String, array, object to Blade</h4>
+        <div class="code-block">// routes/web.php
+Route::get('/data-demo', [DemoController::class, 'dataDemo']);
+
+// Controller
+public function dataDemo()
+{
+    $title = 'Laravel Data Demo';
+    $skills = ['Routing', 'Blade', 'Controller'];
+    $student = (object) [
+        'name' => 'Anuj',
+        'course' => 'INT221'
+    ];
+
+    return view('data-demo', compact('title', 'skills', 'student'));
+}</div>
+        <div class="code-block">&lt;!-- resources/views/data-demo.blade.php --&gt;
+&lt;h1&gt;{{ $title }}&lt;/h1&gt;
+&lt;p&gt;Student: {{ $student->name }} - {{ $student->course }}&lt;/p&gt;
+
+&lt;ul&gt;
+@foreach($skills as $skill)
+    &lt;li&gt;{{ $skill }}&lt;/li&gt;
+@endforeach
+&lt;/ul&gt;</div>
+        <h4>b) Middleware adds custom HTTP header</h4>
+        <div class="code-block">php artisan make:middleware AddCustomHeader
+
+// app/Http/Middleware/AddCustomHeader.php
+public function handle(Request $request, Closure $next): Response
+{
+    $response = $next($request);
+    $response->headers->set('X-Course', 'INT221-Laravel');
+    return $response;
+}
+
+// bootstrap/app.php
+$middleware->alias([
+    'custom.header' => \App\Http\Middleware\AddCustomHeader::class,
+]);
+
+// routes/web.php
+Route::get('/header-test', function () {
+    return 'Check response header';
+})->middleware('custom.header');</div>
+        <div class="alert success"><strong>Verify:</strong> Open browser DevTools → Network → <code>/header-test</code> → Response Headers → check <code>X-Course: INT221-Laravel</code>.</div>
+    </div>
+</section>
+
 <!-- Footer -->
 <div style="text-align: center; padding: 3rem 0 2rem; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 0.85rem;">
     <p>INT 221 — Laravel MVC Programming — Complete Study Notes</p>
@@ -1946,6 +3428,30 @@
 
 <!-- Smooth scroll for nav links -->
 <script>
+    document.querySelectorAll('.code-block').forEach((block) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'code-wrapper';
+        block.parentNode.insertBefore(wrapper, block);
+        wrapper.appendChild(block);
+
+        const button = document.createElement('button');
+        button.className = 'copy-btn';
+        button.type = 'button';
+        button.textContent = 'Copy';
+        button.addEventListener('click', async () => {
+            const text = block.innerText.trim();
+            try {
+                await navigator.clipboard.writeText(text);
+                button.textContent = 'Copied';
+                setTimeout(() => button.textContent = 'Copy', 1200);
+            } catch (error) {
+                button.textContent = 'Select';
+                setTimeout(() => button.textContent = 'Copy', 1200);
+            }
+        });
+        wrapper.appendChild(button);
+    });
+
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();

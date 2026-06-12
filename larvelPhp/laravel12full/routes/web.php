@@ -86,4 +86,4 @@ use App\Http\Controllers\userController;
 // database query builder
 
 Route::get('getUserData',[userController::class,'getUserData']);
-Route::get('getStudentData',[userController::class,'getStudentData']);
+Route::get('getData',[userController::class,'getStudentData']);
