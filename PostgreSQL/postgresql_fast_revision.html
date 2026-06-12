@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PostgreSQL Fast Revision Guide - Parts 1-3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1em;
+        }
+        
+        .part-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .part-header {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px 30px;
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        
+        .part-content {
+            padding: 30px;
+        }
+        
+        .concept-card {
+            background: #f8f9fa;
+            border-left: 5px solid #3498db;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 0 10px 10px 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .concept-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .concept-title {
+            color: #2c3e50;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .concept-title::before {
+            content: '💡';
+            font-size: 1.2em;
+        }
+        
+        .knowledge-box {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .knowledge-box h4 {
+            color: #c0392b;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .knowledge-box ul {
+            margin-left: 20px;
+            color: #2c3e50;
+        }
+        
+        .knowledge-box li {
+            margin: 5px 0;
+        }
+        
+        .sql-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .sql-block::before {
+            content: 'SQL';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .sql-block code {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .keyword {
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .function {
+            color: #e74c3c;
+        }
+        
+        .string {
+            color: #2ecc71;
+        }
+        
+        .comment {
+            color: #95a5a6;
+            font-style: italic;
+        }
+        
+        .number {
+            color: #f39c12;
+        }
+        
+        .table-structure {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .table-structure th {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        .table-structure td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .table-structure tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .table-structure tr:hover {
+            background: #e8f4f8;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .tip-box h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .warning-box h4 {
+            color: #721c24;
+            margin-bottom: 10px;
+        }
+        
+        .success-box {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+        }
+        
+        .success-box h4 {
+            color: #155724;
+            margin-bottom: 10px;
+        }
+        
+        .comparison-table {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .comparison-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #3498db;
+        }
+        
+        .comparison-card h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .quick-reference {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .quick-reference h3 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .reference-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .reference-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .reference-item h5 {
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+        
+        .nav-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .nav-button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .search-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        
+        .search-box input {
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            outline: none;
+            width: 250px;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .part-header {
+                font-size: 1.4em;
+            }
+            
+            .nav-buttons {
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .nav-button {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search topics..." onkeyup="searchTopics()">
+        </div>
+        
+        <header>
+            <h1>PostgreSQL Fast Revision Guide</h1>
+            <p class="subtitle">Complete Guide to PostgreSQL Fundamentals - Parts 1 to 3</p>
+        </header>
+        
+        <!-- PART 1: Fundamentals -->
+        <div class="part-section" id="part1">
+            <div class="part-header">Part 1: Database & Table Fundamentals</div>
+            <div class="part-content">
+                
+                <div class="concept-card">
+                    <div class="concept-title">Creating Databases & Schemas</div>
+                    <div class="knowledge-box">
+                        <h4>Key Concepts:</h4>
+                        <ul>
+                            <li><strong>DATABASE:</strong> Top-level container for all your data</li>
+                            <li><strong>SCHEMA:</strong> Logical grouping within a database (like folders)</li>
+                            <li><strong>Hierarchy:</strong> Database → Schema → Table → Rows</li>
+                            <li><strong>pgcrypto:</strong> Extension for UUID generation</li>
+                        </ul>
+                    </div>
+                    <div class="sql-block">
+                        <code><span class="comment">-- Create a database (for learning only, not production)</span>
+<span class="keyword">DROP DATABASE IF EXISTS</span> postgresql_part1;
+<span class="keyword">CREATE DATABASE</span> postgresql_part1;
+
+<span class="comment">-- Create schema with IF NOT EXISTS to prevent errors</span>
+<span class="keyword">CREATE SCHEMA IF NOT EXISTS</span> basics;
+
+<span class="comment">-- Enable UUID generation</span>
+<span class="keyword">CREATE EXTENSION IF NOT EXISTS</span> pgcrypto;
+
+<span class="comment">-- View all schemas</span>
+<span class="keyword">SELECT</span> schema_name
+<span class="keyword">FROM</span> information_schema.schemata
+<span class="keyword">ORDER BY</span> schema_name;</code>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">Creating Tables with Data Types</div>
+                    <div class="knowledge-box">
+                        <h4>Essential Data Types:</h4>
+                        <ul>
+                            <li><strong>SERIAL:</strong> Auto-incrementing integer (1, 2, 3...)</li>
+                            <li><strong>TEXT:</strong> Variable-length string</li>
+                            <li><strong>VARCHAR(n):</strong> String with max length</li>
+                            <li><strong>INTEGER:</strong> Whole numbers</li>
+                            <li><strong>BIGINT:</strong> Larger whole numbers</li>
+                            <li><strong>NUMERIC(p,s):</strong> Exact decimal (precision, scale)</li>
+                            <li><strong>BOOLEAN:</strong> TRUE/FALSE values</li>
+                            <li><strong>TIMESTAMP:</strong> Date and time</li>
+                            <li><strong>UUID:</strong> Universal unique identifier</li>
+                            <li><strong>JSONB:</strong> Binary JSON data</li>
+                        </ul>
+                    </div>
+                    <div class="sql-block">
+                        <code><span class="comment">-- Comprehensive table with multiple data types</span>
+<span class="keyword">CREATE TABLE</span> basics.students (
+    id <span class="function">SERIAL</span> <span class="keyword">PRIMARY KEY</span>,
+    name <span class="function">TEXT</span> <span class="keyword">NOT NULL</span>,
+    email <span class="function">TEXT</span> <span class="keyword">NOT NULL UNIQUE</span>,
+    age <span class="function">INTEGER</span> <span class="keyword">CHECK</span> (age >= <span class="number">18</span>),
+    created_at <span class="function">TIMESTAMP</span> <span class="keyword">DEFAULT</span> <span class="function">NOW()</span>
+);
+
+<span class="comment">-- Products table with various types</span>
+<span class="keyword">CREATE TABLE</span> basics.products_basic (
+    id <span class="function">SERIAL</span> <span class="keyword">PRIMARY KEY</span>,
+    name <span class="function">VARCHAR(100)</span> <span class="keyword">NOT NULL</span>,
+    description <span class="function">TEXT</span>,
+    stock <span class="function">INTEGER</span> <span class="keyword">DEFAULT</span> <span class="number">0</span>,
+    total_views <span class="function">BIGINT</span> <span class="keyword">DEFAULT</span> <span class="number">0</span>,
+    price <span class="function">NUMERIC(10,2)</span>,
+    is_active <span class="function">BOOLEAN</span> <span class="keyword">DEFAULT</span> <span class="keyword">true</span>
+);
+
+<span class="comment">-- UUID and JSONB example</span>
+<span class="keyword">CREATE TABLE</span> basics.app_events (
+    id <span class="function">UUID</span> <span class="keyword">PRIMARY KEY DEFAULT</span> <span class="function">gen_random_uuid()</span>,
+    event_name <span class="function">TEXT</span> <span class="keyword">NOT NULL</span>,
+    metadata <span class="function">JSONB</span> <span class="keyword">DEFAULT</span> <span class="string">'{}'::jsonb</span>,
+    created_at <span class="function">TIMESTAMP</span> <span class="keyword">DEFAULT</span> <span class="function">NOW()</span>
+);</code>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">Constraints: The Rules of Data</div>
+                    <div class="knowledge-box">
+                        <h4>Constraint Types:</h4>
+                        <ul>
+                            <li><strong>NOT NULL:</strong> Column cannot be empty</li>
+                            <li><strong>UNIQUE:</strong> No duplicate values allowed</li>
+                            <li><strong>DEFAULT:</strong> Automatic value if none provided</li>
+                            <li><strong>CHECK:</strong> Validates data meets specific conditions</li>
+                            <li><strong>PRIMARY KEY:</strong> Unique identifier (NOT NULL + UNIQUE)</li>
+                        </ul>
+                    </div>
+                    <div class="sql-block">
+                        <code><span class="keyword">CREATE TABLE</span> basics.accounts (
+    id <span class="function">SERIAL</span> <span class="keyword">PRIMARY KEY</span>,
+    full_name <span class="function">TEXT</span> <span class="keyword">NOT NULL</span>,
+    email <span class="function">TEXT</span> <span class="keyword">NOT NULL UNIQUE</span>,
+    is_active <span class="function">BOOLEAN</span> <span class="keyword">DEFAULT</span> <span class="keyword">true</span>,
+    age <span class="function">INTEGER</span> <span class="keyword">CHECK</span> (age >= <span class="number">18</span>),
+    created_at <span class="function">TIMESTAMP</span> <span class="keyword">DEFAULT</span> <span class="function">NOW()</span>
+);
+
+<span class="comment">-- INSERT with constraints</span>
+<span class="keyword">INSERT INTO</span> basics.accounts (full_name, email, age)
+<span class="keyword">VALUES</span> (<span class="string">'sangam mukherjee'</span>, <span class="string">'sangam@gmail.com'</span>, <span class="number">20</span>);</code>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">NULL vs Empty String vs Zero</div>
+                    <div class="knowledge-box">
+                        <h4>Understanding the Differences:</h4>
+                        <ul>
+                            <li><strong>NULL:</strong> Unknown/missing value</li>
+                            <li><strong>Empty String (''):</strong> Known value with no characters</li>
+                            <li><strong>Zero (0):</strong> Actual numeric value</li>
+                            <li><strong>Important:</strong> Use IS NULL, not = NULL</li>
+                        </ul>
+                    </div>
+                    <div class="sql-block">
+                        <code><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> basics.value_examples <span class="keyword">WHERE</span> nickname <span class="keyword">IS NULL</span>;
+<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> basics.value_examples <span class="keyword">WHERE</span> score = <span class="number">0</span>;
+<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> basics.value_examples <span class="keyword">WHERE</span> nickname <span class="keyword">IS NOT NULL</span>;</code>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">JSONB Operators & Queries</div>
+                    <div class="knowledge-box">
+                        <h4>JSONB Operators:</h4>
+                        <ul>
+                            <li><strong>->></strong> Get value as text by key</li>
+                            <li><strong>-></strong> Get value by key (preserves type)</li>
+                            <li><strong>?</strong> Check if key exists</li>
+                            <li><strong>@></strong> Check if JSON contains</li>
+                        </ul>
+                    </div>
+                    <div class="sql-block">
+                        <code><span class="comment">-- Insert JSONB data</span>
+<span class="keyword">INSERT INTO</span> basics.app_events (event_name, metadata)
+<span class="keyword">VALUES</span>
+(<span class="string">'sign_up'</span>, <span class="string">'{"browser": "chrome"}'</span>),
+(<span class="string">'sign_in'</span>, <span class="string">'{"user": "sangam"}'</span>);
+
+<span class="comment">-- Extract value as text using ->></span>
+<span class="comment">-- Check if key exists using ?</span>
+<span class="keyword">SELECT</span>
+   event_name,
+   metadata <span class="operator">->></span> <span class="string">'browser'</span> <span class="keyword">AS</span> browser
+<span class="keyword">FROM</span> basics.app_events
+<span class="keyword">WHERE</span> metadata <span class="operator">?</span> <span class="string">'browser'</span>;</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PART 2: SQL Operations -->
+        <div class="part-section" id="part2">
+            <div class="part-header">Part 2: CRUD Operations & Filtering</div>
+            <div class="part-content">
+                
+                <div class="concept-card">
+                    <div class="concept-title">INSERT: Adding Data</div>
+                    <div class="knowledge-box">
+                        <h4>Insert Methods:</h4>
+                        <ul>
+                            <li><strong>Single Row:</strong> One record at a time</li>
+                            <li><strong>Multiple Rows:</strong> Batch insert for efficiency</li>
+                            <li><strong>RETURNING:</strong> Get data back after insert</li>
+                        </ul>
+                    </div>
+                    <div class="sql-block">
+                        <code><span class="comment">-- Single row insert</span>
+<span class="keyword">INSERT INTO</span> products (name, category, price, stock, sku, description)
+<span class="keyword">VALUES</span> (<span class="string">'Laptop stand'</span>, <span class="string">'electronics'</span>, <span class="number">5000.00</span>, <span class="number">23</span>, <span class="string">'ELEC-KEY-003'</span>, <span class="string">'laptop stand description'</span>);
+
+<span class="comment">-- Multiple rows insert</span>
+<span class="keyword">INSERT INTO</span> products (name, category, price, stock, sku, description)
+<span class="keyword">VALUES</span>
+(<span class="string">'laptop stand 5'</span>, <span class="string">'electronics'</span>, <span class="number">100</span>, <span class="number">45</span>, <span class="string">'ELEC-LAP-100'</span>, <span class="string">'laptop stand 5 desc'</span>),
+(<span class="string">'laptop stand 6'</span>, <span class="string">'electronics'</span>, <span class="number">100</span>, <span class="number">45</span>, <span class="string">'ELEC-LAP-101'</span>, <span class="string">'laptop stand 6 desc'</span>),
+(<span class="string">'laptop stand 7'</span>, <span class="string">'electronics'</span>, <span class="number">100</span>, <span class="number">45</span>, <span class="string">'ELEC-LAP-102'</span>, <span class="string">'laptop stand 7 desc'</span>);
+
+<span class="comment">-- Insert with RETURNING</span>
+<span class="keyword">INSERT INTO</span> products (name, category, price, stock, sku, description)
+<span class="keyword">VALUES</span> (<span class="string">'webcam'</span>, <span class="string">'electronics'</span>, <span class="number">456.67</span>, <span class="number">56</span>, <span class="string">'ELEC-WEB-009'</span>, <span class="string">'webcam description'</span>)
+<span class="keyword">RETURNING</span> id, name, category, price, stock, created_at;</code>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">SELECT: Retrieving Data</div>
+                    <div class="knowledge-box">
+                        <h4>Selection Techniques:</h4>
+                        <ul>
+                            <li><strong>SELECT *:</strong> Get all columns (use sparingly)</li>
+                            <li><strong>Specific Columns:</strong> Better performance</li>
+                            <li><strong>AS (Aliases):</strong> Rename output columns</li>
+                        </ul>
+                    </div>
+                    <div class="sql-block">
+                        <code><span class="comment">-- Select specific columns with aliases</span>
+<span class="keyword">SELECT</span> 
+  name <span class="keyword">AS</span> product_name,
+  price <span class="keyword">AS</span> selling_price,
+  stock <span class="keyword">AS</span> available_quantity
+<span class="keyword">FROM</span> products;</code>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">WHERE: Filtering Rows</div>
+                    <div class="knowledge-box">
+                        <h4>Filter Operators:</h4>
+                        <ul>
+                            <li><strong>=, !=, <>, >, <, >=, <=:</strong> Comparison operators</li>
+                            <li><strong>AND, OR, NOT:</strong> Logical operators</li>
+                            <li><strong>IN, NOT IN:</strong> Match list of values</li>
+                            <li><strong>BETWEEN:</strong> Range filtering</li>
+                            <li><strong>LIKE, ILIKE:</strong> Pattern matching</li>
+                            <li><strong>IS NULL, IS NOT NULL:</strong> Null checking</li>
+                        </ul>
+                    </div>
+                    <div class="sql-block">
+                        <code><span class="comment">-- Basic comparison</span>
+<span class="keyword">SELECT</span> name, price <span class="keyword">FROM</span> products <span class="keyword">WHERE</span> price > <span class="number">1000</span>;
+
+<span class="comment">-- AND & OR with grouping</span>
+<span class="keyword">SELECT</span> name, category, price, stock
+<span class="keyword">FROM</span> products
+<span class="keyword">WHERE</span> is_active = <span class="keyword">true</span>
+  <span class="keyword">AND</span> (price < <span class="number">1000</span> <span class="keyword">OR</span> stock >= <span class="number">100</span>);
+
+<span class="comment">-- IN operator</span>
+<span class="keyword">SELECT</span> name, category, price
+<span class="keyword">FROM</span> products
+<span class="keyword">WHERE</span> category <span class="keyword">IN</span> (<span class="string">'electronics'</span>, <span class="string">'furniture'</span>);
+
+<span class="comment">-- BETWEEN for ranges</span>
+<span class="keyword">SELECT</span> name, price
+<span class="keyword">FROM</span> products
+<span class="keyword">WHERE</span> price <span class="keyword">BETWEEN</span> <span class="number">100</span> <span class="keyword">AND</span> <span class="number">2000</span>;
+
+<span class="comment">-- LIKE/ILIKE for patterns (% = any chars, _ = single char)</span>
+<span class="keyword">SELECT</span> name, category, price
+<span class="keyword">FROM</span> products
+<span class="keyword">WHERE</span> name <span class="keyword">ILIKE</span> <span class="string">'%desk%'</span>;
+
+<span class="comment">-- NULL checking</span>
+<span class="keyword">SELECT</span> name, description
+<span class="keyword">FROM</span> products
+<span class="keyword">WHERE</span> description <span class="keyword">IS NULL</span>;</code>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">ORDER BY & LIMIT: Sorting & Pagination</div>
+                    <div class="knowledge-box">
+                        <h4>Sorting & Paging:</h4>
+                        <ul>
+                            <li><strong>ASC:</strong> Ascending order (default)</li>
+                            <li><strong>DESC:</strong> Descending order</li>
+                            <li><strong>LIMIT:</strong> Maximum rows to return</li>
+                            <li><strong>OFFSET:</strong> Rows to skip</li>
+                            <li><strong>Pagination Formula:</strong> OFFSET = (page - 1) × LIMIT</li>
+                        </ul>
+                    </div>
+                    <div class="sql-block">
+                        <code><span class="comment">-- Sort by multiple columns</span>
+<span class="keyword">SELECT</span> name, category, price
+<span class="keyword">FROM</span> products
+<span class="keyword">ORDER BY</span> category <span class="keyword">ASC</span>, price <span class="keyword">DESC</span>;
+
+<span class="comment">-- Pagination example</span>
+<span class="comment">-- Page 1:</span>
+<span class="keyword">SELECT</span> name, price <span class="keyword">FROM</span> products
+<span class="keyword">ORDER BY</span> name <span class="keyword">ASC</span>
+<span class="keyword">LIMIT</span> <span class="number">5</span> <span class="keyword">OFFSET</span> <span class="number">0</span>;
+
+<span class="comment">-- Page 2:</span>
+<span class="keyword">SELECT</span> name, price <span class="keyword">FROM</span> products
+<span class="keyword">ORDER BY</span> name <span class="keyword">ASC</span>
+<span class="keyword">LIMIT</span> <span class="number">5</span> <span class="keyword">OFFSET</span> <span class="number">5</span>;</code>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">UPDATE & DELETE: Modifying Data</div>
+                    <div class="knowledge-box">
+                        <h4>Data Modification:</h4>
+                        <ul>
+                            <li><strong>UPDATE:</strong> Modify existing rows</li>
+                            <li><strong>DELETE:</strong> Remove rows</li>
+                            <li><strong>WHERE:</strong> Always use to target specific rows</li>
+                            <li><strong>RETURNING:</strong> Get affected rows back</li>
+                        </ul>
+                    </div>
+                    <div class="sql-block">
+                        <code><span class="comment">-- Update single row</span>
+<span class="keyword">UPDATE</span> products
+<span class="keyword">SET</span> price = <span class="number">1199.50</span>, stock = <span class="number">23</span>
+<span class="keyword">WHERE</span> sku = <span class="string">'ELEC-KEY-001'</span>;
+
+<span class="comment">-- Update multiple rows with calculation</span>
+<span class="keyword">UPDATE</span> products
+<span class="keyword">SET</span> price = <span class="function">ROUND</span>(price * <span class="number">1.10</span>, <span class="number">2</span>)
+<span class="keyword">WHERE</span> category = <span class="string">'stationery'</span>;
+
+<span class="comment">-- Delete with RETURNING</span>
+<span class="keyword">DELETE FROM</span> products
+<span class="keyword">WHERE</span> sku = <span class="string">'ELEC-TEMP-013'</span>
+<span class="keyword">RETURNING</span> id, name, sku;</code>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <h4>💡 Pro Tip: RETURNING Clause</h4>
+                    <p>Use RETURNING after INSERT, UPDATE, or DELETE to immediately get the affected rows back. Perfect for logging or confirming changes!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PART 3: Relationships & Advanced -->
+        <div class="part-section" id="part3">
+            <div class="part-header">Part 3: Relationships, Joins & Advanced Concepts</div>
+            <div class="part-content">
+                
+                <div class="concept-card">
+                    <div class="concept-title">Database Design: Tables & Relationships</div>
+                    <div class="knowledge-box">
+                        <h4>Relationship Types:</h4>
+                        <ul>
+                            <li><strong>One-to-Many:</strong> One user → Many posts</li>
+                            <li><strong>Many-to-Many:</strong> Posts ↔ Tags (via junction table)</li>
+                            <li><strong>Foreign Key:</strong> Links child table to parent table</li>
+                        </ul>
+                    </div>
+                    <div class="sql-block">
+                        <code><span class="comment">-- Users table (Parent)</span>
+<span class="keyword">CREATE TABLE</span> users (
+    id <span class="function">UUID</span> <span class="keyword">PRIMARY KEY DEFAULT</span> <span class="function">gen_random_uuid()</span>,
+    name <span class="function">TEXT</span> <span class="keyword">NOT NULL</span>
+);
+
+<span class="comment">-- Posts table (Child with Foreign Key)</span>
+<span class="keyword">CREATE TABLE</span> posts (
+    id <span class="function">UUID</span> <span class="keyword">PRIMARY KEY DEFAULT</span> <span class="function">gen_random_uuid()</span>,
+    user_id <span class="function">UUID</span> <span class="keyword">NOT NULL REFERENCES</span> users(id),
+    title <span class="function">TEXT</span> <span class="keyword">NOT NULL</span>,
+    status <span class="function">TEXT</span> <span class="keyword">NOT NULL DEFAULT</span> <span class="string">'draft'</span>
+          <span class="keyword">CHECK</span> (status <span class="keyword">IN</span> (<span class="string">'draft'</span>, <span class="string">'published'</span>)),
+    views <span class="function">INTEGER</span> <span class="keyword">NOT NULL DEFAULT</span> <span class="number">0</span> <span class="keyword">CHECK</span> (views >= <span class="number">0</span>)
+);
+
+<span class="comment">-- Junction table for Many-to-Many</span>
+<span class="keyword">CREATE TABLE</span> post_tags (
+    post_id <span class="function">UUID</span> <span class="keyword">NOT NULL REFERENCES</span> posts(id),
+    tag_id <span class="function">UUID</span> <span class="keyword">NOT NULL REFERENCES</span> tags(id),
+    <span class="keyword">PRIMARY KEY</span> (post_id, tag_id)
+);</code>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">JOINs: Combining Tables</div>
+                    <div class="comparison-table">
+                        <div class="comparison-card">
+                            <h4>INNER JOIN</h4>
+                            <p>Returns only matching rows from both tables</p>
+                            <div class="sql-block">
+                                <code><span class="keyword">SELECT</span> 
+  u.name <span class="keyword">AS</span> author,
+  p.title <span class="keyword">AS</span> post_title
+<span class="keyword">FROM</span> posts p
+<span class="keyword">INNER JOIN</span> users u 
+   <span class="keyword">ON</span> p.user_id = u.id
+<span class="keyword">WHERE</span> p.status = <span class="string">'published'</span>;</code>
+                            </div>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>LEFT JOIN</h4>
+                            <p>Keeps all rows from left table, matches from right (NULL if no match)</p>
+                            <div class="sql-block">
+                                <code><span class="keyword">SELECT</span> 
+  p.title <span class="keyword">AS</span> post_title,
+  c.body <span class="keyword">AS</span> comment_body
+<span class="keyword">FROM</span> posts p
+<span class="keyword">LEFT JOIN</span> comments c
+  <span class="keyword">ON</span> p.id = c.post_id
+<span class="keyword">ORDER BY</span> p.title;</code>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="success-box">
+                        <h4>✅ When to Use Each:</h4>
+                        <p><strong>INNER JOIN:</strong> When you need only matching records from both tables</p>
+                        <p><strong>LEFT JOIN:</strong> When you want all records from the left table, even without matches (e.g., all posts with optional comments)</p>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">Table Aliases & Multi-Table Queries</div>
+                    <div class="sql-block">
+                        <code><span class="comment">-- Using aliases for cleaner queries</span>
+<span class="keyword">SELECT</span>
+  p.title <span class="keyword">AS</span> post_title,
+  p.status,
+  p.views,
+  u.name <span class="keyword">AS</span> author_name,
+  c.body <span class="keyword">AS</span> comment_body
+<span class="keyword">FROM</span> posts <span class="keyword">AS</span> p
+<span class="keyword">INNER JOIN</span> users <span class="keyword">AS</span> u
+  <span class="keyword">ON</span> p.user_id = u.id
+<span class="keyword">LEFT JOIN</span> comments <span class="keyword">AS</span> c
+  <span class="keyword">ON</span> p.id = c.post_id
+<span class="keyword">ORDER BY</span> p.views <span class="keyword">DESC</span>;
+
+<span class="comment">-- Many-to-Many: Posts with Tags</span>
+<span class="keyword">SELECT</span>
+   p.title <span class="keyword">AS</span> post_title,
+   t.name <span class="keyword">AS</span> tag_name
+<span class="keyword">FROM</span> posts p
+<span class="keyword">INNER JOIN</span> post_tags pt
+  <span class="keyword">ON</span> p.id = pt.post_id
+<span class="keyword">INNER JOIN</span> tags t
+  <span class="keyword">ON</span> pt.tag_id = t.id
+<span class="keyword">ORDER BY</span> p.title, t.name;</code>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">Aggregate Functions</div>
+                    <div class="knowledge-box">
+                        <h4>Aggregate Functions:</h4>
+                        <ul>
+                            <li><strong>COUNT(*):</strong> Number of rows</li>
+                            <li><strong>COUNT(DISTINCT):</strong> Number of unique values</li>
+                            <li><strong>SUM(column):</strong> Total value</li>
+                            <li><strong>AVG(column):</strong> Average value</li>
+                            <li><strong>MIN(column):</strong> Smallest value</li>
+                            <li><strong>MAX(column):</strong> Largest value</li>
+                        </ul>
+                    </div>
+                    <div class="sql-block">
+                        <code><span class="comment">-- Aggregate statistics</span>
+<span class="keyword">SELECT</span>
+  <span class="function">COUNT</span>(*) <span class="keyword">AS</span> total_posts,
+  <span class="function">MIN</span>(views) <span class="keyword">AS</span> lowest_views,
+  <span class="function">MAX</span>(views) <span class="keyword">AS</span> highest_views
+<span class="keyword">FROM</span> posts;
+
+<span class="comment">-- COUNT with FILTER clause</span>
+<span class="keyword">SELECT</span>
+  <span class="function">COUNT</span>(*) <span class="keyword">AS</span> total_posts,
+  <span class="function">COUNT</span>(*) <span class="keyword">FILTER</span> (<span class="keyword">WHERE</span> status = <span class="string">'published'</span>) <span class="keyword">AS</span> published_posts
+<span class="keyword">FROM</span> posts;</code>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">COUNT(DISTINCT): Counting Unique Values</div>
+                    <div class="sql-block">
+                        <code><span class="comment">-- Count unique posts per tag</span>
+<span class="keyword">SELECT</span>
+   t.name <span class="keyword">AS</span> tag_name,
+   <span class="function">COUNT</span>(<span class="keyword">DISTINCT</span> p.id) <span class="keyword">AS</span> total_unique_posts
+<span class="keyword">FROM</span> tags t
+<span class="keyword">LEFT JOIN</span> post_tags pt
+   <span class="keyword">ON</span> t.id = pt.tag_id
+<span class="keyword">LEFT JOIN</span> posts p
+   <span class="keyword">ON</span> pt.post_id = p.id
+<span class="keyword">GROUP BY</span> t.id, t.name
+<span class="keyword">ORDER BY</span> total_unique_posts <span class="keyword">DESC</span>;</code>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">GROUP BY & HAVING</div>
+                    <div class="knowledge-box">
+                        <h4>Grouping & Filtering Groups:</h4>
+                        <ul>
+                            <li><strong>GROUP BY:</strong> Groups rows with same values</li>
+                            <li><strong>WHERE:</strong> Filters rows BEFORE grouping</li>
+                            <li><strong>HAVING:</strong> Filters groups AFTER grouping</li>
+                        </ul>
+                    </div>
+                    <div class="sql-block">
+                        <code><span class="comment">-- Posts per author with filtering</span>
+<span class="keyword">SELECT</span>
+  u.name <span class="keyword">AS</span> author_name,
+  <span class="function">COUNT</span>(p.id) <span class="keyword">AS</span> total_posts,
+  <span class="function">SUM</span>(p.views) <span class="keyword">AS</span> total_views
+<span class="keyword">FROM</span> users u
+<span class="keyword">LEFT JOIN</span> posts p
+   <span class="keyword">ON</span> u.id = p.user_id
+<span class="keyword">GROUP BY</span> u.id, u.name
+<span class="keyword">HAVING</span> <span class="function">COUNT</span>(p.id) >= <span class="number">2</span>
+<span class="keyword">ORDER BY</span> total_posts <span class="keyword">DESC</span>;</code>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">Subqueries</div>
+                    <div class="sql-block">
+                        <code><span class="comment">-- Posts performing above average</span>
+<span class="keyword">SELECT</span>
+  title,
+  status,
+  views
+<span class="keyword">FROM</span> posts
+<span class="keyword">WHERE</span> views > (
+    <span class="keyword">SELECT</span> <span class="function">AVG</span>(views)
+    <span class="keyword">FROM</span> posts
+)
+<span class="keyword">ORDER BY</span> views <span class="keyword">DESC</span>;</code>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">Indexes: Performance Optimization</div>
+                    <div class="knowledge-box">
+                        <h4>Index Types:</h4>
+                        <ul>
+                            <li><strong>Single Column Index:</strong> Index on one column</li>
+                            <li><strong>Composite Index:</strong> Index on multiple columns</li>
+                            <li><strong>Use Case:</strong> Speeds up WHERE, JOIN, ORDER BY</li>
+                        </ul>
+                    </div>
+                    <div class="sql-block">
+                        <code><span class="comment">-- Single column index</span>
+<span class="keyword">CREATE INDEX</span> <span class="keyword">IF NOT EXISTS</span> idx_posts_status
+<span class="keyword">ON</span> posts(status);
+
+<span class="comment">-- Composite index</span>
+<span class="keyword">CREATE INDEX</span> <span class="keyword">IF NOT EXISTS</span> idx_posts_status_views
+<span class="keyword">ON</span> posts(status, views <span class="keyword">DESC</span>);
+
+<span class="comment">-- Index for foreign key lookups</span>
+<span class="keyword">CREATE INDEX</span> <span class="keyword">IF NOT EXISTS</span> idx_posts_user_id
+<span class="keyword">ON</span> posts(user_id);
+
+<span class="comment">-- Now queries using these columns are faster!</span>
+<span class="keyword">SELECT</span> title, status, views
+<span class="keyword">FROM</span> posts
+<span class="keyword">WHERE</span> status = <span class="string">'published'</span>
+<span class="keyword">ORDER BY</span> views <span class="keyword">DESC</span>;</code>
+                    </div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">Transactions: Safe Multi-Step Operations</div>
+                    <div class="knowledge-box">
+                        <h4>Transaction Commands:</h4>
+                        <ul>
+                            <li><strong>BEGIN:</strong> Start a transaction</li>
+                            <li><strong>COMMIT:</strong> Save all changes</li>
+                            <li><strong>ROLLBACK:</strong> Undo all changes</li>
+                            <li><strong>Use Case:</strong> Banking, orders, multi-table updates</li>
+                        </ul>
+                    </div>
+                    <div class="sql-block">
+                        <code><span class="comment">-- Transaction with COMMIT (success path)</span>
+<span class="keyword">BEGIN</span>;
+
+<span class="keyword">UPDATE</span> posts
+<span class="keyword">SET</span> status = <span class="string">'published'</span>
+<span class="keyword">WHERE</span> title = <span class="string">'Indexes for Beginners'</span>
+     <span class="keyword">AND</span> status = <span class="string">'draft'</span>;
+
+<span class="keyword">UPDATE</span> posts
+<span class="keyword">SET</span> views = views + <span class="number">50</span>
+<span class="keyword">WHERE</span> title = <span class="string">'Indexes for Beginners'</span>;
+
+<span class="keyword">SELECT</span> title, status, views
+<span class="keyword">FROM</span> posts
+<span class="keyword">WHERE</span> title = <span class="string">'Indexes for Beginners'</span>;
+
+<span class="keyword">COMMIT</span>;</code>
+                    </div>
+                    <div class="sql-block">
+                        <code><span class="comment">-- Transaction with ROLLBACK (undo changes)</span>
+<span class="keyword">BEGIN</span>;
+
+<span class="comment">-- Accidentally delete all posts!</span>
+<span class="keyword">DELETE FROM</span> posts;
+
+<span class="comment">-- Oops! Let's undo everything</span>
+<span class="keyword">ROLLBACK</span>;
+
+<span class="comment">-- All posts are restored - nothing was committed</span>
+<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> posts;</code>
+                    </div>
+                    <div class="warning-box">
+                        <h4>⚠️ Important:</h4>
+                        <p>Transactions ensure ALL operations succeed or ALL fail together. Use ROLLBACK if something goes wrong before COMMIT to undo all changes!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Reference -->
+        <div class="quick-reference">
+            <h3>⚡ Quick Reference Cheat Sheet</h3>
+            <div class="reference-grid">
+                <div class="reference-item">
+                    <h5>DDL (Data Definition)</h5>
+                    <p>CREATE, ALTER, DROP</p>
+                    <p><small>Defines structure</small></p>
+                </div>
+                <div class="reference-item">
+                    <h5>DML (Data Manipulation)</h5>
+                    <p>INSERT, UPDATE, DELETE</p>
+                    <p><small>Modifies data</small></p>
+                </div>
+                <div class="reference-item">
+                    <h5>DQL (Data Query)</h5>
+                    <p>SELECT</p>
+                    <p><small>Retrieves data</small></p>
+                </div>
+                <div class="reference-item">
+                    <h5>Joins</h5>
+                    <p>INNER, LEFT, RIGHT, FULL</p>
+                    <p><small>Combines tables</small></p>
+                </div>
+                <div class="reference-item">
+                    <h5>Aggregates</h5>
+                    <p>COUNT, COUNT(DISTINCT), SUM, AVG, MIN, MAX</p>
+                    <p><small>Summarizes data</small></p>
+                </div>
+                <div class="reference-item">
+                    <h5>Constraints</h5>
+                    <p>PK, FK, UNIQUE, CHECK, NOT NULL</p>
+                    <p><small>Enforces rules</small></p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="nav-buttons">
+            <button class="nav-button" onclick="scrollToTop()">⬆️ Top</button>
+            <button class="nav-button" onclick="scrollToPart('part1')">📘 Part 1</button>
+            <button class="nav-button" onclick="scrollToPart('part2')">📗 Part 2</button>
+            <button class="nav-button" onclick="scrollToPart('part3')">📙 Part 3</button>
+        </nav>
+    </div>
+
+    <script>
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function scrollToPart(partId) {
+            const element = document.getElementById(partId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+        
+        function searchTopics() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const concepts = document.querySelectorAll('.concept-card');
+            
+            concepts.forEach(card => {
+                const title = card.querySelector('.concept-title').textContent.toLowerCase();
+                const content = card.textContent.toLowerCase();
+                
+                if (title.includes(input) || content.includes(input)) {
+                    card.style.display = 'block';
+                    card.style.opacity = '1';
+                } else {
+                    card.style.opacity = '0.3';
+                }
+            });
+        }
+        
+        // Smooth scroll for better UX
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
