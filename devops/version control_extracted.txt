@@ -1,0 +1,187 @@
+What is Version
+Control?
+
+Copyright IntelliPaat, All rights reserved
+
+What is Version Control?
+Version control is a system that records/manages changes to documents,
+computer programs etc over time. It helps us tracking changes when multiple
+people work on the same project
+
+Copyright IntelliPaat, All rights reserved
+
+Problems before Version Control
+Imagine, Developer A creates a software, and starts a company with this software.
+
+Developer A
+
+Software
+
+Copyright IntelliPaat, All rights reserved
+
+Problems before Version Control
+As the company grows, Developer A hires more people to enhance the features of this
+software. Developer A shares the source code copy with each one of them to work on
+
+Version 1
+
+Developer B
+Version 1
+
+Version 1
+
+Developer A
+
+Version 1
+
+Developer C
+
+Software
+
+Developer D
+Copyright IntelliPaat, All rights reserved
+
+Problems before Version Control
+Developer B, enhances the software with a feature and submits it to Developer A
+
+Version 2
+Version 1
+
+Developer B
+
+Version 1
+Version 1
+
+Version 1
+
+Developer C
+
+Developer A
+
+Software
+
+Developer D
+Copyright IntelliPaat, All rights reserved
+
+Problems before Version Control
+Developer A, verifies the changes, and if all looks well, simply replaces the code of
+the main software
+
+Version 1
+
+Developer B
+
+Version 2
+Version 1
+
+Version 1
+
+Developer C
+
+Developer A
+
+Software
+
+Developer D
+Copyright IntelliPaat, All rights reserved
+
+Problems before Version Control
+Now, the problem starts here, Developer C also finished his work, and submits the
+changes to Developer A. But, Developer C worked on the code of Version 1.
+
+Version 1
+
+Developer B
+
+Version 2
+Version 1
+
+Version 1
+
+Developer C
+
+Version 3
+
+Developer A
+
+Software
+
+Developer D
+Copyright IntelliPaat, All rights reserved
+
+Problems before Version Control
+Developer A verifies the features, takes the code changes and manually integrates
+them with Version 2 code
+
+Version 1
+
+Developer B
+
+Version 3
+Version 1
+
+Version 1
+
+Developer C
+
+Developer A
+
+Software
+
+Developer D
+Copyright IntelliPaat, All rights reserved
+
+Problems before Version Control
+Similarly when Developer C is done with his work, submits the work to Developer A.
+Developer A verifies it, manually integrates the changes with Version 3
+
+Version 1
+
+Developer B
+
+Version 4
+Version 1
+
+Developer C
+
+Developer A
+
+Software
+
+Version 4
+
+Version 1
+
+Developer D
+Copyright IntelliPaat, All rights reserved
+
+Problems before Version Control
+
+Versioning was Manual
+Team Collaboration was a time
+consuming and hectic task
+No easy access to previous versions
+Multiple Version took a lot of space
+
+Copyright IntelliPaat, All rights reserved
+
+Advantages of Version Control
+
+Versioning is Automatic
+Team Collaboration is simple
+Easy Access to previous Versions
+Only modified code is stored across
+different versions, hence saves storage
+
+Copyright IntelliPaat, All rights reserved
+
+India : +91-7847955955
+US : 1-800-216-8930 (TOLL FREE)
+
+support@intellipaat.com
+
+24X7 Chat with our Course Advisor
+
+Copyright IntelliPaat, All rights reserved
+
+

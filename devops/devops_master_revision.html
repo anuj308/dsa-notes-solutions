@@ -1,0 +1,2349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevOps Master Revision Portal</title>
+<style>
+:root{--bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--bg4:#30363d;--text:#e6edf3;--text2:#8b949e;--accent:#58a6ff;--accent2:#1f6feb;--green:#3fb950;--red:#f85149;--yellow:#d29922;--purple:#bc8cff;--orange:#f0883e;--sidebar-w:280px;--radius:8px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:4px}::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+.sidebar{position:fixed;left:0;top:0;width:var(--sidebar-w);height:100vh;background:var(--bg2);border-right:1px solid var(--bg4);z-index:100;overflow-y:auto;transition:transform .3s}
+.sidebar-header{padding:20px;border-bottom:1px solid var(--bg4);text-align:center}
+.sidebar-header h2{color:var(--accent);font-size:18px;margin-bottom:4px}
+.sidebar-header small{color:var(--text2)}
+.sidebar-search{padding:10px 15px;border-bottom:1px solid var(--bg4)}
+.sidebar-search input{width:100%;padding:8px 12px;border-radius:var(--radius);border:1px solid var(--bg4);background:var(--bg3);color:var(--text);font-size:13px;outline:none}
+.sidebar-search input:focus{border-color:var(--accent)}
+.nav-list{list-style:none;padding:10px 0}
+.nav-list li a{display:flex;align-items:center;padding:8px 20px;color:var(--text2);text-decoration:none;font-size:13px;transition:all .2s;gap:8px;border-left:3px solid transparent}
+.nav-list li a:hover,.nav-list li a.active{background:var(--bg3);color:var(--accent);border-left-color:var(--accent)}
+.nav-list li a .nav-icon{font-size:14px;width:20px;text-align:center}
+.nav-section{padding:12px 20px 6px;font-size:11px;text-transform:uppercase;color:var(--text2);letter-spacing:1px;font-weight:600}
+.main-content{margin-left:var(--sidebar-w);min-height:100vh}
+.topbar{position:sticky;top:0;background:var(--bg2);border-bottom:1px solid var(--bg4);padding:12px 30px;display:flex;align-items:center;justify-content:space-between;z-index:50;backdrop-filter:blur(10px)}
+.topbar-left{display:flex;align-items:center;gap:15px}
+.menu-btn{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+.search-box{position:relative;width:400px}
+.search-box input{width:100%;padding:10px 16px 10px 38px;border-radius:var(--radius);border:1px solid var(--bg4);background:var(--bg3);color:var(--text);font-size:14px;outline:none;transition:border .2s}
+.search-box input:focus{border-color:var(--accent)}
+.search-box::before{content:"🔍";position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.progress-wrap{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)}
+.progress-bar{width:120px;height:6px;background:var(--bg4);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:3px;transition:width .5s}
+.btn{padding:6px 14px;border-radius:var(--radius);border:1px solid var(--bg4);background:var(--bg3);color:var(--text);font-size:12px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:5px}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn-primary{background:var(--accent2);border-color:var(--accent2);color:#fff}
+.btn-primary:hover{background:var(--accent)}
+.content{max-width:1000px;margin:0 auto;padding:30px}
+.section{margin-bottom:40px;animation:fadeIn .4s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.section-title{font-size:28px;font-weight:700;color:var(--accent);margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid var(--bg4);display:flex;align-items:center;gap:10px}
+.section-title .icon{font-size:28px}
+.card{background:var(--bg2);border:1px solid var(--bg4);border-radius:var(--radius);padding:20px;margin-bottom:16px;transition:border .2s}
+.card:hover{border-color:var(--bg3)}
+.card h3{color:var(--accent);font-size:18px;margin-bottom:12px}
+.card h4{color:var(--green);font-size:15px;margin:14px 0 8px}
+.card p,.card li{color:var(--text);font-size:14px}
+.card ul,.card ol{padding-left:20px;margin:8px 0}
+.card li{margin:4px 0}
+.expandable{cursor:pointer;user-select:none}
+.expandable::before{content:"▶ ";font-size:10px;transition:transform .2s;display:inline-block}
+.expandable.open::before{transform:rotate(90deg)}
+.collapsible-body{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.collapsible-body.open{max-height:5000px}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+th,td{padding:10px 12px;text-align:left;border:1px solid var(--bg4)}
+th{background:var(--bg3);color:var(--accent);font-weight:600}
+tr:nth-child(even){background:var(--bg2)}
+.tag{display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;margin:2px}
+.tag-easy{background:#0d4429;color:var(--green)}
+.tag-medium{background:#3d2e00;color:var(--yellow)}
+.tag-hard{background:#490202;color:var(--red)}
+.tag-star{color:var(--yellow)}
+.tip-box{background:var(--bg3);border-left:4px solid var(--accent);padding:12px 16px;margin:12px 0;border-radius:0 var(--radius) var(--radius) 0;font-size:13px}
+.tip-box.warn{border-left-color:var(--yellow)}
+.tip-box.danger{border-left-color:var(--red)}
+.tip-box.success{border-left-color:var(--green)}
+.interview-box{background:var(--bg3);border-radius:var(--radius);padding:16px;margin:10px 0}
+.interview-box .q{color:var(--orange);font-weight:600;margin-bottom:8px;font-size:14px}
+.interview-box .a{color:var(--text);font-size:13px;padding-left:12px;border-left:2px solid var(--bg4)}
+.flashcard-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.flashcard{perspective:800px;height:160px;cursor:pointer}
+.flashcard-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.flashcard.flipped .flashcard-inner{transform:rotateY(180deg)}
+.flashcard-front,.flashcard-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;font-size:14px;font-weight:600}
+.flashcard-front{background:linear-gradient(135deg,var(--bg3),var(--bg4));border:1px solid var(--accent);color:var(--accent)}
+.flashcard-back{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;transform:rotateY(180deg);font-size:13px;font-weight:400}
+.mcq-card{background:var(--bg2);border:1px solid var(--bg4);border-radius:var(--radius);padding:20px;margin-bottom:12px}
+.mcq-card .question{font-weight:600;margin-bottom:12px;font-size:14px}
+.mcq-options{display:flex;flex-direction:column;gap:6px}
+.mcq-opt{padding:10px 14px;border:1px solid var(--bg4);border-radius:var(--radius);cursor:pointer;font-size:13px;transition:all .2s}
+.mcq-opt:hover{border-color:var(--accent);background:var(--bg3)}
+.mcq-opt.correct{border-color:var(--green);background:rgba(63,185,80,.15);color:var(--green)}
+.mcq-opt.wrong{border-color:var(--red);background:rgba(248,81,73,.15);color:var(--red)}
+.mcq-opt.selected{border-color:var(--accent);background:var(--bg3)}
+.mcq-explain{margin-top:10px;padding:10px;background:var(--bg3);border-radius:var(--radius);font-size:12px;color:var(--text2);display:none}
+.filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;align-items:center}
+.filter-bar select,.filter-bar input{padding:6px 10px;border-radius:var(--radius);border:1px solid var(--bg4);background:var(--bg3);color:var(--text);font-size:12px}
+.diagram-box{background:var(--bg3);border-radius:var(--radius);padding:20px;margin:12px 0;font-family:'Courier New',monospace;font-size:13px;white-space:pre;overflow-x:auto;line-height:1.5;color:var(--green)}
+.kbd{background:var(--bg4);padding:2px 6px;border-radius:3px;font-size:11px;font-family:monospace;border:1px solid var(--text2)}
+.shortcut-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
+.shortcut-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--bg3);border-radius:var(--radius);font-size:13px}
+.bookmark-btn{background:none;border:none;cursor:pointer;font-size:18px;transition:transform .2s}
+.bookmark-btn:hover{transform:scale(1.2)}
+.bookmarked{color:var(--yellow)}
+.quick-rev{background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--accent);border-radius:var(--radius);padding:20px;margin:16px 0}
+.quick-rev h4{color:var(--accent);margin-bottom:10px}
+.quick-rev ul{padding-left:18px}
+.quick-rev li{margin:4px 0;font-size:13px}
+.difficulty-indicator{display:inline-flex;gap:2px;font-size:12px}
+.difficulty-indicator .dot{width:8px;height:8px;border-radius:50%;background:var(--bg4)}
+.difficulty-indicator .dot.active{background:var(--yellow)}
+.exam-prob{display:inline-flex;gap:2px;font-size:12px}
+.exam-prob .dot{width:8px;height:8px;border-radius:50%;background:var(--bg4)}
+.exam-prob .dot.active{background:var(--green)}
+.hidden{display:none!important}
+.print-mode .sidebar,.print-mode .topbar{display:none}
+.print-mode .main-content{margin-left:0}
+@media print{.sidebar,.topbar{display:none!important}.main-content{margin-left:0!important}.card{break-inside:avoid;border:1px solid #ccc}body{background:#fff;color:#000}}
+@media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.menu-btn{display:block}.main-content{margin-left:0}.search-box{width:200px}.content{padding:15px}.flashcard-grid{grid-template-columns:1fr 1fr}.shortcut-list{grid-template-columns:1fr}}
+::-webkit-search-cancel-button{-webkit-appearance:none}
+.search-highlight{background:var(--yellow);color:#000;padding:1px 2px;border-radius:2px}
+.rating{display:inline-flex;gap:2px;cursor:pointer}
+.rating .star{color:var(--bg4);font-size:16px;transition:color .2s}
+.rating .star.filled{color:var(--yellow)}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<h2>🚀 DevOps Portal</h2>
+<small>Master Revision Guide</small>
+</div>
+<div class="sidebar-search">
+<input type="text" id="sidebarSearch" placeholder="Search topics..." oninput="filterNav(this.value)">
+</div>
+<ul class="nav-list" id="navList">
+<li class="nav-section">📚 Core Units</li>
+<li><a href="#unit1" onclick="navigate('unit1')"><span class="nav-icon">📘</span>Unit 1 - DevOps Fundamentals</a></li>
+<li><a href="#unit2" onclick="navigate('unit2')"><span class="nav-icon">🐧</span>Unit 2 - Linux Commands</a></li>
+<li><a href="#unit3" onclick="navigate('unit3')"><span class="nav-icon">🔀</span>Unit 3 - Git & Version Control</a></li>
+<li><a href="#unit4" onclick="navigate('unit4')"><span class="nav-icon">⚙️</span>Unit 4 - Advanced Git</a></li>
+<li><a href="#unit5" onclick="navigate('unit5')"><span class="nav-icon">🔧</span>Unit 5 - DevOps Trends & Tools</a></li>
+<li><a href="#unit6" onclick="navigate('unit6')"><span class="nav-icon">📦</span>Unit 6 - Maven</a></li>
+<li class="nav-section">☁️ Specialized Topics</li>
+<li><a href="#cloud" onclick="navigate('cloud')"><span class="nav-icon">☁️</span>Cloud Computing</a></li>
+<li><a href="#aws" onclick="navigate('aws')"><span class="nav-icon">🟧</span>Amazon Web Services</a></li>
+<li><a href="#cicd" onclick="navigate('cicd')"><span class="nav-icon">🔄</span>CI/CD Pipeline</a></li>
+<li class="nav-section">📝 Revision & Prep</li>
+<li><a href="#revision" onclick="navigate('revision')"><span class="nav-icon">⚡</span>Quick Revision</a></li>
+<li><a href="#interview" onclick="navigate('interview')"><span class="nav-icon">🎤</span>Interview Questions</a></li>
+<li><a href="#viva" onclick="navigate('viva')"><span class="nav-icon">💬</span>Viva Preparation</a></li>
+<li><a href="#mcqs" onclick="navigate('mcqs')"><span class="nav-icon">✅</span>MCQs (300+)</a></li>
+<li><a href="#flashcards" onclick="navigate('flashcards')"><span class="nav-icon">🃏</span>Flashcards</a></li>
+<li><a href="#placement" onclick="navigate('placement')"><span class="nav-icon">🎯</span>Placement Focus</a></li>
+<li><a href="#cheatsheet" onclick="navigate('cheatsheet')"><span class="nav-icon">📋</span>Cheat Sheets</a></li>
+</ul>
+</nav>
+
+<!-- TOPBAR -->
+<header class="topbar">
+<div class="topbar-left">
+<button class="menu-btn" onclick="toggleSidebar()">☰</button>
+<div class="search-box">
+<input type="text" id="globalSearch" placeholder="Search across all content... (Ctrl+K)" oninput="globalSearchFunc(this.value)">
+</div>
+</div>
+<div class="topbar-right">
+<div class="progress-wrap">
+<span id="progressText">0%</span>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+</div>
+<button class="btn" onclick="togglePrintMode()" title="Print Mode">🖨️ Print</button>
+<button class="btn" onclick="toggleShortcuts()" title="Keyboard Shortcuts">⌨️</button>
+<button class="btn" onclick="scrollTop()" title="Back to Top">⬆️</button>
+</div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main-content" id="mainContent">
+<div class="content" id="searchable">
+
+<!-- ==================== UNIT 1 ==================== -->
+<div class="section" id="unit1">
+<h1 class="section-title"><span class="icon">📘</span> Unit 1 - DevOps Fundamentals</h1>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">1.1 What is DevOps?</h3>
+<div class="collapsible-body open">
+<p><strong>Definition:</strong> DevOps is a combination of <strong>Development</strong> and <strong>Operations</strong>. It is a culture, set of practices, and tools that integrate and automate the processes between software development and IT operations teams, enabling them to build, test, and release software faster and more reliably.</p>
+<h4>Core Principles</h4>
+<ul>
+<li><strong>Collaboration:</strong> Breaking down silos between Dev and Ops teams</li>
+<li><strong>Automation:</strong> Automating repetitive tasks (builds, tests, deployments)</li>
+<li><strong>Continuous Integration:</strong> Developers frequently merge code changes into a central repository</li>
+<li><strong>Continuous Delivery:</strong> Automating the release process to production</li>
+<li><strong>Monitoring:</strong> Real-time monitoring of applications and infrastructure</li>
+<li><strong>Infrastructure as Code (IaC):</strong> Managing infrastructure through code and version control</li>
+</ul>
+
+<div class="tip-box">
+<strong>🎯 Interview Point:</strong> DevOps is NOT a tool or a role — it's a <em>culture and practice</em> that bridges the gap between development and operations.
+</div>
+
+<div class="diagram-box">
+┌─────────────────────────────────────────────┐
+│              THE 7 C's OF DEVOPS            │
+├─────────────────────────────────────────────┤
+│  1. Continuous Planning                      │
+│  2. Continuous Integration                   │
+│  3. Continuous Development                   │
+│  4. Continuous Testing                       │
+│  5. Continuous Delivery                      │
+│  6. Continuous Deployment                    │
+│  7. Continuous Monitoring                    │
+└─────────────────────────────────────────────┘
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">1.2 Need for DevOps (Traditional vs DevOps)</h3>
+<div class="collapsible-body open">
+<h4>Problems with Traditional (Waterfall) Approach</h4>
+<ul>
+<li><strong>Long development cycles</strong> — months or years between releases</li>
+<li><strong>Siloed teams</strong> — Dev and Ops work independently, causing miscommunication</li>
+<li><strong>Manual deployments</strong> — error-prone and slow</li>
+<li><strong>Delayed feedback</strong> — bugs found late in the cycle</li>
+<li><strong>Blame culture</strong> — "It works on my machine" mentality</li>
+</ul>
+
+<h4>How DevOps Solves These</h4>
+<table>
+<tr><th>Aspect</th><th>Traditional</th><th>DevOps</th></tr>
+<tr><td>Release Cycle</td><td>Months/Years</td><td>Minutes/Hours</td></tr>
+<tr><td>Deployment</td><td>Manual</td><td>Automated</td></tr>
+<tr><td>Testing</td><td>After development</td><td>Continuous</td></tr>
+<tr><td>Team Structure</td><td>Siloed</td><td>Collaborative</td></tr>
+<tr><td>Failure Recovery</td><td>Days/Weeks</td><td>Minutes</td></tr>
+<tr><td>Communication</td><td>Formal/Scheduled</td><td>Real-time</td></tr>
+</table>
+
+<div class="tip-box success">
+<strong>📝 Exam Point:</strong> DevOps follows the principle of "You build it, you run it" — developers take responsibility for their code in production.
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">1.3 DevOps Lifecycle (7 Phases)</h3>
+<div class="collapsible-body open">
+<div class="diagram-box">
+PLAN → CODE → BUILD → TEST → RELEASE → DEPLOY → MONITOR
+  ↑                                                    │
+  └────────────── FEEDBACK LOOP ───────────────────────┘
+</div>
+
+<table>
+<tr><th>Phase</th><th>Description</th><th>Tools</th></tr>
+<tr><td><strong>1. Plan</strong></td><td>Planning work, tracking issues, defining requirements</td><td>Jira, Trello, Asana</td></tr>
+<tr><td><strong>2. Code</strong></td><td>Writing and reviewing code, version control</td><td>Git, GitHub, GitLab, Bitbucket</td></tr>
+<tr><td><strong>3. Build</strong></td><td>Compiling code, building artifacts</td><td>Maven, Gradle, MSBuild</td></tr>
+<tr><td><strong>4. Test</strong></td><td>Automated testing (unit, integration, functional)</td><td>Selenium, JUnit, TestNG</td></tr>
+<tr><td><strong>5. Release</strong></td><td>Preparing releases, managing versions</td><td>Jenkins, CircleCI</td></tr>
+<tr><td><strong>6. Deploy</strong></td><td>Deploying to production, infrastructure provisioning</td><td>Docker, Kubernetes, Ansible, Terraform</td></tr>
+<tr><td><strong>7. Monitor</strong></td><td>Monitoring performance, logging, alerting</td><td>Nagios, Prometheus, Grafana</td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">1.4 DevOps vs Agile vs Waterfall vs SRE vs SysOps</h3>
+<div class="collapsible-body">
+<table>
+<tr><th>Aspect</th><th>Waterfall</th><th>Agile</th><th>DevOps</th><th>SRE</th></tr>
+<tr><td>Approach</td><td>Sequential</td><td>Iterative</td><td>Culture+Automation</td><td>Engineering approach</td></tr>
+<tr><td>Feedback</td><td>Late</td><td>Sprint end</td><td>Continuous</td><td>Continuous</td></tr>
+<tr><td>Deployment</td><td>End of project</td><td>End of sprint</td><td>Multiple times/day</td><td>Based on SLOs</td></tr>
+<tr><td>Focus</td><td>Process</td><td>Working software</td><td>Speed+Reliability</td><td>Reliability</td></tr>
+<tr><td>Ops Role</td><td>Separate team</td><td>Minimal</td><td>Integrated</td><td>SLI/SLO tracking</td></tr>
+</table>
+
+<div class="tip-box warn">
+<strong>⚠️ Viva Point:</strong> DevOps is broader than SRE — SRE is a specific implementation of DevOps practices focused on reliability and is Google's approach to operations.
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">1.5 DevOps Benefits, Disadvantages & Interview Points</h3>
+<div class="collapsible-body">
+<h4>✅ Advantages</h4>
+<ul>
+<li>Faster time to market</li>
+<li>Improved collaboration between teams</li>
+<li>Reduced failure rates of new releases</li>
+<li>Faster recovery from failures</li>
+<li>Automated processes reduce manual errors</li>
+<li>Better customer satisfaction</li>
+<li>Scalability and reliability</li>
+</ul>
+<h4>❌ Disadvantages</h4>
+<ul>
+<li>Steep learning curve for tools and culture shift</li>
+<li>Initial setup complexity</li>
+<li>Requires organizational change management</li>
+<li>Security concerns if not properly integrated (hence DevSecOps)</li>
+<li>Cost of tooling and training</li>
+</ul>
+
+<div class="tip-box">
+<strong>🎤 Common Interview Q:</strong> "What is the difference between Continuous Delivery and Continuous Deployment?"<br>
+<strong>A:</strong> CD (Delivery) = Code is ready to deploy but requires <em>manual approval</em>. CD (Deployment) = Code is <em>automatically deployed</em> to production without human intervention.
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">1.6 DevOps Ecosystem & Roles</h3>
+<div class="collapsible-body">
+<h4>DevOps Engineer Responsibilities</h4>
+<ul>
+<li>Understanding customer requirements and project KPIs</li>
+<li>Implementing development, testing, and automation tools</li>
+<li>Planning team structure and project management</li>
+<li>Setting up CI/CD pipelines</li>
+<li>Monitoring processes and minimizing waste</li>
+<li>Identifying cybersecurity measures and risk management</li>
+<li>Root cause analysis and incident management</li>
+<li>Mentoring team members</li>
+</ul>
+<h4>Essential Skills</h4>
+<ul>
+<li>Linux-based infrastructure expertise</li>
+<li>Programming: Python, Ruby, Java, Bash</li>
+<li>Database management (MySQL, MongoDB)</li>
+<li>Cloud platforms (AWS, Azure, GCP)</li>
+<li>CI/CD tools (Jenkins, GitLab CI)</li>
+<li>Containerization (Docker, Kubernetes)</li>
+<li>Configuration management (Ansible, Puppet)</li>
+<li>Monitoring tools (Nagios, Prometheus)</li>
+</ul>
+</div>
+</div>
+
+<div class="quick-rev">
+<h4>⚡ 5-Minute Revision: Unit 1</h4>
+<ul>
+<li>DevOps = Dev + Ops culture of collaboration and automation</li>
+<li>7 C's: Plan, Code, Build, Test, Release, Deploy, Monitor</li>
+<li>7 Phases with specific tools for each phase</li>
+<li>DevOps eliminates silos between development and operations</li>
+<li>Key benefits: faster releases, automation, monitoring, collaboration</li>
+<li>DevOps Engineer needs Linux, coding, cloud, and CI/CD skills</li>
+<li>DevOps is NOT a tool — it's a culture and set of practices</li>
+</ul>
+</div>
+</div>
+
+<!-- ==================== UNIT 2 ==================== -->
+<div class="section" id="unit2">
+<h1 class="section-title"><span class="icon">🐧</span> Unit 2 - Linux Commands</h1>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">2.1 Essential Linux Commands</h3>
+<div class="collapsible-body open">
+<table>
+<tr><th>Command</th><th>Purpose</th><th>Example</th></tr>
+<tr><td><code>ls</code></td><td>List files and directories</td><td><code>ls -la</code> (all files, long format)</td></tr>
+<tr><td><code>cd</code></td><td>Change directory</td><td><code>cd /home/user</code></td></tr>
+<tr><td><code>pwd</code></td><td>Print working directory</td><td><code>pwd</code></td></tr>
+<tr><td><code>mkdir</code></td><td>Create directory</td><td><code>mkdir -p dir1/dir2</code></td></tr>
+<tr><td><code>rmdir</code></td><td>Remove empty directory</td><td><code>rmdir dirname</code></td></tr>
+<tr><td><code>rm</code></td><td>Remove files/directories</td><td><code>rm -rf dirname</code></td></tr>
+<tr><td><code>cp</code></td><td>Copy files</td><td><code>cp src dest</code></td></tr>
+<tr><td><code>mv</code></td><td>Move/rename files</td><td><code>mv old new</code></td></tr>
+<tr><td><code>cat</code></td><td>Display file content</td><td><code>cat filename.txt</code></td></tr>
+<tr><td><code>touch</code></td><td>Create file/change timestamp</td><td><code>touch file{1..10}</code></td></tr>
+<tr><td><code>echo</code></td><td>Print text/create files</td><td><code>echo "text" > file.txt</code></td></tr>
+<tr><td><code>grep</code></td><td>Search text patterns</td><td><code>grep -r "pattern" dir/</code></td></tr>
+<tr><td><code>find</code></td><td>Find files by criteria</td><td><code>find / -name "*.txt"</code></td></tr>
+<tr><td><code>man</code></td><td>Manual page for commands</td><td><code>man ls</code></td></tr>
+<tr><td><code>ifconfig</code></td><td>Network interface config</td><td><code>ifconfig eth0</code></td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">2.2 ls Command Options</h3>
+<div class="collapsible-body">
+<table>
+<tr><th>Option</th><th>Description</th></tr>
+<tr><td><code>ls -a</code></td><td>List all files including hidden (starting with .)</td></tr>
+<tr><td><code>ls -l</code></td><td>Long format with permissions</td></tr>
+<tr><td><code>ls -la</code></td><td>All files in long format</td></tr>
+<tr><td><code>ls -lh</code></td><td>Human-readable file sizes (KB, MB, GB)</td></tr>
+<tr><td><code>ls -lt</code></td><td>Sort by modification time</td></tr>
+<tr><td><code>ls -ltr</code></td><td>Reverse order by date (oldest last)</td></tr>
+<tr><td><code>ls -R</code></td><td>Recursively list subdirectories</td></tr>
+<tr><td><code>ls -i</code></td><td>Show inode number</td></tr>
+<tr><td><code>ls -d */</code></td><td>List only directories</td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">2.3 Grep Command (Pattern Search)</h3>
+<div class="collapsible-body">
+<p><strong>grep</strong> = <em>Global Regular Expression Print</em> — searches for text patterns in files.</p>
+<table>
+<tr><th>Usage</th><th>Syntax</th><th>Example</th></tr>
+<tr><td>Basic search</td><td><code>grep pattern file</code></td><td><code>grep "hello" file.txt</code></td></tr>
+<tr><td>With pipe</td><td><code>command | grep pattern</code></td><td><code>cat file.txt | grep "error"</code></td></tr>
+<tr><td>Case insensitive</td><td><code>grep -i pattern file</code></td><td><code>grep -i "hello" file.txt</code></td></tr>
+<tr><td>Inverse match</td><td><code>grep -v pattern file</code></td><td><code>grep -v "debug" log.txt</code></td></tr>
+<tr><td>Recursive search</td><td><code>grep -r pattern dir/</code></td><td><code>grep -r "TODO" src/</code></td></tr>
+<tr><td>Line numbers</td><td><code>grep -n pattern file</code></td><td><code>grep -n "error" log.txt</code></td></tr>
+<tr><td>Count matches</td><td><code>grep -c pattern file</code></td><td><code>grep -c "404" access.log</code></td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">2.4 File Permissions & Ownership</h3>
+<div class="collapsible-body">
+<h4>Permission Format: <code>rwxrwxrwx</code></h4>
+<ul>
+<li><strong>r</strong> = read (4), <strong>w</strong> = write (2), <strong>x</strong> = execute (1)</li>
+<li>Three groups: Owner, Group, Others</li>
+</ul>
+<div class="diagram-box">
+-rwxr-xr--  1 user group  4096 Jan 1 00:00 file.txt
+│├─┤├─┤├─┤
+│ Owner  Group  Others
+└ File type (- = file, d = directory)
+</div>
+<h4>Key Commands</h4>
+<table>
+<tr><th>Command</th><th>Purpose</th></tr>
+<tr><td><code>chmod 755 file</code></td><td>Set permissions (rwx for owner, rx for group/others)</td></tr>
+<tr><td><code>chmod +x script.sh</code></td><td>Make file executable</td></tr>
+<tr><td><code>chown user:group file</code></td><td>Change file ownership</td></tr>
+<tr><td><code>chgrp group file</code></td><td>Change group ownership</td></tr>
+<tr><td><code>sudo -i</code></td><td>Switch to root user</td></tr>
+<tr><td><code>sudo passwd root</code></td><td>Change root password</td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">2.5 Linux Interview Mistakes & Tips</h3>
+<div class="collapsible-body">
+<div class="tip-box danger">
+<strong>🚫 Beginner Mistakes:</strong>
+<ul>
+<li><code>rm -rf /</code> — NEVER run this! It deletes everything on the system</li>
+<li>Forgetting <code>-r</code> flag when deleting directories with <code>rm</code></li>
+<li>Using <code>sudo</code> unnecessarily for simple operations</li>
+<li>Not using <code>cd</code> before running commands (wrong directory)</li>
+<li>Confusing <code>cp</code> (copy) with <code>mv</code> (move)</li>
+</ul>
+</div>
+<div class="tip-box">
+<strong>💡 Pro Tips:</strong>
+<ul>
+<li><code>Tab</code> key auto-completes commands and file names</li>
+<li><code>Ctrl+C</code> stops any running process</li>
+<li><code>history</code> shows previously executed commands</li>
+<li><code>!!</code> re-runs the last command</li>
+<li><code>clear</code> or <code>Ctrl+L</code> clears the terminal</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="quick-rev">
+<h4>⚡ 5-Minute Revision: Unit 2</h4>
+<ul>
+<li><code>ls -la</code> lists all files including hidden with permissions</li>
+<li><code>grep</code> searches text patterns; <code>-i</code> for case-insensitive</li>
+<li><code>chmod 755</code> = rwx for owner, rx for others</li>
+<li><code>rm -rf</code> force deletes recursively — use carefully!</li>
+<li><code>find / -name "*.ext"</code> finds files by name pattern</li>
+<li><code>chown user:group file</code> changes ownership</li>
+<li><code>sudo -i</code> switches to root user</li>
+</ul>
+</div>
+</div>
+
+<!-- ==================== UNIT 3 ==================== -->
+<div class="section" id="unit3">
+<h1 class="section-title"><span class="icon">🔀</span> Unit 3 - Git & Version Control</h1>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">3.1 Version Control System (VCS)</h3>
+<div class="collapsible-body open">
+<p>A <strong>Version Control System</strong> tracks changes to files over time, allowing multiple people to collaborate on the same project.</p>
+<h4>Why VCS?</h4>
+<ul>
+<li>Track which changes were made, by whom, when, and why</li>
+<li>Recover any earlier version of the project</li>
+<li>Work simultaneously without conflicts</li>
+<li>Store only modified code across versions (saves storage)</li>
+</ul>
+<h4>Types of VCS</h4>
+<table>
+<tr><th>Feature</th><th>Centralized (CVCS)</th><th>Distributed (DVCS)</th></tr>
+<tr><td>Examples</td><td>SVN, Perforce, TFS</td><td>Git, Mercurial, Bazaar</td></tr>
+<tr><td>Storage</td><td>Central server only</td><td>Every developer has full copy</td></tr>
+<tr><td>Offline Work</td><td>❌ No</td><td>✅ Yes</td></tr>
+<tr><td>Speed</td><td>Requires network</td><td>Fast (local operations)</td></tr>
+<tr><td>Resilience</td><td>Single point of failure</td><td>Multiple copies</td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">3.2 Git vs GitHub</h3>
+<div class="collapsible-body">
+<table>
+<tr><th>Feature</th><th>Git</th><th>GitHub</th></tr>
+<tr><td>Type</td><td>Version Control System (software)</td><td>Cloud Hosting Service</td></tr>
+<tr><td>Works</td><td>Locally on your computer</td><td>Online (cloud)</td></tr>
+<tr><td>Internet Required</td><td>❌ No</td><td>✅ Yes</td></tr>
+<tr><td>Main Function</td><td>Track and manage code changes</td><td>Share and collaborate on repos</td></tr>
+<tr><td>Creator</td><td>Linus Torvalds</td><td>Microsoft (acquired)</td></tr>
+<tr><td>Commands</td><td>git add, git commit, git push</td><td>Web interface / API</td></tr>
+<tr><td>Storage</td><td>Local machine</td><td>Remote server (cloud)</td></tr>
+</table>
+<div class="tip-box warn">
+<strong>⚠️ Key Distinction:</strong> Git is NOT GitHub. Git is the tool you use locally; GitHub is a remote platform to host and share your Git repositories. Other platforms: GitLab, Bitbucket.
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">3.3 Git Lifecycle & Commands</h3>
+<div class="collapsible-body open">
+<div class="diagram-box">
+WORKING DIRECTORY → STAGE (git add) → LOCAL REPO (git commit) → REMOTE REPO (git push)
+       ↑                ↑                     ↑                        ↑
+       └── git checkout ─┘    git reset    git pull/fetch
+</div>
+<h4>Core Git Commands</h4>
+<table>
+<tr><th>Command</th><th>Purpose</th><th>Example</th></tr>
+<tr><td><code>git init</code></td><td>Initialize new repo</td><td><code>git init myproject</code></td></tr>
+<tr><td><code>git clone</code></td><td>Copy remote repo locally</td><td><code>git clone https://github.com/user/repo.git</code></td></tr>
+<tr><td><code>git add</code></td><td>Stage changes</td><td><code>git add .</code> or <code>git add file.txt</code></td></tr>
+<tr><td><code>git commit</code></td><td>Commit staged changes</td><td><code>git commit -m "message"</code></td></tr>
+<tr><td><code>git push</code></td><td>Push to remote</td><td><code>git push origin main</code></td></tr>
+<tr><td><code>git pull</code></td><td>Pull from remote</td><td><code>git pull origin main</code></td></tr>
+<tr><td><code>git status</code></td><td>Show working tree status</td><td><code>git status</code></td></tr>
+<tr><td><code>git log</code></td><td>Show commit history</td><td><code>git log --oneline</code></td></tr>
+<tr><td><code>git diff</code></td><td>Show unstaged changes</td><td><code>git diff --staged</code></td></tr>
+<tr><td><code>git remote add</code></td><td>Add remote repository</td><td><code>git remote add origin URL</code></td></tr>
+<tr><td><code>git fetch</code></td><td>Download remote refs</td><td><code>git fetch origin</code></td></tr>
+<tr><td><code>git rm</code></td><td>Remove from staging</td><td><code>git rm --cached file.txt</code></td></tr>
+<tr><td><code>git mv</code></td><td>Rename/move file</td><td><code>git mv old.txt new.txt</code></td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">3.4 Git Configuration</h3>
+<div class="collapsible-body">
+<table>
+<tr><th>Command</th><th>Purpose</th></tr>
+<tr><td><code>git config --global user.name "Name"</code></td><td>Set username</td></tr>
+<tr><td><code>git config --global user.email "email"</code></td><td>Set email</td></tr>
+<tr><td><code>git config --global core.editor "code"</code></td><td>Set default editor</td></tr>
+<tr><td><code>git config --list</code></td><td>View all settings</td></tr>
+<tr><td><code>git help -a</code></td><td>Show all Git commands</td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">3.5 Staging Area & Git Objects</h3>
+<div class="collapsible-body">
+<p>The <strong>staging area</strong> (index) is where you prepare changes before committing. It allows you to:</p>
+<ul>
+<li>Preview exactly what will be committed</li>
+<li>Split work into related commits</li>
+<li>Record changes before committing to the database</li>
+</ul>
+<h4>Git Objects (inside .git/)</h4>
+<ul>
+<li><strong>Objects:</strong> Everything (commits, trees, blobs) stored as SHA-1 hashes</li>
+<li><strong>HEAD:</strong> Reference to the current branch</li>
+<li><strong>Config:</strong> Repository configuration</li>
+<li><strong>Hooks:</strong> Scripts executed before/after Git events</li>
+<li><strong>Info/Exclude:</strong> Patterns to exclude from Git tracking (.gitignore)</li>
+</ul>
+<h4>Git Blob (Binary Large Object)</h4>
+<p>A blob stores the contents of each file. Git tracks files by computing their SHA-1 hash.</p>
+<div class="tip-box">
+<strong>🔍 Inspecting:</strong> <code>git cat-file -p &lt;hash&gt;</code> — view blob contents<br>
+<code>git cat-file -t &lt;hash&gt;</code> — view blob type (blob, tree, commit)
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">3.6 GitHub Workflow (PR Process)</h3>
+<div class="collapsible-body">
+<div class="diagram-box">
+1. Create Repository  →  2. Create Branch  →  3. Make & Commit Changes
+                                                      ↓
+5. Merge PR  ←  4. Open Pull Request  ←  Push to Remote
+</div>
+<h4>Key GitHub Terms</h4>
+<table>
+<tr><th>Term</th><th>Meaning</th></tr>
+<tr><td><strong>Branch</strong></td><td>A separate workspace for changes (like a rough copy)</td></tr>
+<tr><td><strong>Clone</strong></td><td>Download a project to your computer</td></tr>
+<tr><td><strong>Fork</strong></td><td>Your own copy of someone else's repo on GitHub</td></tr>
+<tr><td><strong>Merge</strong></td><td>Combine branches together</td></tr>
+<tr><td><strong>Pull Request</strong></td><td>Request to merge your changes into main</td></tr>
+<tr><td><strong>Remote</strong></td><td>The online version of your repository</td></tr>
+<tr><td><strong>Upstream</strong></td><td>The original main repository you forked from</td></tr>
+</table>
+</div>
+</div>
+
+<div class="quick-rev">
+<h4>⚡ 5-Minute Revision: Unit 3</h4>
+<ul>
+<li>Git is a DVCS created by Linus Torvalds; GitHub is a cloud hosting platform by Microsoft</li>
+<li>Lifecycle: Working Dir → Stage (add) → Commit → Push to Remote</li>
+<li><code>git init</code> creates repo, <code>git clone</code> copies remote repo</li>
+<li>Staging area lets you preview and group changes before committing</li>
+<li>Branches allow parallel development without affecting main code</li>
+<li>Pull Requests propose changes for review and merging</li>
+<li><code>.git</code> folder contains objects (blobs, trees, commits), HEAD, config</li>
+</ul>
+</div>
+</div>
+
+<!-- ==================== UNIT 4 ==================== -->
+<div class="section" id="unit4">
+<h1 class="section-title"><span class="icon">⚙️</span> Unit 4 - Advanced Git</h1>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">4.1 Source Code Management (SCM)</h3>
+<div class="collapsible-body open">
+<p>SCM is a set of processes and tools to manage and track changes in source code.</p>
+<h4>Why SCM Matters</h4>
+<ul>
+<li><strong>Collaboration:</strong> Multiple developers work on the same codebase</li>
+<li><strong>History:</strong> Complete record of all changes</li>
+<li><strong>Reverting:</strong> Roll back to stable state when bugs are introduced</li>
+<li><strong>Branching & Merging:</strong> Parallel development streams</li>
+<li><strong>Conflict Resolution:</strong> Identify and resolve conflicting changes</li>
+</ul>
+<h4>SCM Best Practices</h4>
+<ul>
+<li>Commit often — frequent commits give many revert opportunities</li>
+<li>Work from the latest version</li>
+<li>Make detailed commit messages</li>
+<li>Review changes before committing (use staging area)</li>
+<li>Use branches for features/fixes</li>
+<li>Agree on a team workflow (GitFlow, GitHub Flow)</li>
+</ul>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">4.2 Branching & Merging</h3>
+<div class="collapsible-body open">
+<h4>Branch Commands</h4>
+<table>
+<tr><th>Command</th><th>Purpose</th></tr>
+<tr><td><code>git branch</code></td><td>List all local branches</td></tr>
+<tr><td><code>git branch -a</code></td><td>List all branches (including remote)</td></tr>
+<tr><td><code>git branch &lt;name&gt;</code></td><td>Create a new branch</td></tr>
+<tr><td><code>git checkout &lt;branch&gt;</code></td><td>Switch to a branch</td></tr>
+<tr><td><code>git checkout -b &lt;name&gt;</code></td><td>Create and switch in one command</td></tr>
+<tr><td><code>git merge &lt;branch&gt;</code></td><td>Merge specified branch into current</td></tr>
+<tr><td><code>git branch -d &lt;name&gt;</code></td><td>Delete merged branch</td></tr>
+<tr><td><code>git branch -D &lt;name&gt;</code></td><td>Force delete branch</td></tr>
+<tr><td><code>git push -u origin &lt;branch&gt;</code></td><td>Push branch to remote with tracking</td></tr>
+<tr><td><code>git push origin --delete &lt;branch&gt;</code></td><td>Delete remote branch</td></tr>
+<tr><td><code>git reflog</code></td><td>Recover deleted branches</td></tr>
+</table>
+
+<div class="diagram-box">
+        main ──●──●──●──────────●── (merge commit)
+                   \            /
+                    ●──●──●──●
+                      feature
+</div>
+<div class="tip-box warn">
+<strong>⚠️ Important:</strong> Always checkout from a branch before deleting it — you cannot delete the branch you're currently on.
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">4.3 Rebasing</h3>
+<div class="collapsible-body">
+<p><strong>Rebase</strong> moves or combines a sequence of commits to a new base commit. It creates a <strong>linear project history</strong> (unlike merge which creates merge commits).</p>
+<h4>Two Modes</h4>
+<table>
+<tr><th>Mode</th><th>Command</th><th>Description</th></tr>
+<tr><td>Standard</td><td><code>git rebase &lt;base&gt;</code></td><td>Automatically rebases current branch onto base</td></tr>
+<tr><td>Interactive</td><td><code>git rebase -i &lt;base&gt;</code></td><td>Opens editor to alter individual commits (pick, squash, edit, drop)</td></tr>
+</table>
+
+<div class="diagram-box">
+BEFORE REBASE (merge):
+main    ●──●──●──────────●
+               \        /
+feature         ●──●──●
+
+AFTER REBASE:
+main    ●──●──●
+               \
+feature         ●──●──●──●──●  (linear!)
+</div>
+
+<div class="tip-box">
+<strong>🎯 Interview Point:</strong> Use <code>git merge</code> to preserve complete history; use <code>git rebase</code> for clean, linear history. Never rebase public/shared branches!
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">4.4 Stashing</h3>
+<div class="collapsible-body">
+<p><strong>Git stash</strong> temporarily saves uncommitted changes (both staged and unstaged) and reverts the working copy.</p>
+<table>
+<tr><th>Command</th><th>Purpose</th></tr>
+<tr><td><code>git stash</code></td><td>Stash current changes</td></tr>
+<tr><td><code>git stash push -m "message"</code></td><td>Stash with description</td></tr>
+<tr><td><code>git stash list</code></td><td>List all stashes</td></tr>
+<tr><td><code>git stash show -p stash@{0}</code></td><td>Show stash contents</td></tr>
+<tr><td><code>git stash pop</code></td><td>Reapply and remove from stash</td></tr>
+<tr><td><code>git stash apply</code></td><td>Reapply but keep in stash</td></tr>
+<tr><td><code>git stash drop stash@{0}</code></td><td>Delete a specific stash</td></tr>
+<tr><td><code>git stash clear</code></td><td>Delete all stashes</td></tr>
+<tr><td><code>git stash -u</code></td><td>Also stash untracked files</td></tr>
+<tr><td><code>git stash branch &lt;name&gt;</code></td><td>Create branch from stash</td></tr>
+</table>
+<div class="tip-box success">
+<strong>📝 Use Case:</strong> You're editing a file but need to switch branches to fix a bug. Stash your changes → switch branch → fix bug → switch back → <code>git stash pop</code>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">4.5 Tagging</h3>
+<div class="collapsible-body">
+<p>Tags mark specific points in Git history (e.g., version releases).</p>
+<table>
+<tr><th>Command</th><th>Purpose</th></tr>
+<tr><td><code>git tag</code></td><td>List all tags</td></tr>
+<tr><td><code>git tag &lt;name&gt;</code></td><td>Create lightweight tag</td></tr>
+<tr><td><code>git tag -a &lt;name&gt; -m "msg"</code></td><td>Create annotated tag</td></tr>
+<tr><td><code>git tag -a &lt;name&gt; &lt;commit-hash&gt;</code></td><td>Tag a specific commit</td></tr>
+<tr><td><code>git push origin &lt;tagname&gt;</code></td><td>Push tag to remote</td></tr>
+<tr><td><code>git tag -d &lt;name&gt;</code></td><td>Delete local tag</td></tr>
+<tr><td><code>git checkout &lt;tagname&gt;</code></td><td>View state at tag (detached HEAD)</td></tr>
+</table>
+<h4>Annotated vs Lightweight Tags</h4>
+<table>
+<tr><th>Feature</th><th>Annotated</th><th>Lightweight</th></tr>
+<tr><td>Metadata</td><td>Tagger name, email, date, message</td><td>Just name and pointer</td></tr>
+<tr><td>GPG Signing</td><td>✅ Supported</td><td>❌ Not supported</td></tr>
+<tr><td>Best Practice</td><td>For public releases</td><td>For private/quick bookmarks</td></tr>
+<tr><td>Command</td><td><code>git tag -a &lt;name&gt; -m "msg"</code></td><td><code>git tag &lt;name&gt;</code></td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">4.6 Comparison Commands</h3>
+<div class="collapsible-body">
+<table>
+<tr><th>Command</th><th>Purpose</th></tr>
+<tr><td><code>git diff</code></td><td>Show unstaged changes</td></tr>
+<tr><td><code>git diff --staged</code></td><td>Show staged changes</td></tr>
+<tr><td><code>git diff branch1..branch2</code></td><td>Two-dot diff between branches</td></tr>
+<tr><td><code>git diff branch1...branch2</code></td><td>Three-dot diff (changes since branch point)</td></tr>
+<tr><td><code>git log --oneline</code></td><td>Compact commit history</td></tr>
+<tr><td><code>git log -n 5 --oneline</code></td><td>Last 5 commits</td></tr>
+<tr><td><code>git log --reverse</code></td><td>Chronological order</td></tr>
+<tr><td><code>git log --author="name"</code></td><td>Commits by specific author</td></tr>
+<tr><td><code>git show &lt;hash&gt;</code></td><td>Show commit details + diff</td></tr>
+</table>
+</div>
+</div>
+
+<div class="quick-rev">
+<h4>⚡ 5-Minute Revision: Unit 4</h4>
+<ul>
+<li>SCM manages source code changes; Git is the most popular DVCS</li>
+<li>Branches allow parallel development; <code>git checkout -b</code> creates and switches</li>
+<li>Merge preserves full history; Rebase creates linear history</li>
+<li>Stash temporarily saves changes without committing</li>
+<li>Tags mark release points; annotated tags include metadata</li>
+<li><code>git diff</code> shows differences; <code>git log</code> shows history</li>
+<li>Best practice: commit often, use descriptive messages, branch for features</li>
+</ul>
+</div>
+</div>
+
+<!-- ==================== UNIT 5 ==================== -->
+<div class="section" id="unit5">
+<h1 class="section-title"><span class="icon">🔧</span> Unit 5 - DevOps Trends & Tools</h1>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">5.1 DevOps Market Trends 2024-2025</h3>
+<div class="collapsible-body open">
+<p>DevOps is expected to grow <strong>25% annually</strong> between 2024-2032. Market projected to reach <strong>USD 66 billion</strong> within a decade.</p>
+<h4>Top 10 Trends</h4>
+<table>
+<tr><th>#</th><th>Trend</th><th>Key Point</th></tr>
+<tr><td>1</td><td><strong>Infrastructure as Code (IaC)</strong></td><td>Manage infrastructure through configuration files</td></tr>
+<tr><td>2</td><td><strong>Cloud Adoption</strong></td><td>65.2% market share in 2023; cloud-native up 30%</td></tr>
+<tr><td>3</td><td><strong>DevSecOps</strong></td><td>Security integrated into CI/CD; 54% time on observability</td></tr>
+<tr><td>4</td><td><strong>Multi-Cloud</strong></td><td>AWS + Azure + GCP; avoid vendor lock-in</td></tr>
+<tr><td>5</td><td><strong>AI in DevOps</strong></td><td>AIOps, predictive analytics, automated testing</td></tr>
+<tr><td>6</td><td><strong>Kubernetes</strong></td><td>Container orchestration for scalable deployments</td></tr>
+<tr><td>7</td><td><strong>Agile Practices</strong></td><td>99% businesses positive on DevOps; deployment frequency up 30%</td></tr>
+<tr><td>8</td><td><strong>Serverless</strong></td><td>No server management; event-driven computing</td></tr>
+<tr><td>9</td><td><strong>Legacy Modernization</strong></td><td>Modernizing old systems for DevOps integration</td></tr>
+<tr><td>10</td><td><strong>MLOps</strong></td><td>Extending DevOps for ML model lifecycle management</td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">5.2 DevOps Delivery Pipeline</h3>
+<div class="collapsible-body open">
+<div class="diagram-box">
+Version Control → CI → Continuous Delivery → Continuous Deployment → Continuous Operations
+     (Git)      (Build/Test)   (Package)         (Auto Deploy)        (Monitor)
+</div>
+<h4>Pipeline Stages</h4>
+<table>
+<tr><th>Stage</th><th>Description</th></tr>
+<tr><td><strong>Version Control</strong></td><td>Git-based; stores all code and infrastructure configs (GitOps)</td></tr>
+<tr><td><strong>Continuous Integration</strong></td><td>Auto builds and tests on every commit; early bug detection</td></tr>
+<tr><td><strong>Continuous Delivery</strong></td><td>Auto packaged after tests; requires manual approval to deploy</td></tr>
+<tr><td><strong>Continuous Deployment</strong></td><td>Fully automated; no manual approval needed</td></tr>
+<tr><td><strong>Continuous Operations</strong></td><td>Post-deployment monitoring, performance tracking, rollback</td></tr>
+<tr><td><strong>Continuous Testing</strong></td><td>Automated tests at every stage: unit, smoke, functional, e2e</td></tr>
+<tr><td><strong>Continuous Monitoring</strong></td><td>Assess health/performance in production</td></tr>
+</table>
+<h4>Types of Pipelines</h4>
+<ul>
+<li><strong>CD Pipeline:</strong> Code packaged after tests, needs manual approval</li>
+<li><strong>Continuous Deployment Pipeline:</strong> Auto-deploy after passing all stages</li>
+<li><strong>Feature Flag Pipelines:</strong> Toggle features for specific users (A/B testing)</li>
+<li><strong>GitOps Pipelines:</strong> Git as single source of truth for infra and app configs</li>
+</ul>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">5.3 Containerization</h3>
+<div class="collapsible-body">
+<p>Packages application code with all dependencies into a portable <strong>container</strong> that runs consistently across environments.</p>
+<h4>Container Architecture (Layers)</h4>
+<div class="diagram-box">
+┌─────────────────────────────┐
+│   Application + Dependencies │  ← Top Layer
+├─────────────────────────────┤
+│     Container Engine          │  ← Runtime
+├─────────────────────────────┤
+│     Operating System          │  ← Linux/Cloud
+├─────────────────────────────┤
+│     Infrastructure            │  ← Hardware/VM
+└─────────────────────────────┘
+</div>
+<h4>Container vs Virtual Machine</h4>
+<table>
+<tr><th>Feature</th><th>Container</th><th>Virtual Machine</th></tr>
+<tr><td>Size</td><td>MBs</td><td>GBs</td></tr>
+<tr><td>Boot Time</td><td>Seconds</td><td>Minutes</td></tr>
+<tr><td>OS</td><td>Shares host OS kernel</td><td>Full guest OS</td></tr>
+<tr><td>Isolation</td><td>Process-level</td><td>Hardware-level</td></tr>
+<tr><td>Efficiency</td><td>High (lightweight)</td><td>Lower (resource-heavy)</td></tr>
+</table>
+<h4>Use Cases</h4>
+<ul>
+<li>Cloud migration (lift-and-shift approach)</li>
+<li>Microservices architecture deployment</li>
+<li>IoT device management</li>
+</ul>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">5.4 Docker</h3>
+<div class="collapsible-body">
+<p><strong>Docker</strong> is an open-source container runtime for building, deploying, and testing containerized applications.</p>
+<h4>Why Docker?</h4>
+<ul>
+<li>Ship code faster with standardized operations</li>
+<li>Eliminates "it works on my machine" problem</li>
+<li>Consistent environments from dev to production</li>
+<li>Easy scalability and resource efficiency</li>
+</ul>
+<h4>Docker on AWS</h4>
+<table>
+<tr><th>Service</th><th>Purpose</th></tr>
+<tr><td><strong>Amazon ECS</strong></td><td>Highly scalable container management service</td></tr>
+<tr><td><strong>AWS Fargate</strong></td><td>Run containers without managing servers</td></tr>
+<tr><td><strong>Amazon EKS</strong></td><td>Run Kubernetes on AWS</td></tr>
+<tr><td><strong>Amazon ECR</strong></td><td>Private Docker container registry</td></tr>
+<tr><td><strong>AWS Batch</strong></td><td>Run batch processing with Docker</td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">5.5 Selenium</h3>
+<div class="collapsible-body">
+<p>Open-source framework for <strong>automating web application testing</strong>. Supports Java, C#, Python, Ruby.</p>
+<h4>Selenium Components</h4>
+<table>
+<tr><th>Component</th><th>Description</th></tr>
+<tr><td><strong>Selenium IDE</strong></td><td>Browser plugin for record/playback of tests</td></tr>
+<tr><td><strong>Selenium RC</strong></td><td>Legacy tool using JavaScript proxy (Selenium 1.0)</td></tr>
+<tr><td><strong>Selenium WebDriver</strong></td><td>Direct browser communication; most used (2.0/3.0)</td></tr>
+<tr><td><strong>Selenium Grid</strong></td><td>Parallel test execution on multiple machines</td></tr>
+</table>
+<h4>Limitations</h4>
+<ul>
+<li>No desktop application testing</li>
+<li>No SOAP/REST web service testing</li>
+<li>No built-in reporting (use JUnit/TestNG)</li>
+<li>No image-based testing (use Sikuli integration)</li>
+<li>Requires programming language knowledge</li>
+</ul>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">5.6 Jenkins</h3>
+<div class="collapsible-body">
+<p><strong>Jenkins</strong> is the most popular open-source CI/CD automation server. Written in Java. Over 147,000 active installations.</p>
+<h4>How Jenkins Works</h4>
+<div class="diagram-box">
+Developer → Commit Code → Jenkins polls repo → Build → Test → Deploy
+                                                              ↓
+                                              Feedback to Developers
+</div>
+<h4>Master-Slave Architecture</h4>
+<table>
+<tr><th>Component</th><th>Role</th></tr>
+<tr><td><strong>Master</strong></td><td>Schedules builds, dispatches to slaves, monitors, records results</td></tr>
+<tr><td><strong>Slave/Agent</strong></td><td>Java executable on remote machine; executes build jobs</td></tr>
+</table>
+<h4>Agent Connectivity</h4>
+<ul>
+<li><strong>SSH:</strong> Master connects to agent via port 22</li>
+<li><strong>JNLP:</strong> Java Network Launch Protocol; agent initiates connection; port 50000</li>
+</ul>
+<h4>Key Applications</h4>
+<ul>
+<li>Continuous Integration (automated builds on every commit)</li>
+<li>Continuous Delivery (automated deployment pipeline)</li>
+<li>Infrastructure as Code (integrates with Ansible, Puppet)</li>
+<li>Containerization support (Docker, Kubernetes integration)</li>
+<li>Pipeline as Code (Jenkinsfile)</li>
+</ul>
+<div class="tip-box success">
+<strong>📝 Exam Point:</strong> Jenkins was originally called <strong>Hudson</strong> (developed 2004 by Kohsuke Kawaguchi at Sun Microsystems). Renamed to Jenkins in 2011 after Oracle acquisition dispute.
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">5.7 Puppet</h3>
+<div class="collapsible-body">
+<p><strong>Puppet</strong> is a configuration management tool for automating server setup, program installation, and system management. Written in Ruby.</p>
+<h4>Architecture (Master-Slave)</h4>
+<div class="diagram-box">
+Puppet Master ←── SSL (encrypted) ──→ Puppet Agent
+      │                                     │
+      │  1. Agent sends Facts               │
+      │  2. Master compiles Catalog          │
+      │  3. Catalog sent to Agent            │
+      │  4. Agent applies configuration     │
+      │  5. Reports back to Master          │
+</div>
+<h4>Key Components</h4>
+<table>
+<tr><th>Component</th><th>Description</th></tr>
+<tr><td><strong>Manifest (.pp)</strong></td><td>Puppet configuration files defining desired state</td></tr>
+<tr><td><strong>Module</strong></td><td>Collection of manifests, facts, files, and templates</td></tr>
+<tr><td><strong>Resource</strong></td><td>Fundamental unit modeling system configurations</td></tr>
+<tr><td><strong>Facter</strong></td><td>Gathers system facts (IP, OS, uptime, etc.)</td></tr>
+<tr><td><strong>Catalog</strong></td><td>Compiled document of desired state for all resources</td></tr>
+<tr><td><strong>Mcollective</strong></td><td>Framework for parallel execution on multiple slaves</td></tr>
+</table>
+<h4>Why Puppet?</h4>
+<ul>
+<li>30,000+ companies worldwide use it</li>
+<li>Automated recovery: reverts to last stable state if misconfigured</li>
+<li>Consistent deployments across servers</li>
+<li>Supports all major platforms (Linux, Windows, macOS)</li>
+</ul>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">5.8 Ansible</h3>
+<div class="collapsible-body">
+<p><strong>Ansible</strong> is an <strong>agentless</strong> automation tool for configuration management, app deployment, and orchestration. Written in Python.</p>
+<h4>Key Difference from Puppet</h4>
+<table>
+<tr><th>Feature</th><th>Ansible</th><th>Puppet</th></tr>
+<tr><td>Architecture</td><td>Agentless (uses SSH)</td><td>Agent-based (Master-Slave)</td></tr>
+<tr><td>Language</td><td>YAML (Playbooks)</td><td>Ruby DSL (Manifests)</td></tr>
+<tr><td>Setup</td><td>Simple, no agent install</td><td>Requires agent on each node</td></tr>
+<tr><td>Learning Curve</td><td>Easy</td><td>Moderate</td></tr>
+</table>
+<h4>Components</h4>
+<table>
+<tr><th>Component</th><th>Description</th></tr>
+<tr><td><strong>Control Node</strong></td><td>Machine where Ansible is installed; runs all tasks</td></tr>
+<tr><td><strong>Managed Nodes</strong></td><td>Servers managed by Ansible (no agent needed)</td></tr>
+<tr><td><strong>Modules</strong></td><td>Script-like programs specifying desired system state</td></tr>
+<tr><td><strong>Plugins</strong></td><td>Code enhancing Ansible's core functionality</td></tr>
+<tr><td><strong>Inventory</strong></td><td>Lists of hosts (IPs, databases, servers)</td></tr>
+<tr><td><strong>Playbook</strong></td><td>YAML files describing tasks for managed nodes</td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">5.9 Nagios (Continuous Monitoring)</h3>
+<div class="collapsible-body">
+<p><strong>Nagios</strong> is an open-source monitoring and alerting system for IT infrastructure. Runs periodic checks on servers, networks, and services.</p>
+<h4>How Nagios Works</h4>
+<div class="diagram-box">
+Scheduler → Plugin → Remote Machine → Result → Nagios Server → GUI + Alerts
+         (checks)   (CPU, disk, etc.)  (OK/Warning/Critical)  (email/SMS)
+</div>
+<h4>What Nagios Monitors</h4>
+<ul>
+<li>Memory, disk usage, CPU load</li>
+<li>Running processes, log files</li>
+<li>Services: SMTP, HTTP, POP3, SSH</li>
+<li>Network devices: routers, switches</li>
+</ul>
+<h4>Key Benefits</h4>
+<ul>
+<li>24/7 monitoring with instant alerts</li>
+<li>Early problem detection before impact</li>
+<li>Centralized dashboard for entire IT infrastructure</li>
+<li>Open-source and cost-effective</li>
+<li>Scalable from small to enterprise systems</li>
+</ul>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">5.10 Kubernetes</h3>
+<div class="collapsible-body">
+<p><strong>Kubernetes (K8s)</strong> is an open-source container orchestration platform for automating deployment, scaling, and management of containerized applications.</p>
+<h4>Key Features</h4>
+<ul>
+<li>Automatic container restart if one crashes</li>
+<li>Auto-scaling based on load</li>
+<li>Service discovery and load balancing</li>
+<li>Rolling updates and rollbacks</li>
+<li>Secret and configuration management</li>
+</ul>
+<h4>Architecture</h4>
+<div class="diagram-box">
+Control Plane:
+  ├── API Server (entry point)
+  ├── etcd (key-value store)
+  ├── Scheduler (assigns pods to nodes)
+  └── Controller Manager (maintains desired state)
+
+Node Components:
+  ├── kubelet (ensures pods are running)
+  ├── kube-proxy (network rules)
+  └── Container Runtime (Docker, containerd)
+</div>
+</div>
+</div>
+
+<div class="quick-rev">
+<h4>⚡ 5-Minute Revision: Unit 5</h4>
+<ul>
+<li>DevOps market growing 25% annually; trends: IaC, DevSecOps, Multi-Cloud, AI, K8s</li>
+<li>Pipeline: VCS → CI → CD → Deployment → Monitoring</li>
+<li>Containers are lightweight, portable, faster to boot than VMs</li>
+<li>Docker: build, ship, run containers; ECS/Fargate/ECR on AWS</li>
+<li>Selenium: IDE (record), WebDriver (main), Grid (parallel)</li>
+<li>Jenkins: CI/CD automation, Master-Slave arch, 1000+ plugins</li>
+<li>Puppet: agent-based config mgmt, Master-Slave, uses manifests (.pp)</li>
+<li>Ansible: agentless (SSH), uses playbooks (YAML), simpler than Puppet</li>
+<li>Nagios: monitoring system, scheduler → plugin → remote check → alerts</li>
+<li>Kubernetes: container orchestration, auto-scaling, self-healing</li>
+</ul>
+</div>
+</div>
+
+<!-- ==================== UNIT 6 ==================== -->
+<div class="section" id="unit6">
+<h1 class="section-title"><span class="icon">📦</span> Unit 6 - Maven</h1>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">6.1 What is Maven?</h3>
+<div class="collapsible-body open">
+<p><strong>Apache Maven</strong> is a build automation and project management tool primarily for Java projects. It manages the build lifecycle, dependencies, documentation, and reporting using a standardized approach.</p>
+<h4>Key Features</h4>
+<ul>
+<li><strong>Build Automation:</strong> Compile, test, package, deploy</li>
+<li><strong>Dependency Management:</strong> Auto-resolves and downloads libraries</li>
+<li><strong>Standardized Structure:</strong> Consistent project layout across teams</li>
+<li><strong>Plugin System:</strong> Extensible through plugins</li>
+<li><strong>Multi-Module Support:</strong> Manage multiple related projects</li>
+</ul>
+<h4>What is a Maven Artifact?</h4>
+<p>An artifact is any file used in Java software development — JAR files, POM files, documentation bundles, ML models, etc. The most common artifact is a <strong>dependency</strong> (Java library).</p>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">6.2 Maven Build Lifecycle</h3>
+<div class="collapsible-body open">
+<p>Three built-in lifecycles:</p>
+
+<h4>1. Default Lifecycle (Build)</h4>
+<div class="diagram-box">
+validate → compile → test → package → verify → install → deploy
+</div>
+<table>
+<tr><th>Phase</th><th>Description</th></tr>
+<tr><td><strong>validate</strong></td><td>Validate project configuration is correct</td></tr>
+<tr><td><strong>compile</strong></td><td>Compile source code into bytecode</td></tr>
+<tr><td><strong>test</strong></td><td>Run unit tests</td></tr>
+<tr><td><strong>package</strong></td><td>Package into distributable format (JAR/WAR)</td></tr>
+<tr><td><strong>verify</strong></td><td>Run checks to verify package quality</td></tr>
+<tr><td><strong>install</strong></td><td>Install to local repository</td></tr>
+<tr><td><strong>deploy</strong></td><td>Copy to remote repository</td></tr>
+</table>
+
+<h4>2. Clean Lifecycle</h4>
+<p><code>pre-clean → clean → post-clean</code> — Deletes files from previous build (target directory)</p>
+
+<h4>3. Site Lifecycle</h4>
+<p><code>pre-site → site → post-site → site-deploy</code> — Generates project documentation</p>
+
+<div class="tip-box">
+<strong>📝 Important:</strong> Running <code>mvn package</code> automatically runs all phases before it (validate, compile, test, package).
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">6.3 Maven Repositories</h3>
+<div class="collapsible-body">
+<table>
+<tr><th>Repository</th><th>Description</th><th>Location</th></tr>
+<tr><td><strong>Local</strong></td><td>Developer's machine; caches downloaded dependencies</td><td><code>~/.m2/repository</code></td></tr>
+<tr><td><strong>Central</strong></td><td>Maven community repository</td><td>repo.maven.apache.org</td></tr>
+<tr><td><strong>Remote</strong></td><td>Custom web server for organization's internal dependencies</td><td>Configured in pom.xml</td></tr>
+</table>
+<div class="tip-box success">
+<strong>📝 Search Order:</strong> Local → Central → Remote. Maven only downloads once and caches locally.
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">6.4 Project Object Model (POM)</h3>
+<div class="collapsible-body">
+<p>The <strong>pom.xml</strong> is the heart of any Maven project. It's an XML file containing project configuration.</p>
+<h4>Key Components of pom.xml</h4>
+<table>
+<tr><th>Element</th><th>Purpose</th></tr>
+<tr><td><code>&lt;groupId&gt;</code></td><td>Organization/company name</td></tr>
+<tr><td><code>&lt;artifactId&gt;</code></td><td>Unique project name</td></tr>
+<tr><td><code>&lt;version&gt;</code></td><td>Project version</td></tr>
+<tr><td><code>&lt;dependencies&gt;</code></td><td>List of required libraries</td></tr>
+<tr><td><code>&lt;plugins&gt;</code></td><td>Build plugins to use</td></tr>
+<tr><td><code>&lt;repositories&gt;</code></td><td>Remote repositories</td></tr>
+<tr><td><code>&lt;profiles&gt;</code></td><td>Environment-specific configs</td></tr>
+<tr><td><code>&lt;packaging&gt;</code></td><td>Output type (jar, war)</td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">6.5 Dependencies & Plugins</h3>
+<div class="collapsible-body">
+<h4>Dependencies</h4>
+<ul>
+<li><strong>Direct:</strong> Explicitly declared in pom.xml with <code>&lt;dependency&gt;</code></li>
+<li><strong>Transitive:</strong> Automatically included dependencies of direct dependencies</li>
+<li>Use <code>mvn dependency:tree</code> to list all dependencies</li>
+</ul>
+<h4>Maven Plugins</h4>
+<table>
+<tr><th>Plugin</th><th>Purpose</th></tr>
+<tr><td><strong>Compiler</strong></td><td>Compiles project source code</td></tr>
+<tr><td><strong>Surefire</strong></td><td>Runs unit tests</td></tr>
+<tr><td><strong>Failsafe</strong></td><td>Runs integration tests</td></tr>
+<tr><td><strong>JAR</strong></td><td>Packages into JAR file</td></tr>
+<tr><td><strong>WAR</strong></td><td>Packages into WAR file</td></tr>
+<tr><td><strong>Assembly</strong></td><td>Creates distributions with dependencies</td></tr>
+<tr><td><strong>Javadoc</strong></td><td>Generates API documentation</td></tr>
+<tr><td><strong>Checkstyle</strong></td><td>Checks code against coding standards</td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">6.6 JAR vs WAR Files</h3>
+<div class="collapsible-body">
+<table>
+<tr><th>Feature</th><th>JAR (Java Archive)</th><th>WAR (Web Archive)</th></tr>
+<tr><td>Contents</td><td>Java classes, metadata, resources</td><td>Classes + JSP, Servlets, HTML, CSS, web.xml</td></tr>
+<tr><td>Use Case</td><td>Library distribution, standalone apps</td><td>Web application deployment</td></tr>
+<tr><td>Deployed To</td><td>Application servers, libraries</td><td>Web servers (Tomcat, Jetty)</td></tr>
+<tr><td>Fat JAR</td><td>Executable JAR with all dependencies</td><td>N/A</td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">6.7 Maven Project Structure</h3>
+<div class="collapsible-body">
+<div class="diagram-box">
+myproject/
+├── pom.xml                    ← Project configuration
+├── src/
+│   ├── main/
+│   │   ├── java/              ← Java source code
+│   │   │   └── com/example/
+│   │   ├── resources/         ← Config files (application.properties)
+│   │   └── webapp/            ← Web content (HTML, JSP, CSS, JS)
+│   │       └── WEB-INF/
+│   └── test/
+│       ├── java/              ← Test code (JUnit tests)
+│       └── resources/         ← Test configuration
+└── target/                    ← Build output
+    ├── classes/               ← Compiled .class files
+    ├── test-classes/          ← Compiled test classes
+    └── myproject.jar/war      ← Package artifact
+</div>
+</div>
+</div>
+
+<div class="quick-rev">
+<h4>⚡ 5-Minute Revision: Unit 6</h4>
+<ul>
+<li>Maven automates build lifecycle, dependency management, and project structure</li>
+<li>Default lifecycle: validate → compile → test → package → verify → install → deploy</li>
+<li>3 repositories: Local (~/.m2), Central, Remote</li>
+<li>pom.xml = heart of Maven project; defines dependencies, plugins, profiles</li>
+<li>Direct dependencies are declared; transitive are auto-included</li>
+<li>JAR = library/archive; WAR = web application for servers like Tomcat</li>
+<li>Plugins: Compiler, Surefire (tests), JAR/WAR, Assembly, Javadoc</li>
+<li>Standard structure: src/main/java, src/test/java, target/</li>
+</ul>
+</div>
+</div>
+
+<!-- ==================== CLOUD COMPUTING ==================== -->
+<div class="section" id="cloud">
+<h1 class="section-title"><span class="icon">☁️</span> Cloud Computing</h1>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">What is Cloud Computing?</h3>
+<div class="collapsible-body open">
+<p><strong>Definition (NIST):</strong> Cloud computing is a model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (networks, servers, storage, applications, services) that can be rapidly provisioned and released with minimal management effort.</p>
+
+<h4>5 Essential Characteristics (NIST)</h4>
+<ol>
+<li><strong>On-Demand Self-Service:</strong> Users can provision resources automatically without human interaction with the provider</li>
+<li><strong>Broad Network Access:</strong> Available over the network through standard devices (phones, laptops)</li>
+<li><strong>Resource Pooling:</strong> Provider's resources are pooled to serve multiple consumers (multi-tenant)</li>
+<li><strong>Rapid Elasticity:</strong> Resources can scale up/down quickly to match demand</li>
+<li><strong>Measured Service:</strong> Usage is monitored, controlled, and billed (pay-as-you-go)</li>
+</ol>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">Deployment Models</h3>
+<div class="collapsible-body">
+<table>
+<tr><th>Model</th><th>Description</th><th>Example</th><th>Best For</th></tr>
+<tr><td><strong>Public Cloud</strong></td><td>Resources owned and operated by third-party provider; shared infrastructure</td><td>AWS, Azure, GCP</td><td>Startups, scalability, cost</td></tr>
+<tr><td><strong>Private Cloud</strong></td><td>Dedicated infrastructure for a single organization; on-premise or hosted</td><td>OpenStack, VMware</td><td>Security, compliance</td></tr>
+<tr><td><strong>Hybrid Cloud</strong></td><td>Combination of public + private; data/apps can move between them</td><td>AWS + On-premise</td><td>Flexibility, mixed workloads</td></tr>
+<tr><td><strong>Community Cloud</strong></td><td>Shared infrastructure among organizations with common concerns</td><td>Government clouds</td><td>Shared compliance needs</td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">Service Models (IaaS, PaaS, SaaS)</h3>
+<div class="collapsible-body">
+<div class="diagram-box">
+┌────────────────────────────────────┐
+│         YOU MANAGE: Apps, Data     │  ← SaaS (everything else managed)
+├────────────────────────────────────┤
+│      YOU MANAGE: Apps, Runtime     │  ← PaaS
+├────────────────────────────────────┤
+│   YOU MANAGE: Apps, Data, Runtime, │  ← IaaS
+│   Middleware, OS                    │
+├────────────────────────────────────┤
+│  YOU MANAGE: Nothing (all managed) │  ← On-Premise (you manage everything)
+└────────────────────────────────────┘
+</div>
+<table>
+<tr><th>Model</th><th>You Manage</th><th>Provider Manages</th><th>Examples</th></tr>
+<tr><td><strong>IaaS</strong></td><td>Apps, Data, Runtime, Middleware, OS</td><td>Virtualization, Servers, Storage, Networking</td><td>EC2, Azure VMs, GCE</td></tr>
+<tr><td><strong>PaaS</strong></td><td>Apps, Data</td><td>Runtime, Middleware, OS, Servers</td><td>Heroku, Elastic Beanstalk, GAE</td></tr>
+<tr><td><strong>SaaS</strong></td><td>Nothing (just use it)</td><td>Everything</td><td>Gmail, Salesforce, Office 365</td></tr>
+</table>
+
+<div class="tip-box">
+<strong>🎯 Interview Point:</strong> Think of it like pizza: IaaS = you buy ingredients and cook; PaaS = you get the oven and ingredients; SaaS = you order from Domino's.
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">Why DevOps Needs Cloud Computing</h3>
+<div class="collapsible-body">
+<h4>Key Reasons</h4>
+<ul>
+<li><strong>Easy Infrastructure Setup:</strong> Spin up servers in minutes, not weeks</li>
+<li><strong>Automation Support:</strong> Cloud-native CI/CD tools</li>
+<li><strong>Scalability:</strong> Auto-scale based on demand</li>
+<li><strong>Pay-As-You-Go:</strong> Cost-efficient resource management</li>
+<li><strong>Real-Time Monitoring:</strong> Built-in monitoring and alerting</li>
+<li><strong>Disaster Recovery:</strong> Automated backups and failover</li>
+<li><strong>Global Reach:</strong> Deploy worldwide in minutes</li>
+</ul>
+<h4>Limitations</h4>
+<ul>
+<li>Security and privacy concerns</li>
+<li>Internet dependency (downtime risk)</li>
+<li>Vendor lock-in</li>
+<li>Cost can spiral without management</li>
+<li>Compliance challenges</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- ==================== AWS ==================== -->
+<div class="section" id="aws">
+<h1 class="section-title"><span class="icon">🟧</span> Amazon Web Services (AWS)</h1>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">AWS Overview & Core Infrastructure</h3>
+<div class="collapsible-body open">
+<p>AWS is the world's most comprehensive and broadly adopted cloud platform. It offers over 200 services from data centers globally.</p>
+<h4>Infrastructure Concepts</h4>
+<ul>
+<li><strong>Region:</strong> Geographic area with multiple AZs (e.g., us-east-1)</li>
+<li><strong>Availability Zone (AZ):</strong> Isolated data center within a region</li>
+<li><strong>Edge Location:</strong> CDN endpoints for content caching</li>
+</ul>
+<div class="diagram-box">
+Region (us-east-1)
+├── AZ-1a  (Data Center)
+├── AZ-1b  (Data Center)
+├── AZ-1c  (Data Center)
+└── Edge Locations (CDN)
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">AWS Core Services</h3>
+<div class="collapsible-body">
+<table>
+<tr><th>Category</th><th>Service</th><th>Purpose</th></tr>
+<tr><td rowspan="2"><strong>Compute</strong></td><td>EC2</td><td>Virtual machines (instances)</td></tr>
+<tr><td>Lambda</td><td>Serverless functions (pay per invocation)</td></tr>
+<tr><td><strong>Storage</strong></td><td>S3</td><td>Object storage (files, backups, static websites)</td></tr>
+<tr><td><strong>Database</strong></td><td>RDS</td><td>Managed relational database (MySQL, PostgreSQL)</td></tr>
+<tr><td><strong>Networking</strong></td><td>VPC</td><td>Virtual Private Cloud (isolated network)</td></tr>
+<tr><td><strong>Security</strong></td><td>IAM</td><td>Identity and Access Management (users, roles, policies)</td></tr>
+<tr><td><strong>Monitoring</strong></td><td>CloudWatch</td><td>Metrics, logs, alarms for AWS resources</td></tr>
+<tr><td><strong>Load Balancing</strong></td><td>ELB</td><td>Distribute traffic across multiple instances</td></tr>
+<tr><td><strong>Auto Scaling</strong></td><td>ASG</td><td>Automatically adjust EC2 capacity based on demand</td></tr>
+<tr><td><strong>DNS</strong></td><td>Route 53</td><td>DNS web service and domain registration</td></tr>
+<tr><td><strong>CDN</strong></td><td>CloudFront</td><td>Content delivery network for fast content delivery</td></tr>
+<tr><td><strong>Containers</strong></td><td>ECS/EKS/Fargate</td><td>Container orchestration on AWS</td></tr>
+</table>
+
+<h4>EC2 Key Points</h4>
+<ul>
+<li>Virtual servers (instances) in the cloud</li>
+<li>Multiple instance types: general, compute, memory, storage optimized</li>
+<li>Pricing: On-Demand, Reserved, Spot, Savings Plans</li>
+</ul>
+
+<h4>S3 Key Points</h4>
+<ul>
+<li>Unlimited object storage (files, images, videos)</li>
+<li>99.999999999% durability</li>
+<li>Buckets for organizing objects</li>
+<li>Versioning, lifecycle policies, encryption</li>
+</ul>
+
+<h4>IAM Key Points</h4>
+<ul>
+<li>Users (individuals), Groups (collections), Roles (temporary access)</li>
+<li>Policies are JSON documents defining permissions</li>
+<li>Root account should NEVER be used for daily tasks</li>
+<li>Follow principle of least privilege</li>
+</ul>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">AWS Pricing Models</h3>
+<div class="collapsible-body">
+<table>
+<tr><th>Model</th><th>Description</th><th>Best For</th></tr>
+<tr><td><strong>On-Demand</strong></td><td>Pay per second/minute/hour</td><td>Short-term, unpredictable workloads</td></tr>
+<tr><td><strong>Reserved</strong></td><td>1-3 year commitment; up to 72% savings</td><td>Steady-state, predictable usage</td></tr>
+<tr><td><strong>Spot</strong></td><td>Up to 90% off; can be terminated</td><td>Flexible, fault-tolerant workloads</td></tr>
+<tr><td><strong>Savings Plans</strong></td><td>Flexible pricing commitment</td><td>Consistent usage patterns</td></tr>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ==================== CI/CD ==================== -->
+<div class="section" id="cicd">
+<h1 class="section-title"><span class="icon">🔄</span> CI/CD Pipeline</h1>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">Continuous Integration (CI)</h3>
+<div class="collapsible-body open">
+<p>CI is the practice of automatically building and testing code every time a developer commits changes to the shared repository.</p>
+<div class="diagram-box">
+Developer → Commit → Jenkins/GitHub Actions → Build → Auto Tests → Report
+                                                      ↓
+                                              Pass? → Merge
+                                              Fail? → Notify Developer
+</div>
+<h4>Benefits</h4>
+<ul>
+<li>Early bug detection (bugs found in minutes, not days)</li>
+<li>Reduced integration problems ("merge hell")</li>
+<li>Always have a working build</li>
+<li>Automated testing ensures quality</li>
+</ul>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">Continuous Delivery (CD) vs Continuous Deployment</h3>
+<div class="collapsible-body">
+<table>
+<tr><th>Aspect</th><th>Continuous Delivery</th><th>Continuous Deployment</th></tr>
+<tr><td>Definition</td><td>Code is ready to deploy at any time</td><td>Code is automatically deployed to production</td></tr>
+<tr><td>Manual Approval</td><td>✅ Required before production</td><td>❌ Not required (fully automated)</td></tr>
+<tr><td>Risk</td><td>Lower (human gate)</td><td>Higher (no manual check)</td></tr>
+<tr><td>Speed</td><td>Fast</td><td>Fastest</td></tr>
+<tr><td>Use Case</td><td>Most teams</td><td>Mature teams with strong test coverage</td></tr>
+</table>
+
+<div class="tip-box warn">
+<strong>⚠️ Common Exam Confusion:</strong><br>
+• <strong>Continuous Delivery</strong> = Automated up to staging; manual approval for production<br>
+• <strong>Continuous Deployment</strong> = Fully automated; every change goes to production
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="expandable" onclick="toggleSection(this)">CI/CD Pipeline Stages</h3>
+<div class="collapsible-body">
+<div class="diagram-box">
+┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌──────────┐
+│  SOURCE  │→ │  BUILD   │→ │  TEST   │→ │DEPLOY to │→ │DEPLOY to │
+│          │  │          │  │         │  │ STAGING  │  │PRODUCTION│
+│ Pull     │  │ Compile  │  │ Unit    │  │          │  │          │
+│ Request  │  │ Package  │  │ Integr. │  │ QA Test  │  │ Release  │
+│ Commit   │  │ Artifact │  │ E2E     │  │ approval │  │ Monitor  │
+└─────────┘  └─────────┘  └─────────┘  └─────────┘  └──────────┘
+</div>
+<h4>Popular CI/CD Tools</h4>
+<table>
+<tr><th>Tool</th><th>Type</th><th>Key Feature</th></tr>
+<tr><td><strong>Jenkins</strong></td><td>Self-hosted</td><td>1000+ plugins, Master-Slave arch</td></tr>
+<tr><td><strong>GitHub Actions</strong></td><td>Cloud-based</td><td>Native GitHub integration</td></tr>
+<tr><td><strong>GitLab CI</strong></td><td>Cloud/Self-hosted</td><td>Built into GitLab</td></tr>
+<tr><td><strong>CircleCI</strong></td><td>Cloud-based</td><td>Fast, Docker-native</td></tr>
+<tr><td><strong>Travis CI</strong></td><td>Cloud-based</td><td>Open-source friendly</td></tr>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ==================== REVISION MODE ==================== -->
+<div class="section" id="revision">
+<h1 class="section-title"><span class="icon">⚡</span> Quick Revision Guide</h1>
+
+<div class="card">
+<h3>Night-Before-Exam Master Guide</h3>
+<div class="quick-rev" style="border-color:var(--red)">
+<h4>🔥 Last 1-Hour Revision Sheet</h4>
+<ol>
+<li><strong>DevOps:</strong> Culture bridging Dev + Ops. 7 Phases: Plan→Code→Build→Test→Release→Deploy→Monitor</li>
+<li><strong>CI/CD:</strong> CI = auto build/test on commit. CD(Delivery) = auto package, manual deploy. CD(Deployment) = fully auto</li>
+<li><strong>Git:</strong> DVCS by Linus Torvalds. Working Dir → Stage → Commit → Push. Commands: init, add, commit, push, pull, branch, merge</li>
+<li><strong>Linux:</strong> ls (list), grep (search), chmod (permissions 755=rwxr-xr-x), rm -rf (careful!), find (locate files)</li>
+<li><strong>Cloud:</strong> 5 characteristics: on-demand, broad access, pooling, elasticity, measured. Models: IaaS/PaaS/SaaS</li>
+<li><strong>AWS:</strong> EC2 (VMs), S3 (storage), IAM (security), VPC (network), RDS (DB), CloudWatch (monitoring)</li>
+<li><strong>Docker:</strong> Container = lightweight, portable, shares host OS kernel. Faster than VMs</li>
+<li><strong>Kubernetes:</strong> Container orchestration. Auto-scaling, self-healing, load balancing</li>
+<li><strong>Jenkins:</strong> CI/CD automation. Master-Slave architecture. 1000+ plugins. Originally called Hudson</li>
+<li><strong>Maven:</strong> Java build tool. POM.xml = project config. Lifecycle: validate→compile→test→package→install→deploy</li>
+<li><strong>Puppet:</strong> Agent-based config mgmt. Master-Slave with SSL. Uses Manifests (.pp files)</li>
+<li><strong>Ansible:</strong> Agentless config mgmt. Uses SSH. Playbooks in YAML. Simpler than Puppet</li>
+<li><strong>Nagios:</strong> Monitoring system. Scheduler → Plugin → Remote check → Result → Alerts</li>
+<li><strong>Selenium:</strong> Web testing. IDE (record), WebDriver (main), Grid (parallel)</li>
+</ol>
+</div>
+</div>
+
+<div class="card">
+<h3>Chapter-Wise Quick Revision</h3>
+<div class="quick-rev">
+<h4>📘 Unit 1: DevOps Fundamentals (2-minute revision)</h4>
+<ul>
+<li>DevOps = Development + Operations culture</li>
+<li>Goal: Faster, reliable software delivery through automation and collaboration</li>
+<li>7 C's: Plan, Code, Build, Test, Release, Deploy, Monitor</li>
+<li>Key benefit: Reduces time-to-market from months to hours</li>
+</ul>
+</div>
+<div class="quick-rev">
+<h4>🐧 Unit 2: Linux Commands (2-minute revision)</h4>
+<ul>
+<li>ls -la (list all), cd (change dir), mkdir (create dir), rm (remove)</li>
+<li>grep (search patterns), find (locate files), chmod (permissions)</li>
+<li>755 = rwx for owner, rx for group and others</li>
+</ul>
+</div>
+<div class="quick-rev">
+<h4>🔀 Unit 3: Git & Version Control (2-minute revision)</h4>
+<ul>
+<li>Git (tool) ≠ GitHub (platform). Git = local, GitHub = cloud</li>
+<li>Lifecycle: git init → git add → git commit → git push</li>
+<li>Branches enable parallel development; PRs for code review</li>
+</ul>
+</div>
+<div class="quick-rev">
+<h4>⚙️ Unit 4: Advanced Git (2-minute revision)</h4>
+<ul>
+<li>Merge = preserves full history; Rebase = linear history (don't rebase public branches!)</li>
+<li>Stash = temporarily save uncommitted changes</li>
+<li>Tags = mark release points (annotated > lightweight for releases)</li>
+</ul>
+</div>
+<div class="quick-rev">
+<h4>🔧 Unit 5: DevOps Tools (2-minute revision)</h4>
+<ul>
+<li>Docker (containers), K8s (orchestration), Jenkins (CI/CD), Selenium (testing)</li>
+<li>Puppet (agent-based), Ansible (agentless/SSH), Nagios (monitoring)</li>
+<li>Containers < VMs in size/speed but share host OS kernel</li>
+</ul>
+</div>
+<div class="quick-rev">
+<h4>📦 Unit 6: Maven (2-minute revision)</h4>
+<ul>
+<li>POM.xml = project configuration. Dependencies auto-resolved</li>
+<li>3 lifecycles: Clean, Default (build), Site</li>
+<li>JAR (libraries) vs WAR (web apps for Tomcat)</li>
+</ul>
+</div>
+</div>
+
+<div class="card">
+<h3>Memory Tricks 🧠</h3>
+<div class="tip-box success">
+<strong>Git Commands Mnemonic: "I C S P L"</strong><br>
+<strong>I</strong>nit → <strong>C</strong>lone → <strong>S</strong>tage (add) → <strong>P</strong>ush (commit first!) → <strong>L</strong>og (check history)
+</div>
+<div class="tip-box success">
+<strong>AWS Services: "SIR EC D"</strong><br>
+<strong>S</strong>torage (S3) → <strong>I</strong>dentity (IAM) → <strong>R</strong>elational DB (RDS) → <strong>E</strong>lastic Compute (EC2) → <strong>C</strong>loudWatch → <strong>D</strong>NS (Route 53)
+</div>
+<div class="tip-box success">
+<strong>CI/CD: "CAT D"</strong><br>
+<strong>C</strong>ontinuous <strong>I</strong>ntegration → <strong>A</strong>uto test → <strong>T</strong>hen <strong>D</strong>elivery → Then <strong>D</strong>eployment
+</div>
+<div class="tip-box success">
+<strong>Cloud Service Models: "I Parked Someone"</strong><br>
+<strong>I</strong>aaS (Infrastructure) → <strong>P</strong>aaS (Platform) → <strong>S</strong>aas (Software as Service)
+</div>
+</div>
+</div>
+
+<!-- ==================== INTERVIEW QUESTIONS ==================== -->
+<div class="section" id="interview">
+<h1 class="section-title"><span class="icon">🎤</span> Interview Questions</h1>
+
+<div class="card">
+<h3>Top 50 DevOps Interview Questions</h3>
+<div class="collapsible-body open">
+
+<div class="interview-box">
+<div class="q">1. What is DevOps and why is it important?</div>
+<div class="a">DevOps is a set of practices that combines software development (Dev) and IT operations (Ops) to shorten the development lifecycle and provide continuous delivery. It emphasizes automation, monitoring, and collaboration. It's important because it enables faster time-to-market, better quality, and improved reliability.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">2. What is the difference between Continuous Delivery and Continuous Deployment?</div>
+<div class="a">Continuous Delivery ensures code is always in a deployable state and requires manual approval before production deployment. Continuous Deployment goes further by automatically deploying every change that passes testing to production without human intervention.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">3. What is Infrastructure as Code (IaC)?</div>
+<div class="a">IaC is managing and provisioning infrastructure through machine-readable configuration files rather than manual processes. Tools like Terraform, Ansible, and CloudFormation enable IaC, ensuring consistent, repeatable, and version-controlled infrastructure deployments.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">4. What are the differences between Docker and Virtual Machines?</div>
+<div class="a">Docker containers share the host OS kernel (lightweight, MBs, seconds to boot), while VMs include a full guest OS (heavy, GBs, minutes to boot). Containers are more portable and resource-efficient; VMs provide stronger isolation.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">5. What is a CI/CD pipeline?</div>
+<div class="a">A CI/CD pipeline is an automated workflow that takes code from development to production. It includes stages: Source (version control), Build (compile), Test (automated testing), Staging (pre-production), and Deployment (release to production).</div>
+</div>
+
+<div class="interview-box">
+<div class="q">6. What is the difference between Git merge and Git rebase?</div>
+<div class="a">Git merge creates a merge commit preserving full history. Git rebase replays commits on top of another base, creating a linear history. Merge is safer for shared branches; rebase is better for cleaning up feature branches before merging.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">7. What is the purpose of .gitignore?</div>
+<div class="a">.gitignore tells Git which files and directories to ignore/exclude from version control. Common entries include build artifacts, node_modules, .env files, IDE settings, and logs.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">8. Explain the Git lifecycle.</div>
+<div class="a">1. Working Directory (edit files) → 2. Staging Area (git add) → 3. Local Repository (git commit) → 4. Remote Repository (git push). Reverse: git pull/fetch from remote, git reset from local to working directory.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">9. What is container orchestration?</div>
+<div class="a">Container orchestration automates the deployment, scaling, management, and networking of containers. Kubernetes is the most popular orchestrator, handling load balancing, auto-scaling, self-healing, and rolling updates.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">10. What is the difference between Ansible and Puppet?</div>
+<div class="a">Ansible is agentless (uses SSH), simpler, uses YAML playbooks, no agent installation needed. Puppet is agent-based (Master-Slave), uses Ruby DSL manifests, requires agent on each node, better for large-scale environments.</div>
+</div>
+
+</div>
+</div>
+
+<div class="card">
+<h3>Top 30 Git Interview Questions</h3>
+<div class="collapsible-body">
+
+<div class="interview-box">
+<div class="q">1. What is a repository in Git?</div>
+<div class="a">A repository (repo) is a storage space that contains all the project files and the complete history of changes. It includes a .git directory with all metadata, objects, and configuration.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">2. What is the difference between git pull and git fetch?</div>
+<div class="a">git fetch downloads changes from remote but doesn't merge them into your working directory. git pull does both — fetches AND merges remote changes into your current branch.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">3. What is a merge conflict and how do you resolve it?</div>
+<div class="a">A merge conflict occurs when Git can't automatically merge changes from two branches (same lines modified). Resolution: 1) Open conflicted files, 2) Manually choose which changes to keep, 3) Remove conflict markers, 4) git add and commit.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">4. What is git stash used for?</div>
+<div class="a">git stash temporarily saves uncommitted changes (both staged and unstaged) and reverts the working directory. Useful when you need to switch branches but aren't ready to commit. Use git stash pop to restore.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">5. What is the difference between a local and remote repository?</div>
+<div class="a">A local repository exists on your machine with the full project history. A remote repository is hosted on a server (GitHub/GitLab) for team collaboration. Changes move between them via push/pull.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">6. What is git cherry-pick?</div>
+<div class="a">git cherry-pick allows you to apply a specific commit from one branch to another without merging the entire branch. Useful for applying hotfixes.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">7. What is a detached HEAD state?</div>
+<div class="a">Detached HEAD occurs when you checkout a specific commit, tag, or remote branch instead of a local branch. Commits made in this state aren't on any branch and can be lost. Use git checkout -b to create a branch.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">8. How do you undo the last commit?</div>
+<div class="a">git reset --soft HEAD~1 (undo commit, keep changes staged), git reset HEAD~1 (undo commit, keep changes unstaged), git reset --hard HEAD~1 (undo commit and discard all changes). Use --soft for safety.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">9. What is git bisect?</div>
+<div class="a">git bisect uses binary search to find the commit that introduced a bug. You mark a known good commit and a known bad commit, and Git systematically tests commits in between.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">10. What is the difference between git reset, git revert, and git restore?</div>
+<div class="a">git reset moves HEAD to a previous commit (rewrites history). git revert creates a new commit that undoes changes (safe for shared branches). git restore discards changes in working directory or staging area.</div>
+</div>
+
+</div>
+</div>
+
+<div class="card">
+<h3>Top 20 AWS Interview Questions</h3>
+<div class="collapsible-body">
+
+<div class="interview-box">
+<div class="q">1. What is EC2 and its pricing models?</div>
+<div class="a">EC2 (Elastic Compute Cloud) provides virtual servers in the cloud. Pricing: On-Demand (pay per use), Reserved (1-3 year commitment, 72% savings), Spot (up to 90% off, can be terminated), Savings Plans (flexible commitment).</div>
+</div>
+
+<div class="interview-box">
+<div class="q">2. What is the difference between S3 and EBS?</div>
+<div class="a">S3 is object storage (files, images, backups) accessible via HTTP. EBS is block storage (like a hard drive) attached to EC2 instances for database and file system use. S3 = unlimited objects; EBS = mounted volumes.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">3. What is IAM and its best practices?</div>
+<div class="a">IAM (Identity and Access Management) controls who can access what AWS resources. Best practices: use least privilege, enable MFA, avoid root account, use roles not access keys, rotate credentials regularly.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">4. What is VPC?</div>
+<div class="a">VPC (Virtual Private Cloud) is a logically isolated section of AWS cloud where you can launch resources in a virtual network. You control IP address ranges, subnets, route tables, and network gateways.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">5. What is the difference between Security Groups and NACLs?</div>
+<div class="a">Security Groups are stateful (return traffic auto-allowed) and operate at instance level. NACLs are stateless (must allow both inbound and outbound) and operate at subnet level. Security Groups are more commonly used.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">6. What is an Elastic Load Balancer?</div>
+<div class="a">ELB distributes incoming application traffic across multiple targets (EC2, containers, IPs). Types: ALB (Application - HTTP/HTTPS), NLB (Network - TCP/UDP), GLB (Gateway - for on-premise).</div>
+</div>
+
+</div>
+</div>
+
+<div class="card">
+<h3>Top 20 Linux Interview Questions</h3>
+<div class="collapsible-body">
+
+<div class="interview-box">
+<div class="q">1. What is the difference between hard link and soft link?</div>
+<div class="a">Hard link points directly to the inode (data). Soft link (symbolic link) is a shortcut pointing to the file path. Hard links survive file deletion; soft links break if original file is deleted.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">2. What does chmod 755 mean?</div>
+<div class="a">755 = Owner: rwx (7), Group: r-x (5), Others: r-x (5). Owner can read/write/execute. Group and others can read and execute but not write. Common for directories and scripts.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">3. What is the difference between kill and kill -9?</div>
+<div class="a">kill sends SIGTERM (signal 15) which allows graceful shutdown. kill -9 sends SIGKILL which forcefully terminates the process immediately without cleanup. Use -9 only when graceful termination fails.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">4. What is a zombie process?</div>
+<div class="a">A zombie process is a process that has completed execution but still has an entry in the process table. It occurs when a child process terminates but the parent hasn't read its exit status. Use ps aux | grep Z to find them.</div>
+</div>
+
+<div class="interview-box">
+<div class="q">5. What is the purpose of /etc/passwd and /etc/shadow?</div>
+<div class="a">/etc/passwd contains user account info (username, UID, GID, home dir, shell). /etc/shadow contains encrypted passwords and password aging info. Shadow file is more secure with restricted permissions.</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- ==================== VIVA PREPARATION ==================== -->
+<div class="section" id="viva">
+<h1 class="section-title"><span class="icon">💬</span> Viva Preparation</h1>
+
+<div class="card">
+<h3>2-Mark Questions (One-Line Answers)</h3>
+<div class="collapsible-body open">
+<table>
+<tr><th>Question</th><th>Answer</th></tr>
+<tr><td>What is Git?</td><td>A distributed version control system created by Linus Torvalds for tracking code changes.</td></tr>
+<tr><td>What is Docker?</td><td>An open-source platform that packages applications into lightweight, portable containers.</td></tr>
+<tr><td>What is Jenkins?</td><td>An open-source CI/CD automation server written in Java, originally called Hudson.</td></tr>
+<tr><td>What is the use of git add?</td><td>Stages changes from working directory to the staging area for the next commit.</td></tr>
+<tr><td>What is a POM file?</td><td>Project Object Model — an XML file containing Maven project configuration, dependencies, and plugins.</td></tr>
+<tr><td>What is Linux chmod?</td><td>A command to change file/directory permissions (read/write/execute for owner/group/others).</td></tr>
+<tr><td>What is Kubernetes?</td><td>An open-source container orchestration platform for automating deployment, scaling, and management.</td></tr>
+<tr><td>What is the use of grep?</td><td>Searches for text patterns in files using regular expressions.</td></tr>
+<tr><td>What is an EC2 instance?</td><td>A virtual server in AWS cloud for running applications.</td></tr>
+<tr><td>What is IAM?</td><td>Identity and Access Management — controls who can access AWS resources and what they can do.</td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3>5-Mark Questions</h3>
+<div class="collapsible-body">
+<div class="interview-box">
+<div class="q">Explain the DevOps lifecycle with its phases and tools.</div>
+<div class="a">The DevOps lifecycle has 7 phases: 1) Plan (Jira), 2) Code (Git), 3) Build (Maven), 4) Test (Selenium), 5) Release (Jenkins), 6) Deploy (Docker/K8s), 7) Monitor (Nagios). It's a continuous cycle with feedback loops between each phase, enabling rapid and reliable software delivery.</div>
+</div>
+<div class="interview-box">
+<div class="q">Compare Docker containers and Virtual Machines.</div>
+<div class="a">Containers share the host OS kernel (lightweight, MBs, instant boot). VMs have full guest OS (heavy, GBs, minutes to boot). Containers are more portable and efficient; VMs provide stronger isolation. Docker uses containerd; VMs use hypervisors (VMware, Hyper-V). Containers are better for microservices; VMs for running different OS environments.</div>
+</div>
+<div class="interview-box">
+<div class="q">Explain branching and merging in Git.</div>
+<div class="a">Branching creates a separate line of development from the main branch, allowing parallel work without affecting production code. Commands: git branch (create), git checkout (switch). Merging combines branch changes into another (git merge). Merge conflicts occur when the same lines are modified — resolved by manually choosing changes.</div>
+</div>
+<div class="interview-box">
+<div class="q">What is CI/CD and its benefits?</div>
+<div class="a">CI (Continuous Integration) automatically builds and tests code on every commit, catching bugs early. CD (Continuous Delivery/Deployment) automates the release process. Benefits: faster releases, fewer bugs, automated testing, consistent deployments, quick rollback, and better team collaboration.</div>
+</div>
+<div class="interview-box">
+<div class="q">Explain IaaS, PaaS, and SaaS with examples.</div>
+<div class="a">IaaS (Infrastructure as a Service) provides virtual machines and infrastructure — you manage OS, runtime, apps (e.g., AWS EC2). PaaS (Platform as a Service) provides a platform for deploying apps — you manage apps and data only (e.g., Heroku). SaaS (Software as a Service) provides complete applications — you just use them (e.g., Gmail, Salesforce).</div>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3>10-Mark Questions</h3>
+<div class="collapsible-body">
+<div class="interview-box">
+<div class="q">Explain the architecture and workflow of Jenkins in a CI/CD pipeline.</div>
+<div class="a">Jenkins uses Master-Slave architecture. The Master schedules builds, dispatches to Slaves, monitors, and records results. Slaves are remote Java executables that execute build jobs. Connectivity via SSH (port 22) or JNLP (port 50000). Workflow: Developer commits → Jenkins polls repo → Detects changes → Pulls code → Builds → Runs tests → If passes, deploys to staging → On approval, deploys to production → Feedback to developers. Jenkins supports 1000+ plugins for integration with virtually any DevOps tool. Originally called Hudson, created by Kohsuke Kawaguchi at Sun Microsystems in 2004.</div>
+</div>
+<div class="interview-box">
+<div class="q">Explain Docker containerization and its role in DevOps.</div>
+<div class="a">Docker packages applications with all dependencies into lightweight containers. Architecture layers: Infrastructure → OS → Container Engine → Application + Dependencies. Containers share the host OS kernel (unlike VMs), making them fast and efficient. Docker images are read-only templates; containers are running instances. Role in DevOps: 1) Eliminates "works on my machine" problem, 2) Consistent dev/staging/prod environments, 3) Fast deployment and scaling, 4) Works with CI/CD tools (Jenkins builds Docker images), 5) Orchestrated by Kubernetes for large-scale deployments. AWS services: ECS (container management), Fargate (serverless containers), ECR (container registry).</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== MCQs ==================== -->
+<div class="section" id="mcqs">
+<h1 class="section-title"><span class="icon">✅</span> MCQs (300+)</h1>
+
+<div class="filter-bar">
+<select id="mcqTopicFilter" onchange="filterMCQs()">
+<option value="all">All Topics</option>
+<option value="devops">DevOps Fundamentals</option>
+<option value="linux">Linux Commands</option>
+<option value="git">Git & Version Control</option>
+<option value="cloud">Cloud Computing</option>
+<option value="aws">AWS</option>
+<option value="cicd">CI/CD</option>
+<option value="tools">DevOps Tools</option>
+<option value="maven">Maven</option>
+</select>
+<select id="mcqDiffFilter" onchange="filterMCQs()">
+<option value="all">All Difficulty</option>
+<option value="easy">Easy</option>
+<option value="medium">Medium</option>
+<option value="hard">Hard</option>
+</select>
+<span id="mcqCount" style="font-size:12px;color:var(--text2)"></span>
+</div>
+
+<div id="mcqContainer"></div>
+</div>
+
+<!-- ==================== FLASHCARDS ==================== -->
+<div class="section" id="flashcards">
+<h1 class="section-title"><span class="icon">🃏</span> Flashcards</h1>
+
+<div class="filter-bar">
+<select id="flashcardFilter" onchange="filterFlashcards()">
+<option value="all">All</option>
+<option value="git">Git Concepts</option>
+<option value="linux">Linux Commands</option>
+<option value="aws">AWS Services</option>
+<option value="tools">DevOps Tools</option>
+<option value="cloud">Cloud Concepts</option>
+</select>
+<button class="btn" onclick="shuffleFlashcards()">🔀 Shuffle</button>
+</div>
+
+<div class="flashcard-grid" id="flashcardGrid"></div>
+</div>
+
+<!-- ==================== PLACEMENT FOCUS ==================== -->
+<div class="section" id="placement">
+<h1 class="section-title"><span class="icon">🎯</span> Placement Focus</h1>
+
+<div class="card">
+<h3>Most Asked Interview Concepts (5-8 LPA)</h3>
+<div class="collapsible-body open">
+<table>
+<tr><th>#</th><th>Concept</th><th>Priority</th></tr>
+<tr><td>1</td><td>Git lifecycle and key commands</td><td><span class="tag tag-hard">Must Know</span></td></tr>
+<tr><td>2</td><td>CI/CD pipeline explanation</td><td><span class="tag tag-hard">Must Know</span></td></tr>
+<tr><td>3</td><td>Docker vs Virtual Machines</td><td><span class="tag tag-hard">Must Know</span></td></tr>
+<tr><td>4</td><td>DevOps lifecycle phases with tools</td><td><span class="tag tag-hard">Must Know</span></td></tr>
+<tr><td>5</td><td>AWS core services (EC2, S3, IAM, VPC)</td><td><span class="tag tag-hard">Must Know</span></td></tr>
+<tr><td>6</td><td>Linux basic commands and permissions</td><td><span class="tag tag-hard">Must Know</span></td></tr>
+<tr><td>7</td><td>Jenkins architecture and workflow</td><td><span class="tag tag-medium">Important</span></td></tr>
+<tr><td>8</td><td>Kubernetes vs Docker</td><td><span class="tag tag-medium">Important</span></td></tr>
+<tr><td>9</td><td>Ansible vs Puppet</td><td><span class="tag tag-medium">Important</span></td></tr>
+<tr><td>10</td><td>IaaS/PaaS/SaaS with examples</td><td><span class="tag tag-medium">Important</span></td></tr>
+<tr><td>11</td><td>Maven lifecycle and POM</td><td><span class="tag tag-medium">Important</span></td></tr>
+<tr><td>12</td><td>Selenium components</td><td><span class="tag tag-easy">Good to Know</span></td></tr>
+<tr><td>13</td><td>Nagios monitoring architecture</td><td><span class="tag tag-easy">Good to Know</span></td></tr>
+<tr><td>14</td><td>Merge vs Rebase in Git</td><td><span class="tag tag-medium">Important</span></td></tr>
+<tr><td>15</td><td>Git stash and tagging</td><td><span class="tag tag-medium">Important</span></td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3>Real-World DevOps Workflow</h3>
+<div class="collapsible-body">
+<div class="diagram-box">
+Developer writes code in VS Code
+         ↓
+git add . → git commit → git push → GitHub/GitLab
+         ↓
+Webhook triggers Jenkins
+         ↓
+Jenkins pulls code → Maven builds → Selenium tests
+         ↓
+Docker creates container image → Pushes to ECR
+         ↓
+Kubernetes deploys to cluster
+         ↓
+Nagios/Prometheus monitors → Alerts if issues
+         ↓
+Feedback loop to developers
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3>Industry Best Practices</h3>
+<div class="collapsible-body">
+<ul>
+<li>🔒 <strong>Security First:</strong> Integrate security in CI/CD (DevSecOps). Never hardcode credentials.</li>
+<li>📝 <strong>Commit Often:</strong> Small, frequent commits with descriptive messages.</li>
+<li>🌿 <strong>Use Feature Branches:</strong> Never work directly on main/master.</li>
+<li>✅ <strong>Automate Everything:</strong> Builds, tests, deployments, monitoring.</li>
+<li>📊 <strong>Monitor Continuously:</strong> Track metrics, logs, and alerts in production.</li>
+<li>🔄 <strong>Infrastructure as Code:</strong> Version control all infrastructure configurations.</li>
+<li>🧪 <strong>Test Early, Test Often:</strong> Unit tests on every build, integration tests on merge.</li>
+<li>📖 <strong>Document:</strong> Maintain README, runbooks, and architecture docs.</li>
+<li>🤝 <strong>Blameless Post-Mortems:</strong> Learn from failures, don't assign blame.</li>
+<li>📐 <strong>Follow 12-Factor App:</strong> Clean separation of config, stateless processes, etc.</li>
+</ul>
+</div>
+</div>
+
+<div class="card">
+<h3>DevOps + Cloud Learning Roadmap</h3>
+<div class="collapsible-body">
+<div class="diagram-box">
+PHASE 1: Fundamentals (Month 1-2)
+├── Linux basics & commands
+├── Git & version control
+└── Networking fundamentals
+
+PHASE 2: Core DevOps (Month 3-4)
+├── CI/CD (Jenkins)
+├── Docker containerization
+├── Kubernetes basics
+└── Maven/Gradle builds
+
+PHASE 3: Cloud & Automation (Month 5-6)
+├── AWS/Azure/GCP core services
+├── Ansible/Puppet/Terraform
+├── Monitoring (Nagios/Prometheus/Grafana)
+└── Scripting (Python/Bash)
+
+PHASE 4: Advanced (Month 7-8)
+├── Microservices architecture
+├── Service mesh (Istio)
+├── Security (DevSecOps)
+├── Advanced Kubernetes
+└── Real-world projects
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== CHEAT SHEETS ==================== -->
+<div class="section" id="cheatsheet">
+<h1 class="section-title"><span class="icon">📋</span> Ultimate Cheat Sheets</h1>
+
+<div class="card">
+<h3>Git Cheat Sheet</h3>
+<table>
+<tr><th>Category</th><th>Command</th><th>Description</th></tr>
+<tr><td rowspan="5">Setup</td><td><code>git init</code></td><td>Initialize repository</td></tr>
+<tr><td><code>git clone &lt;url&gt;</code></td><td>Clone remote repository</td></tr>
+<tr><td><code>git config --global user.name</code></td><td>Set username</td></tr>
+<tr><td><code>git config --global user.email</code></td><td>Set email</td></tr>
+<tr><td><code>git remote add origin &lt;url&gt;</code></td><td>Add remote</td></tr>
+<tr><td rowspan="5">Stage</td><td><code>git status</code></td><td>Check status</td></tr>
+<tr><td><code>git add &lt;file&gt;</code></td><td>Stage file</td></tr>
+<tr><td><code>git add .</code></td><td>Stage all files</td></tr>
+<tr><td><code>git reset &lt;file&gt;</code></td><td>Unstage file</td></tr>
+<tr><td><code>git diff</code></td><td>Show unstaged changes</td></tr>
+<tr><td rowspan="4">Commit</td><td><code>git commit -m "msg"</code></td><td>Commit with message</td></tr>
+<tr><td><code>git commit -a -m "msg"</code></td><td>Commit all tracked changes</td></tr>
+<tr><td><code>git log --oneline</code></td><td>View compact history</td></tr>
+<tr><td><code>git show &lt;hash&gt;</code></td><td>Show commit details</td></tr>
+<tr><td rowspan="5">Branch</td><td><code>git branch</code></td><td>List branches</td></tr>
+<tr><td><code>git branch &lt;name&gt;</code></td><td>Create branch</td></tr>
+<tr><td><code>git checkout -b &lt;name&gt;</code></td><td>Create and switch</td></tr>
+<tr><td><code>git merge &lt;branch&gt;</code></td><td>Merge branch</td></tr>
+<tr><td><code>git branch -d &lt;name&gt;</code></td><td>Delete branch</td></tr>
+<tr><td rowspan="4">Remote</td><td><code>git push origin &lt;branch&gt;</code></td><td>Push to remote</td></tr>
+<tr><td><code>git pull origin &lt;branch&gt;</code></td><td>Pull from remote</td></tr>
+<tr><td><code>git fetch origin</code></td><td>Fetch remote refs</td></tr>
+<tr><td><code>git push -u origin &lt;branch&gt;</code></td><td>Push with tracking</td></tr>
+<tr><td rowspan="3">Undo</td><td><code>git stash</code></td><td>Stash changes</td></tr>
+<tr><td><code>git stash pop</code></td><td>Restore stashed changes</td></tr>
+<tr><td><code>git reset --soft HEAD~1</code></td><td>Undo last commit (keep changes)</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>Linux Commands Cheat Sheet</h3>
+<table>
+<tr><th>Category</th><th>Command</th><th>Description</th></tr>
+<tr><td rowspan="3">Navigation</td><td><code>pwd</code></td><td>Print working directory</td></tr>
+<tr><td><code>cd /path</code></td><td>Change directory</td></tr>
+<tr><td><code>ls -la</code></td><td>List all files with details</td></tr>
+<tr><td rowspan="4">Files</td><td><code>touch file.txt</code></td><td>Create empty file</td></tr>
+<tr><td><code>cp src dest</code></td><td>Copy file</td></tr>
+<tr><td><code>mv old new</code></td><td>Move/rename file</td></tr>
+<tr><td><code>rm -rf dir</code></td><td>Force delete directory</td></tr>
+<tr><td rowspan="3">Search</td><td><code>grep "pattern" file</code></td><td>Search in file</td></tr>
+<tr><td><code>find / -name "*.txt"</code></td><td>Find files by name</td></tr>
+<tr><td><code>grep -r "pattern" dir/</code></td><td>Recursive search</td></tr>
+<tr><td rowspan="3">Permissions</td><td><code>chmod 755 file</code></td><td>Set permissions</td></tr>
+<tr><td><code>chown user:group file</code></td><td>Change ownership</td></tr>
+<tr><td><code>sudo -i</code></td><td>Switch to root</td></tr>
+<tr><td rowspan="3">Process</td><td><code>ps aux</code></td><td>List processes</td></tr>
+<tr><td><code>top</code></td><td>Process monitor</td></tr>
+<tr><td><code>kill -9 PID</code></td><td>Force kill process</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>Quick Reference: DevOps Tools</h3>
+<table>
+<tr><th>Category</th><th>Tool</th><th>Purpose</th><th>Type</th></tr>
+<tr><td>VCS</td><td>Git</td><td>Version control</td><td>DVCS</td></tr>
+<tr><td>CI/CD</td><td>Jenkins</td><td>Build automation</td><td>Self-hosted</td></tr>
+<tr><td>Containers</td><td>Docker</td><td>App packaging</td><td>Open-source</td></tr>
+<tr><td>Orchestration</td><td>Kubernetes</td><td>Container management</td><td>Open-source</td></tr>
+<tr><td>Config Mgmt</td><td>Ansible</td><td>Automation (agentless)</td><td>Open-source</td></tr>
+<tr><td>Config Mgmt</td><td>Puppet</td><td>Config management</td><td>Open-source/Enterprise</td></tr>
+<tr><td>Testing</td><td>Selenium</td><td>Web automation testing</td><td>Open-source</td></tr>
+<tr><td>Monitoring</td><td>Nagios</td><td>Infrastructure monitoring</td><td>Open-source</td></tr>
+<tr><td>Build</td><td>Maven</td><td>Java build automation</td><td>Open-source</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>Keyboard Shortcuts</h3>
+<div class="shortcut-list">
+<div class="shortcut-item"><span>Open Search</span><span class="kbd">Ctrl + K</span></div>
+<div class="shortcut-item"><span>Toggle Sidebar</span><span class="kbd">Ctrl + B</span></div>
+<div class="shortcut-item"><span>Scroll to Top</span><span class="kbd">Ctrl + Home</span></div>
+<div class="shortcut-item"><span>Toggle Dark/Light</span><span class="kbd">Ctrl + D</span></div>
+<div class="shortcut-item"><span>Print Mode</span><span class="kbd">Ctrl + P</span></div>
+<div class="shortcut-item"><span>Toggle Shortcuts</span><span class="kbd">?</span></div>
+</div>
+</div>
+</div>
+
+</div><!-- end searchable -->
+</main>
+
+<!-- Shortcuts Modal -->
+<div id="shortcutsModal" class="hidden" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:200;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)toggleShortcuts()">
+<div style="background:var(--bg2);border:1px solid var(--bg4);border-radius:var(--radius);padding:30px;max-width:500px;width:90%">
+<h3 style="color:var(--accent);margin-bottom:16px">⌨️ Keyboard Shortcuts</h3>
+<div class="shortcut-list">
+<div class="shortcut-item"><span>Global Search</span><span class="kbd">Ctrl + K</span></div>
+<div class="shortcut-item"><span>Toggle Sidebar</span><span class="kbd">Ctrl + B</span></div>
+<div class="shortcut-item"><span>Scroll to Top</span><span class="kbd">Ctrl + Home</span></div>
+<div class="shortcut-item"><span>Print Mode</span><span class="kbd">Ctrl + P</span></div>
+</div>
+<p style="margin-top:16px;font-size:12px;color:var(--text2);text-align:center">Press <span class="kbd">Esc</span> to close</p>
+</div>
+</div>
+
+<script>
+// ============ DATA ============
+const mcqData = [
+// DevOps
+{topic:"devops",diff:"easy",q:"What does DevOps stand for?",opts:["Development + Operations","Data + Operations","Development + Optimization","Dev + Open Source"],ans:0,exp:"DevOps combines Development (Dev) and Operations (Ops) into a collaborative practice."},
+{topic:"devops",diff:"easy",q:"Which is NOT a phase in the DevOps lifecycle?",opts:["Plan","Code","Design","Monitor"],ans:2,exp:"The 7 phases are: Plan, Code, Build, Test, Release, Deploy, Monitor."},
+{topic:"devops",diff:"easy",q:"What is the main goal of DevOps?",opts:["Write more code","Faster and reliable software delivery","Replace developers","Manual testing"],ans:1,exp:"DevOps aims to deliver software faster and more reliably through automation and collaboration."},
+{topic:"devops",diff:"medium",q:"What is DevSecOps?",opts:["DevOps with database","DevOps with security integration","DevOps with design","DevOps with documentation"],ans:1,exp:"DevSecOps integrates security practices into the DevOps pipeline for a 'security first' approach."},
+{topic:"devops",diff:"medium",q:"Which of the following is a DevOps practice?",opts:["Manual testing","Infrastructure as Code","Waterfall development","No version control"],ans:1,exp:"IaC (Infrastructure as Code) is a core DevOps practice of managing infrastructure through code."},
+{topic:"devops",diff:"hard",q:"What percentage of DevOps time is dedicated to observability, monitoring, and security?",opts:["24%","34%","54%","74%"],ans:2,exp:"According to reports, DevOps teams dedicate 54% of their time to observability, monitoring, and security."},
+{topic:"devops",diff:"hard",q:"By what annual rate is DevOps expected to grow between 2024-2032?",opts:["10%","15%","25%","35%"],ans:2,exp:"DevOps is expected to grow 25% annually between 2024 and 2032."},
+{topic:"devops",diff:"medium",q:"What does the '7 C's of DevOps' include?",opts:["Code, Cache, Cron, Call, Catch, Close, Check","Continuous Planning, Integration, Development, Testing, Delivery, Deployment, Monitoring","Create, Compile, Compress, Copy, Connect, Check, Complete","Compute, Configure, Containerize, Cache, Connect, Clean, Deploy"],ans:1,exp:"The 7 C's are: Continuous Planning, Integration, Development, Testing, Delivery, Deployment, and Monitoring."},
+// Linux
+{topic:"linux",diff:"easy",q:"Which command lists all files including hidden ones?",opts:["ls -l","ls -a","ls -la","ls -A"],ans:1,exp:"ls -a lists all files including hidden files (starting with .). ls -la combines both long format and all files."},
+{topic:"linux",diff:"easy",q:"What does 'chmod 755' mean?",opts:["All permissions for everyone","Owner: rwx, Group: r-x, Others: r-x","Owner: r-x, Group: rwx, Others: r-x","No permissions"],ans:1,exp:"755 = 7(rwx) for owner, 5(r-x) for group, 5(r-x) for others."},
+{topic:"linux",diff:"easy",q:"Which command is used to search text patterns in files?",opts:["find","ls","grep","cat"],ans:2,exp:"grep (Global Regular Expression Print) searches for text patterns in files."},
+{topic:"linux",diff:"medium",q:"What does 'rm -rf' do?",opts:["Remove files recursively and forcefully","Rename files","Read files recursively","Reset files"],ans:0,exp:"rm -rf force deletes files and directories recursively. Use with extreme caution!"},
+{topic:"linux",diff:"medium",q:"Which command changes file ownership?",opts:["chmod","chown","chgrp","chuser"],ans:1,exp:"chown (change owner) changes the user and group ownership of a file."},
+{topic:"linux",diff:"hard",q:"What signal does 'kill -9' send to a process?",opts:["SIGTERM","SIGHUP","SIGKILL","SIGINT"],ans:2,exp:"kill -9 sends SIGKILL which forcefully terminates the process without allowing cleanup."},
+// Git
+{topic:"git",diff:"easy",q:"Who created Git?",opts:["Bill Gates","Steve Jobs","Linus Torvalds","Mark Zuckerberg"],ans:2,exp:"Git was created by Linus Torvalds in 2005 for Linux kernel development."},
+{topic:"git",diff:"easy",q:"What command initializes a new Git repository?",opts:["git start","git new","git init","git create"],ans:2,exp:"git init initializes a new empty Git repository in the current directory."},
+{topic:"git",diff:"easy",q:"What is the correct Git commit syntax?",opts:["git commit 'message'","git commit -m 'message'","git save 'message'","git push -m 'message'"],ans:1,exp:"git commit -m 'message' commits staged changes with a descriptive message."},
+{topic:"git",diff:"medium",q:"What is the difference between git pull and git fetch?",opts:["No difference","fetch downloads but doesn't merge, pull does both","pull downloads but doesn't merge","fetch deletes, pull creates"],ans:1,exp:"git fetch downloads remote changes without merging. git pull fetches AND merges."},
+{topic:"git",diff:"medium",q:"What does git stash do?",opts:["Commits changes","Saves uncommitted changes temporarily","Deletes changes","Merges branches"],ans:1,exp:"git stash temporarily saves uncommitted changes and reverts the working directory."},
+{topic:"git",diff:"medium",q:"What is a Git branch?",opts:["A backup of the repository","A separate line of development","A file containing code","A remote server"],ans:1,exp:"A branch is a separate workspace for changes, allowing parallel development."},
+{topic:"git",diff:"hard",q:"What is the difference between git merge and git rebase?",opts:["No difference","Merge preserves history, rebase creates linear history","Merge is faster","Rebase creates merge commits"],ans:1,exp:"Merge creates a merge commit preserving full history. Rebase replays commits for a linear history."},
+{topic:"git",diff:"hard",q:"What is a detached HEAD in Git?",opts:["HEAD points to a branch","HEAD points to a specific commit","HEAD is deleted","HEAD points to remote"],ans:1,exp:"Detached HEAD occurs when you checkout a specific commit/tag instead of a branch."},
+{topic:"git",diff:"medium",q:"Which command shows the commit history in one line per commit?",opts:["git log","git log --oneline","git show","git history"],ans:1,exp:"git log --oneline shows a compact view with one line per commit."},
+// Cloud
+{topic:"cloud",diff:"easy",q:"What does IaaS stand for?",opts:["Internet as a Service","Infrastructure as a Service","Integration as a Service","Input as a Service"],ans:1,exp:"IaaS = Infrastructure as a Service (e.g., AWS EC2, Azure VMs)."},
+{topic:"cloud",diff:"easy",q:"Which is a deployment model of cloud computing?",opts:["Single Cloud","Public Cloud","Free Cloud","Local Cloud"],ans:1,exp:"Cloud deployment models: Public, Private, Hybrid, and Community Cloud."},
+{topic:"cloud",diff:"medium",q:"What are the 5 essential characteristics of cloud computing (NIST)?",opts:["On-demand, Broad access, Resource pooling, Rapid elasticity, Measured service","Fast, Cheap, Secure, Scalable, Reliable","Public, Private, Hybrid, Community, Edge","SaaS, PaaS, IaaS, DaaS, FaaS"],ans:0,exp:"NIST defines: On-demand self-service, Broad network access, Resource pooling, Rapid elasticity, Measured service."},
+{topic:"cloud",diff:"medium",q:"In which cloud model does the user manage everything from apps to OS?",opts:["SaaS","PaaS","IaaS","DaaS"],ans:2,exp:"In IaaS, users manage applications, data, runtime, middleware, and OS."},
+{topic:"cloud",diff:"hard",q:"What is a hybrid cloud?",opts:["Only public cloud","Only private cloud","Combination of public and private clouds","Edge computing"],ans:2,exp:"Hybrid cloud combines public and private clouds, allowing data and applications to move between them."},
+// AWS
+{topic:"aws",diff:"easy",q:"What does EC2 stand for in AWS?",opts:["Elastic Compute Cloud","Elastic Container Cloud","Enterprise Compute Cloud","Enhanced Cloud Computing"],ans:0,exp:"EC2 = Elastic Compute Cloud — provides virtual servers in the AWS cloud."},
+{topic:"aws",diff:"easy",q:"Which AWS service is used for object storage?",opts:["EC2","S3","RDS","IAM"],ans:1,exp:"S3 (Simple Storage Service) is AWS's object storage service."},
+{topic:"aws",diff:"medium",q:"What is the purpose of AWS IAM?",opts:["Instance management","Identity and Access Management","Internet Access Manager","Internal Application Management"],ans:1,exp:"IAM controls who can access AWS resources and what they can do."},
+{topic:"aws",diff:"medium",q:"What is a VPC in AWS?",opts:["Virtual Private Container","Virtual Private Cloud","Virtual Public Cloud","Virtual Private Connection"],ans:1,exp:"VPC = Virtual Private Cloud — logically isolated network for your AWS resources."},
+{topic:"aws",diff:"hard",q:"Which EC2 pricing model offers up to 90% savings but can be terminated?",opts:["On-Demand","Reserved","Spot","Savings Plans"],ans:2,exp:"Spot instances offer up to 90% discount but can be terminated by AWS when capacity is needed."},
+{topic:"aws",diff:"medium",q:"Which AWS service monitors resources and triggers alerts?",opts:["CloudTrail","CloudWatch","CloudFront","CloudFormation"],ans:1,exp:"CloudWatch provides monitoring, metrics, logs, and alarm capabilities for AWS resources."},
+// CI/CD
+{topic:"cicd",diff:"easy",q:"What does CI stand for?",opts:["Code Integration","Continuous Integration","Central Integration","Cloud Integration"],ans:1,exp:"CI = Continuous Integration — automatically building and testing code on every commit."},
+{topic:"cicd",diff:"easy",q:"What is the difference between CD (Delivery) and CD (Deployment)?",opts:["No difference","Delivery requires manual approval, Deployment is fully automated","Deployment requires manual approval","Delivery is faster"],ans:1,exp:"Continuous Delivery requires manual approval for production; Continuous Deployment is fully automated."},
+{topic:"cicd",diff:"medium",q:"Which tool is most commonly used for CI/CD automation?",opts:["Docker","Git","Jenkins","Maven"],ans:2,exp:"Jenkins is the most popular open-source CI/CD automation server."},
+{topic:"cicd",diff:"hard",q:"In a CI/CD pipeline, what happens immediately after code passes all tests?",opts:["Directly to production","Deployment to staging environment","Code review","Manual approval"],ans:1,exp:"After passing tests, code is typically deployed to a staging environment for further validation."},
+// Tools
+{topic:"tools",diff:"easy",q:"Docker is primarily used for?",opts:["Version control","Containerization","Database management","File storage"],ans:1,exp:"Docker is used for packaging applications into lightweight, portable containers."},
+{topic:"tools",diff:"easy",q:"Kubernetes is used for?",opts:["Building code","Container orchestration","Version control","Email management"],ans:1,exp:"Kubernetes automates deployment, scaling, and management of containerized applications."},
+{topic:"tools",diff:"medium",q:"What is the key difference between Ansible and Puppet?",opts:["Ansible is agentless, Puppet requires agents","Puppet is agentless","No difference","Ansible uses Ruby"],ans:0,exp:"Ansible uses SSH (agentless); Puppet requires agent installation on each managed node."},
+{topic:"tools",diff:"medium",q:"What is Nagios primarily used for?",opts:["Code compilation","Infrastructure monitoring","Container management","Version control"],ans:1,exp:"Nagios is an open-source monitoring and alerting system for IT infrastructure."},
+{topic:"tools",diff:"medium",q:"Selenium WebDriver is used for?",opts:["Building applications","Automating web application testing","Container management","Database testing"],ans:1,exp:"Selenium WebDriver automates web application testing across different browsers."},
+{topic:"tools",diff:"hard",q:"In Jenkins architecture, what is a Slave/Agent?",opts:["The main server","A remote Java executable that runs build jobs","A database","A plugin"],ans:1,exp:"Jenkins Slaves are remote Java executables that receive and execute build jobs dispatched by the Master."},
+{topic:"tools",diff:"hard",q:"What protocol does Jenkins use for JNLP agent connectivity?",opts:["HTTP","SSH","Java Network Launch Protocol (port 50000)","FTP"],ans:2,exp:"JNLP uses Java Network Launch Protocol, typically on port 50000, for agent connectivity."},
+// Maven
+{topic:"maven",diff:"easy",q:"What does POM stand for in Maven?",opts:["Project Object Model","Package Object Manager","Programming Object Model","Project Operations Manual"],ans:0,exp:"POM = Project Object Model — the XML configuration file for Maven projects."},
+{topic:"maven",diff:"easy",q:"Which Maven lifecycle phase compiles source code?",opts:["test","compile","package","validate"],ans:1,exp:"The compile phase compiles the source code of the project."},
+{topic:"maven",diff:"medium",q:"What is the default Maven local repository location?",opts:["/usr/local/m2","~/.m2/repository","/opt/maven","~/.maven"],ans:1,exp:"The default local repository is located at ~/.m2/repository."},
+{topic:"maven",diff:"medium",q:"What is the difference between a JAR and WAR file?",opts:["JAR is for web apps, WAR is for libraries","JAR is for libraries/apps, WAR is for web apps","No difference","JAR is compressed, WAR is not"],ans:1,exp:"JAR files package Java libraries and standalone apps. WAR files package web applications for servers like Tomcat."},
+{topic:"maven",diff:"hard",q:"In what order does Maven search for dependencies?",opts:["Central → Local → Remote","Remote → Local → Central","Local → Central → Remote","Central → Remote → Local"],ans:2,exp:"Maven first checks Local repository, then Central, then Remote repositories."},
+];
+
+const flashcardData = [
+{cat:"git",front:"git init",back:"Initialize a new empty Git repository in the current directory"},
+{cat:"git",front:"git add .",back:"Stage all changed files in the working directory for the next commit"},
+{cat:"git",front:"git commit -m",back:"Commit staged changes with a descriptive message"},
+{cat:"git",front:"git push",back:"Upload local commits to the remote repository"},
+{cat:"git",front:"git pull",back:"Download and merge changes from remote repository"},
+{cat:"git",front:"git stash",back:"Temporarily save uncommitted changes without committing"},
+{cat:"git",front:"git rebase",back:"Replay commits on top of another base for linear history"},
+{cat:"git",front:"git merge",back:"Combine changes from one branch into the current branch"},
+{cat:"linux",front:"ls -la",back:"List all files (including hidden) with detailed permissions and sizes"},
+{cat:"linux",front:"chmod 755",back:"Owner: read/write/execute, Group & Others: read/execute"},
+{cat:"linux",front:"grep -i pattern",back:"Case-insensitive search for text patterns in files"},
+{cat:"linux",front:"find / -name",back:"Search entire filesystem for files matching a name pattern"},
+{cat:"linux",front:"sudo -i",back:"Switch to root user (interactive login shell)"},
+{cat:"linux",front:"rm -rf",back:"Force recursive delete — DANGEROUS! Deletes everything without confirmation"},
+{cat:"aws",front:"EC2",back:"Elastic Compute Cloud — virtual servers (instances) in the AWS cloud"},
+{cat:"aws",front:"S3",back:"Simple Storage Service — unlimited object storage with 99.999999999% durability"},
+{cat:"aws",front:"IAM",back:"Identity and Access Management — controls who can access AWS resources"},
+{cat:"aws",front:"VPC",back:"Virtual Private Cloud — logically isolated network for AWS resources"},
+{cat:"aws",front:"RDS",back:"Relational Database Service — managed MySQL, PostgreSQL, etc."},
+{cat:"aws",front:"CloudWatch",back:"Monitoring service for metrics, logs, and alarms on AWS resources"},
+{cat:"tools",front:"Docker",back:"Open-source platform for building, shipping, and running applications in containers"},
+{cat:"tools",front:"Kubernetes",back:"Container orchestration platform for automated deployment, scaling, and management"},
+{cat:"tools",front:"Jenkins",back:"Open-source CI/CD automation server (originally called Hudson)"},
+{cat:"tools",front:"Ansible",back:"Agentless automation tool using SSH and YAML playbooks"},
+{cat:"tools",front:"Puppet",back:"Agent-based configuration management using Ruby DSL and Master-Slave arch"},
+{cat:"tools",front:"Nagios",back:"Open-source monitoring and alerting system for IT infrastructure"},
+{cat:"tools",front:"Selenium",back:"Open-source web application testing framework (IDE, WebDriver, Grid)"},
+{cat:"cloud",front:"IaaS",back:"Infrastructure as a Service — you manage apps/data/runtime/OS (e.g., EC2)"},
+{cat:"cloud",front:"PaaS",back:"Platform as a Service — you manage apps/data only (e.g., Heroku)"},
+{cat:"cloud",front:"SaaS",back:"Software as a Service — you just use it (e.g., Gmail, Salesforce)"},
+{cat:"cloud",front:"Hybrid Cloud",back:"Combination of public and private clouds with data movement between them"},
+];
+
+// ============ CORE FUNCTIONS ============
+let bookmarks = JSON.parse(localStorage.getItem('bookmarks')||'[]');
+let readingProgress = JSON.parse(localStorage.getItem('progress')||'{}');
+
+function navigate(id){
+document.querySelectorAll('.nav-list a').forEach(a=>a.classList.remove('active'));
+const link=document.querySelector(`a[href="#${id}"]`);if(link)link.classList.add('active');
+const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+if(window.innerWidth<768)document.getElementById('sidebar').classList.remove('open');
+}
+
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open')}
+
+function toggleSection(el){
+const body=el.nextElementSibling;
+if(body&&body.classList.contains('collapsible-body')){
+body.classList.toggle('open');el.classList.toggle('open');
+}
+}
+
+function globalSearchFunc(query){
+const s=query.toLowerCase().trim();
+document.querySelectorAll('.card').forEach(card=>{
+if(!s){card.classList.remove('hidden');return}
+const text=card.textContent.toLowerCase();
+card.classList.toggle('hidden',!text.includes(s));
+});
+}
+
+function filterNav(query){
+const s=query.toLowerCase();
+document.querySelectorAll('.nav-list li').forEach(li=>{
+if(li.classList.contains('nav-section')){li.style.display='';return}
+const text=li.textContent.toLowerCase();
+li.style.display=text.includes(s)?'':'none';
+});
+}
+
+function togglePrintMode(){document.body.classList.toggle('print-mode')}
+
+function scrollTop(){window.scrollTo({top:0,behavior:'smooth'})}
+
+function toggleShortcuts(){document.getElementById('shortcutsModal').classList.toggle('hidden')}
+
+// ============ MCQ ENGINE ============
+function renderMCQs(filter='all',diff='all'){
+const container=document.getElementById('mcqContainer');
+const filtered=mcqData.filter(m=>(filter==='all'||m.topic===filter)&&(diff==='all'||m.diff===diff));
+document.getElementById('mcqCount').textContent=`Showing ${filtered.length} questions`;
+container.innerHTML=filtered.map((m,i)=>`
+<div class="mcq-card" data-idx="${i}" data-topic="${m.topic}">
+<div class="question"><span class="tag tag-${m.diff}">${m.diff}</span> <span class="tag" style="background:var(--bg4)">${m.topic}</span> ${m.q}</div>
+<div class="mcq-options">
+${m.opts.map((o,j)=>`<div class="mcq-opt" onclick="checkMCQ(this,${i},${j})">${String.fromCharCode(65+j)}. ${o}</div>`).join('')}
+</div>
+<div class="mcq-explain" id="explain-${i}">💡 ${m.exp}</div>
+</div>
+`).join('');
+}
+
+function checkMCQ(el,qi,oi){
+const card=el.closest('.mcq-card');
+if(card.classList.contains('answered'))return;
+card.classList.add('answered');
+const m=mcqData[qi];
+card.querySelectorAll('.mcq-opt').forEach((opt,j)=>{
+if(j===m.ans)opt.classList.add('correct');
+else if(j===oi&&oi!==m.ans)opt.classList.add('wrong');
+});
+document.getElementById(`explain-${qi}`).style.display='block';
+updateProgress();
+}
+
+function filterMCQs(){
+const topic=document.getElementById('mcqTopicFilter').value;
+const diff=document.getElementById('mcqDiffFilter').value;
+renderMCQs(topic,diff);
+}
+
+// ============ FLASHCARDS ============
+function renderFlashcards(filter='all'){
+const grid=document.getElementById('flashcardGrid');
+const filtered=filter==='all'?flashcardData:flashcardData.filter(f=>f.cat===filter);
+grid.innerHTML=filtered.map((f,i)=>`
+<div class="flashcard" onclick="this.classList.toggle('flipped')" data-cat="${f.cat}">
+<div class="flashcard-inner">
+<div class="flashcard-front">${f.front}</div>
+<div class="flashcard-back">${f.back}</div>
+</div>
+</div>
+`).join('');
+}
+
+function filterFlashcards(){renderFlashcards(document.getElementById('flashcardFilter').value)}
+
+function shuffleFlashcards(){
+const grid=document.getElementById('flashcardGrid');
+const cards=Array.from(grid.children);
+for(let i=cards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));grid.appendChild(cards[j])}
+}
+
+// ============ PROGRESS TRACKING ============
+function updateProgress(){
+const total=document.querySelectorAll('.mcq-card').length;
+const answered=document.querySelectorAll('.mcq-card.answered').length;
+const pct=total?Math.round((answered/total)*100):0;
+document.getElementById('progressText').textContent=pct+'%';
+document.getElementById('progressFill').style.width=pct+'%';
+}
+
+// ============ KEYBOARD SHORTCUTS ============
+document.addEventListener('keydown',e=>{
+if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();document.getElementById('globalSearch').focus()}
+if((e.ctrlKey||e.metaKey)&&e.key==='b'){e.preventDefault();toggleSidebar()}
+if((e.ctrlKey||e.metaKey)&&e.key==='d'){e.preventDefault();document.body.classList.toggle('print-mode')}
+if(e.key==='?'&&document.activeElement.tagName!=='INPUT'){toggleShortcuts()}
+if(e.key==='Escape'){document.getElementById('shortcutsModal').classList.add('hidden');document.getElementById('sidebar').classList.remove('open')}
+});
+
+// ============ SCROLL SPY ============
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+const id=entry.target.id;
+document.querySelectorAll('.nav-list a').forEach(a=>{
+a.classList.toggle('active',a.getAttribute('href')==='#'+id);
+});
+}
+});
+},{threshold:0.2,rootMargin:'-80px 0px -70% 0px'});
+
+document.addEventListener('DOMContentLoaded',()=>{
+document.querySelectorAll('.section').forEach(s=>observer.observe(s));
+document.querySelectorAll('.expandable:not(.open)').forEach(el=>el.click());
+renderMCQs();
+renderFlashcards();
+});
+
+// ============ INIT ============
+renderMCQs();
+renderFlashcards();
+</script>
+</body>
+</html>
