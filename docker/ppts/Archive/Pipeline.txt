@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Start') {
+            steps {
+                echo 'Welcome to Jenkins Pipeline Job'
+            }
+        }
+
+        stage('Run Windows Commands') {
+            steps {
+                bat '''
+                echo This pipeline is running on Windows
+                echo Current Date:
+                date /t
+                echo Current Time:
+                time /t
+                '''
+            }
+        }
+
+        stage('Create Output File') {
+            steps {
+                bat '''
+                mkdir Jenkins_Pipeline_Output
+                echo Pipeline job completed successfully > Jenkins_Pipeline_Output\\result.txt
+                dir
+                '''
+            }
+        }
+
+        stage('Finish') {
+            steps {
+                echo 'Pipeline execution completed successfully'
+            }
+        }
+    }
+}

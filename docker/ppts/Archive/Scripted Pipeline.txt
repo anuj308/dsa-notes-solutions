@@ -1,0 +1,31 @@
+node {
+
+    stage('Build') {
+
+        echo 'Building the project...'
+
+        bat 'echo Build completed on Windows'
+
+    }
+
+
+
+    stage('Test') {
+
+        echo 'Running tests...'
+
+        bat 'echo Test completed successfully'
+
+    }
+
+
+
+    stage('Deploy') {
+
+        echo 'Deploying application...'
+
+        bat 'echo Deployment completed'
+
+    }
+
+}

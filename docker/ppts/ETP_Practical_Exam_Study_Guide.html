@@ -1,0 +1,1058 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ETP Practical Exam Study Guide</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --ink: #172033;
+      --muted: #5c667a;
+      --line: #dbe1ea;
+      --blue: #2364aa;
+      --green: #227950;
+      --amber: #9a6418;
+      --red: #a53a3a;
+      --violet: #6a4fb3;
+      --code: #111827;
+      --code-ink: #e5e7eb;
+      --shadow: 0 10px 28px rgba(23, 32, 51, .08);
+    }
+    [data-theme="dark"] {
+      --bg: #0f141d;
+      --panel: #171d29;
+      --ink: #edf2ff;
+      --muted: #a9b4c7;
+      --line: #2b3548;
+      --blue: #82b8ff;
+      --green: #74d6a2;
+      --amber: #ffc66d;
+      --red: #ff8f8f;
+      --violet: #bca7ff;
+      --code: #080b10;
+      --code-ink: #eef2f8;
+      --shadow: none;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 15px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+    pre {
+      margin: .7rem 0;
+      padding: .85rem 1rem;
+      overflow-x: auto;
+      background: var(--code);
+      color: var(--code-ink);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      white-space: pre-wrap;
+    }
+    table { border-collapse: collapse; width: 100%; margin: .75rem 0; }
+    th, td { border: 1px solid var(--line); padding: .55rem .65rem; vertical-align: top; }
+    th { background: color-mix(in srgb, var(--blue) 12%, transparent); text-align: left; }
+    .layout { display: grid; grid-template-columns: 290px minmax(0, 1fr); min-height: 100vh; }
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+      padding: 1rem;
+      background: var(--panel);
+      border-right: 1px solid var(--line);
+    }
+    main { padding: 1.25rem; max-width: 1280px; width: 100%; }
+    .brand { display: grid; gap: .2rem; margin-bottom: 1rem; }
+    .brand h1 { font-size: 1.05rem; margin: 0; }
+    .brand p { margin: 0; color: var(--muted); font-size: .85rem; }
+    .tools { display: grid; grid-template-columns: 1fr auto; gap: .5rem; margin: 1rem 0; }
+    input[type="search"] {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      color: var(--ink);
+      padding: .65rem .75rem;
+      border-radius: 8px;
+    }
+    button {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--ink);
+      padding: .55rem .7rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    nav a {
+      display: block;
+      padding: .45rem .55rem;
+      border-radius: 6px;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+    nav a:hover { background: var(--bg); color: var(--ink); }
+    .hero {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .hero h2 { margin: 0 0 .4rem; font-size: clamp(1.6rem, 3vw, 2.6rem); line-height: 1.1; }
+    .hero p { max-width: 82ch; color: var(--muted); }
+    .badge-row { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .85rem; }
+    .badge {
+      border: 1px solid var(--line);
+      background: var(--bg);
+      border-radius: 999px;
+      padding: .25rem .55rem;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 1rem 0;
+      box-shadow: var(--shadow);
+    }
+    section > h2 { margin: 0 0 .8rem; font-size: 1.35rem; }
+    h3 { margin: 1rem 0 .45rem; color: var(--blue); }
+    h4 { margin: .85rem 0 .35rem; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: .75rem; }
+    .card {
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--blue);
+      border-radius: 8px;
+      padding: .85rem;
+      background: color-mix(in srgb, var(--panel) 94%, var(--blue));
+    }
+    .card.green { border-left-color: var(--green); }
+    .card.amber { border-left-color: var(--amber); }
+    .card.red { border-left-color: var(--red); }
+    .card.violet { border-left-color: var(--violet); }
+    .card h3, .card h4 { margin-top: 0; }
+    .quick-list { columns: 2; column-gap: 2rem; }
+    .quick-list li { break-inside: avoid; margin-bottom: .25rem; }
+    details {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      margin: .55rem 0;
+      background: var(--panel);
+    }
+    summary {
+      cursor: pointer;
+      padding: .72rem .85rem;
+      font-weight: 700;
+    }
+    details .answer { padding: 0 .85rem .85rem; color: var(--muted); }
+    details.important summary { color: var(--red); }
+    .toc-note { color: var(--muted); font-size: .85rem; margin-top: .8rem; }
+    .unit-tabs { display: flex; gap: .45rem; flex-wrap: wrap; margin: .5rem 0 1rem; }
+    .unit-tabs button.active { background: var(--blue); color: white; border-color: var(--blue); }
+    .search-hide { display: none !important; }
+    .exam-line {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: .7rem;
+      padding: .45rem 0;
+      border-bottom: 1px dashed var(--line);
+    }
+    .exam-line strong { color: var(--blue); }
+    .callout {
+      border-left: 4px solid var(--amber);
+      background: color-mix(in srgb, var(--amber) 12%, transparent);
+      padding: .75rem .9rem;
+      border-radius: 8px;
+      margin: .75rem 0;
+    }
+    .two-col { columns: 2; column-gap: 2rem; }
+    .muted { color: var(--muted); }
+    .print-only { display: none; }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      aside { position: static; height: auto; }
+      main { padding: .75rem; }
+      .grid { grid-template-columns: 1fr; }
+      .quick-list, .two-col { columns: 1; }
+      .exam-line { grid-template-columns: 1fr; gap: .15rem; }
+    }
+    @media print {
+      :root { --bg: #fff; --panel: #fff; --ink: #000; --muted: #222; --line: #bbb; --shadow: none; }
+      aside, .tools, .unit-tabs, button { display: none !important; }
+      .layout { display: block; }
+      main { padding: 0; max-width: none; }
+      section, .hero, .card, details { break-inside: avoid; box-shadow: none; }
+      details { open: true; }
+      details .answer { color: #000; }
+      .print-only { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <div class="brand">
+        <h1>ETP Practical Trainer</h1>
+        <p>Practical + viva focused guide</p>
+      </div>
+      <div class="tools">
+        <input id="search" type="search" placeholder="Search command, viva, practical...">
+        <button id="themeBtn" title="Toggle dark mode">Dark</button>
+      </div>
+      <nav>
+        <a href="#quick">Unit-wise quick revision</a>
+        <a href="#viva">Viva preparation</a>
+        <a href="#practicals">Practical implementation sheets</a>
+        <a href="#cheatsheet">Command cheat sheet</a>
+        <a href="#onepage">One-page revision sheets</a>
+        <a href="#mock">Mock practical exam</a>
+        <a href="#lastminute">Last-minute revision</a>
+      </nav>
+      <p class="toc-note">Tip: Before exam, print only sections 3, 4, 6, and 7 if time is short.</p>
+    </aside>
+    <main>
+      <div class="hero">
+        <h2>ETP Practical Exam Study Guide</h2>
+        <p>Built from the uploaded INT332/ETP material: Docker fundamentals, Dockerfile tasks, Compose and microservices, Maven, Maven + Docker integration, Git/GitHub Actions, Jenkins, and practical task evidence. The focus is scoring: what to write on paper, what to execute, and what to say in viva.</p>
+        <div class="badge-row">
+          <span class="badge">Paper steps</span>
+          <span class="badge">Commands</span>
+          <span class="badge">Expected output</span>
+          <span class="badge">Viva answers</span>
+          <span class="badge">Print friendly</span>
+        </div>
+      </div>
+
+      <section id="quick" data-searchable>
+        <h2>1. Unit-wise Quick Revision Notes</h2>
+        <div id="quickUnits"></div>
+      </section>
+
+      <section id="viva" data-searchable>
+        <h2>2. Viva Preparation</h2>
+        <p class="muted">Each unit has 30 probable viva questions. Short answers are enough for 2 marks; questions marked Important include a longer answer.</p>
+        <div class="unit-tabs" id="vivaTabs"></div>
+        <div id="vivaContent"></div>
+        <h3>Frequently Confused Concepts</h3>
+        <div id="confusions" class="cards"></div>
+      </section>
+
+      <section id="practicals" data-searchable>
+        <h2>3. Practical Implementation Sheets</h2>
+        <p class="muted">Memorize the sequence: create files -> write config -> build/run -> verify -> clean up.</p>
+        <div id="practicalCards"></div>
+      </section>
+
+      <section id="cheatsheet" data-searchable>
+        <h2>4. Command Cheat Sheet</h2>
+        <div id="cheatSheets" class="grid"></div>
+      </section>
+
+      <section id="onepage" data-searchable>
+        <h2>5. Exam-Oriented One-page Revision Sheets</h2>
+        <div id="onePages" class="cards"></div>
+      </section>
+
+      <section id="mock" data-searchable>
+        <h2>6. Mock Practical Exam</h2>
+        <p class="muted">Use these as examiner-style prompts. For each, first write the steps, then execute commands, then show verification.</p>
+        <div id="mockCards"></div>
+      </section>
+
+      <section id="lastminute" data-searchable>
+        <h2>7. Last-Minute Revision</h2>
+        <div class="grid">
+          <div class="card red">
+            <h3>Things to memorize tonight</h3>
+            <ul>
+              <li>Docker image vs container vs volume vs network.</li>
+              <li>Dockerfile: FROM, WORKDIR, COPY, RUN, CMD, ENTRYPOINT, EXPOSE, ENV.</li>
+              <li>Port mapping format: host_port:container_port.</li>
+              <li>Maven phases: validate, compile, test, package, verify, install, deploy.</li>
+              <li>GitHub Actions path: .github/workflows/file.yml.</li>
+              <li>Jenkins pipeline block: pipeline -> agent -> stages -> stage -> steps.</li>
+              <li>MySQL mandatory env variable: MYSQL_ROOT_PASSWORD.</li>
+              <li>Volume persistence: data survives container removal.</li>
+            </ul>
+          </div>
+          <div class="card green">
+            <h3>Commands most likely to be asked</h3>
+            <pre>docker run -d --name web -p 8080:80 httpd
+docker exec web sh -c "echo '&lt;h1&gt;Hello&lt;/h1&gt;' &gt; /usr/local/apache2/htdocs/index.html"
+docker build -t myapp .
+docker run -p 5000:5000 myapp
+docker volume create projectdata
+mvn archetype:generate -DgroupId=com.example -DartifactId=demo -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+mvn clean package
+git init && git add . && git commit -m "Initial commit"</pre>
+          </div>
+          <div class="card amber">
+            <h3>Most probable viva questions</h3>
+            <ol>
+              <li>What is Docker and why is it used?</li>
+              <li>Difference between image and container?</li>
+              <li>What is port mapping?</li>
+              <li>CMD vs ENTRYPOINT?</li>
+              <li>Why use volumes?</li>
+              <li>What is POM in Maven?</li>
+              <li>Explain Maven lifecycle phases.</li>
+              <li>Where are GitHub Actions workflows stored?</li>
+              <li>What are jobs, steps, actions, and runners?</li>
+              <li>What is Jenkins Pipeline as Code?</li>
+            </ol>
+          </div>
+          <div class="card violet">
+            <h3>Exam execution formula</h3>
+            <div class="exam-line"><strong>1. Read</strong><span>Identify technology, image, ports, env vars, files, and verification.</span></div>
+            <div class="exam-line"><strong>2. Write</strong><span>On paper: aim, required files, commands, expected output.</span></div>
+            <div class="exam-line"><strong>3. Execute</strong><span>Create project, run commands carefully, avoid spelling mistakes in filenames.</span></div>
+            <div class="exam-line"><strong>4. Verify</strong><span>Use docker ps, logs, curl/browser, mvn test, Actions/Jenkins console.</span></div>
+            <div class="exam-line"><strong>5. Explain</strong><span>End with 2 viva points: why each command/step is needed.</span></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const units = [
+      {
+        id: "docker",
+        title: "Unit 1 and 2: Docker, Images, Containers",
+        accent: "blue",
+        notes: [
+          "Docker packages an application with dependencies into a portable container.",
+          "Containers share the host OS kernel; virtual machines include a full guest OS.",
+          "Namespaces provide isolation for PID, network, mount, UTS, and users.",
+          "cgroups limit and monitor CPU, memory, disk I/O, and other resources.",
+          "Image is read-only template; container is running instance with a thin writable layer.",
+          "Docker daemon manages images, containers, networks, and volumes; Docker CLI sends commands to daemon.",
+          "Docker Hub/GHCR/private registry store and distribute images.",
+          "Copy-on-Write shares image layers and writes changes only in container layer."
+        ],
+        definitions: [
+          ["Container runtime", "Software that creates, starts, stops, and manages containers."],
+          ["Image layer", "Read-only filesystem change created by Dockerfile instructions."],
+          ["Volume", "Docker-managed persistent storage independent of container lifecycle."],
+          ["Port mapping", "Publishing container port on host using -p host:container."],
+          ["Build context", "Files sent to Docker daemon during docker build."]
+        ],
+        diagram: "User -> Docker CLI -> Docker Daemon -> Images/Containers/Networks/Volumes -> Registry",
+        commands: "docker --version\ndocker info\ndocker pull nginx\ndocker run -d --name web -p 8080:80 nginx\ndocker ps -a\ndocker logs web\ndocker exec -it web bash\ndocker stop web && docker rm web\ndocker build -t myapp .\ndocker volume create projectdata"
+      },
+      {
+        id: "compose",
+        title: "Unit 3: Microservices and Docker Compose",
+        accent: "green",
+        notes: [
+          "Microservices split one application into independent services.",
+          "Each service can be developed, deployed, scaled, and failed independently.",
+          "A database per service reduces tight coupling.",
+          "API Gateway acts as the single entry point and routes requests.",
+          "Docker Compose defines multi-container applications in YAML.",
+          "services define containers; volumes persist data; networks connect services.",
+          "depends_on controls startup order, not application readiness."
+        ],
+        definitions: [
+          ["Microservice", "Small independent service responsible for one business capability."],
+          ["Monolith", "Application where all modules are deployed as one unit."],
+          ["Compose service", "One container definition in docker-compose.yml."],
+          ["API Gateway", "Single entry point for routing, auth, rate limiting, and load balancing."]
+        ],
+        diagram: "Client -> API Gateway -> [User Service] [Order Service] [Payment Service] -> separate DBs",
+        commands: "docker compose up -d\ndocker compose ps\ndocker compose logs\ndocker compose exec app bash\ndocker compose down\ndocker compose config --services"
+      },
+      {
+        id: "maven",
+        title: "Unit 4: Maven and Maven + Docker Integration",
+        accent: "amber",
+        notes: [
+          "Maven is a build automation and dependency management tool for Java.",
+          "pom.xml is the Project Object Model and contains coordinates, dependencies, plugins, and build settings.",
+          "Standard directory: src/main/java, src/test/java, target.",
+          "Default lifecycle: validate -> compile -> test -> package -> verify -> install -> deploy.",
+          "Maven downloads dependencies from repositories and stores them in local ~/.m2.",
+          "Transitive dependency means Maven also downloads dependencies of dependencies.",
+          "Nearest wins is Maven's common conflict resolution rule.",
+          "dockerfile-maven-plugin can build and push Docker images from Maven."
+        ],
+        definitions: [
+          ["POM", "Project Object Model file pom.xml."],
+          ["Artifact", "Built output such as JAR/WAR with groupId, artifactId, version."],
+          ["Plugin goal", "Specific plugin task, such as compiler:compile or surefire:test."],
+          ["Maven Wrapper", "mvnw script that ensures a fixed Maven version."]
+        ],
+        diagram: "pom.xml -> dependencies/plugins -> mvn package -> target/app.jar -> Dockerfile -> docker image",
+        commands: "mvn compile\nmvn test\nmvn clean package\nmvn clean install\nmvn package -DskipTests\nmvn dependency:tree\nmvn dockerfile:build\nmvn dockerfile:push"
+      },
+      {
+        id: "git",
+        title: "Git and Git Basics",
+        accent: "violet",
+        notes: [
+          "Git is distributed version control; every clone has repository history.",
+          "Working directory -> staging area -> local repository -> remote repository.",
+          "commit records a snapshot; push uploads commits; pull fetches and merges remote changes.",
+          "Branching allows parallel development; main is commonly production/stable branch.",
+          "GitHub hosts repositories and integrates with GitHub Actions."
+        ],
+        definitions: [
+          ["Repository", "Project folder tracked by Git."],
+          ["Commit", "Saved snapshot with message and hash."],
+          ["Remote", "Repository URL such as origin on GitHub."],
+          ["Branch", "Independent line of development."]
+        ],
+        diagram: "Working tree -> git add -> Staging -> git commit -> Local repo -> git push -> GitHub",
+        commands: "git init\ngit status\ngit add .\ngit commit -m \"Initial commit\"\ngit branch -M main\ngit remote add origin <repo-url>\ngit push -u origin main\ngit pull origin main"
+      },
+      {
+        id: "actions",
+        title: "Unit 5: GitHub Actions",
+        accent: "red",
+        notes: [
+          "GitHub Actions is a CI/CD platform inside GitHub repositories.",
+          "Workflow YAML files live inside .github/workflows/.",
+          "Event tells when to run: push, pull_request, workflow_dispatch, schedule.",
+          "Workflow contains jobs; jobs contain steps; steps run commands or reusable actions.",
+          "Runner is the machine that executes the workflow, such as ubuntu-latest.",
+          "Secrets store sensitive values such as Docker Hub username/password/token.",
+          "Artifacts save build outputs such as target/*.jar."
+        ],
+        definitions: [
+          ["Workflow", "Automated CI/CD process stored as YAML."],
+          ["Job", "Group of steps running on a runner."],
+          ["Action", "Reusable task used with uses: owner/action@version."],
+          ["Secret", "Encrypted variable for passwords/tokens."]
+        ],
+        diagram: "Push to main -> GitHub event -> Runner -> Checkout -> Build/Test -> Artifact/Docker push",
+        commands: "mkdir -p .github/workflows\n# create ci.yml\n# commit and push\ngit add .github/workflows/ci.yml\ngit commit -m \"Add CI workflow\"\ngit push"
+      },
+      {
+        id: "jenkins",
+        title: "Unit 6: Jenkins",
+        accent: "blue",
+        notes: [
+          "Jenkins is an open-source automation server for CI/CD.",
+          "Runs on port 8080 by default.",
+          "Job/project is a configured task; build is one execution of a job.",
+          "Node/agent is a machine that runs builds.",
+          "Pipeline as Code stores CI/CD steps in Jenkinsfile.",
+          "Declarative pipeline is easier and structured; scripted pipeline is Groovy-based and flexible.",
+          "Plugins integrate Jenkins with Git, Maven, Docker, GitHub, Kubernetes, notifications, and reports."
+        ],
+        definitions: [
+          ["Jenkinsfile", "File that defines a Jenkins pipeline as code."],
+          ["Stage", "Logical pipeline phase such as Build, Test, Deploy."],
+          ["Agent", "Machine/container where pipeline runs."],
+          ["Plugin", "Add-on that extends Jenkins functionality."]
+        ],
+        diagram: "Developer push -> GitHub webhook/Poll SCM -> Jenkins -> Checkout -> Build -> Test -> Docker build/deploy",
+        commands: "java -jar jenkins.war\ndocker run -p 8080:8080 -p 50000:50000 jenkins/jenkins:lts\n# Jenkinsfile uses: sh 'mvn clean package', sh 'docker build -t myapp .'"
+      },
+      {
+        id: "kubernetes",
+        title: "Adjacent Topic: Kubernetes Basics",
+        accent: "green",
+        notes: [
+          "Kubernetes is a container orchestration platform used to deploy, scale, and manage containers.",
+          "Pod is the smallest deployable unit and can contain one or more containers.",
+          "Deployment manages replicas and rolling updates.",
+          "Service gives stable access to pods even when pod IPs change.",
+          "kubectl is the command-line tool for interacting with a Kubernetes cluster.",
+          "Use Kubernetes when many containers must be scheduled, scaled, healed, and updated across nodes."
+        ],
+        definitions: [
+          ["Pod", "Smallest Kubernetes unit that runs containers."],
+          ["Deployment", "Controller that manages desired replicas and rollout."],
+          ["Service", "Stable network endpoint for pods."],
+          ["Cluster", "Set of nodes controlled by Kubernetes."]
+        ],
+        diagram: "kubectl -> API Server -> Scheduler/Controller -> Nodes -> Pods -> Containers",
+        commands: "kubectl version --client\nkubectl get pods\nkubectl create deployment web --image=nginx\nkubectl expose deployment web --type=NodePort --port=80\nkubectl scale deployment web --replicas=3\nkubectl delete deployment web"
+      }
+    ];
+
+    const confusions = [
+      ["Image vs Container", "Image is a read-only template. Container is a running or stopped instance created from an image."],
+      ["COPY vs ADD", "COPY only copies files. ADD can also fetch URLs or auto-extract tar archives; prefer COPY unless ADD features are needed."],
+      ["CMD vs ENTRYPOINT", "CMD gives default command/arguments and is easy to override. ENTRYPOINT defines the main executable."],
+      ["EXPOSE vs -p", "EXPOSE documents container port in image metadata. -p actually publishes container port to host."],
+      ["Volume vs Bind Mount", "Volume is Docker-managed and portable. Bind mount maps an exact host path, common for development."],
+      ["docker compose up vs run", "up starts the full app declared in YAML. run starts one-off command for a service."],
+      ["mvn package vs install", "package creates JAR/WAR in target. install also copies it to local ~/.m2 repository."],
+      ["GitHub Actions vs Jenkins", "Actions is hosted in GitHub and YAML-based. Jenkins is a separate automation server with plugins and Jenkinsfile pipelines."],
+      ["Secrets vs Environment Variables", "Secrets are encrypted sensitive values. Environment variables are regular key-value configuration."],
+      ["Kubernetes Deployment vs Service", "Deployment manages pods. Service exposes pods through a stable endpoint."]
+    ];
+
+    function makeQ(unitName, pairs) {
+      return pairs.map((x, i) => ({ q: x[0], a: x[1], important: i < 8, detail: x[2] || x[1] }));
+    }
+
+    const viva = {
+      docker: makeQ("Docker", [
+        ["What is Docker?", "Docker is a platform to package and run applications in containers.", "Docker makes applications portable by bundling code, runtime, libraries, and dependencies into images that run consistently across systems."],
+        ["What is a container?", "A container is an isolated running instance of an image."],
+        ["What is a Docker image?", "A read-only template containing application code, runtime, and dependencies."],
+        ["Image vs container?", "Image is template; container is its running instance."],
+        ["Container vs virtual machine?", "Container shares host kernel and is lightweight; VM has full guest OS and is heavier."],
+        ["What are namespaces?", "Linux features that isolate process, network, mount, hostname, and users."],
+        ["What are cgroups?", "Linux features that limit and monitor resource usage."],
+        ["Explain Docker architecture.", "Docker CLI sends commands to Docker daemon, daemon manages Docker objects, registry stores images."],
+        ["What is Docker daemon?", "Background service dockerd that manages containers, images, networks, and volumes."],
+        ["What is Docker Hub?", "Public registry for storing and sharing Docker images."],
+        ["What is container runtime?", "Software that creates and manages containers from images."],
+        ["Name high-level runtimes.", "Docker Engine, containerd, CRI-O."],
+        ["Name low-level runtime.", "runc."],
+        ["What is Copy-on-Write?", "Container writes go to a thin writable layer while image layers remain unchanged."],
+        ["What is Dockerfile?", "A text file containing instructions to build an image."],
+        ["What does FROM do?", "Sets the base image."],
+        ["What does RUN do?", "Executes commands while building the image."],
+        ["What does COPY do?", "Copies files from build context into the image."],
+        ["What does WORKDIR do?", "Sets working directory inside image/container."],
+        ["What does ENV do?", "Sets environment variables."],
+        ["What does EXPOSE do?", "Documents the port used by the container."],
+        ["CMD vs ENTRYPOINT?", "CMD is default command and can be overridden; ENTRYPOINT defines main executable."],
+        ["What is port mapping?", "Mapping host port to container port using -p host:container."],
+        ["Why use docker ps -a?", "To show running and stopped containers."],
+        ["What is docker exec?", "Runs a command inside an already running container."],
+        ["What are Docker volumes?", "Docker-managed persistent storage."],
+        ["Why data disappears without volume?", "Container writable layer is removed with container."],
+        ["What is bridge network?", "Default private network for containers on same Docker host."],
+        ["What is docker build -t?", "Builds image and tags it with a name."],
+        ["What is .dockerignore?", "Excludes files from build context."]
+      ]),
+      compose: makeQ("Compose", [
+        ["What are microservices?", "Small independent services that work together through APIs."],
+        ["Why use microservices?", "Independent development, deployment, scaling, and fault isolation."],
+        ["Monolithic vs microservices?", "Monolith deploys as one unit; microservices deploy independently."],
+        ["What is API Gateway?", "Single entry point that routes requests to services."],
+        ["Why database per service?", "It reduces coupling and allows independent data ownership."],
+        ["What is Docker Compose?", "Tool to define and run multi-container applications using YAML."],
+        ["Compose file format?", "YAML."],
+        ["What is services in Compose?", "Container definitions for app components."],
+        ["What does image field do?", "Uses a pre-built image."],
+        ["What does build field do?", "Builds image from a Dockerfile."],
+        ["What does ports field do?", "Maps host and container ports."],
+        ["What does environment field do?", "Sets container environment variables."],
+        ["What does volumes field do?", "Mounts persistent storage or host paths."],
+        ["What does depends_on do?", "Controls service startup order."],
+        ["Does depends_on wait for DB readiness?", "No, it only waits for container start."],
+        ["Command to start all services?", "docker compose up or docker-compose up."],
+        ["Detached compose command?", "docker compose up -d."],
+        ["Command to stop/remove services?", "docker compose down."],
+        ["Command to view logs?", "docker compose logs."],
+        ["Command to list services?", "docker compose ps."],
+        ["How services communicate?", "By service name through Docker DNS on the Compose network."],
+        ["What is scaling?", "Running multiple replicas of a service."],
+        ["Compose vs Docker CLI?", "Compose manages full app; Docker CLI usually manages individual containers."],
+        ["Use case for Compose?", "Local multi-container app such as app + database."],
+        ["What is loose coupling?", "Services depend on APIs, not internal implementation."],
+        ["What is service discovery?", "Finding services by name/address."],
+        ["What is REST API?", "HTTP-based interface for service communication."],
+        ["What is containerized microservice?", "A microservice packaged and run in a container."],
+        ["Why use containers for microservices?", "Fast startup, isolation, portability, easy scaling."],
+        ["What does docker compose config do?", "Validates and displays final Compose configuration."]
+      ]),
+      maven: makeQ("Maven", [
+        ["What is Maven?", "Java build automation and dependency management tool."],
+        ["What is POM?", "Project Object Model file named pom.xml."],
+        ["What are groupId, artifactId, version?", "Coordinates that uniquely identify a Maven artifact."],
+        ["What is Maven lifecycle?", "Ordered phases that build, test, package, install, and deploy."],
+        ["List default lifecycle phases.", "validate, compile, test, package, verify, install, deploy."],
+        ["What does mvn compile do?", "Compiles source code into class files."],
+        ["What does mvn test do?", "Runs unit tests."],
+        ["What does mvn package do?", "Creates JAR/WAR in target directory."],
+        ["What does mvn install do?", "Installs artifact into local repository."],
+        ["What does mvn clean do?", "Deletes target build output."],
+        ["How to skip tests?", "mvn package -DskipTests."],
+        ["Standard Maven source folder?", "src/main/java."],
+        ["Standard Maven test folder?", "src/test/java."],
+        ["What is target folder?", "Generated build output directory."],
+        ["What is dependency scope?", "Controls where dependency is available: compile, test, runtime, provided."],
+        ["Default dependency scope?", "compile."],
+        ["JUnit scope?", "test."],
+        ["JDBC driver common scope?", "runtime."],
+        ["What is transitive dependency?", "Dependency of a dependency downloaded automatically."],
+        ["How does Maven resolve conflicts?", "Usually nearest dependency wins."],
+        ["What is dependencyManagement?", "Central place to control dependency versions."],
+        ["What is parent POM?", "Shared configuration inherited by child modules."],
+        ["What is Maven plugin?", "Tool that performs build tasks through goals."],
+        ["What does Surefire plugin do?", "Runs unit tests."],
+        ["What does compiler plugin do?", "Controls Java compilation version."],
+        ["What does shade plugin do?", "Creates fat/uber JAR with dependencies."],
+        ["What is Maven Wrapper?", "mvnw script that uses a fixed Maven version."],
+        ["Maven + Docker integration?", "Build JAR with Maven, copy it into Docker image, optionally build image via Maven plugin."],
+        ["What is dockerfile-maven-plugin?", "Plugin that builds/pushes Docker images using Maven goals."],
+        ["What is an artifact?", "Built output such as JAR/WAR stored with coordinates."]
+      ]),
+      git: makeQ("Git", [
+        ["What is Git?", "Distributed version control system."],
+        ["What is GitHub?", "Cloud platform for hosting Git repositories."],
+        ["What is repository?", "Project folder tracked by Git."],
+        ["What is commit?", "Saved snapshot of project changes."],
+        ["What is staging area?", "Area where changes are prepared before commit."],
+        ["What is git init?", "Creates a new Git repository."],
+        ["What is git status?", "Shows changed, staged, and untracked files."],
+        ["What is git add .?", "Stages all changes in current directory."],
+        ["What is git commit -m?", "Creates commit with message."],
+        ["What is branch?", "Independent line of development."],
+        ["What is main branch?", "Common default stable branch."],
+        ["What is remote?", "URL of repository hosted elsewhere."],
+        ["What is origin?", "Default name for remote repository."],
+        ["What is git push?", "Uploads commits to remote."],
+        ["What is git pull?", "Downloads and merges remote changes."],
+        ["What is git clone?", "Copies a remote repository locally."],
+        ["What is merge conflict?", "When Git cannot automatically combine changes."],
+        ["How to configure username?", "git config --global user.name \"Name\"."],
+        ["How to configure email?", "git config --global user.email \"email@example.com\"."],
+        ["Why use .gitignore?", "To avoid tracking generated or secret files."],
+        ["What is pull request?", "Request to merge branch changes."],
+        ["What is README?", "Project documentation file."],
+        ["What is commit hash?", "Unique identifier of a commit."],
+        ["What is git log?", "Shows commit history."],
+        ["How to rename branch main?", "git branch -M main."],
+        ["How to add remote?", "git remote add origin <url>."],
+        ["How to first push?", "git push -u origin main."],
+        ["Why commit before push?", "Only committed snapshots can be pushed."],
+        ["Git vs GitHub?", "Git is tool; GitHub is hosting/service platform."],
+        ["Why Git in CI/CD?", "CI/CD starts automatically when code is pushed to repository."]
+      ]),
+      actions: makeQ("GitHub Actions", [
+        ["What is GitHub Actions?", "GitHub's CI/CD automation platform."],
+        ["Where are workflow files stored?", ".github/workflows/."],
+        ["Workflow file format?", "YAML."],
+        ["What is workflow?", "Automated process triggered by events."],
+        ["What is event?", "Trigger such as push or pull_request."],
+        ["What is job?", "Group of steps executed on a runner."],
+        ["What is step?", "Single command or action inside a job."],
+        ["What is action?", "Reusable unit used with uses: owner/action@version."],
+        ["What is runner?", "Machine that executes workflow jobs."],
+        ["Common runner?", "ubuntu-latest."],
+        ["What does actions/checkout do?", "Checks out repository code on runner."],
+        ["What does setup-java do?", "Installs/configures JDK for workflow."],
+        ["What is workflow_dispatch?", "Manual trigger from GitHub UI."],
+        ["What is schedule trigger?", "Runs workflow using cron."],
+        ["Jobs run parallel or sequential?", "Parallel by default."],
+        ["How to make jobs sequential?", "Use needs keyword."],
+        ["What are secrets?", "Encrypted values for tokens/passwords."],
+        ["Why use secrets for Docker Hub?", "To avoid exposing username/password/token in YAML."],
+        ["What is artifact upload?", "Saving build files after workflow run."],
+        ["What does mvn -B mean?", "Batch mode, suitable for CI."],
+        ["What is cache action?", "Speeds builds by reusing dependencies."],
+        ["What is matrix strategy?", "Runs same job across multiple versions/configurations."],
+        ["What happens if a step fails?", "Job normally stops and fails."],
+        ["Trigger on main branch syntax?", "on: push: branches: [main]."],
+        ["Docker build in Actions?", "run: docker build -t image ."],
+        ["Docker login action?", "docker/login-action or docker login with secrets."],
+        ["Docker push command?", "docker push username/app:latest."],
+        ["Why upload JAR artifact?", "To preserve generated build output."],
+        ["GitHub Actions vs Jenkins?", "Actions is integrated in GitHub; Jenkins is separate server."],
+        ["Most important workflow indentation rule?", "YAML indentation must be consistent with spaces."]
+      ]),
+      jenkins: makeQ("Jenkins", [
+        ["What is Jenkins?", "Open-source automation server for CI/CD."],
+        ["Default Jenkins port?", "8080."],
+        ["What is job/project?", "Configured automation task."],
+        ["What is build?", "One execution of a job."],
+        ["What is Jenkins node?", "Machine that runs Jenkins jobs."],
+        ["What is agent?", "Execution environment for pipeline/job."],
+        ["What is plugin?", "Add-on that extends Jenkins functionality."],
+        ["What is Jenkins pipeline?", "Series of automated steps for build/test/deploy."],
+        ["What is Jenkinsfile?", "Code file defining pipeline."],
+        ["Pipeline as Code?", "CI/CD process stored and versioned as code."],
+        ["Declarative pipeline?", "Structured pipeline syntax recommended for beginners."],
+        ["Scripted pipeline?", "Flexible Groovy-based pipeline syntax."],
+        ["Basic pipeline blocks?", "pipeline, agent, stages, stage, steps."],
+        ["What is stage?", "Logical phase like Checkout, Build, Test, Deploy."],
+        ["What is steps block?", "Commands/actions executed in a stage."],
+        ["How to run shell in Jenkinsfile?", "sh 'command'."],
+        ["How to run Windows command?", "bat 'command'."],
+        ["Jenkins with Maven?", "Configure Maven tool and run mvn clean package/test."],
+        ["Jenkins with Docker?", "Build/push Docker images using Docker plugin or shell commands."],
+        ["Jenkins with GitHub?", "Use Git plugin, webhook, or Poll SCM."],
+        ["Freestyle vs Pipeline?", "Freestyle is UI-configured; pipeline is code-defined and version-controlled."],
+        ["What is webhook?", "GitHub notification that triggers Jenkins build."],
+        ["What is Poll SCM?", "Jenkins periodically checks repository for changes."],
+        ["How to install plugins?", "Manage Jenkins -> Plugins -> Available -> Install."],
+        ["Important plugins?", "Git, GitHub, Maven Integration, Docker Pipeline, Pipeline."],
+        ["How to start Jenkins by war?", "java -jar jenkins.war."],
+        ["How to run Jenkins in Docker?", "docker run -p 8080:8080 -p 50000:50000 jenkins/jenkins:lts."],
+        ["What is console output?", "Build log showing command output and errors."],
+        ["How to skip Maven tests in Jenkins?", "mvn package -DskipTests."],
+        ["Why Jenkins in DevOps?", "Automates repetitive build, test, and deployment tasks."]
+      ]),
+      kubernetes: makeQ("Kubernetes", [
+        ["What is Kubernetes?", "Container orchestration platform."],
+        ["Why Kubernetes?", "Deploys, scales, heals, and manages containers across nodes."],
+        ["What is pod?", "Smallest deployable unit in Kubernetes."],
+        ["What is deployment?", "Controller that manages pod replicas and rollouts."],
+        ["What is service?", "Stable network endpoint for accessing pods."],
+        ["What is node?", "Worker machine in a cluster."],
+        ["What is cluster?", "Set of control plane and worker nodes."],
+        ["What is kubectl?", "Command-line tool for Kubernetes."],
+        ["Command to list pods?", "kubectl get pods."],
+        ["Command to create deployment?", "kubectl create deployment web --image=nginx."],
+        ["Command to expose deployment?", "kubectl expose deployment web --type=NodePort --port=80."],
+        ["Command to scale deployment?", "kubectl scale deployment web --replicas=3."],
+        ["Command to delete deployment?", "kubectl delete deployment web."],
+        ["What is replica?", "Copy of a pod."],
+        ["What is rolling update?", "Updating pods gradually without full downtime."],
+        ["What is self-healing?", "Kubernetes restarts/replaces failed pods."],
+        ["Docker Compose vs Kubernetes?", "Compose is local/simple multi-container; Kubernetes is cluster orchestration."],
+        ["What is YAML manifest?", "Declarative Kubernetes resource configuration."],
+        ["What is namespace in Kubernetes?", "Logical separation of resources in a cluster."],
+        ["What is ConfigMap?", "Non-secret configuration data."],
+        ["What is Secret?", "Sensitive configuration data."],
+        ["What is container image in Kubernetes?", "Image used by pods to run containers."],
+        ["What is desired state?", "Configuration Kubernetes tries to maintain."],
+        ["What is control plane?", "Components that manage cluster state."],
+        ["What is scheduler?", "Chooses node for pods."],
+        ["What is kubelet?", "Agent running on each node."],
+        ["What is ingress?", "HTTP/HTTPS routing into cluster services."],
+        ["What is NodePort?", "Service type exposing app on a node port."],
+        ["What is LoadBalancer?", "Service type exposing app through external load balancer."],
+        ["Kubernetes in Jenkins?", "Jenkins can deploy containers to Kubernetes using kubectl or plugins."]
+      ])
+    };
+
+    const practicals = [
+      {
+        title: "Practical 1: GitHub Actions Workflow with Docker Flask App",
+        problem: "Create a Flask app, Dockerfile, and GitHub Actions workflow that builds the Docker image on push.",
+        paper: ["Create my-docker-app project.", "Add app.py, requirements.txt, Dockerfile.", "Create .github/workflows/ci-cd.yml.", "Workflow: checkout code, build Docker image, list images.", "Commit and push to main.", "Verify GitHub Actions run and local Docker output."],
+        commands: "mkdir my-docker-app\ncd my-docker-app\nmkdir -p .github/workflows\n# create app.py, requirements.txt, Dockerfile, .github/workflows/ci-cd.yml\ngit init\ngit add .\ngit commit -m \"Initial commit\"\ngit branch -M main\ngit remote add origin <repo-url>\ngit push -u origin main\ndocker build -t my-docker-app .\ndocker run -p 5000:5000 my-docker-app",
+        files: {
+          "app.py": "from flask import Flask\napp = Flask(__name__)\n\n@app.route('/')\ndef home():\n    return \"Hello from Docker CI/CD!\"\n\nif __name__ == \"__main__\":\n    app.run(host='0.0.0.0', port=5000)",
+          "requirements.txt": "Flask",
+          "Dockerfile": "FROM python:3.9-slim\nWORKDIR /app\nCOPY . .\nRUN pip install -r requirements.txt\nCMD [\"python\", \"app.py\"]",
+          ".github/workflows/ci-cd.yml": "name: CI-CD Pipeline\non:\n  push:\n    branches:\n      - main\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout Code\n        uses: actions/checkout@v4\n      - name: Build Docker Image\n        run: docker build -t my-docker-app .\n      - name: List Docker Images\n        run: docker images"
+        },
+        output: "Browser/curl http://localhost:5000 shows: Hello from Docker CI/CD! GitHub Actions run becomes green.",
+        mistakes: ["Wrong folder name: use .github/workflows exactly.", "Dockerfile accidentally named Dockerfile.txt.", "YAML indentation errors.", "Forgot git push, so workflow does not run.", "Flask app binding only to 127.0.0.1 instead of 0.0.0.0."],
+        viva: ["Why use actions/checkout?", "Why port 5000:5000?", "Why app.run(host='0.0.0.0')?", "What is a runner?", "What does docker images verify?"]
+      },
+      {
+        title: "Practical 2: Complete GitHub Actions CI/CD Pipeline",
+        problem: "Design and implement CI/CD pipeline for a repository using GitHub Actions.",
+        paper: ["Create workflow YAML inside .github/workflows.", "Trigger pipeline on push to main.", "Checkout repository.", "Install dependencies/build project.", "Run tests.", "Build Docker image or artifact.", "Deploy/push if required using secrets."],
+        commands: "mkdir -p .github/workflows\n# create .github/workflows/ci.yml\ngit add .\ngit commit -m \"Add CI CD pipeline\"\ngit push",
+        files: {
+          ".github/workflows/ci.yml": "name: CI CD\non:\n  push:\n    branches: [main]\njobs:\n  build-test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - name: Build Docker image\n        run: docker build -t app-ci .\n      - name: Run verification\n        run: docker images"
+        },
+        output: "Actions tab shows workflow triggered on push and all steps successful.",
+        mistakes: ["Missing on: trigger.", "Wrong branch name.", "Secrets written directly in file.", "No verification step."],
+        viva: ["What is CI?", "What is CD?", "What are secrets?", "What is workflow_dispatch?", "Difference between job and step?"]
+      },
+      {
+        title: "Practical 3: Java CI with Maven and Artifact Upload",
+        problem: "Create .github/workflows/ci.yml to checkout code, set up JDK, build/test with Maven, and upload target JAR/WAR.",
+        paper: ["Workflow name: Java CI with Maven.", "Trigger on push and pull_request to main.", "Use checkout action.", "Use setup-java with JDK 21/17 Temurin.", "Cache Maven packages.", "Run mvn -B clean install and mvn test.", "Upload target/*.jar as artifact."],
+        commands: "mkdir -p .github/workflows\n# create .github/workflows/ci.yml\ngit add .github/workflows/ci.yml\ngit commit -m \"Add Java Maven CI\"\ngit push",
+        files: {
+          ".github/workflows/ci.yml": "name: Java CI with Maven\non:\n  push:\n    branches: [\"main\"]\n  pull_request:\n    branches: [\"main\"]\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout repository\n        uses: actions/checkout@v4\n      - name: Set up JDK\n        uses: actions/setup-java@v4\n        with:\n          java-version: '21'\n          distribution: 'temurin'\n      - name: Cache Maven packages\n        uses: actions/cache@v4\n        with:\n          path: ~/.m2\n          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}\n          restore-keys: ${{ runner.os }}-m2\n      - name: Build with Maven\n        run: mvn -B clean install\n      - name: Run Tests\n        run: mvn test\n      - name: Upload Artifact\n        uses: actions/upload-artifact@v4\n        with:\n          name: java-build-artifact\n          path: target/*.jar"
+        },
+        output: "Workflow green; artifact named java-build-artifact available in run summary.",
+        mistakes: ["No pom.xml in repository.", "Wrong Java version for project.", "Using tabs in YAML.", "target/*.jar path wrong for WAR project."],
+        viva: ["What is artifact?", "Why use setup-java?", "What is Maven cache?", "Why mvn -B in CI?", "What is pull_request trigger?"]
+      },
+      {
+        title: "Practical 4: GitHub Actions Build and Push Docker Image to Docker Hub",
+        problem: "Build and push Docker image username/app-ci:latest whenever code is pushed.",
+        paper: ["Create Docker Hub repository.", "Add GitHub secrets DOCKER_USERNAME and DOCKER_PASSWORD or token.", "Workflow checkout.", "Login to Docker Hub.", "Build image with username/app-ci:latest.", "Push image.", "Explain secrets and env vars."],
+        commands: "mkdir -p .github/workflows\n# add docker-push.yml\ngit add .\ngit commit -m \"Add Docker Hub push workflow\"\ngit push",
+        files: {
+          ".github/workflows/docker-push.yml": "name: Build and Push Docker Image\non:\n  push:\n    branches: [main]\njobs:\n  docker:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - name: Docker login\n        uses: docker/login-action@v3\n        with:\n          username: ${{ secrets.DOCKER_USERNAME }}\n          password: ${{ secrets.DOCKER_PASSWORD }}\n      - name: Build image\n        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/app-ci:latest .\n      - name: Push image\n        run: docker push ${{ secrets.DOCKER_USERNAME }}/app-ci:latest"
+        },
+        output: "Docker Hub shows updated app-ci:latest image. GitHub Actions run is successful.",
+        mistakes: ["Secret names mismatch.", "No Dockerfile at repository root.", "Docker Hub repo does not exist or token lacks permission.", "Using password directly in YAML."],
+        viva: ["Why use secrets?", "What is image tag?", "What is docker push?", "Difference between env and secrets?", "Why login before push?"]
+      },
+      {
+        title: "Practical 5: Maven + Docker Integration",
+        problem: "Create Maven Java project, package JAR, build Docker image using Dockerfile/Maven plugin, and run it.",
+        paper: ["Generate Maven quickstart project.", "Modify App.java to print message.", "Add maven-jar-plugin for mainClass.", "Add dockerfile-maven-plugin.", "Create Dockerfile copying target JAR.", "Run mvn clean package.", "Run mvn dockerfile:build or docker build.", "Run container and verify output."],
+        commands: "mvn archetype:generate -DgroupId=com.example -DartifactId=docker-demo -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false\ncd docker-demo\nmvn clean package\nmvn dockerfile:build\n# fallback if plugin/docker host issue:\ndocker build -t docker-maven-demo .\ndocker run docker-maven-demo",
+        files: {
+          "src/main/java/com/example/App.java": "package com.example;\npublic class App {\n  public static void main(String[] args) {\n    System.out.println(\"Hello from Docker + Maven Integration!\");\n  }\n}",
+          "Dockerfile": "FROM eclipse-temurin:21-jdk\nWORKDIR /app\nCOPY target/docker-maven-demo-1.0-SNAPSHOT.jar app.jar\nENTRYPOINT [\"java\",\"-jar\",\"app.jar\"]",
+          "pom.xml plugin idea": "Use maven-jar-plugin to set mainClass com.example.App and dockerfile-maven-plugin with repository docker-maven-demo and tag ${project.version}."
+        },
+        output: "Container prints: Hello from Docker + Maven Integration!",
+        mistakes: ["JAR name in Dockerfile does not match artifactId/version.", "No Main-Class in manifest.", "Typed java - jar with a space instead of -jar.", "Forgot mvn clean package before docker build."],
+        viva: ["What is POM?", "Why maven-jar-plugin?", "What does target contain?", "Why ENTRYPOINT java -jar?", "What is dockerfile-maven-plugin?"]
+      },
+      {
+        title: "Practical 6: Ubuntu Container with Environment Variable",
+        problem: "Run Ubuntu container with COLLEGE=CSE and verify variable.",
+        paper: ["Run ubuntu container in detached interactive mode.", "Name it college_env.", "Pass environment variable using -e.", "Verify using printenv or echo.", "Stop/remove container."],
+        commands: "docker run -dit --name college_env -e COLLEGE=CSE ubuntu bash\ndocker exec college_env printenv COLLEGE\ndocker stop college_env\ndocker rm college_env",
+        output: "CSE",
+        mistakes: ["Using -e COLLEGE CSE instead of -e COLLEGE=CSE.", "Trying docker exec after container stopped.", "Forgetting image name ubuntu."],
+        viva: ["What is -e?", "What is -dit?", "Why bash at end?", "How to check env variable?", "Does env persist after removal?"]
+      },
+      {
+        title: "Practical 7: MongoDB Port Mapping",
+        problem: "Run MongoDB container named DB-app with port mapping.",
+        paper: ["Use official mongo image.", "Run in detached mode.", "Name container DB-app.", "Map host port to container port as given.", "Verify using docker ps.", "Clean up."],
+        commands: "docker run -d --name DB-app -p 80:8082 mongo\ndocker ps --filter name=DB-app\ndocker stop DB-app\ndocker rm DB-app",
+        output: "docker ps shows DB-app running with 0.0.0.0:80->8082/tcp if configured that way.",
+        mistakes: ["Reversing port order.", "Container name already exists.", "Docker daemon not running."],
+        viva: ["What is port mapping?", "What is official image?", "Why -d?", "How to list running containers?", "What does host:container mean?"]
+      },
+      {
+        title: "Practical 8: Deploy Custom Page with httpd",
+        problem: "Run Apache httpd container and deploy a custom index.html.",
+        paper: ["Run httpd with port 8080:80.", "Use docker exec to write index.html in htdocs.", "Verify with browser/curl.", "Check logs.", "Clean up."],
+        commands: "docker run -d --name simple_web -p 8080:80 httpd\ndocker exec simple_web sh -c \"echo '<h1>Welcome to Docker Web Deployment</h1>' > /usr/local/apache2/htdocs/index.html\"\ncurl http://localhost:8080\ndocker logs simple_web\ndocker stop simple_web\ndocker rm simple_web",
+        output: "<h1>Welcome to Docker Web Deployment</h1>",
+        mistakes: ["Writing file to wrong Apache path.", "Using port 80 already occupied.", "Missing quotes around echo command."],
+        viva: ["Why httpd image?", "What is htdocs?", "Why docker exec?", "What does curl verify?", "Why map 8080:80?"]
+      },
+      {
+        title: "Practical 9: docker run with Multiple Flags",
+        problem: "Run Ubuntu container with name, environment variable, interactive terminal, and volume/bind mount.",
+        paper: ["Use docker run.", "Use -it for terminal.", "Use --name my_app.", "Use -e APP_ENV=production.", "Use -v /app/data:/data.", "Use ubuntu bash."],
+        commands: "docker run -it --name my_app -e APP_ENV=production -v /app/data:/data ubuntu bash\n# inside container\necho $APP_ENV\nls /data",
+        output: "Inside container, echo $APP_ENV prints production.",
+        mistakes: ["Host path may need permission.", "Container name reuse error.", "Forgetting bash for interactive Ubuntu shell."],
+        viva: ["Explain -it.", "Explain --name.", "Explain -v.", "Volume vs bind mount?", "What is APP_ENV?"]
+      },
+      {
+        title: "Practical 10: Container File Interaction and docker cp",
+        problem: "Create files inside container, list them, and copy report.txt to host.",
+        paper: ["Start Ubuntu in background.", "Create /project directory.", "Create report.txt and notes.txt using docker exec.", "List files.", "Copy report.txt from container to host using docker cp.", "Verify copied file."],
+        commands: "docker run -dit --name interaction_container ubuntu bash\ndocker exec interaction_container mkdir /project\ndocker exec interaction_container sh -c \"echo 'This is our container interaction with our host machine.' > /project/report.txt\"\ndocker exec interaction_container sh -c \"echo 'These are project notes.' > /project/notes.txt\"\ndocker exec interaction_container ls -l /project\ndocker cp interaction_container:/project/report.txt ./report.txt\ndocker stop interaction_container\ndocker rm interaction_container",
+        output: "ls shows notes.txt and report.txt. Host receives report.txt.",
+        mistakes: ["docker cp path format wrong.", "No running container for docker exec.", "Creating file without sh -c redirection."],
+        viva: ["What is docker cp?", "Why use sh -c?", "Can exec run inside stopped container?", "Where is file created?", "What is container filesystem?"]
+      },
+      {
+        title: "Practical 11: Docker Volume Persistence",
+        problem: "Use named volume projectdata and prove data remains after removing first container.",
+        paper: ["Create volume projectdata.", "Run first container mounting volume at /app/data.", "Write report.txt.", "Remove first container.", "Run second container with same volume.", "Read report.txt to prove persistence.", "Clean up volume."],
+        commands: "docker volume create projectdata\ndocker run -dit --name project_container -v projectdata:/app/data ubuntu bash\ndocker exec project_container sh -c \"echo 'This is my first volume.' > /app/data/report.txt\"\ndocker stop project_container\ndocker rm project_container\ndocker run -dit --name project_container_new -v projectdata:/app/data ubuntu bash\ndocker exec project_container_new cat /app/data/report.txt\ndocker stop project_container_new\ndocker rm project_container_new\ndocker volume rm projectdata",
+        output: "This is my first volume.",
+        mistakes: ["Removing volume before verification.", "Using different volume name in second container.", "Confusing volume path and container path."],
+        viva: ["Why data persists?", "Where Docker stores volumes?", "Volume vs container layer?", "What is docker volume inspect?", "Why remove volume at end?"]
+      },
+      {
+        title: "Practical 12: University Portal with httpd, Volume, Env, Logs",
+        problem: "Deploy College Portal on httpd with volume portaldata and ENV=production.",
+        paper: ["Create volume portaldata.", "Run httpd with name college_portal, port 8080:80, env ENV=production, volume mounted to htdocs.", "Write index.html.", "Verify with curl/browser.", "Check logs.", "Clean up."],
+        commands: "docker volume create portaldata\ndocker run -d --name college_portal -p 8080:80 -e ENV=production -v portaldata:/usr/local/apache2/htdocs httpd\ndocker exec college_portal sh -c \"echo '<h1>College Portal</h1><p>Environment: production</p>' > /usr/local/apache2/htdocs/index.html\"\ncurl http://localhost:8080\ndocker logs college_portal\ndocker stop college_portal\ndocker rm college_portal\ndocker volume rm portaldata",
+        output: "<h1>College Portal</h1><p>Environment: production</p>",
+        mistakes: ["Volume hides default htdocs until index is written.", "Port conflict on 8080.", "Forgot to verify logs."],
+        viva: ["Why mount volume to htdocs?", "What does ENV=production mean?", "What does docker logs show?", "Why port 8080?", "What happens if container removed?"]
+      },
+      {
+        title: "Practical 13: MySQL Container Debugging",
+        problem: "Run MySQL with required env vars, inspect logs, and show databases.",
+        paper: ["Run mysql:8 in detached mode.", "Provide MYSQL_ROOT_PASSWORD at minimum plus database/user/password.", "Map 3307:3306.", "Check logs.", "Exec mysql client command.", "Clean up."],
+        commands: "docker run -d --name mysql_debug -e MYSQL_ROOT_PASSWORD=rootpass -e MYSQL_DATABASE=college_db -e MYSQL_USER=college_user -e MYSQL_PASSWORD=college_pass -p 3307:3306 mysql:8\ndocker logs mysql_debug\ndocker exec -it mysql_debug mysql -u root -prootpass -e \"SHOW DATABASES;\"\ndocker stop mysql_debug\ndocker rm mysql_debug",
+        output: "SHOW DATABASES includes college_db, mysql, information_schema, performance_schema, sys.",
+        mistakes: ["Missing MYSQL_ROOT_PASSWORD causes startup failure.", "Space between -p and password in mysql client can cause prompt issues.", "Not waiting for MySQL initialization before exec."],
+        viva: ["Why MYSQL_ROOT_PASSWORD is mandatory?", "Why map 3307:3306?", "How to debug failed container?", "What is docker logs?", "What is environment variable?"]
+      },
+      {
+        title: "Practical 14: Build Custom Apache/Nginx Image",
+        problem: "Create simple index.html and Dockerfile for httpd/nginx, build image, run container, verify page.",
+        paper: ["Create index.html.", "Create Dockerfile from httpd or nginx.", "Copy HTML to server document root.", "Build image with tag.", "Run with port mapping.", "Verify browser/curl."],
+        commands: "# Apache\nprintf '<h1>Docker Apache</h1>' > index.html\n# Dockerfile: FROM httpd:2.4, COPY index.html /usr/local/apache2/htdocs/\ndocker build -t my-apache2 .\ndocker run -dit --name my-running-app2 -p 8082:80 my-apache2\ncurl http://localhost:8082\n\n# Nginx path alternative: /usr/share/nginx/html",
+        files: {
+          "Apache Dockerfile": "FROM httpd:2.4\nCOPY ./index.html /usr/local/apache2/htdocs/",
+          "Nginx Dockerfile": "FROM nginx\nCOPY index.html /usr/share/nginx/html"
+        },
+        output: "Browser/curl shows custom HTML page.",
+        mistakes: ["Wrong document root path.", "Dockerfile named incorrectly.", "Forgetting dot build context in docker build -t name ."],
+        viva: ["What is build context?", "What does COPY do?", "Apache vs Nginx document root?", "Why tag image?", "How to check image list?"]
+      },
+      {
+        title: "Practical 15: Jenkins CI/CD Pipeline with Maven and Docker",
+        problem: "Create Jenkins pipeline to checkout GitHub repo, build Maven project, run tests, and build Docker image.",
+        paper: ["Install Jenkins and suggested plugins.", "Install Git/Maven/Docker related plugins.", "Create pipeline job.", "Configure Git repository or Jenkinsfile.", "Stages: Checkout, Build, Test, Docker Build.", "Run Build Now and verify console output."],
+        commands: "docker run -p 8080:8080 -p 50000:50000 jenkins/jenkins:lts\n# In Jenkins job, use Jenkinsfile below",
+        files: {
+          "Jenkinsfile": "pipeline {\n  agent any\n  stages {\n    stage('Checkout') {\n      steps { git 'https://github.com/user/repo.git' }\n    }\n    stage('Build') {\n      steps { sh 'mvn clean package' }\n    }\n    stage('Test') {\n      steps { sh 'mvn test' }\n    }\n    stage('Docker Build') {\n      steps { sh 'docker build -t myapp .' }\n    }\n  }\n}"
+        },
+        output: "Jenkins console output shows successful stages and Docker image myapp created.",
+        mistakes: ["Maven not configured in Jenkins tools.", "Docker not available to Jenkins agent.", "Wrong Git URL.", "Using sh on Windows agent instead of bat."],
+        viva: ["What is Jenkinsfile?", "What is stage?", "Pipeline vs freestyle?", "What plugins are needed?", "How does Jenkins trigger builds?"]
+      }
+    ];
+
+    const cheats = [
+      ["Docker Commands", "docker --version\ndocker info\ndocker images\ndocker pull <image>\ndocker run -d --name <name> -p <host>:<container> <image>\ndocker ps\ndocker ps -a\ndocker logs <container>\ndocker exec -it <container> bash\ndocker stop <container>\ndocker rm <container>\ndocker rmi <image>\ndocker build -t <image>:<tag> .\ndocker tag <img> <user>/<img>:latest\ndocker login\ndocker push <user>/<img>:latest"],
+      ["Docker Volumes/Networks", "docker volume create <name>\ndocker volume ls\ndocker volume inspect <name>\ndocker run -v <volume>:/data ubuntu\ndocker network ls\ndocker network create <name>\ndocker run --network <name> --name app nginx\ndocker cp <container>:/path/file ."],
+      ["Git Commands", "git init\ngit config --global user.name \"Name\"\ngit config --global user.email \"email@example.com\"\ngit status\ngit add .\ngit commit -m \"message\"\ngit branch -M main\ngit remote add origin <url>\ngit push -u origin main\ngit pull origin main\ngit log --oneline"],
+      ["Maven Commands", "mvn archetype:generate -DgroupId=com.example -DartifactId=demo -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false\nmvn compile\nmvn test\nmvn package\nmvn clean package\nmvn clean install\nmvn package -DskipTests\nmvn dependency:tree\nmvn dockerfile:build"],
+      ["GitHub Actions Syntax", "name: CI\non:\n  push:\n    branches: [main]\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - name: Run command\n        run: echo \"Hello\"\n      - name: Use secret\n        run: echo \"${{ secrets.MY_SECRET }}\""],
+      ["Jenkins Pipeline", "pipeline {\n  agent any\n  stages {\n    stage('Build') {\n      steps {\n        sh 'mvn clean package'\n      }\n    }\n    stage('Docker Build') {\n      steps {\n        sh 'docker build -t myapp .'\n      }\n    }\n  }\n}"],
+      ["Kubernetes Commands", "kubectl version --client\nkubectl get nodes\nkubectl get pods\nkubectl create deployment web --image=nginx\nkubectl get deployments\nkubectl expose deployment web --type=NodePort --port=80\nkubectl scale deployment web --replicas=3\nkubectl logs <pod>\nkubectl delete deployment web"],
+      ["Compose Commands", "docker compose up\ndocker compose up -d\ndocker compose ps\ndocker compose logs\ndocker compose exec <service> bash\ndocker compose build\ndocker compose down\ndocker compose config --services"]
+    ];
+
+    const mock = [
+      ["Run an nginx container named web_server on host port 8080.", "Write: use nginx image, detached, name, port mapping, verify browser.", "docker run -d --name web_server -p 8080:80 nginx\ncurl http://localhost:8080", "Nginx welcome page appears."],
+      ["Create Docker volume and prove persistence.", "Write: create volume, first container writes file, second reads file.", "docker volume create projectdata\ndocker run -dit --name c1 -v projectdata:/data ubuntu bash\ndocker exec c1 sh -c \"echo hello > /data/a.txt\"\ndocker rm -f c1\ndocker run -dit --name c2 -v projectdata:/data ubuntu bash\ndocker exec c2 cat /data/a.txt", "Output: hello."],
+      ["Build Flask Docker image and run on port 5000.", "Write files app.py, requirements.txt, Dockerfile, build, run.", "docker build -t flask-ci .\ndocker run -p 5000:5000 flask-ci", "Browser shows Flask message."],
+      ["Create GitHub Actions workflow to build Docker image.", "Write .github/workflows/ci.yml with checkout and docker build.", "git add . && git commit -m \"Add workflow\" && git push", "Actions run green; docker images step succeeds."],
+      ["Create Maven Java CI workflow.", "Write checkout, setup-java, mvn clean install, upload artifact.", "git add .github/workflows/ci.yml && git commit -m \"Java CI\" && git push", "target JAR uploaded as artifact."],
+      ["Run MySQL with database college_db.", "Write env vars and port 3307:3306, verify SHOW DATABASES.", "docker run -d --name mysql_debug -e MYSQL_ROOT_PASSWORD=rootpass -e MYSQL_DATABASE=college_db -p 3307:3306 mysql:8\ndocker logs mysql_debug", "MySQL initializes; logs show ready for connections."],
+      ["Create custom Apache image.", "Write index.html, Dockerfile FROM httpd:2.4 COPY index.html.", "docker build -t my-apache2 .\ndocker run -d --name apache -p 8082:80 my-apache2\ncurl http://localhost:8082", "Custom page displayed."],
+      ["Use docker exec to create file inside container.", "Write run ubuntu, mkdir, echo file, cat file.", "docker run -dit --name u1 ubuntu bash\ndocker exec u1 mkdir /project\ndocker exec u1 sh -c \"echo report > /project/report.txt\"\ndocker exec u1 cat /project/report.txt", "Output: report."],
+      ["Copy file from container to host.", "Write docker cp container:/path/file hostpath.", "docker cp u1:/project/report.txt ./report.txt\ncat report.txt", "Host file contains report."],
+      ["Run container with environment variable APP_ENV.", "Write -e APP_ENV=production and verify printenv.", "docker run -dit --name envapp -e APP_ENV=production ubuntu bash\ndocker exec envapp printenv APP_ENV", "Output: production."],
+      ["Explain and run docker run with -it --name -e -v.", "Write meaning of each flag and command.", "docker run -it --name my_app -e APP_ENV=production -v /app/data:/data ubuntu bash", "Interactive shell opens with env and mount."],
+      ["Create Docker Compose app with web and db.", "Write services web/db, ports, environment, volume.", "docker compose up -d\ndocker compose ps", "Both services listed."],
+      ["Maven package and run JAR.", "Write mvn clean package then java -jar target/*.jar.", "mvn clean package\njava -jar target/*.jar", "Java app output appears."],
+      ["Maven + Docker image from JAR.", "Write package, Dockerfile copies JAR, docker build/run.", "mvn clean package\ndocker build -t docker-maven-demo .\ndocker run docker-maven-demo", "Prints app message."],
+      ["Jenkins pipeline for Maven project.", "Write Jenkinsfile with Checkout, Build, Test stages.", "Use Jenkins Build Now after saving Jenkinsfile.", "Console output shows success."],
+      ["Jenkins pipeline builds Docker image.", "Write Docker Build stage with docker build -t myapp .", "sh 'docker build -t myapp .'", "Image created on Jenkins agent."],
+      ["Docker Hub push workflow.", "Write secrets, login action, build, push.", "docker build -t username/app-ci:latest .\ndocker push username/app-ci:latest", "Docker Hub has latest image."],
+      ["Debug container failure.", "Write check docker ps -a and docker logs.", "docker ps -a\ndocker logs <container>", "Logs reveal error cause."],
+      ["Kubernetes deploy nginx.", "Write create deployment, expose service, get pods/services.", "kubectl create deployment web --image=nginx\nkubectl expose deployment web --type=NodePort --port=80\nkubectl get pods\nkubectl get svc", "Deployment and service shown."],
+      ["Scale Kubernetes deployment.", "Write scale replicas and verify.", "kubectl scale deployment web --replicas=3\nkubectl get pods", "Three web pods running."]
+    ];
+
+    function el(tag, attrs = {}, html = "") {
+      const node = document.createElement(tag);
+      Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
+      node.innerHTML = html;
+      return node;
+    }
+    function esc(s) {
+      return String(s).replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+    }
+    function renderQuick() {
+      const root = document.getElementById("quickUnits");
+      units.forEach(u => {
+        const card = el("div", { class: `card ${u.accent}` });
+        card.innerHTML = `<h3>${u.title}</h3>
+          <div class="grid">
+            <div><h4>Quick notes</h4><ul>${u.notes.map(n => `<li>${n}</li>`).join("")}</ul></div>
+            <div><h4>Important definitions</h4><table><tbody>${u.definitions.map(d => `<tr><th>${d[0]}</th><td>${d[1]}</td></tr>`).join("")}</tbody></table></div>
+          </div>
+          <h4>Architecture diagram</h4><pre>${esc(u.diagram)}</pre>
+          <h4>Key commands</h4><pre>${esc(u.commands)}</pre>`;
+        root.appendChild(card);
+      });
+    }
+    function renderViva(active = "all") {
+      const tabs = document.getElementById("vivaTabs");
+      if (!tabs.children.length) {
+        const all = el("button", { "data-unit": "all" }, "All");
+        all.addEventListener("click", () => renderViva("all"));
+        tabs.appendChild(all);
+        units.forEach(u => {
+          const b = el("button", { "data-unit": u.id }, u.title.split(":")[0].replace("Adjacent Topic", "K8s"));
+          b.addEventListener("click", () => renderViva(u.id));
+          tabs.appendChild(b);
+        });
+      }
+      [...tabs.children].forEach(b => b.classList.toggle("active", b.dataset.unit === active));
+      const root = document.getElementById("vivaContent");
+      const selected = active === "all" ? units : units.filter(u => u.id === active);
+      root.innerHTML = selected.map(unit => {
+        const list = viva[unit.id] || [];
+        return `<div class="viva-unit"><h3>${unit.title}: Top 30 Probable Viva Questions</h3>` + list.map((qa, i) => `
+          <details class="${qa.important ? "important" : ""}">
+            <summary>Q${i + 1}. ${qa.q}</summary>
+            <div class="answer"><strong>2-mark answer:</strong> ${qa.a}${qa.important ? `<p><strong>Detailed answer:</strong> ${qa.detail}</p>` : ""}</div>
+          </details>`).join("") + `</div>`;
+      }).join("");
+    }
+    function renderConfusions() {
+      const root = document.getElementById("confusions");
+      confusions.forEach((c, i) => root.appendChild(el("div", { class: `card ${i % 2 ? "amber" : "violet"}` }, `<h4>${c[0]}</h4><p>${c[1]}</p>`)));
+    }
+    function renderPracticals() {
+      const root = document.getElementById("practicalCards");
+      practicals.forEach((p, i) => {
+        const files = p.files ? Object.entries(p.files).map(([name, text]) => `<h4>${name}</h4><pre>${esc(text)}</pre>`).join("") : "";
+        const d = el("details", {}, `<summary>${i + 1}. ${p.title}</summary>
+          <div class="answer">
+            <h4>Problem statement</h4><p>${p.problem}</p>
+            <h4>Steps to write on paper</h4><ol>${p.paper.map(x => `<li>${x}</li>`).join("")}</ol>
+            ${files}
+            <h4>Commands</h4><pre>${esc(p.commands)}</pre>
+            <h4>Expected output</h4><p>${p.output}</p>
+            <h4>Common mistakes</h4><ul>${p.mistakes.map(x => `<li>${x}</li>`).join("")}</ul>
+            <h4>Related viva questions</h4><ul>${p.viva.map(x => `<li>${x}</li>`).join("")}</ul>
+          </div>`);
+        if (i < 5) d.open = true;
+        root.appendChild(d);
+      });
+    }
+    function renderCheats() {
+      const root = document.getElementById("cheatSheets");
+      cheats.forEach((c, i) => root.appendChild(el("div", { class: `card ${["blue","green","amber","violet","red"][i % 5]}` }, `<h3>${c[0]}</h3><pre>${esc(c[1])}</pre>`)));
+    }
+    function renderOnePages() {
+      const root = document.getElementById("onePages");
+      units.forEach(u => {
+        root.appendChild(el("div", { class: `card ${u.accent}` }, `<h3>${u.title}</h3>
+          <h4>Must know</h4><ul>${u.notes.slice(0, 5).map(n => `<li>${n}</li>`).join("")}</ul>
+          <h4>Say in viva</h4><p>${u.definitions.map(d => `<strong>${d[0]}:</strong> ${d[1]}`).join("<br>")}</p>
+          <h4>Command memory</h4><pre>${esc(u.commands.split("\n").slice(0, 6).join("\n"))}</pre>`));
+      });
+    }
+    function renderMock() {
+      const root = document.getElementById("mockCards");
+      mock.forEach((m, i) => root.appendChild(el("details", {}, `<summary>Mock ${i + 1}: ${m[0]}</summary>
+        <div class="answer">
+          <h4>What to write on paper</h4><p>${m[1]}</p>
+          <h4>Commands to execute</h4><pre>${esc(m[2])}</pre>
+          <h4>Expected result</h4><p>${m[3]}</p>
+        </div>`)));
+    }
+    function setupSearch() {
+      const input = document.getElementById("search");
+      input.addEventListener("input", () => {
+        const q = input.value.trim().toLowerCase();
+        document.querySelectorAll("[data-searchable] details, [data-searchable] .card").forEach(node => {
+          const hit = !q || node.textContent.toLowerCase().includes(q);
+          node.classList.toggle("search-hide", !hit);
+          if (q && hit && node.tagName.toLowerCase() === "details") node.open = true;
+        });
+      });
+    }
+    function setupTheme() {
+      const btn = document.getElementById("themeBtn");
+      btn.addEventListener("click", () => {
+        const dark = document.documentElement.dataset.theme !== "dark";
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+        btn.textContent = dark ? "Light" : "Dark";
+      });
+    }
+    renderQuick();
+    renderViva();
+    renderConfusions();
+    renderPracticals();
+    renderCheats();
+    renderOnePages();
+    renderMock();
+    setupSearch();
+    setupTheme();
+    let openedForPrint = [];
+    window.addEventListener("beforeprint", () => {
+      openedForPrint = [...document.querySelectorAll("details:not([open])")];
+      openedForPrint.forEach(d => d.open = true);
+    });
+    window.addEventListener("afterprint", () => {
+      openedForPrint.forEach(d => d.open = false);
+      openedForPrint = [];
+    });
+  </script>
+</body>
+</html>

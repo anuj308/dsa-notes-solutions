@@ -1,0 +1,75 @@
+pipeline {
+
+    agent any
+
+
+
+    stages {
+
+        stage('Build') {
+
+            steps {
+
+                echo 'Building the project...'
+
+                bat 'echo Build completed on Windows'
+
+            }
+
+        }
+
+
+
+        stage('Test') {
+
+            steps {
+
+                echo 'Running tests...'
+
+                bat 'echo Test completed successfully'
+
+            }
+
+        }
+
+
+
+        stage('Deploy') {
+
+            steps {
+
+                echo 'Deploying application...'
+
+                bat 'echo Deployment completed'
+
+            }
+
+        }
+
+    }
+
+
+
+    post {
+
+        always {
+
+            echo 'Pipeline execution finished'
+
+        }
+
+        success {
+
+            echo 'Pipeline successful'
+
+        }
+
+        failure {
+
+            echo 'Pipeline failed'
+
+        }
+
+    }
+
+}
