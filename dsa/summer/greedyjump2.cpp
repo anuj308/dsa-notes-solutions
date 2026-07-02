@@ -9,7 +9,7 @@ int jump(vector<int>& nums) {
     int currEnd = 0;
     int farthest = 0;
 
-    for(int i=0;i<n;i++){
+    for(int i=0;i<n-1;i++){
         farthest = max(farthest,nums[i]+i);
 
         if(i==currEnd){
