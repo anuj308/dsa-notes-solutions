@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>📚 C++ Heap Algorithms – Study Notes</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ─── Reset & Base ─── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0d1117;
+            color: #e6edf3;
+            padding: 20px;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ─── Header ─── */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 20px 0 10px 0;
+            border-bottom: 2px solid #30363d;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #58a6ff, #f0883e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .badge {
+            background: #21262d;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #8b949e;
+            border: 1px solid #30363d;
+        }
+
+        .header .badge i {
+            margin-right: 8px;
+            color: #f0883e;
+        }
+
+        /* ─── Search / Filter ─── */
+        .search-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .search-bar input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 18px;
+            border-radius: 10px;
+            border: 1px solid #30363d;
+            background: #161b22;
+            color: #e6edf3;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .search-bar input:focus {
+            border-color: #58a6ff;
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+        }
+
+        .search-bar .filter-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .search-bar .filter-tags button {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #30363d;
+            background: #161b22;
+            color: #8b949e;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.25s;
+        }
+
+        .search-bar .filter-tags button:hover,
+        .search-bar .filter-tags button.active {
+            background: #21262d;
+            border-color: #58a6ff;
+            color: #e6edf3;
+        }
+
+        .search-bar .filter-tags button.active {
+            background: #1f2937;
+            border-color: #58a6ff;
+        }
+
+        /* ─── Topic Cards ─── */
+        .topic-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 28px;
+        }
+
+        .topic-card {
+            background: #161b22;
+            border-radius: 16px;
+            border: 1px solid #30363d;
+            overflow: hidden;
+            transition: 0.3s;
+            scroll-margin-top: 20px;
+        }
+
+        .topic-card:hover {
+            border-color: #58a6ff;
+            box-shadow: 0 8px 30px rgba(88, 166, 255, 0.06);
+        }
+
+        .topic-card .card-header {
+            padding: 18px 24px;
+            background: #1c2128;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .topic-card .card-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .topic-card .card-header h2 .icon {
+            font-size: 1.3rem;
+        }
+
+        .topic-card .card-header .tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .topic-card .card-header .tags span {
+            background: #21262d;
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            color: #8b949e;
+            border: 1px solid #30363d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .topic-card .card-body {
+            padding: 20px 24px 24px 24px;
+        }
+
+        .topic-card .card-body .problem {
+            background: #0d1117;
+            padding: 14px 18px;
+            border-radius: 10px;
+            border-left: 4px solid #f0883e;
+            margin-bottom: 18px;
+            font-size: 0.95rem;
+            color: #c9d1d9;
+        }
+
+        .topic-card .card-body .problem strong {
+            color: #f0883e;
+        }
+
+        .topic-card .card-body .code-block {
+            background: #0d1117;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 16px 0 12px 0;
+            border: 1px solid #21262d;
+        }
+
+        .topic-card .card-body .code-block .code-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 16px;
+            background: #161b22;
+            border-bottom: 1px solid #21262d;
+            font-size: 0.8rem;
+            color: #8b949e;
+        }
+
+        .topic-card .card-body .code-block .code-header .lang {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .topic-card .card-body .code-block .code-header .copy-btn {
+            background: none;
+            border: none;
+            color: #8b949e;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.2s;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        .topic-card .card-body .code-block .code-header .copy-btn:hover {
+            background: #21262d;
+            color: #e6edf3;
+        }
+
+        .topic-card .card-body .code-block pre {
+            padding: 16px 20px;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            color: #c9d1d9;
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .topic-card .card-body .code-block pre .comment {
+            color: #8b949e;
+            font-style: italic;
+        }
+        .topic-card .card-body .code-block pre .keyword {
+            color: #ff7b72;
+        }
+        .topic-card .card-body .code-block pre .type {
+            color: #79c0ff;
+        }
+        .topic-card .card-body .code-block pre .func {
+            color: #d2a8ff;
+        }
+        .topic-card .card-body .code-block pre .string {
+            color: #a5d6ff;
+        }
+        .topic-card .card-body .code-block pre .num {
+            color: #f0883e;
+        }
+
+        .topic-card .card-body .explanation {
+            margin-top: 14px;
+            padding: 12px 16px;
+            background: #0d1117;
+            border-radius: 10px;
+            border-left: 4px solid #58a6ff;
+            font-size: 0.95rem;
+            color: #c9d1d9;
+        }
+
+        .topic-card .card-body .explanation strong {
+            color: #58a6ff;
+        }
+
+        .topic-card .card-body .sample {
+            margin-top: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            background: #0d1117;
+            border-radius: 10px;
+            padding: 12px 16px;
+            border: 1px solid #21262d;
+        }
+
+        .topic-card .card-body .sample .in,
+        .topic-card .card-body .sample .out {
+            font-size: 0.9rem;
+        }
+
+        .topic-card .card-body .sample .in strong,
+        .topic-card .card-body .sample .out strong {
+            color: #8b949e;
+            font-weight: 500;
+        }
+
+        .topic-card .card-body .sample .in code,
+        .topic-card .card-body .sample .out code {
+            background: #161b22;
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-top: 4px;
+            color: #e6edf3;
+        }
+
+        /* ─── Scroll to top ─── */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #e6edf3;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: 0.3s;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .scroll-top:hover {
+            background: #30363d;
+            border-color: #58a6ff;
+            transform: translateY(-3px);
+        }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .topic-card .card-body .sample {
+                grid-template-columns: 1fr;
+            }
+            .topic-card .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .search-bar {
+                flex-direction: column;
+            }
+            .search-bar .filter-tags {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+            .topic-card .card-body {
+                padding: 14px 16px;
+            }
+            .topic-card .card-body .code-block pre {
+                font-size: 0.75rem;
+                padding: 12px 14px;
+            }
+        }
+
+        /* ─── Utility ─── */
+        .hidden {
+            display: none !important;
+        }
+
+        .badge-ds {
+            background: #1f2937;
+            color: #58a6ff;
+            border: 1px solid #1f3a5f;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- ─── HEADER ─── -->
+        <header class="header">
+            <h1><i class="fas fa-code" style="background: none; -webkit-text-fill-color: #f0883e; margin-right: 10px;"></i> Heap Algorithms · C++ Notes</h1>
+            <div class="badge">
+                <i class="fas fa-book-open"></i> 9 Topics · Dark Mode
+            </div>
+        </header>
+
+        <!-- ─── SEARCH & FILTER ─── -->
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="🔍 Search topics, keywords, or code..." />
+            <div class="filter-tags" id="filterTags">
+                <button class="active" data-filter="all">All</button>
+                <button data-filter="max-heap">Max Heap</button>
+                <button data-filter="min-heap">Min Heap</button>
+                <button data-filter="heap-sort">Heap Sort</button>
+                <button data-filter="insert">Insert</button>
+                <button data-filter="delete">Delete</button>
+            </div>
+        </div>
+
+        <!-- ─── TOPIC GRID ─── -->
+        <div class="topic-grid" id="topicGrid">
+
+            <!-- ============================================================ -->
+            <!-- TOPIC 1: Max Heap – Insert & Display                           -->
+            <!-- ============================================================ -->
+            <div class="topic-card" data-tags="max-heap insert">
+                <div class="card-header">
+                    <h2><span class="icon">📊</span> Max Heap – Insert &amp; Display</h2>
+                    <div class="tags">
+                        <span>Max Heap</span>
+                        <span>Insert</span>
+                        <span>Array</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="problem">
+                        <strong>Problem:</strong> Sanju collects participant scores and maintains a leaderboard using a <strong>max heap</strong>. Insert a new score and display the updated heap.
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="lang"><i class="fas fa-code"></i> C++</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre><span class="comment">// Max Heap – Insert & Display (Array‑based)</span>
+                            <span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
+                            <span class="keyword">using namespace</span> <span class="type">std</span>;
+
+                            <span class="type">const</span> <span class="type">int</span> MAX_SIZE = 16;
+
+                            <span class="type">void</span> <span class="func">swap</span>(<span class="type">int</span>&amp; a, <span class="type">int</span>&amp; b) {
+                            <span class="type">int</span> temp = a; a = b; b = temp;
+                            }
+
+                            <span class="type">void</span> <span class="func">maxHeapify</span>(<span class="type">int</span> arr[], <span class="type">int</span> n, <span class="type">int</span> i) {
+                            <span class="type">int</span> largest = i;
+                            <span class="type">int</span> left = 2*i + 1;
+                            <span class="type">int</span> right = 2*i + 2;
+                            <span class="keyword">if</span> (left &lt; n &amp;&amp; arr[left] &gt; arr[largest]) largest = left;
+                            <span class="keyword">if</span> (right &lt; n &amp;&amp; arr[right] &gt; arr[largest]) largest = right;
+                            <span class="keyword">if</span> (largest != i) {
+                            swap(arr[i], arr[largest]);
+                            maxHeapify(arr, n, largest);
+                            }
+                            }
+
+                            <span class="type">void</span> <span class="func">buildMaxHeap</span>(<span class="type">int</span> arr[], <span class="type">int</span> n) {
+                            <span class="keyword">for</span> (<span class="type">int</span> i = n/2 - 1; i &gt;= 0; i--)
+                            maxHeapify(arr, n, i);
+                            }
+
+                            <span class="type">void</span> <span class="func">insertIntoMaxHeap</span>(<span class="type">int</span> arr[], <span class="type">int</span>&amp; n, <span class="type">int</span> newScore) {
+                            arr[n] = newScore; n++;
+                            <span class="type">int</span> i = n - 1;
+                            <span class="keyword">while</span> (i &gt; 0 &amp;&amp; arr[(i-1)/2] &lt; arr[i]) {
+                            swap(arr[i], arr[(i-1)/2]);
+                            i = (i-1)/2;
+                            }
+                            }
+
+                            <span class="type">int</span> <span class="func">main</span>() {
+                            <span class="type">int</span> scores[MAX_SIZE], n, d;
+                            cin &gt;&gt; n;
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++) cin &gt;&gt; scores[i];
+                            cin &gt;&gt; d;
+                            buildMaxHeap(scores, n);
+                            insertIntoMaxHeap(scores, n, d);
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++)
+                            cout &lt;&lt; scores[i] &lt;&lt; (i&lt;n-1 ? <span class="string">" "</span> : <span class="string">""</span>);
+                            <span class="keyword">return</span> 0;
+                            }</pre>
+                    </div>
+
+                    <div class="explanation">
+                        <strong>💡 Key idea:</strong> Build a max heap from initial scores, then insert the new score at the end and <em>bubble it up</em> until the heap property is restored. Time: O(log n) for insertion.
+                    </div>
+
+                    <div class="sample">
+                        <div class="in"><strong>📥 Input</strong><br /><code>5<br />3 1 4 2 5<br />6</code></div>
+                        <div class="out"><strong>📤 Output</strong><br /><code>6 4 5 1 2 3</code></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- TOPIC 2: Min Heap – Even / Odd Sums                           -->
+            <!-- ============================================================ -->
+            <div class="topic-card" data-tags="min-heap">
+                <div class="card-header">
+                    <h2><span class="icon">🔢</span> Min Heap – Even &amp; Odd Sums</h2>
+                    <div class="tags">
+                        <span>Min Heap</span>
+                        <span>Sum</span>
+                        <span>Array</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="problem">
+                        <strong>Problem:</strong> Aiden organizes book categories using a <strong>min heap</strong>. Build the heap, display it, and calculate the sum of even and odd numbers separately.
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="lang"><i class="fas fa-code"></i> C++</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre><span class="comment">// Min Heap – Even / Odd Sums</span>
+                            <span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
+                            <span class="keyword">using namespace</span> <span class="type">std</span>;
+
+                            <span class="type">const</span> <span class="type">int</span> MAX_SIZE = 11;
+
+                            <span class="type">void</span> <span class="func">swap</span>(<span class="type">int</span>&amp; a, <span class="type">int</span>&amp; b) { <span class="type">int</span> t = a; a = b; b = t; }
+
+                            <span class="type">void</span> <span class="func">minHeapify</span>(<span class="type">int</span> arr[], <span class="type">int</span> n, <span class="type">int</span> i) {
+                            <span class="type">int</span> smallest = i, left = 2*i+1, right = 2*i+2;
+                            <span class="keyword">if</span> (left &lt; n &amp;&amp; arr[left] &lt; arr[smallest]) smallest = left;
+                            <span class="keyword">if</span> (right &lt; n &amp;&amp; arr[right] &lt; arr[smallest]) smallest = right;
+                            <span class="keyword">if</span> (smallest != i) {
+                            swap(arr[i], arr[smallest]);
+                            minHeapify(arr, n, smallest);
+                            }
+                            }
+
+                            <span class="type">void</span> <span class="func">buildMinHeap</span>(<span class="type">int</span> arr[], <span class="type">int</span> n) {
+                            <span class="keyword">for</span> (<span class="type">int</span> i = n/2 - 1; i &gt;= 0; i--) minHeapify(arr, n, i);
+                            }
+
+                            <span class="type">int</span> <span class="func">sumEven</span>(<span class="type">int</span> arr[], <span class="type">int</span> n) {
+                            <span class="type">int</span> s = 0;
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++) <span class="keyword">if</span> (arr[i] % 2 == 0) s += arr[i];
+                            <span class="keyword">return</span> s;
+                            }
+
+                            <span class="type">int</span> <span class="func">sumOdd</span>(<span class="type">int</span> arr[], <span class="type">int</span> n) {
+                            <span class="type">int</span> s = 0;
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++) <span class="keyword">if</span> (arr[i] % 2 != 0) s += arr[i];
+                            <span class="keyword">return</span> s;
+                            }
+
+                            <span class="type">int</span> <span class="func">main</span>() {
+                            <span class="type">int</span> arr[MAX_SIZE], n;
+                            cin &gt;&gt; n;
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++) cin &gt;&gt; arr[i];
+                            buildMinHeap(arr, n);
+                            cout &lt;&lt; <span class="string">"Min Heap: "</span>;
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++) cout &lt;&lt; arr[i] &lt;&lt; (i&lt;n-1?<span class="string">" "</span>:<span class="string">""</span>);
+                            cout &lt;&lt; endl;
+                            cout &lt;&lt; <span class="string">"Sum of even elements: "</span> &lt;&lt; sumEven(arr, n) &lt;&lt; endl;
+                            cout &lt;&lt; <span class="string">"Sum of odd elements: "</span> &lt;&lt; sumOdd(arr, n) &lt;&lt; endl;
+                            <span class="keyword">return</span> 0;
+                            }</pre>
+                    </div>
+
+                    <div class="explanation">
+                        <strong>💡 Key idea:</strong> Min heap ensures the smallest element is at the root. After building, we simply traverse the array to sum even and odd values.
+                    </div>
+
+                    <div class="sample">
+                        <div class="in"><strong>📥 Input</strong><br /><code>5<br />2 4 1 5 9</code></div>
+                        <div class="out"><strong>📤 Output</strong><br /><code>Min Heap: 1 4 2 5 9<br />Sum of even elements: 6<br />Sum of odd elements: 15</code></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- TOPIC 3: Max Heap – Even / Odd Counts                         -->
+            <!-- ============================================================ -->
+            <div class="topic-card" data-tags="max-heap insert">
+                <div class="card-header">
+                    <h2><span class="icon">📈</span> Max Heap – Even &amp; Odd Counts</h2>
+                    <div class="tags">
+                        <span>Max Heap</span>
+                        <span>Count</span>
+                        <span>Array</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="problem">
+                        <strong>Problem:</strong> John inputs numbers into a system that builds a <strong>max heap</strong>. Track how many entered numbers are even and odd, then display the heap and the counts.
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="lang"><i class="fas fa-code"></i> C++</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre><span class="comment">// Max Heap – Even / Odd Counts</span>
+                            <span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
+                            <span class="keyword">using namespace</span> <span class="type">std</span>;
+
+                            <span class="type">const</span> <span class="type">int</span> MAX_SIZE = 10;
+
+                            <span class="type">void</span> <span class="func">swap</span>(<span class="type">int</span>&amp; a, <span class="type">int</span>&amp; b) { <span class="type">int</span> t = a; a = b; b = t; }
+
+                            <span class="type">void</span> <span class="func">maxHeapify</span>(<span class="type">int</span> arr[], <span class="type">int</span> n, <span class="type">int</span> i) {
+                            <span class="type">int</span> largest = i, l = 2*i+1, r = 2*i+2;
+                            <span class="keyword">if</span> (l &lt; n &amp;&amp; arr[l] &gt; arr[largest]) largest = l;
+                            <span class="keyword">if</span> (r &lt; n &amp;&amp; arr[r] &gt; arr[largest]) largest = r;
+                            <span class="keyword">if</span> (largest != i) { swap(arr[i], arr[largest]); maxHeapify(arr, n, largest); }
+                            }
+
+                            <span class="type">void</span> <span class="func">buildMaxHeap</span>(<span class="type">int</span> arr[], <span class="type">int</span> n) {
+                            <span class="keyword">for</span> (<span class="type">int</span> i = n/2 - 1; i &gt;= 0; i--) maxHeapify(arr, n, i);
+                            }
+
+                            <span class="type">int</span> <span class="func">main</span>() {
+                            <span class="type">int</span> heap[MAX_SIZE], n, even=0, odd=0;
+                            cin &gt;&gt; n;
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++) {
+                            cin &gt;&gt; heap[i];
+                            <span class="keyword">if</span> (heap[i] % 2 == 0) even++; <span class="keyword">else</span> odd++;
+                            }
+                            buildMaxHeap(heap, n);
+                            cout &lt;&lt; <span class="string">"Max Heap: "</span>;
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++) cout &lt;&lt; heap[i] &lt;&lt; (i&lt;n-1?<span class="string">" "</span>:<span class="string">""</span>);
+                            cout &lt;&lt; endl;
+                            cout &lt;&lt; <span class="string">"Even elements count: "</span> &lt;&lt; even &lt;&lt; endl;
+                            cout &lt;&lt; <span class="string">"Odd elements count: "</span> &lt;&lt; odd &lt;&lt; endl;
+                            <span class="keyword">return</span> 0;
+                            }</pre>
+                    </div>
+
+                    <div class="explanation">
+                        <strong>💡 Key idea:</strong> Count even/odd while reading input. Build the max heap after reading, then display both the heap and the counts.
+                    </div>
+
+                    <div class="sample">
+                        <div class="in"><strong>📥 Input</strong><br /><code>6<br />75 24 63 56 19 53</code></div>
+                        <div class="out"><strong>📤 Output</strong><br /><code>Max Heap: 75 56 63 24 19 53<br />Even elements count: 2<br />Odd elements count: 4</code></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- TOPIC 4: Min Heap – Delete Smallest Prime                     -->
+            <!-- ============================================================ -->
+            <div class="topic-card" data-tags="min-heap delete">
+                <div class="card-header">
+                    <h2><span class="icon">🔬</span> Min Heap – Delete Smallest Prime</h2>
+                    <div class="tags">
+                        <span>Min Heap</span>
+                        <span>Delete</span>
+                        <span>Prime</span>
+                        <span>Array</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="problem">
+                        <strong>Problem:</strong> Mia manages a min heap. Insert elements, display the heap, then <strong>delete the smallest prime number</strong> and display the updated heap.
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="lang"><i class="fas fa-code"></i> C++</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre><span class="comment">// Min Heap – Delete Smallest Prime</span>
+                            <span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
+                            <span class="keyword">using namespace</span> <span class="type">std</span>;
+
+                            <span class="type">const</span> <span class="type">int</span> MAX_SIZE = 100;
+
+                            <span class="type">bool</span> <span class="func">isPrime</span>(<span class="type">int</span> num) {
+                            <span class="keyword">if</span> (num &lt;= 1) <span class="keyword">return</span> <span class="keyword">false</span>;
+                            <span class="keyword">for</span> (<span class="type">int</span> i=2; i*i &lt;= num; i++)
+                            <span class="keyword">if</span> (num % i == 0) <span class="keyword">return</span> <span class="keyword">false</span>;
+                            <span class="keyword">return</span> <span class="keyword">true</span>;
+                            }
+
+                            <span class="type">void</span> <span class="func">swap</span>(<span class="type">int</span>&amp; a, <span class="type">int</span>&amp; b) { <span class="type">int</span> t = a; a = b; b = t; }
+
+                            <span class="type">void</span> <span class="func">minHeapify</span>(<span class="type">int</span> arr[], <span class="type">int</span> n, <span class="type">int</span> i) {
+                            <span class="type">int</span> s = i, l = 2*i+1, r = 2*i+2;
+                            <span class="keyword">if</span> (l &lt; n &amp;&amp; arr[l] &lt; arr[s]) s = l;
+                            <span class="keyword">if</span> (r &lt; n &amp;&amp; arr[r] &lt; arr[s]) s = r;
+                            <span class="keyword">if</span> (s != i) { swap(arr[i], arr[s]); minHeapify(arr, n, s); }
+                            }
+
+                            <span class="type">void</span> <span class="func">buildMinHeap</span>(<span class="type">int</span> arr[], <span class="type">int</span> n) {
+                            <span class="keyword">for</span> (<span class="type">int</span> i = n/2 - 1; i &gt;= 0; i--) minHeapify(arr, n, i);
+                            }
+
+                            <span class="type">void</span> <span class="func">deleteSmallestPrime</span>(<span class="type">int</span> arr[], <span class="type">int</span>&amp; n) {
+                            <span class="type">int</span> idx = -1;
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++) {
+                            <span class="keyword">if</span> (isPrime(arr[i]) &amp;&amp; (idx == -1 || arr[i] &lt; arr[idx])) idx = i;
+                            }
+                            <span class="keyword">if</span> (idx == -1) <span class="keyword">return</span>;
+                            arr[idx] = arr[n-1]; n--;
+                            minHeapify(arr, n, idx);
+                            }
+
+                            <span class="type">int</span> <span class="func">main</span>() {
+                            <span class="type">int</span> heap[MAX_SIZE], n;
+                            cin &gt;&gt; n;
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++) cin &gt;&gt; heap[i];
+                            buildMinHeap(heap, n);
+                            cout &lt;&lt; <span class="string">"Min Heap: "</span>;
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++) cout &lt;&lt; heap[i] &lt;&lt; (i&lt;n-1?<span class="string">" "</span>:<span class="string">""</span>);
+                            cout &lt;&lt; endl;
+                            deleteSmallestPrime(heap, n);
+                            cout &lt;&lt; <span class="string">"Updated Min Heap: "</span>;
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++) cout &lt;&lt; heap[i] &lt;&lt; (i&lt;n-1?<span class="string">" "</span>:<span class="string">""</span>);
+                            <span class="keyword">return</span> 0;
+                            }</pre>
+                    </div>
+
+                    <div class="explanation">
+                        <strong>💡 Key idea:</strong> Scan the heap to find the smallest prime, replace it with the last element, reduce size, and <em>heapify</em> from that index to restore the min-heap property.
+                    </div>
+
+                    <div class="sample">
+                        <div class="in"><strong>📥 Input</strong><br /><code>5<br />4 3 2 5 6</code></div>
+                        <div class="out"><strong>📤 Output</strong><br /><code>Min Heap: 2 4 3 5 6<br />Updated Min Heap: 3 4 6 5</code></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- TOPIC 5: Max Heap – Delete Root + Leaf Sum                    -->
+            <!-- ============================================================ -->
+            <div class="topic-card" data-tags="max-heap delete">
+                <div class="card-header">
+                    <h2><span class="icon">🌿</span> Max Heap – Delete Root &amp; Leaf Sum</h2>
+                    <div class="tags">
+                        <span>Max Heap</span>
+                        <span>Delete</span>
+                        <span>Leaf Sum</span>
+                        <span>Array</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="problem">
+                        <strong>Problem:</strong> Ram manages a max heap. Insert numbers, print the heap, <strong>delete the root</strong>, print the updated heap, and calculate the sum of all remaining leaf nodes.
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="lang"><i class="fas fa-code"></i> C++</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre><span class="comment">// Max Heap – Delete Root + Leaf Sum</span>
+                            <span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
+                            <span class="keyword">using namespace</span> <span class="type">std</span>;
+
+                            <span class="type">const</span> <span class="type">int</span> MAX_SIZE = 100;
+
+                            <span class="type">void</span> <span class="func">swap</span>(<span class="type">int</span> arr[], <span class="type">int</span> a, <span class="type">int</span> b) { <span class="type">int</span> t = arr[a]; arr[a] = arr[b]; arr[b] = t; }
+
+                            <span class="type">void</span> <span class="func">maxHeapify</span>(<span class="type">int</span> arr[], <span class="type">int</span> n, <span class="type">int</span> i) {
+                            <span class="type">int</span> largest = i, l = 2*i+1, r = 2*i+2;
+                            <span class="keyword">if</span> (l &lt; n &amp;&amp; arr[l] &gt; arr[largest]) largest = l;
+                            <span class="keyword">if</span> (r &lt; n &amp;&amp; arr[r] &gt; arr[largest]) largest = r;
+                            <span class="keyword">if</span> (largest != i) { swap(arr, i, largest); maxHeapify(arr, n, largest); }
+                            }
+
+                            <span class="type">void</span> <span class="func">insertIntoMaxHeap</span>(<span class="type">int</span> arr[], <span class="type">int</span>* n, <span class="type">int</span> val) {
+                            arr[*n] = val; (*n)++;
+                            <span class="type">int</span> cur = *n - 1;
+                            <span class="keyword">while</span> (cur &gt; 0 &amp;&amp; arr[(cur-1)/2] &lt; arr[cur]) {
+                            swap(arr, cur, (cur-1)/2);
+                            cur = (cur-1)/2;
+                            }
+                            }
+
+                            <span class="type">void</span> <span class="func">deleteRoot</span>(<span class="type">int</span> arr[], <span class="type">int</span>* n) {
+                            <span class="keyword">if</span> (*n &lt;= 0) <span class="keyword">return</span>;
+                            arr[0] = arr[*n - 1]; (*n)--;
+                            maxHeapify(arr, *n, 0);
+                            }
+
+                            <span class="type">int</span> <span class="func">sumLeafNodes</span>(<span class="type">int</span> arr[], <span class="type">int</span> n) {
+                            <span class="type">int</span> sum = 0;
+                            <span class="keyword">for</span> (<span class="type">int</span> i = n/2; i &lt; n; i++) sum += arr[i];
+                            <span class="keyword">return</span> sum;
+                            }
+
+                            <span class="type">int</span> <span class="func">main</span>() {
+                            <span class="type">int</span> arr[MAX_SIZE], n;
+                            cin &gt;&gt; n;
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++) { <span class="type">int</span> v; cin &gt;&gt; v; insertIntoMaxHeap(arr, &amp;n, v); }
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++) cout &lt;&lt; arr[i] &lt;&lt; (i&lt;n-1?<span class="string">" "</span>:<span class="string">""</span>); cout &lt;&lt; endl;
+                            deleteRoot(arr, &amp;n);
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++) cout &lt;&lt; arr[i] &lt;&lt; (i&lt;n-1?<span class="string">" "</span>:<span class="string">""</span>); cout &lt;&lt; endl;
+                            cout &lt;&lt; <span class="string">"Sum of leaf nodes: "</span> &lt;&lt; sumLeafNodes(arr, n) &lt;&lt; endl;
+                            <span class="keyword">return</span> 0;
+                            }</pre>
+                    </div>
+
+                    <div class="explanation">
+                        <strong>💡 Key idea:</strong> After deleting the root (max element), leaf nodes are those with indices from <code>n/2</code> to <code>n-1</code>. Sum them directly.
+                    </div>
+
+                    <div class="sample">
+                        <div class="in"><strong>📥 Input</strong><br /><code>5<br />4 3 2 5 6</code></div>
+                        <div class="out"><strong>📤 Output</strong><br /><code>6 5 2 3 4<br />5 4 2 3<br />Sum of leaf nodes: 5</code></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- TOPIC 6: Heap Sort – Ascending Order                          -->
+            <!-- ============================================================ -->
+            <div class="topic-card" data-tags="heap-sort">
+                <div class="card-header">
+                    <h2><span class="icon">🔄</span> Heap Sort – Ascending Order</h2>
+                    <div class="tags">
+                        <span>Heap Sort</span>
+                        <span>Array</span>
+                        <span>Sorting</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="problem">
+                        <strong>Problem:</strong> Diego sorts candy sweetness levels in <strong>non‑decreasing order</strong> using Heap Sort.
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="lang"><i class="fas fa-code"></i> C++</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre><span class="comment">// Heap Sort – Ascending Order</span>
+                            <span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
+                            <span class="keyword">using namespace</span> <span class="type">std</span>;
+
+                            <span class="type">void</span> <span class="func">swap</span>(<span class="type">int</span>* a, <span class="type">int</span>* b) { <span class="type">int</span> t = *a; *a = *b; *b = t; }
+
+                            <span class="type">void</span> <span class="func">heapify</span>(<span class="type">int</span> arr[], <span class="type">int</span> size, <span class="type">int</span> root) {
+                            <span class="type">int</span> largest = root, l = 2*root+1, r = 2*root+2;
+                            <span class="keyword">if</span> (l &lt; size &amp;&amp; arr[l] &gt; arr[largest]) largest = l;
+                            <span class="keyword">if</span> (r &lt; size &amp;&amp; arr[r] &gt; arr[largest]) largest = r;
+                            <span class="keyword">if</span> (largest != root) { swap(&amp;arr[root], &amp;arr[largest]); heapify(arr, size, largest); }
+                            }
+
+                            <span class="type">void</span> <span class="func">heapSort</span>(<span class="type">int</span> arr[], <span class="type">int</span> size) {
+                            <span class="keyword">for</span> (<span class="type">int</span> i = size/2 - 1; i &gt;= 0; i--) heapify(arr, size, i);
+                            <span class="keyword">for</span> (<span class="type">int</span> i = size-1; i &gt; 0; i--) {
+                            swap(&amp;arr[0], &amp;arr[i]);
+                            heapify(arr, i, 0);
+                            }
+                            }
+
+                            <span class="type">int</span> <span class="func">main</span>() {
+                            <span class="type">int</span> n; cin &gt;&gt; n;
+                            <span class="type">int</span> arr[100];
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++) cin &gt;&gt; arr[i];
+                            heapSort(arr, n);
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++) cout &lt;&lt; arr[i] &lt;&lt; (i&lt;n-1?<span class="string">" "</span>:<span class="string">""</span>);
+                            <span class="keyword">return</span> 0;
+                            }</pre>
+                    </div>
+
+                    <div class="explanation">
+                        <strong>💡 Key idea:</strong> Build a max heap, then repeatedly swap the root (largest) with the last element and heapify the reduced heap. Sorts in-place in O(n log n).
+                    </div>
+
+                    <div class="sample">
+                        <div class="in"><strong>📥 Input</strong><br /><code>5<br />275 635 987 145 325</code></div>
+                        <div class="out"><strong>📤 Output</strong><br /><code>145 275 325 635 987</code></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- TOPIC 7: Heap Sort – Digits Descending                        -->
+            <!-- ============================================================ -->
+            <div class="topic-card" data-tags="heap-sort">
+                <div class="card-header">
+                    <h2><span class="icon">🔢</span> Heap Sort – Sort Digits Descending</h2>
+                    <div class="tags">
+                        <span>Heap Sort</span>
+                        <span>Digits</span>
+                        <span>Descending</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="problem">
+                        <strong>Problem:</strong> David extracts digits from a number, sorts them in <strong>descending order</strong> using Heap Sort, and prints the result as a single integer.
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="lang"><i class="fas fa-code"></i> C++</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre><span class="comment">// Heap Sort – Sort Digits Descending</span>
+                            <span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
+                            <span class="keyword">using namespace</span> <span class="type">std</span>;
+
+                            <span class="type">void</span> <span class="func">swap</span>(<span class="type">int</span>* a, <span class="type">int</span>* b) { <span class="type">int</span> t = *a; *a = *b; *b = t; }
+
+                            <span class="type">void</span> <span class="func">heapify</span>(<span class="type">int</span> arr[], <span class="type">int</span> size, <span class="type">int</span> root) {
+                            <span class="type">int</span> largest = root, l = 2*root+1, r = 2*root+2;
+                            <span class="keyword">if</span> (l &lt; size &amp;&amp; arr[l] &gt; arr[largest]) largest = l;
+                            <span class="keyword">if</span> (r &lt; size &amp;&amp; arr[r] &gt; arr[largest]) largest = r;
+                            <span class="keyword">if</span> (largest != root) { swap(&amp;arr[root], &amp;arr[largest]); heapify(arr, size, largest); }
+                            }
+
+                            <span class="type">void</span> <span class="func">heapSort</span>(<span class="type">int</span> arr[], <span class="type">int</span> size) {
+                            <span class="keyword">for</span> (<span class="type">int</span> i = size/2 - 1; i &gt;= 0; i--) heapify(arr, size, i);
+                            <span class="keyword">for</span> (<span class="type">int</span> i = size-1; i &gt; 0; i--) {
+                            swap(&amp;arr[0], &amp;arr[i]);
+                            heapify(arr, i, 0);
+                            }
+                            }
+
+                            <span class="type">void</span> <span class="func">extractDigits</span>(<span class="type">int</span> num, <span class="type">int</span>*&amp; digits, <span class="type">int</span>&amp; cnt) {
+                            digits = <span class="keyword">new</span> <span class="type">int</span>[10]; cnt = 0;
+                            <span class="keyword">while</span> (num &gt; 0) { digits[cnt++] = num % 10; num /= 10; }
+                            }
+
+                            <span class="type">int</span> <span class="func">main</span>() {
+                            <span class="type">int</span> num; cin &gt;&gt; num;
+                            <span class="type">int</span>* digits; <span class="type">int</span> cnt;
+                            extractDigits(num, digits, cnt);
+                            heapSort(digits, cnt);
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;cnt; i++) cout &lt;&lt; digits[i];
+                            delete[] digits;
+                            <span class="keyword">return</span> 0;
+                            }</pre>
+                    </div>
+
+                    <div class="explanation">
+                        <strong>💡 Key idea:</strong> Extract digits using modulo/division, sort with max‑heap, then print directly (already descending). Handles numbers up to 10⁹.
+                    </div>
+
+                    <div class="sample">
+                        <div class="in"><strong>📥 Input</strong><br /><code>31524</code></div>
+                        <div class="out"><strong>📤 Output</strong><br /><code>54321</code></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- TOPIC 8: Prime / Composite – Heap Sort                        -->
+            <!-- ============================================================ -->
+            <div class="topic-card" data-tags="heap-sort">
+                <div class="card-header">
+                    <h2><span class="icon">🔢</span> Prime / Composite – Heap Sort</h2>
+                    <div class="tags">
+                        <span>Heap Sort</span>
+                        <span>Prime</span>
+                        <span>Composite</span>
+                        <span>Array</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="problem">
+                        <strong>Problem:</strong> Emily classifies numbers as prime or composite, sorts each category using Heap Sort, and displays the results.
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="lang"><i class="fas fa-code"></i> C++</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre><span class="comment">// Prime / Composite – Heap Sort</span>
+                            <span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
+                            <span class="keyword">using namespace</span> <span class="type">std</span>;
+
+                            <span class="type">bool</span> <span class="func">isPrime</span>(<span class="type">int</span> num) {
+                            <span class="keyword">if</span> (num &lt;= 1) <span class="keyword">return</span> <span class="keyword">false</span>;
+                            <span class="keyword">for</span> (<span class="type">int</span> i=2; i*i &lt;= num; i++) <span class="keyword">if</span> (num % i == 0) <span class="keyword">return</span> <span class="keyword">false</span>;
+                            <span class="keyword">return</span> <span class="keyword">true</span>;
+                            }
+
+                            <span class="type">void</span> <span class="func">swap</span>(<span class="type">int</span>* a, <span class="type">int</span>* b) { <span class="type">int</span> t = *a; *a = *b; *b = t; }
+
+                            <span class="type">void</span> <span class="func">heapify</span>(<span class="type">int</span> arr[], <span class="type">int</span> size, <span class="type">int</span> root) {
+                            <span class="type">int</span> smallest = root, l = 2*root+1, r = 2*root+2;
+                            <span class="keyword">if</span> (l &lt; size &amp;&amp; arr[l] &lt; arr[smallest]) smallest = l;
+                            <span class="keyword">if</span> (r &lt; size &amp;&amp; arr[r] &lt; arr[smallest]) smallest = r;
+                            <span class="keyword">if</span> (smallest != root) { swap(&amp;arr[root], &amp;arr[smallest]); heapify(arr, size, smallest); }
+                            }
+
+                            <span class="type">void</span> <span class="func">heapSort</span>(<span class="type">int</span> arr[], <span class="type">int</span> size) {
+                            <span class="keyword">for</span> (<span class="type">int</span> i = size/2 - 1; i &gt;= 0; i--) heapify(arr, size, i);
+                            <span class="keyword">for</span> (<span class="type">int</span> i = size-1; i &gt; 0; i--) {
+                            swap(&amp;arr[0], &amp;arr[i]);
+                            heapify(arr, i, 0);
+                            }
+                            }
+
+                            <span class="type">int</span> <span class="func">main</span>() {
+                            <span class="type">int</span> n; cin &gt;&gt; n;
+                            <span class="type">int</span> prime[100], comp[100], pc=0, cc=0;
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++) {
+                            <span class="type">int</span> x; cin &gt;&gt; x;
+                            <span class="keyword">if</span> (isPrime(x)) prime[pc++] = x; <span class="keyword">else</span> comp[cc++] = x;
+                            }
+                            heapSort(prime, pc); heapSort(comp, cc);
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;pc; i++) cout &lt;&lt; prime[i] &lt;&lt; (i&lt;pc-1?<span class="string">" "</span>:<span class="string">""</span>); cout &lt;&lt; endl;
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;cc; i++) cout &lt;&lt; comp[i] &lt;&lt; (i&lt;cc-1?<span class="string">" "</span>:<span class="string">""</span>);
+                            <span class="keyword">return</span> 0;
+                            }</pre>
+                    </div>
+
+                    <div class="explanation">
+                        <strong>💡 Key idea:</strong> Use a min‑heap to sort both categories in ascending order. Prime numbers appear first, then composite numbers.
+                    </div>
+
+                    <div class="sample">
+                        <div class="in"><strong>📥 Input</strong><br /><code>6<br />2 3 4 5 6 7</code></div>
+                        <div class="out"><strong>📤 Output</strong><br /><code>2 3 5 7<br />4 6</code></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- TOPIC 9: Odd / Even – Heap Sort                               -->
+            <!-- ============================================================ -->
+            <div class="topic-card" data-tags="heap-sort">
+                <div class="card-header">
+                    <h2><span class="icon">🔀</span> Odd / Even – Heap Sort</h2>
+                    <div class="tags">
+                        <span>Heap Sort</span>
+                        <span>Odd</span>
+                        <span>Even</span>
+                        <span>Array</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="problem">
+                        <strong>Problem:</strong> Tao separates survey scores into odd and even groups, sorts each group in <strong>ascending order</strong> using Heap Sort, and outputs both lists.
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="lang"><i class="fas fa-code"></i> C++</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre><span class="comment">// Odd / Even – Heap Sort</span>
+                            <span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
+                            <span class="keyword">using namespace</span> <span class="type">std</span>;
+
+                            <span class="type">void</span> <span class="func">swap</span>(<span class="type">int</span>* a, <span class="type">int</span>* b) { <span class="type">int</span> t = *a; *a = *b; *b = t; }
+
+                            <span class="type">void</span> <span class="func">heapify</span>(<span class="type">int</span> arr[], <span class="type">int</span> size, <span class="type">int</span> root) {
+                            <span class="type">int</span> smallest = root, l = 2*root+1, r = 2*root+2;
+                            <span class="keyword">if</span> (l &lt; size &amp;&amp; arr[l] &lt; arr[smallest]) smallest = l;
+                            <span class="keyword">if</span> (r &lt; size &amp;&amp; arr[r] &lt; arr[smallest]) smallest = r;
+                            <span class="keyword">if</span> (smallest != root) { swap(&amp;arr[root], &amp;arr[smallest]); heapify(arr, size, smallest); }
+                            }
+
+                            <span class="type">void</span> <span class="func">heapSort</span>(<span class="type">int</span> arr[], <span class="type">int</span> size) {
+                            <span class="keyword">for</span> (<span class="type">int</span> i = size/2 - 1; i &gt;= 0; i--) heapify(arr, size, i);
+                            <span class="keyword">for</span> (<span class="type">int</span> i = size-1; i &gt; 0; i--) {
+                            swap(&amp;arr[0], &amp;arr[i]);
+                            heapify(arr, i, 0);
+                            }
+                            }
+
+                            <span class="type">int</span> <span class="func">main</span>() {
+                            <span class="type">int</span> n; cin &gt;&gt; n;
+                            <span class="type">int</span> odd[10], even[10], oc=0, ec=0;
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;n; i++) {
+                            <span class="type">int</span> x; cin &gt;&gt; x;
+                            <span class="keyword">if</span> (x % 2 == 0) even[ec++] = x; <span class="keyword">else</span> odd[oc++] = x;
+                            }
+                            heapSort(odd, oc); heapSort(even, ec);
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;oc; i++) cout &lt;&lt; odd[i] &lt;&lt; (i&lt;oc-1?<span class="string">" "</span>:<span class="string">""</span>); cout &lt;&lt; endl;
+                            <span class="keyword">for</span> (<span class="type">int</span> i=0; i&lt;ec; i++) cout &lt;&lt; even[i] &lt;&lt; (i&lt;ec-1?<span class="string">" "</span>:<span class="string">""</span>);
+                            <span class="keyword">return</span> 0;
+                            }</pre>
+                    </div>
+
+                    <div class="explanation">
+                        <strong>💡 Key idea:</strong> Separate odd/even during input, then sort each group with min‑heap. Output odds first, then evens – both ascending.
+                    </div>
+
+                    <div class="sample">
+                        <div class="in"><strong>📥 Input</strong><br /><code>10<br />9 3 2 1 5 6 7 8 10 4</code></div>
+                        <div class="out"><strong>📤 Output</strong><br /><code>1 3 5 7 9<br />2 4 6 8 10</code></div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /topic-grid -->
+
+        <!-- ─── FOOTER ─── -->
+        <footer style="margin-top: 50px; padding: 20px 0; border-top: 1px solid #21262d; text-align: center; color: #8b949e; font-size: 0.9rem;">
+            <i class="fas fa-code" style="color: #f0883e;"></i> C++ Heap Algorithms &bull; Study Notes &bull; Dark Mode
+        </footer>
+
+    </div><!-- /container -->
+
+    <!-- ─── SCROLL TO TOP ─── -->
+    <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // ─── Copy Code ───
+        function copyCode(btn) {
+            const pre = btn.closest('.code-block').querySelector('pre');
+            const text = pre.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const icon = btn.querySelector('i');
+                icon.className = 'fas fa-check';
+                setTimeout(() => { icon.className = 'fas fa-copy'; }, 2000);
+            });
+        }
+
+        // ─── Search & Filter ───
+        const searchInput = document.getElementById('searchInput');
+        const filterTags = document.getElementById('filterTags');
+        const cards = document.querySelectorAll('.topic-card');
+
+        // Filter by tag
+        filterTags.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            // update active
+            filterTags.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyFilters();
+        });
+
+        // Search input
+        searchInput.addEventListener('input', applyFilters);
+
+        function applyFilters() {
+            const tag = filterTags.querySelector('.active')?.dataset.filter || 'all';
+            const query = searchInput.value.toLowerCase().trim();
+
+            cards.forEach(card => {
+                const tags = card.dataset.tags || '';
+                const text = card.textContent.toLowerCase();
+                const matchesTag = tag === 'all' || tags.includes(tag);
+                const matchesSearch = text.includes(query);
+                card.classList.toggle('hidden', !(matchesTag && matchesSearch));
+            });
+        }
+
+        // ─── Scroll to Top visibility ───
+        const scrollBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', () => {
+            scrollBtn.classList.toggle('visible', window.scrollY > 400);
+        });
+
+        // ─── Click card header to toggle? (optional) ───
+        // Not toggling by default, but we keep the cursor pointer for UX.
+    </script>
+
+</body>
+</html>
