@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OOP · Complete Revision Notes (Dark Mode)</title>
+    <style>
+        /* ── reset & base ── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #0d1117;
+            color: #e6edf3;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.7;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* ── header ── */
+        .page-header {
+            margin-bottom: 2.5rem;
+            border-bottom: 2px solid #30363d;
+            padding-bottom: 1rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #f0883e, #58a6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header .sub {
+            color: #8b949e;
+            font-size: 1.05rem;
+            margin-top: 0.2rem;
+            border-left: 4px solid #58a6ff;
+            padding-left: 1rem;
+        }
+
+        .badge-top {
+            display: inline-block;
+            background: #238636;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.15rem 0.8rem;
+            border-radius: 20px;
+            letter-spacing: 0.3px;
+            margin-left: 0.6rem;
+            vertical-align: middle;
+            -webkit-text-fill-color: #fff;
+        }
+
+        /* ── sections ── */
+        .section {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 14px;
+            padding: 1.8rem 2rem;
+            margin-bottom: 2rem;
+            transition: border-color 0.2s;
+        }
+        .section:hover {
+            border-color: #58a6ff55;
+        }
+
+        .section h2 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #f0f6fc;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .section h2 .tag {
+            font-size: 0.7rem;
+            font-weight: 500;
+            background: #1f6feb;
+            color: #fff;
+            padding: 0.1rem 0.8rem;
+            border-radius: 20px;
+            letter-spacing: 0.3px;
+            -webkit-text-fill-color: #fff;
+        }
+
+        .section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #f0f6fc;
+            margin-top: 1.6rem;
+            margin-bottom: 0.4rem;
+        }
+        .section h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #d2d8de;
+            margin-top: 1.2rem;
+            margin-bottom: 0.2rem;
+        }
+
+        p {
+            color: #c9d1d9;
+            margin-bottom: 0.7rem;
+        }
+
+        ul,
+        ol {
+            padding-left: 1.6rem;
+            margin-bottom: 0.8rem;
+            color: #c9d1d9;
+        }
+        li {
+            margin-bottom: 0.2rem;
+        }
+
+        /* ── code ── */
+        pre {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1rem 1.4rem;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.6;
+            color: #e6edf3;
+            margin: 0.6rem 0 1rem 0;
+        }
+        code {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            background: #21262d;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            color: #f0f6fc;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            border-radius: 0;
+        }
+
+        /* ── tables ── */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            background: #0d1117;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th,
+        td {
+            border: 1px solid #30363d;
+            padding: 0.5rem 1rem;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background: #21262d;
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        td {
+            color: #c9d1d9;
+        }
+
+        /* ── callouts ── */
+        .note {
+            background: #1c2333;
+            border-left: 4px solid #58a6ff;
+            padding: 0.7rem 1.2rem;
+            margin: 0.8rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+        .note strong {
+            color: #f0f6fc;
+        }
+        .tip {
+            background: #1d2a1d;
+            border-left-color: #3fb950;
+        }
+        .warn {
+            background: #2d1f1a;
+            border-left-color: #d29922;
+        }
+
+        /* ── pillar cards ── */
+        .pillar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 0.8rem 0 1.2rem 0;
+        }
+        .pillar-card {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+        }
+        .pillar-card .pname {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #f0f6fc;
+        }
+        .pillar-card .pname span {
+            color: #58a6ff;
+        }
+        .pillar-card .pdef {
+            color: #c9d1d9;
+            font-size: 0.9rem;
+            margin-top: 0.2rem;
+        }
+
+        /* ── misc ── */
+        .inline-tag {
+            display: inline-block;
+            background: #21262d;
+            padding: 0.05rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #8b949e;
+            margin-right: 0.3rem;
+        }
+        .divider {
+            border: 0;
+            height: 1px;
+            background: #30363d;
+            margin: 1.2rem 0;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: #30363d;
+            margin: 1.2rem 0;
+        }
+
+        /* ── responsive ── */
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem 0.8rem;
+            }
+            .section {
+                padding: 1.2rem 1rem;
+            }
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            .pillar-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ─── HEADER ─── -->
+        <header class="page-header">
+            <h1>⚡ OOP · Complete Revision <span class="badge-top">Interview Ready</span></h1>
+            <div class="sub">
+                Encapsulation · Inheritance · Polymorphism · Abstraction &nbsp;|&nbsp; SOLID · Design Patterns · OOAD
+            </div>
+            <div style="margin-top:0.4rem; font-size:0.85rem; color:#8b949e;">
+                📄 Based on 3 PDFs + GfG articles + GitHub LastMinuteRevision
+            </div>
+        </header>
+
+        <!-- ─── 1. FOUR PILLARS ─── -->
+        <section class="section">
+            <h2>🧱 The Four Pillars of OOP <span class="tag">Core</span></h2>
+
+            <div class="pillar-grid">
+                <div class="pillar-card">
+                    <div class="pname"><span>🔒</span> Encapsulation</div>
+                    <div class="pdef">Binding data + methods, hiding internal state. <br /><span class="inline-tag">private</span> <span class="inline-tag">getters/setters</span></div>
+                </div>
+                <div class="pillar-card">
+                    <div class="pname"><span>📦</span> Abstraction</div>
+                    <div class="pdef">Hiding implementation, showing only interface. <br /><span class="inline-tag">pure virtual</span> <span class="inline-tag">abstract classes</span></div>
+                </div>
+                <div class="pillar-card">
+                    <div class="pname"><span>🧬</span> Inheritance</div>
+                    <div class="pdef">Creating new classes from existing ones. <br /><span class="inline-tag">class Derived : public Base</span></div>
+                </div>
+                <div class="pillar-card">
+                    <div class="pname"><span>🎭</span> Polymorphism</div>
+                    <div class="pdef">Same interface, different behaviors. <br /><span class="inline-tag">virtual functions</span> <span class="inline-tag">overloading</span></div>
+                </div>
+            </div>
+
+            <div class="note">
+                <strong>💡 Real‑world analogies:</strong> Encapsulation → medicine capsule (hide contents); Abstraction → TV remote (only buttons); Inheritance → child inherits from parent; Polymorphism → “Start” button works differently for car / bike.
+            </div>
+        </section>
+
+        <!-- ─── 2. CLASSES & OBJECTS ─── -->
+        <section class="section">
+            <h2>📐 Classes &amp; Objects</h2>
+            <p><strong>Class</strong> – blueprint for creating objects (attributes + methods).<br />
+            <strong>Object</strong> – instance of a class, with its own state and behavior.</p>
+            <pre><code>class Car {
+        public:
+            string brand, model;
+            Car(string b, string m) : brand(b), model(m) {}
+            void start() { cout &lt;&lt; brand &lt;&lt; " " &lt;&lt; model &lt;&lt; " engine started."; }
+        };
+        Car myCar("Toyota", "Camry");
+        myCar.start();</code></pre>
+            <div class="note tip">
+                <strong>✔ Constructor</strong> – special method to initialize objects. Called automatically at creation.<br />
+                <strong>✔ Destructor</strong> – releases resources when object goes out of scope. Can be virtual.
+            </div>
+        </section>
+
+        <!-- ─── 3. INHERITANCE ─── -->
+        <section class="section">
+            <h2>🧬 Inheritance <span class="tag">Code Reuse</span></h2>
+            <p>Derived class inherits properties &amp; behavior from base class. Promotes hierarchy and reuse.</p>
+
+            <h3>Types of Inheritance</h3>
+            <ul>
+                <li><strong>Single</strong> – one base, one derived</li>
+                <li><strong>Multiple</strong> – derived from two or more base classes</li>
+                <li><strong>Multilevel</strong> – chain of inheritance (A → B → C)</li>
+                <li><strong>Hierarchical</strong> – multiple derived from one base</li>
+                <li><strong>Hybrid</strong> – combination of multiple + multilevel</li>
+            </ul>
+
+            <div class="note warn">
+                <strong>⚠ Diamond Problem:</strong> When a class inherits from two classes that both inherit from the same base. Solved using <strong>virtual inheritance</strong> (<code>virtual</code> keyword on base class in intermediate classes).
+            </div>
+
+            <pre><code>class A { public: void show() { cout &lt;&lt; "A"; } };
+        class B : virtual public A { };
+        class C : virtual public A { };
+        class D : public B, public C { };   // only one copy of A</code></pre>
+        </section>
+
+        <!-- ─── 4. POLYMORPHISM ─── -->
+        <section class="section">
+            <h2>🎭 Polymorphism <span class="tag">Runtime &amp; Compile‑time</span></h2>
+
+            <h3>Compile‑time (Early Binding)</h3>
+            <ul>
+                <li><strong>Function overloading</strong> – same name, different parameters</li>
+                <li><strong>Operator overloading</strong> – define behavior for user‑defined types</li>
+            </ul>
+
+            <h3>Runtime (Late Binding)</h3>
+            <ul>
+                <li><strong>Function overriding</strong> – derived class redefines a virtual function from base</li>
+                <li>Resolved at runtime using <strong>vtable</strong> (virtual table) and <strong>vptr</strong> (virtual pointer)</li>
+            </ul>
+
+            <pre><code>class Animal {
+        public:
+            virtual void sound() { cout &lt;&lt; "Animal sound"; }
+        };
+        class Dog : public Animal {
+        public:
+            void sound() override { cout &lt;&lt; "Woof"; }
+        };
+        Animal* ptr = new Dog();
+        ptr-&gt;sound();   // "Woof" (runtime polymorphism)</code></pre>
+        </section>
+
+        <!-- ─── 5. ENCAPSULATION & ABSTRACTION ─── -->
+        <section class="section">
+            <h2>🔒 Encapsulation vs. Abstraction</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Aspect</th><th>Encapsulation</th><th>Abstraction</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Goal</strong></td><td>Data hiding</td><td>Implementation hiding</td></tr>
+                        <tr><td><strong>Level</strong></td><td>Implementation level</td><td>Design level</td></tr>
+                        <tr><td><strong>Mechanism</strong></td><td>private / protected + getters/setters</td><td>Pure virtual functions, abstract classes</td></tr>
+                        <tr><td><strong>Example</strong></td><td>Class with private variables</td><td>Interface with only method signatures</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note">
+                <strong>💡 Encapsulation</strong> = “how” data is protected.<br />
+                <strong>💡 Abstraction</strong> = “what” the object does, hiding “how” it does it.
+            </div>
+        </section>
+
+        <!-- ─── 6. ACCESS SPECIFIERS ─── -->
+        <section class="section">
+            <h2>🔑 Access Specifiers</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Specifier</th><th>Accessible from</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>private</code></td><td>Only inside the same class</td></tr>
+                        <tr><td><code>protected</code></td><td>Inside class + derived classes</td></tr>
+                        <tr><td><code>public</code></td><td>Everywhere</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note tip">
+                <strong>✔ Default in C++ class:</strong> <code>private</code> &nbsp;|&nbsp; <strong>Default in struct:</strong> <code>public</code>
+            </div>
+        </section>
+
+        <!-- ─── 7. VIRTUAL FUNCTIONS ─── -->
+        <section class="section">
+            <h2>🧩 Virtual Functions &amp; Abstract Classes</h2>
+            <ul>
+                <li><strong>Virtual function</strong> – defined in base, can be overridden in derived. Enables runtime polymorphism.</li>
+                <li><strong>Pure virtual function</strong> – <code>virtual void func() = 0;</code> → makes class <strong>abstract</strong>.</li>
+                <li><strong>Abstract class</strong> – cannot be instantiated; must be subclassed.</li>
+                <li><strong>Virtual destructor</strong> – <strong>required</strong> when deleting through base pointer to ensure derived destructor runs.</li>
+            </ul>
+            <pre><code>class Base {
+        public:
+            virtual void show() = 0;        // pure virtual → abstract
+            virtual ~Base() { }             // virtual destructor
+        };
+        class Derived : public Base {
+        public:
+            void show() override { cout &lt;&lt; "Derived"; }
+        };</code></pre>
+            <div class="note warn">
+                <strong>⚠ Constructors cannot be virtual.</strong> Static functions cannot be virtual.
+            </div>
+        </section>
+
+        <!-- ─── 8. OVERLOADING vs OVERRIDING ─── -->
+        <section class="section">
+            <h2>⚖️ Overloading vs. Overriding</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Feature</th><th>Overloading</th><th>Overriding</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Binding</strong></td><td>Compile‑time</td><td>Runtime</td></tr>
+                        <tr><td><strong>Scope</strong></td><td>Same class</td><td>Base + derived classes</td></tr>
+                        <tr><td><strong>Keyword</strong></td><td>—</td><td><code>virtual</code> + <code>override</code></td></tr>
+                        <tr><td><strong>Signature</strong></td><td>Must differ (params / type)</td><td>Must be identical</td></tr>
+                        <tr><td><strong>Return type</strong></td><td>May differ</td><td>Must be same (covariant allowed)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ─── 9. INTERFACES vs ABSTRACT CLASSES ─── -->
+        <section class="section">
+            <h2>📋 Interface vs. Abstract Class</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Interface</th><th>Abstract Class</th></tr></thead>
+                    <tbody>
+                        <tr><td>All methods are pure virtual (in C++ via <code>= 0</code>)</td><td>Can have both pure virtual and concrete methods</td></tr>
+                        <tr><td>No data members (typically)</td><td>Can have data members</td></tr>
+                        <tr><td>Supports multiple inheritance</td><td>Single inheritance (in C++ multiple allowed but careful)</td></tr>
+                        <tr><td>Defines a contract</td><td>Provides a partial implementation</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ─── 10. SOLID PRINCIPLES ─── -->
+        <section class="section">
+            <h2>⭐ SOLID Principles <span class="tag">Best Practices</span></h2>
+            <ul>
+                <li><strong>S</strong> – Single Responsibility: each class has one reason to change.</li>
+                <li><strong>O</strong> – Open/Closed: open for extension, closed for modification.</li>
+                <li><strong>L</strong> – Liskov Substitution: subtypes must be substitutable for base types.</li>
+                <li><strong>I</strong> – Interface Segregation: don't force clients to depend on unused interfaces.</li>
+                <li><strong>D</strong> – Dependency Inversion: depend on abstractions, not concretions.</li>
+            </ul>
+            <div class="note tip">
+                <strong>✔ Favor composition over inheritance</strong> – more flexible and modular.
+            </div>
+        </section>
+
+        <!-- ─── 11. DESIGN PATTERNS (summary) ─── -->
+        <section class="section">
+            <h2>🧩 Design Patterns <span class="tag">Creational · Structural · Behavioral</span></h2>
+            <ul>
+                <li><strong>Creational:</strong> Singleton, Factory, Abstract Factory, Builder, Prototype</li>
+                <li><strong>Structural:</strong> Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy</li>
+                <li><strong>Behavioral:</strong> Observer, Strategy, Command, Template, Iterator, State, Chain of Responsibility</li>
+            </ul>
+            <div class="note">
+                <strong>💡 Singleton</strong> – restricts a class to a single instance.<br />
+                <strong>💡 Factory</strong> – defines an interface for creating objects, lets subclasses decide which class to instantiate.
+            </div>
+        </section>
+
+        <!-- ─── 12. OOAD ─── -->
+        <section class="section">
+            <h2>📐 OOAD <span class="tag">Object‑Oriented Analysis &amp; Design</span></h2>
+            <p>Systematic approach using OOP principles. Phases:</p>
+            <ol>
+                <li><strong>Requirement Analysis</strong> – understand stakeholder needs</li>
+                <li><strong>System Design</strong> – architecture, components, interfaces</li>
+                <li><strong>Object‑Oriented Modeling</strong> – UML diagrams (class, sequence, state, etc.)</li>
+                <li><strong>Implementation</strong> – code based on design</li>
+                <li><strong>Testing</strong> – unit, integration, system</li>
+                <li><strong>Deployment</strong> – production &amp; maintenance</li>
+            </ol>
+        </section>
+
+        <!-- ─── 13. EXCEPTION HANDLING ─── -->
+        <section class="section">
+            <h2>⚠️ Exception Handling</h2>
+            <ul>
+                <li><strong>try</strong> – code that may throw</li>
+                <li><strong>catch</strong> – handles specific exception types</li>
+                <li><strong>throw</strong> – signals an exception</li>
+                <li><strong>finally</strong> – cleanup code (runs always)</li>
+            </ul>
+            <pre><code>try {
+            int result = num1 / num2;
+        } catch (const std::exception& e) {
+            cout &lt;&lt; "Error: " &lt;&lt; e.what();
+        }</code></pre>
+        </section>
+
+        <!-- ─── 14. MEMORY LAYOUT ─── -->
+        <section class="section">
+            <h2>🧠 Memory Layout (C++ Object)</h2>
+            <ul>
+                <li><strong>Data members</strong> – stored in order (padding may apply)</li>
+                <li><strong>vptr</strong> – virtual pointer (8 bytes on 64‑bit) if class has virtual functions</li>
+                <li><strong>Size of empty class</strong> – 1 byte (ensures unique addresses)</li>
+            </ul>
+            <div class="note tip">
+                <strong>✔ vtable</strong> – array of function pointers, shared per class.<br />
+                <strong>✔ vptr</strong> – each object points to its class's vtable.
+            </div>
+        </section>
+
+        <!-- ─── 15. KEY DIFFERENCES (quick reference) ─── -->
+        <section class="section">
+            <h2>📊 Key Differences at a Glance</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Concept A</th><th>Concept B</th><th>Difference</th></tr></thead>
+                    <tbody>
+                        <tr><td>Encapsulation</td><td>Abstraction</td><td>Encapsulation = data hiding; Abstraction = implementation hiding</td></tr>
+                        <tr><td>Overloading</td><td>Overriding</td><td>Compile‑time vs runtime; same class vs base+derived</td></tr>
+                        <tr><td>Abstract Class</td><td>Interface</td><td>Abstract can have concrete methods; interface only pure virtual</td></tr>
+                        <tr><td>Composition</td><td>Inheritance</td><td>Composition = has‑a; Inheritance = is‑a. Prefer composition</td></tr>
+                        <tr><td>Static</td><td>Instance</td><td>Static belongs to class; instance belongs to object</td></tr>
+                        <tr><td>Public</td><td>Private</td><td>Public accessible everywhere; private only inside class</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ─── 16. FREQUENTLY ASKED INTERVIEW QUESTIONS ─── -->
+        <section class="section">
+            <h2>🎯 Top Interview Questions <span class="tag">Must Know</span></h2>
+            <div style="columns: 1; column-gap: 2rem;">
+                <ul style="margin-bottom:0.4rem;">
+                    <li><strong>Q:</strong> Why OOP? <br /> <em>A:</em> Code reusability, data security, flexibility, easier maintenance.</li>
+                    <li><strong>Q:</strong> Difference between struct and class? <br /> <em>A:</em> Struct members are <code>public</code> by default; class members are <code>private</code>.</li>
+                    <li><strong>Q:</strong> What is a virtual destructor? <br /> <em>A:</em> Ensures derived destructor runs when deleting through base pointer. Prevents memory leaks.</li>
+                    <li><strong>Q:</strong> Can we instantiate an abstract class? <br /> <em>A:</em> No.</li>
+                    <li><strong>Q:</strong> What is the diamond problem? <br /> <em>A:</em> Multiple inheritance issue solved with <code>virtual</code> inheritance.</li>
+                    <li><strong>Q:</strong> Can constructors be virtual? <br /> <em>A:</em> No. vtable is set up after constructor runs.</li>
+                    <li><strong>Q:</strong> What is a pure virtual function? <br /> <em>A:</em> <code>virtual void f() = 0;</code> – makes class abstract.</li>
+                    <li><strong>Q:</strong> What is vtable and vptr? <br /> <em>A:</em> vtable = array of function pointers; vptr = pointer to vtable (per object).</li>
+                    <li><strong>Q:</strong> What is the size of an empty class? <br /> <em>A:</em> 1 byte (to ensure unique addresses).</li>
+                    <li><strong>Q:</strong> Explain method chaining. <br /> <em>A:</em> Returning <code>*this</code> to allow cascaded calls: <code>obj.setA().setB().show();</code></li>
+                </ul>
+            </div>
+            <div class="note">
+                <strong>📌 More questions:</strong> See <a href="https://www.geeksforgeeks.org/interview-prep/oops-interview-questions/" target="_blank" style="color:#58a6ff;">GfG OOP Interview Questions</a> &amp; <a href="https://github.com/aman0046/LastMinuteRevision-OOP" target="_blank" style="color:#58a6ff;">GitHub LastMinuteRevision</a>
+            </div>
+        </section>
+
+        <!-- ─── 17. KEY KEYWORDS (C++) ─── -->
+        <section class="section">
+            <h2>🔤 Key Keywords (C++)</h2>
+            <div style="display:flex; flex-wrap:wrap; gap:0.4rem 0.8rem; margin:0.6rem 0 0.2rem 0;">
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">class</span>
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">public</span>
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">private</span>
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">protected</span>
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">virtual</span>
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">override</span>
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">abstract</span>
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">this</span>
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">super</span>
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">static</span>
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">const</span>
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">friend</span>
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">new</span>
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">delete</span>
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">operator</span>
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">template</span>
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">typename</span>
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">dynamic_cast</span>
+                <span class="inline-tag" style="background:#1f6feb; color:#fff;">typeid</span>
+            </div>
+        </section>
+
+        <!-- ─── 18. QUICK CODE SNIPPETS ─── -->
+        <section class="section">
+            <h2>⚡ Quick Code Snippets</h2>
+
+            <h3>Class &amp; Object</h3>
+            <pre><code>class Student {
+        public:
+            string name;
+            void display() { cout &lt;&lt; name; }
+        };
+        Student s1;</code></pre>
+
+            <h3>Virtual Function Example</h3>
+            <pre><code>class Animal {
+        public: virtual void sound() { cout &lt;&lt; "Animal"; }
+        };
+        class Dog : public Animal {
+        public: void sound() override { cout &lt;&lt; "Woof"; }
+        };
+        Animal* ptr = new Dog();
+        ptr-&gt;sound();   // "Woof"</code></pre>
+
+            <h3>Diamond Problem Solution</h3>
+            <pre><code>class A { public: void show() { cout &lt;&lt; "A"; } };
+        class B : virtual public A { };
+        class C : virtual public A { };
+        class D : public B, public C { };   // single copy of A</code></pre>
+        </section>
+
+        <!-- ─── 19. RESOURCES ─── -->
+        <section class="section">
+            <h2>🔗 Resources &amp; References</h2>
+            <ul>
+                <li><a href="https://www.geeksforgeeks.org/interview-prep/oops-interview-questions/" target="_blank" style="color:#58a6ff;">GfG – OOP Interview Questions</a></li>
+                <li><a href="https://github.com/aman0046/LastMinuteRevision-OOP" target="_blank" style="color:#58a6ff;">GitHub – LastMinuteRevision OOP</a></li>
+                <li><a href="https://www.geeksforgeeks.org/java/object-oriented-programming-oops-concept-in-java/" target="_blank" style="color:#58a6ff;">GfG – OOP Concepts in Java</a></li>
+                <li><strong>PDFs used:</strong> combi5f.pdf (OOP + DSA), Object Oriented Programmingmcqs.pdf, shortNotesOpps.pdf</li>
+            </ul>
+        </section>
+
+        <!-- ─── FOOTER ─── -->
+        <div style="text-align:center; color:#8b949e; font-size:0.8rem; border-top:1px solid #30363d; padding-top:1.5rem; margin-top:0.5rem;">
+            📘 OOP Complete Revision · Dark Mode · Prepared from PDFs + GfG + GitHub
+        </div>
+
+    </div>
+</body>
+</html>

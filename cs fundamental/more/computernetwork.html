@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CN Interview Prep · Complete Study Guide</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0b0e14;
+            color: #e8edf5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            padding: 2rem 1.5rem;
+            scroll-behavior: smooth;
+        }
+
+        /* container */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        /* ---- SIDEBAR (sticky TOC) ---- */
+        .sidebar {
+            flex: 0 0 280px;
+            position: sticky;
+            top: 2rem;
+            align-self: flex-start;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+            background: #151e2a;
+            border-radius: 20px;
+            padding: 1.6rem 1.2rem;
+            border: 1px solid #2a3a4e;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #3b5a7a;
+            border-radius: 10px;
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #b0d0f0;
+            border-bottom: 1px solid #2a3a4e;
+            padding-bottom: 0.8rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 0.35rem;
+        }
+
+        .sidebar ul li a {
+            display: block;
+            color: #b8cfe0;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.4rem 0.6rem;
+            border-radius: 8px;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .sidebar ul li a:hover {
+            background: #1f3142;
+            color: #ffffff;
+        }
+
+        .sidebar ul li a i {
+            width: 1.4rem;
+            color: #5b8ec9;
+            font-size: 0.8rem;
+        }
+
+        /* ---- MAIN CONTENT ---- */
+        .main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* header / quick summary */
+        .quick-summary {
+            background: #111c2b;
+            border-left: 5px solid #3f8edb;
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 16px rgba(0, 20, 40, 0.5);
+        }
+
+        .quick-summary h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #b0d4ff, #7bb3f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            margin-bottom: 0.3rem;
+        }
+
+        .quick-summary .badge {
+            background: #1f3a57;
+            color: #9bc0e6;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-left: 0.8rem;
+            letter-spacing: 0.3px;
+        }
+
+        .quick-summary p {
+            color: #c5d9ed;
+            margin-top: 0.5rem;
+            font-size: 0.98rem;
+        }
+
+        .quick-summary .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem 2rem;
+            margin-top: 0.8rem;
+            font-size: 0.85rem;
+            color: #8aadcc;
+        }
+
+        .quick-summary .meta i {
+            margin-right: 0.4rem;
+            color: #4c8bcb;
+        }
+
+        /* headings */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        h2 {
+            font-size: 1.9rem;
+            margin: 2.4rem 0 1.2rem 0;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid #1f3142;
+            color: #d4e6ff;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin: 1.8rem 0 0.8rem 0;
+            color: #c0d9f5;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            margin: 1.2rem 0 0.4rem 0;
+            color: #b0cce8;
+        }
+
+        /* cards / sections */
+        .section-card {
+            background: #121b27;
+            border-radius: 18px;
+            padding: 1.6rem 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #1f3142;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: border-color 0.2s;
+        }
+
+        .section-card:hover {
+            border-color: #2d4a6a;
+        }
+
+        /* tables */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border-radius: 14px;
+            border: 1px solid #1f3142;
+            background: #0f1722;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92rem;
+            color: #dce6f0;
+        }
+
+        th {
+            background: #1a2a3e;
+            color: #b6d4f5;
+            font-weight: 600;
+            padding: 0.8rem 1rem;
+            text-align: left;
+            border-bottom: 2px solid #2a405a;
+        }
+
+        td {
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid #1d2d40;
+            vertical-align: top;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* code / formulas */
+        .code-block {
+            background: #0d1622;
+            border-left: 4px solid #3f8edb;
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            margin: 0.8rem 0;
+            overflow-x: auto;
+            color: #c8def5;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .code-block .hl {
+            color: #f5b87e;
+        }
+
+        .inline-code {
+            background: #1a2636;
+            padding: 0.1rem 0.5rem;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #c8dbf5;
+        }
+
+        /* lists */
+        ul,
+        ol {
+            padding-left: 1.6rem;
+            margin: 0.6rem 0 1rem 0;
+        }
+
+        li {
+            margin-bottom: 0.3rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.8rem 1.5rem;
+            background: #0f1824;
+            padding: 1rem 1.5rem;
+            border-radius: 14px;
+            margin: 0.8rem 0;
+        }
+
+        .feature-grid span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-grid i {
+            color: #4c8bcb;
+            width: 1.2rem;
+        }
+
+        /* back to top */
+        #backToTop {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #1f3a57;
+            color: #e0edff;
+            border: none;
+            border-radius: 50px;
+            padding: 0.6rem 1.4rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+            transition: opacity 0.2s, transform 0.2s;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid #2d4a6a;
+        }
+
+        #backToTop.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #backToTop:hover {
+            background: #2a4a6e;
+            transform: scale(1.03);
+        }
+
+        /* responsive */
+        @media (max-width: 900px) {
+            .sidebar {
+                flex: 1 1 100%;
+                position: relative;
+                top: 0;
+                max-height: none;
+            }
+            .container {
+                flex-direction: column;
+            }
+            .quick-summary h1 {
+                font-size: 1.6rem;
+            }
+            .section-card {
+                padding: 1.2rem;
+            }
+        }
+
+        @media (max-width: 500px) {
+            body {
+                padding: 1rem 0.8rem;
+            }
+            .quick-summary {
+                padding: 1rem;
+            }
+            .quick-summary h1 {
+                font-size: 1.3rem;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* expandable sections (optional) */
+        .toggle-content {
+            display: none;
+            margin-top: 0.6rem;
+        }
+        .toggle-content.open {
+            display: block;
+        }
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: #79b0e6;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0.2rem 0;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .toggle-btn:hover {
+            color: #aac8f0;
+        }
+        .toggle-btn i {
+            transition: transform 0.2s;
+        }
+        .toggle-btn.open i {
+            transform: rotate(180deg);
+        }
+
+        /* small badge */
+        .pill {
+            background: #1d3248;
+            color: #aac8f0;
+            padding: 0.1rem 0.7rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Back to Top -->
+    <button id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i> Top</button>
+
+    <div class="container">
+
+        <!-- ====== SIDEBAR ====== -->
+        <nav class="sidebar" aria-label="Table of Contents">
+            <h2><i class="fas fa-sitemap"></i> Contents</h2>
+            <ul>
+                <li><a href="#quick-summary"><i class="fas fa-star"></i> Quick Summary</a></li>
+                <li><a href="#basics"><i class="fas fa-network-wired"></i> Basics &amp; Topologies</a></li>
+                <li><a href="#osi-tcpip"><i class="fas fa-layer-group"></i> OSI &amp; TCP/IP Models</a></li>
+                <li><a href="#physical"><i class="fas fa-plug"></i> Physical Layer</a></li>
+                <li><a href="#datalink"><i class="fas fa-link"></i> Data Link Layer</a></li>
+                <li><a href="#network"><i class="fas fa-route"></i> Network Layer</a></li>
+                <li><a href="#transport"><i class="fas fa-exchange-alt"></i> Transport Layer</a></li>
+                <li><a href="#session-presentation-app"><i class="fas fa-window-maximize"></i> Session, Presentation, App</a></li>
+                <li><a href="#ip-addressing"><i class="fas fa-address-book"></i> IP Addressing</a></li>
+                <li><a href="#protocols"><i class="fas fa-code"></i> Key Protocols</a></li>
+                <li><a href="#devices"><i class="fas fa-microchip"></i> Networking Devices</a></li>
+                <li><a href="#security"><i class="fas fa-shield-alt"></i> Security &amp; VPN</a></li>
+                <li><a href="#interview"><i class="fas fa-question-circle"></i> Interview Q&amp;A</a></li>
+                <li><a href="#scenario"><i class="fas fa-globe"></i> Classic Scenario</a></li>
+            </ul>
+        </nav>
+
+        <!-- ====== MAIN ====== -->
+        <main class="main">
+
+            <!-- QUICK SUMMARY -->
+            <section id="quick-summary" class="quick-summary">
+                <h1>🌐 Computer Networks <span class="badge">interview prep</span></h1>
+                <p><strong>Last updated:</strong> July 2026 &nbsp;·&nbsp; Complete reference for OSI, TCP/IP, routing, protocols, and more.</p>
+                <div class="meta">
+                    <span><i class="fas fa-check-circle"></i> 7-layer OSI &amp; 4-layer TCP/IP</span>
+                    <span><i class="fas fa-arrows-alt-h"></i> Switching &amp; routing</span>
+                    <span><i class="fas fa-shield-alt"></i> Security &amp; VPN</span>
+                    <span><i class="fas fa-clock"></i> 60+ interview Q&amp;A</span>
+                </div>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 1. BASICS & TOPOLOGIES -->
+            <!-- ============================================================ -->
+            <section id="basics">
+                <h2>1. Basics &amp; Network Topologies</h2>
+
+                <div class="section-card">
+                    <h3>What is a Computer Network?</h3>
+                    <p>A system of interconnected computing devices that communicate over wired or wireless links to exchange data, share resources, and deliver services using a well-defined set of protocols.<sup data-cite="4†L4-L7"></sup></p>
+                    <h4>Objectives</h4>
+                    <ul>
+                        <li><strong>Resource Sharing</strong> – hardware, software, data</li>
+                        <li><strong>Communication</strong> – email, messaging, video conferencing</li>
+                        <li><strong>Reliability</strong> – backup paths, fault tolerance</li>
+                        <li><strong>Scalability</strong> – easy expansion as users grow</li>
+                        <li><strong>Cost Efficiency</strong> – shared infrastructure reduces costs</li>
+                    </ul>
+                    <h4>Fundamental Components</h4>
+                    <ul>
+                        <li><strong>Sender</strong> – device that generates data</li>
+                        <li><strong>Receiver</strong> – device that receives data</li>
+                        <li><strong>Message</strong> – information being transmitted</li>
+                        <li><strong>Transmission Medium</strong> – physical or wireless path</li>
+                        <li><strong>Protocol</strong> – set of rules governing communication</li>
+                    </ul>
+                </div>
+
+                <div class="section-card">
+                    <h3>Network Topologies</h3>
+                    <div class="feature-grid">
+                        <span><i class="fas fa-circle"></i> <strong>Mesh</strong> – every device connected to every other; N(N−1)/2 links; high fault tolerance, expensive.</span>
+                        <span><i class="fas fa-minus"></i> <strong>Bus</strong> – single backbone cable; simple, cheap, but less reliable.</span>
+                        <span><i class="fas fa-star"></i> <strong>Star</strong> – central hub/switch; easy to manage; central failure brings down network.</span>
+                        <span><i class="fas fa-sync-alt"></i> <strong>Ring</strong> – closed loop; data travels in one direction; failure of one device disrupts.</span>
+                    </div>
+                    <p><span class="pill">Mesh</span> <span class="pill">Bus</span> <span class="pill">Star</span> <span class="pill">Ring</span></p>
+                </div>
+
+                <div class="section-card">
+                    <h3>Transmission Modes</h3>
+                    <ul>
+                        <li><strong>Simplex</strong> – one-way only (e.g., TV broadcast).</li>
+                        <li><strong>Half-duplex</strong> – both can transmit, but not simultaneously (e.g., walkie-talkie).</li>
+                        <li><strong>Full-duplex</strong> – simultaneous two-way (e.g., telephone).</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 2. OSI & TCP/IP -->
+            <!-- ============================================================ -->
+            <section id="osi-tcpip">
+                <h2>2. OSI &amp; TCP/IP Models</h2>
+
+                <div class="section-card">
+                    <h3>OSI Model (7 layers)</h3>
+                    <ol>
+                        <li><strong>Physical</strong> – raw bit transmission over medium.</li>
+                        <li><strong>Data Link</strong> – framing, error control, MAC addressing.</li>
+                        <li><strong>Network</strong> – logical addressing, routing, packet forwarding.</li>
+                        <li><strong>Transport</strong> – end-to-end communication, segmentation, flow control.</li>
+                        <li><strong>Session</strong> – establishes, manages, and terminates sessions.</li>
+                        <li><strong>Presentation</strong> – data translation, encryption, compression.</li>
+                        <li><strong>Application</strong> – network services to end-user applications.</li>
+                    </ol>
+                    <p><span class="pill">Developed by ISO in 1984</span></p>
+                </div>
+
+                <div class="section-card">
+                    <h3>TCP/IP Model (4 layers)</h3>
+                    <ol>
+                        <li><strong>Application</strong> – combines OSI layers 5,6,7; protocols: HTTP, FTP, SMTP, DNS.</li>
+                        <li><strong>Transport</strong> – TCP (reliable) and UDP (fast).</li>
+                        <li><strong>Internet</strong> – IP addressing, routing (IPv4/IPv6).</li>
+                        <li><strong>Network Access (Link)</strong> – physical and data link functions.</li>
+                    </ol>
+                    <p><span class="pill">Developed by DARPA</span> <span class="pill">Used on the Internet</span></p>
+                </div>
+
+                <div class="section-card">
+                    <h3>OSI vs TCP/IP</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Aspect</th><th>OSI</th><th>TCP/IP</th></tr></thead>
+                            <tbody>
+                                <tr><td>Layers</td><td>7</td><td>4</td></tr>
+                                <tr><td>Presentation/Session</td><td>Separate layers</td><td>Combined into Application</td></tr>
+                                <tr><td>Development</td><td>ISO (international standard)</td><td>DARPA / ARPANET</td></tr>
+                                <tr><td>Protocols</td><td>Diverse set</td><td>Primarily TCP/IP</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 3. PHYSICAL LAYER -->
+            <!-- ============================================================ -->
+            <section id="physical">
+                <h2>3. Physical Layer</h2>
+                <div class="section-card">
+                    <h3>Responsibilities</h3>
+                    <ul>
+                        <li>Bit transmission over physical medium</li>
+                        <li>Defines voltage levels, data rate, bit synchronization</li>
+                        <li>Line configuration (point-to-point / multipoint)</li>
+                        <li>Physical topology &amp; transmission modes</li>
+                    </ul>
+                    <h3>Transmission Media</h3>
+                    <h4>Guided (Wired)</h4>
+                    <ul>
+                        <li><strong>Twisted Pair</strong> – low cost, LANs</li>
+                        <li><strong>Coaxial Cable</strong> – better noise resistance, cable TV</li>
+                        <li><strong>Optical Fiber</strong> – very high speed, long distance</li>
+                    </ul>
+                    <h4>Unguided (Wireless)</h4>
+                    <ul>
+                        <li><strong>Radio Waves</strong> – Wi-Fi, Bluetooth</li>
+                        <li><strong>Microwaves</strong> – cellular, satellite</li>
+                        <li><strong>Infrared</strong> – short-range communication</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 4. DATA LINK LAYER -->
+            <!-- ============================================================ -->
+            <section id="datalink">
+                <h2>4. Data Link Layer</h2>
+                <div class="section-card">
+                    <h3>Functions</h3>
+                    <ul>
+                        <li><strong>Framing</strong> – divides raw bit stream into frames</li>
+                        <li><strong>Error Control</strong> – detection &amp; correction (Hamming, CRC, Checksum)</li>
+                        <li><strong>Flow Control</strong> – prevents sender from overwhelming receiver</li>
+                        <li><strong>Medium Access Control (MAC)</strong> – controls access to shared medium</li>
+                        <li><strong>Physical Addressing</strong> – uses MAC addresses</li>
+                    </ul>
+
+                    <h4>Basic Time Delays</h4>
+                    <div class="code-block">
+                        Transmission Delay (T<sub>d</sub>) = Length of packet / Bandwidth<br>
+                        Propagation Delay (P<sub>d</sub>) = Distance / Propagation speed<br>
+                        Round Trip Time (RTT) = time for frame to reach receiver + ACK to return
+                    </div>
+
+                    <h4>Flow Control Protocols</h4>
+                    <ul>
+                        <li><strong>Stop-and-Wait</strong> – one frame at a time; simple but low utilization.</li>
+                        <li><strong>Go-Back-N ARQ</strong> – cumulative ACK; sender window = 2<sup>k</sup> − 1; receiver window = 1.</li>
+                        <li><strong>Selective Repeat ARQ</strong> – retransmits only lost frames; more efficient, higher buffer.</li>
+                    </ul>
+                    <div class="code-block">
+                        Efficiency (Go-Back-N) = N × T<sub>d</sub> / (T<sub>d</sub> + 2P<sub>d</sub> + Q<sub>d</sub> + P<sub>rd</sub> + T<sub>d(ACK)</sub>)
+                    </div>
+
+                    <h4>MAC Protocols</h4>
+                    <ul>
+                        <li><strong>ALOHA</strong> – pure &amp; slotted</li>
+                        <li><strong>CSMA/CD</strong> – Ethernet, detects collisions</li>
+                        <li><strong>CSMA/CA</strong> – Wi-Fi, avoids collisions (RTS/CTS)</li>
+                        <li><strong>Token Passing</strong> – token circulates; only token holder transmits</li>
+                    </ul>
+
+                    <h4>Error Detection</h4>
+                    <ul>
+                        <li><strong>Hamming Code</strong>: 2<sup>r</sup> ≥ m + r + 1 (r = redundant bits, m = data bits)</li>
+                        <li><strong>CRC</strong> – polynomial division</li>
+                        <li><strong>Checksum</strong> – sum of data words</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 5. NETWORK LAYER -->
+            <!-- ============================================================ -->
+            <section id="network">
+                <h2>5. Network Layer</h2>
+                <div class="section-card">
+                    <h3>IPv4 Datagram Header (key fields)</h3>
+                    <ul>
+                        <li><strong>Version</strong> (4 bits) – 4 for IPv4</li>
+                        <li><strong>HLEN</strong> – header length in 32-bit words (min 5, max 15)</li>
+                        <li><strong>Total Length</strong> – header + data (min 20 bytes, max 65535)</li>
+                        <li><strong>Identification</strong> – unique packet ID for fragmentation</li>
+                        <li><strong>Flags</strong> – reserved, don't fragment, more fragments</li>
+                        <li><strong>Fragment Offset</strong> – position of fragment in original datagram</li>
+                        <li><strong>Time to Live (TTL)</strong> – max hops</li>
+                        <li><strong>Protocol</strong> – TCP (6), UDP (17), ICMP (1)</li>
+                        <li><strong>Header Checksum</strong> – error detection for header</li>
+                        <li><strong>Source &amp; Destination IP</strong> – 32 bits each</li>
+                    </ul>
+
+                    <h3>Subnetting</h3>
+                    <p>Dividing a large network into smaller logical subnets. Improves security, performance, and IP utilization.</p>
+                    <div class="code-block">
+                        Example: 192.168.1.0/24 → create 4 subnets.<br>
+                        2<sup>n</sup> ≥ 4 → n = 2. New prefix = /26 (255.255.255.192).<br>
+                        Each subnet: 64 addresses, 62 usable.
+                    </div>
+                    <ul>
+                        <li><strong>Subnet 1:</strong> 192.168.1.0 – 192.168.1.63</li>
+                        <li><strong>Subnet 2:</strong> 192.168.1.64 – 192.168.1.127</li>
+                        <li><strong>Subnet 3:</strong> 192.168.1.128 – 192.168.1.191</li>
+                        <li><strong>Subnet 4:</strong> 192.168.1.192 – 192.168.1.255</li>
+                    </ul>
+
+                    <h4>Supernetting</h4>
+                    <p>Combining multiple smaller networks into a larger one (route summarization). Reduces routing table size.</p>
+
+                    <h4>VLSM</h4>
+                    <p>Variable Length Subnet Mask – allows different subnet masks within the same network, reducing IP wastage.</p>
+
+                    <h4>ICMP</h4>
+                    <p>Used for error reporting and diagnostics (ping, traceroute). Messages: Destination Unreachable, Time Exceeded, Echo Request/Reply.</p>
+                </div>
+
+                <div class="section-card">
+                    <h3>Routing</h3>
+                    <ul>
+                        <li><strong>Distance Vector Routing (DVR)</strong> – Bellman-Ford, hop count metric (RIP). Suffers from count-to-infinity.</li>
+                        <li><strong>Link State Routing (LSR)</strong> – Dijkstra, OSPF. Fast convergence, no count-to-infinity.</li>
+                    </ul>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Feature</th><th>DVR (RIP)</th><th>LSR (OSPF)</th></tr></thead>
+                            <tbody>
+                                <tr><td>Algorithm</td><td>Bellman-Ford</td><td>Dijkstra</td></tr>
+                                <tr><td>Updates</td><td>Periodic</td><td>Event-based</td></tr>
+                                <tr><td>Metric</td><td>Hop count (max 15)</td><td>Cost (bandwidth)</td></tr>
+                                <tr><td>Convergence</td><td>Slow</td><td>Fast</td></tr>
+                                <tr><td>Loop issue</td><td>Count-to-infinity</td><td>Only transient</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <ul>
+                        <li><strong>RIP</strong> – UDP port 520, AD 120, max 15 hops.</li>
+                        <li><strong>OSPF</strong> – link-state, uses SPF algorithm, scalable.</li>
+                        <li><strong>BGP</strong> – path-vector protocol, inter-AS routing.</li>
+                    </ul>
+                    <h4>ARP &amp; RARP</h4>
+                    <ul>
+                        <li><strong>ARP</strong> – maps IP → MAC address within a LAN.</li>
+                        <li><strong>RARP</strong> – maps MAC → IP address (diskless workstations).</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 6. TRANSPORT LAYER -->
+            <!-- ============================================================ -->
+            <section id="transport">
+                <h2>6. Transport Layer</h2>
+                <div class="section-card">
+                    <h3>TCP (Transmission Control Protocol)</h3>
+                    <ul>
+                        <li>Connection-oriented, reliable, in-order delivery.</li>
+                        <li>Uses sequence numbers, ACKs, retransmissions.</li>
+                        <li>Flow control &amp; congestion control (slow start, congestion avoidance).</li>
+                        <li>Minimum header 20 bytes.</li>
+                        <li><strong>3-Way Handshake:</strong> SYN → SYN-ACK → ACK</li>
+                        <li><strong>Connection Termination:</strong> FIN, ACK-FIN, etc.</li>
+                    </ul>
+
+                    <h3>UDP (User Datagram Protocol)</h3>
+                    <ul>
+                        <li>Connectionless, unreliable, fast.</li>
+                        <li>No ACKs, no retransmission.</li>
+                        <li>Fixed 8-byte header.</li>
+                        <li>Used for DNS, VoIP, video streaming, online games.</li>
+                    </ul>
+
+                    <h3>TCP vs UDP</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>TCP</th><th>UDP</th></tr></thead>
+                            <tbody>
+                                <tr><td>Connection-oriented</td><td>Connectionless</td></tr>
+                                <tr><td>Reliable (ACKs, retransmission)</td><td>Unreliable</td></tr>
+                                <tr><td>In-order delivery</td><td>No ordering</td></tr>
+                                <tr><td>Flow &amp; congestion control</td><td>None</td></tr>
+                                <tr><td>Slower, more overhead</td><td>Faster, minimal overhead</td></tr>
+                                <tr><td>Min 20 bytes header</td><td>8 bytes header</td></tr>
+                                <tr><td>HTTP, HTTPS, FTP, SMTP</td><td>DNS, VoIP, streaming, gaming</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 7. SESSION / PRESENTATION / APPLICATION -->
+            <!-- ============================================================ -->
+            <section id="session-presentation-app">
+                <h2>7. Session, Presentation &amp; Application Layers</h2>
+                <div class="section-card">
+                    <h3>Session Layer (Layer 5)</h3>
+                    <ul>
+                        <li>Establishes, manages, and terminates sessions.</li>
+                        <li>Dialog control, synchronization (checkpoints).</li>
+                        <li>Example: logging into a remote server.</li>
+                    </ul>
+                    <h3>Presentation Layer (Layer 6)</h3>
+                    <ul>
+                        <li>Data translation (ASCII ↔ Unicode, EBCDIC ↔ ASCII).</li>
+                        <li>Encryption/decryption, compression/decompression.</li>
+                        <li>Ensures interoperability between different systems.</li>
+                    </ul>
+                    <h3>Application Layer (Layer 7)</h3>
+                    <ul>
+                        <li>Provides network services to end-user applications.</li>
+                        <li>Protocols: HTTP/HTTPS, FTP/SFTP, SMTP, POP3, IMAP, DNS, DHCP.</li>
+                        <li>Supports email, file transfer, web browsing, name resolution.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 8. IP ADDRESSING -->
+            <!-- ============================================================ -->
+            <section id="ip-addressing">
+                <h2>8. IP Addressing</h2>
+                <div class="section-card">
+                    <h3>IPv4 Classes</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Class</th><th>Leading bits</th><th>Network ID range</th><th>Hosts per network</th></tr></thead>
+                            <tbody>
+                                <tr><td>A</td><td>0</td><td>1.0.0.0 – 126.255.255.255</td><td>~16 million</td></tr>
+                                <tr><td>B</td><td>10</td><td>128.0.0.0 – 191.255.255.255</td><td>65,536</td></tr>
+                                <tr><td>C</td><td>110</td><td>192.0.0.0 – 223.255.255.255</td><td>256</td></tr>
+                                <tr><td>D</td><td>1110</td><td>Reserved for multicast</td><td>—</td></tr>
+                                <tr><td>E</td><td>1111</td><td>Reserved for experimental</td><td>—</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <h4>Private IP Ranges</h4>
+                    <ul>
+                        <li><strong>Class A:</strong> 10.0.0.0 – 10.255.255.255</li>
+                        <li><strong>Class B:</strong> 172.16.0.0 – 172.31.255.255</li>
+                        <li><strong>Class C:</strong> 192.168.0.0 – 192.168.255.255</li>
+                    </ul>
+                    <h4>IPv6</h4>
+                    <ul>
+                        <li>128-bit addresses (vs 32-bit IPv4).</li>
+                        <li>Format: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</li>
+                        <li>No NAT needed, auto-configuration, built-in security.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 9. KEY PROTOCOLS -->
+            <!-- ============================================================ -->
+            <section id="protocols">
+                <h2>9. Key Protocols</h2>
+                <div class="section-card">
+                    <div class="feature-grid">
+                        <span><i class="fas fa-globe"></i> <strong>DNS</strong> – domain → IP</span>
+                        <span><i class="fas fa-dharma"></i> <strong>DHCP</strong> – dynamic IP assignment</span>
+                        <span><i class="fas fa-exchange-alt"></i> <strong>NAT</strong> – private → public IP</span>
+                        <span><i class="fas fa-address-card"></i> <strong>ARP</strong> – IP → MAC</span>
+                        <span><i class="fas fa-exclamation-triangle"></i> <strong>ICMP</strong> – error/diagnostic</span>
+                        <span><i class="fas fa-lock"></i> <strong>HTTPS</strong> – HTTP + SSL/TLS</span>
+                        <span><i class="fas fa-file-alt"></i> <strong>FTP/SFTP</strong> – file transfer</span>
+                        <span><i class="fas fa-envelope"></i> <strong>SMTP</strong> – send email</span>
+                        <span><i class="fas fa-inbox"></i> <strong>POP3/IMAP</strong> – retrieve email</span>
+                    </div>
+                    <p><span class="pill">DNS</span> <span class="pill">DHCP</span> <span class="pill">NAT</span> <span class="pill">ARP</span> <span class="pill">ICMP</span></p>
+                </div>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 10. NETWORKING DEVICES -->
+            <!-- ============================================================ -->
+            <section id="devices">
+                <h2>10. Networking Devices</h2>
+                <div class="section-card">
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Device</th><th>Layer</th><th>Function</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Hub</strong></td><td>Physical (L1)</td><td>Broadcasts data to all ports</td></tr>
+                                <tr><td><strong>Switch</strong></td><td>Data Link (L2)</td><td>Forwards based on MAC address</td></tr>
+                                <tr><td><strong>Router</strong></td><td>Network (L3)</td><td>Routes between networks using IP</td></tr>
+                                <tr><td><strong>NIC</strong></td><td>L2</td><td>Hardware interface, has MAC address</td></tr>
+                                <tr><td><strong>Proxy Server</strong></td><td>Application</td><td>Intermediary, caching, filtering</td></tr>
+                                <tr><td><strong>Firewall</strong></td><td>L3/L4+</td><td>Filters traffic based on rules</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p><span class="pill">Hub</span> <span class="pill">Switch</span> <span class="pill">Router</span> <span class="pill">Firewall</span> <span class="pill">Proxy</span></p>
+                </div>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 11. SECURITY & VPN -->
+            <!-- ============================================================ -->
+            <section id="security">
+                <h2>11. Security &amp; VPN</h2>
+                <div class="section-card">
+                    <ul>
+                        <li><strong>VPN</strong> – secure, encrypted tunnel over public network; masks IP.</li>
+                        <li><strong>SSL/TLS</strong> – encryption for HTTPS, secure communication.</li>
+                        <li><strong>Firewall</strong> – monitors and controls traffic.</li>
+                        <li><strong>IDS/IPS</strong> – intrusion detection / prevention.</li>
+                        <li><strong>DMZ</strong> – buffer zone for external-facing services.</li>
+                        <li><strong>QoS</strong> – prioritizes critical traffic (VoIP, video).</li>
+                        <li><strong>Load Balancing</strong> – distributes traffic across servers.</li>
+                        <li><strong>Port Forwarding</strong> – directs external traffic to internal hosts.</li>
+                    </ul>
+                    <p><span class="pill">VPN</span> <span class="pill">SSL</span> <span class="pill">Firewall</span> <span class="pill">QoS</span></p>
+                </div>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 12. INTERVIEW Q&A -->
+            <!-- ============================================================ -->
+            <section id="interview">
+                <h2>12. Frequently Asked Interview Questions</h2>
+                <div class="section-card">
+                    <div style="display:grid; gap:1.2rem;">
+                        <div>
+                            <h4><i class="fas fa-question-circle" style="color:#4c8bcb;"></i> What is the OSI model?</h4>
+                            <p>A 7-layer framework: Physical, Data Link, Network, Transport, Session, Presentation, Application. Each layer has specific functions.</p>
+                        </div>
+                        <div>
+                            <h4><i class="fas fa-question-circle" style="color:#4c8bcb;"></i> TCP vs UDP?</h4>
+                            <p>TCP: connection-oriented, reliable, slower. UDP: connectionless, fast, no reliability. TCP for web/email, UDP for streaming/gaming.</p>
+                        </div>
+                        <div>
+                            <h4><i class="fas fa-question-circle" style="color:#4c8bcb;"></i> What is subnetting?</h4>
+                            <p>Dividing a network into smaller subnets to improve performance, security, and IP utilization.</p>
+                        </div>
+                        <div>
+                            <h4><i class="fas fa-question-circle" style="color:#4c8bcb;"></i> Difference between router and switch?</h4>
+                            <p>Router: connects networks (Layer 3), uses IP. Switch: connects devices within a LAN (Layer 2), uses MAC.</p>
+                        </div>
+                        <div>
+                            <h4><i class="fas fa-question-circle" style="color:#4c8bcb;"></i> What is DNS?</h4>
+                            <p>Translates domain names (www.google.com) to IP addresses. Works like a phonebook for the internet.</p>
+                        </div>
+                        <div>
+                            <h4><i class="fas fa-question-circle" style="color:#4c8bcb;"></i> What is DHCP?</h4>
+                            <p>Automatically assigns IP addresses to devices on a network.</p>
+                        </div>
+                        <div>
+                            <h4><i class="fas fa-question-circle" style="color:#4c8bcb;"></i> What is NAT?</h4>
+                            <p>Maps private IPs to a public IP, allowing multiple devices to share one public IP.</p>
+                        </div>
+                        <div>
+                            <h4><i class="fas fa-question-circle" style="color:#4c8bcb;"></i> What is ARP?</h4>
+                            <p>Resolves IP address to MAC address within a local network.</p>
+                        </div>
+                        <div>
+                            <h4><i class="fas fa-question-circle" style="color:#4c8bcb;"></i> What is ICMP used for?</h4>
+                            <p>Error reporting and diagnostics (ping, traceroute).</p>
+                        </div>
+                        <div>
+                            <h4><i class="fas fa-question-circle" style="color:#4c8bcb;"></i> Explain VLAN.</h4>
+                            <p>Virtual LAN – logically groups devices on the same physical switch into separate broadcast domains.</p>
+                        </div>
+                        <div>
+                            <h4><i class="fas fa-question-circle" style="color:#4c8bcb;"></i> What is the difference between HTTP and HTTPS?</h4>
+                            <p>HTTPS is HTTP with SSL/TLS encryption, ensuring secure data transmission.</p>
+                        </div>
+                        <div>
+                            <h4><i class="fas fa-question-circle" style="color:#4c8bcb;"></i> What is a firewall?</h4>
+                            <p>Security device/software that filters traffic based on rules.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 13. CLASSIC SCENARIO -->
+            <!-- ============================================================ -->
+            <section id="scenario">
+                <h2>13. Classic Scenario: What happens when you type www.google.com?</h2>
+                <div class="section-card">
+                    <ol>
+                        <li><strong>DNS lookup</strong> – browser checks cache, then queries DNS server to get Google's IP.</li>
+                        <li><strong>HTTP request</strong> – browser creates an HTTP GET request using TCP/IP.</li>
+                        <li><strong>Routing</strong> – packets travel through routers across the internet.</li>
+                        <li><strong>Server response</strong> – Google's server processes the request and sends back the webpage.</li>
+                        <li><strong>Rendering</strong> – browser renders HTML, CSS, JS, and displays the page.</li>
+                    </ol>
+                    <p><span class="pill">DNS → TCP/IP → Routing → Response → Render</span></p>
+                </div>
+            </section>
+
+            <!-- footer -->
+            <footer style="margin-top:3rem; padding:1rem 0; border-top:1px solid #1f3142; color:#6a8aaa; font-size:0.85rem; text-align:center;">
+                <i class="fas fa-book-open"></i> Computer Networks · Complete Interview Reference · Updated July 2026
+            </footer>
+
+        </main>
+    </div>
+
+    <script>
+        // Back to Top button
+        const backBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                backBtn.classList.add('visible');
+            } else {
+                backBtn.classList.remove('visible');
+            }
+        });
+        backBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Optional: smooth anchor scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
