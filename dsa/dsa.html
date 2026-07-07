@@ -1,0 +1,2880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complete DSA Revision Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ===== same styles as before – kept compact ===== */
+:root {
+  --bg: #0a0e1a; --bg2: #0f1528; --bg3: #151e38; --card: rgba(18,26,50,0.85);
+  --border: rgba(60,100,255,0.12); --border-h: rgba(60,100,255,0.3);
+  --accent: #4a7aff; --accent2: #8b5cf6; --accent3: #06d6a0;
+  --easy: #10b981; --medium: #f59e0b; --hard: #ef4444;
+  --text: #e0e6ff; --text2: #8899cc; --text3: #556688;
+  --radius: 1rem; --radius-s: 0.6rem;
+  --strong: #10b981; --needs-rev: #f59e0b; --forgot: #ef4444; --never: #6b7280;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+}
+body::before {
+  content:''; position:fixed; inset:0;
+  background:radial-gradient(ellipse at 20% 0%, rgba(74,122,255,0.04) 0%, transparent 50%),
+             radial-gradient(ellipse at 80% 100%, rgba(139,92,246,0.03) 0%, transparent 50%);
+  pointer-events:none; z-index:0;
+}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px;}
+::-webkit-scrollbar-thumb:hover{background:var(--accent);}
+.sidebar {
+  width:260px; min-width:260px; background:var(--bg2);
+  border-right:1px solid var(--border); height:100vh; position:sticky; top:0;
+  overflow-y:auto; padding:1.2rem 0; z-index:100;
+}
+.sidebar-logo {
+  padding:0 1.2rem 1rem; font-size:1.2rem; font-weight:800;
+  background:linear-gradient(135deg,#60a5fa,#a78bfa,#06d6a0);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  border-bottom:1px solid var(--border); margin-bottom:0.8rem;
+}
+.sidebar-section { padding:0.3rem 1.2rem; font-size:0.65rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text3); margin-top:0.3rem; }
+.sidebar-link {
+  display:flex; align-items:center; gap:0.5rem; padding:0.45rem 1.2rem;
+  font-size:0.76rem; color:var(--text2); text-decoration:none; transition:all 0.15s;
+  border-left:2px solid transparent; cursor:pointer;
+}
+.sidebar-link:hover{ background:rgba(74,122,255,0.06); color:var(--text); }
+.sidebar-link.active{ background:rgba(74,122,255,0.1); color:var(--accent); border-left-color:var(--accent); }
+.sidebar-link .count{ margin-left:auto; font-size:0.6rem; background:rgba(255,255,255,0.05); padding:1px 6px; border-radius:20px; color:var(--text3); }
+.main { flex:1; min-width:0; padding:0; position:relative; z-index:1; }
+.topbar {
+  display:flex; align-items:center; gap:0.8rem; padding:0.8rem 1.5rem;
+  background:rgba(15,21,40,0.85); backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border); position:sticky; top:0; z-index:50; flex-wrap:wrap;
+}
+.topbar h1{ font-size:1.1rem; font-weight:700; margin-right:auto; }
+.topbar .badge{ font-size:0.65rem; background:rgba(74,122,255,0.12); padding:0.2rem 0.7rem; border-radius:30px; border:1px solid rgba(74,122,255,0.2); color:var(--accent); }
+.topbar-actions{ display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center; }
+.btn {
+  padding:0.4rem 1rem; border-radius:30px; border:none; font-weight:600; font-size:0.75rem;
+  cursor:pointer; transition:all 0.2s; font-family:inherit; display:inline-flex; align-items:center; gap:0.4rem;
+}
+.btn-primary{ background:linear-gradient(135deg,#4a7aff,#6c5ce7); color:#fff; }
+.btn-primary:hover{ transform:translateY(-1px); box-shadow:0 4px 16px rgba(74,122,255,0.3); }
+.btn-secondary{ background:rgba(255,255,255,0.06); color:var(--text); border:1px solid var(--border); }
+.btn-secondary:hover{ background:rgba(255,255,255,0.1); border-color:var(--border-h); }
+.btn-sm{ padding:0.3rem 0.7rem; font-size:0.65rem; }
+.search-bar{ position:relative; min-width:180px; }
+.search-bar input{
+  width:100%; padding:0.4rem 0.8rem 0.4rem 2rem;
+  background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:30px;
+  color:var(--text); font-size:0.75rem; font-family:inherit; transition:all 0.2s;
+}
+.search-bar input:focus{ outline:none; border-color:var(--accent); }
+.search-bar input::placeholder{ color:var(--text3); }
+.search-bar i{ position:absolute; left:0.7rem; top:50%; transform:translateY(-50%); font-size:0.7rem; color:var(--text3); }
+.content{ padding:1.2rem 1.5rem; max-width:1200px; }
+.topic-section{ margin-bottom:2rem; scroll-margin-top:70px; }
+.topic-header{
+  display:flex; align-items:center; gap:0.6rem; padding:0.8rem 1.2rem;
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  margin-bottom:1rem; backdrop-filter:blur(12px);
+}
+.topic-header .icon{ width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1rem; background:rgba(74,122,255,0.1); color:var(--accent); }
+.topic-header h2{ font-size:1.05rem; font-weight:700; flex:1; }
+.topic-header .count-badge{ font-size:0.65rem; color:var(--text3); }
+.problem-card {
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  padding:1rem 1.2rem; margin-bottom:0.8rem; transition:all 0.2s; backdrop-filter:blur(8px);
+}
+.problem-card:hover{ border-color:var(--border-h); }
+.problem-card .top-row{
+  display:flex; flex-wrap:wrap; align-items:flex-start; gap:0.5rem; margin-bottom:0.5rem;
+}
+.problem-card .name{ font-size:0.95rem; font-weight:600; flex:1; min-width:180px; }
+.problem-card .difficulty{
+  font-size:0.6rem; padding:0.15rem 0.6rem; border-radius:20px; font-weight:600; text-transform:uppercase; height:fit-content;
+}
+.difficulty.easy{ background:rgba(16,185,129,0.12); color:var(--easy); border:1px solid rgba(16,185,129,0.2); }
+.difficulty.medium{ background:rgba(245,158,11,0.12); color:var(--medium); border:1px solid rgba(245,158,11,0.2); }
+.difficulty.hard{ background:rgba(239,68,68,0.12); color:var(--hard); border:1px solid rgba(239,68,68,0.2); }
+.problem-card .meta-row{ display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:0.5rem; }
+.problem-card .meta-tag{ font-size:0.62rem; padding:0.12rem 0.5rem; border-radius:20px; background:rgba(74,122,255,0.06); border:1px solid rgba(74,122,255,0.1); color:var(--text2); }
+.problem-card .meta-tag.pattern{ background:rgba(139,92,246,0.06); border-color:rgba(139,92,246,0.12); }
+.problem-card .meta-tag.complexity{ background:rgba(6,214,160,0.06); border-color:rgba(6,214,160,0.12); color:var(--accent3); }
+.revision-section {
+  margin-bottom:0.5rem; padding:0.5rem 0.7rem; background:rgba(0,0,0,0.15);
+  border-radius:var(--radius-s); border-left:2px solid rgba(139,92,246,0.3);
+}
+.revision-section .rev-title{ font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:0.25rem; }
+.revision-section .rev-content{ font-size:0.7rem; color:var(--text2); line-height:1.5; }
+.revision-section.pattern-rec{ border-left-color:rgba(6,214,160,0.3); }
+.revision-section.pattern-rec .rev-title{ color:var(--accent3); }
+.revision-section.edge-cases{ border-left-color:rgba(245,158,11,0.3); }
+.revision-section.edge-cases .rev-title{ color:var(--medium); }
+.revision-section.mistakes{ border-left-color:rgba(239,68,68,0.3); }
+.revision-section.mistakes .rev-title{ color:var(--hard); }
+.revision-section.formula{ border-left-color:rgba(74,122,255,0.4); }
+.revision-section.formula .rev-title{ color:var(--accent); }
+.problem-card .notes{ font-size:0.78rem; color:var(--text2); margin-bottom:0.5rem; line-height:1.5; padding:0.5rem 0.7rem; background:rgba(0,0,0,0.2); border-radius:var(--radius-s); border-left:2px solid rgba(74,122,255,0.2); }
+.problem-card .notes strong{ color:var(--accent3); }
+.code-block {
+  background:#0a0e1a; border:1px solid rgba(255,255,255,0.04); border-radius:var(--radius-s);
+  overflow:hidden; margin-bottom:0.3rem;
+}
+.code-block .code-header{
+  display:flex; justify-content:space-between; align-items:center; padding:0.3rem 0.7rem;
+  background:rgba(255,255,255,0.02); border-bottom:1px solid rgba(255,255,255,0.03);
+  font-size:0.6rem; color:var(--text3);
+}
+.code-block .copy-btn{ background:none; border:none; color:var(--text3); cursor:pointer; font-size:0.6rem; transition:color 0.15s; }
+.code-block .copy-btn:hover{ color:var(--accent); }
+.code-toolbar{ display:flex; gap:0.3rem; align-items:center; }
+.code-block pre{ margin:0; padding:0.7rem; font-family:'JetBrains Mono',monospace; font-size:0.68rem; line-height:1.45; overflow-x:auto; white-space:pre; color:#abb2bf; }
+.code-block pre .line-row{ display:flex; }
+.code-block pre .line-num{ display:inline-block; width:2.8em; text-align:right; padding-right:1em; color:rgba(255,255,255,0.12); user-select:none; flex-shrink:0; border-right:1px solid rgba(255,255,255,0.04); margin-right:0.8em; }
+.freq-badge{ font-size:0.55rem; padding:0.12rem 0.45rem; border-radius:12px; font-weight:600; }
+.freq-badge.freq-rare{ background:rgba(107,114,128,0.15); color:#9ca3af; border:1px solid rgba(107,114,128,0.2); }
+.freq-badge.freq-common{ background:rgba(245,158,11,0.12); color:#fbbf24; border:1px solid rgba(245,158,11,0.2); }
+.freq-badge.freq-must{ background:rgba(239,68,68,0.12); color:#f87171; border:1px solid rgba(239,68,68,0.25); }
+.confidence-row{ display:flex; gap:0.3rem; align-items:center; flex-wrap:wrap; }
+.conf-btn{ font-size:0.58rem; padding:0.18rem 0.5rem; border-radius:14px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.03); color:var(--text3); cursor:pointer; transition:all 0.2s; font-family:inherit; }
+.conf-btn:hover{ background:rgba(255,255,255,0.08); }
+.conf-btn.strong.active{ background:rgba(16,185,129,0.2); border-color:var(--strong); color:var(--strong); }
+.conf-btn.needs-rev.active{ background:rgba(245,158,11,0.2); border-color:var(--needs-rev); color:var(--needs-rev); }
+.conf-btn.forgot.active{ background:rgba(239,68,68,0.2); border-color:var(--forgot); color:var(--forgot); }
+.last-revised{ font-size:0.58rem; color:var(--text3); display:flex; align-items:center; gap:0.2rem; margin-bottom:0.3rem; }
+.stats-strip{ display:flex; flex-wrap:wrap; gap:1.2rem; padding:0.6rem 1rem; margin-bottom:1rem; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); font-size:0.72rem; color:var(--text2); align-items:center; }
+.stats-strip span{ display:flex; align-items:center; gap:0.3rem; }
+.mastery-dashboard{ background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:1rem 1.2rem; margin-bottom:1rem; backdrop-filter:blur(8px); }
+.mastery-dashboard h3{ font-size:0.85rem; font-weight:700; margin-bottom:0.6rem; display:flex; align-items:center; gap:0.4rem; }
+.mastery-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:0.7rem; margin-bottom:0.8rem; }
+.mastery-card{ background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:var(--radius-s); padding:0.7rem; text-align:center; }
+.mastery-card .count{ font-size:1.6rem; font-weight:800; }
+.mastery-card .label{ font-size:0.6rem; color:var(--text3); text-transform:uppercase; letter-spacing:0.05em; }
+.mastery-card.strong .count{ color:var(--strong); }
+.mastery-card.needs-rev .count{ color:var(--needs-rev); }
+.mastery-card.forgot .count{ color:var(--forgot); }
+.mastery-card.never .count{ color:var(--never); }
+.filter-chips{ display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:1rem; }
+.filter-chip{ padding:0.25rem 0.7rem; border-radius:30px; font-size:0.68rem; cursor:pointer; background:rgba(255,255,255,0.04); border:1px solid var(--border); color:var(--text2); transition:all 0.15s; font-family:inherit; }
+.filter-chip:hover{ background:rgba(74,122,255,0.08); color:var(--text); }
+.filter-chip.active{ background:rgba(74,122,255,0.15); border-color:var(--accent); color:var(--accent); }
+.progress-strip{ display:flex; flex-wrap:wrap; gap:0.8rem; padding:0.5rem 0.8rem; margin-bottom:0.8rem; background:rgba(6,214,160,0.04); border:1px solid rgba(6,214,160,0.12); border-radius:var(--radius-s); font-size:0.65rem; align-items:center; color:var(--text2); }
+.progress-strip .streak{ color:var(--accent3); font-weight:700; }
+.mode-toggle{ display:flex; align-items:center; gap:0.4rem; font-size:0.65rem; color:var(--text2); }
+.mode-toggle .switch{ position:relative; width:40px; height:22px; background:rgba(255,255,255,0.1); border-radius:20px; cursor:pointer; border:1px solid var(--border); transition:all 0.2s; }
+.mode-toggle .switch::after{ content:''; position:absolute; width:16px; height:16px; background:var(--text3); border-radius:50%; top:2px; left:3px; transition:all 0.2s; }
+.mode-toggle .switch.revision-mode{ background:rgba(139,92,246,0.25); border-color:var(--accent2); }
+.mode-toggle .switch.revision-mode::after{ background:var(--accent2); left:19px; }
+.flashcard-overlay{
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); backdrop-filter:blur(16px);
+  z-index:3000; align-items:center; justify-content:center; flex-direction:column; gap:1rem;
+}
+.flashcard-overlay.show{ display:flex; }
+.flashcard{ width:90%; max-width:520px; min-height:280px; perspective:1000px; cursor:pointer; }
+.flashcard-inner{ position:relative; width:100%; height:100%; min-height:280px; transition:transform 0.5s; transform-style:preserve-3d; }
+.flashcard-inner.flipped{ transform:rotateY(180deg); }
+.flashcard-front,.flashcard-back{ position:absolute; width:100%; height:100%; min-height:280px; backface-visibility:hidden; border-radius:var(--radius); border:2px solid var(--border); padding:2rem; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+.flashcard-front{ background:var(--bg2); }
+.flashcard-front h2{ font-size:1.3rem; font-weight:700; margin-bottom:0.5rem; }
+.flashcard-front .fc-topic{ font-size:0.7rem; color:var(--text3); }
+.flashcard-back{ background:var(--bg2); transform:rotateY(180deg); text-align:left; align-items:flex-start; justify-content:flex-start; overflow-y:auto; gap:0.6rem; }
+.flashcard-back .fc-section{ font-size:0.72rem; color:var(--text2); line-height:1.5; }
+.flashcard-back .fc-section strong{ color:var(--accent); }
+.flashcard-nav{ display:flex; gap:0.8rem; align-items:center; color:var(--text2); font-size:0.7rem; }
+.flashcard-nav .nav-hint{ color:var(--text3); font-size:0.6rem; }
+.modal-overlay{
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(12px);
+  z-index:1000; align-items:center; justify-content:center;
+}
+.modal-overlay.show{ display:flex; }
+.modal-box{ background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem; max-width:600px; width:92%; max-height:85vh; overflow-y:auto; }
+.modal-box h3{ font-size:1rem; margin-bottom:1rem; display:flex; align-items:center; gap:0.5rem; }
+.modal-box .form-group{ margin-bottom:0.8rem; }
+.modal-box label{ display:block; font-size:0.72rem; color:var(--text2); margin-bottom:0.3rem; font-weight:500; }
+.modal-box select,.modal-box input{ width:100%; padding:0.5rem 0.7rem; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:var(--radius-s); color:var(--text); font-size:0.78rem; font-family:inherit; }
+.modal-box select:focus,.modal-box input:focus{ outline:none; border-color:var(--accent); }
+.modal-box .modal-actions{ display:flex; gap:0.5rem; margin-top:0.8rem; flex-wrap:wrap; }
+.random-result{ display:none; margin-top:1rem; padding:1rem; background:rgba(74,122,255,0.06); border:1px solid rgba(74,122,255,0.15); border-radius:var(--radius); animation:slideUp 0.3s ease; }
+.random-result.show{ display:block; }
+@keyframes slideUp{ from{ opacity:0; transform:translateY(12px); } to{ opacity:1; transform:translateY(0); } }
+body.cheat-sheet-mode .code-block{ display:none; }
+body.cheat-sheet-mode .notes{ display:none; }
+.mobile-toggle{
+  display:none; position:fixed; bottom:1rem; right:1rem; width:44px; height:44px;
+  border-radius:50%; background:var(--accent); color:#fff; border:none; font-size:1.1rem;
+  cursor:pointer; z-index:200; box-shadow:0 4px 16px rgba(74,122,255,0.4);
+}
+.sidebar-backdrop{ display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:250; }
+.sidebar-backdrop.show{ display:block; }
+@media (max-width:900px){
+  .sidebar{ display:none; position:fixed; left:0; top:0; z-index:300; width:280px; }
+  .sidebar.show{ display:block; }
+  .mobile-toggle{ display:flex; align-items:center; justify-content:center; }
+  .content{ padding:1rem; }
+  .topbar{ padding:0.6rem 1rem; }
+}
+@media (max-width:600px){
+  .topbar h1{ font-size:0.9rem; width:100%; }
+  .topbar-actions{ width:100%; }
+  .search-bar{ width:100%; }
+  .problem-card .name{ font-size:0.85rem; }
+  .code-block pre{ font-size:0.6rem; }
+}
+</style>
+</head>
+<body>
+
+<button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">⚡ Complete DSA</div>
+  <div class="sidebar-section">Topics</div>
+  <div id="sidebarLinks"></div>
+  <div style="margin-top:1rem;padding:0.8rem 1.2rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.4rem;">
+    <button onclick="openRandomPicker()" class="btn btn-primary" style="width:100%;justify-content:center;font-size:0.72rem">
+      <i class="fas fa-dice"></i> Random Problem
+    </button>
+    <button onclick="openFlashcardMode()" class="btn btn-secondary" style="width:100%;justify-content:center;font-size:0.68rem">
+      <i class="fas fa-bolt"></i> Rapid Revision
+    </button>
+  </div>
+</nav>
+
+<!-- Main -->
+<div class="main">
+  <div class="topbar">
+    <h1>📚 Complete DSA Revision</h1>
+    <span class="badge"><i class="fas fa-database"></i> <span id="totalCount">0</span> problems</span>
+    <div class="mode-toggle">
+      <span id="modeLabel">Normal</span>
+      <div class="switch" id="modeSwitch" onclick="toggleCheatSheetMode()" title="Toggle Cheat Sheet Mode"></div>
+      <span style="color:var(--text3)">Cheat Sheet</span>
+    </div>
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Search problems..." oninput="filterProblems()">
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-primary" onclick="openRandomPicker()"><i class="fas fa-dice"></i> Random</button>
+      <button class="btn btn-secondary" onclick="openFlashcardMode()" title="Rapid Revision"><i class="fas fa-bolt"></i></button>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="progress-strip" id="progressStrip"></div>
+    <div class="mastery-dashboard" id="masteryDashboard">
+      <h3><i class="fas fa-chart-pie" style="color:var(--accent2)"></i> Pattern Mastery Dashboard</h3>
+      <div class="mastery-grid" id="masteryGrid"></div>
+      <div id="masteryTopics"></div>
+    </div>
+    <div class="filter-chips" id="filterChips">
+      <button class="filter-chip active" data-filter="all" onclick="setFilter('all')">All</button>
+    </div>
+    <div class="stats-strip" id="statsStrip"></div>
+    <div id="problemContainer"></div>
+  </div>
+</div>
+
+<!-- Random Picker Modal -->
+<div class="modal-overlay" id="randomModal">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+      <h3><i class="fas fa-dice-d6" style="color:var(--accent)"></i> Smart Random Revision</h3>
+      <button onclick="closeRandomPicker()" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:1rem;"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="form-group">
+      <label>Revision Mode</label>
+      <select id="randomMode">
+        <option value="any">🎲 Mixed Mock Interview Mode</option>
+        <option value="forgot">🔴 Only Forgotten Problems</option>
+        <option value="needs-rev">🟡 Only Needs Revision</option>
+        <option value="must-know">🔥 Only Must Know Problems</option>
+        <option value="never-reviewed">📭 Never Reviewed</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Filter by Topic</label>
+      <select id="randomTopicFilter"><option value="all">All Topics</option></select>
+    </div>
+    <div class="form-group">
+      <label>Filter by Difficulty</label>
+      <select id="randomDifficultyFilter">
+        <option value="all">Any Difficulty</option>
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="pickRandom()"><i class="fas fa-dice"></i> Pick Random</button>
+      <button class="btn btn-secondary" onclick="closeRandomPicker()">Close</button>
+    </div>
+    <div class="random-result" id="randomResult"></div>
+  </div>
+</div>
+
+<!-- Flashcard Modal -->
+<div class="flashcard-overlay" id="flashcardOverlay">
+  <div class="flashcard" id="flashcard" onclick="flipFlashcard()">
+    <div class="flashcard-inner" id="flashcardInner">
+      <div class="flashcard-front" id="flashcardFront">
+        <h2 id="fcName">Problem Name</h2>
+        <span class="fc-topic" id="fcTopic"></span>
+        <span style="margin-top:0.5rem;font-size:0.6rem;color:var(--text3)">Click or press Space to flip</span>
+      </div>
+      <div class="flashcard-back" id="flashcardBack">
+        <div class="fc-section"><strong>🧠 Pattern:</strong> <span id="fcPattern"></span></div>
+        <div class="fc-section"><strong>💡 Key Idea:</strong> <span id="fcKeyIdea"></span></div>
+        <div class="fc-section"><strong>⚠️ Edge Cases:</strong> <span id="fcEdges"></span></div>
+        <div class="fc-section"><strong>🎯 Formula:</strong> <span id="fcFormula"></span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flashcard-nav">
+    <button class="btn btn-sm btn-secondary" onclick="prevFlashcard()"><i class="fas fa-arrow-left"></i> Prev</button>
+    <span id="fcCounter">1 / 1</span>
+    <button class="btn btn-sm btn-secondary" onclick="nextFlashcard()">Next <i class="fas fa-arrow-right"></i></button>
+    <span class="nav-hint">← → arrow keys | Space to flip</span>
+  </div>
+  <button class="btn btn-sm btn-secondary" onclick="closeFlashcardMode()" style="margin-top:0.5rem"><i class="fas fa-times"></i> Exit Rapid Revision</button>
+</div>
+
+<script>
+// ============================================================
+//  DATA – All topics covered, with template literals for code
+// ============================================================
+(function() {
+  "use strict";
+
+  const PROBLEMS = [];
+
+  function addProblem(topic, name, difficulty, pattern, code, tc, sc, notes, rev5, patternRec, edgeCases, mistakes, formula, freq = 1, link = '') {
+    PROBLEMS.push({
+      id: 'p' + PROBLEMS.length,
+      topic, name, difficulty, pattern, code, tc, sc,
+      notes: notes || '',
+      revision5sec: rev5 || '',
+      patternRecognition: patternRec || '',
+      edgeCases: edgeCases || '',
+      commonMistakes: mistakes || '',
+      keyFormula: formula || '',
+      frequency: freq,
+      link: link || ''
+    });
+  }
+
+  const TOPIC_DATA = [
+  {
+    "topic": "Arrays",
+    "items": [
+      {
+        "name": "Prefix Sum",
+        "group": "Traversal"
+      },
+      {
+        "name": "Suffix Sum",
+        "group": "Traversal"
+      },
+      {
+        "name": "Difference Array",
+        "group": "Traversal"
+      },
+      {
+        "name": "Kadane's Algorithm",
+        "group": "Traversal"
+      },
+      {
+        "name": "Sliding Window (Fixed)",
+        "group": "Traversal"
+      },
+      {
+        "name": "Sliding Window (Variable)",
+        "group": "Traversal"
+      },
+      {
+        "name": "Two Pointers",
+        "group": "Traversal"
+      },
+      {
+        "name": "Dutch National Flag",
+        "group": "Traversal"
+      },
+      {
+        "name": "Boyer-Moore Voting Algorithm",
+        "group": "Traversal"
+      },
+      {
+        "name": "Moore's Voting Algorithm",
+        "group": "Traversal"
+      },
+      {
+        "name": "Merge Intervals",
+        "group": "Traversal"
+      },
+      {
+        "name": "Sweep Line",
+        "group": "Traversal"
+      },
+      {
+        "name": "Coordinate Compression",
+        "group": "Traversal"
+      },
+      {
+        "name": "Monotonic Array",
+        "group": "Traversal"
+      }
+    ]
+  },
+  {
+    "topic": "Sorting",
+    "items": [
+      {
+        "name": "Bubble Sort",
+        "group": "Basic"
+      },
+      {
+        "name": "Selection Sort",
+        "group": "Basic"
+      },
+      {
+        "name": "Insertion Sort",
+        "group": "Basic"
+      },
+      {
+        "name": "Merge Sort",
+        "group": "Intermediate"
+      },
+      {
+        "name": "Quick Sort",
+        "group": "Intermediate"
+      },
+      {
+        "name": "Heap Sort",
+        "group": "Intermediate"
+      },
+      {
+        "name": "Shell Sort",
+        "group": "Intermediate"
+      },
+      {
+        "name": "Counting Sort",
+        "group": "Advanced"
+      },
+      {
+        "name": "Radix Sort",
+        "group": "Advanced"
+      },
+      {
+        "name": "Bucket Sort",
+        "group": "Advanced"
+      },
+      {
+        "name": "TimSort",
+        "group": "Advanced"
+      },
+      {
+        "name": "IntroSort",
+        "group": "Advanced"
+      },
+      {
+        "name": "External Merge Sort",
+        "group": "Advanced"
+      }
+    ]
+  },
+  {
+    "topic": "Searching",
+    "items": [
+      {
+        "name": "Linear Search",
+        "group": ""
+      },
+      {
+        "name": "Binary Search",
+        "group": ""
+      },
+      {
+        "name": "Lower Bound",
+        "group": ""
+      },
+      {
+        "name": "Upper Bound",
+        "group": ""
+      },
+      {
+        "name": "Binary Search on Answer",
+        "group": ""
+      },
+      {
+        "name": "Ternary Search",
+        "group": ""
+      },
+      {
+        "name": "Exponential Search",
+        "group": ""
+      },
+      {
+        "name": "Jump Search",
+        "group": ""
+      },
+      {
+        "name": "Interpolation Search",
+        "group": ""
+      },
+      {
+        "name": "Fibonacci Search",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Strings",
+    "items": [
+      {
+        "name": "Brute Force Matching",
+        "group": "Basic"
+      },
+      {
+        "name": "Rabin-Karp",
+        "group": "Intermediate"
+      },
+      {
+        "name": "KMP",
+        "group": "Intermediate"
+      },
+      {
+        "name": "Z Algorithm",
+        "group": "Intermediate"
+      },
+      {
+        "name": "Manacher's Algorithm",
+        "group": "Advanced"
+      },
+      {
+        "name": "Trie",
+        "group": "Advanced"
+      },
+      {
+        "name": "Aho-Corasick",
+        "group": "Advanced"
+      },
+      {
+        "name": "Suffix Array",
+        "group": "Advanced"
+      },
+      {
+        "name": "Suffix Automaton",
+        "group": "Advanced"
+      },
+      {
+        "name": "Suffix Tree",
+        "group": "Advanced"
+      },
+      {
+        "name": "Rolling Hash",
+        "group": "Advanced"
+      },
+      {
+        "name": "Polynomial Hashing",
+        "group": "Advanced"
+      },
+      {
+        "name": "Prefix Function (LPS)",
+        "group": "Advanced"
+      }
+    ]
+  },
+  {
+    "topic": "Linked List",
+    "items": [
+      {
+        "name": "Reverse Linked List",
+        "group": ""
+      },
+      {
+        "name": "Floyd Cycle Detection",
+        "group": ""
+      },
+      {
+        "name": "Find Middle",
+        "group": ""
+      },
+      {
+        "name": "Merge Two Lists",
+        "group": ""
+      },
+      {
+        "name": "Merge K Lists",
+        "group": ""
+      },
+      {
+        "name": "Detect Loop",
+        "group": ""
+      },
+      {
+        "name": "Remove Loop",
+        "group": ""
+      },
+      {
+        "name": "LRU Cache",
+        "group": ""
+      },
+      {
+        "name": "Clone Linked List",
+        "group": ""
+      },
+      {
+        "name": "Intersection Point",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Stack",
+    "items": [
+      {
+        "name": "Next Greater Element",
+        "group": ""
+      },
+      {
+        "name": "Previous Greater Element",
+        "group": ""
+      },
+      {
+        "name": "Next Smaller Element",
+        "group": ""
+      },
+      {
+        "name": "Previous Smaller Element",
+        "group": ""
+      },
+      {
+        "name": "Monotonic Stack",
+        "group": ""
+      },
+      {
+        "name": "Largest Rectangle in Histogram",
+        "group": ""
+      },
+      {
+        "name": "Stock Span",
+        "group": ""
+      },
+      {
+        "name": "Min Stack",
+        "group": ""
+      },
+      {
+        "name": "Infix to Postfix",
+        "group": ""
+      },
+      {
+        "name": "Infix to Prefix",
+        "group": ""
+      },
+      {
+        "name": "Prefix Evaluation",
+        "group": ""
+      },
+      {
+        "name": "Postfix Evaluation",
+        "group": ""
+      },
+      {
+        "name": "Balanced Parentheses",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Queue",
+    "items": [
+      {
+        "name": "Circular Queue",
+        "group": ""
+      },
+      {
+        "name": "Deque",
+        "group": ""
+      },
+      {
+        "name": "Monotonic Queue",
+        "group": ""
+      },
+      {
+        "name": "Sliding Window Maximum",
+        "group": ""
+      },
+      {
+        "name": "Priority Queue",
+        "group": ""
+      },
+      {
+        "name": "BFS Queue",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Hashing",
+    "items": [
+      {
+        "name": "Frequency Counting",
+        "group": ""
+      },
+      {
+        "name": "Prefix Hash",
+        "group": ""
+      },
+      {
+        "name": "Double Hashing",
+        "group": ""
+      },
+      {
+        "name": "Open Addressing",
+        "group": ""
+      },
+      {
+        "name": "Separate Chaining",
+        "group": ""
+      },
+      {
+        "name": "Polynomial Rolling Hash",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Recursion",
+    "items": [
+      {
+        "name": "Backtracking Basics",
+        "group": ""
+      },
+      {
+        "name": "Divide and Conquer",
+        "group": ""
+      },
+      {
+        "name": "Memoization",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Backtracking",
+    "items": [
+      {
+        "name": "Subsets",
+        "group": ""
+      },
+      {
+        "name": "Permutations",
+        "group": ""
+      },
+      {
+        "name": "Combination Sum",
+        "group": ""
+      },
+      {
+        "name": "N Queens",
+        "group": ""
+      },
+      {
+        "name": "Sudoku Solver",
+        "group": ""
+      },
+      {
+        "name": "Rat in Maze",
+        "group": ""
+      },
+      {
+        "name": "Word Search",
+        "group": ""
+      },
+      {
+        "name": "Palindrome Partition",
+        "group": ""
+      },
+      {
+        "name": "M Coloring",
+        "group": ""
+      },
+      {
+        "name": "Knight Tour",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Trees",
+    "items": [
+      {
+        "name": "DFS",
+        "group": "Traversal"
+      },
+      {
+        "name": "BFS",
+        "group": "Traversal"
+      },
+      {
+        "name": "Level Order",
+        "group": "Traversal"
+      },
+      {
+        "name": "Preorder",
+        "group": "Traversal"
+      },
+      {
+        "name": "Inorder",
+        "group": "Traversal"
+      },
+      {
+        "name": "Postorder",
+        "group": "Traversal"
+      },
+      {
+        "name": "Morris Traversal",
+        "group": "Traversal"
+      },
+      {
+        "name": "Diameter",
+        "group": "Binary Tree"
+      },
+      {
+        "name": "Height",
+        "group": "Binary Tree"
+      },
+      {
+        "name": "Balanced Tree",
+        "group": "Binary Tree"
+      },
+      {
+        "name": "Lowest Common Ancestor",
+        "group": "Binary Tree"
+      },
+      {
+        "name": "Boundary Traversal",
+        "group": "Binary Tree"
+      },
+      {
+        "name": "Vertical Order",
+        "group": "Binary Tree"
+      },
+      {
+        "name": "Top View",
+        "group": "Binary Tree"
+      },
+      {
+        "name": "Bottom View",
+        "group": "Binary Tree"
+      },
+      {
+        "name": "Left View",
+        "group": "Binary Tree"
+      },
+      {
+        "name": "Right View",
+        "group": "Binary Tree"
+      },
+      {
+        "name": "Zigzag Traversal",
+        "group": "Binary Tree"
+      },
+      {
+        "name": "Serialize",
+        "group": "Binary Tree"
+      },
+      {
+        "name": "Deserialize",
+        "group": "Binary Tree"
+      },
+      {
+        "name": "Burn Tree",
+        "group": "Binary Tree"
+      },
+      {
+        "name": "Flatten Tree",
+        "group": "Binary Tree"
+      }
+    ]
+  },
+  {
+    "topic": "Binary Search Tree",
+    "items": [
+      {
+        "name": "Search",
+        "group": ""
+      },
+      {
+        "name": "Insert",
+        "group": ""
+      },
+      {
+        "name": "Delete",
+        "group": ""
+      },
+      {
+        "name": "Floor",
+        "group": ""
+      },
+      {
+        "name": "Ceil",
+        "group": ""
+      },
+      {
+        "name": "Kth Smallest",
+        "group": ""
+      },
+      {
+        "name": "Kth Largest",
+        "group": ""
+      },
+      {
+        "name": "Validate BST",
+        "group": ""
+      },
+      {
+        "name": "Recover BST",
+        "group": ""
+      },
+      {
+        "name": "BST Iterator",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Heap",
+    "items": [
+      {
+        "name": "Heapify",
+        "group": ""
+      },
+      {
+        "name": "Build Heap",
+        "group": ""
+      },
+      {
+        "name": "Heap Sort",
+        "group": ""
+      },
+      {
+        "name": "K Largest",
+        "group": ""
+      },
+      {
+        "name": "K Smallest",
+        "group": ""
+      },
+      {
+        "name": "Median Finder",
+        "group": ""
+      },
+      {
+        "name": "Merge K Sorted Arrays",
+        "group": ""
+      },
+      {
+        "name": "Merge K Lists",
+        "group": ""
+      },
+      {
+        "name": "Priority Scheduling",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Trie",
+    "items": [
+      {
+        "name": "Insert",
+        "group": ""
+      },
+      {
+        "name": "Delete",
+        "group": ""
+      },
+      {
+        "name": "Search",
+        "group": ""
+      },
+      {
+        "name": "Prefix Search",
+        "group": ""
+      },
+      {
+        "name": "Maximum XOR",
+        "group": ""
+      },
+      {
+        "name": "Auto Complete",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Greedy",
+    "items": [
+      {
+        "name": "Activity Selection",
+        "group": ""
+      },
+      {
+        "name": "Fractional Knapsack",
+        "group": ""
+      },
+      {
+        "name": "Job Sequencing",
+        "group": ""
+      },
+      {
+        "name": "Huffman Coding",
+        "group": ""
+      },
+      {
+        "name": "Gas Station",
+        "group": ""
+      },
+      {
+        "name": "Jump Game",
+        "group": ""
+      },
+      {
+        "name": "Minimum Platforms",
+        "group": ""
+      },
+      {
+        "name": "Interval Scheduling",
+        "group": ""
+      },
+      {
+        "name": "Candy Distribution",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Graphs",
+    "items": [
+      {
+        "name": "BFS",
+        "group": "Traversal"
+      },
+      {
+        "name": "DFS",
+        "group": "Traversal"
+      },
+      {
+        "name": "Dijkstra",
+        "group": "Shortest Path"
+      },
+      {
+        "name": "Bellman Ford",
+        "group": "Shortest Path"
+      },
+      {
+        "name": "Floyd Warshall",
+        "group": "Shortest Path"
+      },
+      {
+        "name": "Johnson",
+        "group": "Shortest Path"
+      },
+      {
+        "name": "Kruskal",
+        "group": "Minimum Spanning Tree"
+      },
+      {
+        "name": "Prim",
+        "group": "Minimum Spanning Tree"
+      },
+      {
+        "name": "Boruvka",
+        "group": "Minimum Spanning Tree"
+      },
+      {
+        "name": "Kahn's Algorithm",
+        "group": "Topological"
+      },
+      {
+        "name": "DFS Topological Sort",
+        "group": "Topological"
+      },
+      {
+        "name": "Kosaraju",
+        "group": "Connectivity"
+      },
+      {
+        "name": "Tarjan SCC",
+        "group": "Connectivity"
+      },
+      {
+        "name": "Bridges",
+        "group": "Connectivity"
+      },
+      {
+        "name": "Articulation Points",
+        "group": "Connectivity"
+      },
+      {
+        "name": "Union Find",
+        "group": "Cycle Detection"
+      },
+      {
+        "name": "Bipartite Graph",
+        "group": "Other"
+      },
+      {
+        "name": "Euler Path",
+        "group": "Other"
+      },
+      {
+        "name": "Euler Circuit",
+        "group": "Other"
+      },
+      {
+        "name": "Hamiltonian Path",
+        "group": "Other"
+      },
+      {
+        "name": "Hamiltonian Cycle",
+        "group": "Other"
+      },
+      {
+        "name": "Graph Coloring",
+        "group": "Other"
+      },
+      {
+        "name": "Multi Source BFS",
+        "group": "Other"
+      },
+      {
+        "name": "0-1 BFS",
+        "group": "Other"
+      },
+      {
+        "name": "Alien Dictionary",
+        "group": "Other"
+      },
+      {
+        "name": "Clone Graph",
+        "group": "Other"
+      }
+    ]
+  },
+  {
+    "topic": "Disjoint Set Union (Union Find)",
+    "items": [
+      {
+        "name": "Path Compression",
+        "group": ""
+      },
+      {
+        "name": "Union by Rank",
+        "group": ""
+      },
+      {
+        "name": "Union by Size",
+        "group": ""
+      },
+      {
+        "name": "Kruskal Applications",
+        "group": ""
+      },
+      {
+        "name": "Dynamic Connectivity",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Dynamic Programming",
+    "items": [
+      {
+        "name": "Fibonacci",
+        "group": "Basic"
+      },
+      {
+        "name": "Climbing Stairs",
+        "group": "Basic"
+      },
+      {
+        "name": "Frog Jump",
+        "group": "Basic"
+      },
+      {
+        "name": "House Robber",
+        "group": "1D DP"
+      },
+      {
+        "name": "Decode Ways",
+        "group": "1D DP"
+      },
+      {
+        "name": "Coin Change",
+        "group": "1D DP"
+      },
+      {
+        "name": "LIS",
+        "group": "1D DP"
+      },
+      {
+        "name": "LCS",
+        "group": "2D DP"
+      },
+      {
+        "name": "Longest Common Substring",
+        "group": "2D DP"
+      },
+      {
+        "name": "Edit Distance",
+        "group": "2D DP"
+      },
+      {
+        "name": "Distinct Subsequences",
+        "group": "2D DP"
+      },
+      {
+        "name": "Palindrome DP",
+        "group": "2D DP"
+      },
+      {
+        "name": "Matrix Chain Multiplication",
+        "group": "2D DP"
+      },
+      {
+        "name": "Burst Balloons",
+        "group": "2D DP"
+      },
+      {
+        "name": "0/1 Knapsack",
+        "group": "Knapsack"
+      },
+      {
+        "name": "Unbounded Knapsack",
+        "group": "Knapsack"
+      },
+      {
+        "name": "Subset Sum",
+        "group": "Knapsack"
+      },
+      {
+        "name": "Partition Equal Subset",
+        "group": "Knapsack"
+      },
+      {
+        "name": "Unique Paths",
+        "group": "Grid DP"
+      },
+      {
+        "name": "Minimum Path Sum",
+        "group": "Grid DP"
+      },
+      {
+        "name": "Cherry Pickup",
+        "group": "Grid DP"
+      },
+      {
+        "name": "Diameter DP",
+        "group": "Tree DP"
+      },
+      {
+        "name": "Rerooting",
+        "group": "Tree DP"
+      },
+      {
+        "name": "Traveling Salesman",
+        "group": "Bitmask DP"
+      },
+      {
+        "name": "Assignment Problem",
+        "group": "Bitmask DP"
+      },
+      {
+        "name": "Count Numbers",
+        "group": "Digit DP"
+      },
+      {
+        "name": "Sum of Digits",
+        "group": "Digit DP"
+      },
+      {
+        "name": "DP on Trees",
+        "group": "Advanced"
+      },
+      {
+        "name": "DP on DAG",
+        "group": "Advanced"
+      },
+      {
+        "name": "Interval DP",
+        "group": "Advanced"
+      },
+      {
+        "name": "Profile DP",
+        "group": "Advanced"
+      },
+      {
+        "name": "State Compression DP",
+        "group": "Advanced"
+      },
+      {
+        "name": "Divide & Conquer DP",
+        "group": "Advanced"
+      },
+      {
+        "name": "Knuth Optimization",
+        "group": "Advanced"
+      },
+      {
+        "name": "Convex Hull Trick",
+        "group": "Advanced"
+      },
+      {
+        "name": "SOS DP",
+        "group": "Advanced"
+      }
+    ]
+  },
+  {
+    "topic": "Bit Manipulation",
+    "items": [
+      {
+        "name": "XOR Tricks",
+        "group": ""
+      },
+      {
+        "name": "Power of Two",
+        "group": ""
+      },
+      {
+        "name": "Count Set Bits",
+        "group": ""
+      },
+      {
+        "name": "Brian Kernighan",
+        "group": ""
+      },
+      {
+        "name": "Gray Code",
+        "group": ""
+      },
+      {
+        "name": "Bitmasking",
+        "group": ""
+      },
+      {
+        "name": "Subset Enumeration",
+        "group": ""
+      },
+      {
+        "name": "Fast Exponentiation",
+        "group": ""
+      },
+      {
+        "name": "Fast Multiplication",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Mathematics",
+    "items": [
+      {
+        "name": "Euclidean GCD",
+        "group": ""
+      },
+      {
+        "name": "Extended Euclid",
+        "group": ""
+      },
+      {
+        "name": "LCM",
+        "group": ""
+      },
+      {
+        "name": "Prime Sieve",
+        "group": ""
+      },
+      {
+        "name": "Segmented Sieve",
+        "group": ""
+      },
+      {
+        "name": "Euler Totient",
+        "group": ""
+      },
+      {
+        "name": "Modular Arithmetic",
+        "group": ""
+      },
+      {
+        "name": "Modular Exponentiation",
+        "group": ""
+      },
+      {
+        "name": "Modular Inverse",
+        "group": ""
+      },
+      {
+        "name": "Chinese Remainder",
+        "group": ""
+      },
+      {
+        "name": "Fermat Little Theorem",
+        "group": ""
+      },
+      {
+        "name": "Miller Rabin",
+        "group": ""
+      },
+      {
+        "name": "Pollard Rho",
+        "group": ""
+      },
+      {
+        "name": "Catalan Numbers",
+        "group": ""
+      },
+      {
+        "name": "Pascal Triangle",
+        "group": ""
+      },
+      {
+        "name": "Binomial Coefficient",
+        "group": ""
+      },
+      {
+        "name": "Matrix Exponentiation",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Segment Trees",
+    "items": [
+      {
+        "name": "Range Sum",
+        "group": ""
+      },
+      {
+        "name": "Range Minimum",
+        "group": ""
+      },
+      {
+        "name": "Lazy Propagation",
+        "group": ""
+      },
+      {
+        "name": "Persistent Segment Tree",
+        "group": ""
+      },
+      {
+        "name": "Merge Sort Tree",
+        "group": ""
+      },
+      {
+        "name": "Dynamic Segment Tree",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Fenwick Tree (BIT)",
+    "items": [
+      {
+        "name": "Point Update",
+        "group": ""
+      },
+      {
+        "name": "Range Sum",
+        "group": ""
+      },
+      {
+        "name": "Range Update",
+        "group": ""
+      },
+      {
+        "name": "2D BIT",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Sparse Table",
+    "items": [
+      {
+        "name": "RMQ",
+        "group": ""
+      },
+      {
+        "name": "Static Queries",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Advanced Trees",
+    "items": [
+      {
+        "name": "AVL Tree",
+        "group": ""
+      },
+      {
+        "name": "Red Black Tree",
+        "group": ""
+      },
+      {
+        "name": "Splay Tree",
+        "group": ""
+      },
+      {
+        "name": "Treap",
+        "group": ""
+      },
+      {
+        "name": "B Tree",
+        "group": ""
+      },
+      {
+        "name": "B+ Tree",
+        "group": ""
+      },
+      {
+        "name": "Segment Tree",
+        "group": ""
+      },
+      {
+        "name": "Fenwick Tree",
+        "group": ""
+      },
+      {
+        "name": "KD Tree",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Advanced Graph Algorithms",
+    "items": [
+      {
+        "name": "Dinic Max Flow",
+        "group": ""
+      },
+      {
+        "name": "Edmonds Karp",
+        "group": ""
+      },
+      {
+        "name": "Ford Fulkerson",
+        "group": ""
+      },
+      {
+        "name": "Min Cost Max Flow",
+        "group": ""
+      },
+      {
+        "name": "Hopcroft Karp",
+        "group": ""
+      },
+      {
+        "name": "Hungarian Algorithm",
+        "group": ""
+      },
+      {
+        "name": "Blossom Algorithm",
+        "group": ""
+      },
+      {
+        "name": "Stoer Wagner",
+        "group": ""
+      },
+      {
+        "name": "Centroid Decomposition",
+        "group": ""
+      },
+      {
+        "name": "Heavy Light Decomposition",
+        "group": ""
+      },
+      {
+        "name": "Binary Lifting",
+        "group": ""
+      },
+      {
+        "name": "Euler Tour Technique",
+        "group": ""
+      },
+      {
+        "name": "Lowest Common Ancestor",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Computational Geometry",
+    "items": [
+      {
+        "name": "Convex Hull",
+        "group": ""
+      },
+      {
+        "name": "Graham Scan",
+        "group": ""
+      },
+      {
+        "name": "Jarvis March",
+        "group": ""
+      },
+      {
+        "name": "Line Sweep",
+        "group": ""
+      },
+      {
+        "name": "Closest Pair",
+        "group": ""
+      },
+      {
+        "name": "Rotating Calipers",
+        "group": ""
+      },
+      {
+        "name": "Shoelace Formula",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Randomized Algorithms",
+    "items": [
+      {
+        "name": "Reservoir Sampling",
+        "group": ""
+      },
+      {
+        "name": "Fisher-Yates Shuffle",
+        "group": ""
+      },
+      {
+        "name": "Randomized QuickSort",
+        "group": ""
+      },
+      {
+        "name": "Randomized BST",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "Advanced Techniques",
+    "items": [
+      {
+        "name": "Meet in the Middle",
+        "group": ""
+      },
+      {
+        "name": "Mo's Algorithm",
+        "group": ""
+      },
+      {
+        "name": "Sqrt Decomposition",
+        "group": ""
+      },
+      {
+        "name": "Persistent Data Structures",
+        "group": ""
+      },
+      {
+        "name": "Rope",
+        "group": ""
+      },
+      {
+        "name": "Skip List",
+        "group": ""
+      },
+      {
+        "name": "Binary Lifting",
+        "group": ""
+      },
+      {
+        "name": "Euler Tour",
+        "group": ""
+      },
+      {
+        "name": "Heavy Light Decomposition",
+        "group": ""
+      },
+      {
+        "name": "Centroid Decomposition",
+        "group": ""
+      },
+      {
+        "name": "Offline Queries",
+        "group": ""
+      },
+      {
+        "name": "Parallel Binary Search",
+        "group": ""
+      },
+      {
+        "name": "Fractional Cascading",
+        "group": ""
+      }
+    ]
+  },
+  {
+    "topic": "CP Optimizations",
+    "items": [
+      {
+        "name": "Coordinate Compression",
+        "group": ""
+      },
+      {
+        "name": "Difference Array",
+        "group": ""
+      },
+      {
+        "name": "Prefix XOR",
+        "group": ""
+      },
+      {
+        "name": "Sweep Line",
+        "group": ""
+      },
+      {
+        "name": "Convex Hull Trick",
+        "group": ""
+      },
+      {
+        "name": "Bitset Optimization",
+        "group": ""
+      },
+      {
+        "name": "Fast I/O",
+        "group": ""
+      },
+      {
+        "name": "Policy Based Data Structures (PBDS)",
+        "group": ""
+      },
+      {
+        "name": "Small to Large (DSU on Tree)",
+        "group": ""
+      }
+    ]
+  }
+];
+
+  const DIFFICULTY = {
+    easy: ['Traversal','Linear Search','Binary Search','Lower Bound','Upper Bound','Bubble Sort','Selection Sort','Insertion Sort','Reverse Linked List','Find Middle','Balanced Parentheses','Frequency Counting','Fibonacci','Climbing Stairs','Power of Two','Count Set Bits','Euclidean GCD','LCM','Preorder','Inorder','Postorder','BFS','DFS','Search','Insert','Floor','Ceil','Prefix Sum','Suffix Sum'],
+    hard: ['Manacher','Aho-Corasick','Suffix Array','Suffix Automaton','Suffix Tree','LRU Cache','Clone Linked List','Sudoku','Knight Tour','Morris','Serialize','Deserialize','Burn Tree','Recover BST','Median Finder','Huffman','Bellman','Floyd Warshall','Johnson','Kosaraju','Tarjan','Bridges','Articulation','Hamiltonian','Dynamic Connectivity','Matrix Chain','Burst Balloons','Cherry Pickup','Rerooting','Traveling Salesman','Digit DP','Profile DP','Divide & Conquer DP','Knuth','Convex Hull Trick','SOS DP','Miller Rabin','Pollard Rho','Persistent','Dynamic Segment Tree','2D BIT','Sparse Table','Red Black','Splay','Treap','B Tree','B+ Tree','KD Tree','Dinic','Min Cost','Hopcroft','Hungarian','Blossom','Stoer','Centroid','Heavy Light','Rotating Calipers','Mo\'s','Persistent Data','Fractional Cascading','Parallel Binary Search']
+  };
+
+  const CODE_TEMPLATES = [
+    {re:/monotonic array/i, code:`bool isMonotonicArray(const vector<int>& numbers) {
+  bool neverDecreases = true;
+  bool neverIncreases = true;
+  for (int currentIndex = 1; currentIndex < (int)numbers.size(); currentIndex++) {
+    if (numbers[currentIndex] < numbers[currentIndex - 1]) neverDecreases = false;
+    if (numbers[currentIndex] > numbers[currentIndex - 1]) neverIncreases = false;
+  }
+  return neverDecreases || neverIncreases;
+}`, tc:'O(n)', sc:'O(1)', pattern:'Monotonic Check'},
+    {re:/prefix sum|range sum/i, code:`vector<long long> prefixSum(numberCount + 1, 0);
+for (int currentIndex = 0; currentIndex < numberCount; currentIndex++) {
+  prefixSum[currentIndex + 1] = prefixSum[currentIndex] + numbers[currentIndex];
+}
+auto getRangeSum = [&](int leftIndex, int rightIndex) {
+  return prefixSum[rightIndex + 1] - prefixSum[leftIndex];
+};`, tc:'O(n) build, O(1) query', sc:'O(n)', pattern:'Prefix Sum'},
+    {re:/suffix sum/i, code:`vector<long long> suffixSum(numberCount + 1, 0);
+for (int currentIndex = numberCount - 1; currentIndex >= 0; currentIndex--) {
+  suffixSum[currentIndex] = numbers[currentIndex] + suffixSum[currentIndex + 1];
+}`, tc:'O(n)', sc:'O(n)', pattern:'Suffix Precompute'},
+    {re:/difference array/i, code:`vector<long long> difference(numberCount + 1, 0);
+auto addToRange = [&](int leftIndex, int rightIndex, long long valueToAdd) {
+  difference[leftIndex] += valueToAdd;
+  difference[rightIndex + 1] -= valueToAdd;
+};
+long long runningAddition = 0;
+for (int currentIndex = 0; currentIndex < numberCount; currentIndex++) {
+  runningAddition += difference[currentIndex];
+  numbers[currentIndex] += runningAddition;
+}`, tc:'O(1) update, O(n) finalize', sc:'O(n)', pattern:'Difference Array'},
+    {re:/kadane/i, code:`long long bestSubarraySum = LLONG_MIN;
+long long currentSubarraySum = 0;
+for (long long currentValue : numbers) {
+  currentSubarraySum = max(currentValue, currentSubarraySum + currentValue);
+  bestSubarraySum = max(bestSubarraySum, currentSubarraySum);
+}`, tc:'O(n)', sc:'O(1)', pattern:'Dynamic Running Sum'},
+    {re:/sliding window maximum|monotonic queue/i, code:`deque<int> usefulIndexes;
+vector<int> windowMaximums;
+for (int currentIndex = 0; currentIndex < numberCount; currentIndex++) {
+  while (!usefulIndexes.empty() && usefulIndexes.front() <= currentIndex - windowSize) {
+    usefulIndexes.pop_front();
+  }
+  while (!usefulIndexes.empty() && numbers[usefulIndexes.back()] <= numbers[currentIndex]) {
+    usefulIndexes.pop_back();
+  }
+  usefulIndexes.push_back(currentIndex);
+  if (currentIndex >= windowSize - 1) {
+    windowMaximums.push_back(numbers[usefulIndexes.front()]);
+  }
+}`, tc:'O(n)', sc:'O(k)', pattern:'Monotonic Queue'},
+    {re:/sliding window/i, code:`int leftIndex = 0;
+long long currentWindowSum = 0;
+for (int rightIndex = 0; rightIndex < numberCount; rightIndex++) {
+  currentWindowSum += numbers[rightIndex];
+  while (leftIndex <= rightIndex && shouldShrinkWindow(currentWindowSum)) {
+    currentWindowSum -= numbers[leftIndex];
+    leftIndex++;
+  }
+  updateAnswer(leftIndex, rightIndex, currentWindowSum);
+}`, tc:'O(n)', sc:'O(1)', pattern:'Sliding Window'},
+    {re:/two pointers|3sum/i, code:`sort(numbers.begin(), numbers.end());
+int leftIndex = 0;
+int rightIndex = (int)numbers.size() - 1;
+while (leftIndex < rightIndex) {
+  long long currentSum = numbers[leftIndex] + numbers[rightIndex];
+  if (currentSum == targetValue) break;
+  if (currentSum < targetValue) leftIndex++;
+  else rightIndex--;
+}`, tc:'O(n log n)', sc:'O(1)', pattern:'Two Pointers'},
+    {re:/dutch/i, code:`int lo = 0, mid = 0, hi = n - 1;
+while (mid <= hi) {
+  if (a[mid] == 0) swap(a[lo++], a[mid++]);
+  else if (a[mid] == 1) mid++;
+  else swap(a[mid], a[hi--]);
+}`, tc:'O(n)', sc:'O(1)', pattern:'Three-Way Partition'},
+    {re:/boyer|moore/i, code:`int cand = 0, cnt = 0;
+for (int x : a) {
+  if (cnt == 0) cand = x;
+  cnt += (x == cand ? 1 : -1);
+}
+// verify cand if majority is not guaranteed`, tc:'O(n)', sc:'O(1)', pattern:'Voting'},
+    {re:/merge intervals|interval/i, code:`sort(intervals.begin(), intervals.end());
+vector<pair<int,int>> res;
+for (auto [l, r] : intervals) {
+  if (res.empty() || l > res.back().second) res.push_back({l, r});
+  else res.back().second = max(res.back().second, r);
+}`, tc:'O(n log n)', sc:'O(n)', pattern:'Intervals'},
+    {re:/binary search|lower bound|upper bound|sqrt|nth root|answer/i, code:`int leftIndex = 0;
+int rightIndex = numberCount - 1;
+int answerIndex = -1;
+while (leftIndex <= rightIndex) {
+  int middleIndex = leftIndex + (rightIndex - leftIndex) / 2;
+  if (isValidAnswer(middleIndex)) {
+    answerIndex = middleIndex;
+    rightIndex = middleIndex - 1;
+  } else {
+    leftIndex = middleIndex + 1;
+  }
+}`, tc:'O(log n) or O(log answer)', sc:'O(1)', pattern:'Binary Search'},
+    {re:/merge sort/i, code:`void mergeSort(vector<int>& a, int l, int r) {
+  if (r - l <= 1) return;
+  int m = (l + r) / 2;
+  mergeSort(a, l, m); mergeSort(a, m, r);
+  inplace_merge(a.begin() + l, a.begin() + m, a.begin() + r);
+}`, tc:'O(n log n)', sc:'O(n)', pattern:'Divide and Conquer'},
+    {re:/quick sort|quickselect/i, code:`int partition(vector<int>& a, int l, int r) {
+  int pivot = a[r], i = l;
+  for (int j = l; j < r; j++) if (a[j] <= pivot) swap(a[i++], a[j]);
+  swap(a[i], a[r]); return i;
+}`, tc:'Average O(n log n)', sc:'O(log n)', pattern:'Partition'},
+    {re:/heap|priority queue|k largest|k smallest|median finder|scheduling/i, code:`priority_queue<int> maxHeap;
+priority_queue<int, vector<int>, greater<int>> minHeap;
+// push/pop top element depending on the problem invariant`, tc:'O(n log n)', sc:'O(n)', pattern:'Heap'},
+    {re:/trie|auto complete|prefix search/i, code:`struct Node { int child[26]; bool end = false; Node() { fill(child, child + 26, -1); } };
+vector<Node> trie(1);
+void insert(string s) { int u = 0; for (char c : s) { int x = c - 'a'; if (trie[u].child[x] == -1) { trie[u].child[x] = trie.size(); trie.push_back(Node()); } u = trie[u].child[x]; } trie[u].end = true; }`, tc:'O(total characters)', sc:'O(total characters)', pattern:'Trie'},
+    {re:/kmp|prefix function|lps/i, code:`vector<int> pi(n);
+for (int i = 1; i < n; i++) {
+  int j = pi[i - 1];
+  while (j > 0 && s[i] != s[j]) j = pi[j - 1];
+  if (s[i] == s[j]) j++;
+  pi[i] = j;
+}`, tc:'O(n)', sc:'O(n)', pattern:'Prefix Function'},
+    {re:/rabin|rolling hash|polynomial hashing|double hashing/i, code:`const long long MOD = 1000000007, BASE = 911382323;
+vector<long long> h(n + 1), p(n + 1, 1);
+for (int i = 0; i < n; i++) { h[i + 1] = (h[i] * BASE + s[i]) % MOD; p[i + 1] = p[i] * BASE % MOD; }
+auto getHash = [&](int l, int r) { return (h[r] - h[l] * p[r - l] % MOD + MOD) % MOD; };`, tc:'O(n)', sc:'O(n)', pattern:'Rolling Hash'},
+    {re:/z algorithm/i, code:`vector<int> z(n);
+for (int i = 1, l = 0, r = 0; i < n; i++) {
+  if (i <= r) z[i] = min(r - i + 1, z[i - l]);
+  while (i + z[i] < n && s[z[i]] == s[i + z[i]]) z[i]++;
+  if (i + z[i] - 1 > r) l = i, r = i + z[i] - 1;
+}`, tc:'O(n)', sc:'O(n)', pattern:'Z Algorithm'},
+    {re:/linked list|merge two lists|detect loop|remove loop|intersection/i, code:`ListNode* slow = head;
+ListNode* fast = head;
+while (fast && fast->next) {
+  slow = slow->next;
+  fast = fast->next->next;
+  if (slow == fast) break;
+}`, tc:'O(n)', sc:'O(1)', pattern:'Linked List Pointers'},
+    {re:/stack|next greater|previous greater|next smaller|previous smaller|histogram|stock span|parentheses|infix|postfix|prefix/i, code:`stack<int> st;
+for (int i = 0; i < n; i++) {
+  while (!st.empty() && a[st.top()] < a[i]) { ans[st.top()] = a[i]; st.pop(); }
+  st.push(i);
+}`, tc:'O(n)', sc:'O(n)', pattern:'Stack'},
+    {re:/queue|deque/i, code:`queue<int> q;
+vector<int> dist(n, -1);
+q.push(src); dist[src] = 0;
+while (!q.empty()) {
+  int u = q.front(); q.pop();
+  for (int v : adj[u]) if (dist[v] == -1) { dist[v] = dist[u] + 1; q.push(v); }
+}`, tc:'O(V + E)', sc:'O(V)', pattern:'Queue BFS'},
+    {re:/hash|frequency|open addressing|separate chaining/i, code:`unordered_map<int,int> freq;
+for (int x : a) freq[x]++;
+for (auto [value, count] : freq) process(value, count);`, tc:'O(n) average', sc:'O(n)', pattern:'Hashing'},
+    {re:/backtracking|subsets|permutations|combination|n queens|sudoku|maze|word search|partition|coloring|tour/i, code:`void dfs(int idx) {
+  if (idx == n) { saveAnswer(); return; }
+  for (auto choice : choices(idx)) {
+    if (!valid(choice)) continue;
+    apply(choice);
+    dfs(idx + 1);
+    undo(choice);
+  }
+}`, tc:'Exponential', sc:'O(depth)', pattern:'Backtracking'},
+    {re:/tree|lca|diameter|height|view|boundary|vertical|zigzag|flatten|morris|bst|binary lifting|euler tour/i, code:`void dfs(TreeNode* root) {
+  if (!root) return;
+  dfs(root->left);
+  visit(root);
+  dfs(root->right);
+}`, tc:'O(n)', sc:'O(h)', pattern:'Tree DFS'},
+    {re:/graph|bfs|dfs|dijkstra|bellman|warshall|kruskal|prim|boruvka|topological|kosaraju|tarjan|bridge|articulation|cycle|bipartite|euler|alien|clone|0-1 bfs|multi source/i, code:`vector<int> vis(n);
+function<void(int)> dfs = [&](int u) {
+  vis[u] = 1;
+  for (int v : adj[u]) if (!vis[v]) dfs(v);
+};`, tc:'O(V + E)', sc:'O(V + E)', pattern:'Graph Traversal'},
+    {re:/disjoint|union find|dsu|path compression|rank|size/i, code:`struct DSU {
+  vector<int> p, sz;
+  DSU(int n): p(n), sz(n, 1) { iota(p.begin(), p.end(), 0); }
+  int find(int x) { return p[x] == x ? x : p[x] = find(p[x]); }
+  bool unite(int a, int b) { a = find(a); b = find(b); if (a == b) return false; if (sz[a] < sz[b]) swap(a, b); p[b] = a; sz[a] += sz[b]; return true; }
+};`, tc:'O(alpha(n))', sc:'O(n)', pattern:'DSU'},
+    {re:/dp|fibonacci|climbing|frog|robber|decode|coin|lis|lcs|edit|subsequence|knapsack|subset|partition|paths|matrix chain|balloons|traveling|assignment|digits|state compression/i, code:`vector<int> dp(n + 1, 0);
+dp[0] = baseCase;
+for (int i = 1; i <= n; i++) {
+  for (auto prev : transitions(i)) dp[i] = best(dp[i], dp[prev] + cost(prev, i));
+}`, tc:'Depends on states × transitions', sc:'O(number of states)', pattern:'Dynamic Programming'},
+    {re:/bit|xor|gray|set bits|kernighan|mask|exponentiation|multiplication/i, code:`for (int mask = 0; mask < (1 << n); mask++) {
+  for (int bit = 0; bit < n; bit++) if (mask & (1 << bit)) {
+    process(mask, bit);
+  }
+}`, tc:'O(n * 2^n) for subset masks', sc:'O(1) or O(2^n)', pattern:'Bit Manipulation'},
+    {re:/gcd|euclid|sieve|totient|modular|inverse|crt|fermat|miller|pollard|catalan|pascal|binomial|matrix exponentiation|math/i, code:`long long modPow(long long a, long long e, long long mod) {
+  long long res = 1;
+  while (e) { if (e & 1) res = res * a % mod; a = a * a % mod; e >>= 1; }
+  return res;
+}`, tc:'O(log n) typical', sc:'O(1)', pattern:'Number Theory'},
+    {re:/segment tree|range minimum|lazy|merge sort tree/i, code:`struct SegTree {
+  int n; vector<long long> st;
+  SegTree(vector<int>& a) { n = a.size(); st.assign(4*n, 0); build(1,0,n-1,a); }
+  void build(int p,int l,int r,vector<int>& a) { if(l==r) st[p]=a[l]; else { int m=(l+r)/2; build(p*2,l,m,a); build(p*2+1,m+1,r,a); st[p]=st[p*2]+st[p*2+1]; } }
+};`, tc:'O(log n) query/update', sc:'O(n)', pattern:'Segment Tree'},
+    {re:/fenwick|bit\)/i, code:`struct BIT {
+  int n; vector<long long> bit;
+  BIT(int n): n(n), bit(n + 1, 0) {}
+  void add(int i, long long v) { for (++i; i <= n; i += i & -i) bit[i] += v; }
+  long long sum(int i) { long long s = 0; for (++i; i > 0; i -= i & -i) s += bit[i]; return s; }
+};`, tc:'O(log n)', sc:'O(n)', pattern:'Fenwick Tree'},
+    {re:/sparse table|rmq|static queries/i, code:`vector<vector<int>> st(K, vector<int>(n));
+st[0] = a;
+for (int k = 1; k < K; k++)
+  for (int i = 0; i + (1 << k) <= n; i++)
+    st[k][i] = min(st[k-1][i], st[k-1][i + (1 << (k-1))]);`, tc:'O(n log n) build, O(1) RMQ', sc:'O(n log n)', pattern:'Sparse Table'},
+    {re:/convex hull|geometry|graham|jarvis|line sweep|closest pair|shoelace|calipers/i, code:`long long cross(Point a, Point b, Point c) {
+  return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+}
+// Sort points, then maintain a hull while cross(last2,last,p) <= 0.`, tc:'O(n log n) typical', sc:'O(n)', pattern:'Computational Geometry'},
+    {re:/reservoir|fisher|randomized/i, code:`for (int i = n - 1; i > 0; i--) {
+  int j = uniform_int_distribution<int>(0, i)(rng);
+  swap(a[i], a[j]);
+}`, tc:'O(n)', sc:'O(1)', pattern:'Randomization'},
+    {re:/sqrt decomposition|mo's|meet in the middle|offline|small to large|pbds|fast i\/o|coordinate compression|sweep line|prefix xor|bitset|optimization/i, code:`// Choose the offline/data-structure trick that reduces repeated work.
+// 1. Preprocess or sort queries.
+// 2. Maintain an invariant while moving through states.
+// 3. Answer each query from the maintained state.`, tc:'Usually O((n + q) sqrt n) or O(n log n)', sc:'O(n)', pattern:'Advanced Technique'}
+  ];
+
+  function includesAny(name, words) { return words.some(w => name.toLowerCase().includes(w.toLowerCase())); }
+  function inferDifficulty(topic, name) {
+    if (includesAny(name, DIFFICULTY.hard) || includesAny(topic, ['Advanced','Computational Geometry'])) return 'hard';
+    if (includesAny(name, DIFFICULTY.easy)) return 'easy';
+    return 'medium';
+  }
+
+  function fallbackTemplate(topic, name) {
+    const key = `${topic} ${name}`.toLowerCase();
+    const readableTitle = `${topic} - ${name}`;
+
+    if (/sorting/.test(key)) return {
+      code:`void sortNumbers(vector<int>& numbers) {
+  for (int currentIndex = 1; currentIndex < (int)numbers.size(); currentIndex++) {
+    int valueToInsert = numbers[currentIndex];
+    int previousIndex = currentIndex - 1;
+    while (previousIndex >= 0 && numbers[previousIndex] > valueToInsert) {
+      numbers[previousIndex + 1] = numbers[previousIndex];
+      previousIndex--;
+    }
+    numbers[previousIndex + 1] = valueToInsert;
+  }
+}`,
+      tc:'O(n^2) basic, O(n log n) advanced', sc:'O(1) to O(n)', pattern:'Sorting'
+    };
+
+    if (/searching/.test(key)) return {
+      code:`int searchValue(const vector<int>& sortedNumbers, int targetValue) {
+  int leftIndex = 0;
+  int rightIndex = (int)sortedNumbers.size() - 1;
+  while (leftIndex <= rightIndex) {
+    int middleIndex = leftIndex + (rightIndex - leftIndex) / 2;
+    if (sortedNumbers[middleIndex] == targetValue) return middleIndex;
+    if (sortedNumbers[middleIndex] < targetValue) leftIndex = middleIndex + 1;
+    else rightIndex = middleIndex - 1;
+  }
+  return -1;
+}`,
+      tc:'O(log n) for sorted search, O(n) for linear search', sc:'O(1)', pattern:'Search'
+    };
+
+    if (/strings?/.test(key)) return {
+      code:`vector<int> findPatternOccurrences(const string& text, const string& pattern) {
+  vector<int> occurrences;
+  int textLength = text.size();
+  int patternLength = pattern.size();
+  for (int startIndex = 0; startIndex + patternLength <= textLength; startIndex++) {
+    int matchedCharacters = 0;
+    while (matchedCharacters < patternLength &&
+           text[startIndex + matchedCharacters] == pattern[matchedCharacters]) {
+      matchedCharacters++;
+    }
+    if (matchedCharacters == patternLength) occurrences.push_back(startIndex);
+  }
+  return occurrences;
+}`,
+      tc:'O(n * m) basic, O(n + m) with KMP/Z/hash', sc:'O(1) to O(n)', pattern:'String Matching'
+    };
+
+    if (/linked list/.test(key)) return {
+      code:`ListNode* processLinkedList(ListNode* head) {
+  ListNode* previousNode = nullptr;
+  ListNode* currentNode = head;
+  while (currentNode != nullptr) {
+    ListNode* nextNode = currentNode->next;
+    currentNode->next = previousNode;
+    previousNode = currentNode;
+    currentNode = nextNode;
+  }
+  return previousNode;
+}`,
+      tc:'O(n)', sc:'O(1)', pattern:'Linked List Pointers'
+    };
+
+    if (/stack/.test(key)) return {
+      code:`vector<int> computeNextGreaterElements(const vector<int>& numbers) {
+  vector<int> nextGreater(numbers.size(), -1);
+  stack<int> pendingIndexes;
+  for (int currentIndex = 0; currentIndex < (int)numbers.size(); currentIndex++) {
+    while (!pendingIndexes.empty() && numbers[pendingIndexes.top()] < numbers[currentIndex]) {
+      nextGreater[pendingIndexes.top()] = numbers[currentIndex];
+      pendingIndexes.pop();
+    }
+    pendingIndexes.push(currentIndex);
+  }
+  return nextGreater;
+}`,
+      tc:'O(n)', sc:'O(n)', pattern:'Stack'
+    };
+
+    if (/queue/.test(key)) return {
+      code:`vector<int> breadthFirstSearch(int nodeCount, vector<vector<int>>& graph, int sourceNode) {
+  vector<int> distance(nodeCount, -1);
+  queue<int> pendingNodes;
+  pendingNodes.push(sourceNode);
+  distance[sourceNode] = 0;
+  while (!pendingNodes.empty()) {
+    int currentNode = pendingNodes.front();
+    pendingNodes.pop();
+    for (int nextNode : graph[currentNode]) {
+      if (distance[nextNode] != -1) continue;
+      distance[nextNode] = distance[currentNode] + 1;
+      pendingNodes.push(nextNode);
+    }
+  }
+  return distance;
+}`,
+      tc:'O(V + E)', sc:'O(V)', pattern:'Queue BFS'
+    };
+
+    if (/hashing/.test(key)) return {
+      code:`unordered_map<int, int> buildFrequencyMap(const vector<int>& numbers) {
+  unordered_map<int, int> frequencyByValue;
+  for (int value : numbers) {
+    frequencyByValue[value]++;
+  }
+  return frequencyByValue;
+}`,
+      tc:'O(n) average', sc:'O(n)', pattern:'Hashing'
+    };
+
+    if (/recursion|backtracking/.test(key)) return {
+      code:`void generateChoices(int currentIndex, vector<int>& currentPath, vector<vector<int>>& allAnswers) {
+  if (currentIndex == (int)currentPath.size()) {
+    allAnswers.push_back(currentPath);
+    return;
+  }
+  for (int candidateValue : getCandidates(currentIndex)) {
+    if (!isValidChoice(candidateValue, currentPath)) continue;
+    currentPath[currentIndex] = candidateValue;
+    generateChoices(currentIndex + 1, currentPath, allAnswers);
+    currentPath[currentIndex] = 0;
+  }
+}`,
+      tc:'Exponential', sc:'O(recursion depth)', pattern:'Recursion / Backtracking'
+    };
+
+    if (/tree|binary search tree|advanced trees/.test(key)) return {
+      code:`int computeTreeHeight(TreeNode* currentNode) {
+  if (currentNode == nullptr) return 0;
+  int leftHeight = computeTreeHeight(currentNode->left);
+  int rightHeight = computeTreeHeight(currentNode->right);
+  return 1 + max(leftHeight, rightHeight);
+}`,
+      tc:'O(n)', sc:'O(height)', pattern:'Tree DFS'
+    };
+
+    if (/heap/.test(key)) return {
+      code:`vector<int> getKLargestValues(const vector<int>& numbers, int k) {
+  priority_queue<int, vector<int>, greater<int>> smallestChosenValues;
+  for (int value : numbers) {
+    smallestChosenValues.push(value);
+    if ((int)smallestChosenValues.size() > k) smallestChosenValues.pop();
+  }
+  vector<int> answer;
+  while (!smallestChosenValues.empty()) {
+    answer.push_back(smallestChosenValues.top());
+    smallestChosenValues.pop();
+  }
+  return answer;
+}`,
+      tc:'O(n log k)', sc:'O(k)', pattern:'Heap'
+    };
+
+    if (/greedy/.test(key)) return {
+      code:`int chooseMaximumNonOverlappingIntervals(vector<pair<int,int>>& intervals) {
+  sort(intervals.begin(), intervals.end(), [](auto firstInterval, auto secondInterval) {
+    return firstInterval.second < secondInterval.second;
+  });
+  int chosenCount = 0;
+  int lastFinishTime = INT_MIN;
+  for (auto [startTime, finishTime] : intervals) {
+    if (startTime < lastFinishTime) continue;
+    chosenCount++;
+    lastFinishTime = finishTime;
+  }
+  return chosenCount;
+}`,
+      tc:'O(n log n)', sc:'O(1)', pattern:'Greedy Choice'
+    };
+
+    if (/graph|advanced graph/.test(key)) return {
+      code:`vector<int> traverseGraph(int nodeCount, vector<vector<int>>& graph, int sourceNode) {
+  vector<int> visitOrder;
+  vector<int> visited(nodeCount, 0);
+  queue<int> pendingNodes;
+  pendingNodes.push(sourceNode);
+  visited[sourceNode] = 1;
+  while (!pendingNodes.empty()) {
+    int currentNode = pendingNodes.front();
+    pendingNodes.pop();
+    visitOrder.push_back(currentNode);
+    for (int nextNode : graph[currentNode]) {
+      if (visited[nextNode]) continue;
+      visited[nextNode] = 1;
+      pendingNodes.push(nextNode);
+    }
+  }
+  return visitOrder;
+}`,
+      tc:'O(V + E)', sc:'O(V)', pattern:'Graph Traversal'
+    };
+
+    if (/disjoint set|union find/.test(key)) return {
+      code:`struct DisjointSetUnion {
+  vector<int> parent;
+  vector<int> componentSize;
+
+  DisjointSetUnion(int nodeCount) : parent(nodeCount), componentSize(nodeCount, 1) {
+    iota(parent.begin(), parent.end(), 0);
+  }
+
+  int findParent(int node) {
+    if (parent[node] == node) return node;
+    return parent[node] = findParent(parent[node]);
+  }
+
+  bool uniteComponents(int firstNode, int secondNode) {
+    int firstParent = findParent(firstNode);
+    int secondParent = findParent(secondNode);
+    if (firstParent == secondParent) return false;
+    if (componentSize[firstParent] < componentSize[secondParent]) swap(firstParent, secondParent);
+    parent[secondParent] = firstParent;
+    componentSize[firstParent] += componentSize[secondParent];
+    return true;
+  }
+};`,
+      tc:'O(alpha(n))', sc:'O(n)', pattern:'DSU'
+    };
+
+    if (/dynamic programming/.test(key)) return {
+      code:`int solveWithDynamicProgramming(vector<int>& values) {
+  int itemCount = values.size();
+  vector<int> bestAnswer(itemCount + 1, 0);
+  for (int currentIndex = 1; currentIndex <= itemCount; currentIndex++) {
+    int skipCurrent = bestAnswer[currentIndex - 1];
+    int takeCurrent = values[currentIndex - 1];
+    if (currentIndex >= 2) takeCurrent += bestAnswer[currentIndex - 2];
+    bestAnswer[currentIndex] = max(skipCurrent, takeCurrent);
+  }
+  return bestAnswer[itemCount];
+}`,
+      tc:'O(states × transitions)', sc:'O(states)', pattern:'Dynamic Programming'
+    };
+
+    if (/bit manipulation/.test(key)) return {
+      code:`vector<int> enumerateSetBits(int bitMask) {
+  vector<int> setBitPositions;
+  for (int bitPosition = 0; bitPosition < 31; bitPosition++) {
+    if (bitMask & (1 << bitPosition)) {
+      setBitPositions.push_back(bitPosition);
+    }
+  }
+  return setBitPositions;
+}`,
+      tc:'O(number of bits)', sc:'O(number of set bits)', pattern:'Bit Manipulation'
+    };
+
+    if (/mathematics/.test(key)) return {
+      code:`long long modularPower(long long baseValue, long long exponent, long long modulo) {
+  long long answer = 1 % modulo;
+  baseValue %= modulo;
+  while (exponent > 0) {
+    if (exponent & 1LL) answer = (answer * baseValue) % modulo;
+    baseValue = (baseValue * baseValue) % modulo;
+    exponent >>= 1LL;
+  }
+  return answer;
+}`,
+      tc:'O(log exponent)', sc:'O(1)', pattern:'Mathematics'
+    };
+
+    if (/segment trees/.test(key)) return {
+      code:`struct RangeSumSegmentTree {
+  int size;
+  vector<long long> tree;
+
+  RangeSumSegmentTree(const vector<int>& numbers) {
+    size = numbers.size();
+    tree.assign(4 * size, 0);
+    buildTree(1, 0, size - 1, numbers);
+  }
+
+  void buildTree(int treeNode, int leftIndex, int rightIndex, const vector<int>& numbers) {
+    if (leftIndex == rightIndex) {
+      tree[treeNode] = numbers[leftIndex];
+      return;
+    }
+    int middleIndex = leftIndex + (rightIndex - leftIndex) / 2;
+    buildTree(treeNode * 2, leftIndex, middleIndex, numbers);
+    buildTree(treeNode * 2 + 1, middleIndex + 1, rightIndex, numbers);
+    tree[treeNode] = tree[treeNode * 2] + tree[treeNode * 2 + 1];
+  }
+};`,
+      tc:'O(log n) query/update', sc:'O(n)', pattern:'Segment Tree'
+    };
+
+    if (/fenwick/.test(key)) return {
+      code:`struct FenwickTree {
+  int size;
+  vector<long long> bit;
+
+  FenwickTree(int valueCount) : size(valueCount), bit(valueCount + 1, 0) {}
+
+  void addValue(int index, long long delta) {
+    for (index++; index <= size; index += index & -index) bit[index] += delta;
+  }
+
+  long long getPrefixSum(int index) {
+    long long prefixSum = 0;
+    for (index++; index > 0; index -= index & -index) prefixSum += bit[index];
+    return prefixSum;
+  }
+};`,
+      tc:'O(log n)', sc:'O(n)', pattern:'Fenwick Tree'
+    };
+
+    if (/sparse table/.test(key)) return {
+      code:`vector<vector<int>> buildSparseTable(const vector<int>& numbers) {
+  int valueCount = numbers.size();
+  int maxPower = 32 - __builtin_clz(valueCount);
+  vector<vector<int>> sparseTable(maxPower, vector<int>(valueCount));
+  sparseTable[0] = numbers;
+  for (int power = 1; power < maxPower; power++) {
+    for (int leftIndex = 0; leftIndex + (1 << power) <= valueCount; leftIndex++) {
+      sparseTable[power][leftIndex] = min(
+        sparseTable[power - 1][leftIndex],
+        sparseTable[power - 1][leftIndex + (1 << (power - 1))]
+      );
+    }
+  }
+  return sparseTable;
+}`,
+      tc:'O(n log n) build, O(1) query', sc:'O(n log n)', pattern:'Sparse Table'
+    };
+
+    if (/computational geometry/.test(key)) return {
+      code:`long long crossProduct(Point origin, Point firstPoint, Point secondPoint) {
+  long long firstX = firstPoint.x - origin.x;
+  long long firstY = firstPoint.y - origin.y;
+  long long secondX = secondPoint.x - origin.x;
+  long long secondY = secondPoint.y - origin.y;
+  return firstX * secondY - firstY * secondX;
+}`,
+      tc:'O(1) primitive, often O(n log n) full algorithm', sc:'O(1)', pattern:'Geometry'
+    };
+
+    if (/randomized/.test(key)) return {
+      code:`void fisherYatesShuffle(vector<int>& numbers, mt19937& randomGenerator) {
+  for (int currentIndex = (int)numbers.size() - 1; currentIndex > 0; currentIndex--) {
+    uniform_int_distribution<int> chooseIndex(0, currentIndex);
+    int randomIndex = chooseIndex(randomGenerator);
+    swap(numbers[currentIndex], numbers[randomIndex]);
+  }
+}`,
+      tc:'O(n)', sc:'O(1)', pattern:'Randomization'
+    };
+
+    if (/advanced techniques|cp optimizations/.test(key)) return {
+      code:`struct OfflineQuery {
+  int leftIndex;
+  int rightIndex;
+  int queryIndex;
+};
+
+vector<long long> answerOfflineQueries(vector<int>& numbers, vector<OfflineQuery>& queries) {
+  int blockSize = max(1, (int)sqrt(numbers.size()));
+  sort(queries.begin(), queries.end(), [&](const OfflineQuery& firstQuery, const OfflineQuery& secondQuery) {
+    int firstBlock = firstQuery.leftIndex / blockSize;
+    int secondBlock = secondQuery.leftIndex / blockSize;
+    if (firstBlock != secondBlock) return firstBlock < secondBlock;
+    return firstQuery.rightIndex < secondQuery.rightIndex;
+  });
+  vector<long long> answers(queries.size());
+  int currentLeft = 0, currentRight = -1;
+  long long currentAnswer = 0;
+  for (const OfflineQuery& query : queries) {
+    while (currentRight < query.rightIndex) currentAnswer += numbers[++currentRight];
+    while (currentRight > query.rightIndex) currentAnswer -= numbers[currentRight--];
+    while (currentLeft < query.leftIndex) currentAnswer -= numbers[currentLeft++];
+    while (currentLeft > query.leftIndex) currentAnswer += numbers[--currentLeft];
+    answers[query.queryIndex] = currentAnswer;
+  }
+  return answers;
+}`,
+      tc:'O((n + q) sqrt n)', sc:'O(q)', pattern:'Offline Queries'
+    };
+
+    return {
+      code:`// ${readableTitle}
+// General named-variable starter.
+void solveProblem(vector<int>& inputValues) {
+  int valueCount = inputValues.size();
+  long long answer = 0;
+  for (int currentIndex = 0; currentIndex < valueCount; currentIndex++) {
+    int currentValue = inputValues[currentIndex];
+    answer = max(answer, 1LL * currentValue);
+  }
+  cout << answer << '\\n';
+}`,
+      tc:'Depends on chosen pattern', sc:'Depends on chosen data structure', pattern:'DSA Template'
+    };
+  }
+
+  function matchTemplate(topic, name) {
+    const key = `${topic} ${name}`;
+    return CODE_TEMPLATES.find(t => t.re.test(key)) || fallbackTemplate(topic, name);
+  }
+  function frequency(topic, name, difficulty) {
+    if (['Arrays','Searching','Strings','Linked List','Stack','Queue','Hashing','Trees','Binary Search Tree','Heap','Graphs','Dynamic Programming'].includes(topic)) return difficulty === 'hard' ? 2 : 3;
+    if (['Advanced Graph Algorithms','Advanced Techniques','Segment Trees','Fenwick Tree'].includes(topic)) return 2;
+    return 1;
+  }
+  function solutionNotes(topic, name, group, tpl) {
+    const scope = group ? `${group} inside ${topic}` : topic;
+    return `Solution idea: identify ${tpl.pattern} as the main pattern for ${name}. Define the state/invariant, process elements in the correct order, and update the answer only after the invariant is valid. Scope: ${scope}.`;
+  }
+  function revision(name, tpl) {
+    return `• Pattern: ${tpl.pattern}
+• Keep the invariant clear
+• Write transitions before coding
+• Verify with the smallest input`;
+  }
+  function recognizer(topic, name, tpl) {
+    return `Use this when a problem mentions ${name}, asks for ${tpl.pattern}, or needs repeated queries/updates/searches in the ${topic} family.`;
+  }
+  function edgeCases(tpl) {
+    return `• Empty input or one element
+• Duplicate values
+• Negative values when sums/comparisons are involved
+• Overflow: prefer long long for counts and sums`;
+  }
+  function mistakes(tpl) {
+    return `• Off-by-one boundaries
+• Forgetting to initialize base cases
+• Updating answer before restoring the invariant
+• Using O(n²) when the pattern supports a better bound`;
+  }
+  function formula(name, tpl) {
+    if (/prefix/i.test(tpl.pattern)) return 'range(l,r) = pref[r+1] - pref[l]';
+    if (/binary/i.test(tpl.pattern)) return 'mid = lo + (hi - lo) / 2; keep the side that can still contain the answer';
+    if (/dp/i.test(tpl.pattern)) return 'dp[state] = best over valid previous states';
+    if (/dsu/i.test(tpl.pattern)) return 'find(x) with path compression; union by size/rank';
+    if (/segment|fenwick/i.test(tpl.pattern)) return 'query/update in O(log n) using decomposed ranges';
+    return `Core invariant: ${tpl.pattern} remains valid after every step`;
+  }
+
+  for (const topic of TOPIC_DATA) {
+    for (const item of topic.items) {
+      const tpl = matchTemplate(topic.topic, item.name);
+      const difficulty = inferDifficulty(topic.topic, item.name);
+      addProblem(
+        topic.topic,
+        item.name,
+        difficulty,
+        tpl.pattern,
+        tpl.code,
+        tpl.tc,
+        tpl.sc,
+        solutionNotes(topic.topic, item.name, item.group, tpl),
+        revision(item.name, tpl),
+        recognizer(topic.topic, item.name, tpl),
+        edgeCases(tpl),
+        mistakes(tpl),
+        formula(item.name, tpl),
+        frequency(topic.topic, item.name, difficulty)
+      );
+    }
+  }
+
+  console.log('✅ Loaded', PROBLEMS.length, 'problems from complete pasted outline');
+  // ============================================================
+  //  RENDER ENGINE
+  // ============================================================
+  let activeFilter = 'all';
+  let filteredProblems = [...PROBLEMS];
+  let cheatSheetMode = false;
+  let totalReviewedCount = 0;
+
+  function getConfidence() { try { return JSON.parse(localStorage.getItem('dsa_confidence') || '{}'); } catch(e){ return {}; } }
+  function setConfidence(data) { localStorage.setItem('dsa_confidence', JSON.stringify(data)); }
+  function getLastRevised() { try { return JSON.parse(localStorage.getItem('dsa_lastRevised') || '{}'); } catch(e){ return {}; } }
+  function setLastRevised(data) { localStorage.setItem('dsa_lastRevised', JSON.stringify(data)); }
+  function getRevisionHistory() { try { return JSON.parse(localStorage.getItem('dsa_revisionHistory') || '[]'); } catch(e){ return []; } }
+  function setRevisionHistory(data) { localStorage.setItem('dsa_revisionHistory', JSON.stringify(data)); }
+  function getStreak() { try { return JSON.parse(localStorage.getItem('dsa_streak') || '{"streak":0,"lastDate":"","todayCount":0,"todayDate":""}'); } catch(e){ return {streak:0,lastDate:"",todayCount:0,todayDate:""}; } }
+  function setStreak(data) { localStorage.setItem('dsa_streak', JSON.stringify(data)); }
+
+  function getTopics() { return [...new Set(PROBLEMS.map(p => p.topic))].sort(); }
+  function escapeHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function formatCode(code) {
+    const lines = escapeHtml(code).split('\n');
+    return lines.map((l,i) => `<span class="line-row"><span class="line-num">${String(i+1).padStart(3)}</span>${l||' '}</span>`).join('\n');
+  }
+
+  function getTimeAgo(iso) {
+    if(!iso) return 'Never';
+    const diff = Date.now() - new Date(iso).getTime();
+    const mins = Math.floor(diff/60000);
+    if(mins<1) return 'Just now';
+    if(mins<60) return mins+' min ago';
+    const hrs = Math.floor(mins/60);
+    if(hrs<24) return hrs+'h ago';
+    const days = Math.floor(hrs/24);
+    return days+'d ago';
+  }
+
+  function recordRevision(id) {
+    const now = new Date();
+    const today = now.toISOString().split('T')[0];
+    const lr = getLastRevised(); lr[id] = now.toISOString(); setLastRevised(lr);
+    const streak = getStreak();
+    if(streak.todayDate !== today) {
+      const y = new Date(now); y.setDate(y.getDate()-1);
+      const yStr = y.toISOString().split('T')[0];
+      streak.streak = (streak.lastDate === yStr) ? streak.streak+1 : 1;
+      streak.todayCount = 1; streak.todayDate = today; streak.lastDate = today;
+    } else { streak.todayCount++; }
+    setStreak(streak);
+    const hist = getRevisionHistory(); hist.push({id, time: now.toISOString()});
+    if(hist.length>500) hist.splice(0, hist.length-500);
+    setRevisionHistory(hist);
+    totalReviewedCount = hist.length;
+  }
+
+  function setConfidenceLevel(id, level) {
+    recordRevision(id);
+    const conf = getConfidence(); conf[id] = level; setConfidence(conf);
+    renderProblems(); updateMasteryDashboard(); updateStats();
+  }
+
+  function getConfidenceLevel(id) { return getConfidence()[id] || 'never'; }
+  function getConfidenceEmoji(level) {
+    if(level==='strong') return '🟢';
+    if(level==='needs-rev') return '🟡';
+    if(level==='forgot') return '🔴';
+    return '⬜';
+  }
+
+  function renderCodeBlock(p, codeId) {
+    const code = p.code || '// code';
+    return `<div class="code-block" data-problem-id="${p.id}">
+      <div class="code-header">
+        <span><i class="fas fa-code"></i> C++</span>
+        <div class="code-toolbar">
+          <button class="copy-btn" onclick="copyCode('${codeId}')"><i class="fas fa-copy"></i> Copy</button>
+        </div>
+      </div>
+      <pre id="${codeId}">${formatCode(code)}</pre>
+    </div>`;
+  }
+
+  function copyCode(id) {
+    const el = document.getElementById(id);
+    if(!el) return;
+    const text = el.textContent || '';
+    navigator.clipboard.writeText(text).catch(() => {
+      const area = document.createElement('textarea');
+      area.value = text;
+      document.body.appendChild(area);
+      area.select();
+      document.execCommand('copy');
+      area.remove();
+    });
+  }
+
+  function renderProblems() {
+    const container = document.getElementById('problemContainer');
+    if(!filteredProblems.length) {
+      container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text3);font-size:0.9rem;"><i class="fas fa-search" style="font-size:2rem;opacity:0.3;display:block;margin-bottom:0.5rem;"></i>No problems match your filter</div>';
+      return;
+    }
+    const grouped = {};
+    for(const p of filteredProblems) {
+      if(!grouped[p.topic]) grouped[p.topic] = [];
+      grouped[p.topic].push(p);
+    }
+    const iconMap = {
+      'Arrays':'fa-layer-group','Sorting':'fa-sort','Searching':'fa-search',
+      'Strings':'fa-font','Linked List':'fa-link','Stack':'fa-cubes','Queue':'fa-window-maximize',
+      'Hashing':'fa-hashtag','Recursion':'fa-sync','Backtracking':'fa-undo','Trees':'fa-tree',
+      'BST':'fa-sitemap','Heap':'fa-tree','Trie':'fa-sitemap','Greedy':'fa-hand-holding-usd',
+      'Graphs':'fa-project-diagram','DSU':'fa-link','DP':'fa-brain','Bit Manipulation':'fa-microchip',
+      'Mathematics':'fa-calculator','Segment Trees':'fa-tree','Fenwick Tree':'fa-tree',
+      'Sparse Table':'fa-table','Advanced Trees':'fa-tree','Computational Geometry':'fa-vector-square',
+      'Randomized Algorithms':'fa-random','Advanced Techniques':'fa-cogs','CP Optimizations':'fa-bolt'
+    };
+    const conf = getConfidence();
+    const lr = getLastRevised();
+    let html = '';
+    for(const [topic, probs] of Object.entries(grouped)) {
+      const tid = 'topic-'+topic.replace(/\s+/g,'-');
+      html += `<div class="topic-section" id="${tid}">
+        <div class="topic-header"><div class="icon"><i class="fas ${iconMap[topic] || 'fa-folder'}"></i></div>
+        <h2>${topic}</h2><span class="count-badge">${probs.length} problems</span></div>`;
+      for(const p of probs) {
+        const cid = 'code-'+p.id;
+        const cl = conf[p.id] || 'never';
+        const last = lr[p.id];
+        html += `<div class="problem-card">
+          <div class="top-row"><span class="name">${getConfidenceEmoji(cl)} ${p.name}</span>
+          <span class="difficulty ${p.difficulty}">${p.difficulty}</span>
+          <span class="freq-badge ${p.frequency>=3?'freq-must':p.frequency>=2?'freq-common':'freq-rare'}">${p.frequency>=3?'🔥🔥🔥 Must Know':p.frequency>=2?'🔥🔥 Common':'🔥 Rare'}</span></div>
+          <div class="meta-row">
+            <span class="meta-tag pattern"><i class="fas fa-tag"></i> ${p.pattern}</span>
+            <span class="meta-tag complexity"><i class="fas fa-clock"></i> ${p.tc}</span>
+            <span class="meta-tag complexity"><i class="fas fa-memory"></i> ${p.sc}</span>
+            ${p.link ? `<span class="meta-tag"><a href="${p.link}" target="_blank"><i class="fas fa-external-link-alt"></i> Link</a></span>` : ''}
+          </div>`;
+        if(p.revision5sec) html += `<div class="revision-section"><div class="rev-title">🧠 5-Second Revision</div><div class="rev-content">${p.revision5sec.replace(/\n/g,'<br>')}</div></div>`;
+        if(p.patternRecognition) html += `<div class="revision-section pattern-rec"><div class="rev-title">🔍 Pattern Recognition</div><div class="rev-content">${p.patternRecognition.replace(/\n/g,'<br>')}</div></div>`;
+        if(p.edgeCases) html += `<div class="revision-section edge-cases"><div class="rev-title">⚠️ Edge Cases</div><div class="rev-content">${p.edgeCases.replace(/\n/g,'<br>')}</div></div>`;
+        if(p.commonMistakes) html += `<div class="revision-section mistakes"><div class="rev-title">❌ Common Mistakes</div><div class="rev-content">${p.commonMistakes.replace(/\n/g,'<br>')}</div></div>`;
+        if(p.keyFormula) html += `<div class="revision-section formula"><div class="rev-title">🎯 Key Formula</div><div class="rev-content">${p.keyFormula}</div></div>`;
+        html += `<div class="confidence-row">
+          <span style="font-size:0.6rem;color:var(--text3);margin-right:0.3rem;">Confidence:</span>
+          <button class="conf-btn strong ${cl==='strong'?'active':''}" onclick="setConfidenceLevel('${p.id}','strong')">🟢 Strong</button>
+          <button class="conf-btn needs-rev ${cl==='needs-rev'?'active':''}" onclick="setConfidenceLevel('${p.id}','needs-rev')">🟡 Needs Revision</button>
+          <button class="conf-btn forgot ${cl==='forgot'?'active':''}" onclick="setConfidenceLevel('${p.id}','forgot')">🔴 Forgot</button>
+        </div>
+        <div class="last-revised"><i class="fas fa-history"></i> Last Revised: ${getTimeAgo(last)}</div>`;
+        if(p.notes) html += `<div class="notes"><strong>💡 Approach:</strong> ${p.notes}</div>`;
+        html += renderCodeBlock(p, cid);
+        html += `</div>`;
+      }
+      html += `</div>`;
+    }
+    container.innerHTML = html;
+  }
+
+  function updateStats() {
+    document.getElementById('totalCount').textContent = PROBLEMS.length;
+    const total = filteredProblems.length;
+    const easy = filteredProblems.filter(p => p.difficulty==='easy').length;
+    const med = filteredProblems.filter(p => p.difficulty==='medium').length;
+    const hard = filteredProblems.filter(p => p.difficulty==='hard').length;
+    const topics = [...new Set(filteredProblems.map(p=>p.topic))].length;
+    document.getElementById('statsStrip').innerHTML = `
+      <span><i class="fas fa-list" style="color:var(--accent)"></i> ${total} problems</span>
+      <span><i class="fas fa-folder" style="color:var(--accent2)"></i> ${topics} topics</span>
+      <span><span style="color:var(--easy)">●</span> ${easy} Easy</span>
+      <span><span style="color:var(--medium)">●</span> ${med} Medium</span>
+      <span><span style="color:var(--hard)">●</span> ${hard} Hard</span>
+    `;
+    updateMasteryDashboard();
+    updateProgressStrip();
+  }
+
+  function updateMasteryDashboard() {
+    const conf = getConfidence();
+    let strong=0, needsRev=0, forgot=0, never=0;
+    const topicStats = {};
+    for(const p of PROBLEMS) {
+      const l = conf[p.id] || 'never';
+      if(l==='strong') strong++;
+      else if(l==='needs-rev') needsRev++;
+      else if(l==='forgot') forgot++;
+      else never++;
+      if(!topicStats[p.topic]) topicStats[p.topic] = {total:0, strong:0};
+      topicStats[p.topic].total++;
+      if(l==='strong') topicStats[p.topic].strong++;
+    }
+    document.getElementById('masteryGrid').innerHTML = `
+      <div class="mastery-card strong"><div class="count">${strong}</div><div class="label">🟢 Strong</div></div>
+      <div class="mastery-card needs-rev"><div class="count">${needsRev}</div><div class="label">🟡 Needs Revision</div></div>
+      <div class="mastery-card forgot"><div class="count">${forgot}</div><div class="label">🔴 Forgot</div></div>
+      <div class="mastery-card never"><div class="count">${never}</div><div class="label">⬜ Never Reviewed</div></div>
+    `;
+    let th='';
+    for(const [topic, stats] of Object.entries(topicStats)) {
+      const pct = stats.total ? Math.round(stats.strong/stats.total*100) : 0;
+      th += `<div class="mastery-topic-row"><span class="topic-name">${topic}</span><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div><span class="pct">${pct}%</span></div>`;
+    }
+    document.getElementById('masteryTopics').innerHTML = th;
+  }
+
+  function updateProgressStrip() {
+    const streak = getStreak();
+    const today = new Date().toISOString().split('T')[0];
+    const todayCount = streak.todayDate===today ? streak.todayCount : 0;
+    const curStreak = streak.todayDate===today ? streak.streak : (streak.lastDate===new Date(new Date().setDate(new Date().getDate()-1)).toISOString().split('T')[0] ? streak.streak : 0);
+    document.getElementById('progressStrip').innerHTML = `
+      <span><i class="fas fa-book-open" style="color:var(--accent3)"></i> Reviewed: <strong>${totalReviewedCount}</strong></span>
+      <span class="streak"><i class="fas fa-fire"></i> Streak: <strong>${curStreak} days</strong></span>
+      <span><i class="fas fa-calendar-check" style="color:var(--accent)"></i> Today: <strong>${todayCount}</strong></span>
+    `;
+  }
+
+  function filterProblems() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    filteredProblems = PROBLEMS.filter(p => {
+      if(activeFilter!=='all' && p.topic!==activeFilter) return false;
+      if(q && !p.name.toLowerCase().includes(q) && !p.topic.toLowerCase().includes(q) && !p.pattern.toLowerCase().includes(q)) return false;
+      return true;
+    });
+    renderProblems();
+    updateStats();
+  }
+
+  function setFilter(topic) {
+    activeFilter = topic;
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.filter===topic));
+    filterProblems();
+  }
+
+  function buildSidebar() {
+    const topics = getTopics();
+    const sidebar = document.getElementById('sidebarLinks');
+    let html = '';
+    for(const t of topics) {
+      const count = PROBLEMS.filter(p=>p.topic===t).length;
+      html += `<a class="sidebar-link" href="#topic-${t.replace(/\s+/g,'-')}" onclick="closeSidebar()">${t} <span class="count">${count}</span></a>`;
+    }
+    sidebar.innerHTML = html;
+    const chips = document.getElementById('filterChips');
+    let ch = `<button class="filter-chip active" data-filter="all" onclick="setFilter('all')">All (${PROBLEMS.length})</button>`;
+    for(const t of topics) {
+      const count = PROBLEMS.filter(p=>p.topic===t).length;
+      ch += `<button class="filter-chip" data-filter="${t}" onclick="setFilter('${t}')">${t} (${count})</button>`;
+    }
+    chips.innerHTML = ch;
+  }
+
+  function init() {
+    try {
+      const hist = getRevisionHistory();
+      totalReviewedCount = hist.length;
+      buildSidebar();
+      filterProblems();
+      updateStats();
+      updateMasteryDashboard();
+      updateProgressStrip();
+      // populate random topic filter
+      const sel = document.getElementById('randomTopicFilter');
+      for(const t of getTopics()) {
+        sel.innerHTML += `<option value="${t}">${t}</option>`;
+      }
+      console.log('✅ DSA Revision Hub ready');
+    } catch(e) {
+      console.error('❌ Init error:', e);
+      document.getElementById('problemContainer').innerHTML = '<div style="color:red;padding:2rem;">Something went wrong. Please check the console for details.</div>';
+    }
+  }
+
+  // Random Picker
+  window.openRandomPicker = function() { document.getElementById('randomModal').classList.add('show'); document.getElementById('randomResult').classList.remove('show'); };
+  window.closeRandomPicker = function() { document.getElementById('randomModal').classList.remove('show'); };
+  window.pickRandom = function() {
+    const mode = document.getElementById('randomMode').value;
+    const topic = document.getElementById('randomTopicFilter').value;
+    const diff = document.getElementById('randomDifficultyFilter').value;
+    let pool = [...PROBLEMS];
+    const conf = getConfidence();
+    if(mode==='forgot') pool = pool.filter(p => (conf[p.id]||'never')==='forgot');
+    else if(mode==='needs-rev') pool = pool.filter(p => (conf[p.id]||'never')==='needs-rev');
+    else if(mode==='must-know') pool = pool.filter(p => p.frequency===3);
+    else if(mode==='never-reviewed') pool = pool.filter(p => !conf[p.id] || conf[p.id]==='never');
+    if(topic!=='all') pool = pool.filter(p => p.topic===topic);
+    if(diff!=='all') pool = pool.filter(p => p.difficulty===diff);
+    if(!pool.length) {
+      document.getElementById('randomResult').innerHTML = '<div style="text-align:center;padding:1rem;color:var(--text3)">No problems found</div>';
+      document.getElementById('randomResult').classList.add('show');
+      return;
+    }
+    const p = pool[Math.floor(Math.random()*pool.length)];
+    recordRevision(p.id);
+    const cid = 'rcode-'+Date.now();
+    document.getElementById('randomResult').innerHTML = `
+      <div class="problem-card" style="margin:0;border-color:var(--accent);">
+        <div class="top-row"><span class="name">${p.name}</span><span class="difficulty ${p.difficulty}">${p.difficulty}</span></div>
+        <div class="meta-row">
+          <span class="meta-tag"><i class="fas fa-folder"></i> ${p.topic}</span>
+          <span class="meta-tag pattern"><i class="fas fa-tag"></i> ${p.pattern}</span>
+          <span class="meta-tag complexity">${p.tc}</span>
+          <span class="meta-tag complexity">${p.sc}</span>
+        </div>
+        ${p.revision5sec ? `<div class="revision-section"><div class="rev-title">🧠 5-Second Revision</div><div class="rev-content">${p.revision5sec.replace(/\n/g,'<br>')}</div></div>` : ''}
+        ${p.edgeCases ? `<div class="revision-section edge-cases"><div class="rev-title">⚠️ Edge Cases</div><div class="rev-content">${p.edgeCases.replace(/\n/g,'<br>')}</div></div>` : ''}
+        ${p.keyFormula ? `<div class="revision-section formula"><div class="rev-title">🎯 Key Formula</div><div class="rev-content">${p.keyFormula}</div></div>` : ''}
+        ${p.notes ? `<div class="notes"><strong>💡 Approach:</strong> ${p.notes}</div>` : ''}
+        ${renderCodeBlock(p, cid)}
+      </div>
+    `;
+    document.getElementById('randomResult').classList.add('show');
+  };
+
+  // Flashcard Mode
+  let flashcardPool = [], flashcardIndex=0, flashcardFlipped=false;
+  window.openFlashcardMode = function() {
+    flashcardPool = [...PROBLEMS];
+    flashcardIndex=0; flashcardFlipped=false;
+    document.getElementById('flashcardOverlay').classList.add('show');
+    document.getElementById('flashcardInner').classList.remove('flipped');
+    showFlashcard();
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeFlashcardMode = function() {
+    document.getElementById('flashcardOverlay').classList.remove('show');
+    document.body.style.overflow = '';
+  };
+  function showFlashcard() {
+    if(!flashcardPool.length){ window.closeFlashcardMode(); return; }
+    const p = flashcardPool[flashcardIndex];
+    document.getElementById('fcName').textContent = p.name;
+    document.getElementById('fcTopic').textContent = p.topic+' · '+p.difficulty;
+    document.getElementById('fcPattern').textContent = p.pattern || 'N/A';
+    document.getElementById('fcKeyIdea').textContent = (p.revision5sec || p.notes || 'N/A').replace(/\n/g,' | ');
+    document.getElementById('fcEdges').textContent = p.edgeCases || 'N/A';
+    document.getElementById('fcFormula').textContent = p.keyFormula || 'N/A';
+    document.getElementById('fcCounter').textContent = `${flashcardIndex+1} / ${flashcardPool.length}`;
+    flashcardFlipped = false;
+    document.getElementById('flashcardInner').classList.remove('flipped');
+    recordRevision(p.id);
+  }
+  window.flipFlashcard = function() {
+    flashcardFlipped = !flashcardFlipped;
+    document.getElementById('flashcardInner').classList.toggle('flipped', flashcardFlipped);
+  };
+  window.nextFlashcard = function() { flashcardIndex = (flashcardIndex+1)%flashcardPool.length; showFlashcard(); };
+  window.prevFlashcard = function() { flashcardIndex = (flashcardIndex-1+flashcardPool.length)%flashcardPool.length; showFlashcard(); };
+  document.addEventListener('keydown', function(e) {
+    if(!document.getElementById('flashcardOverlay').classList.contains('show')) return;
+    if(e.key===' ' || e.code==='Space'){ e.preventDefault(); window.flipFlashcard(); }
+    else if(e.key==='ArrowRight'){ e.preventDefault(); window.nextFlashcard(); }
+    else if(e.key==='ArrowLeft'){ e.preventDefault(); window.prevFlashcard(); }
+    else if(e.key==='Escape') window.closeFlashcardMode();
+  });
+
+  // Cheat Sheet Toggle
+  window.toggleCheatSheetMode = function() {
+    cheatSheetMode = !cheatSheetMode;
+    const sw = document.getElementById('modeSwitch');
+    const label = document.getElementById('modeLabel');
+    if(cheatSheetMode) {
+      document.body.classList.add('cheat-sheet-mode');
+      sw.classList.add('revision-mode');
+      label.textContent = 'Revision';
+      label.style.color = 'var(--accent2)';
+    } else {
+      document.body.classList.remove('cheat-sheet-mode');
+      sw.classList.remove('revision-mode');
+      label.textContent = 'Normal';
+      label.style.color = 'var(--text2)';
+    }
+  };
+
+  // Mobile Sidebar
+  document.getElementById('mobileToggle').addEventListener('click', ()=>{
+    document.getElementById('sidebar').classList.toggle('show');
+    document.getElementById('sidebarBackdrop').classList.toggle('show');
+  });
+  window.closeSidebar = function() {
+    document.getElementById('sidebar').classList.remove('show');
+    document.getElementById('sidebarBackdrop').classList.remove('show');
+  };
+  document.getElementById('sidebarBackdrop').addEventListener('click', window.closeSidebar);
+
+  // Init on DOM ready
+  document.addEventListener('DOMContentLoaded', init);
+
+})(); // end IIFE
+</script>
+</body>
+</html>
