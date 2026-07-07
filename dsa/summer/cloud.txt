@@ -1,0 +1,10 @@
+ssh -i *.pem ubuntu@ipaddress
+
+sudo npm install -g pm2
+
+pm2 start server.js
+
+pm2 stop name
+
+pm2 startup
+pm2 savew
