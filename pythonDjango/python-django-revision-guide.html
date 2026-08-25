@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python & Django — Rapid Revision Guide</title>
+<style>
+  :root{
+    --bg:#0b1020;
+    --panel:#121a30;
+    --panel2:#0d1326;
+    --border:#253052;
+    --text:#d9e2f8;
+    --muted:#8d97bd;
+    --accent:#4f8cff;
+    --accent2:#7c5cff;
+    --yellow:#ffd43b;
+    --green:#3fb950;
+    --red:#f85149;
+    --amber:#d29922;
+    --code-bg:#0a0f22;
+    --sidebar-w:290px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.65;
+    font-size:16px;
+  }
+  ::selection{background:rgba(79,140,255,.35)}
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);
+    background:var(--panel);border-right:1px solid var(--border);
+    padding:22px 16px;overflow-y:auto;z-index:50;
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .sidebar::-webkit-scrollbar{width:8px}
+  .sidebar::-webkit-scrollbar-thumb{background:#2a3560;border-radius:8px}
+  .brand{
+    display:flex;align-items:center;gap:10px;padding:6px 8px 18px;
+    border-bottom:1px solid var(--border);margin-bottom:12px;
+  }
+  .brand .logo{
+    width:38px;height:38px;border-radius:10px;flex-shrink:0;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    display:flex;align-items:center;justify-content:center;font-size:20px;
+  }
+  .brand h1{font-size:15px;line-height:1.3}
+  .brand p{font-size:11px;color:var(--muted)}
+  .toc-title{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:4px 10px}
+  .toc a{
+    display:flex;align-items:center;gap:10px;color:var(--muted);
+    text-decoration:none;padding:7px 10px;border-radius:8px;font-size:13.5px;
+    border:1px solid transparent;transition:all .15s ease;
+  }
+  .toc a .num{
+    width:22px;height:22px;border-radius:6px;flex-shrink:0;
+    background:#1a2444;color:var(--accent);font-size:11px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;transition:all .15s ease;
+  }
+  .toc a:hover{color:var(--text);background:#182146}
+  .toc a.active{color:var(--text);background:#1b274d;border-color:#2e3f77}
+  .toc a.active .num{background:var(--accent);color:#0b1020}
+  .toc a.done{color:var(--green)}
+  .toc a.done .num{background:rgba(63,185,80,.15);color:var(--green)}
+
+  /* ---------- Main ---------- */
+  .main{margin-left:var(--sidebar-w);padding:0 0 120px}
+  .hero{
+    padding:56px 48px 40px;position:relative;overflow:hidden;
+    background:
+      radial-gradient(900px 300px at 80% -40%, rgba(124,92,255,.35), transparent 60%),
+      radial-gradient(700px 260px at 10% -30%, rgba(79,140,255,.30), transparent 60%),
+      var(--panel);
+    border-bottom:1px solid var(--border);
+  }
+  .hero::after{
+    content:"";position:absolute;inset:auto 0 0 0;height:3px;
+    background:linear-gradient(90deg,var(--accent),var(--accent2) 50%,var(--yellow));
+  }
+  .hero .tag{
+    display:inline-block;font-size:12px;font-weight:600;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--yellow);
+    background:rgba(255,212,59,.1);border:1px solid rgba(255,212,59,.3);
+    padding:4px 12px;border-radius:999px;margin-bottom:16px;
+  }
+  .hero h2{font-size:34px;line-height:1.2;margin-bottom:10px}
+  .hero p{color:var(--muted);max-width:680px;font-size:15.5px}
+  .progress-wrap{
+    margin-top:26px;max-width:680px;
+    display:flex;align-items:center;gap:14px;
+  }
+  .progress-bar{flex:1;height:10px;background:#1a2444;border-radius:999px;overflow:hidden}
+  .progress-fill{
+    height:100%;width:0%;border-radius:999px;
+    background:linear-gradient(90deg,var(--accent),var(--green));
+    transition:width .4s ease;
+  }
+  .progress-text{font-size:13px;color:var(--muted);white-space:nowrap}
+
+  /* ---------- Search ---------- */
+  .search-row{
+    padding:20px 48px 0;display:flex;justify-content:center;
+  }
+  .search-box{
+    width:100%;max-width:820px;position:relative;
+  }
+  .search-box svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);opacity:.5}
+  .search-box input{
+    width:100%;padding:13px 18px 13px 46px;border-radius:12px;
+    background:var(--panel);border:1px solid var(--border);color:var(--text);
+    font-size:15px;outline:none;transition:border-color .15s ease;
+  }
+  .search-box input:focus{border-color:var(--accent)}
+  .search-box input::placeholder{color:var(--muted)}
+  .no-results{
+    display:none;text-align:center;color:var(--muted);
+    padding:40px;font-size:15px;
+  }
+
+  .content{max-width:860px;margin:0 auto;padding:34px 48px}
+
+  /* ---------- Sections ---------- */
+  .section{
+    background:var(--panel);border:1px solid var(--border);
+    border-radius:16px;margin-bottom:28px;overflow:hidden;
+    transition:border-color .2s ease;
+  }
+  .section:target{border-color:var(--accent)}
+  .sec-head{
+    display:flex;align-items:center;gap:14px;padding:18px 22px;
+    cursor:pointer;user-select:none;
+  }
+  .sec-head .badge{
+    width:34px;height:34px;border-radius:10px;flex-shrink:0;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#0b1020;font-weight:800;font-size:15px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .sec-head h3{font-size:18.5px;flex:1}
+  .sec-head .chev{color:var(--muted);transition:transform .2s ease;font-size:14px}
+  .section.collapsed .sec-head .chev{transform:rotate(-90deg)}
+  .learned-btn{
+    display:flex;align-items:center;gap:8px;flex-shrink:0;
+    font-size:12.5px;color:var(--muted);cursor:pointer;padding:6px 10px;
+    border-radius:8px;border:1px solid var(--border);background:transparent;
+    transition:all .15s ease;font-family:inherit;
+  }
+  .learned-btn:hover{border-color:var(--green);color:var(--text)}
+  .learned-btn.on{color:var(--green);border-color:rgba(63,185,80,.5);background:rgba(63,185,80,.1)}
+  .learned-btn .check{
+    width:16px;height:16px;border-radius:5px;border:1.5px solid var(--muted);
+    display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .15s ease;
+  }
+  .learned-btn.on .check{background:var(--green);border-color:var(--green);color:#0b1020}
+  .sec-body{padding:4px 22px 22px;border-top:1px solid var(--border)}
+  .section.collapsed .sec-body{display:none}
+
+  .sec-body p{margin:14px 0;color:var(--text)}
+  .sec-body p.lead{color:var(--muted);font-size:15px}
+  .sec-body h4{
+    font-size:14.5px;margin:24px 0 8px;color:var(--yellow);
+    letter-spacing:.02em;text-transform:uppercase;font-size:12.5px;
+  }
+  .sec-body h4:first-child{margin-top:16px}
+
+  /* ---------- Callouts ---------- */
+  .callout{
+    border-radius:10px;padding:12px 16px;margin:14px 0;font-size:14.5px;
+    border:1px solid;display:flex;gap:10px;align-items:flex-start;
+  }
+  .callout .ic{flex-shrink:0}
+  .callout.tip{border-color:rgba(210,153,34,.4);background:rgba(210,153,34,.08)}
+  .callout.warn{border-color:rgba(248,81,73,.4);background:rgba(248,81,73,.07)}
+  .callout.info{border-color:rgba(79,140,255,.4);background:rgba(79,140,255,.08)}
+
+  /* ---------- Code blocks ---------- */
+  .code{
+    position:relative;background:var(--code-bg);border:1px solid var(--border);
+    border-radius:12px;margin:14px 0;overflow:hidden;
+  }
+  .code-head{
+    display:flex;align-items:center;gap:8px;padding:8px 14px;
+    background:#0e1530;border-bottom:1px solid var(--border);
+  }
+  .dots{display:flex;gap:6px}
+  .dots i{width:10px;height:10px;border-radius:50%;display:block}
+  .dots i:nth-child(1){background:#f85149}
+  .dots i:nth-child(2){background:#ffd43b}
+  .dots i:nth-child(3){background:#3fb950}
+  .lang{font-size:11px;color:var(--muted);margin-left:6px;letter-spacing:.05em}
+  .copy-btn{
+    margin-left:auto;font-family:inherit;font-size:12px;color:var(--muted);
+    background:transparent;border:1px solid var(--border);padding:4px 12px;
+    border-radius:7px;cursor:pointer;transition:all .15s ease;
+  }
+  .copy-btn:hover{color:var(--text);border-color:var(--accent)}
+  .copy-btn.ok{color:var(--green);border-color:var(--green)}
+  .code pre{overflow-x:auto;padding:16px 18px;font-size:13.8px;line-height:1.6}
+  .code code{font-family:ui-monospace,"Cascadia Code","SF Mono",Menlo,Consolas,monospace}
+  code.inline{
+    background:#1a2444;border:1px solid var(--border);border-radius:5px;
+    padding:1px 7px;font-size:13.5px;color:#ffd9a8;white-space:nowrap;
+    font-family:ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;
+  }
+
+  /* syntax colors */
+  .tok-kw{color:#c792ea;font-weight:600}
+  .tok-bui{color:#4f8cff}
+  .tok-str{color:#9ece6a}
+  .tok-num{color:#ff9e64}
+  .tok-com{color:#565f89;font-style:italic}
+  .tok-dec{color:#ffd43b}
+
+  /* ---------- Tables ---------- */
+  table{
+    width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;
+    border:1px solid var(--border);border-radius:10px;overflow:hidden;
+  }
+  th,td{padding:9px 14px;text-align:left;border-bottom:1px solid var(--border)}
+  th{background:#182146;color:var(--yellow);font-size:12.5px;text-transform:uppercase;letter-spacing:.06em}
+  tr:last-child td{border-bottom:none}
+  tr:nth-child(even) td{background:rgba(255,255,255,.015)}
+  td:first-child{white-space:nowrap;font-family:ui-monospace,Menlo,Consolas,monospace;color:#ffd9a8}
+  td.plain:first-child{font-family:inherit;color:var(--text);white-space:normal}
+
+  /* ---------- Footer ---------- */
+  .footer{
+    max-width:860px;margin:0 auto;padding:0 48px;color:var(--muted);
+    font-size:13.5px;text-align:center;
+  }
+  .footer .heart{color:var(--red)}
+
+  /* ---------- Mobile ---------- */
+  .menu-btn{
+    display:none;position:fixed;top:16px;left:16px;z-index:60;
+    background:var(--panel);border:1px solid var(--border);color:var(--text);
+    border-radius:10px;padding:8px 12px;font-size:18px;cursor:pointer;
+  }
+  .overlay{display:none}
+  @media (max-width:900px){
+    .sidebar{
+      transform:translateX(-105%);transition:transform .25s ease;
+      box-shadow:0 0 60px rgba(0,0,0,.6);
+    }
+    .sidebar.open{transform:translateX(0)}
+    .overlay.show{
+      display:block;position:fixed;inset:0;background:rgba(5,8,20,.7);
+      z-index:45;backdrop-filter:blur(2px);
+    }
+    .menu-btn{display:block}
+    .main{margin-left:0}
+    .hero{padding:64px 22px 32px}
+    .search-row{padding:18px 22px 0}
+    .content{padding:24px 16px}
+    .footer{padding:0 16px}
+    .sec-head{padding:14px 16px}
+    .sec-body{padding:2px 16px 18px}
+    .hero h2{font-size:26px}
+  }
+</style>
+</head>
+<body>
+
+<button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+<div class="overlay" id="overlay"></div>
+
+<!-- ==================== SIDEBAR ==================== -->
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="logo">🐍</div>
+    <div>
+      <h1>Python &amp; Django</h1>
+      <p>Rapid Revision Guide</p>
+    </div>
+  </div>
+  <div class="toc-title">Contents</div>
+  <nav class="toc" id="toc">
+    <a href="#setup"><span class="num">1</span>Ubuntu Setup</a>
+    <a href="#basics"><span class="num">2</span>Variables &amp; Types</a>
+    <a href="#operators"><span class="num">3</span>Operators</a>
+    <a href="#strings"><span class="num">4</span>Strings</a>
+    <a href="#lists"><span class="num">5</span>Lists</a>
+    <a href="#dicts"><span class="num">6</span>Tuples, Sets, Dicts</a>
+    <a href="#conditions"><span class="num">7</span>if / elif / else</a>
+    <a href="#loops"><span class="num">8</span>Loops</a>
+    <a href="#functions"><span class="num">9</span>Functions</a>
+    <a href="#comprehensions"><span class="num">10</span>List Comprehension</a>
+    <a href="#errors"><span class="num">11</span>Error Handling</a>
+    <a href="#files"><span class="num">12</span>Files</a>
+    <a href="#oop"><span class="num">13</span>OOP (Classes)</a>
+    <a href="#modules"><span class="num">14</span>Modules &amp; Imports</a>
+    <a href="#django"><span class="num">15</span>Django Basics</a>
+    <a href="#cheatsheet"><span class="num">16</span>Quick Cheat Sheet</a>
+  </nav>
+</aside>
+
+<!-- ==================== MAIN ==================== -->
+<div class="main">
+
+  <header class="hero">
+    <span class="tag">🐍 From zero to Django</span>
+    <h2>Python &amp; Django — Everything you forgot, in one page</h2>
+    <p>
+      You forgot Python, but you're now learning Django with it — no problem.
+      This page walks you through every essential: Ubuntu setup, core Python syntax,
+      and how Django puts it all together. Tick the ✅ "Learned" buttons as you go —
+      your progress is saved in your browser.
+    </p>
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <span class="progress-text" id="progressText">0 / 16 learned</span>
+    </div>
+  </header>
+
+  <div class="search-row">
+    <div class="search-box">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="text" id="searchInput" aria-label="Search topics" placeholder="Search topics…  (press / to focus)" autocomplete="off">
+    </div>
+  </div>
+
+  <div class="content" id="content">
+
+    <!-- ============ 1. UBUNTU SETUP ============ -->
+    <section class="section" id="setup">
+      <div class="sec-head">
+        <div class="badge">1</div>
+        <h3>Ubuntu — Install Python &amp; Django</h3>
+        <span class="chev">▼</span>
+        <button class="learned-btn" data-learned="setup"><span class="check">✓</span>Learned</button>
+      </div>
+      <div class="sec-body">
+        <p class="lead">Everything you need to type in the terminal. Open terminal with <code class="inline">Ctrl + Alt + T</code>.</p>
+
+        <h4>1. Check if Python is installed</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">terminal</span><button class="copy-btn">Copy</button></div>
+          <pre><code>python3 --version      # e.g. Python 3.12.3
+sudo apt update        # if it is not installed, run:
+sudo apt install python3 python3-pip</code></pre>
+        </div>
+
+        <h4>2. Create a virtual environment (best practice!)</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">terminal</span><button class="copy-btn">Copy</button></div>
+          <pre><code>cd ~/Desktop/work            # go to your project folder
+python3 -m venv myenv        # create virtual env named "myenv"
+source myenv/bin/activate    # turn it ON  (you will see (myenv) in prompt)
+deactivate                   # turn it OFF</code></pre>
+        </div>
+        <div class="callout tip"><span class="ic">💡</span><div>A virtual environment keeps your project's packages separate. <strong>Always activate it</strong> before installing or running anything for your project.</div></div>
+
+        <h4>3. Install Django</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">terminal</span><button class="copy-btn">Copy</button></div>
+          <pre><code>pip install django          # installs latest Django
+django-admin --version      # check it worked, e.g. 5.x
+pip freeze                  # see all installed packages</code></pre>
+        </div>
+
+        <h4>4. Create a project &amp; run it</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">terminal</span><button class="copy-btn">Copy</button></div>
+          <pre><code>django-admin startproject myproject   # one project = one website
+cd myproject
+python manage.py startapp myapp        # one app = one feature inside it
+python manage.py runserver             # start the server
+# open http://127.0.0.1:8000 in your browser</code></pre>
+        </div>
+        <div class="callout info"><span class="ic">🧭</span><div><strong>Project vs App:</strong> a <em>project</em> is the whole website (settings, urls). An <em>app</em> is a feature inside it (e.g. blog, shop, users). One project can have many apps.</div></div>
+
+        <h4>Quick reference — files Django creates</h4>
+        <table>
+          <tr><th>File</th><th>What it does</th></tr>
+          <tr><td>manage.py</td><td>Your command center (runserver, migrate, etc.)</td></tr>
+          <tr><td>settings.py</td><td>Project settings — apps, database, timezone, templates</td></tr>
+          <tr><td>urls.py</td><td>Maps web addresses to views</td></tr>
+          <tr><td>views.py</td><td>Python functions that handle requests</td></tr>
+          <tr><td>models.py</td><td>Your database tables written in Python</td></tr>
+          <tr><td>admin.py</td><td>Register models for the admin panel</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ 2. VARIABLES & TYPES ============ -->
+    <section class="section" id="basics">
+      <div class="sec-head">
+        <div class="badge">2</div>
+        <h3>Variables &amp; Data Types</h3>
+        <span class="chev">▼</span>
+        <button class="learned-btn" data-learned="basics"><span class="check">✓</span>Learned</button>
+      </div>
+      <div class="sec-body">
+        <p class="lead">In Python you just write <code class="inline">name = value</code> — no need to declare the type. Python figures it out.</p>
+
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>name = "Alice"        # str  (text)
+age = 20              # int  (whole number)
+height = 5.8          # float (decimal)
+is_student = True     # bool (True / False)
+nothing = None        # NoneType (means "empty / no value")
+
+print(name, age)      # Alice 20
+print(type(age))      # &lt;class 'int'&gt;  ← checks the type</code></pre>
+        </div>
+
+        <h4>The main data types</h4>
+        <table>
+          <tr><th>Type</th><th>Example</th><th>What it holds</th></tr>
+          <tr><td>int</td><td>42</td><td>Whole numbers</td></tr>
+          <tr><td>float</td><td>3.14</td><td>Decimal numbers</td></tr>
+          <tr><td>str</td><td>"hello"</td><td>Text</td></tr>
+          <tr><td>bool</td><td>True / False</td><td>Yes or no</td></tr>
+          <tr><td>list</td><td>[1, 2, 3]</td><td>Ordered, changeable collection</td></tr>
+          <tr><td>tuple</td><td>(1, 2, 3)</td><td>Ordered, <em>unchangeable</em></td></tr>
+          <tr><td>dict</td><td>{"a": 1}</td><td>Key → value pairs</td></tr>
+          <tr><td>set</td><td>{1, 2, 3}</td><td>Unique items, no order</td></tr>
+        </table>
+
+        <h4>Getting input from the user</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>name = input("Enter your name: ")   # input() ALWAYS returns a string
+age = input("Enter age: ")           # "18" is text, not a number!
+
+age = int(age)                       # convert string → int</code></pre>
+        </div>
+
+        <h4>Type conversion (casting)</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>int("5")       # 5     string → int
+str(100)       # "100"  int → string
+float("3.14")  # 3.14   string → float
+list("abc")    # ['a', 'b', 'c']
+int(3.9)       # 3      (truncates, doesn't round)</code></pre>
+        </div>
+
+        <h4>f-strings — the best way to combine text and variables</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>name = "Bob"
+age = 20
+print(f"Hi {name}, you are {age} years old.")
+# Hi Bob, you are 20 years old.
+
+print(f"Next year: {age + 1}")   # you can even compute inside {}</code></pre>
+        </div>
+        <div class="callout tip"><span class="ic">💡</span><div>Old way: <code class="inline">"Hi " + name + " you are " + str(age)</code> — annoying! f-strings are cleaner and faster to type.</div></div>
+      </div>
+    </section>
+
+    <!-- ============ 3. OPERATORS ============ -->
+    <section class="section" id="operators">
+      <div class="sec-head">
+        <div class="badge">3</div>
+        <h3>Operators</h3>
+        <span class="chev">▼</span>
+        <button class="learned-btn" data-learned="operators"><span class="check">✓</span>Learned</button>
+      </div>
+      <div class="sec-body">
+        <h4>Arithmetic</h4>
+        <table>
+          <tr><th>Symbol</th><th>Meaning</th><th>Example</th><th>Result</th></tr>
+          <tr><td>+</td><td>Add</td><td>7 + 3</td><td>10</td></tr>
+          <tr><td>-</td><td>Subtract</td><td>7 - 3</td><td>4</td></tr>
+          <tr><td>*</td><td>Multiply</td><td>7 * 3</td><td>21</td></tr>
+          <tr><td>/</td><td>Divide</td><td>7 / 2</td><td>3.5</td></tr>
+          <tr><td>//</td><td>Floor divide (no decimals)</td><td>7 // 2</td><td>3</td></tr>
+          <tr><td>%</td><td>Remainder (modulo)</td><td>7 % 2</td><td>1</td></tr>
+          <tr><td>**</td><td>Power</td><td>2 ** 3</td><td>8</td></tr>
+        </table>
+        <div class="callout tip"><span class="ic">💡</span><div><code class="inline">%</code> is super common in real code: <code class="inline">num % 2 == 0</code> means "num is even".</div></div>
+
+        <h4>Comparison — result is always True or False</h4>
+        <table>
+          <tr><th>Symbol</th><th>Meaning</th><th>Example</th><th>Result</th></tr>
+          <tr><td>==</td><td>Equal to</td><td>5 == 5</td><td>True</td></tr>
+          <tr><td>!=</td><td>Not equal</td><td>5 != 5</td><td>False</td></tr>
+          <tr><td>&gt;</td><td>Greater than</td><td>6 &gt; 5</td><td>True</td></tr>
+          <tr><td>&lt;</td><td>Less than</td><td>6 &lt; 5</td><td>False</td></tr>
+          <tr><td>&gt;=</td><td>Greater or equal</td><td>5 &gt;= 5</td><td>True</td></tr>
+          <tr><td>&lt;=</td><td>Less or equal</td><td>4 &lt;= 5</td><td>True</td></tr>
+        </table>
+        <div class="callout warn"><span class="ic">⚠️</span><div><strong>Remember:</strong> <code class="inline">=</code> assigns, <code class="inline">==</code> compares. Mixing them up is the #1 beginner bug.</div></div>
+
+        <h4>Logical — combine conditions</h4>
+        <table>
+          <tr><th>Operator</th><th>Meaning</th><th>Example</th></tr>
+          <tr><td>and</td><td>Both must be True</td><td>age &gt; 18 and age &lt; 60</td></tr>
+          <tr><td>or</td><td>At least one True</td><td>day == "sat" or day == "sun"</td></tr>
+          <tr><td>not</td><td>Flip the value</td><td>not is_student</td></tr>
+        </table>
+
+        <h4>Membership &amp; identity</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>"a" in "cat"          # True   (is "a" inside "cat"?)
+3 in [1, 2, 3]        # True
+"x" not in "cat"      # True
+x is None             # True if x is literally None
+a == b                # values equal?  (use ==, not is!)</code></pre>
+        </div>
+
+        <h4>Shortcut assignment</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>count = 10
+count += 5    # same as: count = count + 5   → 15
+count -= 2    # → 13
+count *= 2    # → 26
+count /= 2    # → 13.0
+count //= 3   # → 4.0
+count **= 2   # → 16.0</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 4. STRINGS ============ -->
+    <section class="section" id="strings">
+      <div class="sec-head">
+        <div class="badge">4</div>
+        <h3>Strings</h3>
+        <span class="chev">▼</span>
+        <button class="learned-btn" data-learned="strings"><span class="check">✓</span>Learned</button>
+      </div>
+      <div class="sec-body">
+        <p class="lead">Text in Python. Indexing starts at <strong>0</strong> — this trips everyone up at first!</p>
+
+        <h4>Creating strings</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>s1 = "hello"          # double quotes
+s2 = 'world'          # single quotes — same thing
+s3 = """multi
+line
+text"""               # triple quotes for long text
+s4 = "he said \"hi\"" # escape a quote with backslash</code></pre>
+        </div>
+
+        <h4>Indexing &amp; slicing (position numbers)</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>word = "python"
+#       012345   ← positions (starts at 0)
+word[0]      # 'p'
+word[3]      # 'h'
+word[-1]     # 'n'   negative = from the end
+word[0:3]    # 'pyt'  start:stop (stop NOT included)
+word[:3]     # 'pyt'  from start
+word[3:]     # 'hon'  to the end
+word[::2]    # 'pto'  step of 2
+len(word)    # 6     number of characters</code></pre>
+        </div>
+        <div class="callout tip"><span class="ic">💡</span><div>Slicing rule: <code class="inline">word[start:stop]</code> gives you items from <em>start</em> up to but <strong>not including</strong> <em>stop</em>. This rule applies to lists too.</div></div>
+
+        <h4>Handy string methods</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>s = "  Hello World  "
+
+s.lower()        # '  hello world  '
+s.upper()        # '  HELLO WORLD  '
+s.strip()        # 'Hello World'  (removes spaces at ends)
+s.replace("World", "Python")   # '  Hello Python  '
+s.split()        # ['Hello', 'World']  (split on spaces)
+s.split(",")     # split on any character you give
+"-".join(["a","b","c"])   # 'a-b-c'
+s.find("World")  # 8   position, or -1 if not found
+s.count("l")     # 3
+s.startswith("  ")  # True
+"abc" in s       # False
+"World" in s     # True</code></pre>
+        </div>
+
+        <h4>Combine strings</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>"Hello" + " " + "World"   # 'Hello World'
+"ha" * 3                    # 'hahaha'
+f"2 + 2 = {2+2}"            # '2 + 2 = 4'   ← f-string, use this</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 5. LISTS ============ -->
+    <section class="section" id="lists">
+      <div class="sec-head">
+        <div class="badge">5</div>
+        <h3>Lists</h3>
+        <span class="chev">▼</span>
+        <button class="learned-btn" data-learned="lists"><span class="check">✓</span>Learned</button>
+      </div>
+      <div class="sec-body">
+        <p class="lead">An ordered, changeable collection: <code class="inline">[a, b, c]</code>. You'll use lists every single day.</p>
+
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>fruits = ["apple", "banana", "cherry"]
+
+fruits[0]          # 'apple'  (first item)
+fruits[-1]         # 'cherry' (last item)
+len(fruits)        # 3
+
+fruits.append("mango")     # add at the END
+fruits.insert(1, "kiwi")   # insert at position 1
+fruits.remove("banana")    # remove by value
+last = fruits.pop()        # remove &amp; return last item
+fruits[0] = "grape"        # change an item
+
+"apple" in fruits  # True   (check if something is inside)
+
+fruits.sort()      # sort in place
+fruits.reverse()   # reverse in place
+sorted(fruits)     # returns a NEW sorted list (doesn't change it)</code></pre>
+        </div>
+
+        <h4>Looping over a list (see section 8 for more)</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>for fruit in fruits:
+    print(fruit)</code></pre>
+        </div>
+
+        <h4>Copying a list — careful!</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>a = [1, 2, 3]
+b = a            # ❌ b is NOT a copy — both point to the SAME list
+b.append(4)
+print(a)         # [1, 2, 3, 4]  ← a changed too!
+
+b = a[:]         # ✅ copy the whole list
+b = a.copy()     # ✅ also works</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 6. TUPLES, SETS, DICTS ============ -->
+    <section class="section" id="dicts">
+      <div class="sec-head">
+        <div class="badge">6</div>
+        <h3>Tuples, Sets &amp; Dictionaries</h3>
+        <span class="chev">▼</span>
+        <button class="learned-btn" data-learned="dicts"><span class="check">✓</span>Learned</button>
+      </div>
+      <div class="sec-body">
+
+        <h4>Tuple — like a list, but can't change</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>point = (3, 4)
+point[0]         # 3
+# point[0] = 5   # ❌ ERROR — tuples are fixed
+
+x, y = point     # unpacking — very handy!
+# x = 3, y = 4
+
+a, b = b, a      # swap two variables with one line!</code></pre>
+        </div>
+
+        <h4>Set — unique items only, no order</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>s = {1, 2, 2, 3, 3, 3}
+print(s)             # {1, 2, 3}  ← duplicates removed
+s.add(4)
+s.remove(1)
+{1, 2} | {2, 3}      # {1, 2, 3}  union
+{1, 2} &amp; {2, 3}      # {2}       intersection
+{1, 2} - {2}         # {1}       difference</code></pre>
+        </div>
+
+        <h4>Dictionary — key → value pairs (super important in Django!)</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>student = {
+    "name": "Alice",
+    "age": 20,
+    "subjects": ["Math", "CS"],
+}
+
+student["name"]        # 'Alice'  (get by key)
+student.get("age")     # 20
+student.get("grade", "not set")   # 'not set' (safe default)
+
+student["age"] = 21    # change value
+student["city"] = "Pune"   # add new key
+del student["city"]    # delete a key
+
+student.keys()         # dict_keys(['name', 'age', 'subjects'])
+student.values()       # values only
+student.items()        # pairs of (key, value)
+
+"name" in student      # True  (checks KEYS, not values)</code></pre>
+        </div>
+
+        <h4>Looping a dictionary</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>for key in student:          # keys only
+    print(key)
+
+for key, value in student.items():
+    print(f"{key} = {value}")</code></pre>
+        </div>
+        <div class="callout info"><span class="ic">🧭</span><div>In Django, dictionaries flow everywhere: a <em>view</em> sends a dictionary of data to a <em>template</em>, and templates read it with <code class="inline">{{ key }}</code>. Know your dicts!</div></div>
+      </div>
+    </section>
+
+    <!-- ============ 7. CONDITIONS ============ -->
+    <section class="section" id="conditions">
+      <div class="sec-head">
+        <div class="badge">7</div>
+        <h3>if / elif / else</h3>
+        <span class="chev">▼</span>
+        <button class="learned-btn" data-learned="conditions"><span class="check">✓</span>Learned</button>
+      </div>
+      <div class="sec-body">
+        <p class="lead"><strong>Indentation is everything in Python.</strong> Code inside a block must be indented (4 spaces). Forgetting it = <code class="inline">IndentationError</code>.</p>
+
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>marks = 75
+
+if marks &gt;= 90:
+    print("Grade A")
+elif marks &gt;= 75:          # "else if"
+    print("Grade B")
+elif marks &gt;= 60:
+    print("Grade C")
+else:                      # everything else
+    print("Fail")
+
+# 75 → prints "Grade B"</code></pre>
+        </div>
+
+        <h4>Truthiness — what counts as False?</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code># These are all FALSY (act like False):
+0, 0.0, "", [], {}, (), None
+
+if []:            # empty list → False → skipped
+    print("never printed")
+if "text":        # non-empty → True
+    print("always printed")
+
+if not name:      # common pattern: name is empty string
+    print("Name is required!")</code></pre>
+        </div>
+
+        <h4>Short "ternary" if — one line</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>age = 17
+status = "adult" if age &gt;= 18 else "minor"
+print(status)    # minor</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 8. LOOPS ============ -->
+    <section class="section" id="loops">
+      <div class="sec-head">
+        <div class="badge">8</div>
+        <h3>Loops</h3>
+        <span class="chev">▼</span>
+        <button class="learned-btn" data-learned="loops"><span class="check">✓</span>Learned</button>
+      </div>
+      <div class="sec-body">
+
+        <h4>for loop — the one you'll use 90% of the time</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>for i in range(5):       # 0,1,2,3,4  (starts at 0!)
+    print(i)
+
+for i in range(1, 6):    # 1,2,3,4,5  (start, stop)
+    print(i)
+
+for i in range(0, 10, 2):  # 0,2,4,6,8  (step)
+    print(i)</code></pre>
+        </div>
+        <div class="callout warn"><span class="ic">⚠️</span><div><code class="inline">range(5)</code> gives <strong>0 to 4</strong>, not 1 to 5. The stop number is never included — same rule as slicing!</div></div>
+
+        <h4>Looping over collections</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>for fruit in ["apple", "banana"]:
+    print(fruit)
+
+for ch in "abc":          # strings are iterable too
+    print(ch)
+
+for i, fruit in enumerate(["apple", "banana"]):
+    print(i, fruit)       # 0 apple / 1 banana  (index + value)</code></pre>
+        </div>
+
+        <h4>while loop</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>count = 0
+while count &lt; 3:
+    print(count)
+    count += 1     # ← MUST update, or infinite loop!
+
+# break   → exit the loop immediately
+# continue → skip to the next round
+for i in range(10):
+    if i == 3:
+        continue        # skip 3
+    if i == 7:
+        break           # stop at 7
+    print(i)            # 0,1,2,4,5,6</code></pre>
+        </div>
+
+        <h4>Nested loops (loop inside a loop)</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>for row in range(1, 4):
+    for col in range(1, 4):
+        print(f"({row},{col})", end=" ")
+    print()   # new line after each row</code></pre>
+        </div>
+
+        <h4>Sum with a loop</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>total = 0
+for n in [5, 10, 15]:
+    total += n
+print(total)   # 30   (same as sum([5, 10, 15]))</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 9. FUNCTIONS ============ -->
+    <section class="section" id="functions">
+      <div class="sec-head">
+        <div class="badge">9</div>
+        <h3>Functions</h3>
+        <span class="chev">▼</span>
+        <button class="learned-btn" data-learned="functions"><span class="check">✓</span>Learned</button>
+      </div>
+      <div class="sec-body">
+        <p class="lead">A function is a reusable block of code: <code class="inline">def name(parameters):</code>. Django views are just functions — master this!</p>
+
+        <h4>Basic function</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>def greet(name):
+    print(f"Hello, {name}!")
+
+greet("Alice")        # Hello, Alice!
+greet("Bob")          # Hello, Bob!</code></pre>
+        </div>
+
+        <h4>Returning a value</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>def add(a, b):
+    return a + b        # return = send the result back
+
+result = add(3, 5)      # result is now 8
+print(result)
+
+def is_even(num):
+    return num % 2 == 0
+
+print(is_even(10))      # True
+print(is_even(7))       # False</code></pre>
+        </div>
+
+        <h4>Default &amp; keyword arguments</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>def greet(name, greeting="Hello"):
+    print(f"{greeting}, {name}!")
+
+greet("Alice")                # Hello, Alice!  (default used)
+greet("Bob", "Hi")            # Hi, Bob!
+greet(name="Sam", greeting="Hey")   # keyword order doesn't matter</code></pre>
+        </div>
+
+        <h4>*args and **kwargs — any number of arguments</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>def total(*numbers):       # *args → tuple of all extra values
+    return sum(numbers)
+
+print(total(1, 2, 3))      # 6
+print(total(10, 20))       # 30
+
+def show(**info):          # **kwargs → dictionary
+    for key, value in info.items():
+        print(f"{key}: {value}")
+
+show(name="Alice", age=20)   # name: Alice / age: 20</code></pre>
+        </div>
+
+        <h4>lambda — a tiny one-line function</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>square = lambda x: x * x
+print(square(5))           # 25
+
+# same as:
+def square(x):
+    return x * x</code></pre>
+        </div>
+
+        <h4>Scope — inside vs outside</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>total = 0                       # global variable
+
+def add_ten(n):
+    total = n + 10              # local — different variable!
+    return total
+
+print(add_ten(5))               # 15
+print(total)                    # 0  (global unchanged)</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 10. LIST COMPREHENSIONS ============ -->
+    <section class="section" id="comprehensions">
+      <div class="sec-head">
+        <div class="badge">10</div>
+        <h3>List Comprehensions</h3>
+        <span class="chev">▼</span>
+        <button class="learned-btn" data-learned="comprehensions"><span class="check">✓</span>Learned</button>
+      </div>
+      <div class="sec-body">
+        <p class="lead">A shortcut to build a list in one line. Pattern: <code class="inline">[expression for item in list if condition]</code></p>
+
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code># squares of 0..4
+squares = [x * x for x in range(5)]
+print(squares)              # [0, 1, 4, 9, 16]
+
+# even numbers only
+nums = [1, 2, 3, 4, 5, 6]
+evens = [n for n in nums if n % 2 == 0]
+print(evens)                # [2, 4, 6]
+
+# uppercase a list of words
+words = ["hi", "bye"]
+upper = [w.upper() for w in words]
+print(upper)                # ['HI', 'BYE']
+
+# same thing with a normal loop (long way):
+evens2 = []
+for n in nums:
+    if n % 2 == 0:
+        evens2.append(n)</code></pre>
+        </div>
+        <div class="callout tip"><span class="ic">💡</span><div>Read it aloud: <em>"make a list of x*x for each x in range(5)"</em>. You can also make dict comprehensions: <code class="inline">{k: v for ...}</code>.</div></div>
+      </div>
+    </section>
+
+    <!-- ============ 11. ERRORS ============ -->
+    <section class="section" id="errors">
+      <div class="sec-head">
+        <div class="badge">11</div>
+        <h3>Error Handling (try / except)</h3>
+        <span class="chev">▼</span>
+        <button class="learned-btn" data-learned="errors"><span class="check">✓</span>Learned</button>
+      </div>
+      <div class="sec-body">
+        <p class="lead">Errors happen. <code class="inline">try</code> the risky code, <code class="inline">except</code> catches the problem instead of crashing.</p>
+
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>try:
+    age = int(input("Enter your age: "))
+    print(10 / age)
+except ValueError:              # input was not a number
+    print("That's not a number!")
+except ZeroDivisionError:       # age was 0
+    print("Can't divide by zero!")
+except Exception as e:          # catch anything else
+    print("Something went wrong:", e)
+else:
+    print("No errors!")         # runs only if NO error
+finally:
+    print("Always runs")        # runs no matter what</code></pre>
+        </div>
+
+        <h4>Common built-in errors</h4>
+        <table>
+          <tr><th>Error</th><th>When it happens</th></tr>
+          <tr><td>ValueError</td><td>Wrong value, e.g. int("abc")</td></tr>
+          <tr><td>TypeError</td><td>Wrong type, e.g. "5" + 5</td></tr>
+          <tr><td>ZeroDivisionError</td><td>Dividing by zero</td></tr>
+          <tr><td>IndexError</td><td>List index out of range</td></tr>
+          <tr><td>KeyError</td><td>Dict key doesn't exist</td></tr>
+          <tr><td>NameError</td><td>Variable not defined</td></tr>
+          <tr><td>FileNotFoundError</td><td>Opening a file that isn't there</td></tr>
+        </table>
+
+        <h4>Raising your own errors</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>def set_age(age):
+    if age &lt; 0:
+        raise ValueError("Age can't be negative!")
+    return age</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 12. FILES ============ -->
+    <section class="section" id="files">
+      <div class="sec-head">
+        <div class="badge">12</div>
+        <h3>Working with Files</h3>
+        <span class="chev">▼</span>
+        <button class="learned-btn" data-learned="files"><span class="check">✓</span>Learned</button>
+      </div>
+      <div class="sec-body">
+        <p class="lead">Always use <code class="inline">with open(...)</code> — it closes the file for you automatically.</p>
+
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code># WRITE (creates or overwrites the file)
+with open("notes.txt", "w") as f:
+    f.write("Hello file!\n")
+    f.write("Second line\n")
+
+# READ the whole file
+with open("notes.txt", "r") as f:
+    content = f.read()
+print(content)
+
+# READ line by line
+with open("notes.txt", "r") as f:
+    for line in f:
+        print(line.strip())   # strip removes the \n
+
+# APPEND (adds to the end, doesn't overwrite)
+with open("notes.txt", "a") as f:
+    f.write("More text\n")</code></pre>
+        </div>
+
+        <h4>File modes</h4>
+        <table>
+          <tr><th>Mode</th><th>Meaning</th></tr>
+          <tr><td>"r"</td><td>Read (default). Error if file missing</td></tr>
+          <tr><td>"w"</td><td>Write — overwrites everything</td></tr>
+          <tr><td>"a"</td><td>Append — add to the end</td></tr>
+          <tr><td>"r+"</td><td>Read AND write</td></tr>
+          <tr><td>"x"</td><td>Create only if it doesn't exist</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ 13. OOP ============ -->
+    <section class="section" id="oop">
+      <div class="sec-head">
+        <div class="badge">13</div>
+        <h3>OOP — Classes &amp; Objects</h3>
+        <span class="chev">▼</span>
+        <button class="learned-btn" data-learned="oop"><span class="check">✓</span>Learned</button>
+      </div>
+      <div class="sec-body">
+        <p class="lead">A <strong>class</strong> is a blueprint; an <strong>object</strong> is one thing made from it. Django models are classes — you need this!</p>
+
+        <h4>Create a class</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>class Student:
+    def __init__(self, name, age):
+        self.name = name        # attribute
+        self.age = age
+
+    def introduce(self):        # method = function inside a class
+        print(f"I'm {self.name}, {self.age} years old")
+
+s1 = Student("Alice", 20)       # create an object
+s2 = Student("Bob", 19)
+
+s1.introduce()                  # I'm Alice, 20 years old
+print(s1.name)                  # Alice</code></pre>
+        </div>
+        <div class="callout tip"><span class="ic">💡</span><div><code class="inline">__init__</code> runs automatically when you create an object. <code class="inline">self</code> = "this object". Every method must take <code class="inline">self</code> as its first parameter.</div></div>
+
+        <h4>Inheritance — a class based on another class</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>class Person:
+    def __init__(self, name):
+        self.name = name
+    def speak(self):
+        print(f"{self.name} speaks")
+
+class Teacher(Person):          # Teacher inherits from Person
+    def __init__(self, name, subject):
+        super().__init__(name)  # call the parent's __init__
+        self.subject = subject
+    def teach(self):
+        print(f"{self.name} teaches {self.subject}")
+
+t = Teacher("Dr. Sharma", "Python")
+t.speak()       # inherited method → Dr. Sharma speaks
+t.teach()       # own method → Dr. Sharma teaches Python
+isinstance(t, Person)   # True</code></pre>
+        </div>
+
+        <h4>Special dunder methods (double underscore)</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __str__(self):          # what print() shows
+        return f"Point({self.x}, {self.y})"
+
+    def __add__(self, other):   # what + does
+        return Point(self.x + other.x, self.y + other.y)
+
+p1 = Point(1, 2)
+p2 = Point(3, 4)
+print(p1)            # Point(1, 2)  ← via __str__
+print(p1 + p2)       # Point(4, 6)  ← via __add__</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 14. MODULES ============ -->
+    <section class="section" id="modules">
+      <div class="sec-head">
+        <div class="badge">14</div>
+        <h3>Modules &amp; Imports</h3>
+        <span class="chev">▼</span>
+        <button class="learned-btn" data-learned="modules"><span class="check">✓</span>Learned</button>
+      </div>
+      <div class="sec-body">
+        <p class="lead">Modules are files of reusable code. <code class="inline">import</code> brings them in.</p>
+
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>import math
+print(math.sqrt(16))      # 4.0
+
+from math import pi, sqrt   # import specific things
+print(pi)                   # 3.14159...
+
+import math as m            # alias — shorter name
+print(m.floor(3.7))         # 3
+
+# very common ones in class:
+from datetime import datetime
+print(datetime.now())       # current date &amp; time
+
+import random
+print(random.randint(1, 10))   # random int between 1 and 10</code></pre>
+        </div>
+
+        <h4>Import your own file</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code># helpers.py
+def double(x):
+    return x * 2
+
+# main.py  (same folder)
+import helpers
+print(helpers.double(5))       # 10
+
+from helpers import double     # or directly
+print(double(5))               # 10</code></pre>
+        </div>
+        <div class="callout info"><span class="ic">🧭</span><div>In Django you'll see imports everywhere: <code class="inline">from django.shortcuts import render</code>, <code class="inline">from django.db import models</code> — same idea!</div></div>
+      </div>
+    </section>
+
+    <!-- ============ 15. DJANGO ============ -->
+    <section class="section" id="django">
+      <div class="sec-head">
+        <div class="badge">15</div>
+        <h3>Django Basics — the Full Flow</h3>
+        <span class="chev">▼</span>
+        <button class="learned-btn" data-learned="django"><span class="check">✓</span>Learned</button>
+      </div>
+      <div class="sec-body">
+        <p class="lead">How a request travels: <strong>URL → View → Template</strong>. Data flows: <strong>Model → Database</strong>. Learn this loop and you understand Django.</p>
+
+        <div class="callout info"><span class="ic">🌐</span><div><strong>The request cycle:</strong> browser hits <code class="inline">/about</code> → Django checks <code class="inline">urls.py</code> → finds a matching path → calls the <em>view</em> → view does logic and calls <code class="inline">render()</code> → template HTML is sent back.</div></div>
+
+        <h4>1. Views — a Python function that returns a response</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code># myapp/views.py
+from django.shortcuts import render
+from django.http import HttpResponse
+
+def home(request):                       # request = browser's request
+    return HttpResponse("Hello, world!") # plain text reply
+
+def about(request):
+    return render(request, "about.html") # reply with a template
+
+def greet(request, name):                # captured from the URL
+    context = {
+        "name": name,
+        "age": 20,               # demo data for the template
+        "fruits": ["apple", "banana"],
+    }
+    return render(request, "greet.html", context)</code></pre>
+        </div>
+
+        <h4>2. URLs — wire addresses to views</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code># myapp/urls.py  (you create this file)
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("", views.home, name="home"),        # /  (home page)
+    path("about/", views.about, name="about"),
+    path("greet/&lt;str:name&gt;/", views.greet, name="greet"),
+]</code></pre>
+        </div>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code># myproject/urls.py  (the project's urls — add your app)
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("", include("myapp.urls")),   # include your app's urls
+]</code></pre>
+        </div>
+
+        <h4>3. Templates — HTML with Django's magic</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">html+django</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;!-- myapp/templates/greet.html --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Greetings&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello, {{ name }}!&lt;/h1&gt;   &lt;!-- {{ }} = print a variable --&gt;
+
+    {% if age &gt; 18 %}
+        &lt;p&gt;You are an adult&lt;/p&gt;
+    {% else %}
+        &lt;p&gt;You are young&lt;/p&gt;
+    {% endif %}
+
+    {% for fruit in fruits %}
+        &lt;li&gt;{{ fruit }}&lt;/li&gt;
+    {% endfor %}
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+        <div class="callout tip"><span class="ic">💡</span><div><code class="inline">{{ variable }}</code> prints a value. <code class="inline">{% if %}</code>, <code class="inline">{% for %}</code> are logic tags — always close them with <code class="inline">{% endif %}</code> / <code class="inline">{% endfor %}</code>.</div></div>
+
+        <h4>4. Models — your database as Python classes</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code># myapp/models.py
+from django.db import models
+
+class Student(models.Model):
+    name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    email = models.EmailField()
+    enrolled = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name      # how it shows in admin</code></pre>
+        </div>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">terminal</span><button class="copy-btn">Copy</button></div>
+          <pre><code># after changing models.py, ALWAYS run these two:
+python manage.py makemigrations   # 1. prepare the change
+python manage.py migrate          # 2. apply it to the database</code></pre>
+        </div>
+
+        <h4>5. Query the database (in views or the shell)</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code>python manage.py shell   # interactive Django Python
+
+from myapp.models import Student
+
+Student.objects.all()                    # every student
+Student.objects.get(id=1)                # exactly one (errors if none)
+Student.objects.get(name="Alice")
+Student.objects.filter(age__gte=18)      # age &gt;= 18
+Student.objects.filter(name__icontains="al")  # name contains "al"
+Student.objects.exclude(age__lt=18)      # NOT age &lt; 18
+Student.objects.order_by("-age")         # oldest first
+
+Student.objects.create(name="Bob", age=21)  # new row
+s = Student(name="Sam", age=20)
+s.save()                                 # or save like this
+
+s.age = 22
+s.save()                                 # update
+s.delete()                               # delete</code></pre>
+        </div>
+
+        <h4>6. Show data in a view</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code># views.py
+from .models import Student
+
+def students_list(request):
+    students = Student.objects.all()
+    return render(request, "students.html", {"students": students})</code></pre>
+        </div>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">html+django</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;!-- students.html --&gt;
+&lt;ul&gt;
+    {% for s in students %}
+        &lt;li&gt;{{ s.name }} — {{ s.age }} years old&lt;/li&gt;
+    {% empty %}
+        &lt;li&gt;No students yet.&lt;/li&gt;
+    {% endfor %}
+&lt;/ul&gt;</code></pre>
+        </div>
+
+        <h4>7. Admin panel — free UI for your data</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code># myapp/admin.py
+from django.contrib import admin
+from .models import Student
+
+admin.site.register(Student)</code></pre>
+        </div>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">terminal</span><button class="copy-btn">Copy</button></div>
+          <pre><code># create a superuser, then visit /admin/
+python manage.py createsuperuser
+python manage.py runserver
+# → http://127.0.0.1:8000/admin/</code></pre>
+        </div>
+
+        <h4>8. Forms — getting data from the user</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code># views.py — handle a POST request
+def add_student(request):
+    if request.method == "POST":
+        name = request.POST["name"]     # data from the form
+        age = request.POST["age"]
+        Student.objects.create(name=name, age=age)
+        return redirect("students_list")
+    return render(request, "add_student.html")</code></pre>
+        </div>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">html+django</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;!-- add_student.html --&gt;
+&lt;form method="post"&gt;
+    {% csrf_token %}            &lt;!-- ALWAYS include this in forms --&gt;
+    &lt;input type="text" name="name" placeholder="Name"&gt;
+    &lt;input type="number" name="age" placeholder="Age"&gt;
+    &lt;button type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+        </div>
+        <div class="callout warn"><span class="ic">⚠️</span><div>Every form that uses POST <strong>must</strong> have <code class="inline">{% csrf_token %}</code> inside it — otherwise Django blocks it with a 403 error.</div></div>
+
+        <h4>9. Static files (CSS, images, JS)</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">html+django</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;!-- at the top of your template --&gt;
+{% load static %}
+
+&lt;link rel="stylesheet" href="{% static 'css/style.css' %}"&gt;
+&lt;img src="{% static 'images/logo.png' %}"&gt;
+
+&lt;!-- put files in: myapp/static/css/style.css  --&gt;</code></pre>
+        </div>
+
+        <h4>10. settings.py — the 3 things you'll touch most</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code># myproject/settings.py
+
+INSTALLED_APPS = [
+    # ...
+    "myapp",        # ← add YOUR app here or Django won't see it
+]
+
+TEMPLATES = [
+    # ... "DIRS": []  → set to [BASE_DIR / "templates"] for global templates
+]
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",   # default: SQLite
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 16. CHEAT SHEET ============ -->
+    <section class="section" id="cheatsheet">
+      <div class="sec-head">
+        <div class="badge">16</div>
+        <h3>Quick Cheat Sheet</h3>
+        <span class="chev">▼</span>
+        <button class="learned-btn" data-learned="cheatsheet"><span class="check">✓</span>Learned</button>
+      </div>
+      <div class="sec-body">
+        <p class="lead">The 30 lines you'll actually type again and again.</p>
+
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">python</span><button class="copy-btn">Copy</button></div>
+          <pre><code># ---- basics ----
+name = input("Name: ")          # input → string
+print(f"Hi {name}")             # f-string
+x = int("42")                   # convert
+
+# ---- decisions &amp; loops ----
+if x &gt; 10 and x &lt; 100:
+    print("between")
+elif x == 10:
+    print("exactly ten")
+else:
+    print("other")
+
+for i in range(10):
+    print(i)
+for i, item in enumerate(list):
+    print(i, item)
+
+# ---- collections ----
+lst = [1, 2, 3]
+lst.append(4)                   # add at end
+d = {"key": "value"}
+d["key"]                        # get
+for k, v in d.items():          # loop dict
+    print(k, v)
+
+# ---- functions ----
+def my_func(a, b=10):           # default value
+    return a + b
+
+# ---- errors &amp; files ----
+try:
+    with open("f.txt", "r") as f:
+        data = f.read()
+except FileNotFoundError:
+    print("not found")
+
+# ---- oop ----
+class MyClass:
+    def __init__(self, x):
+        self.x = x
+    def method(self):
+        return self.x</code></pre>
+        </div>
+
+        <h4>Django in 8 commands</h4>
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span class="lang">terminal</span><button class="copy-btn">Copy</button></div>
+          <pre><code>django-admin startproject myproject
+cd myproject
+python manage.py startapp myapp
+# add "myapp" to INSTALLED_APPS in settings.py
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver</code></pre>
+        </div>
+
+        <h4>If you see an error…</h4>
+        <table>
+          <tr><th>Error message</th><th>What it usually means</th></tr>
+          <tr><td>IndentationError</td><td>Spacing is wrong — check your tabs/spaces</td></tr>
+          <tr><td>ModuleNotFoundError: No module named 'django'</td><td>Virtual env not activated or Django not installed</td></tr>
+          <tr><td>NameError</td><td>Typo in a variable/function name</td></tr>
+          <tr><td>SyntaxError</td><td>Missing colon, bracket, or quote</td></tr>
+          <tr><td>KeyError</td><td>Dict key doesn't exist — use .get()</td></tr>
+          <tr><td>DoesNotExist</td><td>Django .get() found nothing</td></tr>
+          <tr><td>403 Forbidden</td><td>Missing {% csrf_token %} in your form</td></tr>
+          <tr><td>NoReverseMatch</td><td>Wrong URL name in {% url %} or redirect()</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <div class="no-results" id="noResults">🔍 No sections match your search. Try another word.</div>
+
+  </div>
+
+  <footer class="footer">
+    <p>Made with <span class="heart">♥</span> for your Django class — keep this file, open it anytime, and come back before every exam. 🐍</p>
+  </footer>
+
+</div>
+
+<script>
+/* ================= Syntax highlighting ================= */
+const STRING = /("""[\s\S]*?"""|'''[\s\S]*?'''|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*')/;
+const COMMENT = /(#[^\n]*)/;
+const DECORATOR = /(@[\w.]+)/;
+const NUMBER = /(\b\d+(?:\.\d+)?\b)/;
+const KEYWORD = /(\b(?:def|class|return|if|elif|else|for|while|in|not|and|or|is|None|True|False|import|from|as|with|try|except|finally|raise|lambda|pass|yield|global|break|continue|del|assert|async|await)\b)/;
+const BUILTIN = /(\b(?:print|len|range|type|int|str|float|bool|list|dict|set|tuple|enumerate|zip|input|sum|min|max|sorted|reversed|abs|round|open|isinstance|super|filter|map|format|repr|id|self)\b)/;
+const COMBINED = new RegExp([STRING.source, COMMENT.source, DECORATOR.source, NUMBER.source, KEYWORD.source, BUILTIN.source].join("|"), "g");
+
+function highlight(code) {
+  const esc = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  let out = "", last = 0, m;
+  COMBINED.lastIndex = 0;
+  while ((m = COMBINED.exec(esc)) !== null) {
+    out += esc.slice(last, m.index);
+    let cls;
+    if (m[1]) cls = "tok-str";
+    else if (m[2]) cls = "tok-com";
+    else if (m[3]) cls = "tok-dec";
+    else if (m[4]) cls = "tok-num";
+    else if (m[5]) cls = "tok-kw";
+    else if (m[6]) cls = "tok-bui";
+    else cls = "tok-bui";
+    out += '<span class="' + cls + '">' + m[0] + '</span>';
+    last = m.index + m[0].length;
+  }
+  out += esc.slice(last);
+  return out;
+}
+
+document.querySelectorAll(".code pre code").forEach(function (el) {
+  el.innerHTML = highlight(el.textContent);
+});
+
+/* ================= Copy buttons ================= */
+function fallbackCopy(text) {
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  ta.style.position = "fixed";
+  ta.style.opacity = "0";
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand("copy"); } catch (e) {}
+  document.body.removeChild(ta);
+}
+
+document.querySelectorAll(".copy-btn").forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    const code = btn.closest(".code").querySelector("code");
+    const text = code.innerText;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        btn.textContent = "Copied!";
+        btn.classList.add("ok");
+        setTimeout(function () { btn.textContent = "Copy"; btn.classList.remove("ok"); }, 1500);
+      });
+    } else {
+      fallbackCopy(text);
+      btn.textContent = "Copied!";
+      setTimeout(function () { btn.textContent = "Copy"; }, 1500);
+    }
+  });
+});
+
+/* ================= Collapse sections (keyboard accessible) ================= */
+document.querySelectorAll(".sec-head").forEach(function (head) {
+  head.setAttribute("role", "button");
+  head.setAttribute("tabindex", "0");
+  head.setAttribute("aria-expanded", "true");
+  function toggleCollapse(e) {
+    if (e.target.closest(".learned-btn")) return; // don't collapse when clicking "Learned"
+    const section = head.parentElement;
+    section.classList.toggle("collapsed");
+    head.setAttribute("aria-expanded", section.classList.contains("collapsed") ? "false" : "true");
+  }
+  head.addEventListener("click", toggleCollapse);
+  head.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleCollapse(e);
+    }
+  });
+});
+
+/* ================= Progress tracking ================= */
+const TOTAL = document.querySelectorAll(".learned-btn").length;
+let done = [];
+try { done = JSON.parse(localStorage.getItem("pyrev-done") || "[]"); } catch (e) { done = []; }
+
+function saveDone() { localStorage.setItem("pyrev-done", JSON.stringify(done)); }
+
+function updateProgress() {
+  const fill = document.getElementById("progressFill");
+  const text = document.getElementById("progressText");
+  const pct = Math.round((done.length / TOTAL) * 100);
+  fill.style.width = pct + "%";
+  text.textContent = done.length + " / " + TOTAL + " learned";
+  document.querySelectorAll(".toc a").forEach(function (a) {
+    const id = a.getAttribute("href").slice(1);
+    if (done.indexOf(id) !== -1) a.classList.add("done");
+    else a.classList.remove("done");
+  });
+}
+
+document.querySelectorAll(".learned-btn").forEach(function (btn) {
+  if (done.indexOf(btn.dataset.learned) !== -1) btn.classList.add("on");
+  btn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    const id = btn.dataset.learned;
+    const idx = done.indexOf(id);
+    if (idx === -1) { done.push(id); btn.classList.add("on"); }
+    else { done.splice(idx, 1); btn.classList.remove("on"); }
+    saveDone();
+    updateProgress();
+  });
+});
+updateProgress();
+
+/* ================= Sidebar active link ================= */
+const tocLinks = document.querySelectorAll(".toc a");
+const sections = document.querySelectorAll(".section");
+const observer = new IntersectionObserver(function (entries) {
+  entries.forEach(function (entry) {
+    if (entry.isIntersecting) {
+      tocLinks.forEach(function (a) {
+        a.classList.toggle("active", a.getAttribute("href") === "#" + entry.target.id);
+      });
+    }
+  });
+}, { rootMargin: "-20% 0px -70% 0px" });
+sections.forEach(function (s) { observer.observe(s); });
+
+/* ================= Search ================= */
+const searchInput = document.getElementById("searchInput");
+const noResults = document.getElementById("noResults");
+
+searchInput.addEventListener("input", function () {
+  const q = searchInput.value.trim().toLowerCase();
+  let visible = 0;
+  sections.forEach(function (s) {
+    const match = !q || s.textContent.toLowerCase().indexOf(q) !== -1;
+    s.style.display = match ? "" : "none";
+    if (match) visible++;
+  });
+  noResults.style.display = visible === 0 ? "block" : "none";
+});
+
+document.addEventListener("keydown", function (e) {
+  if (e.key === "/" && document.activeElement !== searchInput) {
+    e.preventDefault();
+    searchInput.focus();
+  }
+  if (e.key === "Escape" && document.activeElement === searchInput) {
+    searchInput.blur();
+  }
+});
+
+/* ================= Mobile menu ================= */
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
+const menuBtn = document.getElementById("menuBtn");
+
+function closeMenu() {
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+}
+menuBtn.addEventListener("click", function () {
+  sidebar.classList.toggle("open");
+  overlay.classList.toggle("show");
+});
+overlay.addEventListener("click", closeMenu);
+document.querySelectorAll(".toc a").forEach(function (a) {
+  a.addEventListener("click", closeMenu);
+});
+</script>
+</body>
+</html>
