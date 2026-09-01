@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSE493 — Expanded Practice Questions &amp; Detailed Answers</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f0f23; color: #e0e0e0; line-height: 1.7; }
+        .hero { background: linear-gradient(135deg, #1a1a3e 0%, #0d47a1 50%, #1b5e20 100%); padding: 50px 20px; text-align: center; border-bottom: 3px solid #4caf50; }
+        .hero h1 { font-size: 2.2em; color: #fff; }
+        .hero p { font-size: 1.1em; color: #a5d6a7; margin-top: 10px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        .section-header { background: linear-gradient(90deg, #1b5e20, #2e7d32); color: #fff; padding: 20px 25px; border-radius: 10px; margin: 35px 0 15px 0; font-size: 1.3em; }
+        .q { background: #1a1a2e; border-left: 4px solid #ff9800; padding: 18px 22px; margin: 12px 0; border-radius: 0 10px 10px 0; }
+        .q h4 { color: #ffb74d; margin-bottom: 8px; }
+        .a { background: #1c2333; border-left: 4px solid #4caf50; padding: 18px 22px; margin: 0 0 18px 0; border-radius: 0 10px 10px 0; }
+        .a h4 { color: #81c784; margin-bottom: 8px; }
+        .a .explanation { background: #151b2b; padding: 12px 16px; border-radius: 6px; margin: 10px 0; border-left: 3px solid #64b5f6; }
+        .a .explanation strong { color: #64b5f6; }
+        .cmd { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 14px 18px; margin: 8px 0; font-family: 'Courier New', monospace; color: #79c0ff; overflow-x: auto; white-space: pre-wrap; }
+        .cmd .cmt { color: #6a9955; }
+        .cmd .hl { color: #ffa657; }
+        .tip { background: #1a237e; border: 1px solid #5c6bc0; border-radius: 8px; padding: 12px 16px; margin: 10px 0; }
+        .tip::before { content: "💡 Tip: "; font-weight: bold; color: #64b5f6; }
+        .warn { background: #4a148c; border: 1px solid #9c27b0; border-radius: 8px; padding: 12px 16px; margin: 10px 0; }
+        .warn::before { content: "⚠️ Important: "; font-weight: bold; color: #ce93d8; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        th { background: #1b5e20; color: #fff; padding: 10px 14px; text-align: left; }
+        td { padding: 8px 14px; border-bottom: 1px solid #333; }
+        footer { background: #1a1a2e; padding: 25px; text-align: center; margin-top: 50px; border-top: 2px solid #4caf50; color: #666; }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>🐧 CSE493 — Expanded Practice Questions</h1>
+    <p>30 Detailed Questions with Step-by-Step Answers — Covers All Major Topics</p>
+</div>
+
+<div class="container">
+
+<!-- ============================================================ -->
+<!-- SECTION 1: DIRECTORY CREATION, WILDCARDS, REDIRECTION -->
+<!-- ============================================================ -->
+<div class="section-header" id="dir">📁 Section 1 — Directory Creation, Wildcards &amp; Redirection</div>
+
+<div class="q">
+    <h4>Q1. You are a new Linux admin at a tech company. Create this complete directory structure for a project called "WebApp" with subdirectories: src, docs, tests, backup. Inside src, create files index.html, style.css, app.js. Verify the full structure.</h4>
+</div>
+<div class="a">
+    <h4>Answer — Step by Step:</h4>
+    <div class="explanation"><strong>Step 1:</strong> Create the directory structure using <code>-p</code> (parents) flag</div>
+    <div class="cmd"><span class="cmt"># -p creates parent directories if they don't exist</span>
+mkdir -p WebApp/src
+mkdir -p WebApp/docs
+mkdir -p WebApp/tests
+mkdir -p WebApp/backup</div>
+    <div class="explanation"><strong>Step 2:</strong> Create the files inside src/</div>
+    <div class="cmd">touch WebApp/src/index.html
+touch WebApp/src/style.css
+touch WebApp/src/app.js</div>
+    <div class="explanation"><strong>Step 3:</strong> Verify the structure</div>
+    <div class="cmd"><span class="cmt"># Option 1: tree command (if available)</span>
+tree WebApp/
+
+<span class="cmt"># Option 2: ls -R (recursive listing)</span>
+ls -R WebApp/
+
+<span class="cmt"># Expected output:</span>
+<span class="cmt"># WebApp/:</span>
+<span class="cmt"># backup  docs  src  tests</span>
+<span class="cmt">#</span>
+<span class="cmt"># WebApp/backup:</span>
+<span class="cmt">#</span>
+<span class="cmt"># WebApp/docs:</span>
+<span class="cmt">#</span>
+<span class="cmt"># WebApp/src:</span>
+<span class="cmt"># app.js  index.html  style.css</span>
+<span class="cmt">#</span>
+<span class="cmt"># WebApp/tests:</span></div>
+    <div class="tip">You can also create everything in one line: <code>mkdir -p WebApp/{src,docs,tests,backup}</code> — this uses brace expansion!</div>
+</div>
+
+<div class="q">
+    <h4>Q2. Explain the difference between absolute path, relative path, and tilde (~). Give an example of each using the scenario: your current directory is /home/student/projects.</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <div class="cmd"><span class="cmt"># Current directory: /home/student/projects</span>
+
+<span class="cmt"># 1. ABSOLUTE PATH — always starts from / (root)</span>
+cat /home/student/projects/report.txt
+cat /etc/passwd
+
+<span class="cmt"># 2. RELATIVE PATH — starts from current location</span>
+cat report.txt                <span class="cmt"># same directory</span>
+cat ../downloads/file.txt     <span class="cmt"># go up one level, then into downloads</span>
+cat ./src/app.js              <span class="cmt"># go into src from current</span>
+
+<span class="cmt"># 3. TILDE (~) — shortcut for your home directory</span>
+cat ~/report.txt              <span class="cmt"># = /home/student/report.txt</span>
+ls ~/Desktop/                 <span class="cmt"># = /home/student/Desktop/</span></div>
+    <div class="tip"><code>..</code> means "go up one directory". <code>.</code> means "current directory". <code>~</code> means "home directory".</div>
+</div>
+
+<div class="q">
+    <h4>Q3. You have files: report_jan.txt, report_feb.txt, data_jan.txt, data_feb.txt, notes.txt. Using wildcard patterns, write commands to: (a) list only report files, (b) list only jan files, (c) list all .txt files, (d) copy only data files to backup/.</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <div class="cmd"><span class="cmt"># (a) List only report files — use report* pattern</span>
+ls report*.txt
+<span class="cmt"># Output: report_jan.txt report_feb.txt</span>
+
+<span class="cmt"># (b) List only jan files — use *jan* pattern</span>
+ls *jan*.txt
+<span class="cmt"># Output: report_jan.txt data_jan.txt</span>
+
+<span class="cmt"># (c) List all .txt files</span>
+ls *.txt
+<span class="cmt"># Output: report_jan.txt report_feb.txt data_jan.txt data_feb.txt notes.txt</span>
+
+<span class="cmt"># (d) Copy only data files to backup/</span>
+cp data*.txt backup/
+<span class="cmt"># Copies: data_jan.txt data_feb.txt</span></div>
+    <div class="explanation"><strong>Wildcard recap:</strong></div>
+    <div class="cmd"><span class="cmt"># * = matches ZERO or more characters</span>
+report*      <span class="cmt"># matches report, report1, report_jan.txt, etc.</span>
+
+<span class="cmt"># ? = matches EXACTLY ONE character</span>
+file?.txt    <span class="cmt"># matches file1.txt, fileA.txt — NOT file10.txt</span>
+
+<span class="cmt"># [ab] = matches one character in the bracket</span>
+file[12].txt <span class="cmt"># matches file1.txt or file2.txt — NOT file3.txt</span>
+
+<span class="cmt"># [0-9] = matches a range</span>
+data[0-3].txt <span class="cmt"># matches data0.txt, data1.txt, data2.txt, data3.txt</span></div>
+</div>
+
+<div class="q">
+    <h4>Q4. Explain the difference between &gt; and &gt;&gt; with examples. What happens if you accidentally use &gt; when you meant &gt;&gt;?</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <div class="cmd"><span class="cmt"># &gt; OVERWRITES — creates new file or REPLACES contents</span>
+echo "Line 1" > file.txt
+echo "Line 2" > file.txt
+cat file.txt
+<span class="cmt"># Output: Line 2    (Line 1 is GONE!)</span>
+
+<span class="cmt"># &gt;&gt; APPENDS — adds to end, keeps existing content</span>
+echo "Line 1" > file.txt
+echo "Line 2" >> file.txt
+cat file.txt
+<span class="cmt"># Output:</span>
+<span class="cmt"># Line 1</span>
+<span class="cmt"># Line 2</span></div>
+    <div class="warn">If you accidentally use <code>&gt;</code> instead of <code>&gt;&gt;</code>, you will LOSE all previous content in that file. There is no undo! Always double-check before pressing Enter.</div>
+    <div class="explanation"><strong>Real-world scenario:</strong> You're building a system report throughout the day. Use <code>&gt;</code> for the header once, then <code>&gt;&gt;</code> for every additional section.</div>
+    <div class="cmd">date > /tmp/report.txt            <span class="cmt"># Create file with date</span>
+hostname >> /tmp/report.txt        <span class="cmt"># Append hostname</span>
+df -h >> /tmp/report.txt           <span class="cmt"># Append disk info</span>
+free -h >> /tmp/report.txt         <span class="cmt"># Append memory info</span></div>
+</div>
+
+<div class="q">
+    <h4>Q5. What does 2&gt; do? What does 2&gt;&amp;1 mean? Create a command that saves both output and errors to one file.</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <div class="cmd"><span class="cmt"># In Linux, there are 3 streams:</span>
+<span class="cmt">#   0 = stdin  (input)</span>
+<span class="cmt">#   1 = stdout (normal output) — default</span>
+<span class="cmt">#   2 = stderr (error messages)</span>
+
+<span class="cmt"># 2&gt; redirects ERRORS to a file</span>
+find /etc -name "*.conf" 2> /tmp/errors.txt
+<span class="cmt"># Normal results go to screen, errors go to errors.txt</span>
+
+<span class="cmt"># 2&gt;&amp;1 means "redirect stderr to wherever stdout is going"</span>
+<span class="cmt"># This combines BOTH output and errors into one file:</span>
+
+find /etc -name "*.conf" > /tmp/all_output.txt 2>&1
+<span class="cmt"># Now both results AND errors are in all_output.txt</span>
+
+<span class="cmt"># Short version (bash shortcut):</span>
+find /etc -name "*.conf" &> /tmp/all_output.txt</div>
+    <div class="tip">Think of it this way: <code>2&gt;&amp;1</code> = "make error (2) go to the same place as normal output (1)".</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 2: PERMISSIONS, USER/GROUP MANAGEMENT -->
+<!-- ============================================================ -->
+<div class="section-header" id="perms">🔐 Section 2 — Permissions &amp; User/Group Management</div>
+
+<div class="q">
+    <h4>Q6. Create a user "alice" with a home directory, set her password to "alice123", then verify her UID, GID, home directory, and login shell. Show the exact commands and expected output.</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <div class="cmd"><span class="cmt"># Step 1: Create user with home directory</span>
+sudo useradd -m alice
+
+<span class="cmt"># Step 2: Set password</span>
+sudo passwd alice
+<span class="cmt"># Enter: alice123 (when prompted, type it twice)</span>
+
+<span class="cmt"># Step 3: Verify using id command</span>
+id alice
+<span class="cmt"># Expected output:</span>
+<span class="cmt"># uid=1001(alice) gid=1001(alice) groups=1001(alice)</span>
+<span class="cmt">#   ↑ UID        ↑ GID       ↑ primary group = alice</span>
+
+<span class="cmt"># Step 4: See full details from /etc/passwd</span>
+grep alice /etc/passwd
+<span class="cmt"># Expected output:</span>
+<span class="cmt"># alice:x:1001:1001::/home/alice:/bin/bash</span>
+<span class="cmt">#      ↑  ↑UID ↑GID ↑comment ↑home dir    ↑shell</span>
+
+<span class="cmt"># Step 5: Check login shell specifically</span>
+getent passwd alice | cut -d: -f7
+<span class="cmt"># Output: /bin/bash</span></div>
+</div>
+
+<div class="q">
+    <h4>Q7. Create groups "managers" and "developers". Create users bob (in managers), carol and dave (in developers). Make bob also a member of developers. Verify all memberships.</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <div class="cmd"><span class="cmt"># Step 1: Create groups</span>
+sudo groupadd managers
+sudo groupadd developers
+
+<span class="cmt"># Step 2: Create users with primary groups</span>
+sudo useradd -m -g managers bob
+sudo useradd -m -g developers carol
+sudo useradd -m -g developers dave
+
+<span class="cmt"># Step 3: Add bob to developers as supplementary group</span>
+<span class="cmt"># -a means APPEND (don't remove existing groups!)</span>
+sudo usermod -aG developers bob
+
+<span class="cmt"># Step 4: Verify all memberships</span>
+echo "=== Bob ==="
+id bob
+<span class="cmt"># uid=1001(bob) gid=1001(managers) groups=1001(managers),1002(developers)</span>
+
+echo "=== Carol ==="
+id carol
+<span class="cmt"># uid=1002(carol) gid=1002(developers) groups=1002(developers)</span>
+
+echo "=== Dave ==="
+id dave
+<span class="cmt"># uid=1003(dave) gid=1002(developers) groups=1002(developers)</span>
+
+<span class="cmt"># Alternative: check group membership</span>
+groups bob
+<span class="cmt"># Output: bob : managers developers</span></div>
+    <div class="warn">Always use <code>-a</code> with <code>-G</code> when adding supplementary groups! Without <code>-a</code>, <code>usermod -G developers bob</code> would REMOVE bob from all other groups and make developers his ONLY supplementary group.</div>
+</div>
+
+<div class="q">
+    <h4>Q8. A file has permissions -rwxr-x---. Explain what each part means in plain English. Then write the chmod command to change it to rw-rw-r-- using numeric notation.</h4>
+</div>
+<div class="a">
+    <h4>Answer — Reading the permission string:</h4>
+    <div class="cmd"><span class="cmt"># -rwxr-x---</span>
+<span class="cmt"># |   |    |</span>
+<span class="cmt"># |   |    └── Others (---) = no read, no write, no execute</span>
+<span class="cmt"># |   └─────── Group (r-x) = read, no write, execute</span>
+<span class="cmt"># └─────────── Owner (rwx) = read, write, execute</span>
+
+<span class="cmt"># Plain English:</span>
+<span class="cmt"># - The owner can read, write, and run this file</span>
+<span class="cmt"># - Members of the group can read and run it, but cannot modify it</span>
+<span class="cmt"># - Everyone else has NO access at all</span></div>
+    <div class="explanation"><strong>Now change to rw-rw-r--:</strong></div>
+    <div class="cmd"><span class="cmt"># Numeric calculation:</span>
+<span class="cmt"># rw- = 4+2+0 = 6</span>
+<span class="cmt"># rw- = 4+2+0 = 6</span>
+<span class="cmt"># r-- = 4+0+0 = 4</span>
+<span class="cmt"># Result: 664</span>
+
+chmod 664 filename.txt
+
+<span class="cmt"># Verify:</span>
+ls -l filename.txt
+<span class="cmt"># Output: -rw-rw-r-- 1 user group ... filename.txt</span></div>
+</div>
+
+<div class="q">
+    <h4>Q9. What is the SetGID bit? Why would you use it on a shared directory? Create a shared project directory, enable SetGID, create a file inside it, and verify the group inheritance.</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <div class="explanation"><strong>What is SetGID?</strong> When SetGID is set on a <strong>directory</strong>, any new files created inside it automatically inherit the directory's <strong>group</strong> (instead of the creator's primary group). This is essential for team collaboration.</div>
+    <div class="cmd"><span class="cmt"># Step 1: Create a shared directory owned by the developers group</span>
+sudo mkdir /project
+sudo chown root:developers /project
+
+<span class="cmt"># Step 2: Set permissions (775) and enable SetGID</span>
+sudo chmod 2775 /project
+<span class="cmt"># The "2" sets the SetGID bit</span>
+<span class="cmt"># 7=rwx for owner, 7=rwx for group, 5=r-x for others</span>
+
+<span class="cmt"># Alternative using symbolic:</span>
+sudo chmod g+s /project
+
+<span class="cmt"># Step 3: Verify SetGID is set (notice the 's' in group position)</span>
+ls -ld /project
+<span class="cmt"># Output: drwxrwsr-x 2 root developers 4096 ... /project</span>
+<span class="cmt">#                                  ↑ 's' means SetGID</span>
+
+<span class="cmt"># Step 4: Create a file as a user in the developers group</span>
+su - carol
+touch /project/carol_report.txt
+ls -l /project/carol_report.txt
+<span class="cmt"># Output: -rw-rw-r-- 1 carol developers ... carol_report.txt</span>
+<span class="cmt">#                            ↑       ↑</span>
+<span class="cmt">#                         owner   group = developers (inherited!)</span>
+<span class="cmt"># Without SetGID, group would be "carol" instead</span></div>
+</div>
+
+<div class="q">
+    <h4>Q10. You have a directory /shared with ACLs. User bob needs read+write access but isn't the owner or in the owning group. How do you grant this? Verify with getfacl.</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <div class="cmd"><span class="cmt"># Step 1: Grant bob read+write access using ACL</span>
+sudo setfacl -m u:bob:rw /shared
+
+<span class="cmt"># Step 2: Verify with getfacl</span>
+getfacl /shared
+<span class="cmt"># Output:</span>
+<span class="cmt"># # file: shared</span>
+<span class="cmt"># # owner: root</span>
+<span class="cmt"># # group: root</span>
+<span class="cmt"># user::rwx</span>
+<span class="cmt"># user:bob:rw-    ← This is the ACL entry for bob</span>
+<span class="cmt"># group::r-x</span>
+<span class="cmt"># other::---</span>
+
+<span class="cmt"># Step 3: Verify ls -l shows a + (means ACLs are active)</span>
+ls -ld /shared
+<span class="cmt"># Output: drwxr-x---+ 2 root root ... /shared</span>
+<span class="cmt">#                              ↑ '+' means ACLs exist</span>
+
+<span class="cmt"># To remove bob's ACL:</span>
+sudo setfacl -x u:bob /shared
+
+<span class="cmt"># To remove ALL ACLs:</span>
+sudo setfacl -b /shared</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 3: PROCESS CONTROL -->
+<!-- ============================================================ -->
+<div class="section-header" id="process">⚙️ Section 3 — Process Control (Jobs, bg/fg, Signals)</div>
+
+<div class="q">
+    <h4>Q11. You start a command that takes too long. Describe the exact steps to: suspend it, move to background, list all jobs, bring job #1 to foreground, and then kill it from the foreground.</h4>
+</div>
+<div class="a">
+    <h4>Answer — Complete workflow:</h4>
+    <div class="cmd"><span class="cmt"># 1. Start a long-running process</span>
+dd if=/dev/zero of=/tmp/bigfile bs=1M count=1000
+<span class="cmt"># Terminal is now blocked — you can't type anything</span>
+
+<span class="cmt"># 2. SUSPEND it with Ctrl+Z</span>
+^Z
+<span class="cmt"># Output: [1]+  Stopped   dd if=/dev/zero...</span>
+<span class="cmt"># You now have your terminal back!</span>
+
+<span class="cmt"># 3. Move to BACKGROUND</span>
+bg %1
+<span class="cmt"># Output: [1]+ dd if=/dev/zero ... &</span>
+<span class="cmt"># The process continues running in background</span>
+
+<span class="cmt"># 4. List all active jobs</span>
+jobs
+<span class="cmt"># Output: [1]+ Running dd if=/dev/zero ... &</span>
+
+<span class="cmt"># 5. Bring to foreground</span>
+fg %1
+<span class="cmt"># You're back in the dd process — terminal is blocked again</span>
+
+<span class="cmt"># 6. Kill it (Ctrl+C sends SIGINT = graceful stop)</span>
+^C
+<span class="cmt"># Process terminated</span></div>
+    <div class="explanation"><strong>Key shortcuts:</strong></div>
+    <div class="cmd"><span class="cmt"># Ctrl+Z  → Suspend current process</span>
+<span class="cmt"># bg %N   → Resume job N in background</span>
+<span class="cmt"># fg %N   → Bring job N to foreground</span>
+<span class="cmt"># jobs    → List all background/suspended jobs</span>
+<span class="cmt"># Ctrl+C  → Kill foreground process (SIGINT)</span>
+<span class="cmt"># Ctrl+D  → End-of-file / logout</span></div>
+</div>
+
+<div class="q">
+    <h4>Q12. Explain the difference between kill, kill -9, killall, and pkill. When would you use each one?</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <div class="cmd"><span class="cmt"># kill PID — sends SIGTERM (signal 15) — GRACEFUL</span>
+<span class="cmt"># Process can clean up (save files, close connections)</span>
+kill 1234
+
+<span class="cmt"># kill -9 PID — sends SIGKILL (signal 9) — FORCE</span>
+<span class="cmt"># Process dies immediately, NO cleanup. Use as last resort.</span>
+kill -9 1234
+
+<span class="cmt"># killall NAME — kills ALL processes with that name</span>
+killall firefox
+<span class="cmt"># Kills every single firefox process</span>
+
+<span class="cmt"># pkill NAME — kills by pattern match</span>
+pkill -f "python server.py"
+<span class="cmt"># Kills processes whose command line contains the pattern</span></div>
+    <table>
+        <tr><th>Command</th><th>Targets</th><th>Signal</th><th>When to Use</th></tr>
+        <tr><td><code>kill PID</code></td><td>One process by PID</td><td>SIGTERM (15)</td><td>Default — try this first</td></tr>
+        <tr><td><code>kill -9 PID</code></td><td>One process by PID</td><td>SIGKILL (9)</td><td>Process won't die with SIGTERM</td></tr>
+        <tr><td><code>killall name</code></td><td>All processes by name</td><td>SIGTERM (15)</td><td>Multiple instances of same app</td></tr>
+        <tr><td><code>pkill pattern</code></td><td>By command pattern</td><td>SIGTERM (15)</td><td>Match by command line text</td></tr>
+    </table>
+</div>
+
+<div class="q">
+    <h4>Q13. A process is consuming 99% CPU. Describe how to find it using both ps and top, then kill it safely. Show all commands.</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <div class="cmd"><span class="cmt"># METHOD 1: Using ps</span>
+
+<span class="cmt"># Find top CPU consumers (sorted by CPU %)</span>
+ps aux --sort=-%cpu | head -10
+<span class="cmt"># Output example:</span>
+<span class="cmt"># USER  PID %CPU %MEM COMMAND</span>
+<span class="cmt"># root 5678 99.0 5.2 /usr/bin/badprocess</span>
+
+<span class="cmt"># Note the PID (5678) and try to kill gracefully</span>
+kill 5678
+sleep 2
+ps aux | grep 5678
+<span class="cmt"># If still there, force kill:</span>
+kill -9 5678
+
+<span class="cmt"># METHOD 2: Using top (interactive)</span>
+top
+<span class="cmt"># Press P to sort by CPU</span>
+<span class="cmt"># Note the PID column</span>
+<span class="cmt"># Press k to kill — it asks for PID</span>
+<span class="cmt"># Type the PID, press Enter</span>
+<span class="cmt"># Choose signal (15 for SIGTERM)</span>
+<span class="cmt"># Press q to quit top</span>
+
+<span class="cmt"># METHOD 3: Quick one-liner to find and kill</span>
+ps aux | grep badprocess | grep -v grep | awk '{print $2}' | xargs kill</div>
+</div>
+
+<div class="q">
+    <h4>Q14. What is the difference between SIGTERM, SIGKILL, and SIGSTOP? List 3 more common signals.</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <table>
+        <tr><th>Signal</th><th>Number</th><th>What It Does</th><th>Can Be Ignored?</th></tr>
+        <tr><td><strong>SIGTERM</strong></td><td>15</td><td>Graceful shutdown — process can clean up</td><td>Yes</td></tr>
+        <tr><td><strong>SIGKILL</strong></td><td>9</td><td>Force kill — immediate termination, no cleanup</td><td>No</td></tr>
+        <tr><td><strong>SIGSTOP</strong></td><td>19</td><td>Pause/freeze the process</td><td>No</td></tr>
+        <tr><td><strong>SIGHUP</strong></td><td>1</td><td>Hangup — often means "reload config"</td><td>Yes</td></tr>
+        <tr><td><strong>SIGINT</strong></td><td>2</td><td>Interrupt — same as Ctrl+C</td><td>Yes</td></tr>
+        <tr><td><strong>SIGCONT</strong></td><td>18</td><td>Continue a stopped process (opposite of SIGSTOP)</td><td>Yes</td></tr>
+        <tr><td><strong>SIGUSR1</strong></td><td>10</td><td>User-defined signal 1</td><td>Yes</td></tr>
+    </table>
+    <div class="cmd"><span class="cmt"># List all signals</span>
+kill -l
+
+<span class="cmt"># Send specific signals</span>
+kill -SIGTERM 1234   <span class="cmt"># same as kill 1234</span>
+kill -SIGHUP 1234    <span class="cmt"># reload config</span>
+kill -SIGKILL 1234   <span class="cmt"># same as kill -9 1234</span></div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 4: FILE SEARCHING, SSH, JOURNALCTL -->
+<!-- ============================================================ -->
+<div class="section-header" id="search">🔍 Section 4 — File Searching, SSH &amp; journalctl</div>
+
+<div class="q">
+    <h4>Q15. Find all files in /etc that are larger than 1MB. Find all .log files modified in the last 7 days under /var. Find all files owned by user "alice" in /home. Show the commands.</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <div class="cmd"><span class="cmt"># Find files larger than 1MB in /etc</span>
+find /etc -type f -size +1M
+<span class="cmt"># -type f = regular files only</span>
+<span class="cmt"># -size +1M = bigger than 1 megabyte</span>
+
+<span class="cmt"># Find .log files modified in last 7 days under /var</span>
+find /var -type f -name "*.log" -mtime -7
+<span class="cmt"># -mtime -7 = modified less than 7 days ago</span>
+<span class="cmt"># -mtime +7 = modified MORE than 7 days ago</span>
+
+<span class="cmt"># Find all files owned by alice in /home</span>
+find /home -type f -user alice
+<span class="cmt"># -user alice = only files owned by alice</span>
+
+<span class="cmt"># Combining conditions:</span>
+find /var -type f -name "*.log" -mtime -1 -size +100k
+<span class="cmt"># Logs modified today AND larger than 100KB</span>
+
+<span class="cmt"># Perform action on found files (-exec):</span>
+find /tmp -name "*.txt" -exec rm {} \;
+<span class="cmt"># Deletes all .txt files in /tmp</span>
+<span class="cmt"># {} = placeholder for each found file</span>
+<span class="cmt"># \; = end of -exec command</span></div>
+</div>
+
+<div class="q">
+    <h4>Q16. Set up SSH key-based authentication from client to server. Explain every step. What are the advantages over password authentication?</h4>
+</div>
+<div class="a">
+    <h4>Answer — Complete setup:</h4>
+    <div class="cmd"><span class="cmt"># On the CLIENT machine:</span>
+
+<span class="cmt"># Step 1: Generate a key pair (public + private)</span>
+ssh-keygen -t rsa -b 4096
+<span class="cmt"># It asks: Where to save? → Press Enter for default (~/.ssh/id_rsa)</span>
+<span class="cmt"># It asks: Passphrase? → Enter one (optional but recommended)</span>
+<span class="cmt"># Creates two files:</span>
+<span class="cmt">#   ~/.ssh/id_rsa      (PRIVATE key — NEVER share this!)</span>
+<span class="cmt">#   ~/.ssh/id_rsa.pub  (PUBLIC key — safe to share)</span>
+
+<span class="cmt"># Step 2: Copy the public key to the server</span>
+ssh-copy-id alice@server.example.com
+<span class="cmt"># It asks for alice's password — enter it</span>
+<span class="cmt"># This adds your public key to server's ~/.ssh/authorized_keys</span>
+
+<span class="cmt"># Step 3: Test — login without password!</span>
+ssh alice@server.example.com
+<span class="cmt"># Should connect without asking for password</span></div>
+    <div class="explanation"><strong>Advantages of key-based auth:</strong></div>
+    <div class="cmd"><span class="cmt"># 1. More secure — 4096-bit key is nearly impossible to brute-force</span>
+<span class="cmt"># 2. No password to remember or type</span>
+<span class="cmt"># 3. Can't be intercepted (unlike passwords over network)</span>
+<span class="cmt"># 4. Required for automated scripts and cron jobs</span></div>
+</div>
+
+<div class="q">
+    <h4>Q17. You need to debug a failing web server. Using journalctl, show how to: (a) view last 30 entries for httpd, (b) follow logs in real-time, (c) show only errors, (d) show logs from the last hour, (e) save all httpd logs to a file.</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <div class="cmd"><span class="cmt"># (a) Last 30 entries for httpd</span>
+journalctl -u httpd -n 30
+<span class="cmt"># -u httpd = only httpd service</span>
+<span class="cmt"># -n 30 = last 30 lines</span>
+
+<span class="cmt"># (b) Follow in real-time (like tail -f)</span>
+journalctl -u httpd -f
+<span class="cmt"># Shows new log entries as they appear</span>
+<span class="cmt"># Press Ctrl+C to stop following</span>
+
+<span class="cmt"># (c) Show only errors and above</span>
+journalctl -u httpd -p err
+<span class="cmt"># Priority levels: emerg(0) alert(1) crit(2) err(3) warning(4) notice(5) info(6) debug(7)</span>
+<span class="cmt"># -p err = shows err, crit, alert, emerg</span>
+
+<span class="cmt"># (d) Show logs from the last hour</span>
+journalctl -u httpd --since "1 hour ago"
+<span class="cmt"># Other examples:</span>
+<span class="cmt"># --since "2026-01-01 10:00:00"</span>
+<span class="cmt"># --since yesterday</span>
+<span class="cmt"># --since "yesterday" --until "today"</span>
+
+<span class="cmt"># (e) Save to a file</span>
+journalctl -u httpd > /tmp/httpd_logs.txt
+<span class="cmt"># Or with timestamp:</span>
+echo "=== HTTPD LOGS - $(date) ===" > /tmp/httpd_logs.txt
+journalctl -u httpd >> /tmp/httpd_logs.txt</div>
+</div>
+
+<div class="q">
+    <h4>Q18. Explain the output of "ls -l" on a directory entry. What does each column mean? Example output: drwxr-x--- 2 alice developers 4096 Jan 15 10:30 /project</h4>
+</div>
+<div class="a">
+    <h4>Answer — Column by column breakdown:</h4>
+    <div class="cmd"><span class="cmt"># drwxr-x--- 2 alice developers 4096 Jan 15 10:30 /project</span>
+<span class="cmt"># |         |  |     |           |    |          |</span>
+<span class="cmt"># |         |  |     |           |    |          └─ File/directory name</span>
+<span class="cmt"># |         |  |     |           |    └─────────── Last modified date/time</span>
+<span class="cmt"># |         |  |     |           └──────────────── Size in bytes</span>
+<span class="cmt"># |         |  |     └──────────────────────────── Group owner</span>
+<span class="cmt"># |         |  └─────────────────────────────────── User owner</span>
+<span class="cmt"># |         └────────────────────────────────────── Number of hard links</span>
+<span class="cmt"># └──────────────────────────────────────────────── Type and permissions</span>
+
+<span class="cmt"># Breaking down permissions: d rwx r-x ---</span>
+<span class="cmt"># d = directory (could be - for file, l for link)</span>
+<span class="cmt"># rwx = owner: read, write, execute</span>
+<span class="cmt"># r-x = group: read, no write, execute</span>
+<span class="cmt"># --- = others: no access at all</span></div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 5: BASH SCRIPTS, CRON JOBS -->
+<!-- ============================================================ -->
+<div class="section-header" id="script">📝 Section 5 — Bash Scripts &amp; Cron Jobs</div>
+
+<div class="q">
+    <h4>Q19. Write a bash script that: (1) asks the user for their name, (2) checks if a directory called "backup" exists, (3) if not, creates it, (4) copies all .txt files from current directory into backup, (5) displays how many files were copied.</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <div class="cmd">#!/bin/bash
+
+<span class="cmt"># Step 1: Ask for name</span>
+echo -n "Enter your name: "
+read NAME
+echo "Hello, $NAME! Starting backup..."
+
+<span class="cmt"># Step 2 & 3: Check if backup directory exists, create if not</span>
+if [ ! -d "backup" ]; then
+    echo "backup/ directory not found. Creating it..."
+    mkdir backup
+else
+    echo "backup/ directory exists."
+fi
+
+<span class="cmt"># Step 4: Copy .txt files</span>
+cp *.txt backup/ 2>/dev/null
+
+<span class="cmt"># Step 5: Count and display</span>
+COUNT=$(ls backup/*.txt 2>/dev/null | wc -l)
+echo "Done! $COUNT .txt files copied to backup/"
+
+<span class="cmt"># Save as backup.sh, then:</span>
+chmod +x backup.sh
+./backup.sh</div>
+    <div class="explanation"><strong>Key concepts used:</strong></div>
+    <div class="cmd"><span class="cmt"># read NAME      — takes user input and stores it in variable NAME</span>
+<span class="cmt"># $NAME          — accesses the value stored in NAME</span>
+<span class="cmt"># [ ! -d "dir" ] — test if directory does NOT exist</span>
+<span class="cmt">#   -d = is a directory?</span>
+<span class="cmt">#   ! = NOT (negation)</span>
+<span class="cmt"># $(command)     — command substitution — runs command and captures output</span>
+<span class="cmt"># 2>/dev/null    — suppress error messages (if no .txt files exist)</span></div>
+</div>
+
+<div class="q">
+    <h4>Q20. Write a bash script using a for loop that creates 10 user accounts: user1 through user10. Each should have a home directory. Include error handling if the user already exists.</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <div class="cmd">#!/bin/bash
+
+echo "Creating 10 user accounts..."
+
+for i in $(seq 1 10); do
+    USERNAME="user${i}"
+
+    <span class="cmt"># Check if user already exists</span>
+    if id "$USERNAME" &>/dev/null; then
+        echo "WARNING: $USERNAME already exists. Skipping..."
+    else
+        <span class="cmt"># Create user with home directory</span>
+        sudo useradd -m "$USERNAME"
+        if [ $? -eq 0 ]; then
+            echo "SUCCESS: Created $USERNAME"
+        else
+            echo "ERROR: Failed to create $USERNAME"
+        fi
+    fi
+done
+
+echo "Done! Running: id user1 through user10"
+for i in $(seq 1 10); do
+    id "user${i}" 2>/dev/null
+done</div>
+    <div class="explanation"><strong>Key concepts:</strong></div>
+    <div class="cmd"><span class="cmt"># seq 1 10          — generates numbers 1 to 10</span>
+<span class="cmt"># $(seq 1 10)       — command substitution gives: 1 2 3 ... 10</span>
+<span class="cmt"># for i in ...      — loop variable i takes each value</span>
+<span class="cmt"># user${i}          — concatenates "user" + number (user1, user2...)</span>
+<span class="cmt"># id "$USERNAME" &>/dev/null — test if user exists, suppress output</span>
+<span class="cmt"># $?                — exit code of last command (0 = success)</span>
+<span class="cmt"># [ $? -eq 0 ]      — check if last command succeeded</span></div>
+</div>
+
+<div class="q">
+    <h4>Q21. Set up a cron job that: (a) runs a backup script every day at 2 AM, (b) clears /tmp every Sunday at midnight, (c) sends a status report every 5 minutes. Show the crontab entries and explain the format.</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <div class="cmd"><span class="cmt"># Open crontab editor</span>
+crontab -e
+
+<span class="cmt"># Add these lines:</span>
+
+<span class="cmt"># (a) Backup every day at 2:00 AM</span>
+0 2 * * * /home/admin/backup.sh >> /var/log/backup.log 2>&1
+
+<span class="cmt"># (b) Clear /tmp every Sunday at midnight</span>
+0 0 * * 0 find /tmp -type f -mtime +7 -delete
+
+<span class="cmt"># (c) Status report every 5 minutes</span>
+*/5 * * * * /home/admin/status_report.sh</div>
+    <div class="explanation"><strong>Cron format explained:</strong></div>
+    <div class="cmd"><span class="cmt"># ┌───────── minute (0-59)</span>
+<span class="cmt"># │ ┌───────── hour (0-23)</span>
+<span class="cmt"># │ │ ┌───────── day of month (1-31)</span>
+<span class="cmt"># │ │ │ ┌───────── month (1-12)</span>
+<span class="cmt"># │ │ │ │ ┌───────── day of week (0-7, 0=Sunday)</span>
+<span class="cmt"># │ │ │ │ │</span>
+<span class="cmt"># 0 2 * * *   → every day at 2:00 AM</span>
+<span class="cmt"># 0 0 * * 0   → every Sunday at midnight</span>
+<span class="cmt"># */5 * * * * → every 5 minutes</span>
+<span class="cmt"># * means "every" — */5 means "every 5th unit"</span>
+
+<span class="cmt"># Useful crontab commands:</span>
+crontab -l    <span class="cmt"># List your cron jobs</span>
+crontab -r    <span class="cmt"># Remove ALL cron jobs (dangerous!)</span>
+crontab -e    <span class="cmt"># Edit cron jobs</span></div>
+</div>
+
+<div class="q">
+    <h4>Q22. Write a bash script that accepts a filename as a command-line argument ($1) and reports: (a) if the file exists, (b) its size, (c) its permissions, (d) whether it's a file or directory.</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <div class="cmd">#!/bin/bash
+
+<span class="cmt"># Check if argument was provided</span>
+if [ -z "$1" ]; then
+    echo "Usage: $0 <filename>"
+    echo "Example: $0 /etc/passwd"
+    exit 1
+fi
+
+FILE="$1"
+
+echo "=== File Analysis: $FILE ==="
+
+<span class="cmt"># (a) Check if file exists</span>
+if [ -e "$FILE" ]; then
+    echo "✅ File exists: YES"
+else
+    echo "❌ File exists: NO"
+    exit 1
+fi
+
+<span class="cmt"># (b) File size</span>
+SIZE=$(du -h "$FILE" | cut -f1)
+echo "📏 Size: $SIZE"
+
+<span class="cmt"># (c) Permissions</span>
+PERMS=$(ls -ld "$FILE" | awk '{print $1}')
+echo "🔐 Permissions: $PERMS"
+
+<span class="cmt"># (d) File or directory?</span>
+if [ -f "$FILE" ]; then
+    echo "📄 Type: Regular file"
+elif [ -d "$FILE" ]; then
+    echo "📁 Type: Directory"
+elif [ -L "$FILE" ]; then
+    echo "🔗 Type: Symbolic link"
+else
+    echo "❓ Type: Other"
+fi
+
+<span class="cmt"># Save as analyze.sh, then:</span>
+chmod +x analyze.sh
+./analyze.sh /etc/passwd</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 6: SYSTEM ARCHITECTURE -->
+<!-- ============================================================ -->
+<div class="section-header" id="arch">🏗️ Section 6 — Full System Architecture Explanation</div>
+
+<div class="q">
+    <h4>Q23. Describe the complete Linux boot process from pressing the power button to getting a login prompt. Name each stage and what happens.</h4>
+</div>
+<div class="a">
+    <h4>Answer — The 6 stages of booting:</h4>
+    <div class="cmd"><span class="cmt">╔══════════════════════════════════════════════════════════╗</span>
+<span class="cmt">║           THE LINUX BOOT PROCESS (6 STAGES)             ║</span>
+<span class="cmt">╠══════════════════════════════════════════════════════════╣</span>
+<span class="cmt">║                                                        ║</span>
+<span class="cmt">║  STAGE 1: BIOS/UEFI                                   ║</span>
+<span class="cmt">║  • Power ON → hardware check (POST)                    ║</span>
+<span class="cmt">║  • Finds bootable disk                                 ║</span>
+<span class="cmt">║  • Hands control to boot loader                        ║</span>
+<span class="cmt">║                                                        ║</span>
+<span class="cmt">║  STAGE 2: GRUB2 Boot Loader                           ║</span>
+<span class="cmt">║  • Shows boot menu (kernel selection)                  ║</span>
+<span class="cmt">║  • Loads the selected kernel into memory               ║</span>
+<span class="cmt">║  • Loads initial RAM disk (initramfs)                  ║</span>
+<span class="cmt">║                                                        ║</span>
+<span class="cmt">║  STAGE 3: Kernel                                       ║</span>
+<span class="cmt">║  • Kernel loads and initializes hardware               ║</span>
+<span class="cmt">║  • Mounts root filesystem                              ║</span>
+<span class="cmt">║  • Starts PID 1 (systemd)                              ║</span>
+<span class="cmt">║                                                        ║</span>
+<span class="cmt">║  STAGE 4: systemd (PID 1)                              ║</span>
+<span class="cmt">║  • Reads /etc/systemd/system/default.target            ║</span>
+<span class="cmt">║  • Starts all required services                        ║</span>
+<span class="cmt">║  • Common targets:                                     ║</span>
+<span class="cmt">║    - graphical.target → GUI login                      ║</span>
+<span class="cmt">║    - multi-user.target → text login                    ║</span>
+<span class="cmt">║                                                        ║</span>
+<span class="cmt">║  STAGE 5: Services &amp; Daemons Start                    ║</span>
+<span class="cmt">║  • sshd, network, firewall, etc.                       ║</span>
+<span class="cmt">║  • Each enabled service starts automatically           ║</span>
+<span class="cmt">║                                                        ║</span>
+<span class="cmt">║  STAGE 6: Login Prompt                                 ║</span>
+<span class="cmt">║  • Display Manager (GUI) or getty (CLI)                ║</span>
+<span class="cmt">║  • User enters credentials                             ║</span>
+<span class="cmt">║  • Shell starts → you can work!                        ║</span>
+<span class="cmt">║                                                        ║</span>
+<span class="cmt">╚══════════════════════════════════════════════════════════╝</span></div>
+</div>
+
+<div class="q">
+    <h4>Q24. What is the Linux file system hierarchy? Explain the purpose of /, /etc, /var, /home, /tmp, /usr, /proc, /dev, /boot with one-line descriptions.</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <table>
+        <tr><th>Directory</th><th>Purpose</th><th>Key Files Inside</th></tr>
+        <tr><td><code>/</code></td><td>Root — the top of everything</td><td>All other directories branch from here</td></tr>
+        <tr><td><code>/boot</code></td><td>Boot loader and kernel files</td><td>grub2/, vmlinuz, initramfs</td></tr>
+        <tr><td><code>/etc</code></td><td>System configuration files</td><td>passwd, group, fstab, sshd_config</td></tr>
+        <tr><td><code>/home</code></td><td>User home directories</td><td>/home/alice, /home/bob</td></tr>
+        <tr><td><code>/var</code></td><td>Variable data (logs, caches)</td><td>log/, mail/, spool/</td></tr>
+        <tr><td><code>/tmp</code></td><td>Temporary files (cleared on reboot)</td><td>Temp data from any user</td></tr>
+        <tr><td><code>/usr</code></td><td>User programs and shared data</td><td>bin/, lib/, share/doc/</td></tr>
+        <tr><td><code>/proc</code></td><td>Virtual — kernel & process info</td><td>cpuinfo, meminfo, [PID]/</td></tr>
+        <tr><td><code>/dev</code></td><td>Device files (hardware as files)</td><td>sda, tty, null, zero</td></tr>
+        <tr><td><code>/opt</code></td><td>Optional/third-party software</td><td>Google/, Oracle/</td></tr>
+    </table>
+    <div class="tip">Think of it like a filing cabinet: <code>/etc</code> = instruction manual drawer, <code>/home</code> = personal desk, <code>/var</code> = inbox, <code>/tmp</code> = trash can, <code>/proc</code> = live dashboard.</div>
+</div>
+
+<div class="q">
+    <h4>Q25. Explain what happens when you type "cat /etc/passwd | grep alice | wc -l" at the command line. Describe piping, each command's role, and how data flows.</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <div class="cmd"><span class="cmt"># The command:</span>
+cat /etc/passwd | grep alice | wc -l
+
+<span class="cmt"># Data flow (left to right):</span>
+
+<span class="cmt"># ┌─────────────┐     ┌──────────────┐     ┌──────────────┐</span>
+<span class="cmt"># │ cat /etc/   │ ──→ │ grep alice   │ ──→ │ wc -l        │</span>
+<span class="cmt"># │ passwd      │     │              │     │              │</span>
+<span class="cmt"># │             │     │ Filters only │     │ Counts lines │</span>
+<span class="cmt"># │ Outputs all │     │ lines with   │     │ and prints   │</span>
+<span class="cmt"># │ lines in    │     │ "alice"      │     │ the number   │</span>
+<span class="cmt"># │ passwd file │     │              │     │              │</span>
+<span class="cmt"># └─────────────┘     └──────────────┘     └──────────────┘</span>
+
+<span class="cmt"># Step 1: cat /etc/passwd</span>
+<span class="cmt"># Reads the entire /etc/passwd file</span>
+<span class="cmt"># Output: all user account lines (maybe 30+ lines)</span>
+
+<span class="cmt"># Step 2: | (pipe) sends cat's output as input to grep</span>
+
+<span class="cmt"># Step 3: grep alice</span>
+<span class="cmt"># Scans each line and keeps only lines containing "alice"</span>
+<span class="cmt"># Output: maybe 2-3 lines (alice:x:1001:1001:...)</span>
+
+<span class="cmt"># Step 4: | (pipe) sends grep's output as input to wc</span>
+
+<span class="cmt"># Step 5: wc -l</span>
+<span class="cmt"># Counts the lines it received</span>
+<span class="cmt"># Output: 3 (meaning 3 lines matched)</span></div>
+    <div class="tip">The pipe <code>|</code> is like a conveyor belt. Each command's output becomes the next command's input. Data flows left → right.</div>
+</div>
+
+<div class="q">
+    <h4>Q26. Explain the relationship between UIDs 0, 1-999, and 1000+. What happens if you change a user's UID to 0?</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <table>
+        <tr><th>UID Range</th><th>Purpose</th><th>Examples</th></tr>
+        <tr><td><strong>0</strong></td><td>Superuser (root) — full system access</td><td>root</td></tr>
+        <tr><td><strong>1-999</strong></td><td>System accounts (for services, not people)</td><td>daemon, sshd, apache, nfs</td></tr>
+        <tr><td><strong>1000+</strong></td><td>Regular human users</td><td>alice(1001), bob(1002)</td></tr>
+    </table>
+    <div class="cmd"><span class="cmt"># WARNING: If you change a user's UID to 0:</span>
+sudo usermod -u 0 alice
+<span class="cmt"># alice now has ROOT privileges!</span>
+<span class="cmt"># This is a massive security risk.</span>
+<span class="cmt"># NEVER do this unless you have a very specific reason.</span></div>
+    <div class="warn">UID 0 = root access. Any user with UID 0 has full root privileges regardless of their username. This is a critical security concept for the exam!</div>
+</div>
+
+<div class="q">
+    <h4>Q27. What are the key differences between systemd and the older SysVinit? Why did Linux move to systemd?</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <table>
+        <tr><th>Feature</th><th>SysVinit (Old)</th><th>systemd (New)</th></tr>
+        <tr><td>Service management</td><td>service httpd start</td><td>systemctl start httpd</td></tr>
+        <tr><td>Boot speed</td><td>Sequential (slow)</td><td>Parallel (fast)</td></tr>
+        <tr><td>Dependency handling</td><td>Manual scripts</td><td>Automatic</td></tr>
+        <tr><td>Logging</td><td>syslog files only</td><td>journalctl (structured logs)</td></tr>
+        <tr><td>Enable at boot</td><td>chkconfig on</td><td>systemctl enable</td></tr>
+        <tr><td>Runlevels</td><td>0-6</td><td>Targets (e.g., multi-user.target)</td></tr>
+    </table>
+    <div class="cmd"><span class="cmt"># Old way (SysVinit):</span>
+service sshd start
+chkconfig sshd on
+tail -f /var/log/messages
+
+<span class="cmt"># New way (systemd):</span>
+systemctl start sshd
+systemctl enable sshd
+journalctl -u sshd -f</div>
+</div>
+
+<div class="q">
+    <h4>Q28. You need to create a new user "deploy" who should NOT be able to log in interactively but CAN run sudo commands. Set this up.</h4>
+</div>
+<div class="a">
+    <h4>Answer:</h4>
+    <div class="cmd"><span class="cmt"># Step 1: Create user with nologin shell</span>
+sudo useradd -m -s /sbin/nologin deploy
+
+<span class="cmt"># Step 2: Verify the shell is set to nologin</span>
+grep deploy /etc/passwd
+<span class="cmt"># deploy:x:1001:1001::/home/deploy:/sbin/nologin</span>
+<span class="cmt">#                                ↑ nologin = can't get a shell</span>
+
+<span class="cmt"># Step 3: Add to sudoers (allow sudo commands)</span>
+sudo usermod -aG wheel deploy
+<span class="cmt"># 'wheel' group is the sudo group in RHEL/CentOS</span>
+
+<span class="cmt"># Alternative: edit sudoers file directly</span>
+sudo visudo
+<span class="cmt"># Add this line:</span>
+<span class="cmt"># deploy ALL=(ALL) NOPASSWD: ALL</span>
+
+<span class="cmt"># Step 4: Verify</span>
+id deploy
+<span class="cmt"># uid=1001(deploy) gid=1001(deploy) groups=1001(deploy),10(wheel)</span>
+
+<span class="cmt"># Step 5: Test — try to log in as deploy</span>
+su - deploy
+<span class="cmt"># This account is currently not available</span>
+<span class="cmt"># (nologin prevents interactive login)</span></div>
+</div>
+
+<div class="q">
+    <h4>Q29. A user reports they can't write to a directory even though they own files inside it. List 5 possible causes and how to diagnose each.</h4>
+</div>
+<div class="a">
+    <h4>Answer — 5 possible causes:</h4>
+    <div class="cmd"><span class="cmt"># CAUSE 1: The DIRECTORY doesn't have write permission</span>
+ls -ld /path/to/directory/
+<span class="cmt"># If there's no 'w' for user/group → chmod to fix</span>
+chmod u+w /path/to/directory/
+
+<span class="cmt"># CAUSE 2: The filesystem is mounted read-only</span>
+mount | grep /path
+<span class="cmt"># If shows "ro" → remount as read-write</span>
+sudo mount -o remount,rw /path
+
+<span class="cmt"># CAUSE 3: Disk is full</span>
+df -h /path/to/directory/
+<span class="cmt"># If Use% = 100% → free up space</span>
+sudo du -sh /path/* | sort -rh | head -10  <span class="cmt"># find large files</span>
+
+<span class="cmt"># CAUSE 4: SELinux is blocking access</span>
+ls -Z /path/to/directory/
+<span class="cmt"># If context is wrong → restore correct context</span>
+sudo restorecon -Rv /path/to/directory/
+<span class="cmt"># Or check audit log:</span>
+sudo ausearch -m avc --raw | grep denied
+
+<span class="cmt"># CAUSE 5: ACL is denying access</span>
+getfacl /path/to/directory/
+<span class="cmt"># If ACL shows deny entry → fix with setfacl</span>
+sudo setfacl -m u:username:rwx /path/to/directory/</div>
+</div>
+
+<div class="q">
+    <h4>Q30. Create a complete scenario: You're setting up a Linux server for a small company. Write a shell script that automates: creating 3 departments (HR, IT, Sales), creating users for each, setting up shared directories with proper permissions, and generating a summary report. Show the full script.</h4>
+</div>
+<div class="a">
+    <h4>Answer — Complete automation script:</h4>
+    <div class="cmd">#!/bin/bash
+# ============================================
+# Linux Server Setup Script for Small Company
+# ============================================
+
+echo "============================================"
+echo "  Company Server Setup Script"
+echo "============================================"
+
+<span class="cmt"># Step 1: Create departments (groups)</span>
+echo ""
+echo "[1/5] Creating department groups..."
+for dept in HR IT Sales; do
+    sudo groupadd "$dept" 2>/dev/null
+    echo "  ✅ Group: $dept"
+done
+
+<span class="cmt"># Step 2: Create users for each department</span>
+echo ""
+echo "[2/5] Creating users..."
+declare -A users=(
+    ["hr_anna"]="HR"
+    ["hr_bob"]="HR"
+    ["it_charlie"]="IT"
+    ["it_diana"]="IT"
+    ["sales_eve"]="Sales"
+    ["sales_frank"]="Sales"
+)
+
+for user in "${!users[@]}"; do
+    dept="${users[$user]}"
+    sudo useradd -m -g "$dept" -s /bin/bash "$user" 2>/dev/null
+    echo "  ✅ User: $user (Department: $dept)"
+done
+
+<span class="cmt"># Step 3: Create shared directories</span>
+echo ""
+echo "[3/5] Creating shared directories..."
+for dept in HR IT Sales; do
+    sudo mkdir -p "/shared/$dept"
+    sudo chown "root:$dept" "/shared/$dept"
+    sudo chmod 2770 "/shared/$dept"  <span class="cmt"># SetGID + owner/group rwx</span>
+    echo "  ✅ /shared/$dept (SetGID, group: $dept)"
+done
+
+<span class="cmt"># Step 4: Set ACLs for cross-department access</span>
+echo ""
+echo "[4/5] Setting cross-department ACLs..."
+<span class="cmt"># Allow IT to read all departments</span>
+sudo setfacl -R -m g:IT:rx /shared/
+echo "  ✅ IT department can read all shared directories"
+
+<span class="cmt"># Step 5: Generate summary report</span>
+echo ""
+echo "[5/5] Generating report..."
+REPORT="/tmp/setup_report.txt"
+
+echo "=== SERVER SETUP REPORT ===" > "$REPORT"
+echo "Date: $(date)" >> "$REPORT"
+echo "" >> "$REPORT"
+
+echo "--- Groups ---" >> "$REPORT"
+for dept in HR IT Sales; do
+    getent group "$dept" >> "$REPORT"
+done
+
+echo "" >> "$REPORT"
+echo "--- Users ---" >> "$REPORT"
+for user in "${!users[@]}"; do
+    id "$user" >> "$REPORT" 2>/dev/null
+done
+
+echo "" >> "$REPORT"
+echo "--- Shared Directories ---" >> "$REPORT"
+ls -la /shared/*/ >> "$REPORT" 2>/dev/null
+
+echo "" >> "$REPORT"
+echo "--- ACLs ---" >> "$REPORT"
+getfacl /shared/HR >> "$REPORT" 2>/dev/null
+
+echo ""
+echo "============================================"
+echo "  ✅ SETUP COMPLETE!"
+echo "  📄 Report saved to: $REPORT"
+echo "============================================"</div>
+    <div class="explanation"><strong>This script demonstrates:</strong> for loops, associative arrays, user/group management, permissions, SetGID, ACLs, output redirection, and report generation — all key exam topics!</div>
+</div>
+
+</div>
+
+<footer>
+    <p>🐧 CSE493 Expanded Practice Questions — 30 Questions with Detailed Answers</p>
+    <p>Covers: Directories, Wildcards, Redirection, Permissions, Users/Groups, Processes, Jobs, Signals, File Searching, SSH, journalctl, Bash Scripts, Cron Jobs, System Architecture</p>
+    <p style="margin-top: 10px; color: #4caf50;">Study these thoroughly — Good luck on your exam! 🍀</p>
+</footer>
+
+</body>
+</html>

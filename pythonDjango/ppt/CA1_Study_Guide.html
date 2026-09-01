@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INT253 CA1 Django Study Guide - All Sets A to I</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f0f23; color: #e0e0e0; line-height: 1.7; }
+        
+        .hero { background: linear-gradient(135deg, #1a1a3e, #2d1b69, #1a1a3e); padding: 60px 20px; text-align: center; border-bottom: 3px solid #6c63ff; }
+        .hero h1 { font-size: 2.8em; color: #6c63ff; margin-bottom: 10px; }
+        .hero p { font-size: 1.2em; color: #a0a0c0; }
+        .hero .badge { display: inline-block; background: #ff6b6b; color: white; padding: 8px 20px; border-radius: 20px; margin-top: 15px; font-weight: bold; }
+
+        .nav-container { background: #1a1a2e; padding: 20px; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid #333; }
+        .nav-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; justify-content: center; flex-wrap: wrap; }
+        .nav-btn { padding: 10px 18px; border: 2px solid #444; background: #16213e; color: #ccc; border-radius: 8px; cursor: pointer; font-size: 0.9em; white-space: nowrap; transition: all 0.3s; }
+        .nav-btn:hover, .nav-btn.active { background: #6c63ff; color: white; border-color: #6c63ff; }
+        .nav-btn.green { border-color: #2ecc71; }
+        .nav-btn.green:hover, .nav-btn.green.active { background: #2ecc71; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        .section { display: none; animation: fadeIn 0.5s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card { background: #1a1a2e; border: 1px solid #333; border-radius: 12px; padding: 30px; margin: 20px 0; }
+        .card h2 { color: #6c63ff; font-size: 1.8em; margin-bottom: 15px; border-bottom: 2px solid #6c63ff; padding-bottom: 10px; }
+        .card h3 { color: #f39c12; font-size: 1.3em; margin: 20px 0 10px 0; }
+        .card h4 { color: #2ecc71; font-size: 1.1em; margin: 15px 0 8px 0; }
+
+        .set-header { background: linear-gradient(135deg, #2d1b69, #1a1a3e); padding: 25px 30px; border-radius: 12px; margin: 20px 0; border-left: 5px solid #6c63ff; }
+        .set-header h2 { color: #fff; font-size: 2em; border: none; margin: 0; padding: 0; }
+        .set-header p { color: #a0a0c0; margin-top: 8px; }
+
+        .code-block { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin: 15px 0; overflow-x: auto; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9em; line-height: 1.6; }
+        .code-block .comment { color: #8b949e; }
+        .code-block .keyword { color: #ff7b72; }
+        .code-block .string { color: #a5d6ff; }
+        .code-block .func { color: #d2a8ff; }
+        .code-block .number { color: #79c0ff; }
+
+        .tip { background: #1c3a1c; border-left: 4px solid #2ecc71; padding: 15px 20px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+        .tip strong { color: #2ecc71; }
+
+        .warning { background: #3a1c1c; border-left: 4px solid #e74c3c; padding: 15px 20px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+        .warning strong { color: #e74c3c; }
+
+        .info { background: #1c2a3a; border-left: 4px solid #3498db; padding: 15px 20px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+        .info strong { color: #3498db; }
+
+        .viva-q { background: #2a1a3e; border: 1px solid #9b59b6; border-radius: 10px; padding: 20px; margin: 12px 0; }
+        .viva-q .question { color: #e74c3c; font-weight: bold; font-size: 1.05em; margin-bottom: 8px; }
+        .viva-q .answer { color: #e0e0e0; margin-left: 10px; }
+
+        .marks-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        .marks-table th { background: #6c63ff; color: white; padding: 12px; text-align: left; }
+        .marks-table td { padding: 12px; border-bottom: 1px solid #333; }
+        .marks-table tr:hover { background: #1a1a3e; }
+
+        .step-list { counter-reset: step; list-style: none; padding: 0; }
+        .step-list li { counter-increment: step; padding: 10px 10px 10px 50px; margin: 8px 0; background: #16213e; border-radius: 8px; position: relative; }
+        .step-list li::before { content: counter(step); position: absolute; left: 10px; top: 10px; background: #6c63ff; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85em; }
+
+        .file-structure { background: #0d1117; padding: 20px; border-radius: 8px; font-family: monospace; margin: 10px 0; border: 1px solid #30363d; }
+        .file-structure .folder { color: #79c0ff; }
+        .file-structure .file { color: #e0e0e0; }
+
+        .highlight { color: #f39c12; font-weight: bold; }
+        .important { color: #e74c3c; font-weight: bold; }
+
+        .tab-container { display: flex; gap: 0; margin: 15px 0 0 0; }
+        .tab-btn { padding: 10px 20px; background: #16213e; border: 1px solid #333; border-bottom: none; color: #aaa; cursor: pointer; border-radius: 8px 8px 0 0; }
+        .tab-btn.active { background: #0d1117; color: #6c63ff; }
+        .tab-content { display: none; background: #0d1117; border: 1px solid #333; border-radius: 0 8px 8px 8px; padding: 20px; }
+        .tab-content.active { display: block; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+
+        .concept-box { background: #16213e; border: 1px solid #444; border-radius: 10px; padding: 20px; margin: 10px 0; }
+        .concept-box h4 { color: #6c63ff; margin-bottom: 10px; }
+
+        .back-top { position: fixed; bottom: 30px; right: 30px; background: #6c63ff; color: white; width: 50px; height: 50px; border-radius: 50%; border: none; cursor: pointer; font-size: 1.5em; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(108,99,255,0.4); z-index: 999; }
+        .back-top:hover { transform: scale(1.1); }
+
+        ul { margin-left: 20px; }
+        ul li { margin: 5px 0; }
+        p { margin: 8px 0; }
+    </style>
+</head>
+<body>
+
+<!-- ========== HERO ========== -->
+<div class="hero">
+    <h1>🎓 INT253 CA1 Study Guide</h1>
+    <p>Django Visual Implementation - Complete Guide with All 9 Sets Solved</p>
+    <div class="badge">📝 Written (15) + 💻 Practical (10) + 🎤 Viva (5) = 30 Marks</div>
+</div>
+
+<!-- ========== NAVIGATION ========== -->
+<div class="nav-container">
+    <div class="nav-scroll">
+        <button class="nav-btn green" onclick="showSection('basics')">📚 Django Basics</button>
+        <button class="nav-btn" onclick="showSection('setA')">Set A</button>
+        <button class="nav-btn" onclick="showSection('setB')">Set B</button>
+        <button class="nav-btn" onclick="showSection('setC')">Set C</button>
+        <button class="nav-btn" onclick="showSection('setD')">Set D</button>
+        <button class="nav-btn" onclick="showSection('setE')">Set E</button>
+        <button class="nav-btn" onclick="showSection('setF')">Set F</button>
+        <button class="nav-btn" onclick="showSection('setG')">Set G</button>
+        <button class="nav-btn" onclick="showSection('setH')">Set H</button>
+        <button class="nav-btn" onclick="showSection('setI')">Set I</button>
+        <button class="nav-btn green" onclick="showSection('viva')">🎤 Viva Prep</button>
+        <button class="nav-btn green" onclick="showSection('tips')">💡 Exam Tips</button>
+    </div>
+</div>
+
+<div class="container">
+
+<!-- ================================================================ -->
+<!-- ==================== DJANGO BASICS SECTION ===================== -->
+<!-- ================================================================ -->
+<div id="basics" class="section active">
+    
+    <div class="card">
+        <h2>📚 Django Basics - Simple Language Guide</h2>
+        <p>This section covers everything you need to know <strong>before</strong> solving any CA1 set. Read this carefully — every question uses these concepts.</p>
+    </div>
+
+    <div class="card">
+        <h2>1. What is Django?</h2>
+        <p>Django is a <strong>Python web framework</strong> that helps you build websites quickly. Think of it as a toolbox that already has many tools ready for you — you just need to learn how to use them.</p>
+        <div class="info"><strong>Key Point:</strong> Django follows the MVT (Model-View-Template) pattern. For CA1, we only need <strong>Views</strong> and <strong>Templates</strong>.</div>
+    </div>
+
+    <div class="card">
+        <h2>2. Project Structure</h2>
+        <p>When you create a Django project, this is how it looks:</p>
+        <div class="file-structure">
+<span class="folder">myproject/</span>
+├── <span class="folder">myproject/</span>          <span style="color:#8b949e;">← Main project settings folder</span>
+│   ├── <span class="file">settings.py</span>     <span style="color:#8b949e;">← Project settings (don't change much)</span>
+│   ├── <span class="file">urls.py</span>         <span style="color:#8b949e;">← Main URL routing (connects URLs to views)</span>
+│   └── <span class="file">wsgi.py</span>
+├── <span class="folder">myapp/</span>             <span style="color:#8b949e;">← Your app folder (where YOU write code)</span>
+│   ├── <span class="file">views.py</span>        <span style="color:#8b949e;">← YOUR LOGIC goes here (the brain)</span>
+│   ├── <span class="file">urls.py</span>         <span style="color:#8b949e;">← YOUR URL patterns go here</span>
+│   └── <span class="folder">templates/</span>      <span style="color:#8b949e;">← YOUR HTML files go here</span>
+│       └── <span class="file">result.html</span> <span style="color:#8b949e;">← The page that shows results</span>
+└── <span class="file">manage.py</span>          <span style="color:#8b949e;">← Django command tool</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>3. URLs (The Address System)</h2>
+        <p>Just like your house has an address, every page on a website has a URL. Django needs to know: <em>"When someone visits this URL, which function should run?"</em></p>
+        
+        <h3>Simple URL Pattern:</h3>
+        <div class="code-block">
+<span class="comment"># myapp/urls.py</span>
+<span class="keyword">from</span> django.urls <span class="keyword">import</span> re_path
+<span class="keyword">from</span> . <span class="keyword">import</span> views
+
+urlpatterns = [
+    <span class="comment"># When someone visits /hello/, run views.hello function</span>
+    re_path(<span class="string">r'^hello/$'</span>, views.hello),
+]
+        </div>
+
+        <h3>URL with Parameters (Named Groups):</h3>
+        <p>This is what ALL CA1 questions use. Named parameters let you <strong>capture values from the URL</strong>.</p>
+        <div class="code-block">
+<span class="comment"># URL pattern with named parameters using regex</span>
+re_path(<span class="string">r'^process/(?P&lt;type&gt;\w+)/(?P&lt;value&gt;\w+)/$'</span>, views.process_view)
+
+<span class="comment"># Breakdown:</span>
+<span class="comment"># /process/    → literal text, must match exactly</span>
+<span class="comment"># (?P&lt;type&gt;\w+) → captures a word and stores it as 'type'</span>
+<span class="comment"># /            → literal slash</span>
+<span class="comment"># (?P&lt;value&gt;\w+) → captures a word and stores it as 'value'</span>
+<span class="comment"># /            → literal slash at end</span>
+        </div>
+
+        <div class="tip"><strong>💡 Simple Trick:</strong> <code>(?P&lt;name&gt;...)</code> means "grab whatever matches here and call it 'name'". You use it in your view like a variable.</div>
+
+        <h3>Regex Patterns You Must Know:</h3>
+        <table class="marks-table">
+            <tr><th>Pattern</th><th>Meaning</th><th>Example Match</th></tr>
+            <tr><td><code>\w+</code></td><td>One or more letters/numbers</td><td>hello, 123, abc</td></tr>
+            <tr><td><code>\d+</code></td><td>One or more digits only</td><td>123, 45</td></tr>
+            <tr><td><code>\d{4}</code></td><td>Exactly 4 digits</td><td>1234 (not 12 or 12345)</td></tr>
+            <tr><td><code>\d{5}</code></td><td>Exactly 5 digits</td><td>12345</td></tr>
+            <tr><td><code>[0-9]</code></td><td>Same as \d, one digit</td><td>0-9</td></tr>
+            <tr><td><code>[a-zA-Z]+</code></td><td>Only letters (no numbers)</td><td>hello</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>4. Views (The Brain / Logic)</h2>
+        <p>The view is a <strong>Python function</strong> that receives the request, does all the calculations, and sends back a response. This is where ALL your logic goes.</p>
+        
+        <div class="code-block">
+<span class="comment"># myapp/views.py</span>
+<span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render
+
+<span class="comment"># This is a view function</span>
+<span class="comment"># 'request' is always the first parameter</span>
+<span class="comment"># 'type' and 'value' come from the URL (?P&lt;type&gt; and ?P&lt;value&gt;)</span>
+<span class="keyword">def</span> <span class="func">process_view</span>(request, type, value):
+    
+    <span class="comment"># Do your Python logic here</span>
+    result = <span class="string">"Something"</span>
+    
+    <span class="comment"># Pass results to the HTML template</span>
+    context = {
+        <span class="string">'result'</span>: result,
+    }
+    
+    <span class="comment"># Render the template with the data</span>
+    <span class="keyword">return</span> render(request, <span class="string">'result.html'</span>, context)
+        </div>
+
+        <div class="tip"><strong>💡 Key Points:</strong>
+        <ul>
+            <li><code>request</code> is always the FIRST parameter</li>
+            <li>Other parameters must match the named groups in your URL pattern exactly</li>
+            <li><code>render(request, 'file.html', context)</code> sends data to your HTML page</li>
+            <li><code>context</code> is a dictionary — keys become variable names in HTML</li>
+        </ul></div>
+
+        <h3>GET vs POST (Used in Set C and Set I):</h3>
+        <div class="code-block">
+<span class="keyword">def</span> <span class="func">my_view</span>(request, ...):
+    <span class="keyword">if</span> request.method == <span class="string">'GET'</span>:
+        <span class="comment"># User is just visiting the page / loading the form</span>
+        <span class="keyword">return</span> render(request, <span class="string">'form.html'</span>)
+    
+    <span class="keyword">elif</span> request.method == <span class="string">'POST'</span>:
+        <span class="comment"># User submitted the form</span>
+        username = request.POST.get(<span class="string">'username'</span>)
+        password = request.POST.get(<span class="string">'password'</span>)
+        <span class="comment"># Process the data...</span>
+        <span class="keyword">return</span> render(request, <span class="string">'result.html'</span>, context)
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>5. Templates (HTML with Django)</h2>
+        <p>Templates are regular HTML files but with <strong>Django template tags</strong> that let you display Python data.</p>
+        
+        <div class="code-block">
+<span class="comment">&lt;!-- templates/result.html --&gt;</span>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Result&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Results&lt;/h1&gt;
+    
+    <span class="comment">&lt;!-- Display a variable from context --&gt;</span>
+    &lt;p&gt;The result is: <strong>{{ result }}</strong>&lt;/p&gt;
+    
+    <span class="comment">&lt;!-- Loop through a list --&gt;</span>
+    {% for item in items %}
+        &lt;p&gt;{{ item }}&lt;/p&gt;
+    {% endfor %}
+    
+    <span class="comment">&lt;!-- If condition --&gt;</span>
+    {% if status == "pass" %}
+        &lt;p style="color:green"&gt;PASS&lt;/p&gt;
+    {% else %}
+        &lt;p style="color:red"&gt;FAIL&lt;/p&gt;
+    {% endif %}
+&lt;/body&gt;
+&lt;/html&gt;
+        </div>
+
+        <div class="tip"><strong>💡 Remember:</strong>
+        <ul>
+            <li><code>{{ variable }}</code> — displays a value (double curly braces)</li>
+            <li><code>{% for x in list %} ... {% endfor %}</code> — loops through a list</li>
+            <li><code>{% if condition %} ... {% endif %}</code> — conditional display</li>
+        </ul></div>
+    </div>
+
+    <div class="card">
+        <h2>6. Connecting Everything (URL → View → Template)</h2>
+        <p>This is the <strong>most important concept</strong>. Here's the complete flow:</p>
+        
+        <ol class="step-list">
+            <li>User types URL in browser: <code>/process/number/42/</code></li>
+            <li>Django checks <strong>urls.py</strong> to find a matching pattern</li>
+            <li>URL pattern <code>r'^process/(?P&lt;type&gt;\w+)/(?P&lt;value&gt;\w+)/$'</code> matches, extracting <code>type="number"</code> and <code>value="42"</code></li>
+            <li>Django calls <code>views.process_view(request, type="number", value="42")</code></li>
+            <li>The view function runs all the Python logic</li>
+            <li>The view calls <code>render(request, 'result.html', context)</code></li>
+            <li>The HTML template displays the results to the user</li>
+        </ol>
+
+        <h3>Complete Example - urls.py:</h3>
+        <div class="code-block">
+<span class="comment"># myapp/urls.py</span>
+<span class="keyword">from</span> django.urls <span class="keyword">import</span> re_path
+<span class="keyword">from</span> . <span class="keyword">import</span> views
+
+urlpatterns = [
+    re_path(<span class="string">r'^process/(?P&lt;type&gt;\w+)/(?P&lt;value&gt;\w+)/$'</span>, views.process_view),
+]
+        </div>
+
+        <h3>Complete Example - views.py:</h3>
+        <div class="code-block">
+<span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render
+
+<span class="keyword">def</span> <span class="func">process_view</span>(request, type, value):
+    <span class="comment"># Your logic here</span>
+    context = {<span class="string">'type'</span>: type, <span class="string">'value'</span>: value}
+    <span class="keyword">return</span> render(request, <span class="string">'result.html'</span>, context)
+        </div>
+
+        <h3>Complete Example - result.html:</h3>
+        <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+    &lt;h1&gt;Type: {{ type }}, Value: {{ value }}&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>7. Rules & Restrictions (Important for Exam!)</h2>
+        <div class="warning">
+            <strong>🚫 Things you CANNOT use in exam (depending on the set):</strong>
+            <ul>
+                <li><code>Counter</code> from collections — use dictionary counting manually</li>
+                <li><code>sort()</code> / <code>sorted()</code> — use loops or dictionary for sorting</li>
+                <li><code>max()</code> — use loops to find maximum manually</li>
+                <li><code>set()</code> — use dictionary for uniqueness checking</li>
+                <li>External libraries — only use Django and Python built-ins</li>
+            </ul>
+        </div>
+        
+        <div class="tip">
+            <strong>✅ How to count without Counter:</strong>
+            <div class="code-block">
+<span class="comment"># Instead of Counter(list), use this:</span>
+counts = {}
+<span class="keyword">for</span> item <span class="keyword">in</span> my_list:
+    <span class="keyword">if</span> item <span class="keyword">in</span> counts:
+        counts[item] += <span class="number">1</span>
+    <span class="keyword">else</span>:
+        counts[item] = <span class="number">1</span>
+<span class="comment"># counts = {1: 3, 2: 2, 3: 3, 4: 2, 5: 1}</span>
+            </div>
+        </div>
+
+        <div class="tip">
+            <strong>✅ How to find max without max():</strong>
+            <div class="code-block">
+<span class="comment"># Instead of max(list), use this:</span>
+maximum = my_list[<span class="number">0</span>]   <span class="comment"># assume first is max</span>
+<span class="keyword">for</span> item <span class="keyword">in</span> my_list:
+    <span class="keyword">if</span> item > maximum:
+        maximum = item
+<span class="comment"># maximum now holds the largest value</span>
+            </div>
+        </div>
+
+        <div class="tip">
+            <strong>✅ How to sort without sort()/sorted():</strong>
+            <div class="code-block">
+<span class="comment"># Bubble sort - simple and always works</span>
+lst = list(my_tuple)  <span class="comment"># convert tuple to list first</span>
+<span class="keyword">for</span> i <span class="keyword">in</span> range(len(lst)):
+    <span class="keyword">for</span> j <span class="keyword">in</span> range(len(lst) - <span class="number">1</span>):
+        <span class="keyword">if</span> lst[j] > lst[j + <span class="number">1</span>]:
+            lst[j], lst[j + <span class="number">1</span>] = lst[j + <span class="number">1</span>], lst[j]
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>8. Common Patterns Used Across All Sets</h2>
+        
+        <div class="grid-2">
+            <div class="concept-box">
+                <h4>🔤 Type Validation</h4>
+                <div class="code-block">
+<span class="comment"># Check if string is all digits</span>
+value.isdigit()
+
+<span class="comment"># Check if string is all letters</span>
+value.isalpha()
+
+<span class="comment"># Check length</span>
+len(value) == <span class="number">4</span>
+                </div>
+            </div>
+            <div class="concept-box">
+                <h4>📊 Dictionary Frequency Count</h4>
+                <div class="code-block">
+d = {}
+<span class="keyword">for</span> item <span class="keyword">in</span> data:
+    <span class="keyword">if</span> item <span class="keyword">in</span> d:
+        d[item] += <span class="number">1</span>
+    <span class="keyword">else</span>:
+        d[item] = <span class="number">1</span>
+                </div>
+            </div>
+            <div class="concept-box">
+                <h4>🔄 Dictionary Grouping</h4>
+                <div class="code-block">
+groups = {}
+<span class="keyword">for</span> item <span class="keyword">in</span> data:
+    key = item[<span class="string">'category'</span>]
+    <span class="keyword">if</span> key <span class="keyword">not in</span> groups:
+        groups[key] = []
+    groups[key].append(item)
+                </div>
+            </div>
+            <div class="concept-box">
+                <h4>⚡ Odd/Even Check</h4>
+                <div class="code-block">
+<span class="keyword">if</span> num % <span class="number">2</span> == <span class="number">0</span>:
+    <span class="comment"># even</span>
+<span class="keyword">else</span>:
+    <span class="comment"># odd</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- =========================== SET A ============================== -->
+<!-- ================================================================ -->
+<div id="setA" class="section">
+    <div class="set-header">
+        <h2>📝 SET A - Process Number/Text + Top-K Frequency</h2>
+        <p>URL Pattern: /process/&lt;type&gt;/&lt;value&gt;/ | Marks: 30</p>
+    </div>
+
+    <div class="card">
+        <h2>📋 What This Question Asks</h2>
+        <p>Two tasks in one view:</p>
+        <ol>
+            <li><strong>Number type:</strong> Check if positive/negative/zero AND even/odd</li>
+            <li><strong>Text type:</strong> Count characters and vowels</li>
+            <li><strong>Always (both types):</strong> Find top-K most frequent elements from tuple <code>(1,1,1,2,2,3,3,3,4,4,5)</code> with K=2</li>
+            <li><strong>Invalid type:</strong> Show error message</li>
+        </ol>
+        <div class="warning"><strong>🚫 Restrictions:</strong> Cannot use Counter, sort(), sorted()</div>
+    </div>
+
+    <div class="card">
+        <h2>🔗 urls.py</h2>
+        <div class="code-block">
+<span class="keyword">from</span> django.urls <span class="keyword">import</span> re_path
+<span class="keyword">from</span> . <span class="keyword">import</span> views
+
+urlpatterns = [
+    re_path(<span class="string">r'^process/(?P&lt;type&gt;\w+)/(?P&lt;value&gt;\w+)/$'</span>, views.process_view),
+]
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🧠 views.py</h2>
+        <div class="code-block">
+<span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render
+
+<span class="keyword">def</span> <span class="func">process_view</span>(request, type, value):
+    context = {<span class="string">'type'</span>: type, <span class="string">'value'</span>: value}
+    
+    <span class="comment"># ---- TASK 1: Top-K Frequency (always runs) ----</span>
+    data = (<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">5</span>)
+    K = <span class="number">2</span>
+    
+    <span class="comment"># Count frequency using dictionary (no Counter!)</span>
+    freq = {}
+    <span class="keyword">for</span> num <span class="keyword">in</span> data:
+        <span class="keyword">if</span> num <span class="keyword">in</span> freq:
+            freq[num] += <span class="number">1</span>
+        <span class="keyword">else</span>:
+            freq[num] = <span class="number">1</span>
+    
+    <span class="comment"># Find top K elements manually (no sort!)</span>
+    top_k = []
+    freq_copy = dict(freq)  <span class="comment"># work on a copy</span>
+    
+    <span class="keyword">for</span> _ <span class="keyword">in</span> range(K):
+        <span class="comment"># Find element with highest frequency</span>
+        max_count = <span class="number">0</span>
+        max_element = <span class="number">0</span>
+        <span class="keyword">for</span> key <span class="keyword">in</span> freq_copy:
+            <span class="keyword">if</span> freq_copy[key] > max_count:
+                max_count = freq_copy[key]
+                max_element = key
+        top_k.append((max_element, max_count))
+        <span class="keyword">del</span> freq_copy[max_element]
+    
+    context[<span class="string">'freq'</span>] = freq
+    context[<span class="string">'top_k'</span>] = top_k
+    context[<span class="string">'K'</span>] = K
+    
+    <span class="comment"># ---- Check type and process ----</span>
+    <span class="keyword">if</span> type == <span class="string">'number'</span>:
+        <span class="comment"># Check if value is a valid number</span>
+        <span class="keyword">if</span> value.lstrip(<span class="string">'-'</span>).isdigit():
+            num = int(value)
+            
+            <span class="comment"># Positive / Negative / Zero</span>
+            <span class="keyword">if</span> num > <span class="number">0</span>:
+                context[<span class="string">'sign'</span>] = <span class="string">'Positive'</span>
+            <span class="keyword">elif</span> num < <span class="number">0</span>:
+                context[<span class="string">'sign'</span>] = <span class="string">'Negative'</span>
+            <span class="keyword">else</span>:
+                context[<span class="string">'sign'</span>] = <span class="string">'Zero'</span>
+            
+            <span class="comment"># Even / Odd</span>
+            <span class="keyword">if</span> num % <span class="number">2</span> == <span class="number">0</span>:
+                context[<span class="string">'parity'</span>] = <span class="string">'Even'</span>
+            <span class="keyword">else</span>:
+                context[<span class="string">'parity'</span>] = <span class="string">'Odd'</span>
+            
+            context[<span class="string">'valid'</span>] = True
+        <span class="keyword">else</span>:
+            context[<span class="string">'error'</span>] = <span class="string">'Invalid number value!'</span>
+    
+    <span class="keyword">elif</span> type == <span class="string">'text'</span>:
+        <span class="comment"># Count characters and vowels</span>
+        char_count = len(value)
+        vowels = <span class="string">'aeiouAEIOU'</span>
+        vowel_count = <span class="number">0</span>
+        <span class="keyword">for</span> ch <span class="keyword">in</span> value:
+            <span class="keyword">if</span> ch <span class="keyword">in</span> vowels:
+                vowel_count += <span class="number">1</span>
+        
+        context[<span class="string">'char_count'</span>] = char_count
+        context[<span class="string">'vowel_count'</span>] = vowel_count
+        context[<span class="string">'valid'</span>] = True
+    
+    <span class="keyword">else</span>:
+        context[<span class="string">'error'</span>] = <span class="string">'Invalid type! Use "number" or "text".'</span>
+    
+    <span class="keyword">return</span> render(request, <span class="string">'result.html'</span>, context)
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📄 templates/result.html</h2>
+        <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Process Result&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Processing: {{ type }} = {{ value }}&lt;/h1&gt;
+    
+    {% if error %}
+        &lt;p style="color:red"&gt;{{ error }}&lt;/p&gt;
+    {% endif %}
+    
+    {% if valid %}
+        {% if type == "number" %}
+            &lt;p&gt;Sign: {{ sign }}&lt;/p&gt;
+            &lt;p&gt;Parity: {{ parity }}&lt;/p&gt;
+        {% endif %}
+        {% if type == "text" %}
+            &lt;p&gt;Character Count: {{ char_count }}&lt;/p&gt;
+            &lt;p&gt;Vowel Count: {{ vowel_count }}&lt;/p&gt;
+        {% endif %}
+    {% endif %}
+    
+    &lt;hr&gt;
+    &lt;h2&gt;Top {{ K }} Most Frequent Elements&lt;/h2&gt;
+    &lt;p&gt;Full Frequency: {{ freq }}&lt;/p&gt;
+    {% for item, count in top_k %}
+        &lt;p&gt;Element: {{ item }}, Frequency: {{ count }}&lt;/p&gt;
+    {% endfor %}
+&lt;/body&gt;
+&lt;/html&gt;
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🎤 Viva Questions for Set A</h2>
+        <div class="viva-q">
+            <div class="question">Q: What does (?P&lt;type&gt;\w+) mean in the URL pattern?</div>
+            <div class="answer">It captures one or more word characters from the URL and stores them in a variable called 'type'. The \w+ means letters, digits, or underscore. (?P&lt;name&gt;...) is a named group in regular expression.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: How did you find Top-K without using sort() or Counter?</div>
+            <div class="answer">First, I used a dictionary to count frequencies by looping through the tuple. Then, to find top-K, I looped K times, each time finding the element with the highest frequency using a simple comparison loop, then removed it and repeated.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: What is the difference between render() and HttpResponse()?</div>
+            <div class="answer">render() takes a template (HTML file) and data (context dictionary) and returns a complete page. HttpResponse() just returns raw text/HTML directly. render() is preferred because it separates logic from presentation.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: What is the output for /process/number/0/?</div>
+            <div class="answer">Sign: Zero, Parity: Even. Because 0 is neither positive nor negative, and 0 % 2 == 0 makes it even.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: What happens if someone visits /process/random/abc/?</div>
+            <div class="answer">The type 'random' doesn't match 'number' or 'text', so the error message 'Invalid type! Use "number" or "text".' is displayed.</div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- =========================== SET B ============================== -->
+<!-- ================================================================ -->
+<div id="setB" class="section">
+    <div class="set-header">
+        <h2>📝 SET B - Electricity Bill + Zero-Sum Subarrays</h2>
+        <p>URL Pattern: /bill/&lt;customer_id&gt;/&lt;units&gt;/ | Marks: 30</p>
+    </div>
+
+    <div class="card">
+        <h2>📋 What This Question Asks</h2>
+        <ol>
+            <li><strong>Electricity Bill:</strong> Calculate bill based on unit ranges (if-elif-else)</li>
+            <li><strong>Zero-Sum Subarrays:</strong> From tuple (1, -1, 2, -2), find all contiguous subarrays that sum to zero</li>
+            <li><strong>Validation:</strong> customer_id must be valid, units must not be negative</li>
+        </ol>
+    </div>
+
+    <div class="card">
+        <h2>🔗 urls.py</h2>
+        <div class="code-block">
+<span class="keyword">from</span> django.urls <span class="keyword">import</span> re_path
+<span class="keyword">from</span> . <span class="keyword">import</span> views
+
+urlpatterns = [
+    re_path(<span class="string">r'^bill/(?P&lt;customer_id&gt;\w+)/(?P&lt;units&gt;\d+)/$'</span>, views.bill_view),
+]
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🧠 views.py</h2>
+        <div class="code-block">
+<span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render
+
+<span class="keyword">def</span> <span class="func">bill_view</span>(request, customer_id, units):
+    context = {<span class="string">'customer_id'</span>: customer_id, <span class="string">'units'</span>: units}
+    
+    <span class="comment"># ---- Validate customer_id ----</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> customer_id.isdigit():
+        context[<span class="string">'error'</span>] = <span class="string">'Invalid customer ID! Must be digits only.'</span>
+        <span class="keyword">return</span> render(request, <span class="string">'bill.html'</span>, context)
+    
+    units = int(units)
+    
+    <span class="comment"># ---- Validate units ----</span>
+    <span class="keyword">if</span> units < <span class="number">0</span>:
+        context[<span class="string">'error'</span>] = <span class="string">'Invalid units! Cannot be negative.'</span>
+        <span class="keyword">return</span> render(request, <span class="string">'bill.html'</span>, context)
+    
+    <span class="comment"># ---- Electricity Bill Calculation ----</span>
+    <span class="keyword">if</span> units <= <span class="number">100</span>:
+        rate = <span class="number">1.5</span>
+    <span class="keyword">elif</span> units <= <span class="number">200</span>:
+        rate = <span class="number">2.5</span>
+    <span class="keyword">elif</span> units <= <span class="number">300</span>:
+        rate = <span class="number">3.5</span>
+    <span class="keyword">else</span>:
+        rate = <span class="number">4.5</span>
+    
+    bill_amount = units * rate
+    context[<span class="string">'rate'</span>] = rate
+    context[<span class="string">'bill_amount'</span>] = bill_amount
+    
+    <span class="comment"># ---- Zero-Sum Subarrays ----</span>
+    data = (<span class="number">1</span>, -<span class="number">1</span>, <span class="number">2</span>, -<span class="number">2</span>)
+    subarrays = []
+    
+    <span class="comment"># Check every possible contiguous subarray</span>
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(data)):
+        current_sum = <span class="number">0</span>
+        <span class="keyword">for</span> j <span class="keyword">in</span> range(i, len(data)):
+            current_sum += data[j]
+            <span class="keyword">if</span> current_sum == <span class="number">0</span>:
+                <span class="comment"># Extract subarray from index i to j</span>
+                sub = []
+                <span class="keyword">for</span> k <span class="keyword">in</span> range(i, j + <span class="number">1</span>):
+                    sub.append(data[k])
+                subarrays.append(sub)
+    
+    context[<span class="string">'subarrays'</span>] = subarrays
+    context[<span class="string">'total_count'</span>] = len(subarrays)
+    
+    <span class="keyword">return</span> render(request, <span class="string">'bill.html'</span>, context)
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📄 templates/bill.html</h2>
+        <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Bill Result&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Electricity Bill - Customer: {{ customer_id }}&lt;/h1&gt;
+    
+    {% if error %}
+        &lt;p style="color:red"&gt;{{ error }}&lt;/p&gt;
+    {% else %}
+        &lt;p&gt;Units Consumed: {{ units }}&lt;/p&gt;
+        &lt;p&gt;Applicable Rate: {{ rate }} per unit&lt;/p&gt;
+        &lt;p&gt;Bill Amount: {{ bill_amount }}&lt;/p&gt;
+        
+        &lt;hr&gt;
+        &lt;h2&gt;Zero-Sum Subarrays from (1, -1, 2, -2)&lt;/h2&gt;
+        {% for sub in subarrays %}
+            &lt;p&gt;{{ sub }}&lt;/p&gt;
+        {% endfor %}
+        &lt;p&gt;Total Zero-Sum Subarrays: {{ total_count }}&lt;/p&gt;
+    {% endif %}
+&lt;/body&gt;
+&lt;/html&gt;
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🎤 Viva Questions for Set B</h2>
+        <div class="viva-q">
+            <div class="question">Q: How do you find all contiguous subarrays?</div>
+            <div class="answer">Use nested loops. The outer loop (i) picks the starting index, and the inner loop (j) picks the ending index. For each pair (i,j), we sum elements from i to j. If sum is zero, we record that subarray.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: What is a contiguous subarray?</div>
+            <div class="answer">A contiguous subarray means elements that are next to each other in the original tuple, in order. For (1,-1,2,-2), [1,-1] is contiguous, but [1,2] is NOT because -1 is skipped.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: What are the zero-sum subarrays for (1, -1, 2, -2)?</div>
+            <div class="answer">[1, -1], [1, -1, 2, -2], [-1, 2, -1]... Let me calculate: Starting from index 0: [1,-1]=0 ✓, [1,-1,2,-2]=0 ✓. From index 1: [-1,2,-1]=0? No, that's [−1,2]=1. Actually [−1,2,−2]=−1. From index 2: [2,−2]=0 ✓. So the zero-sum subarrays are [1,-1], [2,-2], and [1,-1,2,-2] — total 3.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: Why use if-elif-else for electricity bill?</div>
+            <div class="answer">Because the rate depends on which range the units fall into. We check ranges in order: first 0-100, then 101-200, etc. Using elif means once a condition is true, the rest are skipped automatically.</div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- =========================== SET C ============================== -->
+<!-- ================================================================ -->
+<div id="setC" class="section">
+    <div class="set-header">
+        <h2>📝 SET C - Student GET/POST + Employee Highest Paid</h2>
+        <p>URL Pattern: /student/&lt;roll_no&gt;/ | Marks: 30</p>
+    </div>
+
+    <div class="card">
+        <h2>📋 What This Question Asks</h2>
+        <ol>
+            <li><strong>GET request:</strong> Show a form to enter marks</li>
+            <li><strong>POST request:</strong> Process marks → determine Pass/Fail (marks >= 40 to pass)</li>
+            <li><strong>Employee Analysis:</strong> From employee records, find highest-paid employee in each department (NO max() allowed)</li>
+        </ol>
+        <div class="info"><strong>Employee Records:</strong> (Use a tuple of dictionaries)</div>
+        <div class="code-block">
+employees = (
+    {<span class="string">'name'</span>: <span class="string">'Alice'</span>, <span class="string">'dept'</span>: <span class="string">'IT'</span>, <span class="string">'salary'</span>: <span class="number">75000</span>},
+    {<span class="string">'name'</span>: <span class="string">'Bob'</span>, <span class="string">'dept'</span>: <span class="string">'HR'</span>, <span class="string">'salary'</span>: <span class="number">50000</span>},
+    {<span class="string">'name'</span>: <span class="string">'Charlie'</span>, <span class="string">'dept'</span>: <span class="string">'IT'</span>, <span class="string">'salary'</span>: <span class="number">90000</span>},
+    {<span class="string">'name'</span>: <span class="string">'Diana'</span>, <span class="string">'dept'</span>: <span class="string">'HR'</span>, <span class="string">'salary'</span>: <span class="number">60000</span>},
+    {<span class="string">'name'</span>: <span class="string">'Eve'</span>, <span class="string">'dept'</span>: <span class="string">'Finance'</span>, <span class="string">'salary'</span>: <span class="number">80000</span>},
+    {<span class="string">'name'</span>: <span class="string">'Frank'</span>, <span class="string">'dept'</span>: <span class="string">'Finance'</span>, <span class="string">'salary'</span>: <span class="number">70000</span>},
+)
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🔗 urls.py</h2>
+        <div class="code-block">
+<span class="keyword">from</span> django.urls <span class="keyword">import</span> re_path
+<span class="keyword">from</span> . <span class="keyword">import</span> views
+
+urlpatterns = [
+    <span class="comment"># roll_no must be exactly 4 digits</span>
+    re_path(<span class="string">r'^student/(?P&lt;roll_no&gt;\d{4})/$'</span>, views.student_view),
+]
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🧠 views.py</h2>
+        <div class="code-block">
+<span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render
+
+<span class="keyword">def</span> <span class="func">student_view</span>(request, roll_no):
+    context = {<span class="string">'roll_no'</span>: roll_no}
+    
+    <span class="comment"># ---- Employee Analysis (always runs) ----</span>
+    employees = (
+        {<span class="string">'name'</span>: <span class="string">'Alice'</span>, <span class="string">'dept'</span>: <span class="string">'IT'</span>, <span class="string">'salary'</span>: <span class="number">75000</span>},
+        {<span class="string">'name'</span>: <span class="string">'Bob'</span>, <span class="string">'dept'</span>: <span class="string">'HR'</span>, <span class="string">'salary'</span>: <span class="number">50000</span>},
+        {<span class="string">'name'</span>: <span class="string">'Charlie'</span>, <span class="string">'dept'</span>: <span class="string">'IT'</span>, <span class="string">'salary'</span>: <span class="number">90000</span>},
+        {<span class="string">'name'</span>: <span class="string">'Diana'</span>, <span class="string">'dept'</span>: <span class="string">'HR'</span>, <span class="string">'salary'</span>: <span class="number">60000</span>},
+        {<span class="string">'name'</span>: <span class="string">'Eve'</span>, <span class="string">'dept'</span>: <span class="string">'Finance'</span>, <span class="string">'salary'</span>: <span class="number">80000</span>},
+        {<span class="string">'name'</span>: <span class="string">'Frank'</span>, <span class="string">'dept'</span>: <span class="string">'Finance'</span>, <span class="string">'salary'</span>: <span class="number">70000</span>},
+    )
+    
+    <span class="comment"># Group employees by department using dictionary</span>
+    dept_groups = {}
+    <span class="keyword">for</span> emp <span class="keyword">in</span> employees:
+        dept = emp[<span class="string">'dept'</span>]
+        <span class="keyword">if</span> dept <span class="keyword">not in</span> dept_groups:
+            dept_groups[dept] = []
+        dept_groups[dept].append(emp)
+    
+    <span class="comment"># Find highest paid in each department (no max()!)</span>
+    highest_paid = {}
+    <span class="keyword">for</span> dept <span class="keyword">in</span> dept_groups:
+        top_emp = dept_groups[dept][<span class="number">0</span>]
+        <span class="keyword">for</span> emp <span class="keyword">in</span> dept_groups[dept]:
+            <span class="keyword">if</span> emp[<span class="string">'salary'</span>] > top_emp[<span class="string">'salary'</span>]:
+                top_emp = emp
+        highest_paid[dept] = top_emp
+    
+    context[<span class="string">'highest_paid'</span>] = highest_paid
+    
+    <span class="comment"># ---- Handle GET and POST ----</span>
+    <span class="keyword">if</span> request.method == <span class="string">'GET'</span>:
+        context[<span class="string">'show_form'</span>] = True
+    
+    <span class="keyword">elif</span> request.method == <span class="string">'POST'</span>:
+        marks = request.POST.get(<span class="string">'marks'</span>, <span class="string">''</span>)
+        
+        <span class="keyword">if</span> marks.isdigit():
+            marks = int(marks)
+            context[<span class="string">'marks'</span>] = marks
+            
+            <span class="keyword">if</span> marks >= <span class="number">40</span>:
+                context[<span class="string">'result'</span>] = <span class="string">'Pass'</span>
+            <span class="keyword">else</span>:
+                context[<span class="string">'result'</span>] = <span class="string">'Fail'</span>
+        <span class="keyword">else</span>:
+            context[<span class="string">'error'</span>] = <span class="string">'Invalid marks! Please enter a number.'</span>
+    
+    <span class="keyword">return</span> render(request, <span class="string">'student.html'</span>, context)
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📄 templates/student.html</h2>
+        <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Student Result&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Student Roll No: {{ roll_no }}&lt;/h1&gt;
+    
+    {% if show_form %}
+        &lt;form method="POST"&gt;
+            {% csrf_token %}
+            &lt;label&gt;Enter Marks: &lt;input type="text" name="marks"&gt;&lt;/label&gt;
+            &lt;button type="submit"&gt;Submit&lt;/button&gt;
+        &lt;/form&gt;
+    {% endif %}
+    
+    {% if result %}
+        &lt;p&gt;Marks: {{ marks }}&lt;/p&gt;
+        &lt;p&gt;Result: {{ result }}&lt;/p&gt;
+    {% endif %}
+    
+    {% if error %}
+        &lt;p style="color:red"&gt;{{ error }}&lt;/p&gt;
+    {% endif %}
+    
+    &lt;hr&gt;
+    &lt;h2&gt;Highest Paid Employee Per Department&lt;/h2&gt;
+    {% for dept, emp in highest_paid.items %}
+        &lt;p&gt;{{ dept }}: {{ emp.name }} - {{ emp.salary }}&lt;/p&gt;
+    {% endfor %}
+&lt;/body&gt;
+&lt;/html&gt;
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🎤 Viva Questions for Set C</h2>
+        <div class="viva-q">
+            <div class="question">Q: What is the difference between GET and POST?</div>
+            <div class="answer">GET is used when the user is just viewing/loading a page. Data is in the URL. POST is used when the user submits form data. Data is in the request body, which is more secure for sensitive info.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: What does {% csrf_token %} do?</div>
+            <div class="answer">CSRF stands for Cross-Site Request Forgery. {% csrf_token %} adds a hidden security token to the form to prevent attacks where a malicious site submits forms on behalf of the user. Django requires it for POST forms.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: How did you find highest-paid without max()?</div>
+            <div class="answer">I assumed the first employee is the highest, then looped through all employees. If any employee has a higher salary, I replaced my assumption. At the end of the loop, I have the highest.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: What does request.POST.get('marks', '') do?</div>
+            <div class="answer">It retrieves the value of the 'marks' field from the submitted POST form. The second parameter '' is a default value — if 'marks' is not found, it returns an empty string instead of None.</div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- =========================== SET D ============================== -->
+<!-- ================================================================ -->
+<div id="setD" class="section">
+    <div class="set-header">
+        <h2>📝 SET D - Date Validation + Anagram Grouping</h2>
+        <p>URL Pattern: /date/&lt;day&gt;/&lt;month&gt;/&lt;year&gt;/ | Marks: 30</p>
+    </div>
+
+    <div class="card">
+        <h2>📋 What This Question Asks</h2>
+        <ol>
+            <li><strong>Date Validation:</strong> Check if the date is valid (day/month/year ranges)</li>
+            <li><strong>Anagram Grouping:</strong> Group words from tuple that are anagrams using character-frequency signature (NO sorted()!)</li>
+        </ol>
+    </div>
+
+    <div class="card">
+        <h2>🔗 urls.py</h2>
+        <div class="code-block">
+<span class="keyword">from</span> django.urls <span class="keyword">import</span> re_path
+<span class="keyword">from</span> . <span class="keyword">import</span> views
+
+urlpatterns = [
+    re_path(<span class="string">r'^date/(?P&lt;day&gt;\d{1,2})/(?P&lt;month&gt;\d{1,2})/(?P&lt;year&gt;\d{4})/$'</span>, views.date_view),
+]
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🧠 views.py</h2>
+        <div class="code-block">
+<span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render
+
+<span class="keyword">def</span> <span class="func">date_view</span>(request, day, month, year):
+    context = {<span class="string">'day'</span>: day, <span class="string">'month'</span>: month, <span class="string">'year'</span>: year}
+    
+    <span class="comment"># ---- Task 1: Date Validation ----</span>
+    day = int(day)
+    month = int(month)
+    year = int(year)
+    
+    valid = True
+    
+    <span class="keyword">if</span> year < <span class="number">1</span>:
+        valid = False
+    <span class="keyword">elif</span> month < <span class="number">1</span> <span class="keyword">or</span> month > <span class="number">12</span>:
+        valid = False
+    <span class="keyword">else</span>:
+        <span class="comment"># Days in each month</span>
+        days_in_month = (<span class="number">31</span>, <span class="number">28</span>, <span class="number">31</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">30</span>,
+                         <span class="number">31</span>, <span class="number">31</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">30</span>, <span class="number">31</span>)
+        <span class="comment"># Simple leap year check</span>
+        <span class="keyword">if</span> month == <span class="number">2</span> <span class="keyword">and</span> (year % <span class="number">4</span> == <span class="number">0</span>):
+            max_days = <span class="number">29</span>
+        <span class="keyword">else</span>:
+            max_days = days_in_month[month - <span class="number">1</span>]
+        
+        <span class="keyword">if</span> day < <span class="number">1</span> <span class="keyword">or</span> day > max_days:
+            valid = False
+    
+    context[<span class="string">'valid'</span>] = valid
+    
+    <span class="comment"># ---- Task 2: Anagram Grouping ----</span>
+    words = (<span class="string">"eat"</span>, <span class="string">"tea"</span>, <span class="string">"tan"</span>, <span class="string">"ate"</span>, <span class="string">"nat"</span>, <span class="string">"bat"</span>)
+    
+    <span class="comment"># Create a character frequency signature for each word</span>
+    <span class="comment"># Two words are anagrams if they have the same signature</span>
+    anagram_groups = {}
+    
+    <span class="keyword">for</span> word <span class="keyword">in</span> words:
+        <span class="comment"># Build frequency signature (cannot use sorted!)</span>
+        freq = [<span class="number">0</span>] * <span class="number">26</span>  <span class="comment"># 26 letters</span>
+        <span class="keyword">for</span> ch <span class="keyword">in</span> word:
+            freq[ord(ch) - ord(<span class="string">'a'</span>)] += <span class="number">1</span>
+        
+        <span class="comment"># Convert to tuple so it can be a dictionary key</span>
+        signature = tuple(freq)
+        
+        <span class="comment"># Group words with same signature</span>
+        <span class="keyword">if</span> signature <span class="keyword">not in</span> anagram_groups:
+            anagram_groups[signature] = []
+        anagram_groups[signature].append(word)
+    
+    <span class="comment"># Convert dictionary values to a list for display</span>
+    groups = list(anagram_groups.values())
+    context[<span class="string">'anagram_groups'</span>] = groups
+    
+    <span class="keyword">return</span> render(request, <span class="string">'date.html'</span>, context)
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📄 templates/date.html</h2>
+        <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Date &amp; Anagram Result&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Date: {{ day }}/{{ month }}/{{ year }}&lt;/h1&gt;
+    &lt;p&gt;Date is: {% if valid %}Valid{% else %}Invalid{% endif %}&lt;/p&gt;
+    
+    &lt;hr&gt;
+    &lt;h2&gt;Anagram Groups&lt;/h2&gt;
+    {% for group in anagram_groups %}
+        &lt;p&gt;{{ group }}&lt;/p&gt;
+    {% endfor %}
+&lt;/body&gt;
+&lt;/html&gt;
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🎤 Viva Questions for Set D</h2>
+        <div class="viva-q">
+            <div class="question">Q: What is an anagram?</div>
+            <div class="answer">Two words are anagrams if they contain exactly the same characters with the same frequencies, but in different order. For example, "eat" and "tea" both have one 'e', one 'a', one 't'.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: How did you group anagrams without sorted()?</div>
+            <div class="answer">Instead of sorting each word's characters, I created a character frequency signature — a list of 26 counts (one for each letter). Two words with the same frequency signature are anagrams. I used this signature as a dictionary key to group them.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: What does ord('a') return?</div>
+            <div class="answer">ord() returns the ASCII/Unicode code of a character. ord('a') returns 97. So ord(ch) - ord('a') gives us 0 for 'a', 1 for 'b', ..., 25 for 'z' — perfect for indexing into our 26-element list.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: What is the anagram grouping output?</div>
+            <div class="answer">Group 1: ["eat", "tea", "ate"] — all have {a:1, e:1, t:1}. Group 2: ["tan", "nat"] — both have {a:1, n:1, t:1}. Group 3: ["bat"] — alone with {a:1, b:1, t:1}.</div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- =========================== SET E ============================== -->
+<!-- ================================================================ -->
+<div id="setE" class="section">
+    <div class="set-header">
+        <h2>📝 SET E - Employee Salary + Transaction Fraud Detector</h2>
+        <p>URL Pattern: /employee/&lt;emp_id&gt;/&lt;salary&gt;/ | Marks: 30</p>
+    </div>
+
+    <div class="card">
+        <h2>📋 What This Question Asks</h2>
+        <ol>
+            <li><strong>Salary Calculator:</strong> emp_id must be exactly 5 digits, salary must be digits only. Classify employee category and calculate bonus</li>
+            <li><strong>Fraud Detector:</strong> Group transactions by account, find suspicious accounts (total > limit AND count > min_transactions)</li>
+        </ol>
+    </div>
+
+    <div class="card">
+        <h2>🔗 urls.py</h2>
+        <div class="code-block">
+<span class="keyword">from</span> django.urls <span class="keyword">import</span> re_path
+<span class="keyword">from</span> . <span class="keyword">import</span> views
+
+urlpatterns = [
+    re_path(<span class="string">r'^employee/(?P&lt;emp_id&gt;\d{5})/(?P&lt;salary&gt;\d+)/$'</span>, views.employee_view),
+]
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🧠 views.py</h2>
+        <div class="code-block">
+<span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render
+
+<span class="keyword">def</span> <span class="func">employee_view</span>(request, emp_id, salary):
+    context = {<span class="string">'emp_id'</span>: emp_id, <span class="string">'salary'</span>: salary}
+    
+    salary = int(salary)
+    
+    <span class="comment"># ---- Task 1: Employee Salary Classification ----</span>
+    <span class="keyword">if</span> salary < <span class="number">30000</span>:
+        category = <span class="string">'Junior'</span>
+        bonus = salary * <span class="number">0.10</span>
+    <span class="keyword">elif</span> salary < <span class="number">60000</span>:
+        category = <span class="string">'Mid-Level'</span>
+        bonus = salary * <span class="number">0.15</span>
+    <span class="keyword">elif</span> salary < <span class="number">100000</span>:
+        category = <span class="string">'Senior'</span>
+        bonus = salary * <span class="number">0.20</span>
+    <span class="keyword">else</span>:
+        category = <span class="string">'Executive'</span>
+        bonus = salary * <span class="number">0.25</span>
+    
+    total = salary + bonus
+    context[<span class="string">'category'</span>] = category
+    context[<span class="string">'bonus'</span>] = bonus
+    context[<span class="string">'total'</span>] = total
+    
+    <span class="comment"># ---- Task 2: Transaction Fraud Detector ----</span>
+    transactions = (
+        {<span class="string">'account'</span>: <span class="string">'A1'</span>, <span class="string">'amount'</span>: <span class="number">5000</span>},
+        {<span class="string">'account'</span>: <span class="string">'A1'</span>, <span class="string">'amount'</span>: <span class="number">3000</span>},
+        {<span class="string">'account'</span>: <span class="string">'A2'</span>, <span class="string">'amount'</span>: <span class="number">1000</span>},
+        {<span class="string">'account'</span>: <span class="string">'A1'</span>, <span class="string">'amount'</span>: <span class="number">2000</span>},
+        {<span class="string">'account'</span>: <span class="string">'A2'</span>, <span class="string">'amount'</span>: <span class="number">500</span>},
+        {<span class="string">'account'</span>: <span class="string">'A3'</span>, <span class="string">'amount'</span>: <span class="number">4000</span>},
+    )
+    
+    limit = <span class="number">8000</span>
+    min_transactions = <span class="number">2</span>
+    
+    <span class="comment"># Group by account</span>
+    accounts = {}
+    <span class="keyword">for</span> t <span class="keyword">in</span> transactions:
+        acc = t[<span class="string">'account'</span>]
+        <span class="keyword">if</span> acc <span class="keyword">not in</span> accounts:
+            accounts[acc] = {<span class="string">'total'</span>: <span class="number">0</span>, <span class="string">'count'</span>: <span class="number">0</span>, <span class="string">'amounts'</span>: []}
+        accounts[acc][<span class="string">'total'</span>] += t[<span class="string">'amount'</span>]
+        accounts[acc][<span class="string">'count'</span>] += <span class="number">1</span>
+        accounts[acc][<span class="string">'amounts'</span>].append(t[<span class="string">'amount'</span>])
+    
+    <span class="comment"># Find suspicious accounts</span>
+    suspicious = []
+    <span class="keyword">for</span> acc <span class="keyword">in</span> accounts:
+        info = accounts[acc]
+        <span class="keyword">if</span> info[<span class="string">'total'</span>] > limit <span class="keyword">and</span> info[<span class="string">'count'</span>] > min_transactions:
+            suspicious.append({
+                <span class="string">'account'</span>: acc,
+                <span class="string">'total'</span>: info[<span class="string">'total'</span>],
+                <span class="string">'count'</span>: info[<span class="string">'count'</span>],
+            })
+    
+    context[<span class="string">'accounts'</span>] = accounts
+    context[<span class="string">'suspicious'</span>] = suspicious
+    context[<span class="string">'limit'</span>] = limit
+    context[<span class="string">'min_trans'</span>] = min_transactions
+    
+    <span class="keyword">return</span> render(request, <span class="string">'employee.html'</span>, context)
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📄 templates/employee.html</h2>
+        <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Employee Result&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Employee {{ emp_id }} - Salary: {{ salary }}&lt;/h1&gt;
+    &lt;p&gt;Category: {{ category }}&lt;/p&gt;
+    &lt;p&gt;Bonus: {{ bonus }}&lt;/p&gt;
+    &lt;p&gt;Total (Salary + Bonus): {{ total }}&lt;/p&gt;
+    
+    &lt;hr&gt;
+    &lt;h2&gt;Transaction Fraud Detector&lt;/h2&gt;
+    &lt;p&gt;Limit: {{ limit }}, Min Transactions: {{ min_trans }}&lt;/p&gt;
+    
+    &lt;h3&gt;All Accounts:&lt;/h3&gt;
+    {% for acc, info in accounts.items %}
+        &lt;p&gt;{{ acc }}: Total={{ info.total }}, Count={{ info.count }}&lt;/p&gt;
+    {% endfor %}
+    
+    &lt;h3&gt;Suspicious Accounts:&lt;/h3&gt;
+    {% if suspicious %}
+        {% for s in suspicious %}
+            &lt;p style="color:red"&gt;{{ s.account }}: Total={{ s.total }}, Count={{ s.count }}&lt;/p&gt;
+        {% endfor %}
+    {% else %}
+        &lt;p&gt;No suspicious accounts found.&lt;/p&gt;
+    {% endif %}
+&lt;/body&gt;
+&lt;/html&gt;
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🎤 Viva Questions for Set E</h2>
+        <div class="viva-q">
+            <div class="question">Q: What are the two fraud conditions?</div>
+            <div class="answer">An account is suspicious if: (1) total transaction amount exceeds the limit, AND (2) the account has more than the minimum number of transactions. Both conditions must be true.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: How did you group transactions by account?</div>
+            <div class="answer">I used a dictionary where keys are account IDs and values contain total amount, count, and individual amounts. For each transaction, I checked if the account existed in the dictionary; if not, I created a new entry. Then I updated the total and count.</div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- =========================== SET F ============================== -->
+<!-- ================================================================ -->
+<div id="setF" class="section">
+    <div class="set-header">
+        <h2>📝 SET F - Smart Operation Router + Longest Consecutive Sequence</h2>
+        <p>URL Pattern: /operation/&lt;operation&gt;/&lt;number&gt;/ | Marks: 30</p>
+    </div>
+
+    <div class="card">
+        <h2>📋 What This Question Asks</h2>
+        <ol>
+            <li><strong>Operations:</strong> Based on operation name, perform: square, cube, even, odd, prime, or factorial</li>
+            <li><strong>Longest Consecutive Sequence:</strong> From tuple (100, 4, 200, 1, 3, 2), find longest consecutive integers (NO sort/sorted!)</li>
+        </ol>
+    </div>
+
+    <div class="card">
+        <h2>🔗 urls.py</h2>
+        <div class="code-block">
+<span class="keyword">from</span> django.urls <span class="keyword">import</span> re_path
+<span class="keyword">from</span> . <span class="keyword">import</span> views
+
+urlpatterns = [
+    re_path(<span class="string">r'^operation/(?P&lt;operation&gt;\w+)/(?P&lt;number&gt;\d+)/$'</span>, views.operation_view),
+]
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🧠 views.py</h2>
+        <div class="code-block">
+<span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render
+
+<span class="keyword">def</span> <span class="func">operation_view</span>(request, operation, number):
+    context = {<span class="string">'operation'</span>: operation, <span class="string">'number'</span>: number}
+    number = int(number)
+    
+    <span class="comment"># ---- Task 1: Smart Operation Router ----</span>
+    <span class="keyword">if</span> operation == <span class="string">'square'</span>:
+        op_result = number * number
+    <span class="keyword">elif</span> operation == <span class="string">'cube'</span>:
+        op_result = number * number * number
+    <span class="keyword">elif</span> operation == <span class="string">'even'</span>:
+        op_result = <span class="string">f'{number} is Even'</span> <span class="keyword">if</span> number % <span class="number">2</span> == <span class="number">0</span> <span class="keyword">else</span> <span class="string">f'{number} is Odd'</span>
+    <span class="keyword">elif</span> operation == <span class="string">'odd'</span>:
+        op_result = <span class="string">f'{number} is Odd'</span> <span class="keyword">if</span> number % <span class="number">2</span> != <span class="number">0</span> <span class="keyword">else</span> <span class="string">f'{number} is Even'</span>
+    <span class="keyword">elif</span> operation == <span class="string">'prime'</span>:
+        <span class="keyword">if</span> number < <span class="number">2</span>:
+            op_result = <span class="string">f'{number} is Not Prime'</span>
+        <span class="keyword">else</span>:
+            is_prime = True
+            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>, number):
+                <span class="keyword">if</span> number % i == <span class="number">0</span>:
+                    is_prime = False
+                    <span class="keyword">break</span>
+            op_result = <span class="string">f'{number} is Prime'</span> <span class="keyword">if</span> is_prime <span class="keyword">else</span> <span class="string">f'{number} is Not Prime'</span>
+    <span class="keyword">elif</span> operation == <span class="string">'factorial'</span>:
+        fact = <span class="number">1</span>
+        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, number + <span class="number">1</span>):
+            fact *= i
+        op_result = fact
+    <span class="keyword">else</span>:
+        op_result = <span class="string">'Invalid operation!'</span>
+    
+    context[<span class="string">'op_result'</span>] = op_result
+    
+    <span class="comment"># ---- Task 2: Longest Consecutive Sequence ----</span>
+    data = (<span class="number">100</span>, <span class="number">4</span>, <span class="number">200</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>)
+    
+    <span class="comment"># Use dictionary for existence checking (no sort!)</span>
+    num_dict = {}
+    <span class="keyword">for</span> num <span class="keyword">in</span> data:
+        num_dict[num] = True
+    
+    longest_length = <span class="number">0</span>
+    longest_seq = []
+    
+    <span class="keyword">for</span> num <span class="keyword">in</span> data:
+        <span class="comment"># Only start counting if num-1 is NOT in dict</span>
+        <span class="comment"># (this ensures we start from the beginning of a sequence)</span>
+        <span class="keyword">if</span> (num - <span class="number">1</span>) <span class="keyword">not in</span> num_dict:
+            current_num = num
+            current_seq = [current_num]
+            
+            <span class="keyword">while</span> (current_num + <span class="number">1</span>) <span class="keyword">in</span> num_dict:
+                current_num += <span class="number">1</span>
+                current_seq.append(current_num)
+            
+            <span class="keyword">if</span> len(current_seq) > longest_length:
+                longest_length = len(current_seq)
+                longest_seq = current_seq
+    
+    context[<span class="string">'longest_length'</span>] = longest_length
+    context[<span class="string">'longest_seq'</span>] = longest_seq
+    
+    <span class="keyword">return</span> render(request, <span class="string">'operation.html'</span>, context)
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📄 templates/operation.html</h2>
+        <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Operation Result&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Operation: {{ operation }} on {{ number }}&lt;/h1&gt;
+    &lt;p&gt;Result: {{ op_result }}&lt;/p&gt;
+    
+    &lt;hr&gt;
+    &lt;h2&gt;Longest Consecutive Sequence&lt;/h2&gt;
+    &lt;p&gt;From tuple: (100, 4, 200, 1, 3, 2)&lt;/p&gt;
+    &lt;p&gt;Longest Sequence: {{ longest_seq }}&lt;/p&gt;
+    &lt;p&gt;Length: {{ longest_length }}&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🎤 Viva Questions for Set F</h2>
+        <div class="viva-q">
+            <div class="question">Q: How does the longest consecutive sequence work?</div>
+            <div class="answer">First, put all numbers in a dictionary for O(1) lookup. For each number, check if (number-1) exists. If not, this number starts a new sequence. Then keep checking number+1, number+2, etc. Track the longest such sequence found.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: What is the output for longest sequence of (100, 4, 200, 1, 3, 2)?</div>
+            <div class="answer">The longest consecutive sequence is [1, 2, 3, 4] with length 4. Even though 100 and 200 are large numbers, they have no neighbors in the tuple.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: What is the factorial of 5?</div>
+            <div class="answer">5! = 5 × 4 × 3 × 2 × 1 = 120. I used a for loop with a running product, starting from 1 and multiplying by each number up to n.</div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- =========================== SET G ============================== -->
+<!-- ================================================================ -->
+<div id="setG" class="section">
+    <div class="set-header">
+        <h2>📝 SET G - Student Grade + First Missing Positive Integer</h2>
+        <p>URL Pattern: /student/&lt;roll_no&gt;/&lt;marks&gt;/ | Marks: 30</p>
+    </div>
+
+    <div class="card">
+        <h2>📋 What This Question Asks</h2>
+        <ol>
+            <li><strong>Student Grade:</strong> Validate marks (1-3 digits), assign grade and status using if-elif-else</li>
+            <li><strong>First Missing Positive:</strong> From tuple (3, 4, -1, 1), find smallest positive integer NOT in the tuple (NO sort/set!)</li>
+        </ol>
+    </div>
+
+    <div class="card">
+        <h2>🔗 urls.py</h2>
+        <div class="code-block">
+<span class="keyword">from</span> django.urls <span class="keyword">import</span> re_path
+<span class="keyword">from</span> . <span class="keyword">import</span> views
+
+urlpatterns = [
+    re_path(<span class="string">r'^student/(?P&lt;roll_no&gt;\d{4})/(?P&lt;marks&gt;\d{1,3})/$'</span>, views.student_view),
+]
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🧠 views.py</h2>
+        <div class="code-block">
+<span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render
+
+<span class="keyword">def</span> <span class="func">student_view</span>(request, roll_no, marks):
+    context = {<span class="string">'roll_no'</span>: roll_no, <span class="string">'marks'</span>: marks}
+    marks = int(marks)
+    
+    <span class="comment"># ---- Task 1: Student Grade Classification ----</span>
+    <span class="keyword">if</span> marks >= <span class="number">90</span>:
+        grade = <span class="string">'A+'</span>
+        status = <span class="string">'Excellent'</span>
+    <span class="keyword">elif</span> marks >= <span class="number">80</span>:
+        grade = <span class="string">'A'</span>
+        status = <span class="string">'Very Good'</span>
+    <span class="keyword">elif</span> marks >= <span class="number">70</span>:
+        grade = <span class="string">'B'</span>
+        status = <span class="string">'Good'</span>
+    <span class="keyword">elif</span> marks >= <span class="number">60</span>:
+        grade = <span class="string">'C'</span>
+        status = <span class="string">'Average'</span>
+    <span class="keyword">elif</span> marks >= <span class="number">40</span>:
+        grade = <span class="string">'D'</span>
+        status = <span class="string">'Pass'</span>
+    <span class="keyword">else</span>:
+        grade = <span class="string">'F'</span>
+        status = <span class="string">'Fail'</span>
+    
+    context[<span class="string">'grade'</span>] = grade
+    context[<span class="string">'status'</span>] = status
+    
+    <span class="comment"># ---- Task 2: First Missing Positive Integer ----</span>
+    data = (<span class="number">3</span>, <span class="number">4</span>, -<span class="number">1</span>, <span class="number">1</span>)
+    
+    <span class="comment"># Use dictionary for existence checking (no set!)</span>
+    exists = {}
+    <span class="keyword">for</span> num <span class="keyword">in</span> data:
+        exists[num] = True
+    
+    <span class="comment"># Check 1, 2, 3, ... until we find one that doesn't exist</span>
+    missing = <span class="number">1</span>
+    <span class="keyword">while</span> missing <span class="keyword">in</span> exists:
+        missing += <span class="number">1</span>
+    
+    context[<span class="string">'missing_positive'</span>] = missing
+    
+    <span class="keyword">return</span> render(request, <span class="string">'student_grade.html'</span>, context)
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📄 templates/student_grade.html</h2>
+        <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Student Grade&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Student Roll No: {{ roll_no }}&lt;/h1&gt;
+    &lt;p&gt;Marks: {{ marks }}&lt;/p&gt;
+    &lt;p&gt;Grade: {{ grade }}&lt;/p&gt;
+    &lt;p&gt;Status: {{ status }}&lt;/p&gt;
+    
+    &lt;hr&gt;
+    &lt;h2&gt;First Missing Positive Integer&lt;/h2&gt;
+    &lt;p&gt;From tuple: (3, 4, -1, 1)&lt;/p&gt;
+    &lt;p&gt;First Missing Positive: {{ missing_positive }}&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🎤 Viva Questions for Set G</h2>
+        <div class="viva-q">
+            <div class="question">Q: What is the first missing positive for (3, 4, -1, 1)?</div>
+            <div class="answer">2. We check: is 1 in tuple? Yes. Is 2 in tuple? No. So 2 is the first missing positive integer.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: Why can't we use set() here?</div>
+            <div class="answer">The exam restriction says set() is not allowed. We use a dictionary instead — the keys of a dictionary work like a set for checking if an element exists.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: What grade would marks = 35 get?</div>
+            <div class="answer">Grade F, Status Fail. Because 35 is less than 40, it falls into the else block.</div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- =========================== SET H ============================== -->
+<!-- ================================================================ -->
+<div id="setH" class="section">
+    <div class="set-header">
+        <h2>📝 SET H - Date + Season + Longest Subarray Equal 0s and 1s</h2>
+        <p>URL Pattern: /date/&lt;day&gt;/&lt;month&gt;/&lt;year&gt;/ | Marks: 30</p>
+    </div>
+
+    <div class="card">
+        <h2>📋 What This Question Asks</h2>
+        <ol>
+            <li><strong>Date Validation + Season:</strong> Validate date, classify month as Winter/Spring/Summer/Autumn</li>
+            <li><strong>Longest Subarray with Equal 0s and 1s:</strong> From tuple (0, 0, 1, 0, 0, 0, 1, 1), find longest contiguous subarray with equal number of 0s and 1s (NO Counter/max/sort!)</li>
+        </ol>
+    </div>
+
+    <div class="card">
+        <h2>🔗 urls.py</h2>
+        <div class="code-block">
+<span class="keyword">from</span> django.urls <span class="keyword">import</span> re_path
+<span class="keyword">from</span> . <span class="keyword">import</span> views
+
+urlpatterns = [
+    re_path(<span class="string">r'^date/(?P&lt;day&gt;\d{1,2})/(?P&lt;month&gt;\d{1,2})/(?P&lt;year&gt;\d{4})/$'</span>, views.date_view),
+]
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🧠 views.py</h2>
+        <div class="code-block">
+<span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render
+
+<span class="keyword">def</span> <span class="func">date_view</span>(request, day, month, year):
+    context = {<span class="string">'day'</span>: day, <span class="string">'month'</span>: month, <span class="string">'year'</span>: year}
+    day = int(day)
+    month = int(month)
+    year = int(year)
+    
+    <span class="comment"># ---- Task 1: Date Validation + Season ----</span>
+    valid = True
+    <span class="keyword">if</span> year < <span class="number">1</span>:
+        valid = False
+    <span class="keyword">elif</span> month < <span class="number">1</span> <span class="keyword">or</span> month > <span class="number">12</span>:
+        valid = False
+    <span class="keyword">else</span>:
+        days_in_month = (<span class="number">31</span>, <span class="number">28</span>, <span class="number">31</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">30</span>,
+                         <span class="number">31</span>, <span class="number">31</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">30</span>, <span class="number">31</span>)
+        <span class="keyword">if</span> month == <span class="number">2</span> <span class="keyword">and</span> year % <span class="number">4</span> == <span class="number">0</span>:
+            max_days = <span class="number">29</span>
+        <span class="keyword">else</span>:
+            max_days = days_in_month[month - <span class="number">1</span>]
+        <span class="keyword">if</span> day < <span class="number">1</span> <span class="keyword">or</span> day > max_days:
+            valid = False
+    
+    context[<span class="string">'valid'</span>] = valid
+    
+    <span class="comment"># Classify season (only for valid dates)</span>
+    season = <span class="string">''</span>
+    <span class="keyword">if</span> valid:
+        <span class="keyword">if</span> month <span class="keyword">in</span> (<span class="number">12</span>, <span class="number">1</span>, <span class="number">2</span>):
+            season = <span class="string">'Winter'</span>
+        <span class="keyword">elif</span> month <span class="keyword">in</span> (<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>):
+            season = <span class="string">'Spring'</span>
+        <span class="keyword">elif</span> month <span class="keyword">in</span> (<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>):
+            season = <span class="string">'Summer'</span>
+        <span class="keyword">else</span>:
+            season = <span class="string">'Autumn'</span>
+    context[<span class="string">'season'</span>] = season
+    
+    <span class="comment"># ---- Task 2: Longest Subarray with Equal 0s and 1s ----</span>
+    <span class="comment"># Uses prefix-sum + dictionary approach</span>
+    data = (<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>)
+    
+    <span class="comment"># Replace 0 with -1, then find longest subarray with sum 0</span>
+    prefix_sum = <span class="number">0</span>
+    first_occurrence = {<span class="number">0</span>: -<span class="number">1</span>}  <span class="comment"># sum=0 at index -1 (before start)</span>
+    longest_length = <span class="number">0</span>
+    longest_start = <span class="number">0</span>
+    longest_end = <span class="number">0</span>
+    
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(data)):
+        <span class="comment"># Treat 0 as -1 for the prefix sum trick</span>
+        <span class="keyword">if</span> data[i] == <span class="number">0</span>:
+            prefix_sum += (-<span class="number">1</span>)
+        <span class="keyword">else</span>:
+            prefix_sum += <span class="number">1</span>
+        
+        <span class="keyword">if</span> prefix_sum <span class="keyword">in</span> first_occurrence:
+            <span class="comment"># Subarray from first_occurrence[prefix_sum]+1 to i</span>
+            length = i - first_occurrence[prefix_sum]
+            <span class="keyword">if</span> length > longest_length:
+                longest_length = length
+                longest_start = first_occurrence[prefix_sum] + <span class="number">1</span>
+                longest_end = i
+        <span class="keyword">else</span>:
+            first_occurrence[prefix_sum] = i
+    
+    <span class="comment"># Extract the actual subarray</span>
+    longest_subarray = []
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(longest_start, longest_end + <span class="number">1</span>):
+        longest_subarray.append(data[i])
+    
+    context[<span class="string">'longest_length'</span>] = longest_length
+    context[<span class="string">'longest_subarray'</span>] = longest_subarray
+    
+    <span class="keyword">return</span> render(request, <span class="string">'date_season.html'</span>, context)
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📄 templates/date_season.html</h2>
+        <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Date &amp; Subarray Result&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Date: {{ day }}/{{ month }}/{{ year }}&lt;/h1&gt;
+    &lt;p&gt;Date is: {% if valid %}Valid{% else %}Invalid{% endif %}&lt;/p&gt;
+    {% if valid %}
+        &lt;p&gt;Season: {{ season }}&lt;/p&gt;
+    {% endif %}
+    
+    &lt;hr&gt;
+    &lt;h2&gt;Longest Subarray with Equal 0s and 1s&lt;/h2&gt;
+    &lt;p&gt;From tuple: (0, 0, 1, 0, 0, 0, 1, 1)&lt;/p&gt;
+    &lt;p&gt;Longest Subarray: {{ longest_subarray }}&lt;/p&gt;
+    &lt;p&gt;Length: {{ longest_length }}&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🎤 Viva Questions for Set H</h2>
+        <div class="viva-q">
+            <div class="question">Q: How does the prefix-sum approach work for equal 0s and 1s?</div>
+            <div class="answer">Replace every 0 with -1. Now the problem becomes: find the longest subarray with sum = 0. Use a running prefix sum. If the same prefix sum appears at two different positions, the subarray between them has sum 0 (equal 0s and 1s in the original). We store first occurrence of each prefix sum in a dictionary.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: What is the output for (0, 0, 1, 0, 0, 0, 1, 1)?</div>
+            <div class="answer">The longest subarray with equal 0s and 1s is [0, 0, 1, 0, 0, 0, 1, 1] with length 8. (4 zeros and 4 ones). Actually let me recalculate... [0,0,1,0,0,0,1,1] has 4 zeros and 4 ones = length 8. But the full tuple also has this property.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: What season is month 7?</div>
+            <div class="answer">Summer. Months 6, 7, 8 are Summer. Months 3, 4, 5 are Spring. Months 9, 10, 11 are Autumn. Months 12, 1, 2 are Winter.</div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- =========================== SET I ============================== -->
+<!-- ================================================================ -->
+<div id="setI" class="section">
+    <div class="set-header">
+        <h2>📝 SET I - Student Login (GET/POST) + Majority Element</h2>
+        <p>URL Pattern: /student/&lt;student_name&gt;/ | Marks: 30</p>
+    </div>
+
+    <div class="card">
+        <h2>📋 What This Question Asks</h2>
+        <ol>
+            <li><strong>Student Login:</strong> GET → show login form with student name. POST → accept username/password, show success or invalid</li>
+            <li><strong>Majority Element:</strong> From tuple (2, 2, 1, 1, 1, 2, 2), find element that appears more than n/2 times</li>
+        </ol>
+    </div>
+
+    <div class="card">
+        <h2>🔗 urls.py</h2>
+        <div class="code-block">
+<span class="keyword">from</span> django.urls <span class="keyword">import</span> re_path
+<span class="keyword">from</span> . <span class="keyword">import</span> views
+
+urlpatterns = [
+    re_path(<span class="string">r'^student/(?P&lt;student_name&gt;\w+)/$'</span>, views.student_view),
+]
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🧠 views.py</h2>
+        <div class="code-block">
+<span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render
+
+<span class="keyword">def</span> <span class="func">student_view</span>(request, student_name):
+    context = {<span class="string">'student_name'</span>: student_name}
+    
+    <span class="comment"># ---- Task 1: Student Login (GET/POST) ----</span>
+    <span class="keyword">if</span> request.method == <span class="string">'GET'</span>:
+        context[<span class="string">'message'</span>] = <span class="string">f'Welcome {student_name}! Please enter your credentials.'</span>
+        context[<span class="string">'show_form'</span>] = True
+    
+    <span class="keyword">elif</span> request.method == <span class="string">'POST'</span>:
+        username = request.POST.get(<span class="string">'username'</span>, <span class="string">''</span>)
+        password = request.POST.get(<span class="string">'password'</span>, <span class="string">''</span>)
+        
+        <span class="comment"># Simple credential check</span>
+        <span class="keyword">if</span> username == student_name <span class="keyword">and</span> password == <span class="string">'1234'</span>:
+            context[<span class="string">'login_msg'</span>] = <span class="string">f'Successful login! Welcome, {username}.'</span>
+            context[<span class="string">'login_success'</span>] = True
+        <span class="keyword">else</span>:
+            context[<span class="string">'login_msg'</span>] = <span class="string">'Invalid credentials! Please try again.'</span>
+            context[<span class="string">'login_success'</span>] = False
+    
+    <span class="comment"># ---- Task 2: Majority Element ----</span>
+    data = (<span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>)
+    n = len(data)
+    
+    <span class="comment"># Count frequencies using dictionary</span>
+    freq = {}
+    <span class="keyword">for</span> num <span class="keyword">in</span> data:
+        <span class="keyword">if</span> num <span class="keyword">in</span> freq:
+            freq[num] += <span class="number">1</span>
+        <span class="keyword">else</span>:
+            freq[num] = <span class="number">1</span>
+    
+    <span class="comment"># Find majority candidate</span>
+    majority = <span class="number">0</span>
+    count = <span class="number">0</span>
+    <span class="keyword">for</span> num <span class="keyword">in</span> data:
+        <span class="keyword">if</span> count == <span class="number">0</span>:
+            majority = num
+            count = <span class="number">1</span>
+        <span class="keyword">elif</span> num == majority:
+            count += <span class="number">1</span>
+        <span class="keyword">else</span>:
+            count -= <span class="number">1</span>
+    
+    <span class="comment"># Verify the candidate</span>
+    <span class="keyword">if</span> freq[majority] > n // <span class="number">2</span>:
+        context[<span class="string">'majority'</span>] = majority
+        context[<span class="string">'majority_count'</span>] = freq[majority]
+    <span class="keyword">else</span>:
+        context[<span class="string">'majority'</span>] = <span class="string">'No Majority Element'</span>
+    
+    context[<span class="string">'data'</span>] = data
+    context[<span class="string">'freq'</span>] = freq
+    
+    <span class="keyword">return</span> render(request, <span class="string">'student_login.html'</span>, context)
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📄 templates/student_login.html</h2>
+        <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Student Login&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Student: {{ student_name }}&lt;/h1&gt;
+    
+    {% if message %}
+        &lt;p&gt;{{ message }}&lt;/p&gt;
+    {% endif %}
+    
+    {% if show_form %}
+        &lt;form method="POST"&gt;
+            {% csrf_token %}
+            &lt;label&gt;Username: &lt;input type="text" name="username"&gt;&lt;/label&gt;&lt;br&gt;
+            &lt;label&gt;Password: &lt;input type="password" name="password"&gt;&lt;/label&gt;&lt;br&gt;
+            &lt;button type="submit"&gt;Login&lt;/button&gt;
+        &lt;/form&gt;
+    {% endif %}
+    
+    {% if login_msg %}
+        {% if login_success %}
+            &lt;p style="color:green"&gt;{{ login_msg }}&lt;/p&gt;
+        {% else %}
+            &lt;p style="color:red"&gt;{{ login_msg }}&lt;/p&gt;
+        {% endif %}
+    {% endif %}
+    
+    &lt;hr&gt;
+    &lt;h2&gt;Majority Element Analysis&lt;/h2&gt;
+    &lt;p&gt;Tuple: {{ data }}&lt;/p&gt;
+    &lt;p&gt;Frequencies: {{ freq }}&lt;/p&gt;
+    &lt;p&gt;Majority Element: {{ majority }}&lt;/p&gt;
+    {% if majority_count %}
+        &lt;p&gt;Count: {{ majority_count }} (n/2 = 3, majority requires &gt; 3)&lt;/p&gt;
+    {% endif %}
+&lt;/body&gt;
+&lt;/html&gt;
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🎤 Viva Questions for Set I</h2>
+        <div class="viva-q">
+            <div class="question">Q: What is a majority element?</div>
+            <div class="answer">A majority element is an element that appears more than n/2 times in the tuple, where n is the total number of elements. For (2,2,1,1,1,2,2), n=7, so majority requires more than 3 appearances. Element 2 appears 4 times, so it IS the majority.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: How does the Boyer-Moore voting algorithm work?</div>
+            <div class="answer">Start with count=0 and no candidate. For each element: if count is 0, make it the candidate. If element matches candidate, increment count. If not, decrement count. The surviving candidate is then verified by counting its actual frequency.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: Why do we need to verify the candidate?</div>
+            <div class="answer">The voting algorithm only finds a possible candidate. It doesn't guarantee the candidate is actually a majority. For example, in (1, 2, 3), the algorithm might pick 3 as candidate, but no element appears more than 1 time. So we must count its frequency and check if it's really > n/2.</div>
+        </div>
+        <div class="viva-q">
+            <div class="question">Q: What happens if no majority exists?</div>
+            <div class="answer">We display 'No Majority Element'. This is handled by checking if the frequency of our candidate is greater than n//2. If not, there's no majority element in the tuple.</div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- ========================= VIVA PREP ============================ -->
+<!-- ================================================================ -->
+<div id="viva" class="section">
+    <div class="card">
+        <h2>🎤 Complete Viva Preparation Guide</h2>
+        <p>These questions cover concepts that can appear in ANY set's viva. Master all of them!</p>
+    </div>
+
+    <div class="card">
+        <h2>Django Core Concepts</h2>
+        
+        <div class="viva-q">
+            <div class="question">Q: What is Django and why use it?</div>
+            <div class="answer">Django is a Python web framework that follows the MVT (Model-View-Template) pattern. It provides tools for URL routing, database management, form handling, and HTML templates, making web development faster and more organized.</div>
+        </div>
+        
+        <div class="viva-q">
+            <div class="question">Q: What is the MVT pattern?</div>
+            <div class="answer">MVT stands for Model-View-Template. Model handles data/database, View handles logic/processing, and Template handles the HTML display. For CA1, we primarily work with Views and Templates.</div>
+        </div>
+        
+        <div class="viva-q">
+            <div class="question">Q: What does re_path() do vs path()?</div>
+            <div class="answer">re_path() uses regular expressions for URL matching, giving us more control (like \d{4} for exactly 4 digits). path() uses simpler converters like &lt;int:id&gt;. We use re_path() in CA1 for more precise URL validation.</div>
+        </div>
+        
+        <div class="viva-q">
+            <div class="question">Q: What is the difference between a URL pattern and a URL parameter?</div>
+            <div class="answer">A URL pattern is the full route definition like r'^student/(?P&lt;roll_no&gt;\d{4})/$'. Named URL parameters (like (?P&lt;roll_no&gt;\d{4})) are parts of the URL that are captured and passed as arguments to the view function.</div>
+        </div>
+        
+        <div class="viva-q">
+            <div class="question">Q: How does Django match a URL to a view?</div>
+            <div class="answer">Django checks each URL pattern in urlpatterns in order. The first pattern that matches the requested URL is used. Named groups (?P&lt;name&gt;...) capture values and pass them as keyword arguments to the view function.</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Python Concepts Used in All Sets</h2>
+        
+        <div class="viva-q">
+            <div class="question">Q: What is a dictionary in Python?</div>
+            <div class="answer">A dictionary stores key-value pairs. Keys are unique. Example: {'IT': 75000, 'HR': 50000}. We use it for counting frequencies, grouping data, and existence checking in CA1.</div>
+        </div>
+        
+        <div class="viva-q">
+            <div class="question">Q: What is a tuple vs list?</div>
+            <div class="answer">A tuple is immutable (cannot be changed after creation) and uses parentheses (1,2,3). A list is mutable and uses square brackets [1,2,3]. We convert tuples to lists when we need to modify them.</div>
+        </div>
+        
+        <div class="viva-q">
+            <div class="question">Q: How do you check if a key exists in a dictionary?</div>
+            <div class="answer">Using the 'in' keyword: if key in dictionary. This is O(1) — very fast. We use this for frequency checking and existence checking throughout CA1.</div>
+        </div>
+        
+        <div class="viva-q">
+            <div class="question">Q: What is string slicing?</div>
+            <div class="answer">Slicing extracts parts of a string. s[start:end] gets characters from start index to end-1. Example: "hello"[1:3] returns "el". We use this in date validation and string processing.</div>
+        </div>
+        
+        <div class="viva-q">
+            <div class="question">Q: What is the difference between == and 'in'?</div>
+            <div class="answer">== checks if two values are equal. 'in' checks if a value exists within a collection (list, dictionary, string). Example: 3 in [1,2,3] returns True; 4 == [1,2,3] would raise an error.</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Algorithm Concepts</h2>
+        
+        <div class="viva-q">
+            <div class="question">Q: What is a subarray vs sublist?</div>
+            <div class="answer">A subarray (or subsequence in this context) must be contiguous — elements must be next to each other in the original. [1,2] is a subarray of [1,2,3] but [1,3] is not because 2 is skipped.</div>
+        </div>
+        
+        <div class="viva-q">
+            <div class="question">Q: What is the difference between O(n) and O(n²)?</div>
+            <div class="answer">O(n) means the algorithm runs in proportion to the input size — linear time. O(n²) means it takes n × n operations — much slower. For example, nested loops for finding all subarrays is O(n²).</div>
+        </div>
+        
+        <div class="viva-q">
+            <div class="question">Q: What is Boyer-Moore Voting Algorithm?</div>
+            <div class="answer">It's an algorithm to find a majority element in O(n) time and O(1) space. It maintains a candidate and a counter. When the counter drops to zero, a new candidate is chosen. After one pass, verify if the candidate is actually a majority.</div>
+        </div>
+        
+        <div class="viva-q">
+            <div class="question">Q: What is prefix sum?</div>
+            <div class="answer">Prefix sum is a running total. For array [1, 0, 1], prefix sums are [1, 1, 2]. It's used to quickly find the sum of any subarray. If prefix_sum[i] == prefix_sum[j], then the subarray from i+1 to j has sum 0.</div>
+        </div>
+        
+        <div class="viva-q">
+            <div class="question">Q: Why do we use a dictionary for O(1) lookup?</div>
+            <div class="answer">Dictionary lookups are O(1) on average — constant time. Searching in a list is O(n). When we need to frequently check if a value exists, dictionaries are much faster. This is why we use them for existence checking instead of scanning through the tuple each time.</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>HTTP Concepts</h2>
+        
+        <div class="viva-q">
+            <div class="question">Q: What is GET and when to use it?</div>
+            <div class="answer">GET is an HTTP method used to retrieve/requests data. The data is passed in the URL as query parameters. We use it for loading pages and displaying forms. It's not secure for sensitive data because data is visible in the URL.</div>
+        </div>
+        
+        <div class="viva-q">
+            <div class="question">Q: What is POST and when to use it?</div>
+            <div class="answer">POST is an HTTP method used to send/submit data to the server. Data is in the request body, not visible in the URL. We use it for form submissions, login forms, and any action that modifies data.</div>
+        </div>
+        
+        <div class="viva-q">
+            <div class="question">Q: What does {% csrf_token %} do?</div>
+            <div class="answer">It generates a hidden field with a security token that Django validates on POST requests. This prevents Cross-Site Request Forgery attacks where a malicious website submits forms on behalf of your user.</div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- ========================= EXAM TIPS ============================ -->
+<!-- ================================================================ -->
+<div id="tips" class="section">
+    <div class="card">
+        <h2>💡 Complete Exam Tips - Written + Practical + Viva</h2>
+    </div>
+
+    <div class="card">
+        <h2>📝 Written Exam Tips (15 Marks)</h2>
+        
+        <ol class="step-list">
+            <li><strong>Read the question carefully</strong> — Note which functions are banned (Counter, sort, max, etc.)</li>
+            <li><strong>Write all 3 files:</strong> urls.py, views.py, and templates/HTML file</li>
+            <li><strong>Start with urls.py</strong> — This is the easiest part. Copy the pattern from your notes</li>
+            <li><strong>Write the view function</strong> — Define the function with correct parameters matching URL named groups</li>
+            <li><strong>Implement both tasks</strong> — Most questions ask for two tasks in the same view</li>
+            <li><strong>Create context dictionary</strong> — Pass all results to the template</li>
+            <li><strong>Write the HTML template</strong> — Use {{ variable }}, {% for %}, {% if %} tags</li>
+            <li><strong>Add validation</strong> — Always check for invalid inputs and show error messages</li>
+        </ol>
+
+        <div class="warning">
+            <strong>🚫 Common Mistakes to Avoid:</strong>
+            <ul>
+                <li>Forgetting to import render from django.shortcuts</li>
+                <li>Not using {% csrf_token %} in POST forms</li>
+                <li>Mismatched parameter names between URL pattern and view function</li>
+                <li>Forgetting to handle invalid/edge cases</li>
+                <li>Using banned functions (Counter, sort, sorted, max, set)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>💻 Practical Exam Tips (10 Marks)</h2>
+        
+        <ol class="step-list">
+            <li><strong>Create Django project:</strong> <code>django-admin startproject myproject</code></li>
+            <li><strong>Create app:</strong> <code>python manage.py startapp myapp</code></li>
+            <li><strong>Register app in settings.py:</strong> Add 'myapp' to INSTALLED_APPS</li>
+            <li><strong>Set up urls.py files</strong> (both project-level and app-level)</li>
+            <li><strong>Write views.py</strong> with all the logic</li>
+            <li><strong>Create templates folder</strong> and add HTML files</li>
+            <li><strong>Test with:</strong> <code>python manage.py runserver</code></li>
+            <li><strong>Test all URLs</strong> including edge cases and invalid inputs</li>
+        </ol>
+
+        <div class="tip">
+            <strong>💡 Quick Setup Commands:</strong>
+            <div class="code-block">
+<span class="comment"># Step 1: Create project</span>
+django-admin startproject myproject
+cd myproject
+
+<span class="comment"># Step 2: Create app</span>
+python manage.py startapp myapp
+
+<span class="comment"># Step 3: Register app in myproject/settings.py</span>
+<span class="comment"># Add 'myapp' to INSTALLED_APPS list</span>
+
+<span class="comment"># Step 4: Setup myproject/urls.py</span>
+<span class="comment"># from django.urls import include</span>
+<span class="comment"># path('', include('myapp.urls')),</span>
+
+<span class="comment"># Step 5: Run the server</span>
+python manage.py runserver
+            </div>
+        </div>
+
+        <div class="tip">
+            <strong>💡 For exam, quickly setup the boilerplate:</strong>
+            <div class="code-block">
+<span class="comment"># Project urls.py (myproject/urls.py):</span>
+<span class="keyword">from</span> django.urls <span class="keyword">import</span> path, include
+
+urlpatterns = [
+    path(<span class="string">''</span>, include(<span class="string">'myapp.urls'</span>)),
+]
+
+<span class="comment"># App urls.py (myapp/urls.py):</span>
+<span class="keyword">from</span> django.urls <span class="keyword">import</span> re_path
+<span class="keyword">from</span> . <span class="keyword">import</span> views
+
+urlpatterns = [
+    <span class="comment"># Add your patterns here</span>
+]
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🎤 Viva Exam Tips (5 Marks)</h2>
+        
+        <ol class="step-list">
+            <li><strong>Understand, don't memorize</strong> — Viva tests your understanding, not memory</li>
+            <li><strong>Know every line of code</strong> you wrote — Be ready to explain any part</li>
+            <li><strong>Common questions:</strong> "Why did you use dictionary?", "What does this line do?", "What if input is invalid?"</li>
+            <li><strong>Use examples</strong> to explain — "For instance, if the URL is /process/number/42/..."</li>
+            <li><strong>Know the restrictions</strong> — Be ready to explain WHY certain functions are banned and what you used instead</li>
+        </ol>
+
+        <div class="info">
+            <strong>🎯 5-Minute Viva Checklist:</strong>
+            <ul>
+                <li>☐ Can explain what (?P&lt;name&gt;\w+) means</li>
+                <li>☐ Can explain what render() does</li>
+                <li>☐ Can explain how dictionary counting works</li>
+                <li>☐ Can explain GET vs POST</li>
+                <li>☐ Can explain the main algorithm used (Top-K, zero-sum, anagram, etc.)</li>
+                <li>☐ Can explain input validation logic</li>
+                <li>☐ Can explain how the template displays data</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>⏰ Time Management (1 Hour Total)</h2>
+        <table class="marks-table">
+            <tr><th>Phase</th><th>Time</th><th>What to Do</th></tr>
+            <tr><td>Read & Plan</td><td>5 min</td><td>Read question, identify both tasks, plan your code structure</td></tr>
+            <tr><td>Setup Project</td><td>5 min</td><td>Create Django project, app, register in settings, write boilerplate</td></tr>
+            <tr><td>Write urls.py</td><td>3 min</td><td>Write URL pattern with regex and named parameters</td></tr>
+            <tr><td>Write views.py</td><td>25 min</td><td>Write the view function with both tasks, validation, and context</td></tr>
+            <tr><td>Write Template</td><td>10 min</td><td>Write HTML template with Django template tags</td></tr>
+            <tr><td>Test & Fix</td><td>10 min</td><td>Run server, test URLs, fix any errors</td></tr>
+            <tr><td>Review</td><td>2 min</td><td>Quick check: imports, csrf_token, banned functions</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>📋 Quick Reference: Regex Patterns by Set</h2>
+        <table class="marks-table">
+            <tr><th>Set</th><th>URL Pattern</th><th>Key Parameters</th></tr>
+            <tr><td>A</td><td><code>r'^process/(?P&lt;type&gt;\w+)/(?P&lt;value&gt;\w+)/$'</code></td><td>type (word), value (word)</td></tr>
+            <tr><td>B</td><td><code>r'^bill/(?P&lt;customer_id&gt;\w+)/(?P&lt;units&gt;\d+)/$'</code></td><td>customer_id (word), units (digits)</td></tr>
+            <tr><td>C</td><td><code>r'^student/(?P&lt;roll_no&gt;\d{4})/$'</code></td><td>roll_no (exactly 4 digits)</td></tr>
+            <tr><td>D</td><td><code>r'^date/(?P&lt;day&gt;\d{1,2})/(?P&lt;month&gt;\d{1,2})/(?P&lt;year&gt;\d{4})/$'</code></td><td>day/month/year</td></tr>
+            <tr><td>E</td><td><code>r'^employee/(?P&lt;emp_id&gt;\d{5})/(?P&lt;salary&gt;\d+)/$'</code></td><td>emp_id (5 digits), salary (digits)</td></tr>
+            <tr><td>F</td><td><code>r'^operation/(?P&lt;operation&gt;\w+)/(?P&lt;number&gt;\d+)/$'</code></td><td>operation (word), number (digits)</td></tr>
+            <tr><td>G</td><td><code>r'^student/(?P&lt;roll_no&gt;\d{4})/(?P&lt;marks&gt;\d{1,3})/$'</code></td><td>roll_no (4 digits), marks (1-3 digits)</td></tr>
+            <tr><td>H</td><td><code>r'^date/(?P&lt;day&gt;\d{1,2})/(?P&lt;month&gt;\d{1,2})/(?P&lt;year&gt;\d{4})/$'</code></td><td>day/month/year</td></tr>
+            <tr><td>I</td><td><code>r'^student/(?P&lt;student_name&gt;\w+)/$'</code></td><td>student_name (word)</td></tr>
+        </table>
+    </div>
+</div>
+
+</div> <!-- end container -->
+
+<button class="back-top" onclick="window.scrollTo({top:0, behavior:'smooth'})">↑</button>
+
+<script>
+function showSection(id) {
+    // Hide all sections
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    // Remove active from all nav buttons
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    
+    // Show the selected section
+    document.getElementById(id).classList.add('active');
+    
+    // Highlight the clicked button
+    event.target.classList.add('active');
+    
+    // Scroll to top of content
+    window.scrollTo({ top: document.querySelector('.nav-container').offsetTop, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>

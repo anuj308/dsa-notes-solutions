@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSE493 Linux System Administration - Complete Study Guide</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f0f23; color: #e0e0e0; line-height: 1.7; }
+        
+        .hero {
+            background: linear-gradient(135deg, #1a1a3e 0%, #0d47a1 50%, #1b5e20 100%);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 3px solid #4caf50;
+        }
+        .hero h1 { font-size: 2.5em; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .hero p { font-size: 1.2em; color: #a5d6a7; margin-top: 10px; }
+        .hero .badge { display: inline-block; background: #4caf50; color: #fff; padding: 5px 20px; border-radius: 20px; margin-top: 15px; font-weight: bold; }
+
+        nav { background: #1a1a2e; padding: 15px 20px; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid #4caf50; }
+        nav a { color: #81c784; text-decoration: none; margin: 0 12px; font-weight: bold; font-size: 0.9em; }
+        nav a:hover { color: #fff; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+        .unit-header {
+            background: linear-gradient(90deg, #1b5e20, #2e7d32);
+            color: #fff;
+            padding: 25px 30px;
+            border-radius: 12px;
+            margin: 40px 0 20px 0;
+            font-size: 1.5em;
+            box-shadow: 0 4px 15px rgba(76,175,80,0.3);
+        }
+
+        .topic-box {
+            background: #1a1a2e;
+            border-left: 4px solid #4caf50;
+            padding: 25px 30px;
+            margin: 20px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        .topic-box h3 { color: #81c784; margin-bottom: 12px; font-size: 1.3em; }
+        .topic-box p { margin-bottom: 10px; }
+        .topic-box ul, .topic-box ol { margin-left: 25px; margin-bottom: 12px; }
+        .topic-box li { margin-bottom: 6px; }
+
+        .cmd-box {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            color: #79c0ff;
+            overflow-x: auto;
+        }
+        .cmd-box .comment { color: #6a9955; }
+        .cmd-box .highlight { color: #ffa657; }
+
+        .example-box {
+            background: #1c2333;
+            border: 1px solid #4caf50;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        .example-box h4 { color: #66bb6a; margin-bottom: 10px; }
+
+        .qa-section { margin: 40px 0; }
+        .question {
+            background: #1a1a2e;
+            border-left: 4px solid #ff9800;
+            padding: 20px 25px;
+            margin: 15px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        .question h4 { color: #ffb74d; margin-bottom: 10px; }
+        .answer {
+            background: #1c2333;
+            border-left: 4px solid #4caf50;
+            padding: 20px 25px;
+            margin: 0 0 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        .answer h4 { color: #81c784; margin-bottom: 10px; }
+        .answer .step { margin: 8px 0; padding-left: 15px; border-left: 2px solid #4caf50; }
+        .answer .step strong { color: #ff9800; }
+
+        .tip-box {
+            background: #1a237e;
+            border: 1px solid #5c6bc0;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 15px 0;
+        }
+        .tip-box::before { content: "💡 Tip: "; font-weight: bold; color: #64b5f6; }
+
+        .warning-box {
+            background: #4a148c;
+            border: 1px solid #9c27b0;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 15px 0;
+        }
+        .warning-box::before { content: "⚠️ Important: "; font-weight: bold; color: #ce93d8; }
+
+        .quiz-btn {
+            background: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 10px 5px;
+        }
+        .quiz-btn:hover { background: #388e3c; }
+        .quiz-btn.secondary { background: #1976d2; }
+        .quiz-btn.secondary:hover { background: #1565c0; }
+
+        .hidden { display: none; }
+
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th { background: #1b5e20; color: #fff; padding: 12px 15px; text-align: left; }
+        td { padding: 10px 15px; border-bottom: 1px solid #333; }
+        tr:hover td { background: #1a2333; }
+
+        .toc { background: #1a1a2e; padding: 25px 30px; border-radius: 12px; margin: 30px 0; }
+        .toc h2 { color: #4caf50; margin-bottom: 15px; }
+        .toc a { color: #81c784; text-decoration: none; display: block; padding: 6px 0; }
+        .toc a:hover { color: #fff; text-decoration: underline; }
+
+        .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 15px 0; }
+        .comparison > div { background: #1c2333; padding: 15px; border-radius: 8px; }
+        .comparison h4 { color: #64b5f6; margin-bottom: 8px; }
+
+        footer { background: #1a1a2e; padding: 30px; text-align: center; margin-top: 60px; border-top: 2px solid #4caf50; color: #666; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 1.8em; }
+            .comparison { grid-template-columns: 1fr; }
+            nav { overflow-x: auto; white-space: nowrap; }
+            nav a { font-size: 0.8em; margin: 0 8px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>🐧 CSE493 Linux System Administration</h1>
+    <p>Complete Study Guide — Everything You Need to Pass Your Test</p>
+    <div class="badge">CSE493 | Session 2026-27 | Credits: 4</div>
+</div>
+
+<nav>
+    <a href="#unit1">Unit I</a>
+    <a href="#unit2">Unit II</a>
+    <a href="#unit3">Unit III</a>
+    <a href="#unit4">Unit IV</a>
+    <a href="#unit5">Unit V</a>
+    <a href="#unit6">Unit VI</a>
+    <a href="#assignment">Assignment Q&A</a>
+    <a href="#practice">Practice Q&A</a>
+</nav>
+
+<div class="container">
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+    <h2>📋 Table of Contents</h2>
+    <a href="#unit1">📘 Unit I — Command Line, Files, Help, Text Editing, Users & Groups</a>
+    <a href="#unit2">📗 Unit II — Permissions, Processes, Services, SSH, Logs</a>
+    <a href="#unit3">📙 Unit III — Networking, Archiving, Software Packages, File Systems, Virtualization</a>
+    <a href="#unit4">📕 Unit IV — Bash Scripting, Scheduling, Performance Tuning, ACLs</a>
+    <a href="#unit5">📓 Unit V — SELinux, Storage, LVM, VDO, Stratis</a>
+    <a href="#unit6">📔 Unit VI — NFS, Boot Process, Firewalls, Installation</a>
+    <a href="#assignment">📝 Sample Assignment (CA-1) — Detailed Answers</a>
+    <a href="#practice">❓ 15 Extra Practice Questions with Answers</a>
+</div>
+
+<!-- ============================================================ -->
+<!-- UNIT I -->
+<!-- ============================================================ -->
+<div class="unit-header" id="unit1">📘 Unit I — Accessing the Command Line & Managing Files</div>
+
+<div class="topic-box">
+    <h3>1. What is Linux?</h3>
+    <p>Linux is a <strong>free, open-source operating system</strong> created by Linus Torvalds in 1991. It is used in servers, supercomputers, phones (Android), cloud computing, and IoT devices.</p>
+    <p><strong>Why learn Linux?</strong> It powers most of the internet's servers, is in high demand for IT jobs, and is the foundation of cloud computing.</p>
+</div>
+
+<div class="topic-box">
+    <h3>2. Linux Architecture</h3>
+    <p>Think of Linux as layers:</p>
+    <table>
+        <tr><th>Layer</th><th>What It Does</th></tr>
+        <tr><td><strong>Hardware</strong></td><td>Physical parts (CPU, RAM, disk)</td></tr>
+        <tr><td><strong>Kernel</strong></td><td>The core — manages hardware, memory, processes. Talks to hardware.</td></tr>
+        <tr><td><strong>Shell</strong></td><td>The command interpreter. You type commands here. Example: Bash</td></tr>
+        <tr><td><strong>Applications</strong></td><td>Programs you use (text editors, browsers, etc.)</td></tr>
+    </table>
+</div>
+
+<div class="topic-box">
+    <h3>3. Accessing the Command Line</h3>
+    <p>The <strong>command line</strong> is a text interface where you type instructions to the computer.</p>
+    <ul>
+        <li><strong>Physical Console</strong> — Directly connected keyboard + monitor</li>
+        <li><strong>Virtual Consoles</strong> — Switch between them with <code>Ctrl+Alt+F1</code> to <code>Ctrl+Alt+F6</code></li>
+        <li><strong>SSH (Remote)</strong> — Connect over network: <code>ssh username@hostname</code></li>
+    </ul>
+    <div class="cmd-box">
+        <span class="comment"># Login to a remote system</span><br>
+        ssh student@192.168.1.10<br><br>
+        <span class="comment"># Logout</span><br>
+        exit
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>4. Shell Basics</h3>
+    <p>Every command has three parts: <strong>Command + Options + Arguments</strong></p>
+    <div class="cmd-box">
+        <span class="highlight">ls</span> <span class="comment">-l</span> <span class="comment">/home</span><br>
+        ↑ command &nbsp;&nbsp; ↑ option &nbsp;&nbsp; ↑ argument
+    </div>
+    <p><strong>Shell Prompt:</strong></p>
+    <ul>
+        <li>Regular user: <code>[user@host ~]$</code></li>
+        <li>Root (admin): <code>[root@host ~]#</code></li>
+    </ul>
+    <div class="cmd-box">
+        <span class="comment"># whoami — shows current user</span><br>
+        whoami<br><br>
+        <span class="comment"># Multiple commands on one line (separated by ;)</span><br>
+        whoami ; hostname ; pwd
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>5. Linux File System Hierarchy</h3>
+    <p>Linux has a tree-like directory structure starting from <code>/</code> (root):</p>
+    <table>
+        <tr><th>Directory</th><th>Purpose</th><th>Example</th></tr>
+        <tr><td><code>/</code></td><td>Root of the entire filesystem</td><td>Everything starts here</td></tr>
+        <tr><td><code>/home</code></td><td>User personal folders</td><td>/home/student</td></tr>
+        <tr><td><code>/etc</code></td><td>System configuration files</td><td>/etc/passwd</td></tr>
+        <tr><td><code>/var</code></td><td>Variable data (logs, temp files)</td><td>/var/log</td></tr>
+        <tr><td><code>/tmp</code></td><td>Temporary files</td><td>/tmp/cache</td></tr>
+        <tr><td><code>/usr</code></td><td>User programs and data</td><td>/usr/share/doc</td></tr>
+        <tr><td><code>/boot</code></td><td>Boot loader files</td><td>/boot/grub2</td></tr>
+        <tr><td><code>/dev</code></td><td>Device files</td><td>/dev/sda</td></tr>
+        <tr><td><code>/proc</code></td><td>Virtual — process/kernel info</td><td>/proc/cpuinfo</td></tr>
+    </table>
+    <div class="tip-box">Absolute path starts from <code>/</code> (e.g., <code>/home/user/file.txt</code>). Relative path starts from your current location (e.g., <code>../Documents/report.txt</code>).</div>
+</div>
+
+<div class="topic-box">
+    <h3>6. Essential File Commands</h3>
+    <div class="cmd-box">
+        <span class="comment"># Navigate directories</span><br>
+        cd /home &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Change to /home</span><br>
+        cd .. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Go up one directory</span><br>
+        cd ~ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Go to home directory</span><br>
+        pwd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Print current directory</span><br><br>
+        <span class="comment"># List files</span><br>
+        ls &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Simple list</span><br>
+        ls -l &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Long format (permissions, owner, size)</span><br>
+        ls -la &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Include hidden files (starting with .)</span><br>
+        ls -ld /etc &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Show directory info, not contents</span><br><br>
+        <span class="comment"># Create files and directories</span><br>
+        touch file1.txt &nbsp;&nbsp;<span class="comment"># Create empty file</span><br>
+        mkdir projects &nbsp;&nbsp;&nbsp;<span class="comment"># Create directory</span><br>
+        mkdir -p a/b/c &nbsp;&nbsp;&nbsp;<span class="comment"># Create nested directories</span><br><br>
+        <span class="comment"># Copy, move, remove</span><br>
+        cp file1.txt backup/ &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Copy file</span><br>
+        cp -r dir1/ dir2/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Copy directory recursively</span><br>
+        mv file1.txt newname.txt &nbsp;<span class="comment"># Rename or move</span><br>
+        rm file1.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Delete file</span><br>
+        rm -r directory/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Delete directory recursively</span><br><br>
+        <span class="comment"># View file contents</span><br>
+        cat file.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Show entire file</span><br>
+        head -n 10 file.txt <span class="comment"># First 10 lines</span><br>
+        tail -n 5 file.txt &nbsp;<span class="comment"># Last 5 lines</span><br>
+        wc -l file.txt &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Count lines</span>
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>7. File Searching</h3>
+    <div class="cmd-box">
+        <span class="comment"># find — Search by name, type, size, etc.</span><br>
+        find /etc -name "*.conf" &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Find .conf files in /etc</span><br>
+        find /home -name "order*" 2>/dev/null <span class="comment"># Suppress errors</span><br>
+        find / -type f -name "*.txt" &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Find all .txt files</span><br><br>
+        <span class="comment"># locate — Faster search using a database</span><br>
+        locate filename.txt<br>
+        updatedb &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Update the database first</span><br><br>
+        <span class="comment"># which — Find command location</span><br>
+        which ls &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Shows /usr/bin/ls</span>
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>8. Shell Expansion & Wildcards</h3>
+    <p>Wildcards help you match multiple files at once:</p>
+    <table>
+        <tr><th>Wildcard</th><th>Meaning</th><th>Example</th></tr>
+        <tr><td><code>*</code></td><td>Matches any characters</td><td><code>data*.txt</code> matches data1.txt, data2.txt</td></tr>
+        <tr><td><code>?</code></td><td>Matches one character</td><td><code>file?.txt</code> matches file1.txt, not file10.txt</td></tr>
+        <tr><td><code>[abc]</code></td><td>Matches any one in brackets</td><td><code>file[12].txt</code> matches file1.txt or file2.txt</td></tr>
+        <tr><td><code>[0-9]</code></td><td>Matches range</td><td><code>data[1-3].txt</code> matches data1, data2, data3</td></tr>
+    </table>
+    <div class="cmd-box">
+        <span class="comment"># Copy all order files to backup</span><br>
+        cp /orders/pending/order*.txt /orders/backup/
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>9. Getting Help</h3>
+    <div class="cmd-box">
+        <span class="comment"># man — Full manual page</span><br>
+        man ls &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Press q to quit</span><br><br>
+        <span class="comment"># man sections: 1=commands, 5=config files, 8=admin</span><br>
+        man 5 passwd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Show the FILE, not the command</span><br><br>
+        <span class="comment"># keyword search in man pages</span><br>
+        man -k "password" &nbsp;<span class="comment"># Search for keyword</span><br><br>
+        <span class="comment"># info — alternative to man</span><br>
+        info ls<br><br>
+        <span class="comment"># --help — Quick help</span><br>
+        ls --help<br><br>
+        <span class="comment"># /usr/share/doc — Documentation files</span><br>
+        ls /usr/share/doc/
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>10. Output Redirection</h3>
+    <p>By default, commands send output to screen. You can redirect it:</p>
+    <table>
+        <tr><th>Symbol</th><th>What It Does</th><th>Example</th></tr>
+        <tr><td><code>&gt;</code></td><td>Overwrite a file with output</td><td><code>ls &gt; filelist.txt</code></td></tr>
+        <tr><td><code>&gt;&gt;</code></td><td>Append output to end of file</td><td><code>date &gt;&gt; log.txt</code></td></tr>
+        <tr><td><code>2&gt;</code></td><td>Redirect errors to file</td><td><code>command 2&gt; errors.txt</code></td></tr>
+        <tr><td><code>2&gt;&amp;1</code></td><td>Redirect both output and errors</td><td><code>command &gt; out.txt 2&gt;&amp;1</code></td></tr>
+        <tr><td><code>|</code></td><td>Pipe — send output as input to next command</td><td><code>ls | grep ".txt"</code></td></tr>
+    </table>
+</div>
+
+<div class="topic-box">
+    <h3>11. Text Editors — vim</h3>
+    <p><strong>vim</strong> is the most common command-line text editor. It has 3 modes:</p>
+    <table>
+        <tr><th>Mode</th><th>How to Enter</th><th>What You Can Do</th></tr>
+        <tr><td><strong>Command Mode</strong></td><td>Default (press Esc)</td><td>Navigate, delete, copy, search</td></tr>
+        <tr><td><strong>Insert Mode</strong></td><td>Press <code>i</code></td><td>Type text</td></tr>
+        <tr><td><strong>Extended Mode</strong></td><td>Press <code>:</code></td><td>Save (:w), Quit (:q), Save & Quit (:wq)</td></tr>
+    </table>
+    <div class="cmd-box">
+        vim myfile.txt<br>
+        <span class="comment"># Press i to start typing</span><br>
+        <span class="comment"># Press Esc when done editing</span><br>
+        <span class="comment"># :wq to save and quit</span><br>
+        <span class="comment"># :q! to quit without saving</span>
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>12. Users and Groups</h3>
+    <p>Linux uses <strong>user accounts</strong> for security. Every account has:</p>
+    <ul>
+        <li><strong>UID</strong> (User ID) — unique number for each user</li>
+        <li><strong>GID</strong> (Group ID) — the user's primary group number</li>
+        <li><strong>Home Directory</strong> — personal folder (e.g., /home/student)</li>
+        <li><strong>Login Shell</strong> — which shell to use (usually /bin/bash)</li>
+    </ul>
+    <div class="cmd-box">
+        <span class="comment"># Create users</span><br>
+        useradd -m sales_emp1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Create user with home dir</span><br>
+        useradd -m -G sales support_emp1 &nbsp;<span class="comment"># Create user in sales group, add to support</span><br>
+        passwd sales_emp1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Set password</span><br><br>
+        <span class="comment"># Create groups</span><br>
+        groupadd sales &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Create sales group</span><br>
+        groupadd support &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Create support group</span><br><br>
+        <span class="comment"># Verify user info</span><br>
+        id sales_emp1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Shows UID, GID, groups</span><br>
+        grep sales_emp1 /etc/passwd &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Full account info</span><br><br>
+        <span class="comment"># Modify users</span><br>
+        usermod -aG support sales_emp1 &nbsp;&nbsp;<span class="comment"># Add to supplementary group</span><br>
+        usermod -s /sbin/nologin emp1 &nbsp;&nbsp;&nbsp;<span class="comment"># Disable login for emp1</span><br>
+        userdel -r emp1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Delete user and home dir</span><br><br>
+        <span class="comment"># Groups</span><br>
+        groupadd developers<br>
+        usermod -aG developers user1 &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Add user1 to developers</span><br>
+        groups user1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Show all groups for user1</span><br><br>
+        <span class="comment"># Superuser access</span><br>
+        su - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Switch to root</span><br>
+        sudo command &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Run one command as root</span>
+    </div>
+</div>
+
+
+<!-- ============================================================ -->
+<!-- UNIT II -->
+<!-- ============================================================ -->
+<div class="unit-header" id="unit2">📗 Unit II — Permissions, Processes, Services, SSH, Logs</div>
+
+<div class="topic-box">
+    <h3>1. File Permissions</h3>
+    <p>Every file/directory has 3 types of permissions for 3 classes of users:</p>
+    <table>
+        <tr><th>Permission</th><th>For Files</th><th>For Directories</th></tr>
+        <tr><td><strong>r (read)</strong></td><td>View file contents</td><td>List directory contents</td></tr>
+        <tr><td><strong>w (write)</strong></td><td>Modify file contents</td><td>Create/delete files inside</td></tr>
+        <tr><td><strong>x (execute)</strong></td><td>Run as a program</td><td>Enter (cd into) the directory</td></tr>
+    </table>
+    <p>Permissions are shown with <code>ls -l</code>:</p>
+    <div class="cmd-box">
+        <span class="highlight">-rwxr-xr--</span> 1 owner group 4096 Jan 1 10:00 file.txt<br>
+        ↑ type &nbsp;↑ owner( rwx) &nbsp;↑ group( r-x) &nbsp;↑ others( r--)
+    </div>
+    <div class="cmd-box">
+        <span class="comment"># Symbolic method</span><br>
+        chmod u+x file.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Add execute for owner</span><br>
+        chmod g-w file.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Remove write for group</span><br>
+        chmod o=r file.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Set others to read-only</span><br>
+        chmod a+r file.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Add read for everyone</span><br><br>
+        <span class="comment"># Numeric (octal) method</span><br>
+        <span class="comment"># r=4, w=2, x=1</span><br>
+        chmod 755 file.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># rwxr-xr-x</span><br>
+        chmod 644 file.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># rw-r--r--</span><br>
+        chmod 700 dir/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># rwx------ (only owner)</span><br><br>
+        <span class="comment"># Change ownership</span><br>
+        chown user1 file.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Change owner</span><br>
+        chown user1:group1 file.txt <span class="comment"># Change owner and group</span><br>
+        chown -R user1:group1 dir/ <span class="comment"># Recursive change</span>
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>2. Special Permissions</h3>
+    <table>
+        <tr><th>Permission</th><th>What It Does</th><th>Symbol</th><th>Number</th></tr>
+        <tr><td><strong>SetUID</strong></td><td>Runs with owner's permissions</td><td><code>u+s</code></td><td>4</td></tr>
+        <tr><td><strong>SetGID</strong></td><td>Runs with group's permissions / Files inherit group</td><td><code>g+s</code></td><td>2</td></tr>
+        <tr><td><strong>Sticky Bit</strong></td><td>Only file owner can delete their files</td><td><code>o+t</code></td><td>1</td></tr>
+    </table>
+    <div class="cmd-box">
+        chmod u+s /usr/bin/passwd &nbsp;&nbsp;<span class="comment"># SetUID — lets normal users change passwords</span><br>
+        chmod g+s project/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># SetGID — new files inherit group</span><br>
+        chmod o+t /tmp/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Sticky bit — only owner can delete</span><br>
+        chmod 4755 file &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Numeric: 4=SetUID</span>
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>3. Processes</h3>
+    <p>A <strong>process</strong> is a running program. Each process gets a unique <strong>PID</strong> (Process ID).</p>
+    <p><strong>Process States:</strong></p>
+    <table>
+        <tr><th>State</th><th>Meaning</th></tr>
+        <tr><td><strong>R</strong></td><td>Running or Ready to run</td></tr>
+        <tr><td><strong>S</strong></td><td>Sleeping (waiting for event)</td></tr>
+        <tr><td><strong>T</strong></td><td>Stopped (suspended)</td></tr>
+        <tr><td><strong>Z</strong></td><td>Zombie (terminated but parent hasn't read exit status)</td></tr>
+    </table>
+    <div class="cmd-box">
+        <span class="comment"># View processes</span><br>
+        ps aux &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Show all processes</span><br>
+        ps -ef &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Show all with PPID</span><br>
+        top &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Real-time monitoring (press q to quit)</span><br>
+        ps aux | grep process_name <span class="comment"># Find specific process</span><br><br>
+        <span class="comment"># Kill processes</span><br>
+        kill PID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Send TERM signal (graceful)</span><br>
+        kill -9 PID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Send KILL signal (force)</span><br>
+        killall process_name &nbsp;&nbsp;<span class="comment"># Kill all by name</span><br>
+        pkill process_name &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Kill by pattern</span><br><br>
+        <span class="comment"># Job control</span><br>
+        sleep 100 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Start foreground job</span><br>
+        Ctrl+Z &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Suspend it</span><br>
+        bg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Send to background</span><br>
+        jobs &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># List background jobs</span><br>
+        fg %1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Bring job 1 to foreground</span><br>
+        command &amp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Run command in background directly</span>
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>4. Services and Daemons</h3>
+    <p>A <strong>daemon</strong> is a background service that runs without user interaction. <strong>systemd</strong> manages all services.</p>
+    <div class="cmd-box">
+        <span class="comment"># Check service status</span><br>
+        systemctl status sshd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Check if SSH is running</span><br><br>
+        <span class="comment"># Start/Stop/Restart services</span><br>
+        systemctl start sshd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Start the service</span><br>
+        systemctl stop sshd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Stop the service</span><br>
+        systemctl restart sshd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Restart (stop + start)</span><br>
+        systemctl reload sshd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Reload config without stopping</span><br><br>
+        <span class="comment"># Enable/Disable at boot</span><br>
+        systemctl enable sshd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Auto-start at boot</span><br>
+        systemctl disable sshd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Don't start at boot</span><br>
+        systemctl is-enabled sshd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Check if enabled</span><br><br>
+        <span class="comment"># List all services</span><br>
+        systemctl list-unit-files --type=service
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>5. SSH (Secure Shell)</h3>
+    <p>SSH lets you securely connect to remote systems over the network. Everything is encrypted.</p>
+    <div class="cmd-box">
+        <span class="comment"># Connect to remote system</span><br>
+        ssh student@192.168.1.10 &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Uses password</span><br><br>
+        <span class="comment"># Key-based authentication (no password needed!)</span><br>
+        ssh-keygen -t rsa &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Generate key pair</span><br>
+        ssh-copy-id student@192.168.1.10 <span class="comment"># Copy public key to server</span><br>
+        ssh student@192.168.1.10 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Now connects without password</span><br><br>
+        <span class="comment"># Copy files</span><br>
+        scp file.txt student@remote:/tmp/ <span class="comment"># Copy file to remote</span><br>
+        scp student@remote:/var/log/secure . <span class="comment"># Copy from remote to local</span>
+    </div>
+    <div class="tip-box">SSH key-based authentication is more secure than passwords and is a common exam topic!</div>
+</div>
+
+<div class="topic-box">
+    <h3>6. Logs and Troubleshooting</h3>
+    <p>Linux stores logs to help you troubleshoot problems. <strong>journald</strong> (systemd journal) is the modern logging system.</p>
+    <div class="cmd-box">
+        <span class="comment"># View journal logs</span><br>
+        journalctl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Show all logs</span><br>
+        journalctl -n 20 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Last 20 entries</span><br>
+        journalctl -u sshd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Logs for SSH service</span><br>
+        journalctl -f &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Follow logs in real-time</span><br>
+        journalctl -p err &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Show errors only</span><br>
+        journalctl --since "1 hour ago" <span class="comment"># Logs from last hour</span><br><br>
+        <span class="comment"># Preserve logs to a file</span><br>
+        journalctl > /tmp/system_report.txt<br><br>
+        <span class="comment"># Log files</span><br>
+        cat /var/log/secure &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Login/auth logs</span><br>
+        cat /var/log/messages &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># General system logs</span>
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>7. System Time</h3>
+    <div class="cmd-box">
+        <span class="comment"># Check current time</span><br>
+        date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Show date/time</span><br>
+        timedatectl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Show time settings</span><br><br>
+        <span class="comment"># Set time</span><br>
+        timedatectl set-time "2026-01-01 12:00:00"<br>
+        timedatectl set-timezone Asia/Kolkata<br><br>
+        <span class="comment"># Save diagnostic info</span><br>
+        date > /tmp/diagnostics.txt<br>
+        uname -a >> /tmp/diagnostics.txt
+    </div>
+</div>
+
+
+<!-- ============================================================ -->
+<!-- UNIT III -->
+<!-- ============================================================ -->
+<div class="unit-header" id="unit3">📙 Unit III — Networking, Archiving, Software, File Systems</div>
+
+<div class="topic-box">
+    <h3>1. Networking Basics</h3>
+    <div class="cmd-box">
+        <span class="comment"># Check network configuration</span><br>
+        ip addr show &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Show IP addresses</span><br>
+        ip route show &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Show routing table</span><br>
+        hostname &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Show hostname</span><br><br>
+        <span class="comment"># Configure network with nmcli</span><br>
+        nmcli con show &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># List connections</span><br>
+        nmcli con mod ens33 ipv4.addresses 192.168.1.50/24<br>
+        nmcli con mod ens33 ipv4.gateway 192.168.1.1<br>
+        nmcli con mod ens33 ipv4.dns 8.8.8.8<br>
+        nmcli con mod ens33 ipv4.method manual<br>
+        nmcli con up ens33 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Apply changes</span><br><br>
+        <span class="comment"># Test connectivity</span><br>
+        ping 8.8.8.8 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Test connection</span><br>
+        ping -c 4 google.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Ping 4 times</span><br>
+        ss -tlnp &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Show listening ports</span><br>
+        ss -tunap &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Show all connections</span>
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>2. Archiving and Compression</h3>
+    <div class="cmd-box">
+        <span class="comment"># tar — Create archive</span><br>
+        tar -cvf archive.tar /path/ &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Create tar archive</span><br>
+        tar -cvzf archive.tar.gz /path/ &nbsp;<span class="comment"># Create compressed archive (gzip)</span><br>
+        tar -cvjf archive.tar.bz2 /path/ <span class="comment"># Compressed (bzip2)</span><br><br>
+        <span class="comment"># Extract</span><br>
+        tar -xvf archive.tar &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Extract tar</span><br>
+        tar -xzvf archive.tar.gz &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Extract gzip</span><br>
+        tar -xjf archive.tar.bz2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Extract bzip2</span><br><br>
+        <span class="comment"># gzip standalone compression</span><br>
+        gzip file.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Compress (deletes original)</span><br>
+        gunzip file.txt.gz &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Decompress</span>
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>3. Software Package Management</h3>
+    <table>
+        <tr><th>Tool</th><th>Purpose</th><th>Example</th></tr>
+        <tr><td><strong>rpm</strong></td><td>Install/manage .rpm packages</td><td><code>rpm -ivh package.rpm</code></td></tr>
+        <tr><td><strong>dnf/yum</strong></td><td>Install from repositories (resolves dependencies)</td><td><code>dnf install package</code></td></tr>
+    </table>
+    <div class="cmd-box">
+        <span class="comment"># dnf (newer) / yum (older)</span><br>
+        dnf install httpd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Install package</span><br>
+        dnf remove httpd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Remove package</span><br>
+        dnf update &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Update all packages</span><br>
+        dnf search keyword &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Search for package</span><br>
+        dnf info httpd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Show package info</span><br><br>
+        <span class="comment"># rpm commands</span><br>
+        rpm -qa &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># List all installed packages</span><br>
+        rpm -qf /usr/bin/ls &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Find which package owns a file</span><br>
+        rpm -ivh package.rpm &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Install from file</span><br>
+        rpm -e package &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Erase package</span>
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>4. File Systems and Mounting</h3>
+    <div class="cmd-box">
+        <span class="comment"># View disks and partitions</span><br>
+        lsblk &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># List block devices</span><br>
+        fdisk -l &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># List partitions</span><br><br>
+        <span class="comment"># Mount/Unmount</span><br>
+        mount /dev/sdb1 /mnt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Mount partition</span><br>
+        umount /mnt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Unmount</span><br><br>
+        <span class="comment"># Permanent mount — edit /etc/fstab</span><br>
+        <span class="comment"># Format a partition</span><br>
+        mkfs.xfs /dev/sdb1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Format as XFS</span><br>
+        mkfs.ext4 /dev/sdb1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Format as ext4</span>
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>5. Hard Links vs Soft Links</h3>
+    <div class="comparison">
+        <div>
+            <h4>Hard Link</h4>
+            <ul>
+                <li>Points to the same inode (data) as the original</li>
+                <li>Changes to one affect the other</li>
+                <li>If original is deleted, hard link still works</li>
+                <li>Cannot cross filesystems</li>
+                <li>Command: <code>ln file1 file2</code></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Soft (Symbolic) Link</h4>
+            <ul>
+                <li>Points to the path/name of the original</li>
+                <li>Has its own inode number</li>
+                <li>If original is deleted, link breaks</li>
+                <li>Can cross filesystems</li>
+                <li>Command: <code>ln -s file1 file2</code></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>6. Virtualization</h3>
+    <p>Linux can run virtual machines using KVM/QEMU or VirtualBox. The exam focuses on managing VMs:</p>
+    <div class="cmd-box">
+        <span class="comment"># List virtual machines</span><br>
+        virsh list --all<br><br>
+        <span class="comment"># Start/Stop VM</span><br>
+        virsh start vm_name<br>
+        virsh shutdown vm_name<br><br>
+        <span class="comment"># Install new VM with virt-install</span><br>
+        virt-install --name vm1 --ram 2048 --vcpus 2 \<br>
+        --disk path=/var/lib/libvirt/images/vm1.qcow2 \<br>
+        --cdrom /path/to/rhel.iso --os-variant rhel9
+    </div>
+</div>
+
+
+<!-- ============================================================ -->
+<!-- UNIT IV -->
+<!-- ============================================================ -->
+<div class="unit-header" id="unit4">📕 Unit IV — Bash Scripting, Scheduling, Performance, ACLs</div>
+
+<div class="topic-box">
+    <h3>1. Bash Scripting Basics</h3>
+    <p>A shell script is a text file containing a series of commands. Create with <code>vim</code>, make executable with <code>chmod +x</code>, and run with <code>./script.sh</code>.</p>
+    <div class="cmd-box">
+        <span class="comment">#!/bin/bash</span><br>
+        <span class="comment"># This is a comment</span><br>
+        echo "Hello, $USER!"<br>
+        echo "Today is $(date)"<br>
+        echo "Your home is $HOME"<br><br>
+        <span class="comment"># Variables</span><br>
+        NAME="Linux"<br>
+        echo "Welcome to $NAME"<br><br>
+        <span class="comment"># Positional parameters</span><br>
+        echo "Script name: $0"<br>
+        echo "First argument: $1"<br>
+        echo "Second argument: $2"<br><br>
+        <span class="comment"># Run: ./script.sh arg1 arg2</span>
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>2. Conditional Statements (if/else)</h3>
+    <div class="cmd-box">
+        <span class="comment">#!/bin/bash</span><br>
+        FILE="/etc/passwd"<br><br>
+        if [ -f "$FILE" ]; then<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;echo "$FILE exists"<br>
+        elif [ -d "$FILE" ]; then<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;echo "$FILE is a directory"<br>
+        else<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;echo "$FILE does not exist"<br>
+        fi<br><br>
+        <span class="comment"># Common test conditions:</span><br>
+        <span class="comment"># -f  file exists      -d  directory exists</span><br>
+        <span class="comment"># -e  exists           -r  readable</span><br>
+        <span class="comment"># -w  writable         -x  executable</span><br>
+        <span class="comment"># -z  string is empty  -n  string not empty</span><br>
+        <span class="comment"># =   equal            !=  not equal</span>
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>3. Loops</h3>
+    <div class="cmd-box">
+        <span class="comment">#!/bin/bash</span><br><br>
+        <span class="comment"># For loop</span><br>
+        for i in 1 2 3 4 5; do<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;echo "Number: $i"<br>
+        done<br><br>
+        <span class="comment"># Loop through files</span><br>
+        for file in *.txt; do<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;echo "Processing $file"<br>
+        done<br><br>
+        <span class="comment"># C-style for loop</span><br>
+        for ((i=1; i<=5; i++)); do<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;echo "Count: $i"<br>
+        done
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>4. Scheduling Tasks</h3>
+    <div class="cmd-box">
+        <span class="comment"># at — Run a one-time job</span><br>
+        at now + 5 minutes<br>
+        at> echo "hello" > /tmp/test.txt<br>
+        at> Ctrl+D<br><br>
+        <span class="comment"># cron — Run recurring tasks</span><br>
+        crontab -e &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Edit user's cron jobs</span><br>
+        crontab -l &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># List cron jobs</span><br>
+        crontab -r &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Remove all cron jobs</span><br><br>
+        <span class="comment"># Cron format: min hour day month weekday command</span><br>
+        <span class="comment"># Example: Run backup every day at 2 AM</span><br>
+        0 2 * * * /home/user/backup.sh<br>
+        <span class="comment"># Run every 5 minutes</span><br>
+        */5 * * * * /scripts/check.sh
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>5. ACLs (Access Control Lists)</h3>
+    <p>ACLs give you finer control over permissions beyond the basic owner/group/other model.</p>
+    <div class="cmd-box">
+        <span class="comment"># View ACL</span><br>
+        getfacl file.txt<br><br>
+        <span class="comment"># Set ACL for a specific user</span><br>
+        setfacl -m u:user1:rw file.txt<br><br>
+        <span class="comment"># Set ACL for a group</span><br>
+        setfacl -m g:developers:rx file.txt<br><br>
+        <span class="comment"># Remove ACL</span><br>
+        setfacl -x u:user1 file.txt<br><br>
+        <span class="comment"># Remove all ACLs</span><br>
+        setfacl -b file.txt
+    </div>
+</div>
+
+
+<!-- ============================================================ -->
+<!-- UNIT V -->
+<!-- ============================================================ -->
+<div class="unit-header" id="unit5">📓 Unit V — SELinux, Storage, LVM</div>
+
+<div class="topic-box">
+    <h3>1. SELinux (Security-Enhanced Linux)</h3>
+    <p>SELinux is an extra security layer that controls what processes can do. It labels files and processes.</p>
+    <table>
+        <tr><th>Mode</th><th>What Happens</th></tr>
+        <tr><td><strong>Enforcing</strong></td><td>Blocks unauthorized access (default, recommended)</td></tr>
+        <tr><td><strong>Permissive</strong></td><td>Logs violations but doesn't block (good for testing)</td></tr>
+        <tr><td><strong>Disabled</strong></td><td>SELinux is off (not recommended)</td></tr>
+    </table>
+    <div class="cmd-box">
+        <span class="comment"># Check SELinux status</span><br>
+        getenforce &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Shows Enforcing/Permissive/Disabled</span><br>
+        sestatus &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Detailed status</span><br><br>
+        <span class="comment"># Change mode (temporary — resets on reboot)</span><br>
+        setenforce 0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Set to Permissive</span><br>
+        setenforce 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Set to Enforcing</span><br><br>
+        <span class="comment"># Change mode permanently — edit /etc/selinux/config</span><br>
+        <span class="comment"># SELINUX=enforcing</span><br><br>
+        <span class="comment"># File contexts (labels)</span><br>
+        ls -Z file.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># View file context</span><br>
+        restorecon -v file.txt &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Restore default context</span><br>
+        semanage fcontext -a -t httpd_sys_content_t "/web(/.*)?"<br>
+        restorecon -Rv /web &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Apply new context</span><br><br>
+        <span class="comment"># Booleans</span><br>
+        getsebool -a | grep httpd &nbsp;<span class="comment"># List relevant booleans</span><br>
+        setsebool -P httpd_can_network_connect on <span class="comment"># Allow httpd network</span>
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>2. LVM (Logical Volume Management)</h3>
+    <p>LVM lets you create flexible storage. You can resize volumes without reformatting.</p>
+    <p><strong>LVM Layers:</strong> Physical Volumes → Volume Groups → Logical Volumes</p>
+    <div class="cmd-box">
+        <span class="comment"># Step 1: Create Physical Volume</span><br>
+        pvcreate /dev/sdb &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Initialize disk as PV</span><br>
+        pvs &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># List physical volumes</span><br><br>
+        <span class="comment"># Step 2: Create Volume Group</span><br>
+        vgcreate my_vg /dev/sdb &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Create VG from PV</span><br>
+        vgs &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># List volume groups</span><br><br>
+        <span class="comment"># Step 3: Create Logical Volume</span><br>
+        lvcreate -L 5G -n my_lv my_vg <span class="comment"># Create 5GB logical volume</span><br>
+        lvs &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># List logical volumes</span><br><br>
+        <span class="comment"># Step 4: Format and mount</span><br>
+        mkfs.xfs /dev/my_vg/my_lv<br>
+        mkdir /data<br>
+        mount /dev/my_vg/my_lv /data<br><br>
+        <span class="comment"># Extend logical volume</span><br>
+        lvextend -L +2G /dev/my_vg/my_lv<br>
+        xfs_growfs /data &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Grow XFS filesystem</span><br>
+        resize2fs /dev/my_vg/my_lv <span class="comment"># Grow ext4 filesystem</span>
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>3. Swap Space</h3>
+    <p>Swap is "virtual RAM" on disk — used when physical RAM is full.</p>
+    <div class="cmd-box">
+        <span class="comment"># Check swap</span><br>
+        free -h<br>
+        swapon --show<br><br>
+        <span class="comment"># Create swap file</span><br>
+        dd if=/dev/zero of=/swapfile bs=1M count=1024<br>
+        chmod 600 /swapfile<br>
+        mkswap /swapfile<br>
+        swapon /swapfile<br>
+        <span class="comment"># Add to /etc/fstab for persistence:</span><br>
+        <span class="comment"># /swapfile swap swap defaults 0 0</span>
+    </div>
+</div>
+
+
+<!-- ============================================================ -->
+<!-- UNIT VI -->
+<!-- ============================================================ -->
+<div class="unit-header" id="unit6">📔 Unit VI — NFS, Boot Process, Firewalls, Installation</div>
+
+<div class="topic-box">
+    <h3>1. NFS (Network File System)</h3>
+    <p>NFS lets you share directories over the network between Linux systems.</p>
+    <div class="cmd-box">
+        <span class="comment"># Server side</span><br>
+        dnf install nfs-utils<br>
+        systemctl enable --now nfs-server<br>
+        mkdir /shared<br>
+        echo "/shared 192.168.1.0/24(rw,sync)" >> /etc/exports<br>
+        exportfs -ra &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Apply exports</span><br><br>
+        <span class="comment"># Client side</span><br>
+        mount 192.168.1.10:/shared /mnt<br>
+        <span class="comment"># Or add to /etc/fstab for automatic mount</span><br>
+        192.168.1.10:/shared /mnt nfs defaults 0 0
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>2. Boot Process</h3>
+    <p>When Linux starts: <strong>BIOS/UEFI → GRUB2 → Kernel → systemd → Login</strong></p>
+    <div class="cmd-box">
+        <span class="comment"># Set default boot target</span><br>
+        systemctl set-default multi-user.target &nbsp;&nbsp;<span class="comment"># CLI only</span><br>
+        systemctl set-default graphical.target &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># GUI</span><br><br>
+        <span class="comment"># Reset root password (from GRUB)</span><br>
+        <span class="comment"># 1. At GRUB menu, press 'e' to edit</span><br>
+        <span class="comment"># 2. Find line with "linux" and add: rd.break</span><br>
+        <span class="comment"># 3. Press Ctrl+X to boot</span><br>
+        <span class="comment"># 4. mount -o remount,rw /sysroot</span><br>
+        <span class="comment"># 5. chroot /sysroot</span><br>
+        <span class="comment"># 6. passwd root</span><br>
+        <span class="comment"># 7. touch /.autorelabel</span><br>
+        <span class="comment"># 8. exit twice to reboot</span>
+    </div>
+</div>
+
+<div class="topic-box">
+    <h3>3. Firewalls</h3>
+    <div class="cmd-box">
+        <span class="comment"># firewalld (default in RHEL)</span><br>
+        systemctl status firewalld<br><br>
+        <span class="comment"># Check allowed services</span><br>
+        firewall-cmd --list-all<br><br>
+        <span class="comment"># Allow a service</span><br>
+        firewall-cmd --add-service=http --permanent<br>
+        firewall-cmd --reload<br><br>
+        <span class="comment"># Allow a port</span><br>
+        firewall-cmd --add-port=8080/tcp --permanent<br>
+        firewall-cmd --reload<br><br>
+        <span class="comment"># Remove</span><br>
+        firewall-cmd --remove-service=http --permanent<br>
+        firewall-cmd --reload
+    </div>
+</div>
+
+
+<!-- ============================================================ -->
+<!-- SAMPLE ASSIGNMENT (CA-1) ANSWERS -->
+<!-- ============================================================ -->
+<div class="unit-header" id="assignment">📝 Sample Assignment (CA-1) — All 10 Questions with Detailed Answers</div>
+
+<p style="color: #81c784; font-size: 1.1em; margin-bottom: 20px;"><strong>Scenario:</strong> An e-commerce company uses a Linux server for order processing. You must create user access, secure files, and troubleshoot processes.</p>
+
+<!-- Q1 -->
+<div class="question">
+    <h4>Q1. Create sales and support groups and create appropriate employee accounts.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="step"><strong>Step 1:</strong> Create the groups</div>
+    <div class="cmd-box">
+        sudo groupadd sales<br>
+        sudo groupadd support
+    </div>
+    <div class="step"><strong>Step 2:</strong> Create employee accounts with primary group set</div>
+    <div class="cmd-box">
+        <span class="comment"># Create sales employees</span><br>
+        sudo useradd -m -g sales sales_emp1<br>
+        sudo useradd -m -g sales sales_emp2<br><br>
+        <span class="comment"># Create support employees</span><br>
+        sudo useradd -m -g support support_emp1<br>
+        sudo useradd -m -g support support_emp2
+    </div>
+    <div class="step"><strong>Step 3:</strong> Verify</div>
+    <div class="cmd-box">
+        getent group sales<br>
+        getent group support<br>
+        <span class="comment"># Expected output shows members listed after the group</span>
+    </div>
+</div>
+
+<!-- Q2 -->
+<div class="question">
+    <h4>Q2. Configure passwords and verify UID, GID, primary group, supplementary groups, and login shell.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="step"><strong>Step 1:</strong> Set passwords for each employee</div>
+    <div class="cmd-box">
+        sudo passwd sales_emp1<br>
+        <span class="comment"># Enter new password when prompted</span>
+    </div>
+    <div class="step"><strong>Step 2:</strong> Verify all account details using id command</div>
+    <div class="cmd-box">
+        id sales_emp1<br>
+        <span class="comment"># Output example: uid=1001(sales_emp1) gid=1001(sales) groups=1001(sales)</span><br><br>
+        <span class="comment"># More detailed info from /etc/passwd</span><br>
+        grep sales_emp1 /etc/passwd<br>
+        <span class="comment"># Output: sales_emp1:x:1001:1001::/home/sales_emp1:/bin/bash</span><br>
+        <span class="comment"># Fields: username:password:UID:GID:comment:home:shell</span><br><br>
+        <span class="comment"># Check supplementary groups</span><br>
+        groups sales_emp1
+    </div>
+    <div class="step"><strong>Step 3:</strong> Add supplementary group (make sales person also in support)</div>
+    <div class="cmd-box">
+        sudo usermod -aG support sales_emp1<br>
+        groups sales_emp1<br>
+        <span class="comment"># Output: sales_emp1 : sales support</span>
+    </div>
+</div>
+
+<!-- Q3 -->
+<div class="question">
+    <h4>Q3. Create /orders with pending, completed, and backup directories.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment"># Create the directory structure</span><br>
+        sudo mkdir -p /orders/pending<br>
+        sudo mkdir -p /orders/completed<br>
+        sudo mkdir -p /orders/backup<br><br>
+        <span class="comment"># Verify the structure</span><br>
+        ls -ld /orders/*<br>
+        <span class="comment"># Or use tree if available:</span><br>
+        tree /orders
+    </div>
+    <div class="tip-box">The <code>-p</code> flag in mkdir creates parent directories as needed. If /orders doesn't exist, it creates it too.</div>
+</div>
+
+<!-- Q4 -->
+<div class="question">
+    <h4>Q4. Create sample order files and use shell expansion to copy multiple order files to the backup directory.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="step"><strong>Step 1:</strong> Create sample order files</div>
+    <div class="cmd-box">
+        <span class="comment"># Create order files in pending directory</span><br>
+        touch /orders/pending/order001.txt<br>
+        touch /orders/pending/order002.txt<br>
+        touch /orders/pending/order003.txt<br>
+        touch /orders/pending/order004.txt<br>
+        touch /orders/pending/order005.txt<br><br>
+        <span class="comment"># Verify</span><br>
+        ls /orders/pending/
+    </div>
+    <div class="step"><strong>Step 2:</strong> Use shell expansion (wildcards) to copy multiple files</div>
+    <div class="cmd-box">
+        <span class="comment"># Copy ALL order files using * wildcard</span><br>
+        cp /orders/pending/order*.txt /orders/backup/<br><br>
+        <span class="comment"># Or copy only specific ones using []</span><br>
+        cp /orders/pending/order00[1-3].txt /orders/backup/<br><br>
+        <span class="comment"># Verify the copy</span><br>
+        ls -la /orders/backup/
+    </div>
+    <div class="tip-box">Shell expansion happens BEFORE the command runs. The shell replaces <code>order*.txt</code> with the actual list of matching filenames.</div>
+</div>
+
+<!-- Q5 -->
+<div class="question">
+    <h4>Q5. Locate a particular order file by name using an appropriate file-search command.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment"># Method 1: Using find (searches from a starting point)</span><br>
+        find /orders -name "order003.txt"<br><br>
+        <span class="comment"># Search by pattern</span><br>
+        find /orders -name "order*.txt"<br><br>
+        <span class="comment"># Suppress permission-denied errors</span><br>
+        find /orders -name "order*.txt" 2>/dev/null<br><br>
+        <span class="comment"># Method 2: Using locate (faster, uses database)</span><br>
+        updatedb &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Update database first</span><br>
+        locate order003.txt<br><br>
+        <span class="comment"># Method 3: Using grep to search file contents</span><br>
+        grep -r "order003" /orders/
+    </div>
+    <div class="tip-box"><code>find</code> is best for exact searches. <code>locate</code> is faster for quick lookups but needs <code>updatedb</code> to be current.</div>
+</div>
+
+<!-- Q6 -->
+<div class="question">
+    <h4>Q6. Configure ownership and permissions so that only authorized employees can modify order files.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment"># Step 1: Set ownership — sales group owns /orders</span><br>
+        sudo chown -R root:sales /orders<br><br>
+        <span class="comment"># Step 2: Set directory permissions</span><br>
+        <span class="comment"># Owner(root) and group(sales) can read/write/execute</span><br>
+        <span class="comment"># Others have no access</span><br>
+        sudo chmod -R 770 /orders<br><br>
+        <span class="comment"># Step 3: Set the setgid bit on /orders</span><br>
+        <span class="comment"># New files automatically inherit the sales group</span><br>
+        sudo chmod g+s /orders<br><br>
+        <span class="comment"># Step 4: Set default permissions for new files</span><br>
+        <span class="comment"># Only owner and group can modify, others read-only</span><br>
+        sudo setfacl -d -m g:sales:rwx /orders<br><br>
+        <span class="comment"># Verify permissions</span><br>
+        ls -la /orders/<br>
+        getfacl /orders
+    </div>
+</div>
+
+<!-- Q7 -->
+<div class="question">
+    <h4>Q7. Redirect the output of a suitable system command into /orders/system_report.txt.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment"># Redirect system information to a report file</span><br>
+        <span class="comment"># Using > creates/overwrites the file</span><br><br>
+        echo "=== System Report ===" > /orders/system_report.txt<br>
+        echo "Date: $(date)" >> /orders/system_report.txt<br>
+        echo "Hostname: $(hostname)" >> /orders/system_report.txt<br>
+        echo "Uptime:" >> /orders/system_report.txt<br>
+        uptime >> /orders/system_report.txt<br>
+        echo "" >> /orders/system_report.txt<br>
+        echo "=== Disk Usage ===" >> /orders/system_report.txt<br>
+        df -h >> /orders/system_report.txt<br>
+        echo "" >> /orders/system_report.txt<br>
+        echo "=== Memory Usage ===" >> /orders/system_report.txt<br>
+        free -h >> /orders/system_report.txt<br><br>
+        <span class="comment"># Verify</span><br>
+        cat /orders/system_report.txt
+    </div>
+    <div class="warning-box">Use <code>&gt;</code> for the first line (creates/overwrites), then <code>&gt;&gt;</code> for all subsequent lines (appends without deleting).</div>
+</div>
+
+<!-- Q8 -->
+<div class="question">
+    <h4>Q8. Identify a resource-consuming process and terminate it safely after verifying its PID.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment"># Step 1: Start a resource-consuming process (for testing)</span><br>
+        dd if=/dev/zero of=/tmp/bigfile bs=1M count=500 &amp;<br><br>
+        <span class="comment"># Step 2: Identify resource-consuming processes</span><br>
+        top<br>
+        <span class="comment"># Press 'P' to sort by CPU, 'M' to sort by memory</span><br>
+        <span class="comment"># Press 'q' to quit top</span><br><br>
+        <span class="comment"># Or use ps to find the process</span><br>
+        ps aux --sort=-%cpu | head -5<br>
+        <span class="comment"># This shows top 5 CPU consumers</span><br><br>
+        <span class="comment"># Step 3: Note the PID of the dd process</span><br>
+        pgrep -l dd<br>
+        <span class="comment"># Output example: 12345 dd</span><br><br>
+        <span class="comment"># Step 4: Kill it gracefully first (SIGTERM = signal 15)</span><br>
+        kill 12345<br><br>
+        <span class="comment"># Step 5: If it doesn't stop, force kill (SIGKILL = signal 9)</span><br>
+        kill -9 12345<br><br>
+        <span class="comment"># Step 6: Verify it's gone</span><br>
+        ps aux | grep dd
+    </div>
+    <div class="warning-box">Always try <code>kill PID</code> (SIGTERM) first. Only use <code>kill -9 PID</code> (SIGKILL) if the process doesn't respond. SIGTERM gives the process a chance to clean up.</div>
+</div>
+
+<!-- Q9 -->
+<div class="question">
+    <h4>Q9. Check a relevant service and inspect its recent journal entries.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment"># Step 1: Check the SSH service status</span><br>
+        systemctl status sshd<br>
+        <span class="comment"># Shows: active (running), PID, memory, recent log lines</span><br><br>
+        <span class="comment"># Step 2: Ensure it starts at boot</span><br>
+        systemctl is-enabled sshd<br>
+        <span class="comment"># If disabled:</span><br>
+        sudo systemctl enable sshd<br><br>
+        <span class="comment"># Step 3: View recent journal entries for sshd</span><br>
+        journalctl -u sshd -n 20<br>
+        <span class="comment"># Shows last 20 log entries for SSH</span><br><br>
+        <span class="comment"># Step 4: Follow logs in real-time (open in one terminal)</span><br>
+        journalctl -u sshd -f<br><br>
+        <span class="comment"># Step 5: SSH from another terminal to generate logs</span><br>
+        ssh localhost<br><br>
+        <span class="comment"># Step 6: Check errors only</span><br>
+        journalctl -u sshd -p err
+    </div>
+</div>
+
+<!-- Q10 -->
+<div class="question">
+    <h4>Q10. Verify the system time and preserve relevant diagnostic information in a text file.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment"># Step 1: Check current system time</span><br>
+        date<br>
+        timedatectl<br><br>
+        <span class="comment"># Step 2: Save comprehensive diagnostic info</span><br>
+        echo "=== DIAGNOSTIC REPORT ===" > /tmp/diagnostics.txt<br>
+        echo "Report Date: $(date)" >> /tmp/diagnostics.txt<br>
+        echo "" >> /tmp/diagnostics.txt<br>
+        echo "=== System Info ===" >> /tmp/diagnostics.txt<br>
+        uname -a >> /tmp/diagnostics.txt<br>
+        hostname >> /tmp/diagnostics.txt<br>
+        uptime >> /tmp/diagnostics.txt<br>
+        echo "" >> /tmp/diagnostics.txt<br>
+        echo "=== Time Settings ===" >> /tmp/diagnostics.txt<br>
+        timedatectl >> /tmp/diagnostics.txt<br>
+        echo "" >> /tmp/diagnostics.txt<br>
+        echo "=== Disk Space ===" >> /tmp/diagnostics.txt<br>
+        df -h >> /tmp/diagnostics.txt<br>
+        echo "" >> /tmp/diagnostics.txt<br>
+        echo "=== Memory ===" >> /tmp/diagnostics.txt<br>
+        free -h >> /tmp/diagnostics.txt<br>
+        echo "" >> /tmp/diagnostics.txt<br>
+        echo "=== Running Services ===" >> /tmp/diagnostics.txt<br>
+        systemctl list-units --type=service --state=running >> /tmp/diagnostics.txt<br><br>
+        <span class="comment"># Step 3: Verify the file was created</span><br>
+        ls -la /tmp/diagnostics.txt<br>
+        cat /tmp/diagnostics.txt
+    </div>
+</div>
+
+
+<!-- ============================================================ -->
+<!-- 15 EXTRA PRACTICE QUESTIONS -->
+<!-- ============================================================ -->
+<div class="unit-header" id="practice">❓ 15 Extra Practice Questions with Detailed Answers</div>
+
+<!-- P1 -->
+<div class="question">
+    <h4>P1. Create a directory structure: LinuxAssessment/ with commands/, reports/, and backup/ subdirectories. Create three files inside commands/.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment"># Create directory structure</span><br>
+        mkdir -p LinuxAssessment/commands<br>
+        mkdir -p LinuxAssessment/reports<br>
+        mkdir -p LinuxAssessment/backup<br><br>
+        <span class="comment"># Create files</span><br>
+        touch LinuxAssessment/commands/cmd1.txt<br>
+        touch LinuxAssessment/commands/cmd2.txt<br>
+        touch LinuxAssessment/commands/cmd3.txt<br><br>
+        <span class="comment"># Verify</span><br>
+        tree LinuxAssessment/ &nbsp;<span class="comment"># or use: ls -R LinuxAssessment/</span>
+    </div>
+</div>
+
+<!-- P2 -->
+<div class="question">
+    <h4>P2. Using pathname expansion, create files data1.txt, data2.txt, data3.txt, report1.txt, report2.txt. Then display only the "data" files.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment"># Create the files</span><br>
+        touch data1.txt data2.txt data3.txt report1.txt report2.txt<br><br>
+        <span class="comment"># Display only data files using wildcard</span><br>
+        ls data*.txt<br>
+        <span class="comment"># Output: data1.txt data2.txt data3.txt</span><br><br>
+        <span class="comment"># Display only report files</span><br>
+        ls report*.txt<br>
+        <span class="comment"># Output: report1.txt report2.txt</span>
+    </div>
+</div>
+
+<!-- P3 -->
+<div class="question">
+    <h4>P3. Create a file linux_commands.txt with 5 Linux commands using output redirection. Then append 3 more commands without overwriting.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment"># Create file with 5 commands (using > to create)</span><br>
+        echo "ls -la" > linux_commands.txt<br>
+        echo "pwd" >> linux_commands.txt<br>
+        echo "whoami" >> linux_commands.txt<br>
+        echo "date" >> linux_commands.txt<br>
+        echo "uname -a" >> linux_commands.txt<br><br>
+        <span class="comment"># Append 3 more (using >> to add without overwriting)</span><br>
+        echo "df -h" >> linux_commands.txt<br>
+        echo "free -h" >> linux_commands.txt<br>
+        echo "uptime" >> linux_commands.txt<br><br>
+        <span class="comment"># Verify</span><br>
+        cat linux_commands.txt
+    </div>
+</div>
+
+<!-- P4 -->
+<div class="question">
+    <h4>P4. Create a file named project.txt. Configure permissions so owner has read+write, group has read only, others have no access. Verify the permission string.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        touch project.txt<br><br>
+        <span class="comment"># Method 1: Symbolic</span><br>
+        chmod u=rw,g=r,o= project.txt<br><br>
+        <span class="comment"># Method 2: Numeric</span><br>
+        <span class="comment"># r+w=6, r=4, no=0 → 640</span><br>
+        chmod 640 project.txt<br><br>
+        <span class="comment"># Verify</span><br>
+        ls -l project.txt<br>
+        <span class="comment"># Expected output: -rw-r----- 1 user group ... project.txt</span>
+    </div>
+</div>
+
+<!-- P5 -->
+<div class="question">
+    <h4>P5. Create a group "developers" and add two users. Verify their group membership.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment"># Create group</span><br>
+        sudo groupadd developers<br><br>
+        <span class="comment"># Create users and add to group</span><br>
+        sudo useradd -m -G developers developer1<br>
+        sudo useradd -m -G developers developer2<br><br>
+        <span class="comment"># Verify</span><br>
+        id developer1<br>
+        <span class="comment"># uid=1001(developer1) gid=1001(developer1) groups=1001(developer1),1002(developers)</span><br><br>
+        id developer2<br><br>
+        <span class="comment"># Or check group file directly</span><br>
+        grep developers /etc/group<br>
+        <span class="comment"># developers:x:1002:developer1,developer2</span>
+    </div>
+</div>
+
+<!-- P6 -->
+<div class="question">
+    <h4>P6. Start a long-running foreground process, suspend it, move to background, display active jobs, then bring it back to foreground.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment"># Step 1: Start foreground process</span><br>
+        sleep 500<br>
+        <span class="comment"># Terminal is now busy</span><br><br>
+        <span class="comment"># Step 2: Suspend it with Ctrl+Z</span><br>
+        <span class="comment"># Output: [1]+ Stopped sleep 500</span><br><br>
+        <span class="comment"># Step 3: Send to background</span><br>
+        bg %1<br><br>
+        <span class="comment"># Step 4: List active jobs</span><br>
+        jobs<br>
+        <span class="comment"># [1]+ Running sleep 500 &</span><br><br>
+        <span class="comment"># Step 5: Bring back to foreground</span><br>
+        fg %1<br>
+        <span class="comment"># You're back in the sleep process</span>
+    </div>
+</div>
+
+<!-- P7 -->
+<div class="question">
+    <h4>P7. Find all .conf files under /etc. Suppress permission-denied messages.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        find /etc -name "*.conf" 2>/dev/null<br><br>
+        <span class="comment"># The 2>/dev/null redirects error messages to nowhere</span><br>
+        <span class="comment"># Without it, you'd see "find: '/etc/something': Permission denied"</span>
+    </div>
+</div>
+
+<!-- P8 -->
+<div class="question">
+    <h4>P8. Check the status of the SSH service. Configure it to start automatically at boot.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment"># Check status</span><br>
+        systemctl status sshd<br><br>
+        <span class="comment"># Enable at boot</span><br>
+        sudo systemctl enable sshd<br><br>
+        <span class="comment"># Verify it's enabled</span><br>
+        systemctl is-enabled sshd<br>
+        <span class="comment"># Output: enabled</span><br><br>
+        <span class="comment"># Start it now if not running</span><br>
+        sudo systemctl start sshd
+    </div>
+</div>
+
+<!-- P9 -->
+<div class="question">
+    <h4>P9. Use SSH to connect to localhost. Verify username, hostname, and working directory. Exit and verify you're back.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment"># Step 1: SSH to localhost</span><br>
+        ssh localhost<br>
+        <span class="comment"># Enter password when prompted</span><br><br>
+        <span class="comment"># Step 2: Verify inside SSH session</span><br>
+        whoami &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Shows username</span><br>
+        hostname &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Shows computer name</span><br>
+        pwd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Shows current directory</span><br><br>
+        <span class="comment"># Step 3: Exit SSH</span><br>
+        exit<br><br>
+        <span class="comment"># Step 4: Verify you're back</span><br>
+        whoami &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Same username as before SSH</span><br>
+        hostname &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Original hostname</span>
+    </div>
+</div>
+
+<!-- P10 -->
+<div class="question">
+    <h4>P10. Use journalctl to display: (a) recent entries, (b) SSH service logs, (c) most recent SSH entries first, (d) warning/error messages.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment"># (a) Recent system log entries</span><br>
+        journalctl -n 20<br><br>
+        <span class="comment"># (b) Logs for SSH service</span><br>
+        journalctl -u sshd<br><br>
+        <span class="comment"># (c) Most recent SSH entries first</span><br>
+        journalctl -u sshd -r &nbsp;&nbsp;<span class="comment"># -r = reverse order (newest first)</span><br><br>
+        <span class="comment"># (d) Warning and error messages</span><br>
+        journalctl -p warning<br>
+        <span class="comment"># Priority levels: emerg, alert, crit, err, warning, notice, info, debug</span>
+    </div>
+</div>
+
+<!-- P11 -->
+<div class="question">
+    <h4>P11. What is the difference between > and >> in Linux redirection? Give an example of each.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment"># > OVERWRITES the file (deletes old content)</span><br>
+        echo "First line" > myfile.txt<br>
+        echo "Second line" > myfile.txt<br>
+        <span class="comment"># myfile.txt now contains ONLY "Second line"</span><br><br>
+        <span class="comment"># >> APPENDS to the file (keeps old content)</span><br>
+        echo "First line" > myfile.txt<br>
+        echo "Second line" >> myfile.txt<br>
+        <span class="comment"># myfile.txt contains both lines</span>
+    </div>
+    <div class="tip-box">Think: <code>&gt;</code> = "replace" and <code>&gt;&gt;</code> = "add to end".</div>
+</div>
+
+<!-- P12 -->
+<div class="question">
+    <h4>P12. Create a directory "shared_lab" with permissions: owner full access, group read+execute, others no access. Verify.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment"># Create directory</span><br>
+        mkdir shared_lab<br><br>
+        <span class="comment"># Set permissions: owner=rwx(7), group=r-x(5), others=---(0)</span><br>
+        chmod 750 shared_lab<br><br>
+        <span class="comment"># Verify</span><br>
+        ls -ld shared_lab<br>
+        <span class="comment"># Expected: drwxr-x--- 2 user group 4096 ... shared_lab</span>
+    </div>
+</div>
+
+<!-- P13 -->
+<div class="question">
+    <h4>P13. Write a simple bash script that displays system info: username, hostname, current date, and disk usage.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment">#!/bin/bash</span><br>
+        echo "===== System Information ====="<br>
+        echo "Username: $(whoami)"<br>
+        echo "Hostname: $(hostname)"<br>
+        echo "Date: $(date)"<br>
+        echo ""<br>
+        echo "===== Disk Usage ====="<br>
+        df -h /<br><br>
+        <span class="comment"># Save as sysinfo.sh, then:</span><br>
+        chmod +x sysinfo.sh<br>
+        ./sysinfo.sh
+    </div>
+</div>
+
+<!-- P14 -->
+<div class="question">
+    <h4>P14. Create a cron job that runs every day at 5:30 PM to backup /orders to /tmp/orders_backup.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="cmd-box">
+        <span class="comment"># Open crontab editor</span><br>
+        crontab -e<br><br>
+        <span class="comment"># Add this line:</span><br>
+        30 17 * * * /bin/cp -r /orders /tmp/orders_backup<br><br>
+        <span class="comment"># Cron format: minute hour day month weekday command</span><br>
+        <span class="comment"># 30 17 = 5:30 PM, * * * = every day</span><br><br>
+        <span class="comment"># Verify</span><br>
+        crontab -l
+    </div>
+</div>
+
+<!-- P15 -->
+<div class="question">
+    <h4>P15. Explain what happens when you type "ls -la" at the command prompt. Describe the layers involved.</h4>
+</div>
+<div class="answer">
+    <h4>Answer:</h4>
+    <div class="step"><strong>1.</strong> You type <code>ls -la</code> and press Enter at the shell prompt.</div>
+    <div class="step"><strong>2.</strong> The <strong>shell</strong> (Bash) reads your input.</div>
+    <div class="step"><strong>3.</strong> The shell parses it: command = <code>ls</code>, options = <code>-la</code>.</div>
+    <div class="step"><strong>4.</strong> The shell searches <strong>$PATH</strong> to find the <code>ls</code> binary (usually <code>/usr/bin/ls</code>).</div>
+    <div class="step"><strong>5.</strong> The shell creates a new <strong>process</strong> (via <code>fork()</code> + <code>exec()</code>).</div>
+    <div class="step"><strong>6.</strong> The <code>ls</code> program runs with <code>-l</code> (long format) and <code>-a</code> (show hidden files) options.</div>
+    <div class="step"><strong>7.</strong> The <strong>kernel</strong> reads the directory data from disk and passes it to the <code>ls</code> process.</div>
+    <div class="step"><strong>8.</strong> <code>ls</code> formats the output and sends it to <strong>stdout</strong> (standard output = your screen).</div>
+    <div class="step"><strong>9.</strong> The shell displays the output and gives you a new prompt.</div>
+</div>
+
+
+<!-- ============================================================ -->
+<!-- CHEAT SHEET -->
+<!-- ============================================================ -->
+<div class="unit-header">📋 Quick Cheat Sheet — Most Important Commands</div>
+
+<div class="topic-box">
+    <table>
+        <tr><th>Task</th><th>Command</th></tr>
+        <tr><td>Change directory</td><td><code>cd /path</code></td></tr>
+        <tr><td>List files</td><td><code>ls -la</code></td></tr>
+        <tr><td>Create file</td><td><code>touch file.txt</code></td></tr>
+        <tr><td>Create directory</td><td><code>mkdir -p dir/sub</code></td></tr>
+        <tr><td>Copy file</td><td><code>cp src dest</code></td></tr>
+        <tr><td>Move/rename</td><td><code>mv src dest</code></td></tr>
+        <tr><td>Delete file</td><td><code>rm file.txt</code></td></tr>
+        <tr><td>Change permissions</td><td><code>chmod 755 file</code></td></tr>
+        <tr><td>Change owner</td><td><code>chown user:group file</code></td></tr>
+        <tr><td>Create user</td><td><code>useradd -m username</code></td></tr>
+        <tr><td>Set password</td><td><code>passwd username</code></td></tr>
+        <tr><td>Check user info</td><td><code>id username</code></td></tr>
+        <tr><td>Find files</td><td><code>find / -name "*.txt"</code></td></tr>
+        <tr><td>View processes</td><td><code>ps aux</code></td></tr>
+        <tr><td>Kill process</td><td><code>kill PID</code> or <code>kill -9 PID</code></td></tr>
+        <tr><td>Check service</td><td><code>systemctl status name</code></td></tr>
+        <tr><td>Enable at boot</td><td><code>systemctl enable name</code></td></tr>
+        <tr><td>View logs</td><td><code>journalctl -u name</code></td></tr>
+        <tr><td>Redirect output</td><td><code>cmd > file</code> or <code>cmd >> file</code></td></tr>
+        <tr><td>SSH connect</td><td><code>ssh user@host</code></td></tr>
+        <tr><td>Generate SSH key</td><td><code>ssh-keygen -t rsa</code></td></tr>
+        <tr><td>Create archive</td><td><code>tar -cvzf arc.tar.gz dir/</code></td></tr>
+        <tr><td>Install package</td><td><code>dnf install package</code></td></tr>
+        <tr><td>View disk</td><td><code>lsblk</code> or <code>df -h</code></td></tr>
+        <tr><td>Create LV</td><td><code>pvcreate → vgcreate → lvcreate</code></td></tr>
+        <tr><td>Set cron job</td><td><code>crontab -e</code></td></tr>
+        <tr><td>Check SELinux</td><td><code>getenforce</code></td></tr>
+        <tr><td>Firewall allow</td><td><code>firewall-cmd --add-service=http --permanent</code></td></tr>
+    </table>
+</div>
+
+
+<!-- ============================================================ -->
+<!-- EXAM TIPS -->
+<!-- ============================================================ -->
+<div class="unit-header">🎯 Exam Tips for CA-1</div>
+
+<div class="topic-box">
+    <ol>
+        <li><strong>Always verify your work.</strong> After creating users, run <code>id username</code>. After setting permissions, run <code>ls -l</code>.</li>
+        <li><strong>Use the right tool.</strong> <code>find</code> for searching files, <code>grep</code> for searching inside files.</li>
+        <li><strong>Remember shell expansion.</strong> Wildcards (<code>*</code>, <code>?</code>, <code>[]</code>) expand BEFORE the command runs.</li>
+        <li><strong>Redirect carefully.</strong> <code>&gt;</code> overwrites, <code>&gt;&gt;</code> appends. Don't accidentally overwrite important files!</li>
+        <li><strong>Process killing:</strong> Always try <code>kill PID</code> (graceful) before <code>kill -9 PID</code> (force).</li>
+        <li><strong>Time management:</strong> This is a practical exam. Don't spend too long on one question. Move on and come back.</li>
+        <li><strong>Check service status AND enable it.</strong> <code>systemctl status</code> checks if running, <code>systemctl enable</code> makes it start at boot.</li>
+        <li><strong>For journalctl:</strong> Use <code>-u</code> for service, <code>-n</code> for number of lines, <code>-f</code> to follow, <code>-r</code> for reverse, <code>-p</code> for priority.</li>
+    </ol>
+</div>
+
+</div>
+
+<footer>
+    <p>🐧 CSE493 Linux System Administration — Complete Study Guide</p>
+    <p>Prepared for Exam Preparation | Covers Units I–VI | All topics in simple language</p>
+    <p style="margin-top: 10px; color: #4caf50;">Good luck on your test! 🍀</p>
+</footer>
+
+</body>
+</html>
