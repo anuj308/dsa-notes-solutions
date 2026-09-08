@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux System Administration – Quick Revision</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, .4);
+        }
+        h1 {
+            text-align: center;
+            color: #38bdf8;
+            font-size: 2em;
+            border-bottom: 3px solid #38bdf8;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        h2 {
+            color: #fbbf24;
+            border-left: 5px solid #fbbf24;
+            padding-left: 12px;
+            margin: 30px 0 14px;
+            font-size: 1.4em;
+            background: rgba(251, 191, 36, .08);
+            border-radius: 0 8px 8px 0;
+            padding: 8px 12px;
+        }
+        h3 {
+            color: #34d399;
+            margin: 20px 0 8px;
+            font-size: 1.15em;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 4px;
+        }
+        .cmd-box {
+            background: #0f172a;
+            border-radius: 8px;
+            padding: 10px 16px;
+            margin: 8px 0;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid #38bdf8;
+            overflow-x: auto;
+            font-size: .95em;
+        }
+        .cmd-box code {
+            color: #7dd3fc;
+            font-weight: bold;
+        }
+        .cmd-box .comment {
+            color: #64748b;
+            font-style: italic;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: .92em;
+        }
+        table th {
+            background: #334155;
+            color: #fbbf24;
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #475569;
+        }
+        table td {
+            padding: 7px 8px;
+            border: 1px solid #334155;
+            background: #1e293b;
+        }
+        table tr:nth-child(even) {
+            background: #263445;
+        }
+        .tag {
+            display: inline-block;
+            background: #dc2626;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: .75em;
+            font-weight: bold;
+            margin-left: 6px;
+        }
+        .tag-green {
+            background: #059669;
+        }
+        .tag-blue {
+            background: #0284c7;
+        }
+        .card {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 12px 0;
+            border: 1px solid #334155;
+        }
+        .card ul {
+            margin-left: 20px;
+        }
+        .card li {
+            margin: 5px 0;
+        }
+        .highlight {
+            background: #fef08a;
+            color: #1e293b;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .imp {
+            color: #f87171;
+            font-weight: bold;
+        }
+        .grid2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 10px 0;
+        }
+        @media (max-width: 700px) {
+            .grid2 {
+                grid-template-columns: 1fr;
+            }
+        }
+        .section-num {
+            background: #38bdf8;
+            color: #0f172a;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: .85em;
+            margin-bottom: 10px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #64748b;
+            font-size: .8em;
+            border-top: 1px solid #334155;
+            padding-top: 10px;
+        }
+        .quick-ref {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            border: 2px solid #38bdf8;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+        .quick-ref h3 {
+            color: #38bdf8;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐧 Linux System Admin – Quick Revision</h1>
+        <p style="text-align:center;color:#94a3b8;margin-bottom:20px;">Practical + VIVA Preparation | CSE 493</p>
+
+        <!-- ═══════════ UNIT 1 ═══════════ -->
+        <h2><span class="section-num">UNIT I</span> Accessing Command Line & File Management</h2>
+
+        <div class="card">
+            <h3>📌 Key Concepts</h3>
+            <ul>
+                <li><span class="highlight">Shell</span> → program that provides command-line interface (Bash)</li>
+                <li><span class="highlight">Prompt</span> → <code>user@host ~]$</code> (normal user) vs <code>root@host ~]#</code> (superuser)</li>
+                <li><span class="highlight">Command structure</span> → <code>command</code> + <code>options (-l)</code> + <code>arguments</code></li>
+            </ul>
+        </div>
+
+        <h3>🖥️ Access Methods</h3>
+        <div class="cmd-box"><code>ssh user@remotehost</code> <span class="comment"># Remote login (encrypted)</span></div>
+        <div class="cmd-box"><code>Ctrl + Alt + F1</code> → F6 <span class="comment"># Switch virtual consoles (tty1–tty6)</span></div>
+        <div class="cmd-box"><code>Ctrl + D</code> <span class="comment"># Logout from shell</span></div>
+        <div class="cmd-box"><code>gnome-terminal</code> <span class="comment"># Launch terminal from GUI</span></div>
+
+        <h3>📂 File Management Commands (Must-Know!)</h3>
+        <table>
+            <tr><th>Command</th><th>Description</th><th>Example</th></tr>
+            <tr><td><code>pwd</code></td><td>Show current directory</td><td><code>pwd</code> → /home/user</td></tr>
+            <tr><td><code>ls</code>, <code>ls -l</code>, <code>ls -a</code></td><td>List files</td><td><code>ls -l</code> → long format</td></tr>
+            <tr><td><code>cd</code></td><td>Change directory</td><td><code>cd /home/user/Documents</code></td></tr>
+            <tr><td><code>mkdir</code></td><td>Create directory</td><td><code>mkdir project</code></td></tr>
+            <tr><td><code>rm</code>, <code>rm -r</code></td><td>Remove files/dirs</td><td><code>rm -r old_folder</code></td></tr>
+            <tr><td><code>cp</code></td><td>Copy</td><td><code>cp file.txt backup.txt</code></td></tr>
+            <tr><td><code>mv</code></td><td>Move/Rename</td><td><code>mv old.txt new.txt</code></td></tr>
+            <tr><td><code>cat</code></td><td>Display file content</td><td><code>cat README.md</code></td></tr>
+            <tr><td><code>touch</code></td><td>Create empty file</td><td><code>touch file.txt</code></td></tr>
+            <tr><td><code>find</code></td><td>Search for files</td><td><code>find . -name "*.txt"</code></td></tr>
+            <tr><td><code>tree</code></td><td>Show directory tree</td><td><code>tree</code></td></tr>
+        </table>
+
+        <h3>🔗 Hard Link vs Soft Link (VIVA Question!)</h3>
+        <div class="grid2">
+            <div class="card">
+                <h4 style="color:#38bdf8;">Hard Link</h4>
+                <ul>
+                    <li>Same inode number as original file</li>
+                    <li>Point directly to data</li>
+                    <li>Works even if original is deleted</li>
+                    <li>Cannot cross filesystems</li>
+                    <li>Cannot link directories</li>
+                </ul>
+                <div class="cmd-box"><code>ln file1 file2</code> <span class="comment"># Create hard link</span></div>
+            </div>
+            <div class="card">
+                <h4 style="color:#fbbf24;">Soft Link (Symbolic)</h4>
+                <ul>
+                    <li>Different inode number</li>
+                    <li>Stores path to original (shortcut)</li>
+                    <li>Breaks if original is deleted</li>
+                    <li>Can cross filesystems</li>
+                    <li>Can link directories</li>
+                </ul>
+                <div class="cmd-box"><code>ln -s file1 link1</code> <span class="comment"># Create soft link</span></div>
+            </div>
+        </div>
+
+        <h3>⏱️ Redirection & Pipes</h3>
+        <table>
+            <tr><th>Operator</th><th>Meaning</th><th>Example</th></tr>
+            <tr><td><code>&gt;</code></td><td>Overwrite output to file</td><td><code>date &gt; date.txt</code></td></tr>
+            <tr><td><code>&gt;&gt;</code></td><td>Append output to file</td><td><code>echo "Hello" &gt;&gt; file.txt</code></td></tr>
+            <tr><td><code>2&gt;</code></td><td>Store errors</td><td><code>ls abc.txt 2&gt; errors.txt</code></td></tr>
+            <tr><td><code>|</code></td><td>Pipe output to another command</td><td><code>ls | wc -l</code></td></tr>
+        </table>
+
+        <h3>📝 Text Editing with Vim</h3>
+        <div class="card">
+            <ul>
+                <li><span class="highlight">Command Mode</span> (default) – <code>ESC</code> to return</li>
+                <li><span class="highlight">Insert Mode</span> – press <code>i</code> to type</li>
+                <li><span class="highlight">Visual Mode</span> – press <code>v</code> (character), <code>Shift+V</code> (line), <code>Ctrl+V</code> (block)</li>
+                <li><span class="highlight">Save & Quit</span> – <code>:w</code> save, <code>:q</code> quit, <code>:wq</code> save+quit, <code>:q!</code> quit without save</li>
+            </ul>
+        </div>
+
+        <h3>👥 User & Group Management</h3>
+        <table>
+            <tr><th>Command</th><th>Description</th></tr>
+            <tr><td><code>useradd username</code></td><td>Create new user</td></tr>
+            <tr><td><code>passwd username</code></td><td>Set/change password</td></tr>
+            <tr><td><code>usermod -aG group user</code></td><td>Add user to group</td></tr>
+            <tr><td><code>groupadd groupname</code></td><td>Create new group</td></tr>
+            <tr><td><code>id</code></td><td>Show user UID/GID</td></tr>
+            <tr><td><code>su - username</code></td><td>Switch to another user</td></tr>
+            <tr><td><code>sudo command</code></td><td>Execute command as superuser</td></tr>
+        </table>
+        <div class="cmd-box"><code>useradd -m -g group -G extra1,extra2 username</code> <span class="comment"># -m home dir, -g primary, -G supplementary</span></div>
+
+        <!-- ═══════════ UNIT 2 ═══════════ -->
+        <h2><span class="section-num">UNIT II</span> Permissions, Processes, Services & SSH</h2>
+
+        <h3>🔐 File Permissions (VIVA Focus!)</h3>
+        <div class="card">
+            <p><span class="highlight">rwx r-x r--</span> = owner(7) group(5) others(4)</p>
+            <ul>
+                <li><b>Read (r)</b> = 4 | <b>Write (w)</b> = 2 | <b>Execute (x)</b> = 1</li>
+                <li><b>File:</b> r=view content, w=edit, x=execute</li>
+                <li><b>Directory:</b> r=list files, w=create/delete files, x=cd into directory</li>
+            </ul>
+        </div>
+        <table>
+            <tr><th>Command</th><th>Purpose</th><th>Example</th></tr>
+            <tr><td><code>chmod</code></td><td>Change permissions</td><td><code>chmod 755 file.sh</code> / <code>chmod u+x file</code></td></tr>
+            <tr><td><code>chown</code></td><td>Change owner</td><td><code>chown user:group file.txt</code></td></tr>
+            <tr><td><code>chgrp</code></td><td>Change group</td><td><code>chgrp developers file.txt</code></td></tr>
+            <tr><td><code>umask</code></td><td>Default permissions</td><td><code>umask 022</code> → files:644, dirs:755</td></tr>
+            <tr><td><code>ls -l</code></td><td>View permissions</td><td><code>ls -l file</code></td></tr>
+        </table>
+
+        <h3>⚡ Special Permissions</h3>
+        <table>
+            <tr><th>Permission</th><th>Effect on File</th><th>Effect on Directory</th></tr>
+            <tr><td><code>SUID (u+s)</code></td><td>Run as file owner</td><td>No effect</td></tr>
+            <tr><td><code>SGID (g+s)</code></td><td>Run as group owner</td><td>New files inherit directory's group</td></tr>
+            <tr><td><code>Sticky (o+t)</code></td><td>No effect</td><td>Only file owner can delete their files</td></tr>
+        </table>
+        <div class="cmd-box"><code>chmod u+s file</code> <code>chmod g+s dir</code> <code>chmod o+t dir</code> <span class="comment"># Examples</span></div>
+
+        <h3>📊 Process Management</h3>
+        <table>
+            <tr><th>Command</th><th>Description</th><th>Example</th></tr>
+            <tr><td><code>ps</code></td><td>List processes</td><td><code>ps aux</code> → all processes</td></tr>
+            <tr><td><code>top</code></td><td>Real-time monitoring</td><td><code>top</code></td></tr>
+            <tr><td><code>kill</code></td><td>Send signal to process</td><td><code>kill -9 PID</code> (force)</td></tr>
+            <tr><td><code>kill -l</code></td><td>List all signals</td><td><code>kill -l</code></td></tr>
+            <tr><td><code>jobs</code></td><td>Show background jobs</td><td><code>jobs</code></td></tr>
+            <tr><td><code>bg</code></td><td>Resume job in background</td><td><code>bg %1</code></td></tr>
+            <tr><td><code>fg</code></td><td>Bring job to foreground</td><td><code>fg %1</code></td></tr>
+            <tr><td><code>&amp;</code></td><td>Run command in background</td><td><code>sleep 100 &amp;</code></td></tr>
+            <tr><td><code>Ctrl+Z</code></td><td>Suspend foreground job</td><td>Press in terminal</td></tr>
+        </table>
+        <div class="cmd-box"><code>signal names:</code> 1=HUP, 2=INT, 9=KILL(force), 15=TERM(graceful), 18=CONT</div>
+
+        <h3>⏰ Cron Jobs (Scheduling)</h3>
+        <div class="card">
+            <p><b>Cron format:</b> <code>minute hour day month weekday command</code></p>
+            <div class="cmd-box"><code>* * * * * echo "Hello" &gt;&gt; /tmp/cron_test.txt</code> <span class="comment"># Every minute</span></div>
+            <table>
+                <tr><th>Command</th><th>Purpose</th></tr>
+                <tr><td><code>crontab -e</code></td><td>Edit cron jobs</td></tr>
+                <tr><td><code>crontab -l</code></td><td>List jobs</td></tr>
+                <tr><td><code>crontab -r</code></td><td>Remove all jobs</td></tr>
+            </table>
+            <p style="margin-top:10px;"><b>Examples:</b></p>
+            <div class="cmd-box"><code>0 2 * * * /backup.sh</code> <span class="comment"># Daily at 2 AM</span></div>
+            <div class="cmd-box"><code>30 8 * * 1-5 /script.sh</code> <span class="comment"># Weekdays 8:30 AM</span></div>
+        </div>
+
+        <h3>🔌 SSH (Secure Shell)</h3>
+        <div class="card">
+            <ul>
+                <li>Encrypted remote access</li>
+                <li>Default port: <span class="highlight">22</span></li>
+            </ul>
+            <div class="cmd-box"><code>ssh user@remotehost</code> <span class="comment"># Connect to remote</span></div>
+            <div class="cmd-box"><code>ssh-keygen -t rsa</code> <span class="comment"># Generate SSH key pair</span></div>
+            <div class="cmd-box"><code>ssh-copy-id user@remotehost</code> <span class="comment"># Copy public key for passwordless login</span></div>
+        </div>
+
+        <h3>🔧 Services & Daemons</h3>
+        <table>
+            <tr><th>Command</th><th>Description</th></tr>
+            <tr><td><code>systemctl start httpd</code></td><td>Start service</td></tr>
+            <tr><td><code>systemctl stop httpd</code></td><td>Stop service</td></tr>
+            <tr><td><code>systemctl restart httpd</code></td><td>Restart</td></tr>
+            <tr><td><code>systemctl status httpd</code></td><td>Check status</td></tr>
+            <tr><td><code>systemctl enable httpd</code></td><td>Enable at boot</td></tr>
+            <tr><td><code>systemctl disable httpd</code></td><td>Disable at boot</td></tr>
+        </table>
+
+        <h3>📜 Logs (Analyzing & Storing)</h3>
+        <div class="card">
+            <ul>
+                <li>Logs located in: <code>/var/log/</code></li>
+                <li>Main log: <code>/var/log/messages</code> (Red Hat)</li>
+                <li>Journal logs: <code>journalctl</code> command</li>
+            </ul>
+            <div class="cmd-box"><code>journalctl -xe</code> <span class="comment"># View system journal with errors</span></div>
+            <div class="cmd-box"><code>tail -f /var/log/messages</code> <span class="comment"># Follow log in real-time</span></div>
+        </div>
+
+        <!-- ═══════════ QUICK REFERENCE ═══════════ -->
+        <div class="quick-ref">
+            <h3>🚀 Quick Command Reference (Memorize!)</h3>
+            <div class="cmd-box"><code>pwd → ls → cd → mkdir → touch → cp → mv → rm → cat → find → chmod → chown → ps → kill → top → ssh → systemctl</code></div>
+            <p style="margin-top:10px;font-size:.9em;">
+                <b>Absolute path:</b> Starts with <code>/</code> (from root)<br>
+                <b>Relative path:</b> From current dir (<code>..</code> goes up)<br>
+                <b>Regular user prompt:</b> <code>~]$</code> | <b>Root prompt:</b> <code>~]#</code>
+            </p>
+        </div>
+
+        <!-- ═══════════ VIVA TIPS ═══════════ -->
+        <h2>🎯 VIVA Most Expected Questions</h2>
+        <div class="card">
+            <ul>
+                <li><b>Q1:</b> Difference between hard link and soft link? → <i>Inode, filesystem, deletion behavior</i></li>
+                <li><b>Q2:</b> What is the difference between <code>chmod</code> and <code>chown</code>? → <i>Permissions vs ownership</i></li>
+                <li><b>Q3:</b> What is SUID, SGID, Sticky bit? → <i>Special permissions</i></li>
+                <li><b>Q4:</b> What is a zombie process? → <i>Child terminated but parent didn't read exit status</i></li>
+                <li><b>Q5:</b> How do you set passwordless SSH? → <i>ssh-keygen + ssh-copy-id</i></li>
+                <li><b>Q6:</b> What is <code>sudo</code> vs <code>su</code>? → <i>sudo = one command as root, su = switch user</i></li>
+                <li><b>Q7:</b> Difference between <code>&gt;</code> and <code>&gt;&gt;</code>? → <i>Overwrite vs append</i></li>
+                <li><b>Q8:</b> What is a cron job? → <i>Scheduled task using crontab</i></li>
+                <li><b>Q9:</b> How to check running processes? → <i>ps aux, top</i></li>
+                <li><b>Q10:</b> What is the default port of SSH? → <i>22</i></li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>📚 CSE 493 Linux System Administration – Quick Revision Guide</p>
+            <p>Good Luck for your Practical & VIVA! 🍀</p>
+        </div>
+    </div>
+</body>
+</html>
