@@ -69,4 +69,81 @@
 
 ![alt text](image-4.png)
 
-<!-- 57 min -->
+# bottlenecks
+- resource or dependency that reaches its usefull limit first for that current worload
+- like apllication server - 1000 request/s and db has 300 request/s do here db is bottlenecks
+
+![alt text](image-5.png)
+
+![alt text](image-6.png)
+
+![alt text](image-7.png)
+
+# system design interview framework & estimation
+
+![alt text](image-8.png)
+![alt text](image-9.png)
+
+![alt text](image-10.png)
+![alt text](image-11.png)
+
+![alt text](image-12.png)
+
+![alt text](image-13.png)
+
+![alt text](image-14.png)
+
+![alt text](image-15.png)
+
+![alt text](image-16.png)
+
+![alt text](image-17.png)
+
+- rounded input to find the approx size of the workload
+
+# average  & peak QPS & read/write ratio
+- qps - queries/request per second
+- avg Qps - daliy traffic
+- avg Qps = request per day / seconds per day
+
+- 10m product views/day
+- avg qps = 10000000 / 86400 = 116 Req/sec
+- approx qps = 10000000 / 100000 = 100 Req/sec
+- peak qps = 116*10 = 1160 Req/sec
+- approx peak qps = 1200 Req/sec
+
+- read and write ratio
+- read req = 10M /day
+- write req = 100000/day
+- ratio = 100 : 1
+
+
+- storage 
+- raw storage = write per sec * items size * retention
+-             =  100000 * 2kb = 200Mb/day = 78 Gb/year
+
+
+# bandwidth and data transfer & concurrent users and connections
+
+- bandwidth = request per second * bytes per request
+- a proudct recive 1200 req/s and return 20kb json data
+- bandwidth = 1200 * 20 kb = 24000 kb/sec = 24 MB/sec = 192 megabit/sec
+
+- concurrency - how many operations sesion, connections are active at same time
+- concurrency = arrival rate * avg duration
+-             = 1200 * 0.2 sec = 240 infligt request
+
+
+# revise
+1. define actors,core use cases, exclusions
+2. clarify the quality requirements and the constraints
+3. identify core entities and access patterns
+4. design high level api and very imp dataflows
+5. start with very simple high level design HLD
+6. estimate traffic, storage, bandwidth, concurrency -> help on making decison
+7. find the bottleneck and try to implement the solution from it and discuss the trade off
+8. calculate avg qps, peack qps, read vs write ratio, stroage growth -> if applicable to that question
+9. bandwidth, data transfer etc
+
+
+<!-- 1 : 48 -->
