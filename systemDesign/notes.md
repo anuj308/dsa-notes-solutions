@@ -126,7 +126,7 @@
 # bandwidth and data transfer & concurrent users and connections
 
 - bandwidth = request per second * bytes per request
-- a proudct recive 1200 req/s and return 20kb json data
+- a proudct receive 1200 req/s and return 20kb json data
 - bandwidth = 1200 * 20 kb = 24000 kb/sec = 24 MB/sec = 192 megabit/sec
 
 - concurrency - how many operations sesion, connections are active at same time
@@ -142,7 +142,7 @@
 5. start with very simple high level design HLD
 6. estimate traffic, storage, bandwidth, concurrency -> help on making decison
 7. find the bottleneck and try to implement the solution from it and discuss the trade off
-8. calculate avg qps, peack qps, read vs write ratio, stroage growth -> if applicable to that question
+8. calculate avg qps, peak qps, read vs write ratio, stroage growth -> if applicable to that question
 9. bandwidth, data transfer etc
 
 
@@ -210,3 +210,126 @@
     - 404 not found - resource not found
     - 500 Intenal server Error - unexpected server failure
     - 503 service  unavailable - service temporarily unavialable
+
+#  Reverse Proxy and cdn
+- client -> Reverse Proxy -> backend server
+- The client does not need to know which internal server handles the request
+
+- Cdn - a content delivery Network runs servers at locations closer to users.
+- it is commonly used for content such as:
+    - images
+    - Javascript and css files
+    - videos
+    - other static content
+
+- the application performs the work
+    - get /product/42
+    1. validate the request
+    2. check authentication or permissions if required
+    3. query the database for product 42
+    4. create the http response
+
+- application -> database : find product 42
+- database -> application : product data
+- application -> client : 200 ok + product data
+
+# latency add up
+- dns + connection setup + tls handshake  + network travel + application processing + database or service calls + response travel
+
+# network calls can fail
+- dns resolution fail
+- the connection cannot be established
+- tls negotiation fails
+- the server is unavailable
+- a dependency is slow
+- the request times out
+- the response is lost
+
+# Final mental model
+- who creates the request? Client
+- how is the destination found? DNS
+- where is the request sent? Ip address + port
+- how data travel? tcp or udp
+- how is connection protected? tls/https
+- what does the application message contains? http
+- which public infrastruture receives it? CDN, reverse proxy, or load balancer
+- where is the business logic executed? application server
+- where does persistent data comes from? Database or another data service
+- where can latency or failure occur? at every network boundary
+
+# api and communications patterns
+- an api defines that contract:
+    - what operations are available
+    - what input is required
+    - what output is returned
+    - how error are represented
+
+
+![alt text](image-23.png)
+![alt text](image-24.png)
+![alt text](image-25.png)
+
+# idempotency
+- an operation is idempotent when repeating the same logical request produces the same intented business effect
+![alt text](image-26.png)
+
+# request and response contract
+![alt text](image-27.png)
+
+# Authentication and authorization
+- authentication - who are you?
+- authorization - are you allowed to do this?
+
+![alt text](image-28.png)
+
+- m1 m2 are middlware
+- p is product 
+- last one is admin
+![alt text](image-29.png)
+
+![alt text](image-30.png)
+
+# pagination
+- database work
+- without it: a lot of
+    - memory
+    - network bandwith
+    - client processing
+
+- types:
+    - offset pagination : GET /product?limit=20&offset=40
+    - cursor pagination : GET /product?limit=20&cursor=abc123
+
+    - beginer rule:
+        - small/simple collection -> offset
+        - large/changing feed -> cursor
+
+# REST vs gRPC vs GraphQl
+![alt text](image-32.png)
+- graphQl
+    - strong fit for when clients need flexiable combinations of related data
+
+![alt text](image-31.png)
+
+![alt text](image-33.png)
+![alt text](image-34.png)
+![alt text](image-35.png)
+
+# polling
+![alt text](image-36.png)
+![alt text](image-37.png)
+
+# webSockets
+![alt text](image-38.png)
+
+# webhooks
+![alt text](image-39.png)
+![alt text](image-40.png)
+
+![alt text](image-41.png)
+
+# what communication do we need?
+![alt text](image-42.png)
+![alt text](image-43.png)
+
+<!-- 2 : 59 -->
