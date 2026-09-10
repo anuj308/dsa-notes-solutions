@@ -146,4 +146,67 @@
 9. bandwidth, data transfer etc
 
 
-<!-- 1 : 48 -->
+# 
+![alt text](image-18.png)
+
+- client ->   
+- not every system need all the above components
+- https://         shop.com  /product/43
+- protocol scheme  hostname  resource path
+
+ ![alt text](image-19.png)
+
+
+ - ip address - identity the network destination
+ - port - identity the service runing at that destination
+ - redis(6379), postgress(5932), web server(443)
+
+ ![alt text](image-20.png)
+![alt text](image-21.png)
+![alt text](image-22.png)
+
+# tls and https
+- https = http protected by tls
+
+# http request and responses
+- a normal http request contains:
+    - method : what operation the client wants
+    - path : which resource is targeted
+    - headers : metadata
+    - body : optional data sent to the server
+
+- example:
+    - post /orders http 1.1
+    - host : shop.example.com
+    - content type : application/json
+    - {productid :42, quantity:1}
+- Get - retrive data
+- post - create or submit the data
+- put/patch - update the data
+- delete - remove the data
+
+- http response contains:
+    - status code
+    - headers
+    - optional body
+     
+- example:
+    - http 1.1 200 ok
+    - content type : application/json
+    - {body}
+
+- status code groups:
+    - 2xx - success
+    - 3xx - redirection
+    - 4xx - client side problem
+    - 5xx - server side problem
+
+- usefull example:
+    - 200 ok - request succeeded
+    - 201 Created - request created
+    - 400 Bad request - invalid request
+    - 401 unauthorized - authentication required or failed
+    - 403 forbidden - authentication but not allowed
+    - 404 not found - resource not found
+    - 500 Intenal server Error - unexpected server failure
+    - 503 service  unavailable - service temporarily unavialable
