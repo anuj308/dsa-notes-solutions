@@ -1,14 +1,26 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>all chai</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-</head>
-<body>
-    <h1> All chai here</h1>
+{% extends "layout.html" %}
+
+
+{% block title %}
+    chai Page
+{% endblock %}
+
+{% block content %}
     
-</body>
-</html>
+    <div class="text-white text-5xl">All chai here</div>
+    <div class="grid grid-cols-3 m-5 gap-4">
+        {% for chai in chais %}
+        
+        <div class="bg-blue-700 p-4"> 
+            <img class="rounded" src="{{chai.image.url}}" alt="">
+            <h3 class="text-2xl font-bold">{{chai.name}} - {{chai.id}}</h3>
+            <a href="{% url 'chai_detail' chai.id %}"><button class=" m-3 p-3 bg-orange-300 w-70 rounded"> {{chai.type}}</button></a>
+        </div>
+        
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+
+
