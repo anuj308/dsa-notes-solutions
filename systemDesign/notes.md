@@ -380,5 +380,80 @@
 ![alt text](image-70.png)
 
 # replication lag
+![alt text](image-72.png)
+![alt text](image-73.png)
 
-<!-- 4 : 4 -->
+# partitioning and sharding
+![alt text](image-74.png)
+![alt text](image-75.png)
+![alt text](image-76.png)
+
+# pratical scaling order
+![alt text](image-77.png)
+- 8. measure again
+![alt text](image-78.png)
+
+# what caching does
+![alt text](image-79.png)
+![alt text](image-80.png)
+
+# cache hit & miss
+![alt text](image-81.png)
+- cache data must still be fresh enough
+
+# where caching happens
+![alt text](image-82.png)
+- application layer caching
+
+# what should be cached?
+![alt text](image-83.png)
+![alt text](image-84.png)
+
+# cache key 
+- it identify a cached value
+- for complex result, include everything that changes the result
+![alt text](image-85.png)
+
+# time to live(ttl) and cache invalidation
+![alt text](image-86.png)
+![alt text](image-87.png)
+
+![alt text](image-88.png)
+![alt text](image-89.png)
+
+# cache failure - all load can go to database and can crash
+![alt text](image-90.png)
+
+# cdn & cache & read replica
+
+- cdn - best for public/static content close to users, example - product images
+- application cache - best for repeated application-level lookups, example - product summaries
+- read replica - best for database read queries, example - catalog queries
+
+# do not cache automatically
+![alt text](image-91.png)
+
+# synchronous vs asynchronous
+![alt text](image-92.png)
+![alt text](image-93.png)
+
+
+![alt text](image-94.png)
+![alt text](image-95.png)
+
+# background lifecycle
+![alt text](image-96.png)
+
+# queue vs pub/sub vs stream
+![alt text](image-97.png)
+![alt text](image-98.png)
+![alt text](image-99.png)
+- event stream - keeps histroy of events so comsumer can read or replay
+![alt text](image-100.png)
+
+![alt text](image-101.png)
+![alt text](image-102.png)
+![alt text](image-103.png)
+
+
+<!-- 4 54 -->
