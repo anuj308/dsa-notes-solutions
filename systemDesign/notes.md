@@ -455,5 +455,175 @@
 ![alt text](image-102.png)
 ![alt text](image-103.png)
 
+# commands vs events
+- commands - asks for something to happen - please do this
+    - example - generate report,sendEmail,ReserveInventory
 
-<!-- 4 54 -->
+- events - says something already happened
+    - example - order placed, payment received, product price changed
+
+# retries and backoff
+- Background jobs can fail
+- Temporary failures:
+    - network timeout
+    - temporary database issue
+    - third-party service unavailable
+
+- retry may work
+
+- permanent failures:
+    - invalid input
+    - unsupported file
+    - malformed data
+
+    - here retrying forver will not work
+
+- common approch: exponential backoff
+    - Retry after 1s
+    - Retry after 2s
+    - Retry after 4s
+    - Retry after 8s
+    - stop after a limit
+
+    - this is know as exponential backoff
+
+    - goal is to give the failing dependency time to recover
+
+
+# Dead letter queue
+- retry -> retry -> too many failure -> dead letter queue
+- DLQ store messages that require investigation
+- comman reason: 
+    - invalid data
+    - permanent failure
+    - retry limit exceed
+
+- DLQ is not a trash bin
+- failed message should be:
+    - inspect
+        - fix cause
+        - retry safely when appropriate
+
+# Duplicate delivery
+![alt text](image-104.png)
+![alt text](image-105.png)
+![alt text](image-106.png)
+
+- example:
+    - worker recives payement message
+    - payment succeeds
+    - worker crashes before acknowledging
+    - queue thinks messages was not completed
+    - message delivered again
+
+    - result: same logical operation may run twice
+    - many system uses: atleast once delivery
+    - meaning - avoid silently losing messages but duplicate may happen
+    - therefore :  application must be prepared for dulpicate delivery
+
+# Idempotent Consumers
+- Processing the same logical message multiple times does not create extra business effects.
+
+- bad: add 500 to balance -> run twice 1000 will be added
+- safer: Process payment id payment_2738 once
+- flow: 
+    - Receive Message
+    -      |
+    - already processed?
+    - yes       no
+    - Ignore   process
+
+- common approch: store message / operation Id and check if it was already processed.
+- Especially important for:
+    - payments
+    - orders
+    - inventory
+    - account changes
+
+- Core rule:
+    - Queue may deliver duplicate 
+        - important consumers should be safe to run more than once
+
+# when not to use async systems
+- queue and events add:
+    - more infrastructure
+    - more failure states
+    - retries
+    - duplicate handling
+    - monitoring complexity
+
+- Synchronous communication may be better when:
+    - operation is already fast
+    - caller needs the result immediately
+    - traffic is small and predictable
+    - failure must be returned immediately
+    - queue + worker adds more complexity than value
+
+- example:
+    - fetching a user profile
+    - request -> application -> database -> response
+    - no queue needed
+
+- core mental model:
+    - Producer -> Queue -> Worker
+
+- core reliability rule:
+    - messages may be retried
+        - consumers must handle repetition safely
+
+# Architecture is about boundaries
+- system architecture describe how a system is divided into parts, how those part are going to communicate and who owns each responsibility.
+
+- good boundaries make ownership clear and reduce unnecessary coupling.
+- core rule:
+    - understand the problem
+    - choose the simplest useful structure
+
+
+# Monolith
+- one application, usually deployed as one unit.
+- application:
+    - catalog
+    - orders
+    - payments
+    - users
+
+- advantages:
+    - simple deployment
+    - easy local development
+    - fast in process calls
+    - easier debugging
+    - few network failures
+
+- Possiable problems as it grows
+    - code can become tangled
+    - everything deploys together
+    - one heavy feature can affect the whole process
+    - whole application often scales together
+
+![alt text](image-107.png)
+
+# modular monolith
+- one deployment
+- clear business modules
+
+- one application
+    - catalog module
+    - order module
+    - payment module
+    - user module
+
+- each module should:
+    - own a clear responsibility
+    - expose a small interface
+    - avoid depending on internal details of others modules
+
+- Benefit:
+    - clear boundaries without network calls between every part
+
+- for many application this is an excellent starting point
+- but boundaries need discipline
+
+- if every module accesses every other module internal or tables, the modules are not truly separate.
+
+<!-- 5 : 18 -->
