@@ -626,4 +626,161 @@
 
 - if every module accesses every other module internal or tables, the modules are not truly separate.
 
-<!-- 5 : 18 -->
+# Microservices
+- Split system into independent deployed services.
+- example: 
+    - catalog module
+    - order module
+    - payment module
+    - user module
+
+- Potential benefits:
+    - independent deployment
+    - independent scaling
+    - clearer team ownership
+    - stronger separation
+
+- costs:
+    - network latency
+    - partial failures
+    - timeouts and retries
+    - harder debugging
+    - more deployments
+    - harder data consistency
+    - more monitoring and operations
+
+- use microservies when independence solves a real problem
+
+# monolith vs modular monolith vs Microservices
+![alt text](image-108.png)
+![alt text](image-109.png)
+![alt text](image-110.png)
+
+# chossing service boundaries
+- bad:
+    - controller service
+    - business logic service
+    - database service
+
+    - these usually change together
+
+- better:
+    - order service
+    - payment service
+    - catalog service
+
+- a better service boundary usually has:
+    - one clear busineess responsibility
+    - clear data ownership
+    - a small interface
+    - mostly independent changes
+    - a real reason for separate deployment or scaling
+
+- warning:
+    - if two services:
+        - always deploy together
+        - share the same tables
+        - cannot change idenpendently
+
+        - then the split is probably not usefull
+
+# distributed monolith
+- many services + still tightly coupled
+- common signs:
+    - one request passes through many services
+    - services share database tables
+    - many services must deploy together
+    - one small service failure breaks the whole flow
+
+- result:
+    - microservice complexity with microservice independence
+
+- main lesson:
+    - more services does not automatically means better architecture
+
+# Reuse patterns only when needed
+- choose patterns from the workload
+- example:  
+    - repeated slow reads
+        - indexes first
+        - cache if needed
+
+    - busty background jobs
+        - queue + workers
+    
+    - large file transfer
+        - object storage
+
+    - realtime updates
+        - polling first
+        - SSE / websocket if needed
+
+- do not add patterns just because large system use them
+- every patterns should solve a specific problem
+
+# avoid overengineering
+![alt text](image-111.png)
+
+- Every new components adds:
+    - another failure mode
+    - another deployment
+    - another thing to mointor
+    - another thing the team must understand
+
+- core principle:
+    - start simple
+    - create clear boundaries
+    - add complexity only when justified
+
+# production ready mindset
+
+![alt text](image-112.png)
+![alt text](image-113.png)
+- observability - what an system is doing
+- log - record individual events
+- error code , timestamp, reqId etc include in your log
+
+![alt text](image-114.png)
+![alt text](image-115.png)
+
+# health checks 
+- a process can be runing but still not be ready for traffic.
+- liveness : is process alive? No, restart it
+- readiness : can this instance safely receive traffic? No, load balance stop sending request
+
+- simple:
+    - liveness - should it be runing?
+    - readiness - should it receive traffic?
+
+# Security
+![alt text](image-116.png)
+![alt text](image-117.png)
+
+# backup and recovery 
+- backup is separate copy
+- it help in:
+    - deletion
+    - corruption
+    - security incidents
+    - major failures
+
+- important:
+    - backup created != recovery granted
+    - restore testing matters.
+
+- RPO:
+    - Recovery Point Objective
+    - how much data loss is acceptable
+    - example:
+        - rpo is 15 minutes
+
+- RTO:
+    - Recovery time objective
+    - how long many recovery take?
+    - Example: 
+        - RTO is 1 hour
+
+- smaller RPO/RTO
+    - usually higher cost
+
+    <!-- 4 : 43 -->
