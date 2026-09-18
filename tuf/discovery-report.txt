@@ -1,0 +1,721 @@
+================ DSA REVISION HUB — DISCOVERY REPORT ================
+Scanned : 35 tuf files + 304 files from LeetcodeDaliy/ & dsa/  (359 raw segments, 2 skipped)
+Excluded (non-problem artifacts): README.md, check_code.js, code_data.js, input.txt, output.txt, dsa.html, dsa_revision_v2.html, learn.exe, demo.exe, a.out, node_modules/, .vscode/
+Problems after dedupe: 422   |   with URL: 180   |   with LC number: 143   |   with difficulty: 133
+Approach tags found: {"Brute":12,"Better":1,"Optimal":5}
+Code chunks by language: C++=456  Python=41  Java=21
+Topics (21): Patterns, C++ STL, Math & Number Theory, Recursion & Backtracking, Arrays, Sorting, Binary Search, Strings, Linked List, Bit Manipulation, Stack & Queue, Sliding Window, Greedy, Dynamic Programming, Trees, Graphs, Uncategorized, LeetCode Practice, Codeforces, Heap & Priority Queue, Hashing
+
+--- Per-file breakdown ---
+01partten.cpp  (1 problem)
+    • Pattern Printing — Basics Practice
+02stl.cpp  (1 problem)
+    • C++ STL Reference (Containers & Utilities)
+03BasicMath.cpp  (4 problems)
+    • Evenly Divides
+    • Reverse Integer
+    • Sum of All Divisors from 1 to N
+    • Count Digits
+03recursion.cpp  (1 problem)
+    • Recursion Basics (Print 1→N, N→1, Sum, Factorial)
+04hashing.cpp  (1 problem)
+    • Hashing Basics — Frequency Counting (Highest/Lowest Frequency Elements)
+05sorting.cpp  (1 problem)
+    • Sorting Algorithms (Selection, Bubble, Insertion, Merge, Quick, Counting)
+06arraylargest.cpp  (1 problem)
+    • Largest Element & Counting Sort
+07ArraysPart2.cpp  (1 problem)
+    • Array Rotation (Left / Right by K)
+08ArraysPart3.cpp  (1 problem)
+    • Missing Number (Brute → Better → Optimal)
+09ArraysPart4.cpp  (1 problem)
+    • Two Sum (BF → HashMap) & Kadane’s Maximum Subarray
+10ArraysMediumPart5.cpp  (1 problem)
+    • Rearrange Array Brute Force
+11ArraysMediumHardPart6.cpp  (1 problem)
+    • Arrays Medium-Hard Set 6 (Pascal’s Triangle, Majority Element n/3, …)
+12ArraysHardPart7.cpp  (1 problem)
+    • Arrays Hard Set 7 (Merge Intervals & friends)
+12BinarySearchEasy.cpp  (1 problem)
+    • Binary Search Easy (Search, Floor/Ceil, Lower/Upper Bound)
+13BinarySearchMedium.cpp  (1 problem)
+    • Floor Sqrt
+14BinarySearchHard.cpp  (1 problem)
+    • Binary Search Hard (Row with Max 1s, Rotated & 2D Search)
+15String.cpp  (1 problem)
+    • String Basics (Remove Outer Parens, Reverse Words, …)
+16LinkListBasic.cpp  (1 problem)
+    • Linked List Basics (Construct, Print, Insert, Delete)
+17LinkListMedium.cpp  (1 problem)
+    • Linked List Medium (Middle, Reverse, Palindrome, Add Two, …)
+19Recurion2.cpp  (1 problem)
+    • Pow(x, n) — Binary Exponentiation
+20Bits.cpp  (1 problem)
+    • Bit Manipulation Basics (Kth Bit, Set Bits, Power of Two, …)
+21Stack&Queue.cpp  (1 problem)
+    • Stack & Queue Implementations + Infix → Postfix
+22SlidingWindow.cpp  (11 problems)
+    • Longest Substring Without Repeating Characters
+    • Max Consecutive Ones III
+    • Max Consecutive Ones III
+    • Fruit Into Baskets
+    • Longest Repeating Character Replacement
+    • Binary Subarrays With Sum
+    • Count Number of Nice Subarrays
+    • Number of Substrings Containing All Three Characters
+    • Maximum Points You Can Obtain from Cards
+    • Minimum Window Substring
+    • Minimum Size Subarray Sum
+23Greedy.cpp  (8 problems)
+    • Assign Cookies
+    • Lemonade Change
+    • Valid Parenthesis String
+    • Jump Game
+    • Jump Game II
+    • Candy
+    • Merge Intervals
+    • Insert Interval
+24Dp.cpp  (2 problems)
+    • Climbing Stairs
+    • Coin Change
+25BinaryTreePart1.cpp  (13 problems)
+    • Binary Tree Preorder Traversal
+    • Binary Tree Inorder Traversal
+    • Binary Tree Postorder Traversal
+    • Binary Tree Level Order Traversal
+    • Maximum Depth of Binary Tree
+    • Balanced Binary Tree
+    • Diameter of Binary Tree
+    • Binary Tree Maximum Path Sum
+    • Same Tree
+    • Binary Tree Zigzag Level Order Traversal
+    • Vertical Order Traversal of a Binary Tree
+    • Binary Tree Right Side View
+    • Symmetric Tree
+26BinaryTreePart2.cpp  (4 problems)
+    • Top View of Binary Tree
+    • Bottom View of Binary Tree
+    • Binary Tree Paths
+    • Burning Tree
+27BinarySeacrchTree.cpp  (15 problems)
+    • Search in a Binary Search Tree
+    • Minimum Element in BST
+    • Max and Min Element in Binary Tree
+    • Implementing Ceil in BST
+    • Floor in BST
+    • Insert Into a Binary Search Tree
+    • Delete Node in a BST
+    • Kth Smallest Element in a BST
+    • Validate Binary Search Tree
+    • Lowest Common Ancestor of a Binary Search Tree
+    • Construct Binary Search Tree from Preorder Traversal
+    • Binary Search Tree Iterator
+    • Recover Binary Search Tree
+    • Largest BST
+    • Maximum Sum BST in Binary Tree
+28GraphPart1.cpp  (12 problems)
+    • BFS Traversal of Graph
+    • Depth First Traversal for a Graph
+    • Number of Provinces
+    • Connected Components in an Undirected Graph
+    • Count the Number of Complete Components
+    • Rotting Oranges
+    • Flood Fill
+    • Detect Cycle in an Undirected Graph
+    • 01 Matrix
+    • Surrounded Regions
+    • Number of Enclaves
+    • Word Ladder
+29GraphPart2.cpp  (5 problems)
+    • Is Graph Biparite
+    • Topological sort
+    • Topological sort
+    • Topological sort Course Schedule II
+    • Find Eventual Safe States
+30GraphPart3.cpp  (12 problems)
+    • shortest-path-in-undirected-graph-having-unit-distance ()
+    • shortest-path-in-undirected-graph ()
+    • implementing-dijkstra-set-1-adjacency-matrix ()
+    • shortest-path-in-binary-matrix
+    • part with minumum effort
+    • cheapest-flights-within-k-stops
+    • netwrok delay time
+    • Number of Ways to Arrive at Destination
+    • Minimum Multiplications to Reach End
+    • Implementing Floyd Warshall
+    • Find the City with the Smallest Number of Neighbors at a Threshold Distance
+    • Minimum Spanning Tree
+31GraphPart4.cpp  (9 problems)
+    • Find Parent
+    • 1319. Number of Operations to Make Network Connected
+    • 947. Most Stones Removed with Same Row or Column
+    • 721. Accounts Merge
+    • 827. Making A Large Island
+    • 778. Swim in Rising Water
+    • 192. Critical Connections in a Network
+    • Articulation Point
+    • strongly connected
+32DPPart1.cpp  (1 problem)
+    • 1D DP Basics — Fibonacci-style (Memo → Tab → Space Optimized)
+learn.cpp  (1 problem)
+    • Minimum Operations to Make Elements Distinct
+demo.cpp  (1 problem)
+    • Scratch Experiments (Digit-Palindrome Permutations)
+
+--- Extra-directory problems (new cards) ---
+    • [LeetCode Practice] Power of Four  (LeetcodeDaliy/0342-four-of-power.cpp, Easy)
+    • [LeetCode Practice] Find N Unique Integers Sum Up to Zero  (LeetcodeDaliy/1304-find-n-unique-integers-sum-up-to-zero.cpp, Easy)
+    • [LeetCode Practice] Convert Integer to the Sum of Two No Zero Integers  (LeetcodeDaliy/1317-convert-integer-to-the-sum-of-two-no-zero-integers.cpp)
+    • [LeetCode Practice] convert-integer-to-the-sum-of-two-no-zero-integer  (LeetcodeDaliy/1317-convert-integer-to-the-sum-of-two-no-zero-integers.cpp, Easy)
+    • [LeetCode Practice] Maximum 69 Number  (LeetcodeDaliy/1323-maximum-69-number.cpp)
+    • [LeetCode Practice] Maximum of 69 number  (LeetcodeDaliy/1323-maximum-69-number.cpp, Easy)
+    • [LeetCode Practice] Check If All 1s Are at Least Length K Places Away  (LeetcodeDaliy/1437check-if-all-1s-are-at-least-length-k-places-away.cpp)
+    • [LeetCode Practice] 1437. Check If All 1's Are at Least Length K Places Away  (LeetcodeDaliy/1437check-if-all-1s-are-at-least-length-k-places-away.cpp, Easy)
+    • [LeetCode Practice] Water Bottles  (LeetcodeDaliy/1518-water-bottles.cpp)
+    • [LeetCode Practice] 1518. Water Bottles  (LeetcodeDaliy/1518-water-bottles.cpp, Easy)
+    • [LeetCode Practice] Compare Version Numbers  (LeetcodeDaliy/165-compare-version-Number.cpp, Medium)
+    • [LeetCode Practice] 165. Compare Version Numbers  (LeetcodeDaliy/165-compare-version-Number.cpp, Medium)
+    • [LeetCode Practice] Minimum Deletions to Make String Balanced  (LeetcodeDaliy/1653minimum-deletions-to-make-string-balanced.cpp)
+    • [LeetCode Practice] 1653. Minimum Deletions to Make String Balanced  (LeetcodeDaliy/1653minimum-deletions-to-make-string-balanced.cpp, Medium)
+    • [LeetCode Practice] Calculate Money in Leetcode Bank  (LeetcodeDaliy/1716calculate-money-in-leetcode-bank.cpp)
+    • [LeetCode Practice] 1716. Calculate Money in Leetcode Bank  (LeetcodeDaliy/1716calculate-money-in-leetcode-bank.cpp, Easy)
+    • [LeetCode Practice] Maximum Average Pass Ratio  (LeetcodeDaliy/1792-maximum-average-pass-ratio.cpp, Medium)
+    • [LeetCode Practice] Cyclically Rotating a Grid  (LeetcodeDaliy/1841cyclically-rotating-a-grid.cpp)
+    • [LeetCode Practice] 1914. Cyclically Rotating a Grid  (LeetcodeDaliy/1841cyclically-rotating-a-grid.cpp, Medium)
+    • [LeetCode Practice] Rotating the Box  (LeetcodeDaliy/1861-rotating-the-box.cpp)
+    • [LeetCode Practice] 1861. Rotating the Box  (LeetcodeDaliy/1861-rotating-the-box.cpp, Medium)
+    • [LeetCode Practice] Unique Length 3 Palindromic Subsequences  (LeetcodeDaliy/1930-unique-length-3-palindromic-subsequences.cpp)
+    • [LeetCode Practice] 1930. Unique Length-3 Palindromic Subsequences  (LeetcodeDaliy/1930-unique-length-3-palindromic-subsequences.cpp, Medium)
+    • [LeetCode Practice] Maximum Number of Words You Can Type  (LeetcodeDaliy/1935-maximum-number-of-words-you-can-type.cpp)
+    • [LeetCode Practice] 1935. Maximum Number of Words You Can Type  (LeetcodeDaliy/1935-maximum-number-of-words-you-can-type.cpp, Easy)
+    • [LeetCode Practice] Simple Bank System  (LeetcodeDaliy/2043-simple-bank-system.cpp)
+    • [LeetCode Practice] 2043. Simple Bank System  (LeetcodeDaliy/2043-simple-bank-system.cpp, Medium)
+    • [LeetCode Practice] Number of Laser Beams in a Bank  (LeetcodeDaliy/2125-number-of-laser-beams-in-a-bank.cpp)
+    • [LeetCode Practice] 2125. Number of Laser Beams in a Bank  (LeetcodeDaliy/2125-number-of-laser-beams-in-a-bank.cpp, Medium)
+    • [LeetCode Practice] Maximum Twin Sum of a Linked List  (LeetcodeDaliy/2130-maximum-twin-sum-of-a-linked-list.cpp)
+    • [LeetCode Practice] 2130. Maximum Twin Sum of a Linked List  (LeetcodeDaliy/2130-maximum-twin-sum-of-a-linked-list.cpp, Medium)
+    • [LeetCode Practice] Keep Multiplying Found Values by Two  (LeetcodeDaliy/2154-keep-multiplying-found-values-by-two.cpp)
+    • [LeetCode Practice] 2154. Keep Multiplying Found Values by Two  (LeetcodeDaliy/2154-keep-multiplying-found-values-by-two.cpp, Easy)
+    • [LeetCode Practice] Count Operations to Obtain Zero  (LeetcodeDaliy/2169-count-operations-to-obtain-zero.cpp)
+    • [LeetCode Practice] 2169. Count Operations to Obtain Zero  (LeetcodeDaliy/2169-count-operations-to-obtain-zero.cpp, Easy)
+    • [LeetCode Practice] Find Triangular Sum of an Array  (LeetcodeDaliy/2221-find-triangular-sum-of-an-array.cpp)
+    • [LeetCode Practice] 2221. Find Triangular Sum of an Array  (LeetcodeDaliy/2221-find-triangular-sum-of-an-array.cpp, Medium)
+    • [LeetCode Practice] Find Resultant Array After Removing Anagrams  (LeetcodeDaliy/2273-find-resultant-array-after-removing-anagrams.cpp)
+    • [LeetCode Practice] 2273. Find Resultant Array After Removing Anagrams  (LeetcodeDaliy/2273-find-resultant-array-after-removing-anagrams.cpp, Easy)
+    • [LeetCode Practice] Successful Pairs of Spells and Potions  (LeetcodeDaliy/2300-successful-pairs-of-spells-and-potions.cpp)
+    • [LeetCode Practice] 2300. Successful Pairs of Spells and Potions  (LeetcodeDaliy/2300-successful-pairs-of-spells-and-potions.cpp, Medium)
+    • [LeetCode Practice] No of Zero Filled Subarray  (LeetcodeDaliy/2348-No-of-zero-filled-subarray.cpp, Medium)
+    • [LeetCode Practice] Increment Submatrices by One  (LeetcodeDaliy/2536-increment-submatrices-by-one.cpp)
+    • [LeetCode Practice] Sort Vowels in a String  (LeetcodeDaliy/2785-sort-vowels-in-a-string.cpp, Medium)
+    • [LeetCode Practice] Count Elements with Maximum Frequency  (LeetcodeDaliy/3005-count-elements-with-maximum-frequency.cpp)
+    • [LeetCode Practice] 3005. Count Elements With Maximum Frequency  (LeetcodeDaliy/3005-count-elements-with-maximum-frequency.cpp, Medium)
+    • [LeetCode Practice] Alice Bob Playing Flower Game  (LeetcodeDaliy/3021-alice-bob-playing-flower-game.cpp)
+    • [LeetCode Practice] alice and bob playing flower game  (LeetcodeDaliy/3021-alice-bob-playing-flower-game.cpp, Medium)
+    • [LeetCode Practice] Find the Number of Ways Place People 1  (LeetcodeDaliy/3025-find-the-number-of-ways-place-people-1.cpp)
+    • [LeetCode Practice] find-the-number-of-ways-to-place-people-i  (LeetcodeDaliy/3025-find-the-number-of-ways-place-people-1.cpp)
+    • [LeetCode Practice] Find the Number of Ways to Place People II  (LeetcodeDaliy/3027-find-the-number-of-ways-to-place-people-II.cpp)
+    • [LeetCode Practice] Water Bottle II  (LeetcodeDaliy/3100-water-bottle-II.cpp)
+    • [LeetCode Practice] 3100. Water Bottles II  (LeetcodeDaliy/3100-water-bottle-II.cpp, Medium)
+    • [LeetCode Practice] Delete Nodes from Linked List Present in Array  (LeetcodeDaliy/3217delete-nodes-from-linked-list-present-in-array.cpp, Medium)
+    • [LeetCode Practice] Vowels Game in a String  (LeetcodeDaliy/3227-vowels-game-in-a-string.cpp, Medium)
+    • [LeetCode Practice] Maximum Number of Operations to Move Ones to the End  (LeetcodeDaliy/3228maximum-number-of-operations-to-move-ones-to-the-end.cpp)
+    • [LeetCode Practice] 3228. maximum-number-of-operations-to-move-ones-to-the-end  (LeetcodeDaliy/3228maximum-number-of-operations-to-move-ones-to-the-end.cpp, Medium)
+    • [LeetCode Practice] Find X Sum of All K Long Subarrays I  (LeetcodeDaliy/3318-find-x-sum-of-all-k-long-subarrays-i.cpp, Easy)
+    • [LeetCode Practice] Adjacent Increasing Subarrays Detection I  (LeetcodeDaliy/3349-adjacent-increasing-subarrays-detection-i.cpp, Medium)
+    • [LeetCode Practice] Adjacent Increasing Subarrays Detection II  (LeetcodeDaliy/3350-adjacent-increasing-subarrays-detection-ii.cpp)
+    • [LeetCode Practice] 3350. Adjacent Increasing Subarrays Detection II  (LeetcodeDaliy/3350-adjacent-increasing-subarrays-detection-ii.cpp, Medium)
+    • [LeetCode Practice] Smallest Number with All Set Bits  (LeetcodeDaliy/3370-smallest-number-with-all-set-bits.cpp, Easy)
+    • [LeetCode Practice] Sort Matrix by Diagonal  (LeetcodeDaliy/3446-sort-matrix-by-diagonal.cpp)
+    • [LeetCode Practice] Sort Matrix by Diagonals  (LeetcodeDaliy/3446-sort-matrix-by-diagonal.cpp, Medium)
+    • [LeetCode Practice] Find Closest Person  (LeetcodeDaliy/3516-find-closest-person.cpp, Easy)
+    • [LeetCode Practice] Find Most Frequent Vowel Ad Consonant  (LeetcodeDaliy/3541-find-most-frequent-vowel-ad-consonant.cpp)
+    • [LeetCode Practice] 3541. Find Most Frequent Vowel and Consonant  (LeetcodeDaliy/3541-find-most-frequent-vowel-ad-consonant.cpp, Medium)
+    • [LeetCode Practice] Valid Sudoku  (LeetcodeDaliy/36-valid-sudoku.cpp)
+    • [LeetCode Practice] valid sodoku    (36)  (LeetcodeDaliy/36-valid-sudoku.cpp, Medium)
+    • [LeetCode Practice] Longest Balanced Substring I  (LeetcodeDaliy/3713-ongest-balanced-substring-i.cpp, Easy)
+    • [LeetCode Practice] 3713. Longest Balanced Substring I  (LeetcodeDaliy/3713-ongest-balanced-substring-i.cpp, Easy)
+    • [LeetCode Practice] Longest Balanced Subarray I  (LeetcodeDaliy/3719longest-balanced-subarray-i.cpp)
+    • [LeetCode Practice] 3719. Longest Balanced Subarray I  (LeetcodeDaliy/3719longest-balanced-subarray-i.cpp, Medium)
+    • [LeetCode Practice] Total Waviness of Numbers in Range I  (LeetcodeDaliy/3751-total-waviness-of-numbers-in-range-i.cpp)
+    • [LeetCode Practice] 3751. Total Waviness of Numbers in Range I  (LeetcodeDaliy/3751-total-waviness-of-numbers-in-range-i.cpp, Easy)
+    • [LeetCode Practice] Diagonal Traverse  (LeetcodeDaliy/498-diagonal-tranverse.cpp, Medium)
+    • [LeetCode Practice] diagonal Tranverse  (LeetcodeDaliy/498-diagonal-tranverse.cpp, Medium)
+    • [LeetCode Practice] 1-bit and 2-bit Characters  (LeetcodeDaliy/7171-bit-and-2-bit-characters.cpp, Easy)
+    • [LeetCode Practice] 717. 1-bit and 2-bit Characters  (LeetcodeDaliy/7171-bit-and-2-bit-characters.cpp, Easy)
+    • [LeetCode Practice] Rotated Digits  (LeetcodeDaliy/788-rotated-digits.cpp)
+    • [LeetCode Practice] 88. Rotated Digits  (LeetcodeDaliy/788-rotated-digits.cpp, Medium)
+    • [LeetCode Practice] Largest Triangle Area  (LeetcodeDaliy/812-larget-area-triabgle.cpp, Easy)
+    • [LeetCode Practice] 812. Largest Triangle Area  (LeetcodeDaliy/812-larget-area-triabgle.cpp, Easy)
+    • [LeetCode Practice] Vowel Spellchecker  (LeetcodeDaliy/966-vowel-spellchecker.cpp)
+    • [LeetCode Practice] 966. Vowel Spellchecker  (LeetcodeDaliy/966-vowel-spellchecker.cpp, Medium)
+    • [Uncategorized] Madhan Contact Management Mobile Application Users Maintain  (dsa/allquestion.js)
+    • [Uncategorized] Warehouse Keeps Track Packages Grounded Header Linked  (dsa/allquestion.js)
+    • [Uncategorized] Emma Sets Sensor Data Recorded Separate Grounded  (dsa/allquestion.js)
+    • [Codeforces] Codeforces 2072A — Round Problem  (dsa/codeForces/2072A.cpp)
+    • [Binary Search] Single Non Duplicate  (dsa/in python/FIndNonDuplicate.py)
+    • [Binary Search] Find Pages  (dsa/in python/allocateBooks.py)
+    • [Binary Search] Least Weight Capacity  (dsa/in python/capacitytoshioinddays.py)
+    • [Binary Search] Upper Bound  (dsa/in python/countofoccurenceofx.py)
+    • [Binary Search] Find Peak Element  (dsa/in python/findPeakInArray.py)
+    • [Binary Search] Missing K  (dsa/in python/findkthmissingnumberinanarray.py)
+    • [Binary Search] Nth Root  (dsa/in python/findnthrootofnumber.py)
+    • [Binary Search] Smallest Divisor  (dsa/in python/findsmallestdicisorWithAthreshold.py)
+    • [Binary Search] Upper Bound — firstAndLastOccurence  (dsa/in python/firstAndLastOccurence.py)
+    • [Binary Search] Floor and Ceil in a Sorted Array  (dsa/in python/floorceil.py)
+    • [Binary Search] Search Insert Position (Ceil / Lower Bound)  (dsa/in python/ins.py)
+    • [Binary Search] Kth Element  (dsa/in python/kelementin2sorterdarray.py)
+    • [Binary Search] Largest Subarray Sum Minimized  (dsa/in python/largestsubarrayminimized.py)
+    • [Binary Search] Lower Bound  (dsa/in python/lowerbound.py)
+    • [Binary Search] Median of Two Sorted Arrays  (dsa/in python/medianof2arr.py)
+    • [Binary Search] Find Min  (dsa/in python/minimuminRotatedSorted.py)
+    • [Binary Search] Find Krotation  (dsa/in python/noofTImesArrayIsRotated.py)
+    • [Binary Search] Find Largest Min Distance  (dsa/in python/painterpatition.py)
+    • [Binary Search] Find Peak Grid  (dsa/in python/peakInAMatrix.py)
+    • [Binary Search] Recursion Basics Drill (Python)  (dsa/in python/recursion.py)
+    • [Binary Search] Lower Bound — rowofmax1s  (dsa/in python/rowofmax1s.py)
+    • [Binary Search] Search in Rotated Sorted Array  (dsa/in python/searchInRotatedSorted.py)
+    • [Binary Search] Search in Arotated Sorted Array II  (dsa/in python/searchinsortedrotatedduplicate.py)
+    • [Binary Search] Upper Bound — upperBound  (dsa/in python/upperBound.py)
+    • [LeetCode Practice] Single Number  (dsa/leetcode/easy/136.cpp, Easy)
+    • [LeetCode Practice] Roman to Int  (dsa/leetcode/easy/13romantoint.py)
+    • [LeetCode Practice] Majority Element  (dsa/leetcode/easy/169..cpp, Easy)
+    • [LeetCode Practice] Reverse Bits  (dsa/leetcode/easy/190.cpp, Easy)
+    • [LeetCode Practice] Happy Number  (dsa/leetcode/easy/202.cpp, Easy)
+    • [LeetCode Practice] Is Valid1  (dsa/leetcode/easy/20validParenthess.py)
+    • [LeetCode Practice] Min Max Difference  (dsa/leetcode/easy/2566.cpp, Easy)
+    • [LeetCode Practice] Add digit  (dsa/leetcode/easy/258-add-digits.cpp, Easy)
+    • [LeetCode Practice] Remove Element  (dsa/leetcode/easy/27.py)
+    • [LeetCode Practice] First Bad Version  (dsa/leetcode/easy/278-first-bad-version.cpp, Easy)
+    • [LeetCode Practice] Find the Index of the First Occurrence in a String  (dsa/leetcode/easy/28.cpp, Easy)
+    • [LeetCode Practice] Word Pattern  (dsa/leetcode/easy/290-word-pattern.cpp, Easy)
+    • [LeetCode Practice] Max Difference  (dsa/leetcode/easy/3442.cpp, Easy)
+    • [LeetCode Practice] Search Insert Position  (dsa/leetcode/easy/35upperbound.cpp, Easy)
+    • [LeetCode Practice] Minimum Operations to Equalize Array  (dsa/leetcode/easy/3674-minimum-operations-to-equalize-array.cpp, Easy)
+    • [LeetCode Practice] Length of Last Word  (dsa/leetcode/easy/48easy.py)
+    • [LeetCode Practice] Maximum Difference Between Even and Odd Frequency II  (dsa/leetcode/hard/3445.cpp, Hard)
+    • [LeetCode Practice] Find Kth Number  (dsa/leetcode/hard/440.cpp, Hard)
+    • [LeetCode Practice] Row of Char Exist  (dsa/leetcode/medium/1061.cpp, Medium)
+    • [LeetCode Practice] Swap Nodes in Pairs  (dsa/leetcode/medium/24-swap-nodes-in-pairs.cpp, Medium)
+    • [LeetCode Practice] Robot with String  (dsa/leetcode/medium/2434.cpp, Medium)
+    • [LeetCode Practice] Divide Array  (dsa/leetcode/medium/2966.cpp, Medium)
+    • [LeetCode Practice] Clear Stars  (dsa/leetcode/medium/3170.cpp, Medium)
+    • [LeetCode Practice] Answer String  (dsa/leetcode/medium/3403.cpp, Medium)
+    • [LeetCode Practice] Minimum Operations to Transform String  (dsa/leetcode/medium/3675-minimum-operations-to-transform-string.cpp, Medium)
+    • [LeetCode Practice] Climb Stairs  (dsa/leetcode/medium/3693-climbing-stairs-II.cpp, Medium)
+    • [LeetCode Practice] Lexical Order  (dsa/leetcode/medium/386.cpp, Medium)
+    • [Sorting] Merge Sort — Return Sorted Vector  (dsa/leetcode/mergesort/mergesortReturnVector.cpp)
+    • [Trees] Binary Tree Inorder Traversal (Iterative)  (dsa/leetcode/tree/inoderReturnVector.cpp)
+    • [Trees] Left Side View of Binary Tree  (dsa/leetcode/tree/leftsideviewGeekofgreeks.cpp)
+    • [Trees] Minimum Depth of Binary Tree  (dsa/leetcode/tree/mindepthoftree.cpp)
+    • [Trees] Binary Tree Postorder Traversal (Iterative)  (dsa/leetcode/tree/postOrderReturnVector.cpp)
+    • [Trees] Binary Tree Preorder Traversal (Iterative)  (dsa/leetcode/tree/preOrderReturnVector.cpp)
+    • [Uncategorized] Boundary Traversal of Binary Tree  (dsa/store.cpp)
+    • [Graphs] BFS of Graph  (dsa/study/graph/1bfs.cpp)
+    • [Graphs] Find the Number of Islands  (dsa/study/graph/4noofislands.cpp)
+    • [Graphs] Detect Cycles in 2d Grid  (dsa/study/graph/detectcylein2dgrid.cpp)
+    • [Graphs] Flood Fill Algorithm  (dsa/study/graph/me/floodfill.cpp)
+    • [Arrays] 3Sum  (dsa/summer/3sum.cpp)
+    • [Binary Search] Binary Search Basics  (dsa/summer/binarysearch1.cpp)
+    • [Binary Search] Binary Search Practice II  (dsa/summer/bs2.cpp)
+    • [Binary Search] Binary Search Practice III  (dsa/summer/bs3.cpp)
+    • [Dynamic Programming] Best Time to Buy and Sell Stock II  (dsa/summer/dpbesttimetobuyandsellstock2.cpp)
+    • [Dynamic Programming] Count Palindromic Substrings  (dsa/summer/dpcountsubstringpalindrome.cpp)
+    • [Dynamic Programming] Fibonacci Number (DP)  (dsa/summer/dpfibo.cpp)
+    • [Dynamic Programming] House Robber  (dsa/summer/dphouserobber.cpp)
+    • [Dynamic Programming] Longest Palindromic Substring  (dsa/summer/dplongestsubstringpalindrome.cpp)
+    • [Dynamic Programming] House Robber II  (dsa/summer/dprobberhouse2.cpp)
+    • [Dynamic Programming] Unique Paths  (dsa/summer/dpuniquepath.cpp)
+    • [Recursion & Backtracking] Generate All Binary Strings  (dsa/summer/generateallbinarystring.cpp)
+    • [Uncategorized] Rat in a Maze  (dsa/summer/gfgratinmaze.cpp, Medium)
+    • [Codeforces] News Distribution (Codeforces)  (dsa/summer/graphNewsDistributioncodeforces.cpp)
+    • [Graphs] Bellman-Ford Algorithm  (dsa/summer/graphbellmanford.cpp)
+    • [Graphs] Detect Cycle in a Directed Graph (DFS)  (dsa/summer/graphdetectcyclindirectedgraphedfs.cpp)
+    • [Graphs] Dijkstra's Algorithm  (dsa/summer/graphdijkstra.cpp)
+    • [Graphs] Disjoint Set (Union-Find)  (dsa/summer/graphdisjointsset.cpp)
+    • [Graphs] Network Delay Time  (dsa/summer/graphnetworkdelay.cpp)
+    • [Graphs] Number of Connected Components  (dsa/summer/graphsnoofconnectedcomponets.cpp, Medium)
+    • [Greedy] Maximum Meetings in One Room  (dsa/summer/greedymaxMettinggfg.cpp)
+    • [Greedy] Greedy Towers  (dsa/summer/greedytowers.cpp)
+    • [LeetCode Practice] Clone Graph  (dsa/summer/leetcodeclonegrap.cpp)
+    • [Linked List] Delete Node in a Linked List  (dsa/summer/linkedlistdeletenode.cpp)
+    • [Linked List] Remove Nth Node From End of List  (dsa/summer/linkedlistdeletenthfromlast.cpp)
+    • [Linked List] Linked List Cycle  (dsa/summer/linkedlistdetectcycle.cpp)
+    • [Linked List] Insert Node at Position (Linked List)  (dsa/summer/linkedlistinsertatpos.cpp)
+    • [Linked List] Insert at Beginning (Linked List)  (dsa/summer/linkedlistinsertatthebegining.cpp)
+    • [Linked List] Insert at End (Linked List)  (dsa/summer/linkedlistinsertattheend.cpp)
+    • [Linked List] Middle of the Linked List  (dsa/summer/linkedlistmiddleofthelinkedlist.cpp)
+    • [Linked List] Partition List  (dsa/summer/linkedlistpartitionlist.cpp)
+    • [Linked List] Remove Duplicate Nodes (Linked List)  (dsa/summer/linkedlistremovedublicatenodes.cpp)
+    • [Linked List] Reverse Linked List  (dsa/summer/linkedlistreverse2.cpp)
+    • [Linked List] Search in a Linked List  (dsa/summer/linkedlistsearch.cpp)
+    • [Greedy] Minimum Platforms  (dsa/summer/minimumPlatform.cpp, Medium)
+    • [Recursion & Backtracking] Word Search  (dsa/summer/recursiondfswordsearch.cpp)
+    • [Recursion & Backtracking] Letter Combinations of a Phone Number  (dsa/summer/recursionlettercombiofphoneno.cpp)
+    • [Strings] Rotate String  (dsa/summer/stringrotatestring.cpp)
+    • [Strings] Sort Characters by Frequency  (dsa/summer/stringsortcharbufreq.cpp)
+    • [Recursion & Backtracking] Subsets II  (dsa/summer/subset2.cpp)
+    • [Trees] Height of Binary Tree (Recursion)  (dsa/summer/treeHeightofbinarytreerecursion.cpp)
+    • [Trees] Boundary Traversal of Binary Tree — treeboundarytraversal  (dsa/summer/treeboundarytraversal.cpp)
+    • [Trees] Check for BST  (dsa/summer/treecheckforbst.cpp)
+    • [Trees] Binary Tree Inorder Traversal (Recursion)  (dsa/summer/treeinorderrecursion.cpp)
+    • [Trees] Binary Tree Level Order Traversal (BFS)  (dsa/summer/treelevelorderbfs.cpp)
+    • [Trees] Lowest Common Ancestor of a BST  (dsa/summer/treelowercommonancestorinbst.cpp)
+    • [Trees] Lowest Common Ancestor of a Binary Tree  (dsa/summer/treelowerstcommonfactor.cpp)
+    • [Trees] Binary Tree Postorder Traversal (Recursion)  (dsa/summer/treepostorderrecursion.cpp)
+    • [Trees] Binary Tree Preorder Traversal (Recursion)  (dsa/summer/treepreorderrecursion.cpp)
+    • [Trees] Reverse Preorder — Right Side View  (dsa/summer/treereversepreordderrightsideview.cpp)
+    • [Trees] Path Sum III  (dsa/summer/treesumsumiv.cpp)
+    • [Trees] Vertical Order Traversal  (dsa/summer/treeverticalorder.cpp)
+    • [Trees] Zigzag Level Order Traversal  (dsa/summer/treezigzagtraversal.cpp)
+    • [Linked List] Madhan Contact Management Mobile Application Users Maintain — q1  (dsa/unit 2 linkedlist/chatgpt/q1.cpp)
+    • [Linked List] Raj Mechanic Uses Linked List Track Cars  (dsa/unit 2 linkedlist/chatgpt/q10.cpp)
+    • [Linked List] Jake Maintains Linked List Gym Members Each  (dsa/unit 2 linkedlist/chatgpt/q11.cpp)
+    • [Linked List] Nina Vet Keeps Track Various Pets Checkups  (dsa/unit 2 linkedlist/chatgpt/q12.cpp)
+    • [Linked List] Sarah Keeps Two-way Linked List Favorite Recipes  (dsa/unit 2 linkedlist/chatgpt/q13.cpp)
+    • [Linked List] Warehouse Keeps Track Packages Grounded Header Linked — q2  (dsa/unit 2 linkedlist/chatgpt/q2.cpp)
+    • [Linked List] Emma Sets Sensor Data Recorded Separate Grounded — q3  (dsa/unit 2 linkedlist/chatgpt/q3.cpp)
+    • [Linked List] Dhaya Building Playlist Manager Favourite Movies Circular  (dsa/unit 2 linkedlist/chatgpt/q4.cpp)
+    • [Linked List] Ingle File Programming Question Milton Managing Data  (dsa/unit 2 linkedlist/chatgpt/q5.cpp)
+    • [Linked List] Healthcare Provider Analyze List Patient Records Determine  (dsa/unit 2 linkedlist/chatgpt/q6.cpp)
+    • [Linked List] Ashok Retail Store Manager Keep Track Items  (dsa/unit 2 linkedlist/chatgpt/q7.cpp)
+    • [Linked List] Jenna Organizing Bookshelf Track Order Books Places  (dsa/unit 2 linkedlist/chatgpt/q8.cpp)
+    • [Linked List] Lena Librarian Managing List Books Library Each  (dsa/unit 2 linkedlist/chatgpt/q9.cpp)
+    • [Linked List] Sharon Character Editor Simple Text-based Game Editor  (dsa/unit 2 linkedlist/q1.cpp)
+    • [Linked List] Imagine Contact Management Application Where Users Maintain  (dsa/unit 2 linkedlist/q2.cpp)
+    • [Linked List] Lisa Linked List Sorted Ascending Order Insert  (dsa/unit 2 linkedlist/q3.cpp)
+    • [Linked List] Company Analyze Performance Sales Team Reviewing Sales  (dsa/unit 2 linkedlist/q4.cpp)
+    • [Linked List] Sara Series Sales Data Recorded Singly Linked  (dsa/unit 2 linkedlist/q5.cpp)
+    • [Linked List] Daniel Singly Linked List Delete Middle Node  (dsa/unit 2 linkedlist/q6.cpp)
+    • [Linked List] Dharun Manipulate Linked Lists Dharun Implementing Function  (dsa/unit 2 linkedlist/q7todo.cpp)
+    • [Stack & Queue] Tasked Implementing Simulate Multiple Queues Linked Lists  (dsa/unit 3 queue stack/chatgpt/q1.cpp)
+    • [Stack & Queue] Imagine Organizing Game Where Keep Track Scores  (dsa/unit 3 queue stack/q1.cpp)
+    • [Stack & Queue] Tasked Simple Inventory Management Bookstore Bookstore Staff  (dsa/unit 3 queue stack/q10.cpp)
+    • [Stack & Queue] Tasked Simple Inventory Management Bookstore Bookstore Staff — q11  (dsa/unit 3 queue stack/q11.cpp)
+    • [Stack & Queue] Lisa Organizing List Scores Subjects Students Storing  (dsa/unit 3 queue stack/q12.cpp)
+    • [Stack & Queue] Tasked Implementing Double-ended Queue Data Structure Linked  (dsa/unit 3 queue stack/q13.cpp)
+    • [Stack & Queue] John Maintaining Deque Store Integers Keeps Adding  (dsa/unit 3 queue stack/q14.cpp)
+    • [Stack & Queue] Ethan Data Analysis Analyzing Sales Data Different  (dsa/unit 3 queue stack/q15.cpp)
+    • [Stack & Queue] Rithi Building Simple Text Editor Users Type  (dsa/unit 3 queue stack/q16.cpp)
+    • [Stack & Queue] Meet Alex Computer Science Student Who Loves  (dsa/unit 3 queue stack/q17.cpp)
+    • [Stack & Queue] Bustling Department Staff Regularly Submit Helpdesk Tickets  (dsa/unit 3 queue stack/q18.cpp)
+    • [Stack & Queue] Aaron Learning Data Structures Teacher Gave Related  (dsa/unit 3 queue stack/q19.cpp)
+    • [Stack & Queue] Sarah Managing To-do List Application Where Tasks  (dsa/unit 3 queue stack/q2.cpp)
+    • [Stack & Queue] Emergency Room Where Patients Arrive Varying Medical  (dsa/unit 3 queue stack/q20.cpp)
+    • [Stack & Queue] Single File Programming Question Problem Statement Bindu  (dsa/unit 3 queue stack/q3.cpp)
+    • [Stack & Queue] Shiv Manages Customer Orders Restaurant Queue Data  (dsa/unit 3 queue stack/q4.cpp)
+    • [Stack & Queue] Imagine Designing Event Registration Conference Part Queue  (dsa/unit 3 queue stack/q5.cpp)
+    • [Stack & Queue] Single File Programming Question Problem Statement Grocery  (dsa/unit 3 queue stack/q6cla.cpp)
+    • [Stack & Queue] Shakthi Assigned Simulates Customer Queue Business Users  (dsa/unit 3 queue stack/q6list.cpp)
+    • [Stack & Queue] Imagine Series Integers Perform Following Operations Initialize  (dsa/unit 3 queue stack/q8.cpp)
+    • [Stack & Queue] Tasked Implementing Simulate Multiple Queues Linked Lists — q9list  (dsa/unit 3 queue stack/q9list.cpp)
+    • [Trees] T Test Cases Each Consisting Integers B  (dsa/unit 4 tree/q1.cpp)
+    • [Trees] Binary Tree Where Each Node Contains Single  (dsa/unit 4 tree/q10insertwithqueue.cpp)
+    • [Trees] Revi Fascinated Binary Search Trees Bsts Perform  (dsa/unit 4 tree/q11insertnormal.cpp)
+    • [Trees] Ragul Build Binary Search Tree Bst Perform  (dsa/unit 4 tree/q12binarysearch.cpp)
+    • [Trees] Kishore Studying Data Structures Currently Implementing Binary  (dsa/unit 4 tree/q13deleteminvalue.cpp)
+    • [Trees] Yogi Manage Binary Search Tree Bst Containing  (dsa/unit 4 tree/q14removeOutsideRange.cpp)
+    • [Trees] John Computer Science Student Learning About Binary  (dsa/unit 4 tree/q15minmumValue.cpp)
+    • [Trees] Tower Hanoi Famous Puzzle Where WE Three  (dsa/unit 4 tree/q16towerOfHanobiInsteps.cpp)
+    • [Trees] John Organizing Data Binary Search Tree Quick  (dsa/unit 4 tree/q17inprepostorder.cpp)
+    • [Trees] Sam Sort Array Integers Divide-and-conquer Method Merge  (dsa/unit 4 tree/q18divideconcurwithmergesort.cpp)
+    • [Trees] Ravi Spending Quality Time Children Teaching About  (dsa/unit 4 tree/q19QuickSortOfChar.cpp)
+    • [Trees] Mystical Kingdom There Were Three Enchanted Pegs  (dsa/unit 4 tree/q2.cpp)
+    • [Trees] John Student Who Just Received Test Scores  (dsa/unit 4 tree/q3mergeSort.cpp)
+    • [Trees] Raj Learn Sequence Integers Count Frequency Each  (dsa/unit 4 tree/q4meargesortimp.cpp)
+    • [Trees] Imagine Software Developer Logistics Company Take Array  (dsa/unit 4 tree/q5quicksort.cpp)
+    • [Trees] Tao Dean University Rank Students Gpa Academic  (dsa/unit 4 tree/q6qsortfloat.cpp)
+    • [Trees] Dev Learning About Binary Trees Traversals Particularly  (dsa/unit 4 tree/q7inorder.cpp)
+    • [Trees] Company Designing Organizational Structure Manage Employees Hierarchically  (dsa/unit 4 tree/q8inoder.cpp)
+    • [Trees] Emily Binary Tree Where Each Node Contains  (dsa/unit 4 tree/q9postorder.cpp)
+    • [Heap & Priority Queue] Alex Software Engineer Processing User Scores Online  (dsa/unit 5/q1.cpp)
+    • [Heap & Priority Queue] Ram Max Heap Manage Set Numbers Build  (dsa/unit 5/q10.cpp)
+    • [Heap & Priority Queue] Diego Runs Candy Shop Arrange Candy Boxes  (dsa/unit 5/q11.cpp)
+    • [Heap & Priority Queue] David Data Analyst Who Often Analyze Numbers  (dsa/unit 5/q12.cpp)
+    • [Heap & Priority Queue] Alice Librarian Who Manages Collection Books Local  (dsa/unit 5/q13.cpp)
+    • [Heap & Priority Queue] Emily Mathematics Teacher Who Will Input These  (dsa/unit 5/q14.cpp)
+    • [Heap & Priority Queue] Tao Data Analyst Who Recently Been Tasked  (dsa/unit 5/q15.cpp)
+    • [Heap & Priority Queue] Emma Mathematics Enthusiast Who Analyze Prime Numbers  (dsa/unit 5/q16.cpp)
+    • [Heap & Priority Queue] Liam Data Analyst Who Optimizing List Numbers  (dsa/unit 5/q17.cpp)
+    • [Heap & Priority Queue] Tao Manage Min-heap Data Structure Small Application  (dsa/unit 5/q18.cpp)
+    • [Heap & Priority Queue] Harish Lists Integers Representing Number Items Sold  (dsa/unit 5/q19.cpp)
+    • [Heap & Priority Queue] Sanju Aspiring Chef Decided Organize Cooking Competition  (dsa/unit 5/q2.cpp)
+    • [Heap & Priority Queue] Maya Conducting Survey Analyze Customer Feedback Ratings  (dsa/unit 5/q20.cpp)
+    • [Heap & Priority Queue] Anu Recently Taken UP Gardening Keep Track  (dsa/unit 5/q3.cpp)
+    • [Heap & Priority Queue] Aiden Organizing Collection Unique Integers Which Represent  (dsa/unit 5/q4.cpp)
+    • [Heap & Priority Queue] First Line Contains Integer N Representing Number  (dsa/unit 5/q5.cpp)
+    • [Heap & Priority Queue] Mithu Array Integers Threshold Value Max-heap Array  (dsa/unit 5/q6.cpp)
+    • [Heap & Priority Queue] Meet Jordan Budding Programmer Who Max Heap  (dsa/unit 5/q7.cpp)
+    • [Heap & Priority Queue] Joyal Logistics Manager Responsible Optimizing Dispatch Delivery  (dsa/unit 5/q8.cpp)
+    • [Heap & Priority Queue] Mia Min Heap Manage Collection Integers Efficiently  (dsa/unit 5/q9.cpp)
+    • [Hashing] Siddhu Works Logistics Company Handles Complex Supply  (dsa/unit 6/q1.cpp)
+    • [Hashing] Single File Programming Question Deva Works Bustling  (dsa/unit 6/q10.cpp)
+    • [Hashing] Emma Where Hash Subject Names Efficient Data  (dsa/unit 6/q11.cpp)
+    • [Hashing] Aaron Computer Science Student Implementing Hash Table  (dsa/unit 6/q12hashed.cpp)
+    • [Hashing] Roshene Diligent Student Learning About Hash Tables  (dsa/unit 6/q13.cpp)
+    • [Hashing] Reema Prospective Computer Science Student Developed Keen  (dsa/unit 6/q14middlehash.cpp)
+    • [Hashing] Akil Computer Science Student Learning About Hash  (dsa/unit 6/q15middle2digit.cpp)
+    • [Hashing] Sharon Analyzes Reachability Nodes Graph Adjacency Matrix  (dsa/unit 6/q16graphwarshall.cpp)
+    • [Hashing] Sarah Been Tasked Determine Shortest Paths Among  (dsa/unit 6/q17graphminwarshall.cpp)
+    • [Hashing] Answered Bookmarked Skipped Not Viewed Saved Server  (dsa/unit 6/q18.cpp)
+    • [Hashing] Code Quadratic Probing Hashing IF Slot Hash  (dsa/unit 6/q18.cpp)
+    • [Hashing] Assigned Basic Student Database Management Hash Table  (dsa/unit 6/q19keyvalue.cpp)
+    • [Hashing] Lithish Analyzing Connectivity Various Data Points Represented  (dsa/unit 6/q2.cpp)
+    • [Hashing] Provided Collection Numbers Each Represented Array Integers  (dsa/unit 6/q20todo.cpp)
+    • [Hashing] Gopi Finding Shortest Path Between Nodes Graph  (dsa/unit 6/q3.cpp)
+    • [Hashing] Single File Programming Question Shekin First Line  (dsa/unit 6/q4.cpp)
+    • [Hashing] Sharon Analyzes Reachability Nodes Graph Adjacency Matrix — q5  (dsa/unit 6/q5.cpp)
+    • [Hashing] Single File Programming Question Virat Group Individuals  (dsa/unit 6/q6.cpp)
+    • [Hashing] Latha Studying Graph Theory Currently Learning About  (dsa/unit 6/q7.cpp)
+    • [Hashing] Varsha Computer Science Student Algorithms Efficiently Find  (dsa/unit 6/q8.cpp)
+    • [Hashing] Sam Optimizing Data Storage Relies Efficient Indexing  (dsa/unit 6/q9.cpp)
+
+--- Skipped files ---
+    ✗ dsa/in python/searchInA2Darray.py — empty file
+    ✗ dsa/study/graph/5iscycle.cpp — no code found
+
+--- Problems without a source URL (title inferred) ---
+    Pattern Printing — Basics Practice  [01partten.cpp]
+    C++ STL Reference (Containers & Utilities)  [02stl.cpp]
+    Evenly Divides  [03BasicMath.cpp]
+    Recursion Basics (Print 1→N, N→1, Sum, Factorial)  [03recursion.cpp]
+    Hashing Basics — Frequency Counting (Highest/Lowest Frequency Elements)  [04hashing.cpp]
+    Sorting Algorithms (Selection, Bubble, Insertion, Merge, Quick, Counting)  [05sorting.cpp]
+    Largest Element & Counting Sort  [06arraylargest.cpp]
+    Array Rotation (Left / Right by K)  [07ArraysPart2.cpp]
+    Missing Number (Brute → Better → Optimal)  [08ArraysPart3.cpp]
+    Two Sum (BF → HashMap) & Kadane’s Maximum Subarray  [09ArraysPart4.cpp]
+    Rearrange Array Brute Force  [10ArraysMediumPart5.cpp]
+    Arrays Medium-Hard Set 6 (Pascal’s Triangle, Majority Element n/3, …)  [11ArraysMediumHardPart6.cpp]
+    Arrays Hard Set 7 (Merge Intervals & friends)  [12ArraysHardPart7.cpp]
+    Binary Search Easy (Search, Floor/Ceil, Lower/Upper Bound)  [12BinarySearchEasy.cpp]
+    Floor Sqrt  [13BinarySearchMedium.cpp]
+    Binary Search Hard (Row with Max 1s, Rotated & 2D Search)  [14BinarySearchHard.cpp]
+    String Basics (Remove Outer Parens, Reverse Words, …)  [15String.cpp]
+    Linked List Basics (Construct, Print, Insert, Delete)  [16LinkListBasic.cpp]
+    Linked List Medium (Middle, Reverse, Palindrome, Add Two, …)  [17LinkListMedium.cpp]
+    Bit Manipulation Basics (Kth Bit, Set Bits, Power of Two, …)  [20Bits.cpp]
+    Stack & Queue Implementations + Infix → Postfix  [21Stack&Queue.cpp]
+    Longest Substring Without Repeating Characters  [22SlidingWindow.cpp]
+    Fruit Into Baskets  [22SlidingWindow.cpp]
+    Longest Repeating Character Replacement  [22SlidingWindow.cpp]
+    Binary Subarrays With Sum  [22SlidingWindow.cpp]
+    Count Number of Nice Subarrays  [22SlidingWindow.cpp]
+    Number of Substrings Containing All Three Characters  [22SlidingWindow.cpp]
+    Maximum Points You Can Obtain from Cards  [22SlidingWindow.cpp]
+    Minimum Window Substring  [22SlidingWindow.cpp]
+    Minimum Size Subarray Sum  [22SlidingWindow.cpp]
+    Assign Cookies  [23Greedy.cpp]
+    Lemonade Change  [23Greedy.cpp]
+    Valid Parenthesis String  [23Greedy.cpp]
+    Candy  [23Greedy.cpp]
+    Merge Intervals  [23Greedy.cpp]
+    Insert Interval  [23Greedy.cpp]
+    Climbing Stairs  [24Dp.cpp]
+    Coin Change  [24Dp.cpp]
+    Binary Tree Preorder Traversal  [25BinaryTreePart1.cpp]
+    Binary Tree Inorder Traversal  [25BinaryTreePart1.cpp]
+    Binary Tree Postorder Traversal  [25BinaryTreePart1.cpp]
+    Binary Tree Level Order Traversal  [25BinaryTreePart1.cpp]
+    Diameter of Binary Tree  [25BinaryTreePart1.cpp]
+    Binary Tree Maximum Path Sum  [25BinaryTreePart1.cpp]
+    Binary Tree Zigzag Level Order Traversal  [25BinaryTreePart1.cpp]
+    Vertical Order Traversal of a Binary Tree  [25BinaryTreePart1.cpp]
+    Find Parent  [31GraphPart4.cpp]
+    1D DP Basics — Fibonacci-style (Memo → Tab → Space Optimized)  [32DPPart1.cpp]
+    Minimum Operations to Make Elements Distinct  [learn.cpp]
+    Scratch Experiments (Digit-Palindrome Permutations)  [demo.cpp]
+    Convert Integer to the Sum of Two No Zero Integers  [LeetcodeDaliy/1317-convert-integer-to-the-sum-of-two-no-zero-integers.cpp]
+    Maximum 69 Number  [LeetcodeDaliy/1323-maximum-69-number.cpp]
+    Check If All 1s Are at Least Length K Places Away  [LeetcodeDaliy/1437check-if-all-1s-are-at-least-length-k-places-away.cpp]
+    Water Bottles  [LeetcodeDaliy/1518-water-bottles.cpp]
+    Compare Version Numbers  [LeetcodeDaliy/165-compare-version-Number.cpp]
+    Minimum Deletions to Make String Balanced  [LeetcodeDaliy/1653minimum-deletions-to-make-string-balanced.cpp]
+    Calculate Money in Leetcode Bank  [LeetcodeDaliy/1716calculate-money-in-leetcode-bank.cpp]
+    Cyclically Rotating a Grid  [LeetcodeDaliy/1841cyclically-rotating-a-grid.cpp]
+    Rotating the Box  [LeetcodeDaliy/1861-rotating-the-box.cpp]
+    Unique Length 3 Palindromic Subsequences  [LeetcodeDaliy/1930-unique-length-3-palindromic-subsequences.cpp]
+    Maximum Number of Words You Can Type  [LeetcodeDaliy/1935-maximum-number-of-words-you-can-type.cpp]
+    Simple Bank System  [LeetcodeDaliy/2043-simple-bank-system.cpp]
+    Number of Laser Beams in a Bank  [LeetcodeDaliy/2125-number-of-laser-beams-in-a-bank.cpp]
+    Maximum Twin Sum of a Linked List  [LeetcodeDaliy/2130-maximum-twin-sum-of-a-linked-list.cpp]
+    Keep Multiplying Found Values by Two  [LeetcodeDaliy/2154-keep-multiplying-found-values-by-two.cpp]
+    Count Operations to Obtain Zero  [LeetcodeDaliy/2169-count-operations-to-obtain-zero.cpp]
+    Find Triangular Sum of an Array  [LeetcodeDaliy/2221-find-triangular-sum-of-an-array.cpp]
+    Find Resultant Array After Removing Anagrams  [LeetcodeDaliy/2273-find-resultant-array-after-removing-anagrams.cpp]
+    Successful Pairs of Spells and Potions  [LeetcodeDaliy/2300-successful-pairs-of-spells-and-potions.cpp]
+    Increment Submatrices by One  [LeetcodeDaliy/2536-increment-submatrices-by-one.cpp]
+    Count Elements with Maximum Frequency  [LeetcodeDaliy/3005-count-elements-with-maximum-frequency.cpp]
+    Alice Bob Playing Flower Game  [LeetcodeDaliy/3021-alice-bob-playing-flower-game.cpp]
+    Find the Number of Ways Place People 1  [LeetcodeDaliy/3025-find-the-number-of-ways-place-people-1.cpp]
+    Water Bottle II  [LeetcodeDaliy/3100-water-bottle-II.cpp]
+    Maximum Number of Operations to Move Ones to the End  [LeetcodeDaliy/3228maximum-number-of-operations-to-move-ones-to-the-end.cpp]
+    Adjacent Increasing Subarrays Detection II  [LeetcodeDaliy/3350-adjacent-increasing-subarrays-detection-ii.cpp]
+    Sort Matrix by Diagonal  [LeetcodeDaliy/3446-sort-matrix-by-diagonal.cpp]
+    Find Most Frequent Vowel Ad Consonant  [LeetcodeDaliy/3541-find-most-frequent-vowel-ad-consonant.cpp]
+    Valid Sudoku  [LeetcodeDaliy/36-valid-sudoku.cpp]
+    Longest Balanced Substring I  [LeetcodeDaliy/3713-ongest-balanced-substring-i.cpp]
+    Longest Balanced Subarray I  [LeetcodeDaliy/3719longest-balanced-subarray-i.cpp]
+    Total Waviness of Numbers in Range I  [LeetcodeDaliy/3751-total-waviness-of-numbers-in-range-i.cpp]
+    Diagonal Traverse  [LeetcodeDaliy/498-diagonal-tranverse.cpp]
+    1-bit and 2-bit Characters  [LeetcodeDaliy/7171-bit-and-2-bit-characters.cpp]
+    Rotated Digits  [LeetcodeDaliy/788-rotated-digits.cpp]
+    Largest Triangle Area  [LeetcodeDaliy/812-larget-area-triabgle.cpp]
+    Vowel Spellchecker  [LeetcodeDaliy/966-vowel-spellchecker.cpp]
+    Madhan Contact Management Mobile Application Users Maintain  [dsa/allquestion.js]
+    Warehouse Keeps Track Packages Grounded Header Linked  [dsa/allquestion.js]
+    Emma Sets Sensor Data Recorded Separate Grounded  [dsa/allquestion.js]
+    Codeforces 2072A — Round Problem  [dsa/codeForces/2072A.cpp]
+    Single Non Duplicate  [dsa/in python/FIndNonDuplicate.py]
+    Find Pages  [dsa/in python/allocateBooks.py]
+    Least Weight Capacity  [dsa/in python/capacitytoshioinddays.py]
+    Upper Bound  [dsa/in python/countofoccurenceofx.py]
+    Find Peak Element  [dsa/in python/findPeakInArray.py]
+    Missing K  [dsa/in python/findkthmissingnumberinanarray.py]
+    Nth Root  [dsa/in python/findnthrootofnumber.py]
+    Smallest Divisor  [dsa/in python/findsmallestdicisorWithAthreshold.py]
+    Upper Bound — firstAndLastOccurence  [dsa/in python/firstAndLastOccurence.py]
+    Floor and Ceil in a Sorted Array  [dsa/in python/floorceil.py]
+    Search Insert Position (Ceil / Lower Bound)  [dsa/in python/ins.py]
+    Kth Element  [dsa/in python/kelementin2sorterdarray.py]
+    Largest Subarray Sum Minimized  [dsa/in python/largestsubarrayminimized.py]
+    Lower Bound  [dsa/in python/lowerbound.py]
+    Median of Two Sorted Arrays  [dsa/in python/medianof2arr.py]
+    Find Min  [dsa/in python/minimuminRotatedSorted.py]
+    Find Krotation  [dsa/in python/noofTImesArrayIsRotated.py]
+    Find Largest Min Distance  [dsa/in python/painterpatition.py]
+    Find Peak Grid  [dsa/in python/peakInAMatrix.py]
+    Recursion Basics Drill (Python)  [dsa/in python/recursion.py]
+    Lower Bound — rowofmax1s  [dsa/in python/rowofmax1s.py]
+    Search in Rotated Sorted Array  [dsa/in python/searchInRotatedSorted.py]
+    Search in Arotated Sorted Array II  [dsa/in python/searchinsortedrotatedduplicate.py]
+    Upper Bound — upperBound  [dsa/in python/upperBound.py]
+    Roman to Int  [dsa/leetcode/easy/13romantoint.py]
+    Is Valid1  [dsa/leetcode/easy/20validParenthess.py]
+    Min Max Difference  [dsa/leetcode/easy/2566.cpp]
+    Remove Element  [dsa/leetcode/easy/27.py]
+    Max Difference  [dsa/leetcode/easy/3442.cpp]
+    Length of Last Word  [dsa/leetcode/easy/48easy.py]
+    Maximum Difference Between Even and Odd Frequency II  [dsa/leetcode/hard/3445.cpp]
+    Find Kth Number  [dsa/leetcode/hard/440.cpp]
+    Row of Char Exist  [dsa/leetcode/medium/1061.cpp]
+    Swap Nodes in Pairs  [dsa/leetcode/medium/24-swap-nodes-in-pairs.cpp]
+    Robot with String  [dsa/leetcode/medium/2434.cpp]
+    Divide Array  [dsa/leetcode/medium/2966.cpp]
+    Clear Stars  [dsa/leetcode/medium/3170.cpp]
+    Answer String  [dsa/leetcode/medium/3403.cpp]
+    Climb Stairs  [dsa/leetcode/medium/3693-climbing-stairs-II.cpp]
+    Lexical Order  [dsa/leetcode/medium/386.cpp]
+    Boundary Traversal of Binary Tree  [dsa/store.cpp]
+    BFS of Graph  [dsa/study/graph/1bfs.cpp]
+    3Sum  [dsa/summer/3sum.cpp]
+    Binary Search Basics  [dsa/summer/binarysearch1.cpp]
+    Binary Search Practice II  [dsa/summer/bs2.cpp]
+    Binary Search Practice III  [dsa/summer/bs3.cpp]
+    Dijkstra's Algorithm  [dsa/summer/graphdijkstra.cpp]
+    Disjoint Set (Union-Find)  [dsa/summer/graphdisjointsset.cpp]
+    Network Delay Time  [dsa/summer/graphnetworkdelay.cpp]
+    Remove Nth Node From End of List  [dsa/summer/linkedlistdeletenthfromlast.cpp]
+    Madhan Contact Management Mobile Application Users Maintain — q1  [dsa/unit 2 linkedlist/chatgpt/q1.cpp]
+    Raj Mechanic Uses Linked List Track Cars  [dsa/unit 2 linkedlist/chatgpt/q10.cpp]
+    Jake Maintains Linked List Gym Members Each  [dsa/unit 2 linkedlist/chatgpt/q11.cpp]
+    Nina Vet Keeps Track Various Pets Checkups  [dsa/unit 2 linkedlist/chatgpt/q12.cpp]
+    Sarah Keeps Two-way Linked List Favorite Recipes  [dsa/unit 2 linkedlist/chatgpt/q13.cpp]
+    Warehouse Keeps Track Packages Grounded Header Linked — q2  [dsa/unit 2 linkedlist/chatgpt/q2.cpp]
+    Emma Sets Sensor Data Recorded Separate Grounded — q3  [dsa/unit 2 linkedlist/chatgpt/q3.cpp]
+    Dhaya Building Playlist Manager Favourite Movies Circular  [dsa/unit 2 linkedlist/chatgpt/q4.cpp]
+    Ingle File Programming Question Milton Managing Data  [dsa/unit 2 linkedlist/chatgpt/q5.cpp]
+    Healthcare Provider Analyze List Patient Records Determine  [dsa/unit 2 linkedlist/chatgpt/q6.cpp]
+    Ashok Retail Store Manager Keep Track Items  [dsa/unit 2 linkedlist/chatgpt/q7.cpp]
+    Jenna Organizing Bookshelf Track Order Books Places  [dsa/unit 2 linkedlist/chatgpt/q8.cpp]
+    Lena Librarian Managing List Books Library Each  [dsa/unit 2 linkedlist/chatgpt/q9.cpp]
+    Sharon Character Editor Simple Text-based Game Editor  [dsa/unit 2 linkedlist/q1.cpp]
+    Imagine Contact Management Application Where Users Maintain  [dsa/unit 2 linkedlist/q2.cpp]
+    Lisa Linked List Sorted Ascending Order Insert  [dsa/unit 2 linkedlist/q3.cpp]
+    Company Analyze Performance Sales Team Reviewing Sales  [dsa/unit 2 linkedlist/q4.cpp]
+    Sara Series Sales Data Recorded Singly Linked  [dsa/unit 2 linkedlist/q5.cpp]
+    Daniel Singly Linked List Delete Middle Node  [dsa/unit 2 linkedlist/q6.cpp]
+    Dharun Manipulate Linked Lists Dharun Implementing Function  [dsa/unit 2 linkedlist/q7todo.cpp]
+    Tasked Implementing Simulate Multiple Queues Linked Lists  [dsa/unit 3 queue stack/chatgpt/q1.cpp]
+    Imagine Organizing Game Where Keep Track Scores  [dsa/unit 3 queue stack/q1.cpp]
+    Tasked Simple Inventory Management Bookstore Bookstore Staff  [dsa/unit 3 queue stack/q10.cpp]
+    Tasked Simple Inventory Management Bookstore Bookstore Staff — q11  [dsa/unit 3 queue stack/q11.cpp]
+    Lisa Organizing List Scores Subjects Students Storing  [dsa/unit 3 queue stack/q12.cpp]
+    Tasked Implementing Double-ended Queue Data Structure Linked  [dsa/unit 3 queue stack/q13.cpp]
+    John Maintaining Deque Store Integers Keeps Adding  [dsa/unit 3 queue stack/q14.cpp]
+    Ethan Data Analysis Analyzing Sales Data Different  [dsa/unit 3 queue stack/q15.cpp]
+    Rithi Building Simple Text Editor Users Type  [dsa/unit 3 queue stack/q16.cpp]
+    Meet Alex Computer Science Student Who Loves  [dsa/unit 3 queue stack/q17.cpp]
+    Bustling Department Staff Regularly Submit Helpdesk Tickets  [dsa/unit 3 queue stack/q18.cpp]
+    Aaron Learning Data Structures Teacher Gave Related  [dsa/unit 3 queue stack/q19.cpp]
+    Sarah Managing To-do List Application Where Tasks  [dsa/unit 3 queue stack/q2.cpp]
+    Emergency Room Where Patients Arrive Varying Medical  [dsa/unit 3 queue stack/q20.cpp]
+    Single File Programming Question Problem Statement Bindu  [dsa/unit 3 queue stack/q3.cpp]
+    Shiv Manages Customer Orders Restaurant Queue Data  [dsa/unit 3 queue stack/q4.cpp]
+    Imagine Designing Event Registration Conference Part Queue  [dsa/unit 3 queue stack/q5.cpp]
+    Single File Programming Question Problem Statement Grocery  [dsa/unit 3 queue stack/q6cla.cpp]
+    Shakthi Assigned Simulates Customer Queue Business Users  [dsa/unit 3 queue stack/q6list.cpp]
+    Imagine Series Integers Perform Following Operations Initialize  [dsa/unit 3 queue stack/q8.cpp]
+    Tasked Implementing Simulate Multiple Queues Linked Lists — q9list  [dsa/unit 3 queue stack/q9list.cpp]
+    T Test Cases Each Consisting Integers B  [dsa/unit 4 tree/q1.cpp]
+    Binary Tree Where Each Node Contains Single  [dsa/unit 4 tree/q10insertwithqueue.cpp]
+    Revi Fascinated Binary Search Trees Bsts Perform  [dsa/unit 4 tree/q11insertnormal.cpp]
+    Ragul Build Binary Search Tree Bst Perform  [dsa/unit 4 tree/q12binarysearch.cpp]
+    Kishore Studying Data Structures Currently Implementing Binary  [dsa/unit 4 tree/q13deleteminvalue.cpp]
+    Yogi Manage Binary Search Tree Bst Containing  [dsa/unit 4 tree/q14removeOutsideRange.cpp]
+    John Computer Science Student Learning About Binary  [dsa/unit 4 tree/q15minmumValue.cpp]
+    Tower Hanoi Famous Puzzle Where WE Three  [dsa/unit 4 tree/q16towerOfHanobiInsteps.cpp]
+    John Organizing Data Binary Search Tree Quick  [dsa/unit 4 tree/q17inprepostorder.cpp]
+    Sam Sort Array Integers Divide-and-conquer Method Merge  [dsa/unit 4 tree/q18divideconcurwithmergesort.cpp]
+    Ravi Spending Quality Time Children Teaching About  [dsa/unit 4 tree/q19QuickSortOfChar.cpp]
+    Mystical Kingdom There Were Three Enchanted Pegs  [dsa/unit 4 tree/q2.cpp]
+    John Student Who Just Received Test Scores  [dsa/unit 4 tree/q3mergeSort.cpp]
+    Raj Learn Sequence Integers Count Frequency Each  [dsa/unit 4 tree/q4meargesortimp.cpp]
+    Imagine Software Developer Logistics Company Take Array  [dsa/unit 4 tree/q5quicksort.cpp]
+    Tao Dean University Rank Students Gpa Academic  [dsa/unit 4 tree/q6qsortfloat.cpp]
+    Dev Learning About Binary Trees Traversals Particularly  [dsa/unit 4 tree/q7inorder.cpp]
+    Company Designing Organizational Structure Manage Employees Hierarchically  [dsa/unit 4 tree/q8inoder.cpp]
+    Emily Binary Tree Where Each Node Contains  [dsa/unit 4 tree/q9postorder.cpp]
+    Alex Software Engineer Processing User Scores Online  [dsa/unit 5/q1.cpp]
+    Ram Max Heap Manage Set Numbers Build  [dsa/unit 5/q10.cpp]
+    Diego Runs Candy Shop Arrange Candy Boxes  [dsa/unit 5/q11.cpp]
+    David Data Analyst Who Often Analyze Numbers  [dsa/unit 5/q12.cpp]
+    Alice Librarian Who Manages Collection Books Local  [dsa/unit 5/q13.cpp]
+    Emily Mathematics Teacher Who Will Input These  [dsa/unit 5/q14.cpp]
+    Tao Data Analyst Who Recently Been Tasked  [dsa/unit 5/q15.cpp]
+    Emma Mathematics Enthusiast Who Analyze Prime Numbers  [dsa/unit 5/q16.cpp]
+    Liam Data Analyst Who Optimizing List Numbers  [dsa/unit 5/q17.cpp]
+    Tao Manage Min-heap Data Structure Small Application  [dsa/unit 5/q18.cpp]
+    Harish Lists Integers Representing Number Items Sold  [dsa/unit 5/q19.cpp]
+    Sanju Aspiring Chef Decided Organize Cooking Competition  [dsa/unit 5/q2.cpp]
+    Maya Conducting Survey Analyze Customer Feedback Ratings  [dsa/unit 5/q20.cpp]
+    Anu Recently Taken UP Gardening Keep Track  [dsa/unit 5/q3.cpp]
+    Aiden Organizing Collection Unique Integers Which Represent  [dsa/unit 5/q4.cpp]
+    First Line Contains Integer N Representing Number  [dsa/unit 5/q5.cpp]
+    Mithu Array Integers Threshold Value Max-heap Array  [dsa/unit 5/q6.cpp]
+    Meet Jordan Budding Programmer Who Max Heap  [dsa/unit 5/q7.cpp]
+    Joyal Logistics Manager Responsible Optimizing Dispatch Delivery  [dsa/unit 5/q8.cpp]
+    Mia Min Heap Manage Collection Integers Efficiently  [dsa/unit 5/q9.cpp]
+    Siddhu Works Logistics Company Handles Complex Supply  [dsa/unit 6/q1.cpp]
+    Single File Programming Question Deva Works Bustling  [dsa/unit 6/q10.cpp]
+    Emma Where Hash Subject Names Efficient Data  [dsa/unit 6/q11.cpp]
+    Aaron Computer Science Student Implementing Hash Table  [dsa/unit 6/q12hashed.cpp]
+    Roshene Diligent Student Learning About Hash Tables  [dsa/unit 6/q13.cpp]
+    Reema Prospective Computer Science Student Developed Keen  [dsa/unit 6/q14middlehash.cpp]
+    Akil Computer Science Student Learning About Hash  [dsa/unit 6/q15middle2digit.cpp]
+    Sharon Analyzes Reachability Nodes Graph Adjacency Matrix  [dsa/unit 6/q16graphwarshall.cpp]
+    Sarah Been Tasked Determine Shortest Paths Among  [dsa/unit 6/q17graphminwarshall.cpp]
+    Answered Bookmarked Skipped Not Viewed Saved Server  [dsa/unit 6/q18.cpp]
+    Code Quadratic Probing Hashing IF Slot Hash  [dsa/unit 6/q18.cpp]
+    Assigned Basic Student Database Management Hash Table  [dsa/unit 6/q19keyvalue.cpp]
+    Lithish Analyzing Connectivity Various Data Points Represented  [dsa/unit 6/q2.cpp]
+    Provided Collection Numbers Each Represented Array Integers  [dsa/unit 6/q20todo.cpp]
+    Gopi Finding Shortest Path Between Nodes Graph  [dsa/unit 6/q3.cpp]
+    Single File Programming Question Shekin First Line  [dsa/unit 6/q4.cpp]
+    Sharon Analyzes Reachability Nodes Graph Adjacency Matrix — q5  [dsa/unit 6/q5.cpp]
+    Single File Programming Question Virat Group Individuals  [dsa/unit 6/q6.cpp]
+    Latha Studying Graph Theory Currently Learning About  [dsa/unit 6/q7.cpp]
+    Varsha Computer Science Student Algorithms Efficiently Find  [dsa/unit 6/q8.cpp]
+    Sam Optimizing Data Storage Relies Efficient Indexing  [dsa/unit 6/q9.cpp]
+
+NOTE: Python/Java sections originally wrapped in /* ... */ block comments were
+unwrapped for display (structural delimiters only). All code is otherwise verbatim.

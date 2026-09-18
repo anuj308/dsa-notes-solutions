@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSA Revision Hub</title>
+<style>
+/* ================= THEME TOKENS ================= */
+:root {
+  --bg: #0d1117;
+  --bg2: #11161d;
+  --surface: #151b23;
+  --surface2: #1a212b;
+  --border: #232c38;
+  --border2: #2e3947;
+  --text: #e6edf3;
+  --text2: #9aa7b4;
+  --text3: #647181;
+  --accent: #6e7ff3;
+  --accent-soft: rgba(110, 127, 243, 0.12);
+  --easy: #3fb27f;
+  --easy-soft: rgba(63, 178, 127, 0.14);
+  --medium: #d29922;
+  --medium-soft: rgba(210, 153, 34, 0.14);
+  --hard: #f85149;
+  --hard-soft: rgba(248, 81, 73, 0.14);
+  --radius: 12px;
+  --radius-s: 8px;
+  --code-bg: #10151c;
+  --mono: "JetBrains Mono", "Fira Code", "Cascadia Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: Inter, -apple-system, "Segoe UI", system-ui, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+[data-theme="light"] {
+  --bg: #f6f7f9;
+  --bg2: #eef0f4;
+  --surface: #ffffff;
+  --surface2: #f1f3f7;
+  --border: #dde2ea;
+  --border2: #c8d0dc;
+  --text: #1c2733;
+  --text2: #5b6878;
+  --text3: #8b98a8;
+  --accent: #5468e8;
+  --accent-soft: rgba(84, 104, 232, 0.12);
+  --easy: #1a9464;
+  --easy-soft: rgba(26, 148, 100, 0.14);
+  --medium: #b07d0a;
+  --medium-soft: rgba(176, 125, 10, 0.14);
+  --hard: #d63b34;
+  --hard-soft: rgba(214, 59, 52, 0.12);
+  --code-bg: #0f141b;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  transition: background .25s ease, color .25s ease;
+}
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 8px; border: 2px solid var(--bg); }
+::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+::selection { background: rgba(110, 127, 243, 0.35); }
+
+button { font-family: inherit; color: inherit; cursor: pointer; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ================= TOP BAR ================= */
+.topbar {
+  position: sticky; top: 0; z-index: 400;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 22px;
+  display: flex; align-items: center; gap: 14px;
+  flex-wrap: wrap;
+}
+.brand h1 { font-size: 17px; font-weight: 800; letter-spacing: .2px; }
+.brand p { font-size: 11.5px; color: var(--text2); margin-top: 1px; }
+.search-wrap { flex: 1 1 260px; min-width: 200px; max-width: 560px; position: relative; }
+.search-wrap svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); opacity: .55; }
+#globalSearch {
+  width: 100%; padding: 9px 12px 9px 34px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  color: var(--text); font-size: 13.5px; outline: none;
+  transition: border-color .18s ease, background .18s ease;
+}
+#globalSearch:focus { border-color: var(--accent); background: var(--surface2); }
+#globalSearch::placeholder { color: var(--text3); }
+.top-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 13px; border-radius: 9px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text2); font-size: 12.5px; font-weight: 500;
+  transition: all .18s ease; white-space: nowrap;
+}
+.btn:hover { border-color: var(--accent); color: var(--text); background: var(--surface2); }
+.btn.active { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.btn.icon-only { padding: 8px 10px; }
+kbd {
+  font-family: var(--mono); font-size: 10px; color: var(--text3);
+  border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 4px; padding: 1px 4px;
+}
+
+/* ================= LAYOUT ================= */
+.layout { display: flex; align-items: flex-start; }
+.sidebar {
+  width: 248px; min-width: 248px;
+  position: sticky; top: 61px; height: calc(100vh - 61px);
+  overflow-y: auto; padding: 18px 14px 40px;
+  border-right: 1px solid var(--border); background: var(--bg2);
+  transition: margin-left .22s ease;
+}
+.sidebar.hidden { display: none; }
+.side-section { margin-bottom: 22px; }
+.side-head {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--text3); margin-bottom: 9px; padding: 0 6px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.topic-item {
+  display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  width: 100%; text-align: left; border: 0; background: transparent;
+  padding: 7px 9px; border-radius: 8px; color: var(--text2); font-size: 13px;
+  transition: all .15s ease; margin-bottom: 1px;
+}
+.topic-item:hover { background: var(--accent-soft); color: var(--text); }
+.topic-item.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.topic-item .cnt {
+  font-size: 11px; color: var(--text3); background: var(--surface);
+  border: 1px solid var(--border); border-radius: 20px; padding: 1px 7px; font-family: var(--mono);
+}
+.progress-box { padding: 0 6px; }
+.progress-track { height: 7px; border-radius: 6px; background: var(--surface); border: 1px solid var(--border); overflow: hidden; }
+.progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), #9a8cf5); border-radius: 6px; transition: width .3s ease; }
+.progress-label { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--text2); margin-bottom: 7px; }
+.progress-label b { color: var(--text); }
+
+.filter-row { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 6px; }
+.chip {
+  border: 1px solid var(--border); background: var(--surface); color: var(--text2);
+  font-size: 11.5px; padding: 4px 10px; border-radius: 20px;
+  transition: all .15s ease; font-weight: 500;
+}
+.chip:hover { border-color: var(--border2); color: var(--text); }
+.chip.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.chip-row-label { font-size: 10.5px; color: var(--text3); margin: 8px 0 5px; letter-spacing: .6px; text-transform: uppercase; font-weight: 600; }
+.chip-row-label:first-child { margin-top: 0; }
+
+/* ================= MAIN ================= */
+.main { flex: 1 1 auto; min-width: 0; padding: 22px 26px 90px; }
+.view-toggle { display: flex; gap: 6px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 0; }
+.vtab {
+  border: 0; background: transparent; color: var(--text3);
+  font-size: 13.5px; font-weight: 600; padding: 9px 16px; border-radius: 9px 9px 0 0;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: all .15s ease;
+}
+.vtab:hover { color: var(--text2); }
+.vtab.on { color: var(--accent); border-bottom-color: var(--accent); }
+.vcount { font-size: 10.5px; color: var(--text3); background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1px 7px; margin-left: 6px; font-family: var(--mono); }
+
+.section-note {
+  margin: 4px 0 16px; padding: 10px 14px; border-radius: 10px;
+  background: var(--accent-soft); border: 1px solid rgba(110,127,243,.25);
+  color: var(--text2); font-size: 12.5px; line-height: 1.55;
+}
+.section-note b { color: var(--text); }
+
+#problemsView { display: flex; flex-direction: column; gap: 18px; }
+#problemsView.hidden, .hidden { display: none !important; }
+#emptyState { text-align: center; color: var(--text3); padding: 70px 0; font-size: 14px; }
+#emptyState .big { font-size: 34px; margin-bottom: 12px; }
+
+/* ================= PROBLEM CARD ================= */
+.pcard {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 18px 20px; box-shadow: 0 1px 2px rgba(0,0,0,.18);
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+.pcard:hover { border-color: var(--border2); box-shadow: 0 3px 14px rgba(0,0,0,.22); }
+.pcard.revised { border-left: 3px solid var(--easy); }
+.pcard-head { display: flex; align-items: flex-start; gap: 14px; flex-wrap: wrap; }
+.pcard-title-wrap { flex: 1 1 300px; min-width: 0; }
+.pcard h3 { font-size: 16.5px; font-weight: 700; line-height: 1.35; }
+.pcard-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin-top: 7px; }
+.badge {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 20px;
+}
+.badge.easy { background: var(--easy-soft); color: var(--easy); }
+.badge.medium { background: var(--medium-soft); color: var(--medium); }
+.badge.hard { background: var(--hard-soft); color: var(--hard); }
+.badge.unk { background: var(--surface2); color: var(--text3); border: 1px solid var(--border); }
+.badge.topic { background: var(--surface2); color: var(--text2); border: 1px solid var(--border); text-transform: none; letter-spacing: 0; font-weight: 500; }
+.badge.tag { background: transparent; color: var(--text3); border: 1px dashed var(--border2); text-transform: none; font-weight: 500; }
+.badge.src { background: transparent; border: 1px solid var(--accent); color: var(--accent); text-transform: none; }
+.badge.src:hover { background: var(--accent-soft); text-decoration: none; }
+.file-ref { font-size: 11px; color: var(--text3); font-family: var(--mono); margin-top: 7px; }
+.pcard-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.rev-check {
+  display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text2);
+  border: 1px solid var(--border); background: var(--surface2);
+  padding: 6px 12px; border-radius: 20px; user-select: none; transition: all .15s ease; cursor: pointer;
+}
+.rev-check:hover { border-color: var(--easy); color: var(--text); }
+.rev-check input { display: none; }
+.rev-check .box {
+  width: 15px; height: 15px; border-radius: 5px; border: 1.5px solid var(--border2);
+  display: inline-flex; align-items: center; justify-content: center; font-size: 10px; color: transparent;
+  transition: all .15s ease;
+}
+.rev-check input:checked ~ .box { background: var(--easy); border-color: var(--easy); color: #fff; }
+.rev-check input:checked ~ .lbl { color: var(--easy); }
+.rev-check input:checked ~ * ~ .lbl { color: var(--easy); }
+
+/* complexity chips */
+.cx-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.cx {
+  font-family: var(--mono); font-size: 11px; padding: 3px 9px; border-radius: 7px;
+  background: var(--surface2); border: 1px solid var(--border); color: var(--text2);
+}
+.cx b { color: var(--accent); font-weight: 600; }
+
+/* approach tabs */
+.approach-tabs { display: flex; gap: 4px; margin-top: 14px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.atab {
+  border: 0; background: transparent; color: var(--text3); font-size: 12.5px; font-weight: 600;
+  padding: 8px 14px; border-radius: 8px 8px 0 0; border-bottom: 2px solid transparent;
+  margin-bottom: -1px; transition: all .15s ease; display: inline-flex; gap: 7px; align-items: center;
+}
+.atab:hover { color: var(--text2); }
+.atab.on { color: var(--accent); border-bottom-color: var(--accent); }
+.atab .atag { font-size: 9.5px; font-weight: 700; padding: 1px 6px; border-radius: 10px; letter-spacing: .4px; }
+.atag.brute { background: var(--hard-soft); color: var(--hard); }
+.atag.better { background: var(--medium-soft); color: var(--medium); }
+.atag.optimal { background: var(--easy-soft); color: var(--easy); }
+.appr-note { font-size: 12px; color: var(--text2); margin-top: 10px; padding: 8px 12px; background: var(--surface2); border-radius: 8px; border-left: 3px solid var(--accent); line-height: 1.5; }
+
+/* language tabs */
+.lang-tabs { display: flex; gap: 4px; margin-top: 12px; flex-wrap: wrap; }
+.ltab {
+  border: 1px solid var(--border); background: var(--surface2); color: var(--text2);
+  font-size: 11.5px; font-weight: 600; padding: 5px 12px; border-radius: 7px;
+  font-family: var(--mono); transition: all .15s ease;
+}
+.ltab:hover { color: var(--text); border-color: var(--border2); }
+.ltab.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.ltab .lc-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; background: var(--border2); }
+.ltab.on .lc-dot { background: var(--accent); }
+.ltab.missing { opacity: .45; cursor: not-allowed; }
+
+/* code block */
+.codebox { margin-top: 12px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--code-bg); }
+.code-toolbar {
+  display: flex; align-items: center; gap: 8px; padding: 7px 12px;
+  background: rgba(255,255,255,.03); border-bottom: 1px solid rgba(255,255,255,.06);
+  flex-wrap: wrap;
+}
+[data-theme="light"] .code-toolbar { background: rgba(0,0,0,.25); border-bottom-color: rgba(255,255,255,.07); }
+.code-lang-label { font-family: var(--mono); font-size: 11px; color: #8ea0b5; text-transform: uppercase; letter-spacing: 1px; }
+.code-toolbar .spacer { flex: 1; }
+.tbtn {
+  border: 1px solid rgba(255,255,255,.12); background: transparent; color: #9fb0c3;
+  font-size: 11px; padding: 4px 10px; border-radius: 6px; transition: all .15s ease;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.tbtn:hover { border-color: var(--accent); color: #dfe7f0; }
+.tbtn.on { border-color: var(--accent); color: var(--accent); background: rgba(110,127,243,.12); }
+.tbtn.copied { border-color: var(--easy); color: var(--easy); }
+.code-scroll { max-height: 420px; overflow: auto; }
+.code-scroll.expanded { max-height: none; }
+.codegrid { display: grid; grid-template-columns: auto 1fr; font-family: var(--mono); font-size: 12.8px; line-height: 1.55; min-width: max-content; }
+.codegrid.wrap-lines { grid-template-columns: none; display: block; }
+.codegrid pre { margin: 0; }
+.lnumcol {
+  text-align: right; padding: 12px 0; color: #4a5568; user-select: none;
+  border-right: 1px solid rgba(255,255,255,.06); background: rgba(255,255,255,.02);
+  position: sticky; left: 0;
+}
+[data-theme="light"] .lnumcol { color: #6b7a8c; }
+.lnumcol div { padding: 0 10px 0 14px; }
+.codebody { padding: 12px 0; overflow-x: auto; }
+.codegrid.wrap-lines .codebody { overflow-x: hidden; }
+.codebody pre { padding: 0 18px; }
+.codegrid.wrap-lines .codebody pre { white-space: pre-wrap; word-break: break-word; }
+/* syntax colors (custom tokenizer) */
+.tk-key { color: #c678dd; }      /* keyword */
+.tk-typ { color: #e5c07b; }      /* built-in type / class name */
+.tk-str { color: #98c379; }      /* string */
+.tk-num { color: #d19a66; }      /* number */
+.tk-com { color: #7a828e; font-style: italic; }  /* comment */
+.tk-pre { color: #56b6c2; }      /* preprocessor */
+.tk-fn  { color: #61afef; }      /* function call */
+[data-theme="light"] .codebox { background: var(--code-bg); }
+.no-code {
+  padding: 26px 18px; text-align: center; color: #8ea0b5; font-size: 12.5px;
+  border: 1px dashed rgba(255,255,255,.14); border-radius: 10px; margin-top: 12px;
+  background: rgba(255,255,255,.02);
+}
+.code-collapsed-note { font-size: 11.5px; color: var(--text3); text-align: center; padding: 6px; border-top: 1px solid var(--border); }
+
+/* notes */
+.notes-wrap { margin-top: 14px; }
+.notes-toggle {
+  border: 0; background: transparent; color: var(--text3); font-size: 12px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 6px; padding: 4px 0;
+}
+.notes-toggle:hover { color: var(--accent); }
+.notes-area {
+  width: 100%; margin-top: 8px; padding: 10px 12px; border-radius: 9px;
+  border: 1px solid var(--border); background: var(--surface2); color: var(--text);
+  font-size: 13px; line-height: 1.55; font-family: var(--sans); resize: vertical; min-height: 74px; outline: none;
+}
+.notes-area:focus { border-color: var(--accent); }
+
+/* ================= ALGO CHEAT SHEET ================= */
+#algosView .algo-topic-head {
+  display: flex; align-items: center; gap: 10px; margin: 26px 0 12px;
+}
+#algosView .algo-topic-head:first-child { margin-top: 4px; }
+.algo-topic-title { font-size: 15.5px; font-weight: 800; color: var(--text); white-space: nowrap; }
+.algo-topic-rule { flex: 1; height: 1px; background: var(--border); }
+.algo-topic-count { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+.acard {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px 18px; margin-bottom: 14px; transition: border-color .18s ease;
+}
+.acard:hover { border-color: var(--border2); }
+.acard-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.acard h4 { font-size: 15px; font-weight: 700; }
+.acard-what { font-size: 13px; color: var(--text2); line-height: 1.6; margin-top: 6px; }
+.acard-what b { color: var(--text); font-weight: 600; }
+.acard-when { font-size: 12.5px; color: var(--text3); line-height: 1.6; margin-top: 6px; }
+.acard-when b { color: var(--text2); }
+.cx-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.acard-template { margin-top: 12px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+.acard-template .code-toolbar { border-radius: 0; }
+.algo-practice { margin-top: 12px; }
+.algo-practice .plabel, .algo-pit .plabel {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text3);
+  margin-bottom: 7px;
+}
+.plink {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 12px;
+  border: 1px solid var(--border); border-radius: 18px; padding: 4px 11px; margin: 0 6px 6px 0;
+  color: var(--text2); transition: all .15s ease; background: var(--surface2);
+}
+.plink:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.plink .pd { font-size: 9.5px; font-weight: 700; text-transform: uppercase; }
+.pd.Easy { color: var(--easy); } .pd.Medium { color: var(--medium); } .pd.Hard { color: var(--hard); }
+.algo-pit { margin-top: 12px; }
+.algo-pit li { font-size: 12.5px; color: var(--text2); line-height: 1.6; margin-left: 18px; margin-bottom: 3px; }
+.algo-pit li::marker { color: var(--medium); }
+.sugg-group { margin-bottom: 18px; }
+.sugg-group h4 { font-size: 14px; font-weight: 700; margin-bottom: 9px; color: var(--text); }
+.sugg-group h4 .sugg-topic-badge { font-size: 10.5px; color: var(--text3); font-weight: 500; margin-left: 8px; }
+
+/* ================= MODAL (random problem) ================= */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(5,8,12,.66); backdrop-filter: blur(3px);
+  z-index: 900; display: flex; align-items: center; justify-content: center; padding: 20px;
+}
+.modal {
+  background: var(--surface); border: 1px solid var(--border2); border-radius: 14px;
+  max-width: 560px; width: 100%; max-height: 82vh; overflow-y: auto; padding: 26px 28px;
+  box-shadow: 0 24px 80px rgba(0,0,0,.5);
+}
+.modal h3 { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+.modal .msub { font-size: 12px; color: var(--text3); margin-bottom: 16px; }
+.modal .mtitle { font-size: 21px; font-weight: 800; margin: 10px 0 12px; line-height: 1.3; }
+.modal .mrow { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.modal .mtc { font-family: var(--mono); font-size: 11.5px; color: var(--text2); background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; padding: 3px 9px; }
+.modal .mbtns { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+.btn.primary:hover { filter: brightness(1.1); color: #fff; }
+
+/* ================= FOOTER ================= */
+footer {
+  border-top: 1px solid var(--border); padding: 20px 26px 28px;
+  display: flex; flex-wrap: wrap; gap: 8px 26px; align-items: baseline;
+  font-size: 12px; color: var(--text3);
+}
+footer b { color: var(--text2); font-family: var(--mono); font-weight: 600; }
+footer .fnote { flex-basis: 100%; margin-top: 4px; }
+
+/* toast */
+#toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: var(--surface2); color: var(--text); border: 1px solid var(--border2);
+  padding: 10px 20px; border-radius: 10px; font-size: 13px; z-index: 999;
+  box-shadow: 0 10px 30px rgba(0,0,0,.4); opacity: 0; transition: all .25s ease; pointer-events: none;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* mobile sidebar backdrop */
+.side-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 390; }
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 980px) {
+  .sidebar { position: fixed; left: 0; top: 0; height: 100vh; z-index: 500; transform: translateX(-105%); transition: transform .24s ease; box-shadow: 10px 0 40px rgba(0,0,0,.4); }
+  .sidebar.mobile-open { transform: translateX(0); }
+  .sidebar.hidden { display: block; }   /* toggle just slides it on mobile */
+  .main { padding: 18px 14px 80px; }
+  .brand p { display: none; }
+}
+@media (max-width: 640px) {
+  .topbar { padding: 10px 12px; gap: 8px; }
+  .search-wrap { order: 10; flex-basis: 100%; max-width: none; }
+  .top-actions { margin-left: 0; }
+  .btn .btext { display: none; }
+  .pcard { padding: 14px; }
+  .codegrid { font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <button class="btn icon-only" id="sidebarToggle" title="Toggle sidebar" aria-label="Toggle sidebar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  </button>
+  <div class="brand">
+    <h1>DSA Revision Hub</h1>
+    <p>__NPROBLEMS__ problems · __NTOPICS__ topics · parsed from your local solutions</p>
+  </div>
+  <div class="search-wrap">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="globalSearch" type="text" placeholder="Search title, topic, tag, complexity…  (press /)" autocomplete="off">
+  </div>
+  <div class="top-actions">
+    <button class="btn" id="randomBtn" title="Revision roulette — jump to a random visible problem">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.4" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.4" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1.4" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1.4" fill="currentColor"/></svg>
+      <span class="btext">Random</span>
+    </button>
+    <button class="btn" id="revModeBtn" title="Hide all solution code until you click Reveal">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+      <span class="btext">Revision mode</span>
+    </button>
+    <button class="btn icon-only" id="themeBtn" title="Toggle light/dark theme" aria-label="Toggle theme">
+      <span id="themeIcon">🌙</span>
+    </button>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="side-section">
+      <div class="side-head">Progress</div>
+      <div class="progress-box">
+        <div class="progress-label"><span>Revised</span><span><b id="doneCount">0</b> / <span id="totalCount">0</span></span></div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+    </div>
+    <div class="side-section">
+      <div class="side-head">Topics</div>
+      <div id="topicList"></div>
+    </div>
+    <div class="side-section">
+      <div class="side-head">Filters</div>
+      <div class="chip-row-label">Language</div>
+      <div class="filter-row" id="langFilters"></div>
+      <div class="chip-row-label">Difficulty</div>
+      <div class="filter-row" id="diffFilters"></div>
+      <div class="chip-row-label">Approach</div>
+      <div class="filter-row" id="apprFilters"></div>
+      <div class="chip-row-label">Status</div>
+      <div class="filter-row" id="statusFilters"></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <nav class="view-toggle">
+      <button class="vtab on" id="tabProblems">Problems <span class="vcount" id="pcount">0</span></button>
+      <button class="vtab" id="tabAlgos">Algorithms Cheat Sheet <span class="vcount" id="acount">0</span></button>
+      <button class="vtab" id="tabSuggest">Solve Next <span class="vcount" id="scount">0</span></button>
+    </nav>
+
+    <section id="problemsView">
+      <div id="emptyState" class="hidden">
+        <div class="big">🔍</div>
+        No problems match the current search / filters.
+      </div>
+    </section>
+
+    <section id="algosView" class="hidden">
+      <div class="section-note">
+        <b>Reference material — not your code.</b> Every template below is AI-generated
+        (labelled in each code block). Pick a topic, skim the “when to use” cues, read the
+        template in your language, then jump to a linked problem.
+      </div>
+      <div id="algoList"></div>
+    </section>
+
+    <section id="suggView" class="hidden">
+      <div class="section-note">
+        <b>⚠ Curated suggestions — none of these are in your directory yet.</b>
+        High-value problems that reinforce the topics you have already solved. Difficulty badges
+        show LeetCode levels; links go to the original problem.
+      </div>
+      <div id="suggList"></div>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <span>📦 <b>__NPROBLEMS__</b> problems</span>
+  <span>🗂 <b>__NTOPICS__</b> topics</span>
+  <span>🧭 <b>__NALGOS__</b> algorithm templates</span>
+  <span>🕒 Last generated: <b>__GENDATE__</b></span>
+  <span class="fnote">Auto-generated from your local solution files — your code is embedded verbatim. Revision progress, notes, theme and filters are saved in this browser via localStorage.</span>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+"use strict";
+/* =====================================================================
+   DATA — injected at generation time
+===================================================================== */
+const PROBLEMS  = __PROBLEMS_JSON__;
+const ALGORITHMS = __ALGOS_JSON__;
+const SUGGESTED  = __SUGGESTED_JSON__;
+const META = __META_JSON__;
+
+/* =====================================================================
+   STATE + localStorage
+===================================================================== */
+const LS = {
+  get(k, d) { try { const v = localStorage.getItem("drh_" + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem("drh_" + k, JSON.stringify(v)); } catch {} }
+};
+const state = {
+  theme: LS.get("theme", "dark"),
+  revised: LS.get("revised", {}),
+  notes: LS.get("notes", {}),
+  search: LS.get("search", ""),
+  topic: LS.get("topic", "all"),
+  langs: LS.get("langs", []),          // empty = all
+  diffs: LS.get("diffs", []),
+  appr:  LS.get("appr", []),
+  status: LS.get("status", []),        // "revised" | "unrevised"
+  revMode: LS.get("revMode", false),
+  revealed: LS.get("revealed", {}),
+  expanded: LS.get("expanded", {}),
+  wrap: LS.get("wrap", {}),
+  openNotes: LS.get("openNotes", {})
+};
+const save = {
+  revised: () => LS.set("revised", state.revised),
+  notes: () => LS.set("notes", state.notes),
+  filters: () => { LS.set("search", state.search); LS.set("topic", state.topic); LS.set("langs", state.langs); LS.set("diffs", state.diffs); LS.set("appr", state.appr); LS.set("status", state.status); },
+  revMode: () => { LS.set("revMode", state.revMode); LS.set("revealed", state.revealed); },
+  ui: () => { LS.set("expanded", state.expanded); LS.set("wrap", state.wrap); LS.set("openNotes", state.openNotes); }
+};
+
+/* =====================================================================
+   UTIL
+===================================================================== */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const escAttr = s => esc(s).replace(/'/g, "&#39;");
+const LANGS = [
+  ["cpp", "C++"], ["python", "Python"], ["java", "Java"],
+  ["javascript", "JavaScript"], ["go", "Go"], ["rust", "Rust"], ["ruby", "Ruby"], ["kotlin", "Kotlin"], ["swift", "Swift"], ["csharp", "C#"], ["scala", "Scala"], ["php", "PHP"], ["dart", "Dart"], ["typescript", "TypeScript"]
+];
+const langLabel = k => (LANGS.find(l => l[0] === k) || [k, k])[1];
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toast._h); toast._h = setTimeout(() => t.classList.remove("show"), 1600);
+}
+
+/* =====================================================================
+   SYNTAX HIGHLIGHTER — small custom tokenizer (cpp / python / java)
+   Order matters: comments → strings → preprocessor → numbers →
+   keywords/types/functions. Never rewrites text, only wraps tokens.
+===================================================================== */
+const HL = {
+  common: {
+    kw: ["int","long","short","char","float","double","void","bool","boolean","return","if","else","for","while","do","switch","case","break","continue","new","delete","this","true","false","null","nullptr","NULL","class","struct","public","private","protected","static","const","final","unsigned","signed","enum","namespace","using","template","typename","virtual","override","operator","sizeof","try","catch","throw","throws","extends","implements","import","package","instanceof","interface","abstract","synchronized","def","elif","lambda","pass","raise","with","as","in","is","not","and","or","None","True","False","self","yield","from","global","nonlocal","assert","async","await","print","auto","constexpr","explicit","friend","inline","mutable","noexcept","union","extern","volatile","goto","default","super","var","val","let","function","export","end"]
+  },
+  tokenize(code, lang) {
+    const out = [];
+    let i = 0, n = code.length;
+    const push = (txt, cls) => { if (txt) out.push(cls ? { txt, cls } : { txt, cls: null }); };
+    const isWordStart = c => /[A-Za-z_]/.test(c);
+    const isWord = c => /[A-Za-z0-9_]/.test(c);
+    while (i < n) {
+      const c = code[i], c2 = code[i + 1];
+      /* line comments */
+      if (c === "#" && lang === "python") {
+        let j = code.indexOf("\n", i); if (j === -1) j = n;
+        push(code.slice(i, j), "com"); i = j; continue;
+      }
+      if (c === "/" && c2 === "/") {
+        let j = code.indexOf("\n", i); if (j === -1) j = n;
+        push(code.slice(i, j), "com"); i = j; continue;
+      }
+      /* block comments */
+      if (c === "/" && c2 === "*") {
+        let j = code.indexOf("*/", i + 2); j = j === -1 ? n : j + 2;
+        push(code.slice(i, j), "com"); i = j; continue;
+      }
+      if (c === '"' && c2 === '"' && c2 !== undefined && code[i + 2] === '"' && lang === "python") {
+        let j = code.indexOf('"""', i + 3); j = j === -1 ? n : j + 3;
+        push(code.slice(i, j), "str"); i = j; continue;
+      }
+      /* python triple single */
+      if (c === "'" && c2 === "'" && code[i + 2] === "'" && lang === "python") {
+        let j = code.indexOf("'''", i + 3); j = j === -1 ? n : j + 3;
+        push(code.slice(i, j), "str"); i = j; continue;
+      }
+      /* strings */
+      if (c === '"' || c === "'") {
+        let j = i + 1;
+        while (j < n) {
+          if (code[j] === "\\") { j += 2; continue; }
+          if (code[j] === c || code[j] === "\n") { j++; break; }
+          j++;
+        }
+        push(code.slice(i, j), "str"); i = j; continue;
+      }
+      /* preprocessor (c++) */
+      if (c === "#" && (lang === "cpp" || lang === "java")) {
+        let j = code.indexOf("\n", i); if (j === -1) j = n;
+        push(code.slice(i, j), "pre"); i = j; continue;
+      }
+      /* numbers */
+      if (/[0-9]/.test(c) || (c === "." && /[0-9]/.test(code[i + 1] || ""))) {
+        let j = i;
+        while (j < n && /[0-9a-fA-FxXeE._]/.test(code[j])) j++;
+        push(code.slice(i, j), "num"); i = j; continue;
+      }
+      /* words */
+      if (isWordStart(c)) {
+        let j = i;
+        while (j < n && isWord(code[j])) j++;
+        const w = code.slice(i, j);
+        let k = j;
+        while (k < n && code[k] === " ") k++;
+        if (HL.common.kw.includes(w)) push(w, "key");
+        else if (code[k] === "(") push(w, "fn");
+        else if (/^[A-Z]/.test(w)) push(w, "typ");
+        else push(w, null);
+        i = j; continue;
+      }
+      push(c, null); i++;
+    }
+    return out;
+  },
+  render(code, lang) {
+    return HL.tokenize(code, lang).map(t =>
+      t.cls ? '<span class="tk-' + t.cls + '">' + esc(t.txt) + "</span>" : esc(t.txt)
+    ).join("");
+  }
+};
+/* line numbers + code body */
+function renderCode(code, lang) {
+  const lines = code.split("\n");
+  const nums = lines.map((_, i) => "<div>" + (i + 1) + "</div>").join("");
+  const body = HL.render(code, lang);
+  return '<div class="lnumcol"><pre>' + nums + "</pre></div>" +
+         '<div class="codebody"><pre>' + body + "</pre></div>";
+}
+
+/* =====================================================================
+   THEME
+===================================================================== */
+function applyTheme() {
+  document.documentElement.setAttribute("data-theme", state.theme);
+  $("#themeIcon").textContent = state.theme === "dark" ? "🌙" : "☀️";
+}
+$("#themeBtn").addEventListener("click", () => {
+  state.theme = state.theme === "dark" ? "light" : "dark";
+  LS.set("theme", state.theme); applyTheme();
+});
+
+/* =====================================================================
+   FILTERING
+===================================================================== */
+function problemMatches(p) {
+  if (state.topic !== "all" && p.topic !== state.topic) return false;
+  if (state.langs.length) {
+    const has = p.approaches.some(a => state.langs.some(l => a.langs[l]));
+    if (!has) return false;
+  }
+  if (state.diffs.length && !state.diffs.includes((p.difficulty || "Unknown").toLowerCase())) return false;
+  if (state.appr.length && !p.approaches.some(a => a.tag && state.appr.includes(a.tag.toLowerCase()))) return false;
+  if (state.status.length) {
+    const rev = !!state.revised[p.id];
+    if (state.status.includes("revised") && !rev && !state.status.includes("unrevised")) return false;
+    if (state.status.includes("unrevised") && rev && !state.status.includes("revised")) return false;
+  }
+  const q = state.search.trim().toLowerCase();
+  if (q) {
+    const hay = [
+      p.title, p.topic, p.difficulty || "", p.source || "", String(p.lc || ""), p.file,
+      p.tags.join(" "),
+      p.approaches.map(a => (a.tag || "") + " " + (a.note || "")).join(" "),
+      Object.values(p.approaches.flatMap(a => Object.values(a.langs))).map(l => ((l.tc || "") + " " + (l.sc || ""))).join(" ")
+    ].join(" ").toLowerCase();
+    if (!q.split(/\s+/).every(w => hay.includes(w))) return false;
+  }
+  return true;
+}
+function filtered() { return PROBLEMS.filter(problemMatches); }
+
+/* =====================================================================
+   SIDEBAR
+===================================================================== */
+function renderTopics() {
+  const counts = {};
+  for (const p of PROBLEMS) counts[p.topic] = (counts[p.topic] || 0) + 1;
+  const topics = Object.keys(counts).sort((a, b) => a.localeCompare(b));
+  let html = '<button class="topic-item' + (state.topic === "all" ? " active" : "") + '" data-topic="all"><span>All topics</span><span class="cnt">' + PROBLEMS.length + "</span></button>";
+  for (const t of topics) {
+    html += '<button class="topic-item' + (state.topic === t ? " active" : "") + '" data-topic="' + escAttr(t) + '"><span>' + esc(t) + '</span><span class="cnt">' + counts[t] + "</span></button>";
+  }
+  $("#topicList").innerHTML = html;
+  $("#topicList").querySelectorAll(".topic-item").forEach(b =>
+    b.addEventListener("click", () => { state.topic = b.dataset.topic; save.filters(); renderTopics(); render(); })
+  );
+}
+function chipGroup(containerId, values, stateKey, labelMap) {
+  const el = $(containerId);
+  el.innerHTML = values.map(v => {
+    const on = state[stateKey].includes(v);
+    return '<button class="chip' + (on ? " on" : "") + '" data-v="' + escAttr(v) + '">' + (labelMap ? labelMap(v) : v) + "</button>";
+  }).join("");
+  el.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
+    const v = c.dataset.v;
+    const arr = state[stateKey];
+    const i = arr.indexOf(v);
+    if (i >= 0) arr.splice(i, 1); else arr.push(v);
+    save.filters(); chipGroup(containerId, values, stateKey, labelMap); render();
+  }));
+}
+function renderFilters() {
+  const allLangs = [...new Set(PROBLEMS.flatMap(p => p.approaches.flatMap(a => Object.keys(a.langs))))];
+  chipGroup("#langFilters", allLangs, "langs", langLabel);
+  chipGroup("#diffFilters", ["easy", "medium", "hard"], "diffs");
+  chipGroup("#apprFilters", ["brute", "better", "optimal"], "appr");
+  chipGroup("#statusFilters", ["revised", "unrevised"], "status");
+}
+function renderProgress() {
+  const done = Object.values(state.revised).filter(Boolean).length;
+  $("#doneCount").textContent = done;
+  $("#totalCount").textContent = PROBLEMS.length;
+  $("#progressFill").style.width = PROBLEMS.length ? (done / PROBLEMS.length * 100).toFixed(1) + "%" : "0%";
+}
+
+/* =====================================================================
+   PROBLEM CARD RENDERING
+===================================================================== */
+function cxChips(langObj) {
+  const parts = [];
+  if (langObj.tc) parts.push('<span class="cx">TC <b>' + esc(langObj.tc) + "</b></span>");
+  if (langObj.sc) parts.push('<span class="cx">SC <b>' + esc(langObj.sc) + "</b></span>");
+  return parts.join("");
+}
+function approachTabsHtml(p, apprIdx, activeAppr) {
+  return p.approaches.map((a, i) => {
+    const on = i === activeAppr ? " on" : "";
+    const tag = a.tag ? '<span class="atag ' + a.tag.toLowerCase() + '">' + esc(a.tag) + "</span>" : "";
+    return '<button class="atab' + on + '" data-p="' + p.id + '" data-a="' + i + '">' + (a.tag ? esc(a.tag) : "Approach " + (i + 1)) + tag + "</button>";
+  }).join("");
+}
+function langTabsHtml(p, apprIdx, activeLang) {
+  const a = p.approaches[apprIdx];
+  return LANGS.filter(([k]) => a.langs[k]).map(([k, label]) => {
+    const on = k === activeLang ? " on" : "";
+    return '<button class="ltab' + on + '" data-p="' + p.id + '" data-a="' + apprIdx + '" data-l="' + k + '"><span class="lc-dot"></span>' + label + "</button>";
+  }).join("");
+}
+function isRevealed(p) { return !state.revMode || state.revealed[p.id]; }
+function codeBlockHtml(p, apprIdx, langKey, active) {
+  const a = p.approaches[apprIdx];
+  if (!active || !isRevealed(p)) {
+    return '<div class="no-code" data-p="' + p.id + '">' +
+      (state.revMode && !state.revealed[p.id]
+        ? "🔒 Hidden by <b>Revision mode</b> — try to recall the approach, then<br><br><button class=\"btn primary\" data-reveal=\"" + escAttr(p.id) + '">Reveal solution</button>'
+        : "") + "</div>";
+  }
+  const langObj = a.langs[langKey];
+  const wrap = !!state.wrap[p.id + "|" + apprIdx + "|" + langKey];
+  const expanded = !!state.expanded[p.id + "|" + apprIdx + "|" + langKey];
+  const lines = langObj.code.split("\n").length;
+  const collapsible = lines > 60;
+  return '<div class="codebox">' +
+    '<div class="code-toolbar">' +
+      '<span class="code-lang-label">' + esc(langLabel(langKey)) + (langObj.ref ? " · ⚠ reference" : "") + "</span>" +
+      '<span class="spacer"></span>' +
+      (collapsible ? '<button class="tbtn' + (expanded ? " on" : "") + '" data-x="expand" data-k="' + escAttr(p.id + "|" + apprIdx + "|" + langKey) + '">' + (expanded ? "Collapse" : "Expand") + "</button>" : "") +
+      '<button class="tbtn' + (wrap ? " on" : "") + '" data-x="wrap" data-k="' + escAttr(p.id + "|" + apprIdx + "|" + langKey) + '">Wrap</button>' +
+      '<button class="tbtn" data-x="copy" data-code="' + escAttr(langObj.code) + '">Copy</button>' +
+    "</div>" +
+    '<div class="code-scroll' + (expanded ? " expanded" : "") + '">' +
+      '<div class="codegrid' + (wrap ? " wrap-lines" : "") + '">' + renderCode(langObj.code, langKey) + "</div>" +
+    "</div>" +
+    (collapsible && !expanded ? '<div class="code-collapsed-note">' + lines + " lines — click Expand for full height</div>" : "") +
+  "</div>";
+}
+function cardHtml(p) {
+  const aIdx = Math.min(p._uiA || 0, p.approaches.length - 1);
+  const appr = p.approaches[aIdx];
+  const langKeys = LANGS.map(l => l[0]).filter(k => appr.langs[k]);
+  const lIdx = langKeys.includes(p._uiL) ? p._uiL : (langKeys.includes("cpp") ? "cpp" : langKeys[0]);
+  const rev = !!state.revised[p.id];
+  const cx = appr.langs[lIdx];
+  const meta = [];
+  if (p.difficulty) meta.push('<span class="badge ' + p.difficulty.toLowerCase() + '">' + esc(p.difficulty) + "</span>");
+  else meta.push('<span class="badge unk">Unknown</span>');
+  meta.push('<span class="badge topic">' + esc(p.topic) + "</span>");
+  if (p.lc) meta.push('<span class="badge tag">LC ' + p.lc + "</span>");
+  if (p.source && p.url) meta.push('<a class="badge src" href="' + escAttr(p.url) + '" target="_blank" rel="noopener noreferrer">' + esc(p.source) + " ↗</a>");
+  else if (p.url) meta.push('<a class="badge src" href="' + escAttr(p.url) + '" target="_blank" rel="noopener noreferrer">Problem ↗</a>');
+  for (const t of p.tags) {
+    if (t === p.topic || t === "LC " + p.lc || t === p.source) continue;
+    meta.push('<span class="badge tag">' + esc(t) + "</span>");
+  }
+  const noteOpen = !!state.openNotes[p.id];
+  return '<article class="pcard' + (rev ? " revised" : "") + '" id="' + escAttr(p.id) + '">' +
+    '<div class="pcard-head">' +
+      '<div class="pcard-title-wrap">' +
+        "<h3>" + esc(p.title) + "</h3>" +
+        '<div class="pcard-meta">' + meta.join("") + "</div>" +
+        '<div class="file-ref">📄 ' + esc(p.file) + (p.approaches.length > 1 ? " · " + p.approaches.length + " approaches" : "") + "</div>" +
+      "</div>" +
+      '<div class="pcard-actions">' +
+        '<label class="rev-check" title="Mark as revised">' +
+          '<input type="checkbox" data-rev="' + escAttr(p.id) + '"' + (rev ? " checked" : "") + ">" +
+          '<span class="box">✓</span><span class="lbl">Revised</span>' +
+        "</label>" +
+      "</div>" +
+    "</div>" +
+    ((cx && (cx.tc || cx.sc)) ? '<div class="cx-row">' + cxChips(cx) + "</div>" : "") +
+    (p.approaches.length > 1 || p.approaches[0].tag
+      ? '<div class="approach-tabs">' + approachTabsHtml(p, aIdx, aIdx) + "</div>"
+      : "") +
+    (appr.note ? '<div class="appr-note">' + esc(appr.note) + "</div>" : "") +
+    '<div class="lang-tabs">' + langTabsHtml(p, aIdx, lIdx) + "</div>" +
+    codeBlockHtml(p, aIdx, lIdx, true) +
+    '<div class="notes-wrap">' +
+      '<button class="notes-toggle" data-notes="' + escAttr(p.id) + '">📝 Personal notes ' + (state.notes[p.id] ? '<span class="vcount">saved</span>' : "") + (noteOpen ? " ▾" : " ▸") + "</button>" +
+      (noteOpen ? '<textarea class="notes-area" data-notea="' + escAttr(p.id) + '" placeholder="Your own patterns, mistakes, hints… (saved automatically)">' + esc(state.notes[p.id] || "") + "</textarea>" : "") +
+    "</div>" +
+  "</article>";
+}
+
+/* =====================================================================
+   MAIN RENDER
+===================================================================== */
+function render() {
+  const list = filtered();
+  $("#pcount").textContent = list.length;
+  const view = $("#problemsView");
+  const frag = list.map(cardHtml).join("");
+  view.innerHTML = frag || '<div id="emptyState"><div class="big">🔍</div>No problems match the current search / filters.</div>';
+  renderProgress();
+  /* persist per-problem UI selections into lightweight maps */
+  PROBLEMS.forEach(p => { if (p._uiA !== undefined) { delete p._uiA; delete p._uiL; } });
+}
+
+/* delegated events on problems view */
+$("#problemsView").addEventListener("click", e => {
+  const revBtn = e.target.closest("[data-rev]");
+  if (revBtn) { /* handled by change event */ }
+  const atab = e.target.closest(".atab");
+  if (atab) {
+    const p = PROBLEMS.find(x => x.id === atab.dataset.p);
+    p._uiA = +atab.dataset.a; p._uiL = undefined;
+    rerenderCard(p); return;
+  }
+  const ltab = e.target.closest(".ltab");
+  if (ltab) {
+    const p = PROBLEMS.find(x => x.id === ltab.dataset.p);
+    p._uiA = +ltab.dataset.a; p._uiL = ltab.dataset.l;
+    rerenderCard(p); return;
+  }
+  const reveal = e.target.closest("[data-reveal]");
+  if (reveal) {
+    state.revealed[reveal.dataset.reveal] = true; save.revMode(); render(); return;
+  }
+  const xbtn = e.target.closest("[data-x]");
+  if (xbtn) {
+    const k = xbtn.dataset.k;
+    if (xbtn.dataset.x === "copy") {
+      copyText(xbtn.dataset.code, xbtn); return;
+    }
+    if (xbtn.dataset.x === "wrap") { state.wrap[k] = !state.wrap[k]; save.ui(); render(); return; }
+    if (xbtn.dataset.x === "expand") { state.expanded[k] = !state.expanded[k]; save.ui(); render(); return; }
+  }
+  const nbtn = e.target.closest("[data-notes]");
+  if (nbtn) {
+    const id = nbtn.dataset.notes;
+    state.openNotes[id] = !state.openNotes[id]; save.ui(); render();
+    if (state.openNotes[id]) { const ta = document.querySelector('[data-notea="' + CSS.escape(id) + '"]'); if (ta) ta.focus(); }
+    return;
+  }
+});
+$("#problemsView").addEventListener("change", e => {
+  const cb = e.target.closest("[data-rev]");
+  if (cb) {
+    const id = cb.dataset.rev;
+    state.revised[id] = cb.checked;
+    if (!cb.checked) delete state.revised[id];
+    save.revised(); renderProgress();
+    const card = cb.closest(".pcard");
+    if (card) card.classList.toggle("revised", cb.checked);
+  }
+});
+$("#problemsView").addEventListener("input", e => {
+  const ta = e.target.closest("[data-notea]");
+  if (ta) {
+    const id = ta.dataset.notea;
+    state.notes[id] = ta.value; save.notes();
+  }
+});
+function rerenderCard(p) {
+  /* rerender just this card: find its DOM node and replace */
+  const old = document.getElementById(p.id);
+  if (old) {
+    const tmp = document.createElement("div");
+    tmp.innerHTML = cardHtml(p);
+    old.replaceWith(tmp.firstElementChild);
+  } else render();
+}
+function copyText(text, btn) {
+  const done = () => {
+    if (btn) { const o = btn.textContent; btn.textContent = "Copied!"; btn.classList.add("copied"); setTimeout(() => { btn.textContent = o; btn.classList.remove("copied"); }, 1400); }
+    toast("Code copied to clipboard");
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else fallbackCopy(text, done);
+}
+function fallbackCopy(text, done) {
+  const ta = document.createElement("textarea");
+  ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand("copy"); done(); } catch { toast("Copy failed — select manually"); }
+  document.body.removeChild(ta);
+}
+
+/* =====================================================================
+   TOP BAR ACTIONS
+===================================================================== */
+let searchTimer;
+$("#globalSearch").addEventListener("input", e => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    state.search = e.target.value; save.filters();
+    if (currentView !== "problems") switchView("problems");
+    else render();
+  }, 120);
+});
+$("#randomBtn").addEventListener("click", () => {
+  const pool = filtered();
+  if (!pool.length) { toast("No problems match current filters"); return; }
+  const p = pool[Math.floor(Math.random() * pool.length)];
+  switchView("problems");
+  openModal(p);
+});
+$("#revModeBtn").addEventListener("click", () => {
+  state.revMode = !state.revMode;
+  if (!state.revMode) state.revealed = {};
+  $("#revModeBtn").classList.toggle("active", state.revMode);
+  save.revMode(); render();
+  toast(state.revMode ? "Revision mode ON — code hidden until you Reveal" : "Revision mode OFF");
+});
+$("#sidebarToggle").addEventListener("click", () => {
+  const sb = $("#sidebar");
+  if (window.innerWidth <= 980) {
+    sb.classList.add("mobile-open");
+    const bd = document.createElement("div");
+    bd.className = "side-backdrop";
+    bd.addEventListener("click", () => { sb.classList.remove("mobile-open"); bd.remove(); });
+    document.body.appendChild(bd);
+  } else {
+    sb.classList.toggle("hidden");
+  }
+});
+
+/* modal */
+function openModal(p) {
+  const appr = p.approaches[0];
+  const best = appr ? Object.values(appr.langs)[0] : null;
+  const bd = document.createElement("div");
+  bd.className = "modal-backdrop";
+  bd.innerHTML = '<div class="modal">' +
+    '<h3>Revision roulette 🎲</h3>' +
+    '<div class="msub">Solve it on paper first — then reveal.</div>' +
+    '<div class="mtitle">' + esc(p.title) + "</div>" +
+    '<div class="mrow">' +
+      (p.difficulty ? '<span class="badge ' + p.difficulty.toLowerCase() + '">' + esc(p.difficulty) + "</span>" : "") +
+      '<span class="badge topic">' + esc(p.topic) + "</span>" +
+      (best && best.tc ? '<span class="mtc">TC ' + esc(best.tc) + "</span>" : "") +
+      (best && best.sc ? '<span class="mtc">SC ' + esc(best.sc) + "</span>" : "") +
+    "</div>" +
+    (p.url ? '<a class="btn" href="' + escAttr(p.url) + '" target="_blank" rel="noopener noreferrer">Open problem ↗</a>' : "") +
+    '<div class="mbtns">' +
+      '<button class="btn primary" data-close="go">Go to problem</button>' +
+      '<button class="btn" data-close="stay">Stay here</button>' +
+    "</div>" +
+  "</div>";
+  bd.addEventListener("click", ev => {
+    if (ev.target === bd) { bd.remove(); return; }
+    const b = ev.target.closest("[data-close]");
+    if (b) {
+      bd.remove();
+      if (b.dataset.close === "go") {
+        const el = document.getElementById(p.id);
+        if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); el.style.borderColor = "var(--accent)"; setTimeout(() => el.style.borderColor = "", 1600); }
+        else { state.search = ""; $("#globalSearch").value = ""; state.topic = "all"; save.filters(); renderTopics(); render(); setTimeout(() => { const el2 = document.getElementById(p.id); if (el2) el2.scrollIntoView({ behavior: "smooth" }); }, 60); }
+      }
+    }
+  });
+  document.body.appendChild(bd);
+}
+
+/* =====================================================================
+   VIEWS
+===================================================================== */
+let currentView = "problems";
+function switchView(v) {
+  currentView = v;
+  $("#tabProblems").classList.toggle("on", v === "problems");
+  $("#tabAlgos").classList.toggle("on", v === "algos");
+  $("#tabSuggest").classList.toggle("on", v === "sugg");
+  $("#problemsView").classList.toggle("hidden", v !== "problems");
+  $("#algosView").classList.toggle("hidden", v !== "algos");
+  $("#suggView").classList.toggle("hidden", v !== "sugg");
+}
+$("#tabProblems").addEventListener("click", () => switchView("problems"));
+$("#tabAlgos").addEventListener("click", () => switchView("algos"));
+$("#tabSuggest").addEventListener("click", () => switchView("sugg"));
+
+/* =====================================================================
+   ALGO CHEAT SHEET RENDER
+===================================================================== */
+function algoCardHtml(a) {
+  const t = a.template;
+  const tkeys = Object.keys(t).filter(k => t[k]);
+  let inner = "";
+  if (tkeys.length === 1) {
+    inner = codeBlockFor(t[tkeys[0]], tkeys[0]);
+  } else {
+    inner = '<div class="lang-tabs" style="margin:0 0 8px">' +
+      tkeys.map((k, i) => '<button class="ltab' + (i === 0 ? " on" : "") + '" data-tl="' + escAttr(a.name + "|" + k) + '"><span class="lc-dot"></span>' + langLabel(k) + "</button>").join("") +
+      "</div>" +
+      tkeys.map((k, i) =>
+        '<div class="tlpane" data-pane="' + escAttr(a.name + "|" + k) + '" style="' + (i === 0 ? "" : "display:none") + '">' +
+        codeBlockFor(t[k], k) + "</div>").join("");
+  }
+  return '<div class="acard">' +
+    '<div class="acard-head"><h4>' + esc(a.name) + "</h4>" +
+      '<div class="cx-chips">' +
+        (a.tc ? '<span class="cx">TC <b>' + esc(a.tc) + "</b></span>" : "") +
+        (a.sc ? '<span class="cx">SC <b>' + esc(a.sc) + "</b></span>" : "") +
+      "</div></div>" +
+    '<div class="acard-what"><b>What:</b> ' + esc(a.what) + "</div>" +
+    '<div class="acard-when"><b>When:</b> ' + esc(a.when) + "</div>" +
+    '<div class="acard-template">' + inner + "</div>" +
+    '<div class="algo-practice"><div class="plabel">Practice</div>' +
+      a.problems.map(pr => '<a class="plink" href="' + escAttr(pr.url) + '" target="_blank" rel="noopener noreferrer">' + esc(pr.name) + ' <span class="pd ' + pr.diff + '">' + pr.diff + "</span></a>").join("") +
+    "</div>" +
+    '<div class="algo-pit"><div class="plabel">Pitfalls</div><ul>' +
+      a.pitfalls.map(x => "<li>" + esc(x) + "</li>").join("") +
+    "</ul></div>" +
+  "</div>";
+}
+/* algo template code block — always labelled as AI reference, simpler than problem blocks */
+function codeBlockFor(code, lang) {
+  const lines = code.split("\n").length;
+  return '<div class="codebox">' +
+    '<div class="code-toolbar">' +
+      '<span class="code-lang-label">' + esc(langLabel(lang)) + ' · ⚠ reference implementation (AI-generated)</span>' +
+      '<span class="spacer"></span>' +
+      '<button class="tbtn" data-acopy="' + escAttr(code) + '">Copy</button>' +
+    "</div>" +
+    '<div class="code-scroll" style="max-height:340px">' +
+      '<div class="codegrid">' + renderCode(code, lang) + "</div>" +
+    "</div>" +
+  "</div>";
+}
+function renderAlgos() {
+  const groups = {};
+  for (const a of ALGORITHMS) (groups[a.topic] = groups[a.topic] || []).push(a);
+  const topics = Object.keys(groups);
+  let html = "";
+  for (const t of topics) {
+    html += '<div class="algo-topic-head"><span class="algo-topic-title">' + esc(t) + '</span><span class="algo-topic-rule"></span><span class="algo-topic-count">' + groups[t].length + "</span></div>";
+    html += groups[t].map(algoCardHtml).join("");
+  }
+  $("#algoList").innerHTML = html;
+}
+$("#algoList").addEventListener("click", e => {
+  const tl = e.target.closest("[data-tl]");
+  if (tl) {
+    const key = tl.dataset.tl;
+    const card = tl.closest(".acard");
+    card.querySelectorAll("[data-tl]").forEach(b => b.classList.toggle("on", b === tl));
+    card.querySelectorAll(".tlpane").forEach(pn => pn.style.display = pn.dataset.pane === key ? "" : "none");
+    return;
+  }
+  const cp = e.target.closest("[data-acopy]");
+  if (cp) copyText(cp.dataset.acopy, cp);
+});
+
+/* =====================================================================
+   SUGGESTED PROBLEMS
+===================================================================== */
+function renderSuggested() {
+  let html = "";
+  for (const g of SUGGESTED) {
+    html += '<div class="sugg-group"><h4>' + esc(g.topic) + '</h4>' +
+      g.items.map(it =>
+        '<a class="plink" href="' + escAttr(it.url) + '" target="_blank" rel="noopener noreferrer">' + esc(it.name) + ' <span class="pd ' + it.diff + '">' + it.diff + "</span></a>"
+      ).join("") + "</div>";
+  }
+  $("#suggList").innerHTML = html;
+}
+
+/* =====================================================================
+   KEYBOARD
+===================================================================== */
+document.addEventListener("keydown", e => {
+  if (e.key === "/" && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) {
+    e.preventDefault(); $("#globalSearch").focus();
+  }
+  if (e.key === "Escape") { const bd = document.querySelector(".modal-backdrop"); if (bd) bd.remove(); }
+  if ((e.key === "r" || e.key === "R") && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) {
+    $("#randomBtn").click();
+  }
+});
+
+/* =====================================================================
+   INIT
+===================================================================== */
+function init() {
+  applyTheme();
+  renderTopics();
+  renderFilters();
+  renderAlgos();
+  renderSuggested();
+  $("#acount").textContent = ALGORITHMS.length;
+  $("#scount").textContent = SUGGESTED.reduce((s, g) => s + g.items.length, 0);
+  $("#globalSearch").value = state.search;
+  $("#revModeBtn").classList.toggle("active", state.revMode);
+  render();
+  switchView("problems");
+}
+init();
+</script>
+</body>
+</html>
