@@ -783,4 +783,38 @@
 - smaller RPO/RTO
     - usually higher cost
 
-    <!-- 4 : 43 -->
+# safe deployments
+
+- New code can break a working system
+- Do not expose very user to a new version immediately
+
+- polling
+- replace old instances gradually
+
+- canary
+- 95% - old version
+- 5% - new version
+
+- watch:
+    - erros
+    - latency
+
+- Problems
+    - stop / roll back
+
+- blue- green
+    - old Environment
+    - new Enviroment
+
+- prepare new version
+    - switch when ready
+
+- Main idea:
+    - small exposure first
+        - confidence grows
+        - increase traffic
+
+# final production checklist
+![alt text](image-118.png)
+![alt text](image-119.png)
+
