@@ -1,0 +1,100 @@
+1. Higher Order Function
+Definition
+
+Higher Order Function ek aisa function hota hai jo:
+
+Function ko parameter me accept kare.
+Ya function ko return kare.
+Real Life Example
+
+Socho tumhare paas ek coffee machine hai.
+
+Machine khud coffee nahi decide karti.
+
+Tum usse bolte ho:
+
+Cappuccino banao
+Latte banao
+Espresso banao
+
+Machine same hai, bas function alag pass hota hai.
+
+Exactly waise hi Higher Order Function kaam karta hai.
+
+Example 1 (Function as Argument)
+function greet(name) {
+    return `Hello ${name}`;
+}
+
+function processUser(callback) {
+    console.log(callback("Shubham"));
+}
+
+processUser(greet);
+Output
+Hello Shubham
+Explanation
+greet ek normal function hai.
+processUser ke andar ek function parameter liya gaya hai.
+Humne greet ko callback ki tarah pass kiya.
+Isliye processUser ek Higher Order Function hai.
+ 
+
+Common Higher Order Functions
+map()
+filter()
+reduce()
+forEach()
+find()
+some()
+every()
+sort()
+
+Ye sab JavaScript ke built-in Higher Order Functions hain.
+
+2. Pure Function
+Definition
+
+Pure Function wo function hota hai jo:
+
+✅ Same input ⇒ Same output
+
+✅ Kisi external variable ko change nahi karta
+
+✅ Side Effects nahi hote
+
+Example of Pure Function
+function add(a, b) {
+    return a + b;
+}
+
+console.log(add(5, 10));
+console.log(add(5, 10));
+Output
+15
+15
+
+Har baar same input pe same output mil raha hai.
+
+Isliye ye Pure Function hai.
+
+Example of Impure Function
+let count = 0;
+
+function increment() {
+    count++;
+    return count;
+}
+
+console.log(increment());
+console.log(increment());
+Output
+1
+2
+
+Ye Pure Function nahi hai kyunki:
+
+External variable count ko change kar raha hai.
+Same function har baar different output de raha hai.
+
+Isliye ye Impure Function hai.

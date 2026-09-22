@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Form Validation</title>
+</head>
+<body>
+
+    <h2>Registration Form</h2>
+
+    <form onsubmit="return validateForm()">
+ 
+        <input type="text" id="name" placeholder="Enter Name">
+        <span id="nameError" style="color:red"></span>
+
+        <br><br>
+ 
+        <input type="text" id="email" placeholder="Enter Email">
+        <span id="emailError" style="color:red"></span>
+
+        <br><br>
+ 
+        <input type="password" id="password" placeholder="Enter Password">
+        <span id="passwordError" style="color:red"></span>
+
+        <br><br>
+ 
+        Gender:
+        <input type="radio" id="male" name="gender"> Male
+        <input type="radio" id="female" name="gender"> Female
+        <span id="genderError" style="color:red"></span>
+
+        <br><br>
+ 
+        <select id="country">
+            <option value="">Select Country</option>
+            <option value="India">India</option>
+            <option value="USA">USA</option>
+            <option value="Canada">Canada</option>
+        </select>
+        <span id="countryError" style="color:red"></span>
+
+        <br><br>
+ 
+        <input type="checkbox" id="terms">
+        I Agree Terms & Conditions
+        <span id="termsError" style="color:red"></span>
+
+        <br><br>
+
+        <input type="submit">
+
+    </form>
+ 
+</body>
+</html>
+
+<script src="validationLevel1.js"></script>

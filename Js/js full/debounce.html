@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debouncing Demo</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            padding: 30px;
+        }
+
+        input {
+            width: 300px;
+            padding: 12px;
+            font-size: 18px;
+        }
+
+        .box {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f1f1f1;
+        }
+
+        .bar {
+            height: 20px;
+            width: 0;
+            background: red;
+            transition: width 0.3s;
+        }
+
+        .green {
+            background: green;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Debouncing in JavaScript</h2>
+
+    <input
+        type="text"
+        id="search"
+        placeholder="Type something..."
+    >
+
+    <div class="box">
+        <h3>🔴 Before Debouncing</h3>
+
+        <p>
+            Function calls:
+            <strong id="beforeCount">0</strong>
+        </p>
+
+        <div class="bar" id="beforeBar"></div>
+    </div>
+
+
+    <div class="box">
+        <h3>🟢 After Debouncing</h3>
+
+        <p>
+            Function calls:
+            <strong id="afterCount">0</strong>
+        </p>
+
+        <div class="bar green" id="afterBar"></div>
+    </div>
+
+
+    <script>
+
+        let beforeCount = 0;
+        let afterCount = 0;
+
+        const input = document.getElementById("search");
+
+
+        // BEFORE DEBOUNCING
+
+        input.addEventListener("input", function () {
+
+            beforeCount++;
+
+            document.getElementById("beforeCount").innerText =
+                beforeCount;
+
+            document.getElementById("beforeBar").style.width =
+                (beforeCount * 10) + "%";
+
+            console.log("Before: API Call");
+
+        });
+
+
+        // AFTER DEBOUNCING
+
+        function debounce(fn, delay) {
+
+            let timer;
+
+            return function () {
+
+                clearTimeout(timer);
+
+                timer = setTimeout(function () {
+
+                    fn();
+
+                }, delay);
+
+            };
+        }
+
+
+        function searchAPI() {
+
+            afterCount++;
+
+            document.getElementById("afterCount").innerText =
+                afterCount;
+
+            document.getElementById("afterBar").style.width =
+                (afterCount * 10) + "%";
+
+            console.log("After: API Call");
+
+        }
+
+
+        const debouncedSearch = debounce(searchAPI, 500);
+
+
+        input.addEventListener("input", function () {
+
+            debouncedSearch();
+
+        });
+
+    </script>
+
+</body>
+</html>

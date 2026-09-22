@@ -1,0 +1,14 @@
+ 
+
+
+{
+    "name": "Shubham",
+    "age": 22,
+    "isStudent": false,
+    "marks": [90, 85, 95],
+    "address": {
+        "city": "Delhi",
+        "country": "India"
+    },
+    "phone": null
+}

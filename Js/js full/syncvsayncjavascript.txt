@@ -1,0 +1,44 @@
+Synchronous Vs Asynchronous
+Javascript is single threaded synchronous language
+
+1. Synchronous(Sync)
+Code line by line execute hota hai.Ek task complete hone ke baad hi next task chalega.
+
+console.log("1");
+console.log("2");
+console.log("3");
+
+Execution flow:
+1 → 2 → 3
+
+console.log("Start")
+let sum = 0;
+for (let i = 0; i < 2000000000; i++)
+    sum += 1;
+console.log(sum);
+console.log("Ends")
+
+
+
+2. Asynchronous(Async)
+Kuch tasks time lete hain(API call, timer, file read, etc.).
+
+console.log("1");
+
+setTimeout(() => {
+    console.log("2");
+}, 5000);
+
+console.log("3");
+
+Output
+1
+3
+2
+
+Execution flow:
+
+1 → 3 → 2
+
+
+JavaScript unhe browser / Web APIs ko de deta hai aur next code execute karta rehta hai.

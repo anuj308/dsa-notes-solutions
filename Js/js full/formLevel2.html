@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Form Validation</title>
+    <style>
+        .error { color: red;}
+        .success { border:2px solid green}
+        .invalid { border:2px solid red}
+    </style>
+</head>
+<body>
+
+    <h2>Registration Form</h2>
+
+    <form id="myForm">
+ 
+        <input type="text" id="name" placeholder="Enter Name">
+        <span id="nameError" class="error"></span>
+
+        <br><br>
+ 
+        <input type="text" id="email" placeholder="Enter Email">
+        <span id="emailError" class="error"></span>
+
+        <br><br>
+ 
+        <input type="password" id="password" placeholder="Enter Password">
+        <span id="passwordError" class="error"></span>
+
+        <br><br>
+  
+        <input type="submit">
+
+    </form>
+ 
+</body>
+</html>
+
+<script src="validationLevel2.js"></script>

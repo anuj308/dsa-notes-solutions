@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Throttle Demo</title>
+</head>
+<body>
+
+<h2>Throttling Demo</h2>
+
+<button id="btn">Click Fast</button>
+
+<p>Total Clicks: <span id="clicks">0</span></p>
+<p>Throttled Calls: <span id="calls">0</span></p>
+
+<script>
+    let clicks = 0;
+    let calls = 0;
+
+    function throttle(fn, delay) {
+        let lastTime = 0;
+
+        return function (...args) {
+            const now = Date.now();
+
+            if (now - lastTime >= delay) {
+                lastTime = now;
+                fn.apply(this, args);
+            }
+        };
+    }
+
+    const throttledFunction = throttle(() => {
+        calls++;
+        document.getElementById("calls").textContent = calls;
+        console.log("Function Executed");
+    }, 1000);
+
+    document.getElementById("btn").addEventListener("click", () => {
+        clicks++;
+        document.getElementById("clicks").textContent = clicks;
+
+        throttledFunction();
+    });
+</script>
+
+</body>
+</html>

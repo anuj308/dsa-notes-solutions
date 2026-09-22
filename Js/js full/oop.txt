@@ -1,0 +1,286 @@
+Object-Oriented Programming (OOP) in JavaScript
+Introduction
+
+Jab hum chhote projects banate hain, tab normal variables aur functions se kaam chal jata hai. Lekin jaise-jaise project bada hota hai, code ko manage karna difficult ho jata hai.
+
+Example:
+
+E-commerce Website
+Facebook
+Instagram
+Banking System
+Hospital Management System
+
+In applications me bahut saare users, products, orders, employees aur data hote hain. Agar hum sab kuch alag-alag variables aur functions me likhenge, to code bahut messy aur difficult ho jayega.
+
+Isi problem ko solve karne ke liye Object-Oriented Programming (OOP) ka use kiya jata hai.
+
+OOP Kya Hai?
+
+OOP (Object-Oriented Programming) ek programming paradigm hai jisme hum code ko Objects ke form me organize karte hain.
+
+Har Object ke andar do cheeze hoti hain:
+
+Properties (Data)
+Methods (Functions)
+
+Simple words me:
+
+OOP ek programming technique hai jisme real-world objects ko programming ke andar represent kiya jata hai.
+
+Real Life Example
+
+Maan lo tum ek Car Showroom bana rahe ho.
+
+Showroom me bahut saari cars hain.
+
+BMW
+Audi
+Mercedes
+Tata
+Mahindra
+
+Har car ke paas kuch common information hoti hai.
+
+Properties
+Brand
+Model
+Color
+Price
+Speed
+Methods
+Start()
+Stop()
+Brake()
+Accelerate()
+
+Har car alag object hai, lekin sabka structure almost same hai.
+
+Programming me isi concept ko OOP bolte hain.
+
+Without OOP
+
+Agar hum OOP use na karein, to hume har car ke liye alag variables banane padenge.
+
+const car1Name = "BMW";
+const car1Color = "Black";
+const car1Price = 6000000;
+
+const car2Name = "Audi";
+const car2Color = "White";
+const car2Price = 7000000;
+
+const car3Name = "Mercedes";
+const car3Color = "Blue";
+const car3Price = 8000000;
+
+Ab socho agar 500 ya 1000 cars ho jayein.
+
+Har car ke liye alag variables banane padenge.
+
+Code:
+
+Repeat hoga
+Difficult hoga
+Maintain karna mushkil hoga
+OOP ka Solution
+
+Hum ek Blueprint bana dete hain.
+
+Us blueprint se jitni chahe objects create kar sakte hain.
+
+Blueprint
+↓
+Car
+↓
+┌────────────┐
+│ BMW Object │
+└────────────┘
+
+┌────────────┐
+│ Audi Object│
+└────────────┘
+
+┌──────────────┐
+│ Mercedes Obj │
+└──────────────┘
+
+Ek baar structure banao.
+
+Uske baad us structure se unlimited objects bana lo.
+
+Isi wajah se OOP use ki jati hai.
+
+OOP ka Full Form
+
+Object-Oriented Programming
+
+Isme hum apne code ko Objects ke form me organize karte hain.
+
+Har Object ke paas hota hai
+
+Data
+Functions
+Example of Object
+const car = {
+brand: "BMW",
+color: "Black",
+price: 6000000,
+
+start() {
+console.log("Car Started");
+},
+
+stop() {
+console.log("Car Stopped");
+}
+};
+
+Yahan
+
+Properties
+brand
+color
+price
+Methods
+start()
+stop()
+
+Ye dono milkar ek Object banate hain.
+
+Properties Kya Hoti Hain?
+
+Properties object ke andar stored information hoti hai.
+
+Example
+
+const mobile = {
+brand: "Samsung",
+color: "Black",
+price: 25000
+};
+
+Yahan
+
+brand
+color
+price
+
+Properties hain.
+
+Methods Kya Hote Hain?
+
+Methods object ke andar likhe hue functions hote hain.
+
+Example
+
+const mobile = {
+brand: "Samsung",
+
+call() {
+console.log("Calling...");
+},
+
+charge() {
+console.log("Charging...");
+}
+};
+
+Yahan
+
+call()
+charge()
+
+Methods hain.
+
+OOP Kyu Use Karte Hain?
+1. Code Reusability
+
+Ek baar code likho.
+
+Usko baar-baar use karo.
+
+2. Code Organized Rehta Hai
+
+Data aur functions ek hi object ke andar hote hain.
+
+Code clean aur readable rehta hai.
+
+3. Easy Maintenance
+
+Future me changes karna easy hota hai.
+
+Agar kisi object me modification karna ho to sirf us object ya class me change karna padta hai.
+
+4. Real World Modeling
+
+Programming bilkul real-world objects ki tarah lagti hai.
+
+Example
+
+Student
+
+Properties
+
+Name
+Age
+Marks
+
+Methods
+
+Study()
+Exam()
+Employee
+
+Properties
+
+Name
+Salary
+Department
+
+Methods
+
+Work()
+Leave()
+Bank Account
+
+Properties
+
+Account Number
+Balance
+
+Methods
+
+Deposit()
+Withdraw()
+Mobile
+
+Properties
+
+Brand
+RAM
+Storage
+
+Methods
+
+Call()
+Charge()
+
+OOP ki Foundation
+
+Agar tum OOP ko achhe se samajhna chahte ho, to sabse pehle ye concepts clear hone chahiye:
+
+Object
+Class
+Constructor
+this
+
+Ye samajh aane ke baad Encapsulation, Inheritance, Polymorphism aur Abstraction bahut easy lagte hain.
+
+Summary
+OOP ka matlab hai Object-Oriented Programming.
+Isme hum code ko Objects ke form me organize karte hain.
+Har Object ke paas Properties (Data) aur Methods (Functions) hote hain.
+OOP ki madad se code reusable, clean, organized aur maintainable ban jata hai.
+Real-world entities jaise Car, Student, Employee, Mobile aur Bank Account ko easily programming me represent kiya ja sakta hai.
+OOP ki shuruaat Class aur Object se hoti hai, jo poore concept ki foundation hain.

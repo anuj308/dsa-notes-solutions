@@ -1,0 +1,179 @@
+HTTP (HyperText Transfer Protocol) ek protocol hai jo client (browser/app) aur server ke beech data exchange karne ke liye use hota hai.
+
+Example:
+
+Browser  --------HTTP Request------->  Server
+Browser  <-------HTTP Response-------  Server
+
+Jab bhi tum koi website open karte ho ya API call karte ho, HTTP use hota hai.
+
+
+A TCP connection is a reliable, connection-oriented communication session between two network endpoints.
+
+
+HTTP Request Structure
+
+GET /users 
+Host: example.com
+Authorization: Bearer token123
+Content-Type: application/json
+
+Body (optional)
+
+{
+   "name": "Shubham"
+}
+HTTP Response Structure
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+Body
+
+{
+   "id":1,
+   "name":"Shubham"
+}
+HTTP Methods
+
+HTTP Methods batate hain ki server se kya operation karna hai.
+
+1. GET
+
+Server se data fetch karna.
+
+Example
+GET /users
+
+Response
+
+[
+   {
+      "id":1,
+      "name":"Shubham"
+   },
+   {
+      "id":2,
+      "name":"Rahul"
+   }
+]
+ 
+Use Cases
+Get users
+Get products
+Get profile
+Search data
+
+
+2. POST
+
+Server par new data create karna.
+
+Example
+POST /users
+
+Body
+
+{
+   "name":"Shubham",
+   "age":22
+}
+
+Response
+
+{
+   "id":101,
+   "name":"Shubham",
+   "age":22
+}
+  
+Use Cases
+Register user
+Login (commonly POST)
+Create order
+Add product
+
+
+3. PUT
+
+Existing resource ko poori tarah replace/update karta hai.
+
+Suppose user:
+
+{
+   "id":1,
+   "name":"Shubham",
+   "age":22
+}
+
+PUT Request
+
+{
+   "name":"Heavy Coding",
+   "age":25
+}
+
+Response
+
+{
+   "id":1,
+   "name":"Heavy Coding",
+   "age":25
+}
+ 
+Use Cases
+Update complete profile
+Replace complete object
+
+
+4. PATCH
+
+Sirf jis field ko update karna ho, wahi update hoti hai.
+
+Current Data
+
+{
+   "id":1,
+   "name":"Shubham",
+   "age":22,
+   "city":"Delhi"
+}
+
+PATCH
+
+{
+   "city":"Jaipur"
+}
+
+Response
+
+{
+   "id":1,
+   "name":"Shubham",
+   "age":22,
+   "city":"Jaipur"
+}
+ 
+Use Cases
+Change password
+Update email
+Update profile photo
+Update status
+
+
+5. DELETE
+
+Server se data delete karna.
+
+Example
+DELETE /users/1
+
+Response
+
+200 OK
+ 
+Use Cases
+Delete account
+Delete product
+Delete order
+ 
+ 
