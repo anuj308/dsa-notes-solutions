@@ -1,0 +1,210 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Linux System Administration - Exam Quick Revision</title>
+<style>
+@page{size:A4;margin:14mm 15mm}body{font-family:Arial,sans-serif;color:#202124;font-size:10.5pt;line-height:1.35}h1{color:#123b63;font-size:25pt;margin:0 0 5px}h2{color:#145a8d;border-bottom:2px solid #b8d8ee;padding-bottom:3px;margin-top:20px}h3{color:#234f70;margin-bottom:4px}p{margin:4px 0}code,pre{font-family:"DejaVu Sans Mono",monospace}pre{background:#f3f6f8;border-left:4px solid #4594c5;padding:7px;white-space:pre-wrap;font-size:9pt;margin:6px 0}table{border-collapse:collapse;width:100%;margin:7px 0}th,td{border:1px solid #b8c7d1;padding:5px;vertical-align:top}th{background:#dceef8}.tip{background:#fff5d6;border-left:4px solid #e8ab22;padding:7px;margin:8px 0}.danger{background:#fde7e7;border-left:4px solid #c33;padding:7px}.small{font-size:9pt;color:#555}.pagebreak{page-break-before:always}.cols{columns:2;column-gap:20px}.box{border:1px solid #9bb7c9;padding:8px;margin:7px 0}.check li{margin:3px 0}.cover{padding-top:45mm;text-align:center}.cover h1{font-size:30pt}.cover h2{border:0}.footer{font-size:8pt;color:#667;text-align:center}
+</style></head><body>
+<section class="cover"><h1>Linux System Administration</h1><h2>Exam Quick Revision & Practical Command Guide</h2><p><b>CSE 493 · Units I–VI</b></p><p>Prepared from the course syllabus, Linux presentations, practical questions, shell notes, networking/storage examples, and revision files in <b>linuxppt1</b>.</p><div class="tip"><b>How to use tonight:</b> Read the command tables once, practise the 15 Unit I–II scenarios, then revise the bold “must remember” points. Never run destructive storage commands on a real machine without confirming the device.</div><p class="small">Linux commands may vary slightly between RHEL versions. Use <code>man command</code> and <code>command --help</code> when in doubt.</p></section>
+<div class="pagebreak"></div>
+<h2>1. Exam strategy and command pattern</h2>
+<div class="box"><b>Scenario → command → verify.</b> For almost every practical, first inspect the current state, make one change, then verify with a read-only command. Use <code>sudo</code> only when required.</div>
+<table><tr><th>Need</th><th>Useful commands</th></tr><tr><td>Current location and files</td><td><code>pwd</code>, <code>ls -la</code>, <code>cd /path</code></td></tr><tr><td>Help</td><td><code>man cmd</code>, <code>cmd --help</code>, <code>info cmd</code>, <code>apropos keyword</code></td></tr><tr><td>Verify identity</td><td><code>whoami</code>, <code>id</code>, <code>hostname</code></td></tr><tr><td>Read safely</td><td><code>cat</code>, <code>less</code>, <code>head</code>, <code>tail</code></td></tr><tr><td>Find and filter</td><td><code>find</code>, <code>grep</code>, <code>grep -E</code>, pipes <code>|</code></td></tr></table>
+<h2>2. Unit I — command line, files, help, users</h2>
+<h3>Navigation and file operations</h3><pre>pwd
+cd /etc
+ls -lah
+cd /var/log
+cd ~                 # home directory
+mkdir -p project/{commands,reports,backup}
+touch project/commands/{cmd1.txt,cmd2.txt,cmd3.txt}
+cp source.txt backup/
+mv old.txt new.txt
+rm -i file.txt       # ask before deleting
+rm -r directory      # recursive: use carefully</pre>
+<h3>Finding files and shell expansion</h3><pre>find /etc -type f -name '*.conf' 2&gt;/dev/null
+find . -type f -iname '*report*'
+ls data*.txt
+ls report?.txt
+# redirection
+printf 'pwd\nls\nid\n' &gt; linux_commands.txt
+printf 'date\nwhoami\n' &gt;&gt; linux_commands.txt
+cat linux_commands.txt</pre>
+<h3>Text and documentation</h3><pre>less file.txt
+head -n 10 file.txt
+tail -f /var/log/messages
+man chmod                 # search inside man: /pattern; quit: q
+man -k password           # keyword search (same idea as apropos)
+apropos permissions
+info coreutils 'ls'
+</pre>
+<h3>Users and groups</h3><pre>sudo groupadd developers
+sudo useradd -m developer1
+sudo useradd -m developer2
+sudo usermod -aG developers developer1
+sudo usermod -aG developers developer2
+sudo passwd developer1
+id developer1
+groups developer1
+getent group developers
+sudo userdel -r developer1   # only when deletion is intended</pre>
+<div class="tip"><b>Remember:</b> <code>usermod -aG</code> means append supplementary groups. Without <code>-a</code>, existing supplementary groups can be replaced.</div>
+<h2>3. Unit II — permissions, processes, services, SSH, logs</h2>
+<h3>Permissions and ownership</h3><pre>ls -l project.txt
+chmod 640 project.txt       # owner rw, group r, others none
+chmod 750 shared_lab        # owner rwx, group r-x, others none
+chmod u+rw,g+r,o-rwx file
+sudo chown user:group file
+umask
+# numeric: r=4, w=2, x=1; 640 = rw-r-----</pre>
+<table><tr><th>Object</th><th>Read</th><th>Write</th><th>Execute</th></tr><tr><td>File</td><td>view contents</td><td>change contents</td><td>run as program</td></tr><tr><td>Directory</td><td>list names</td><td>create/delete entries</td><td>enter/traverse</td></tr></table>
+<h3>Processes and jobs</h3><pre>ps -ef
+ps -u "$USER"
+top
+pgrep -a process_name
+sleep 300                 # Ctrl+Z suspends
+jobs
+bg %1
+fg %1
+kill PID                  # graceful TERM
+kill -9 PID               # force only if necessary
+systemctl status sshd</pre>
+<h3>Services and SSH</h3><pre>sudo systemctl enable --now sshd
+systemctl is-enabled sshd
+systemctl is-active sshd
+ssh user@localhost
+whoami; hostname; pwd
+exit
+ssh-keygen -t ed25519
+ssh-copy-id user@server
+ssh user@server</pre>
+<div class="tip"><b>Service name:</b> RHEL commonly uses <code>sshd</code>. If unsure, use <code>systemctl list-unit-files | grep -i ssh</code>.</div>
+<h3>Logs and time</h3><pre>journalctl -n 50
+journalctl -u sshd
+journalctl -u sshd -r          # newest first
+journalctl -p warning -b       # warnings/errors this boot
+journalctl --since '1 hour ago'
+systemctl status systemd-journald
+timedatectl
+</pre>
+<div class="pagebreak"></div>
+<h2>4. Unit III — networking, archives, packages, filesystems</h2>
+<h3>Network inspection and nmcli</h3><pre>nmcli device status
+nmcli connection show
+ip addr
+ip route
+ping -c 4 8.8.8.8
+sudo nmcli con add con-name testing type ethernet ifname ens160
+sudo nmcli con mod testing ipv4.method manual
+sudo nmcli con mod testing ipv4.addresses 192.168.120.150/24
+sudo nmcli con mod testing ipv4.gateway 192.168.120.2
+sudo nmcli con mod testing ipv4.dns 8.8.8.8
+sudo nmcli con up testing</pre>
+<h3>Archives, packages, links</h3><pre>tar -czf backup.tar.gz directory/
+tar -tzf backup.tar.gz
+tar -xzf backup.tar.gz
+scp file user@host:/tmp/
+rsync -av directory/ user@host:/backup/
+sudo dnf search keyword
+sudo dnf install package
+sudo dnf update
+rpm -q package
+rpm -ql package
+ln -s target linkname
+readlink linkname</pre>
+<h3>Mounting filesystems</h3><pre>lsblk
+sudo fdisk -l
+sudo blkid
+sudo mkdir -p /data
+sudo mkfs.xfs /dev/sdb1       # destroys data on that partition
+sudo mount /dev/sdb1 /data
+df -hT
+findmnt /data
+sudo umount /data
+# persistent mount: use UUID from blkid in /etc/fstab
+UUID=XXXX  /data  xfs  defaults  0 0
+sudo mount -a</pre>
+<div class="danger"><b>Safety:</b> Confirm the device with <code>lsblk</code> before <code>fdisk</code>, <code>mkfs</code>, <code>mount</code>, <code>umount</code>, or <code>mkswap</code>. A wrong device can erase data.</div>
+<h2>5. Unit IV — Bash, loops, regex, scheduling, performance, ACL</h2>
+<h3>Bash script template</h3><pre>#!/bin/bash
+read -p 'Marks: ' marks
+if [ "$marks" -ge 40 ]; then
+  echo 'PASS'
+else
+  echo 'FAIL'
+fi
+# save as check.sh, then:
+chmod +x check.sh
+./check.sh</pre>
+<h3>Loops and conditions</h3><pre>for n in 1 2 3; do echo "$n"; done
+for f in *.txt; do echo "$f"; done
+n=1
+while [ "$n" -le 5 ]; do echo "$n"; n=$((n+1)); done
+if [ -f file.txt ]; then echo exists; fi
+[ "$a" -gt "$b" ] &amp;&amp; echo greater
+</pre>
+<h3>Regular expressions and grep</h3><pre>grep '^ERROR' app.log       # beginning of line
+grep 'failed$' app.log      # end of line
+grep -E 'error|failed' app.log
+grep -E '^[0-9]{5}$' file.txt
+grep -i 'warning' log.txt
+grep -v '^#' config.txt       # exclude comments</pre>
+<table><tr><th>Regex</th><th>Meaning</th></tr><tr><td><code>^</code>, <code>$</code></td><td>start, end of line</td></tr><tr><td><code>.</code></td><td>any one character</td></tr><tr><td><code>[abc]</code>, <code>[0-9]</code></td><td>one character from a set/range</td></tr><tr><td><code>*</code>, <code>+</code>, <code>?</code></td><td>zero-or-more, one-or-more, optional (extended regex)</td></tr><tr><td><code>{n}</code>, <code>{n,m}</code></td><td>exact/ranged repetition with <code>grep -E</code></td></tr></table>
+<h3>Scheduling and ACL</h3><pre>at now + 5 minutes
+# type commands, then Ctrl+D
+atq
+at -c JOB_ID
+atrm JOB_ID
+crontab -e
+# minute hour day month weekday command
+setfacl -m u:alice:rw file
+getfacl file
+setfacl -m g:developers:rX directory
+setfacl -b file</pre>
+<h2>6. Unit V — SELinux, partitions, swap, LVM, Stratis/VDO</h2>
+<h3>SELinux quick checks</h3><pre>getenforce
+sestatus
+sudo setenforce 0       # temporary permissive; use only when instructed
+ls -Z
+sudo restorecon -Rv /var/www/html
+getsebool -a
+sudo ausearch -m AVC -ts recent</pre>
+<h3>Partitions, swap, and LVM concepts</h3><pre>lsblk
+sudo fdisk /dev/sdb
+sudo mkfs.xfs /dev/sdb1
+sudo mkswap /dev/sdb2
+sudo swapon /dev/sdb2
+swapon --show
+sudo swapoff /dev/sdb2
+# LVM conceptual workflow:
+sudo pvcreate /dev/sdb1
+sudo vgcreate vgdata /dev/sdb1
+sudo lvcreate -n lvdata -L 2G vgdata
+sudo mkfs.xfs /dev/vgdata/lvdata
+sudo mount /dev/vgdata/lvdata /data
+sudo lvextend -r -L +1G /dev/vgdata/lvdata</pre>
+<div class="tip"><b>Persistent configuration:</b> use UUIDs in <code>/etc/fstab</code>; test with <code>mount -a</code>. For swap, the fstab entry uses <code>none swap defaults 0 0</code>.</div>
+<h2>7. Unit VI — NFS, boot, firewall, installation</h2>
+<pre># NFS client examples
+showmount -e nfs-server
+sudo mkdir -p /mnt/share
+sudo mount -t nfs nfs-server:/export /mnt/share
+findmnt /mnt/share
+# automount is normally configured with autofs and /etc/auto.master
+
+# boot and troubleshooting
+systemctl get-default
+sudo systemctl set-default multi-user.target
+journalctl -b
+# firewall
+sudo firewall-cmd --state
+sudo firewall-cmd --list-all
+sudo firewall-cmd --permanent --add-service=http
+sudo firewall-cmd --reload
+# SELinux port labels
+semanage port -l | grep ssh
+sudo semanage port -a -t ssh_port_t -p tcp 2222
+</pre>
+<h2>8. Fifteen practical scenarios — model answers</h2>
+<ol class="check"><li><code>pwd; cd /etc; ls -l; cd /var/log; cd ~</code></li><li><code>find /etc -type f -name '*.conf' 2&gt;/dev/null</code></li><li><code>mkdir -p ~/LinuxAssessment/{commands,reports,backup}; touch ~/LinuxAssessment/commands/cmd{1,2,3}.txt; find ~/LinuxAssessment -print</code></li><li><code>touch data{1,2,3}.txt report{1,2}.txt; printf '%s\n' data*.txt; printf '%s\n' report*.txt</code></li><li><code>printf 'pwd\nls\nid\n' &gt; linux_commands.txt; cat linux_commands.txt; printf 'date\nwhoami\n' &gt;&gt; linux_commands.txt</code></li><li><code>man chmod</code>; search inside with <code>/OPTIONS</code>; installed keyword search with <code>apropos keyword</code> or <code>man -k keyword</code>.</li><li><code>sudo groupadd developers; sudo useradd -m developer1; sudo useradd -m developer2; sudo usermod -aG developers developer1 developer2; getent group developers</code></li><li><code>sudo useradd -m labuser; sudo passwd labuser; id labuser; getent passwd labuser</code></li><li><code>touch project.txt; chmod 640 project.txt; stat -c '%A %a %n' project.txt</code></li><li><code>mkdir shared_lab; chmod 750 shared_lab; stat -c '%A %a %n' shared_lab</code></li><li>Run <code>sleep 300</code>; press <code>Ctrl+Z</code>; run <code>bg; jobs; fg</code>.</li><li><code>ps -u "$USER"; kill PID; ps -p PID</code></li><li><code>systemctl status sshd; sudo systemctl enable sshd; systemctl is-enabled sshd</code></li><li><code>ssh "$USER"@localhost; whoami; hostname; pwd; exit</code></li><li><code>journalctl -n 50; journalctl -u sshd; journalctl -u sshd -r; journalctl -p warning -b</code></li></ol>
+<h2>9. Last-minute checklist</h2><ul class="check"><li>Can you explain the permission digits 640 and 750?</li><li>Can you distinguish <code>find</code> from <code>grep</code>?</li><li>Can you use <code>systemctl</code> to inspect, start, stop, enable, and verify a service?</li><li>Can you inspect a network using <code>nmcli</code>, <code>ip</code>, and <code>ping</code>?</li><li>Can you create a filesystem, mount it, and make it persistent using UUID/fstab?</li><li>Can you explain SELinux enforcing/permissive and read an AVC denial?</li><li>Can you write an <code>if</code> script and a <code>for</code>/<code>while</code> loop?</li><li>Can you schedule one deferred job with <code>at</code> and recurring jobs with <code>cron</code>?</li><li>For every command, can you state how you will verify the result?</li></ul>
+<p class="footer">End of revision guide · Use the original presentations and syllabus for deeper explanations.</p>
+</body></html>

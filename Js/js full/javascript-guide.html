@@ -1,0 +1,2527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JavaScript Full Course — Complete Reference</title>
+<style>
+  :root{
+    --bg:#0b0f14; --bg2:#10151c; --panel:#131a23; --panel2:#0d131b;
+    --border:#1f2937; --border2:#2a3646;
+    --text:#dbe4ee; --muted:#8b98a9; --dim:#64748b;
+    --accent:#38bdf8; --accent2:#22d3ee;
+    --green:#4ade80; --yellow:#facc15; --red:#f87171; --purple:#c084fc; --orange:#fb923c;
+    --mono:'SF Mono','Fira Code','Cascadia Code',Consolas,Menlo,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.65;font-size:15.5px}
+
+  /* ---------- top progress bar ---------- */
+  #readbar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--purple));z-index:100;transition:width .1s linear}
+
+  /* ---------- header ---------- */
+  header{position:sticky;top:0;z-index:50;background:rgba(11,15,20,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:14px 26px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:11px;font-weight:700;font-size:17px;letter-spacing:.2px}
+  .logo .js-badge{background:#f7df1e;color:#111;width:34px;height:34px;border-radius:8px;display:grid;place-items:center;font-weight:800;font-size:15px;font-family:var(--mono)}
+  .logo small{display:block;font-weight:400;color:var(--muted);font-size:11.5px}
+  #search{flex:1;min-width:220px;max-width:430px;margin-left:auto;position:relative}
+  #search input{width:100%;background:var(--panel2);border:1px solid var(--border2);border-radius:9px;padding:9px 14px 9px 36px;color:var(--text);font-size:14px;outline:none;transition:border .2s}
+  #search input:focus{border-color:var(--accent)}
+  #search .icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:14px}
+  .header-stats{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px}
+  #resetBtn{background:none;border:1px solid var(--border2);color:var(--muted);border-radius:7px;padding:5px 10px;font-size:12px;cursor:pointer}
+  #resetBtn:hover{color:var(--red);border-color:var(--red)}
+  #burger{display:none;background:var(--panel);border:1px solid var(--border2);color:var(--text);border-radius:8px;width:38px;height:34px;font-size:16px;cursor:pointer}
+
+  /* ---------- layout ---------- */
+  .layout{display:flex;max-width:1500px;margin:0 auto}
+  nav#sidebar{width:280px;min-width:280px;position:sticky;top:63px;height:calc(100vh - 63px);overflow-y:auto;padding:18px 14px 60px;border-right:1px solid var(--border);background:var(--bg2)}
+  nav#sidebar::-webkit-scrollbar{width:8px}
+  nav#sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+  .nav-section{margin:14px 0 4px;font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);padding-left:10px}
+  .nav-link{display:flex;align-items:center;gap:9px;padding:7px 10px;margin:2px 0;border-radius:8px;color:var(--muted);text-decoration:none;font-size:13.5px;cursor:pointer;transition:all .15s;border:1px solid transparent}
+  .nav-link:hover{background:var(--panel);color:var(--text)}
+  .nav-link.active{background:rgba(56,189,248,.1);color:var(--accent);border-color:rgba(56,189,248,.25)}
+  .nav-link .num{font-family:var(--mono);font-size:11px;color:var(--dim);min-width:22px}
+  .nav-link.done .num{color:var(--green)}
+  .nav-link.done{text-decoration:line-through;text-decoration-color:rgba(74,222,128,.4)}
+  main{flex:1;padding:34px 44px 120px;min-width:0}
+
+  /* ---------- hero ---------- */
+  .hero{background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(192,132,252,.07));border:1px solid var(--border2);border-radius:16px;padding:30px 34px;margin-bottom:34px}
+  .hero h1{font-size:28px;margin-bottom:10px}
+  .hero p{color:var(--muted);max-width:760px}
+  .hero .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+  .chip{background:var(--panel);border:1px solid var(--border2);color:var(--muted);font-size:12px;padding:4px 12px;border-radius:99px}
+
+  /* ---------- sections & cards ---------- */
+  .part{margin:56px 0 10px;display:flex;align-items:center;gap:14px}
+  .part .roman{background:var(--panel);border:1px solid var(--border2);color:var(--accent);font-family:var(--mono);font-weight:700;font-size:13px;padding:6px 13px;border-radius:9px}
+  .part h2{font-size:21px}
+  .part .line{flex:1;height:1px;background:var(--border2)}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;margin:22px 0;overflow:hidden;transition:border-color .2s}
+  .card.anchor-hit{border-color:var(--accent)}
+  .card-head{padding:16px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-wrap:wrap;cursor:pointer;user-select:none}
+  .card-head:hover{background:rgba(255,255,255,.015)}
+  .card-head h3{font-size:16.5px;font-weight:650;flex:1;min-width:200px}
+  .card-head .toggle{color:var(--dim);font-size:12px;transition:transform .25s}
+  .card.open .card-head .toggle{transform:rotate(90deg)}
+  .badge{font-size:10.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:3px 10px;border-radius:99px;white-space:nowrap}
+  .b-basics{background:rgba(74,222,128,.12);color:var(--green)}
+  .b-es6{background:rgba(56,189,248,.12);color:var(--accent)}
+  .b-adv{background:rgba(192,132,252,.14);color:var(--purple)}
+  .b-async{background:rgba(250,204,21,.12);color:var(--yellow)}
+  .b-dom{background:rgba(251,146,60,.14);color:var(--orange)}
+  .b-proj{background:rgba(248,113,113,.13);color:var(--red)}
+  .card-body{display:none;padding:20px 22px 24px;border-top:1px solid var(--border)}
+  .card.open .card-body{display:block;animation:fadeIn .25s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+  .concept{color:var(--muted);margin-bottom:14px;font-size:14.5px}
+  .concept b,.concept strong{color:var(--text)}
+  ul.points{margin:0 0 16px 4px;list-style:none}
+  ul.points li{padding:5px 0 5px 24px;position:relative;color:var(--muted);font-size:14.5px}
+  ul.points li::before{content:'▸';position:absolute;left:5px;color:var(--accent);font-size:12px;top:7px}
+  ul.points b{color:var(--text);font-weight:600}
+  code.inline{font-family:var(--mono);font-size:12.5px;background:var(--panel2);border:1px solid var(--border2);padding:1.5px 6px;border-radius:5px;color:var(--accent2)}
+
+  /* ---------- code block ---------- */
+  .codeblock{background:#0a0e13;border:1px solid var(--border2);border-radius:11px;margin:14px 0;overflow:hidden}
+  .codeblock .cb-head{display:flex;align-items:center;padding:7px 8px 7px 14px;border-bottom:1px solid var(--border);background:var(--panel2)}
+  .cb-title{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.5px;flex:1}
+  .copy-btn{display:flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--border2);color:var(--muted);font-size:11.5px;padding:4px 11px;border-radius:6px;cursor:pointer;transition:all .15s;font-family:inherit}
+  .copy-btn:hover{color:var(--accent);border-color:var(--accent)}
+  .copy-btn.copied{color:var(--green);border-color:var(--green)}
+  .codeblock pre{margin:0;padding:14px 16px;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.62;color:#c9d6e3;tab-size:4}
+  .codeblock pre::-webkit-scrollbar{height:8px}
+  .codeblock pre::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+  .codeblock pre .ln{display:inline-block;width:2.2em;color:#334155;user-select:none}
+  .codeblock pre .cm{color:#5b6b7f;font-style:italic}
+  .codeblock pre .kw{color:#c792ea}
+  .codeblock pre .str{color:#a5e08b}
+  .codeblock pre .num{color:#f7bd6f}
+  .codeblock pre .fn{color:#7cc7ff}
+  .codeblock pre .op{color:#89ddff}
+
+  .outputblock{background:#071009;border:1px solid rgba(74,222,128,.25);border-radius:11px;margin:-6px 0 14px;overflow:hidden}
+  .outputblock .ob-head{display:flex;align-items:center;padding:6px 14px;border-bottom:1px solid rgba(74,222,128,.15);background:rgba(74,222,128,.05)}
+  .ob-title{font-family:var(--mono);font-size:10.5px;color:var(--green);letter-spacing:1px}
+  .outputblock pre{margin:0;padding:12px 16px;font-family:var(--mono);font-size:12.5px;line-height:1.6;color:#b7e4c0;overflow-x:auto}
+
+  .note{display:flex;gap:11px;background:rgba(250,204,21,.06);border:1px solid rgba(250,204,21,.25);border-radius:10px;padding:12px 15px;margin:14px 0;font-size:13.5px;color:#e5d9a1}
+  .note.info{background:rgba(56,189,248,.06);border-color:rgba(56,189,248,.3);color:#a9d3ea}
+  .note .ic{font-size:15px;flex-shrink:0}
+
+  /* ---------- live demo ---------- */
+  .demo{background:linear-gradient(135deg,rgba(56,189,248,.05),rgba(192,132,252,.05));border:1px dashed var(--border2);border-radius:12px;padding:18px 20px;margin:16px 0}
+  .demo .demo-title{font-size:11px;font-weight:700;letter-spacing:1.2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+  .demo input[type=text]{background:var(--panel2);border:1px solid var(--border2);border-radius:8px;color:var(--text);padding:10px 14px;font-size:14px;outline:none;width:280px;max-width:100%}
+  .demo input[type=text]:focus{border-color:var(--accent)}
+  .demo .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .demo button{background:var(--panel);border:1px solid var(--border2);color:var(--text);border-radius:8px;padding:8px 16px;font-size:13px;cursor:pointer}
+  .demo button:hover{border-color:var(--accent);color:var(--accent)}
+  .demo .stat{font-family:var(--mono);font-size:13px;color:var(--muted)}
+  .demo .stat b{color:var(--green);font-size:16px}
+  .demo .stat.warn b{color:var(--yellow)}
+
+  /* ---------- misc ---------- */
+  #noresults{display:none;text-align:center;color:var(--dim);padding:60px 0;font-size:15px}
+  #backTop{position:fixed;bottom:26px;right:26px;width:44px;height:44px;border-radius:12px;background:var(--accent);color:#04222f;border:none;font-size:19px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s;z-index:60;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+  #backTop.show{opacity:1;pointer-events:auto}
+  .link-source{font-size:11.5px;color:var(--dim);font-family:var(--mono);margin-top:4px}
+
+  @media(max-width:1024px){
+    nav#sidebar{position:fixed;left:-300px;top:0;height:100vh;z-index:70;transition:left .25s;box-shadow:8px 0 30px rgba(0,0,0,.5)}
+    nav#sidebar.mobile-open{left:0}
+    #burger{display:block}
+    main{padding:24px 18px 100px}
+    .hero{padding:22px}
+  }
+</style>
+</head>
+<body>
+<div id="readbar"></div>
+
+<header>
+  <button id="burger">☰</button>
+  <div class="logo">
+    <div class="js-badge">JS</div>
+    <div>JavaScript Full Reference<small>All 54 lessons · code + output · dark edition</small></div>
+  </div>
+  <div id="search"><span class="icon">🔍</span><input type="text" id="searchInput" placeholder="Search topics… (press / to focus)"></div>
+  <div class="header-stats"><span id="progressText">0 / 54 read</span><button id="resetBtn" title="Clear reading progress">reset</button></div>
+</header>
+
+<div class="layout">
+<nav id="sidebar"></nav>
+<main id="content"></main>
+</div>
+
+<div id="noresults">😕 No topics match your search.</div>
+<button id="backTop" title="Back to top">↑</button>
+
+<script>
+/* ============================================================
+   TOPIC DATA — every tutorial file, ordered as a course
+   ============================================================ */
+const COURSE = [
+{part:'I · Language Basics', items:[
+{id:'variables', t:'Variables & Scope', b:'basics', src:'variables.js', srcType:'js',
+ outputs:{"variables.js":"undefined\nshubham","block scope demo":"1\nUncaught ReferenceError: b is not defined"},
+ concept:'Variables are containers for data. JS has three ways to declare them: <code class="inline">var</code> (old, function-scoped, hoisted as <code class="inline">undefined</code>), <code class="inline">let</code> (block-scoped, reassignable) and <code class="inline">const</code> (block-scoped, cannot be reassigned).',
+ points:[
+  '<b>var</b> → global/function scope. Accessing before declaration gives <code class="inline">undefined</code> (hoisting).',
+  '<b>let / const</b> → block scope <code class="inline">{ }</code>. Accessing before declaration gives a <b>ReferenceError</b> (temporal dead zone).',
+  '<b>const</b> must be initialised at declaration and cannot be reassigned.',
+  'Rule of thumb: use <code class="inline">const</code> by default, <code class="inline">let</code> when you need to reassign, avoid <code class="inline">var</code>.'],
+ code:[
+ {title:'variables.js', code:
+`// var: hoisted -> undefined, function scoped
+console.log(channel);      // undefined (no error!)
+var channel = "youtube";
+
+// let/const: NOT usable before declaration
+// console.log(channel);   // ReferenceError
+let channel = "youtube";
+const salary = 25000;
+
+// var vs block scope
+var demo = "shubham";
+if (true) {
+    let user = "heavycoding";   // only exists inside {}
+    const userpass = 1245;
+}
+console.log(demo);   // works (var ignores block)
+// console.log(user); // Error - let is block scoped
+
+// reassignment
+let userID = 100;
+userID = 500;        // ✅ let can change
+// salary = 30000;   // ❌ const cannot change`},
+ {title:'block scope demo', code:
+`if (true) {
+  var a = 1;   // leaks outside the block
+  let b = 2;   // trapped inside the block
+}
+console.log(a); // 1
+console.log(b); // ReferenceError: b is not defined`}]},
+{id:'datatypes', t:'Data Types & Conversion', b:'basics', src:'datatypes.js', srcType:'js',
+ outputs:{"datatypes.js":"string\nnumber\nboolean\nundefined\nobject  😅 famous JS quirk\nsymbol\nstring\nnumber string\nfalse\nboolean"},
+ concept:'JavaScript has <b>7 primitive</b> types + <b>objects</b>. Use <code class="inline">typeof</code> to check a value\'s type. Types can be converted with <code class="inline">Number()</code>, <code class="inline">String()</code>, <code class="inline">Boolean()</code>.',
+ points:[
+  '<b>String</b> <code class="inline">"youtube"</code> · <b>Number</b> <code class="inline">100, 100.45</code> · <b>BigInt</b> <code class="inline">124623746328432n</code>',
+  '<b>Boolean</b> <code class="inline">true / false</code> · <b>undefined</b> (declared, no value) · <b>null</b> (intentionally empty) · <b>Symbol</b> (unique value)',
+  '<b>Falsy values</b> convert to <code class="inline">false</code>: <code class="inline">0, "", null, undefined, NaN, false</code>. Everything else is truthy.',
+  'Famous quirk: <code class="inline">typeof null</code> returns <code class="inline">"object"</code> (a historic JS bug).'],
+ code:[{title:'datatypes.js', code:
+`let name = "youtube";        // string
+let num = 100;               // number (int)
+let number = 100.45;         // number (decimal)
+let orderID = 124623746328432n; // bigint
+let decision = true;         // boolean
+let something;               // undefined
+let val = null;              // null (empty on purpose)
+let sym = Symbol('id');      // unique symbol
+
+console.log(typeof name);      // "string"
+console.log(typeof num);       // "number"
+console.log(typeof decision);  // "boolean"
+console.log(typeof something); // "undefined"
+console.log(typeof val);       // "object"  😅 famous JS quirk
+console.log(typeof sym);       // "symbol"
+
+// ---------- type conversion ----------
+let nums = "100";
+console.log(typeof nums);      // "string"
+
+let names = 100;
+nums  = Number(nums);   // "100" -> 100
+names = String(names);  // 100 -> "100"
+console.log(typeof nums, typeof names); // number string
+
+let bool = 0;
+bool = Boolean(bool);   // 0 is falsy
+console.log(bool);             // false
+console.log(typeof bool);      // boolean`}]},
+{id:'operators', t:'Operators', b:'basics', src:'operators.js', srcType:'js',
+ outputs:{"operators.js":"shubham and youtube","== vs === example":"true\nfalse"},
+ concept:'Operators combine or compare values. The most important distinction: <code class="inline">==</code> compares after converting types, <code class="inline">===</code> compares value <b>and</b> type (always prefer <code class="inline">===</code>).',
+ points:[
+  '<b>String</b>: <code class="inline">"shubham" + " youtube"</code> concatenates.',
+  '<b>Arithmetic</b>: <code class="inline">+ - * / % **</code> (modulus & power).',
+  '<b>Assignment</b>: <code class="inline">= += -= *= /= %=</code> — shorthand for self-update.',
+  '<b>Comparison</b>: <code class="inline">== != === !== > < >= <=</code>.',
+  '<b>Logical</b>: <code class="inline">&&</code> (AND), <code class="inline">||</code> (OR).',
+  '<b>Unary</b>: <code class="inline">a++</code> post-increment (use then add), <code class="inline">++a</code> pre-increment (add then use).'],
+ code:[{title:'operators.js', code:
+`let a = 'shubham';
+let b = 'youtube';
+
+// String operator
+console.log(a + " and " + b);   // shubham and youtube
+
+// Arithmetic (numbers only!)
+// a + b, a - b, a * b, a / b, a % b, a ** b
+
+// Assignment operators
+let x = 2;
+x += 3;   // x = x + 3 -> 5
+x *= 2;   // 10
+
+// Comparison
+// a == b   loose equality (converts types)
+// a === b  strict equality (value + type)  ✅ preferred
+// a != b, a !== b, a > b, a < b, a >= b, a <= b
+
+// Logical
+// console.log(a == b && a === b); // AND
+// console.log(a == b || a === b); // OR
+
+// Unary increment / decrement
+let n = 5;
+console.log(n++); // 5  (use first, then add 1)
+console.log(++n); // 7  (add 1 first, then use)
+console.log(n--); // 7
+console.log(--n); // 5`}
+ ,
+ {title:'== vs === example', code:
+`console.log(5 == "5");   // true  (string converted)
+console.log(5 === "5");  // false (different types)`}]},
+{id:'controlflow', t:'Control Flow (if / switch / loops)', b:'basics', src:'controlflow.js', srcType:'js',
+ outputs:{"controlflow.js":"value missmatch\nthis is case 3\nvalue of i = 1\nvalue of i = 2\nvalue of i = 3\nvalue of i = 4\nvalue of i = 5\nvalue of j = 1\nYoutube: 1\nYoutube: 2\n... up to Youtube: 10"},
+ concept:'Control flow decides which code runs and how many times: conditionals (<code class="inline">if / else if / else</code>, ternary, <code class="inline">switch</code>) and loops (<code class="inline">while, do…while, for</code>).',
+ points:[
+  '<b>Ternary</b>: <code class="inline">condition ? valueIfTrue : valueIfFalse</code>.',
+  '<b>switch</b>: compares a value against cases — use <code class="inline">break</code> to stop fall-through, <code class="inline">default</code> for no match.',
+  '<b>while</b>: check condition first — may run 0 times. <b>do…while</b>: runs the body <b>at least once</b> even if the condition is false.',
+  '<b>for</b>: <code class="inline">for (initialize; condition; increment)</code> — the classic counter loop.'],
+ code:[{title:'controlflow.js', code:
+`let val = 3;
+
+// if / else if / else
+if (val == 10)       console.log("value match 10");
+else if (val == 50)  console.log("value match 50");
+else                 console.log("value missmatch");   // ✅ runs
+
+// ternary
+(val == 150) ? console.log("match") : console.log("missmatch");
+
+// switch — case 3 matches, break stops it
+switch (val) {
+    case 0: console.log("this is case 0"); break;
+    case 1: console.log("this is case 1"); break;
+    case 3: console.log("this is case 3"); break;   // ✅
+    default: console.log("case not found");
+}
+
+// while loop: init -> condition -> body -> increment
+let i = 1;
+while (i <= 5) {
+    console.log("value of i =", i);   // 1 2 3 4 5
+    i++;
+}
+
+// do..while: body runs FIRST, then condition is checked
+let j = 1;
+do {
+    console.log("value of j =", j);   // prints 1 even though j >= 5 is false
+    j++;
+} while (j >= 5);
+
+// classic for loop
+for (let k = 1; k <= 10; k++) console.log("Youtube:", k);`}]},
+{id:'functions', t:'Functions (declare, params, return)', b:'basics', src:'functions.js', srcType:'js',
+ outputs:{"functions.js":"Hello Gudnight\n82\n3\n15\nplease enter the numbers\n11"},
+ concept:'A function is a reusable block of code. Declare it once, call it many times. Functions can take <b>parameters</b> (with defaults), receive <b>arguments</b>, and <b>return</b> a value back to the caller.',
+ points:[
+  'Function <b>declarations are hoisted</b> — you can call <code class="inline">message()</code> before it is defined.',
+  '<b>Default parameters</b>: <code class="inline">function add(num1, num2 = 6)</code> — used when the argument is missing.',
+  '<b>return</b> sends a value back and stops the function.',
+  'Guards like <code class="inline">if (!num1)</code> protect against missing arguments.'],
+ code:[{title:'functions.js', code:
+`message();   // ✅ works - declarations are hoisted
+
+function message() {
+    console.log("Hello Gudnight");
+}
+
+// parameters with a default value
+function add(num1, num2 = 6) {
+    if (!num1) {
+        console.log("please enter the numbers");
+    } else {
+        let sum = num1 + num2;
+        console.log(sum);
+    }
+}
+
+add(76);    // 82        (num2 uses default 6)
+add(1, 2);  // 3
+add(6, 9);  // 15
+add();      // please enter the numbers
+
+// returning a value
+function sum() {
+    let add = 5 + 6;
+    return add;
+}
+let addition = sum();
+console.log(addition);   // 11`}]},
+{id:'strings', t:'Strings & String Methods', b:'basics', src:'stringandstringfunction.js', srcType:'js',
+ outputs:{"stringandstringfunction.js":" (space — index 0 is a space!)\nO\n17\n YOUTUBE CHANNEL \n youtube channel \n YOUTUBE Heavy Coding \nYOUTUBE Channel\n YOUTUBE Channel coding\ncodi\ning\nding\n['c','o','d','i','n','g']"},
+ concept:'Strings are indexed from <b>0</b>. JS gives you many built-in methods — most return a <b>new</b> string (strings are immutable).',
+ points:[
+  '<code class="inline">str[i]</code> / <code class="inline">charAt(i)</code> — access a character · <code class="inline">length</code> — size.',
+  '<code class="inline">toUpperCase() / toLowerCase()</code> — change case.',
+  '<code class="inline">replace(old, new)</code> — replace first match · <code class="inline">trim()</code> — cut edge spaces.',
+  '<code class="inline">concat()</code> — join strings · <code class="inline">substring(0,4)</code> — slice by start/end index.',
+  '<code class="inline">slice(3)</code> & <code class="inline">slice(-4)</code> — supports negative indexes (from the end).',
+  '<code class="inline">split("")</code> — split into an array of characters.'],
+ code:[{title:'stringandstringfunction.js', code:
+`let name = " YOUTUBE Channel ";
+let work = "coding";
+
+console.log(name[0]);          // " "  (index 0 is a space!)
+console.log(name.charAt(2));   // "O"
+console.log(name.length);      // 17
+
+console.log(name.toUpperCase()); // " YOUTUBE CHANNEL "
+console.log(name.toLowerCase()); // " youtube channel "
+
+let newStr = name.replace("Channel", "Heavy Coding");
+console.log(newStr);           // " YOUTUBE Heavy Coding "
+
+console.log(name.trim());      // "YOUTUBE Channel"
+console.log(name.concat(work));// " YOUTUBE Channel coding"
+console.log(work.substring(0, 4)); // "codi" (0..3)
+
+console.log(work.slice(3));    // "ing"        (from index 3)
+console.log(work.slice(-4));   // "ding"      (last 4 chars)
+console.log(work.split(""));   // ['c','o','d','i','n','g']`}]},
+{id:'math', t:'Math Object', b:'basics', src:'mathobject.js', srcType:'js',
+ outputs:{"mathobject.js":"3\n4\n4\n6\n7\n0\n42\n50\n10\n8\n8\n546\n3.141592653589793\n113"},
+ concept:'The <code class="inline">Math</code> object has helpers for rounding, random numbers, min/max and powers — perfect for the classic "area of a circle" calculation.',
+ points:[
+  '<code class="inline">round</code> → nearest int · <code class="inline">floor</code> → always down · <code class="inline">ceil</code> → always up · <code class="inline">trunc</code> → just cut the decimal.',
+  '<code class="inline">Math.random()</code> → 0 to <1. Multiply & floor for a range: <code class="inline">Math.floor(Math.random() * 100)</code> → 0–99.',
+  '<code class="inline">max / min / sqrt / pow / abs / PI</code> — everyday utilities.'],
+ code:[{title:'mathobject.js', code:
+`let num = 5.6;
+console.log(Math.round(3.4));   // 3
+console.log(Math.round(3.6));   // 4
+console.log(Math.floor(4.8));   // 4  (down)
+console.log(Math.ceil(num));    // 6  (up)
+console.log(Math.trunc(7.6));   // 7  (decimal removed)
+
+console.log(Math.floor(Math.random()));      // 0 or ... (0-1)
+console.log(Math.floor(Math.random() * 100)); // random int 0-99
+
+console.log(Math.max(17, 40, 10, 50)); // 50
+console.log(Math.min(17, 40, 10, 50)); // 10
+console.log(Math.sqrt(64));  // 8
+console.log(Math.pow(2, 3)); // 8  (2**3)
+console.log(Math.abs(-546)); // 546
+console.log(Math.PI);        // 3.141592653589793
+
+// area of a circle = PI × r × r
+let radius = 6;
+const area = Math.PI * radius * radius;
+console.log(Math.round(area)); // 113`}]},
+{id:'date', t:'Date Object', b:'basics', src:'dateobject.js', srcType:'js',
+ outputs:{"dateobject.js":"Mon Sep 22 2026 ...\nMon Sep 22 2026\n22/9/2026, 10:30:00 pm\n2026\n9\n22\n2\n22\n30\n45\nd1 is greater than d2\n28 (age)\nHello Gudmorning"},
+ concept:'<code class="inline">new Date()</code> gives the current date & time. You can <b>get</b> parts (year, month, hours…) and <b>set</b> them. Remember: <b>months and weekdays are 0-indexed</b> (Jan = 0, Sunday = 0).',
+ points:[
+  'Display: <code class="inline">toString() · toDateString() · toTimeString() · toLocaleString()</code>.',
+  'Get: <code class="inline">getFullYear() · getMonth()+1 · getDate() · getDay() · getHours() · getMinutes() · getSeconds()</code>.',
+  'Set: <code class="inline">setFullYear() · setMonth(0)=Jan · setDate(1)</code>.',
+  'Dates can be compared with <code class="inline">></code> / <code class="inline"><</code> — and combined with conditions for a greeting app.'],
+ code:[{title:'dateobject.js', code:
+`let date = new Date();          // now (or new Date("2000-04-12"))
+
+console.log(date.toString());       // full date + time + tz
+console.log(date.toDateString());   // Mon Sep 22 2026
+console.log(date.toLocaleString()); // 22/9/2026, 10:30:00 pm
+
+console.log(date.getFullYear()); // 2026
+console.log(date.getMonth() + 1);// 9   (months are 0-indexed!)
+console.log(date.getDate());     // 22  (day of month)
+console.log(date.getDay());      // 2   (0=Sunday, 1=Monday...)
+console.log(date.getHours());    // 22
+console.log(date.getMinutes());
+console.log(date.getSeconds());
+
+// SET parts
+date.setFullYear("2012");
+date.setMonth(0);   // January
+date.setDate(1);
+
+// comparing dates
+let d1 = new Date("2027-02-14");
+let d2 = new Date("2026-02-14");
+if (d1 > d2) console.log("d1 is greater than d2");
+
+// age from birth year
+let age = new Date().getFullYear() - 1996;
+
+// greeting based on hour
+let dateTime = new Date();
+dateTime.setHours(11);
+let hour = dateTime.getHours();
+if (hour < 12)       console.log("Hello Gudmorning");   // ✅
+else if (hour < 14)  console.log("Hello GudAfternoon");
+else if (hour < 16)  console.log("Hello Evening");
+else                 console.log("Hello Gudnight");`}]},
+{id:'arrays', t:'Arrays (create, methods, 2D/3D)', b:'basics', src:'arrays.js', srcType:'js',
+ outputs:{"arrays.js":"3\n7\ntrue\n2\nyoutube,shubham,channel\n[4, 5, 6]\n[2, 3, 4]\nTATA\nBMW\ntrue\n['S','h','u','b','h','a','m',' ','Y','o','u','t','u','b','e']\n['shubham']\n[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"},
+ concept:'Arrays store ordered lists of values, indexed from <b>0</b>. They can hold any mix of types, and can be nested (2D / 3D).',
+ points:[
+  'Add/remove: <code class="inline">push</code> (end), <code class="inline">pop</code> (remove end), <code class="inline">unshift</code> (start), <code class="inline">shift</code> (remove start).',
+  'Search: <code class="inline">includes(v)</code> → boolean · <code class="inline">indexOf(v)</code> → position.',
+  'Cut & join: <code class="inline">slice(3,6)</code> copies without changing the array; <code class="inline">splice(1,3)</code> removes from the original; <code class="inline">join(",")</code> → string.',
+  'Multi-dimensional: access with <code class="inline">data[row][col]</code> (2D) or <code class="inline">data[i][j][k]</code> (3D).',
+  'Array utilities: <code class="inline">Array.isArray()</code>, <code class="inline">Array.from("str")</code>, <code class="inline">Array.of(x)</code>, and spread <code class="inline">[...a, ...b]</code> to merge.'],
+ code:[{title:'arrays.js', code:
+`let arr = [1, 2, 3, 4, 5, 6, 7];
+let arrString = ["youtube", "shubham", "channel"];
+
+console.log(arr[2]);        // 3
+console.log(arr.length);    // 7
+
+arr.push(80);      // add at end
+arr.pop();         // remove from end
+arr.unshift(100);  // add at start
+arr.shift();       // remove from start
+
+console.log(arr.includes(7));  // true
+console.log(arr.indexOf(3));   // 2
+console.log(arrString.join(",")); // "youtube,shubham,channel"
+
+console.log(arr.slice(3, 6));  // [4,5,6]  (copy - original safe)
+console.log(arr.splice(1, 3)); // [2,3,4]  (removed! original changed)
+
+// ---------- 2D array [ROWS][COLS] ----------
+let data2d = [
+    ["BMW", "AUDI"],     // row 0
+    ["NISSAN", "TATA"]   // row 1
+];
+console.log(data2d[1][1]);  // "TATA"
+
+// ---------- 3D array ----------
+let data = [
+    [ ["BMW","AUDI"], ["NISSAN","TATA"] ],
+    [ ["Hyundai","Porsche"], ["Mazda","Toyota"] ]
+];
+console.log(data[0][0][0]);  // "BMW"
+
+// ---------- Array utilities ----------
+let arr1 = [1,2,3,4,5], arr2 = [6,7,8,9,10];
+let str = "Shubham Youtube";
+console.log(Array.isArray(arr1));   // true
+console.log(Array.from(str));       // splits string into chars
+console.log(Array.of("shubham"));   // ['shubham']
+
+let fullArray = [...arr1, ...arr2]; // spread merge
+console.log(fullArray);             // [1..10]`}]},
+{id:'arrayloops', t:'Looping Over Arrays', b:'basics', src:'arraywithloops.js', srcType:'js',
+ outputs:{"arraywithloops.js":"youtube\nchannel\nheavycoding\n(repeat for each loop style)"},
+ concept:'Three ways to visit every element: the classic <code class="inline">for</code> with an index, the cleaner <code class="inline">for…of</code>, and the callback style <code class="inline">forEach()</code>.',
+ points:[
+  '<b>for (let i = 0; i < arr.length; i++)</b> — full control, you get the index.',
+  '<b>for (let val of arr)</b> — value directly, no index bookkeeping.',
+  '<b>arr.forEach(function(val){…})</b> — the functional way (also gets index as 2nd arg).'],
+ code:[{title:'arraywithloops.js', code:
+`let arr = ["youtube", "channel", "heavycoding"];
+
+// 1) classic for loop
+for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i]);        // youtube  channel  heavycoding
+}
+
+// 2) for...of
+for (let val of arr) {
+    console.log(val);
+}
+
+// 3) forEach
+arr.forEach(function (val) {
+    console.log(val);
+});
+
+// 4) bonus: while loop
+let i = 0;
+while (i < arr.length) {
+    console.log(arr[i]);
+    i++;
+}`}]},
+{id:'objects', t:'Objects (keys, methods, nesting)', b:'basics', src:'objects.js', srcType:'js',
+ outputs:{"objects.js":"shubham\nheavy coding\nHello shubham\nNew Delhi\nshubham\n40\n[name, channel name, age, country]\n[shubham, heavy coding, 30, India]\n[[name, shubham], [channel name, heavy coding], ...]\nname : shubham\nchannel name : heavy coding\nage : 30\ncountry : India\nshubham"},
+ concept:'Objects store data as <b>key : value</b> pairs inside <code class="inline">{ }</code>. Values can be anything — including functions (then they are called <b>methods</b>) and other objects/arrays (nesting).',
+ points:[
+  'Access: <b>dot notation</b> <code class="inline">user.name</code>, or <b>bracket notation</b> <code class="inline">user["channel name"]</code> (needed when keys have spaces).',
+  '<code class="inline">this</code> inside a method refers to the object itself.',
+  '<code class="inline">Object.freeze(obj)</code> → nothing can change · <code class="inline">Object.seal(obj)</code> → only update existing keys.',
+  'Add / update / delete: <code class="inline">obj.key = v</code>, <code class="inline">delete obj.key</code>.',
+  'Static tools: <code class="inline">Object.keys() · Object.values() · Object.entries()</code> and loop with <code class="inline">for…in</code>.',
+  'APIs return nested objects — e.g. <code class="inline">apiResponse.data.name</code>.'],
+ code:[{title:'objects.js', code:
+`let user = {
+    name: "shubham",
+    "channel name": "heavy coding",   // key with a space!
+    age: 30,
+    country: "India",
+    greetings: function () {
+        console.log("Hello", this.name);   // this = user
+    }
+}
+
+console.log(user.name);              // dot notation
+console.log(user["channel name"]);   // bracket notation
+user.greetings();                    // Hello shubham
+
+// modify / add / delete
+student.age = 21;         // add
+student.age = 25;         // update
+student.city = "Delhi";   // add
+delete student.age;       // delete
+Object.freeze(student);   // after this: no changes at all
+Object.seal(student);     // only updates allowed, no add/delete
+
+// ---------- nested object ----------
+let employee = {
+    empID: 101,
+    empName: "Shubham",
+    address: { state: "Delhi", city: "New Delhi", pincode: 110098 }
+}
+console.log(employee.address.city);   // "New Delhi"
+
+// ---------- array of objects (very common in APIs) ----------
+let users = [
+    { name: "shubham", age: "20" },
+    { name: "mukesh",  age: "40" }
+];
+console.log(users[0].name);   // shubham
+console.log(users[1].age);    // 40
+
+// ---------- Object static methods ----------
+console.log(Object.keys(user));     // ['name','channel name','age','country']
+console.log(Object.values(user));   // ['shubham','heavy coding',30,'India']
+console.log(Object.entries(user));  // [['name','shubham'], ...]
+
+for (let key in user) {
+    console.log(key, ':', user[key]);   // for...in over object keys
+}
+
+// ---------- typical API response shape ----------
+let apiResponse = {
+    success: true,
+    message: "data fetched successfully",
+    data: { id: 101, name: "shubham" }
+}
+console.log(apiResponse.data.name);   // shubham`}]},
+{id:'dialogbox', t:'Dialog Boxes (alert / prompt / confirm)', b:'basics', src:'dialogbox.js', srcType:'js',
+ concept:'Browsers give 3 built-in popups: <code class="inline">alert()</code> shows a message, <code class="inline">prompt()</code> asks for input (returns a <b>string</b> or null), <code class="inline">confirm()</code> asks yes/no (returns <code class="inline">true/false</code>).',
+ points:[
+  '<code class="inline">prompt()</code> always returns a string → wrap with <code class="inline">Number()</code> to do math.',
+  '<code class="inline">confirm()</code> drives decisions like "delete this?" — branch on its boolean result.'],
+ code:[{title:'dialogbox.js', code:
+`alert("Hello Javascript");
+
+let name = prompt("Enter your name");
+
+let age = Number(prompt("Enter your age?"));
+if (age >= 18) console.log("You are allowed");
+else           console.log("You must be 18+");
+
+// prompt returns a string -> Number() makes + work
+let val1 = Number(prompt("Enter value 1"));
+let val2 = Number(prompt("Enter value 2"));
+console.log(val1 + val2);
+
+let deleted = confirm("Are you sure want to delete?");
+if (deleted) {
+    alert("user confirmed");
+    console.log("user confirmed");
+} else {
+    console.log("user cancelled");
+}`}
+ , {demo: 'dialog'}]},
+{id:'strictmode', t:'Strict Mode', b:'basics', src:'strictmode.js', srcType:'js',
+ concept:'<code class="inline">"use strict"</code> switches JS to a stricter, safer mode: it turns silent mistakes into real errors. Put it at the top of a file (global) or first line of a function (local).',
+ points:[
+  'Forbids using variables without declaring them (<code class="inline">y = 20</code> → error).',
+  'Forbids duplicate parameter names <code class="inline">function add(a, a)</code>.',
+  'Forbids <code class="inline">delete</code> on variables and reserved words as names (<code class="inline">let catch = "test"</code> fails).',
+  'In strict mode, <code class="inline">this</code> inside a plain function call is <code class="inline">undefined</code> instead of <code class="inline">window</code>.'],
+ code:[{title:'strictmode.js', code:
+`"use strict";   // global strict mode
+
+let x = 10;
+// delete x;          // ❌ Error: can't delete variables
+
+// let catch = "test"; // ❌ Error: 'catch' is reserved
+
+function add(a, a) {   // ❌ Error: duplicate parameter name
+    return a + a;
+}
+
+function calculate(a, b) {
+    result = a + b;    // ❌ Error: result not declared
+    return result;
+}
+
+function show() {
+    console.log(this); // undefined in strict mode (was window)
+}
+show();`}]},
+{id:'setTimeout', t:'setTimeout & setInterval', b:'basics', src:'setTimeoutSetInterval.js', srcType:'js',
+ outputs:{"setTimeoutSetInterval.js":"start\nends\nWelcome to JS   (1s later - did NOT block!)\nCount: 1 ... Count: 10\nInterval count stopped"},
+ concept:'Timers schedule code for later: <code class="inline">setTimeout(fn, ms)</code> runs once after a delay, <code class="inline">setInterval(fn, ms)</code> repeats forever until you <code class="inline">clearInterval(id)</code>. Time is in <b>milliseconds</b>.',
+ points:[
+  'A timer callback can be a named function, an anonymous function, or an arrow function.',
+  '<code class="inline">console.log("start"); setTimeout(...,1000); console.log("ends")</code> prints <b>start → ends → Welcome</b>: the timer is asynchronous, it does not block.',
+  'Store the interval id and use <code class="inline">clearInterval(intervalID)</code> to stop a counter (e.g. after 10 ticks).'],
+ code:[{title:'setTimeoutSetInterval.js', code:
+`function showMessage() { console.log("Welcome to JS"); }
+
+setTimeout(showMessage, 3000);          // named function, 3 sec
+
+setTimeout(function () {                // anonymous
+    console.log("Welcome to JS");
+}, 3000);
+
+setTimeout(() => {                      // arrow (most common)
+    console.log("Welcome to JS");
+}, 3000);
+
+// live clock every second
+function showTime() {
+    console.log(new Date().toLocaleTimeString());
+}
+setInterval(showTime, 1000);
+
+// proof timers don't block:
+console.log("start");
+setTimeout(() => console.log("Welcome to JS"), 1000);
+console.log("ends");    // prints BEFORE the timer!
+
+// self-stopping counter
+let count = 1;
+let intervalID = setInterval(function () {
+    console.log("Count:", count);
+    if (count == 10) {
+        clearInterval(intervalID);
+        console.log("Interval count stopped");
+    }
+    count++;
+}, 1000);
+
+// start / stop buttons pattern
+var c = 0, intervalID2;
+function startCounter() {
+    if (!intervalID2) {
+        intervalID2 = setInterval(function () {
+            document.getElementById("count").innerText = c;
+            c++;
+        }, 1000);
+    }
+}
+function stopCounter() {
+    clearInterval(intervalID2);
+    intervalID2 = null;
+}`}
+ , {demo: 'counter'}]},
+]},
+{part:'II · ES6+ Modern JavaScript', items:[
+{id:'arrow', t:'Arrow Functions', b:'es6', src:'arrowFunctions.js', srcType:'js',
+ outputs:{"arrowFunctions.js":"Hello shubham\n8\n{name: 'SHubham', age: 20}\nA\nB\nC\nhello  (after 2s)\n[Arguments] { '0': 1, '1': 2, '2': 4 }"},
+ concept:'Arrow functions are a shorter syntax for functions, written as <code class="inline">() => { }</code>. One parameter? Drop the parentheses. One expression? Drop the braces and <code class="inline">return</code> (implicit return).',
+ points:[
+  '<code class="inline">(a, b) => a + b</code> — implicit return of one expression.',
+  'Returning an object literal needs parentheses: <code class="inline">() => ({ name: "Shubham" })</code>.',
+  'Arrows are perfect as callbacks: <code class="inline">forEach</code>, <code class="inline">setTimeout</code>, event handlers.',
+  '⚠️ Arrows have <b>no own <code class="inline">arguments</code> object</b> and no own <code class="inline">this</code> (they inherit it from the surrounding scope).'],
+ code:[{title:'arrowFunctions.js', code:
+`// normal function
+function greet(name) {
+    console.log("Hello" + name);
+}
+
+// arrow: full form
+const greet1 = (name) => {
+    console.log(\`Hello \${name}\`);
+};
+
+// one param -> no parentheses needed
+const greet2 = name => console.log(\`Hello \${name}\`);
+
+// implicit return
+const add = (a, b) => a + b;
+console.log(add(1, 7));    // 8
+
+// returning an object -> wrap in ( )
+const user = () => ({
+    name: "SHubham",
+    age: 20
+});
+console.log(user());
+
+// great as callbacks
+["A", "B", "C"].forEach(user => console.log(user));
+setTimeout(() => console.log("hello"), 2000);
+
+// ⚠️ no 'arguments' in arrow functions
+function demo() { console.log(arguments); }   // ✅ works
+demo(1, 2, 4);
+
+const demo2 = () => {
+    console.log(arguments);                   // ❌ ReferenceError
+};`}]},
+{id:'template', t:'Template Literals', b:'es6', src:'templateliterals.js', srcType:'js',
+ outputs:{"templateliterals.js":"My name is Shubham and i am 19 years old\nSum is 30\nHello\nwelcome\nJavascript\nHello Shubham\n<h1>Welcome</h1>\n<p>Shubham</p>"},
+ concept:'Backtick strings <code class="inline">\`…\`</code> replace clumsy <code class="inline">+ " " +</code> concatenation with <code class="inline">\${expression}</code> interpolation, allow multi-line text, and can embed any expression or function call.',
+ points:[
+  '<code class="inline">\`Hello \${name}\`</code> — inject variables directly.',
+  '<code class="inline">\${a + b}</code> — any expression works.',
+  'Real newlines are allowed — no more <code class="inline">\\n</code>.',
+  'Perfect for building HTML strings.'],
+ code:[{title:'templateliterals.js', code:
+`let name = "Shubham";
+let age = 19;
+
+// old way
+console.log("My name " + name + " and i am " + age + " years old");
+
+// template literal way
+console.log(\`My name is \${name} and i am \${age} years old\`);
+
+let a = 10, b = 20;
+console.log(\`Sum is \${a + b}\`);   // Sum is 30
+
+// multi-line without \\n
+let text = \`Hello
+welcome
+Javascript\`;
+console.log(text);
+
+// expressions + function calls inside
+function greeting(name) {
+    return \`Hello \${name}\`;
+}
+console.log(\`\${greeting("Shubham")}\`);
+
+// building HTML
+let html = \`<h1>Welcome</h1>
+<p>\${name}</p>\`;
+console.log(html);
+
+// Why it's better: readable, multi-line, evaluates expressions`}]},
+{id:'destructuring', t:'Destructuring, Rest & Spread', b:'es6', src:'desctructuringRestSpreadOperators.js', srcType:'js',
+ outputs:{"desctructuringRestSpreadOperators.js":"Green\n10 20\nDelhi\n10 [20, 30, 40, 50]\n{age:'20', city:'Delhi', gender:'M'}\nshubham 20 ['HTML', 'CSS', 'PHP']\n['HTML', 'CSS', 'PHP', 'JS', 'Java']\n{name:'Shubham', city:'Delhi'}\n60"},
+ concept:'Three related tricks: <b>destructuring</b> unpacks arrays/objects into variables, <b>rest</b> <code class="inline">…</code> collects the leftovers, and <b>spread</b> <code class="inline">…</code> expands an array/object into another one (or into function arguments).',
+ points:[
+  'Array: <code class="inline">const [first, second, third] = colors;</code> with defaults: <code class="inline">const [a, b = 20] = [10];</code>',
+  'Object: <code class="inline">const { name, age } = user;</code> rename: <code class="inline">const { name: userName } = user;</code> default: <code class="inline">const { city = "Delhi" } = user;</code>',
+  'Rest: <code class="inline">const [first, ...others] = arr</code> · <code class="inline">const { name, ...details } = user</code> · function params <code class="inline">function f(name, age, ...others)</code>.',
+  'Spread: copy <code class="inline">[...arr1]</code>, merge <code class="inline">[...a, ...b]</code> / <code class="inline">{...obj1, ...obj2}</code>, and pass an array as arguments <code class="inline">sum(...numbers)</code>.'],
+ code:[{title:'desctructuringRestSpreadOperators.js', code:
+`// ---------- ARRAY DESTRUCTURING ----------
+const colors = ["Red", "Yellow", "Green"];
+const [first, second, third] = colors;
+console.log(third);            // Green
+
+const numbers = [10];
+const [a, b = 20] = numbers;   // default for missing
+console.log(a, b);             // 10 20
+
+// ---------- OBJECT DESTRUCTURING ----------
+const user = { name: "Shubham", age: 20 };
+const { name, age } = user;            // unpack by key
+const { name: userName } = user;       // rename
+const { name: n, city = "Delhi" } = user;  // default
+console.log(city);             // Delhi
+
+// ---------- REST OPERATOR (...) collect ----------
+const nums = [10, 20, 30, 40, 50];
+const [f, ...others] = nums;
+console.log(f, others);        // 10 [20,30,40,50]
+
+const user2 = { name: "Shubham", age: "20", city: "Delhi", gender: "M" };
+const { name: nm, ...details } = user2;
+console.log(details);          // {age:'20', city:'Delhi', gender:'M'}
+
+function student(name, age, ...others) {
+    console.log(name, age, others);   // shubham 20 ['HTML','CSS','PHP']
+}
+student("shubham", 20, "HTML", "CSS", "PHP");
+
+// ---------- SPREAD OPERATOR (...) expand ----------
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1];              // copy
+const frontend = ["HTML", "CSS"];
+const backend = ["PHP", "JS", "Java"];
+const fullstack = [...frontend, ...backend];  // merge
+console.log(fullstack);
+
+const basic = { name: "Shubham" };
+const address = { city: "Delhi" };
+const merged = { ...basic, ...address };      // merge objects
+console.log(merged);   // {name:'Shubham', city:'Delhi'}
+
+// spread as function arguments
+function sum(x, y, z) { console.log(x + y + z); }
+const list = [10, 20, 30];
+sum(...list);   // 60`}]},
+{id:'mapfilterreduce', t:'map / filter / reduce', b:'es6', src:'mapFilterReduce.js', srcType:'js',
+ outputs:{"mapFilterReduce.js":"[2, 4, 6, 8, 10]\n[3, 4, 5]\n15"},
+ concept:'The three power-tools of arrays: <code class="inline">map</code> transforms every element, <code class="inline">filter</code> keeps the ones that pass a test, <code class="inline">reduce</code> boils everything down to a single value.',
+ points:[
+  '<code class="inline">map(fn)</code> → new array, same length, transformed values.',
+  '<code class="inline">filter(fn)</code> → new array with only elements where the callback returns true.',
+  '<code class="inline">reduce(fn, initial)</code> → one accumulated value (sum, total, object…).'],
+ code:[{title:'mapFilterReduce.js', code:
+`const numbers = [1, 2, 3, 4, 5];
+
+// map: transform each element
+const doubled = numbers.map(num => num * 2);
+console.log(doubled);   // [2, 4, 6, 8, 10]
+
+// filter: keep matching elements
+const big = numbers.filter(num => num > 2);
+console.log(big);       // [3, 4, 5]
+
+// reduce: accumulate into a single value
+const result = numbers.reduce((total, num) => {
+    return total + num;
+}, 0);
+console.log(result);    // 15  (0+1+2+3+4+5)`}]},
+{id:'setsymbol', t:'Set & Symbol', b:'es6', src:'setSymbol.js', srcType:'js',
+ outputs:{"setSymbol.js":"Set(5) {10, 20, 30, 40, 50}\n5\nfalse\n[1, 2, 3, 4, 5, 6]\nfalse\n101\n101"},
+ concept:'<b>Set</b> is a collection of <b>unique</b> values — the classic trick to remove duplicates from an array. <b>Symbol</b> creates a guaranteed-unique key, perfect to avoid name collisions on objects.',
+ points:[
+  '<code class="inline">new Set([10,20,20,30])</code> → {10,20,30}. Methods: <code class="inline">add() · has() · size</code>.',
+  'Dedupe: <code class="inline">const uniqueArr = [...new Set(arr)]</code>.',
+  '<code class="inline">Symbol("id") === Symbol("id")</code> → <code class="inline">false</code> — every symbol is unique.',
+  '<code class="inline">user[id] = 101</code> — a symbol key never clashes with a normal <code class="inline">user.id</code> property.'],
+ code:[{title:'setSymbol.js', code:
+`// ---------- SET ----------
+const number = new Set([10, 20, 20, 30, 40, 40, 50]);
+console.log(number);        // Set(5) {10, 20, 30, 40, 50}
+console.log(number.size);   // 5
+
+const set = new Set();
+set.add(10);
+set.add(20);
+set.add(20);                // ignored - duplicates not allowed
+set.add(30);
+console.log(set.has(80));   // false
+
+// remove duplicates from an array
+const arr = [1, 2, 2, 3, 4, 4, 5, 5, 6];
+const uniqueArr = [...new Set(arr)];
+console.log(uniqueArr);     // [1, 2, 3, 4, 5, 6]
+
+// ---------- SYMBOL ----------
+const id1 = Symbol("id");
+const id2 = Symbol("id");
+console.log(id1 === id2);   // false - always unique!
+
+const id = Symbol("id");
+const user = { name: "Shubham" };
+user[id] = 101;             // hidden, collision-proof key
+console.log(user[id]);      // 101
+
+user.id = 500;              // normal 'id' property - no clash
+console.log(user[id]);      // still 101`}]},
+{id:'modules', t:'Modules (import / export)', b:'es6', src:'importexportmodule.js', srcType:'js',
+ outputs:{"importexportmodule.js — imports":"3.14\nHeavy Coding\n40\n30\nAdd to cart"},
+ concept:'Modules split code across files. A file <b>exports</b> named values (or one <code class="inline">default</code>), and other files <b>import</b> them. Use <code class="inline">as</code> to rename on import.',
+ points:[
+  '<b>Named export</b>: <code class="inline">export const PI = 3.14;</code> → import with the same name in <code class="inline">{ }</code>.',
+  'Rename on import: <code class="inline">import { add as sum } from "./math.js"</code>.',
+  '<b>Default export</b>: one per file, imported <b>without</b> braces.',
+  'In the browser, load with <code class="inline">&lt;script type="module"&gt;</code>.'],
+ code:[
+ {title:'math.js — exports', code:
+`export const PI = 3.14;
+export let name = "Heavy Coding";
+
+export function add(a, b) { return a + b; }
+export function sub(a, b) { return a - b; }
+
+export default function cart() {   // ONE default per file
+    console.log("Add to cart");
+}`},
+ {title:'importexportmodule.js — imports', code:
+`import { PI, add as sum, sub, name } from "./math.js";  // named + rename
+import message from "./greet.js";                        // default (no braces)
+
+console.log(PI);          // 3.14
+console.log(name);        // Heavy Coding
+console.log(sum(10, 30)); // 40   (add renamed to sum)
+console.log(sub(60, 30)); // 30
+message();                // Add to cart`}]},
+{id:'oopintro', t:'OOP — Introduction (Objects & Classes)', b:'es6', src:'oop.txt', srcType:'txt',
+ concept:'<b>OOP (Object-Oriented Programming)</b> organises code into <b>objects</b> that bundle <b>properties (data)</b> + <b>methods (functions)</b>. Small projects survive with loose variables — but e-commerce, banking or social apps have hundreds of users/products/orders, and copy-pasting variables for each becomes unmaintainable.',
+ points:[
+  '<b>Without OOP</b>: <code class="inline">car1Name, car1Color, car1Price…</code> repeated for every car — messy at scale.',
+  '<b>With OOP</b>: create one <b>blueprint (class)</b> like <code class="inline">Car</code>, then stamp out unlimited objects (BMW, Audi, Mercedes…) from it.',
+  '<b>Real-world modelling</b>: Student (name, marks / study(), exam()), Employee (salary, dept / work(), leave()), BankAccount (balance / deposit(), withdraw()), Mobile (brand, RAM / call(), charge()).',
+  '<b>Why OOP</b>: code reusability · organised/clean code · easy maintenance · real-world modelling.',
+  '<b>Object example</b>: <code class="inline">{ brand: "BMW", start() {…} }</code> — properties + methods together.',
+  'Foundation chain to learn: <b>Object → Class → Constructor → this</b>, then Encapsulation, Inheritance, Polymorphism, Abstraction become easy.'],
+ code:[{title:'object example (from oop.txt)', code:
+`const car = {
+    brand: "BMW",
+    color: "Black",
+    price: 6000000,          // properties (data)
+
+    start() {                // methods (functions)
+        console.log("Car Started");
+    },
+    stop() {
+        console.log("Car Stopped");
+    }
+};
+
+car.start();   // Car Started
+
+// one blueprint -> unlimited objects:
+// class Car { constructor(brand, color, price) {...} }
+// new Car("BMW", "Black", 6000000)
+// new Car("Audi", "White", 7000000)
+// new Car("Mercedes", "Blue", 8000000)`}]},
+{id:'classbasics', t:'Classes, Objects & Constructor', b:'es6', src:'Person.js', srcType:'js',
+ outputs:{"Person.js — constructor with defaults":"Shubham and 23\nNo name and 0","Student.js — class properties & methods":"Rahul\nStudy\n20"},
+ concept:'A <code class="inline">class</code> is the blueprint. The <code class="inline">constructor()</code> runs automatically when you create an object with <code class="inline">new</code>, and <code class="inline">this</code> refers to the new object. Constructor parameters can have defaults.',
+ points:[
+  '<code class="inline">class Person { constructor(...) { this.x = x } method() {...} }</code>.',
+  '<code class="inline">new Person("Shubham", 23)</code> → object with its own data.',
+  'Missing arguments fall back to defaults: <code class="inline">new Person()</code> → name "No name", age 0.',
+  'Classes can also declare plain properties (<code class="inline">name = "Rahul"</code>) shared as defaults on every instance.'],
+ code:[
+ {title:'Person.js — constructor with defaults', code:
+`class Person {
+    constructor(name = "No name", age = 0) {
+        this.name = name;
+        this.age  = age;
+    }
+
+    display() {
+        console.log(\`\${this.name} and \${this.age}\`);
+    }
+}
+
+const obj = new Person("Shubham", 23);
+obj.display();            // Shubham and 23
+
+const obj2 = new Person(); // defaults used
+obj2.display();           // No name and 0`},
+ {title:'Student.js — class properties & methods', code:
+`class Student {
+    // properties (defaults on every instance)
+    name = "Rahul";
+    age = 20;
+
+    // method
+    study() {
+        console.log("Study");
+    }
+}
+
+const obj = new Student();
+const obj2 = new Student();
+console.log(obj.name);   // Rahul
+obj.study();             // Study
+console.log(obj2.age);   // 20`}]},
+{id:'inheritance', t:'Inheritance (extends & super)', b:'es6', src:'Animal.js', srcType:'js',
+ outputs:{"Animal.js — basic inheritance":"Tommy khana kha rha h\nTommy barking","Phone.js — super() with constructor params":"Apple call ho rhi h\nApple iphone 17 internet chala rha h","Electronics.js — multi-level chain":"power on h\ncalling....\nbrowsing....","User.js — one parent, different children":"Rahul login krlia h\nRahul study kar rha h..\nSharma Ji login krlia h\nSharma Ji teaching kar rha h.."},
+ concept:'<code class="inline">extends</code> lets a child class inherit the parent\'s methods and properties — write common logic once in the parent. <code class="inline">super()</code> calls the parent constructor when the child has its own.',
+ points:[
+  '<code class="inline">class Dog extends Animal</code> → myDog can both <code class="inline">eat()</code> (inherited) and <code class="inline">bark()</code> (own).',
+  'Child constructor must call <code class="inline">super(brand)</code> <b>before</b> using <code class="inline">this</code>.',
+  'Multi-level chains work: Electronics → Mobile → SmartPhone, each level adding behaviour.'],
+ code:[
+ {title:'Animal.js — basic inheritance', code:
+`class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+    eat() {
+        console.log(\`\${this.name} khana kha rha h\`);
+    }
+}
+
+class Dog extends Animal {
+    bark() {
+        console.log(\`\${this.name} barking\`);
+    }
+}
+
+const myDog = new Dog("Tommy");
+myDog.eat();    // Tommy khana kha rha h   (inherited)
+myDog.bark();   // Tommy barking           (own)`},
+ {title:'Phone.js — super() with constructor params', code:
+`class Phone {
+    constructor(brand) {
+        this.brand = brand;
+    }
+    call() {
+        console.log(\`\${this.brand} call ho rhi h\`);
+    }
+}
+
+class SmartPhone extends Phone {
+    constructor(brand, model) {
+        super(brand);            // pass to parent constructor
+        this.model = model;      // then own property
+    }
+    browseInternet() {
+        console.log(\`\${this.brand} \${this.model} internet chala rha h\`);
+    }
+}
+
+const myPhone = new SmartPhone("Apple", "iphone 17");
+myPhone.call();            // Apple call ho rhi h
+myPhone.browseInternet();  // Apple iphone 17 internet chala rha h`},
+ {title:'Electronics.js — multi-level chain', code:
+`class Electronics {
+    powerOn() { console.log("power on h"); }
+}
+class Mobile extends Electronics {
+    call() { console.log("calling...."); }
+}
+class SmartPhone extends Mobile {
+    browse() { console.log("browsing...."); }
+}
+
+const myPhone = new SmartPhone();
+myPhone.powerOn();  // power on h      (grandparent)
+myPhone.call();     // calling....     (parent)
+myPhone.browse();   // browsing....    (own)`},
+ {title:'User.js — one parent, different children', code:
+`class User {
+    constructor(username) { this.username = username; }
+    login() { console.log(\`\${this.username} login krlia h\`); }
+}
+class Student extends User {
+    study() { console.log(\`\${this.username} study kar rha h..\`); }
+}
+class Teacher extends User {
+    teach() { console.log(\`\${this.username} teaching kar rha h..\`); }
+}
+
+const myStudent = new Student("Rahul");
+const myTeacher = new Teacher("Sharma Ji");
+myStudent.login();   // Rahul login krlia h
+myStudent.study();   // Rahul study kar rha h..
+myTeacher.login();   // Sharma Ji login krlia h
+myTeacher.teach();   // Sharma Ji teaching kar rha h..`}]},
+{id:'encapsulation', t:'Encapsulation (private #fields, get/set)', b:'es6', src:'BankAccount.js', srcType:'js',
+ outputs:{"BankAccount.js — private field":"1400","Employee.js — getters & setters":"50000"},
+ concept:'Encapsulation = hide internal data and expose controlled access. <code class="inline">#field</code> makes a property truly private — it can\'t be read or changed from outside. <code class="inline">get</code>/<code class="inline">set</code> act like properties but run code.',
+ points:[
+  '<code class="inline">#balance</code> is private: <code class="inline">account.balance = 200000;</code> from outside does nothing useful (and <code class="inline">account.#balance</code> is a syntax error).',
+  'Public methods (<code class="inline">deposit / withdraw / getBalance</code>) are the gatekeepers — you can add rules inside them.',
+  'Getter/setter: <code class="inline">get salary()</code> reads, <code class="inline">set salary(value)</code> writes — used as <code class="inline">emp.salary = 50000</code> (looks like a property, runs a function).'],
+ code:[
+ {title:'BankAccount.js — private field', code:
+`class BankAccount {
+    #balance = 0;              // PRIVATE
+
+    constructor(balance) {
+        this.#balance = balance;
+    }
+    deposit(amount)  { this.#balance += amount; }
+    withdraw(amount) { this.#balance -= amount; }
+    getBalance()     { return this.#balance; }
+}
+
+const account = new BankAccount(1000);
+account.deposit(500);
+account.withdraw(100);
+console.log(account.getBalance());   // 1400
+// account.#balance = 999999;        // ❌ SyntaxError - private!`},
+ {title:'Employee.js — getters & setters', code:
+`class Employee {
+    #salary;
+
+    constructor(salary) { this.#salary = salary; }
+
+    get salary() {            // read access
+        return this.#salary;
+    }
+    set salary(value) {       // write access
+        this.#salary = value;
+    }
+}
+
+const emp = new Employee(30000);
+emp.salary = 50000;       // calls the SETTER
+console.log(emp.salary);  // 50000 - calls the GETTER`}]},
+{id:'polymorphism', t:'Polymorphism (method overriding)', b:'es6', src:'Salary.js', srcType:'js',
+ outputs:{"Salary.js":"Developer Salary = 40000\nManager Salary = 100000\nIntern Salary = 7000"},
+ concept:'Polymorphism = "many forms". Child classes <b>override</b> a parent method with their own version. One loop calling <code class="inline">calculate()</code> gets a different result for each type of employee.',
+ points:[
+  'Every child redefines <code class="inline">calculate()</code> with its own logic.',
+  'The array holds different classes, yet <code class="inline">forEach(employee => employee.calculate())</code> just works — the right override runs for each object.'],
+ code:[{title:'Salary.js', code:
+`class Salary {
+    calculate() { console.log("Salary Calculation"); }
+}
+
+class Developer extends Salary {
+    calculate() { console.log("Developer Salary = 40000"); }
+}
+class Manager extends Salary {
+    calculate() { console.log("Manager Salary = 100000"); }
+}
+class Intern extends Salary {
+    calculate() { console.log("Intern Salary = 7000"); }
+}
+
+const emp = [new Developer(), new Manager(), new Intern()];
+emp.forEach(employee => employee.calculate());
+// Developer Salary = 40000
+// Manager Salary = 100000
+// Intern Salary = 7000`}]},
+]},
+{part:'III · Functions In-Depth & Async JS', items:[
+{id:'execution', t:'Execution Context & Call Stack', b:'adv', src:'executionContextCallStack.js', srcType:'txt',
+ concept:'The <b>Execution Context</b> is the environment where JS code runs. Every context has 2 phases: <b>Creation</b> (variables allocated in memory, function declarations stored, <code class="inline">this</code> set) and <b>Execution</b> (code runs line-by-line, values assigned, functions called).',
+ points:[
+  '<b>GEC</b> (Global Execution Context) — created first, only once.',
+  '<b>FEC</b> (Function Execution Context) — a fresh one for every function call.',
+  '<b>Call Stack</b>: LIFO structure tracking what\'s currently running. Function call → <b>push</b>; function completes → <b>pop</b>.',
+  'Interview definitions — Execution Context: "Environment where JavaScript code is executed." · Call Stack: "LIFO stack that manages execution contexts and function calls during program execution."'],
+ code:[{title:'call stack flow', code:
+`function first()  { console.log("First");  second(); }
+function second() { console.log("Second"); third();  }
+function third()  { console.log("Third"); }
+first();
+
+// Call stack over time:
+// | third()  |          <- pushed last
+// | second() |
+// | first()  |
+// | Global   |
+// third() done  -> popped
+// | second() |
+// | first()  |
+// | Global   |
+// second() done -> popped ... finally only | Global |
+
+// Output:
+// First
+// Second
+// Third`}]},
+{id:'thiscallapply', t:'this, call / apply / bind & Hoisting', b:'adv', src:'thiscallapplybindhoisting.js', srcType:'js',
+ outputs:{"thiscallapplybindhoisting.js":"Shubham\nwindow\nundefined\nAmit\nShubham delhi\nShubham delhi\nShubham Delhi\nundefined\nUncaught TypeError: greet2x is not a function"},
+ concept:'<code class="inline">this</code> depends on <b>how</b> a function is called: in a method it\'s the object; in a plain call it\'s <code class="inline">window</code> (or <code class="inline">undefined</code> in strict mode); in arrow functions it\'s inherited from outside. <b>call / apply / bind</b> let you choose <code class="inline">this</code> manually. <b>Hoisting</b> moves declarations to the top of their scope at the creation phase.',
+ points:[
+  '<b>Method</b>: <code class="inline">user.greet()</code> → <code class="inline">this.name</code> = "Shubham". <b>Plain call</b>: <code class="inline">show()</code> → <code class="inline">this</code> = window.',
+  '<b>Arrow method</b>: <code class="inline">greet: () => this.name</code> → <code class="inline">this</code> is NOT the object (inherited) → undefined.',
+  'Copy a reference: <code class="inline">another.say = person.greet; another.say()</code> → <code class="inline">this</code> = <code class="inline">another</code> ("Amit") — the call site decides.',
+  '<code class="inline">fn.call(obj, arg1)</code> — args one by one · <code class="inline">fn.apply(obj, [args])</code> — args as array · <code class="inline">fn.bind(obj, arg)</code> — returns a NEW bound function.',
+  '<b>Hoisting</b>: <code class="inline">var a</code> before declaration → <code class="inline">undefined</code>; <code class="inline">let/const</code> → ReferenceError; <code class="inline">var greet = function(){}</code> (expression) → <code class="inline">greet is not a function</code> because only <code class="inline">var greet</code> (undefined) was hoisted.'],
+ code:[{title:'thiscallapplybindhoisting.js', code:
+`// ---------- this in methods ----------
+const user = {
+    name: "Shubham",
+    greet() { console.log(this.name) }   // this = user
+}
+user.greet();            // Shubham
+
+function show() { console.log(this) }
+show();                  // window (non-strict)
+
+// arrow function -> no own this
+const user2 = { name: "Shubham", greet: () => console.log(this.name) };
+user2.greet();           // undefined
+
+// ---------- call site decides ----------
+const person = { name: "Rahul", greet() { console.log(this.name) } };
+const another = { name: "Amit" };
+another.say = person.greet;
+another.say();           // Amit
+
+// ---------- call / apply / bind ----------
+function greet(city) { console.log(this.name, city); }
+const u = { name: "Shubham" };
+
+greet.call(u, "delhi");          // Shubham delhi
+
+function greet2(city, age) { console.log(this.name, city); }
+greet2.apply(u, ["delhi", 25]);  // args as array
+
+const newFunction = greet.bind(u, "Delhi");  // returns new fn
+newFunction();                   // Shubham Delhi
+
+// ---------- hoisting ----------
+console.log(a);   // undefined (var hoisted)
+var a = 10;
+
+// console.log(a); let a = 10;   // ReferenceError
+// console.log(b); const b = 10; // ReferenceError
+
+greet2x();                        // ❌ greet2x is not a function
+var greet2x = function () { console.log("Hello"); };
+// only 'var greet2x' (undefined) got hoisted`}]},
+{id:'closures', t:'Lexical Scope & Closures', b:'adv', src:'lexicalvsclosure.js', srcType:'js',
+ outputs:{"lexicalvsclosure.js":"I'm a inner\nI'm a outer\nI'm a global\nHeavy Coding"},
+ concept:'<b>Lexical scope</b>: an inner function can see variables of its outer functions (and globals) — the lookup goes inner → outer → global. A <b>closure</b> is when that inner function is returned and still remembers the outer variables, even after the outer function has finished.',
+ points:[
+  'Inner sees all three: <code class="inline">innerVar</code>, <code class="inline">outerVar</code>, <code class="inline">globalVar</code>.',
+  '<code class="inline">let fn = outer()</code> stores the returned <code class="inline">inner</code> — calling <code class="inline">fn()</code> still prints "Heavy Coding".',
+  'Inspect it in DevTools: <code class="inline">console.dir(fn)</code> shows a <code class="inline">[[Scopes]]</code> → Closure entry.',
+  'This is exactly how <code class="inline">debounce</code>, <code class="inline">throttle</code>, <code class="inline">memoize</code> and <code class="inline">curry</code> remember their state.'],
+ code:[{title:'lexicalvsclosure.js', code:
+`// ---------- lexical scope ----------
+const globalVar = "I'm a global";
+function outer() {
+    const outerVar = "I'm a outer";
+    function inner() {
+        const innerVar = "I'm a inner";
+        console.log(innerVar);   // own scope
+        console.log(outerVar);   // parent scope
+        console.log(globalVar);  // global scope
+    }
+    inner();
+}
+outer();
+
+// ---------- closure ----------
+function outer() {
+    let name = "Heavy Coding";
+
+    function inner() {
+        console.log(name);   // remembers 'name'!
+    }
+    return inner;
+}
+
+let fn = outer();    // outer() finished, but...
+fn();                // Heavy Coding  <- closure kept 'name' alive
+console.dir(fn);     // DevTools: [[Scopes]] > Closure: {name}`}]},
+{id:'currying', t:'Currying', b:'adv', src:'currying.js', srcType:'js',
+ outputs:{"currying.js":"11\n11\n10\n20"},
+ concept:'Currying transforms <code class="inline">f(a, b, c)</code> into <code class="inline">f(a)(b)(c)</code> — nested functions, each taking one argument. The killer feature: pre-fill arguments to create specialised functions.',
+ points:[
+  '<code class="inline">curryAdd(2)(4)(5)</code> → 11 (vs <code class="inline">add(2,4,5)</code>).',
+  '<code class="inline">multiply(2)</code> returns a function; save it as <code class="inline">double</code> and reuse: <code class="inline">double(5)</code>, <code class="inline">double(10)</code> — no need to pass 2 again and again.'],
+ code:[{title:'currying.js', code:
+`// normal
+function add(a, b, c) { return a + b + c; }
+console.log(add(2, 4, 5));    // 11
+
+// curried version
+function curryAdd(a) {
+    return function (b) {
+        return function (c) {
+            return a + b + c;
+        }
+    }
+}
+console.log(curryAdd(2)(4)(5));   // 11
+
+// practical use: pre-filled functions
+function multiply(a) {
+    return function (b) {
+        return a * b;
+    }
+}
+let double = multiply(2);     // a=2 locked in
+console.log(double(5));       // 10
+console.log(double(10));      // 20
+
+// compared to the plain way - repeat 2 every time:
+function multiply2(a, b) { return a * b; }
+multiply2(2, 5);
+multiply2(2, 10);`}]},
+{id:'hofpure', t:'Higher Order & Pure Functions', b:'adv', src:'highorderFunctionPureFunction.txt', srcType:'txt',
+ outputs:{"higher order + pure/impure":"Hello Shubham\n15\n15\n1\n2"},
+ concept:'A <b>Higher Order Function</b> either takes a function as a parameter or returns one — like a coffee machine that stays the same while you pass it "cappuccino", "latte" or "espresso". A <b>Pure Function</b> gives the same output for the same input and causes no side effects.',
+ points:[
+  'HOF example: <code class="inline">processUser(callback)</code> receives <code class="inline">greet</code> and calls it — that makes <code class="inline">processUser</code> higher order.',
+  'Built-in HOFs: <code class="inline">map() · filter() · reduce() · forEach() · find() · some() · every() · sort()</code>.',
+  '<b>Pure</b>: <code class="inline">add(a,b) => a+b</code> — 5,10 gives 15 every single time, touches nothing outside.',
+  '<b>Impure</b>: <code class="inline">increment()</code> changes the external <code class="inline">count</code> → 1, then 2 — different output, side effect.'],
+ code:[{title:'higher order + pure/impure', code:
+`// ---------- Higher Order Function ----------
+function greet(name) {
+    return \`Hello \${name}\`;
+}
+function processUser(callback) {      // takes a function = HOF
+    console.log(callback("Shubham"));
+}
+processUser(greet);       // Hello Shubham
+
+// ---------- Pure Function ----------
+function add(a, b) {
+    return a + b;
+}
+console.log(add(5, 10));  // 15
+console.log(add(5, 10));  // 15  same input -> same output ✅
+
+// ---------- Impure Function ----------
+let count = 0;
+function increment() {
+    count++;              // mutates external variable ❌
+    return count;
+}
+console.log(increment()); // 1
+console.log(increment()); // 2  different output ❌`}]},
+{id:'memoization', t:'Memoization (caching results)', b:'adv', src:'memoization.js', srcType:'js',
+ outputs:{"memoization.js":"Calculating...\n25\n25\n25\nCalculating...\n100\n100"},
+ concept:'Memoization caches expensive function results: first call computes, repeated calls with the same input return instantly from the cache. It\'s closures + an object as cache.',
+ points:[
+  '<code class="inline">memoize(fn)</code> keeps a hidden <code class="inline">cache = {}</code> (closure).',
+  '"Calculating..." prints only for new inputs — <code class="inline">memoizeVal(5)</code> three times computes once.',
+  'Great for heavy math (factorial, fibonacci) and repeated API-style computations.'],
+ code:[{title:'memoization.js', code:
+`function memoize(fn) {
+    let cache = {};                       // hidden via closure
+    return function (n) {
+        if (cache[n]) {
+            return cache[n];              // cache hit - instant
+        }
+        let result = fn(n);               // compute once
+        cache[n] = result;                // store
+        return result;
+    }
+}
+
+function square(n) {
+    console.log("Calculating...");        // proves when work happens
+    return n * n;
+}
+
+let memoizeVal = memoize(square);
+
+console.log(memoizeVal(5));   // Calculating... 25
+console.log(memoizeVal(5));   // 25        (no Calculating - cached!)
+console.log(memoizeVal(5));   // 25        (cached)
+console.log(memoizeVal(10));  // Calculating... 100
+console.log(memoizeVal(10));  // 100       (cached)`}]},
+{id:'syncasync', t:'Synchronous vs Asynchronous', b:'async', src:'syncvsayncjavascript.txt', srcType:'txt',
+ outputs:{"sync vs async":"1\n2\n3\nStart\n2000000000\nEnds\n---\n1\n3\n2   (after 5s)"},
+ concept:'JavaScript is a <b>single-threaded synchronous</b> language — one line at a time. But slow tasks (API calls, timers, file reads) are handed to the browser\'s <b>Web APIs</b>, so the main thread keeps running and collects results later. That\'s asynchrony.',
+ points:[
+  '<b>Sync</b>: <code class="inline">1 → 2 → 3</code> strictly in order; a 2-billion-iteration loop blocks everything after it.',
+  '<b>Async</b>: <code class="inline">console.log("1"); setTimeout(...5s...); console.log("3")</code> → prints <b>1, 3, 2</b>.',
+  'JS gives the timer to the browser and continues; when the timer fires, its callback runs.'],
+ code:[{title:'sync vs async', code:
+`// ---------- SYNCHRONOUS ----------
+console.log("1");
+console.log("2");
+console.log("3");
+// Execution flow: 1 → 2 → 3
+
+console.log("Start");
+let sum = 0;
+for (let i = 0; i < 2000000000; i++) sum += 1;  // blocks!
+console.log(sum);
+console.log("Ends");     // "Ends" waits for the loop
+
+// ---------- ASYNCHRONOUS ----------
+console.log("1");
+setTimeout(() => {
+    console.log("2");    // runs LAST, 5s later
+}, 5000);
+console.log("3");
+// Output: 1, 3, 2
+// JS handed the timer to the browser (Web API)
+// and kept executing the next lines.`}]},
+{id:'callbacks', t:'Callbacks & Callback Hell', b:'async', src:'callbackandhell.js', srcType:'js',
+ outputs:{"callbackandhell.js":"10\n6   (after 2s)\n1\n2\n3\n4\n5   (one per second - the pyramid!)"},
+ concept:'A <b>callback</b> is a function passed into another function to run later — the foundation of async JS. Nesting callbacks inside callbacks inside callbacks creates <b>callback hell</b>: deeply indented, hard-to-read code.',
+ points:[
+  'Sync-style callback: <code class="inline">calculate(4, 6, add)</code> passes <code class="inline">add</code> in and calls it.',
+  'Async callbacks: <code class="inline">setTimeout(fn, 2000)</code>, <code class="inline">button.addEventListener("click", fn)</code>.',
+  'The pyramid: to print 1→5 one second apart you end up 5 levels deep — unreadable. → solved by <b>Promises</b> and <b>async/await</b>.'],
+ code:[{title:'callbackandhell.js', code:
+`// callback as a parameter (sync style)
+function add(a, b) { return a + b; }
+function calculate(a, b, add) {
+    console.log(add(4, 6));       // 10
+}
+calculate(4, 6, add);
+
+// async callbacks
+setTimeout(function () {
+    console.log(add(1, 5));       // 6, after 2s
+}, 2000);
+
+button.addEventListener("click", function () { /* ... */ });
+
+// ---------- CALLBACK HELL 😱 ----------
+setTimeout(function () {
+    console.log(1)
+    setTimeout(function () {
+        console.log(2)
+        setTimeout(function () {
+            console.log(3)
+            setTimeout(function () {
+                console.log(4)
+                setTimeout(function () {
+                    console.log(5)     // 5 levels deep!
+                }, 1000);
+            }, 1000);
+        }, 1000);
+    }, 1000);
+}, 1000);`}]},
+{id:'promises', t:'Promises (then / catch / finally + combinators)', b:'async', src:'promise.js', srcType:'js',
+ outputs:{"promise.js":"Data loaded success\nserver error\n10\n20\n40\nJavascript ES6 Promises\nSomething wrong\nDone\nAlway Execute\n['HTML', 'CSS', 'JAVASCRIPT']\n[{status:'fulfilled', value:'HTML'}, {status:'rejected', reason:'error'}, ...]\nSecond\nSuccess"},
+ concept:'A Promise is an object representing a future value, with 3 states: <b>pending → fulfilled (resolve)</b> or <b>rejected</b>. Chains of <code class="inline">.then()</code> replace callback hell; <code class="inline">.catch()</code> handles any error in the chain; <code class="inline">.finally()</code> always runs.',
+ points:[
+  'Create: <code class="inline">new Promise((resolve, reject) => { ... })</code>.',
+  'Chaining: each <code class="inline">.then</code> receives the previous return value — <code class="inline">10 → 20 → 40</code>, or builds <code class="inline">"Javascript" + " ES6" + " Promises"</code>.',
+  'Throwing inside <code class="inline">.then</code> skips to <code class="inline">.catch</code> → <code class="inline">err.message</code>.',
+  'Combinators: <code class="inline">Promise.all</code> (all must succeed, array of results) · <code class="inline">allSettled</code> (status of every promise, never rejects) · <code class="inline">race</code> (first to settle wins) · <code class="inline">any</code> (first that <b>fulfills</b> wins, ignores rejections).'],
+ code:[{title:'promise.js', code:
+`// ---------- create + consume ----------
+const promise = new Promise((resolve, reject) => {
+    let success = true;
+    if (success) resolve("Data loaded success");
+    else         reject("Something went wrong");
+});
+promise
+    .then((result) => console.log(result))   // Data loaded success
+    .catch((error) => console.log(error));
+
+// rejected promise
+const p = new Promise((resolve, reject) => reject("server error"));
+p.then(console.log).catch(console.log);      // server error
+
+// ---------- chaining values ----------
+Promise.resolve(10)
+    .then(num => { console.log(num); return num * 2; })  // 10
+    .then(num => { console.log(num); return num * 2; })  // 20
+    .then(num => console.log(num));                      // 40
+
+new Promise(res => res("Javascript"))
+    .then(d => d + " ES6")
+    .then(d => d + " Promises")
+    .then(d => console.log(d));   // Javascript ES6 Promises
+
+// ---------- errors in the chain ----------
+new Promise(res => res(100))
+    .then(() => { throw new Error("Something wrong"); })
+    .then(num => console.log(num))      // skipped
+    .catch(err => console.log(err.message));  // Something wrong
+
+// ---------- finally ----------
+Promise.resolve("Done")
+    .then(console.log)     // Done
+    .catch(console.log)
+    .finally(() => console.log("Alway Execute"));  // always
+
+// ---------- combinators ----------
+const p1 = Promise.resolve("HTML");
+const p2 = Promise.resolve("CSS");
+const p3 = Promise.resolve("JAVASCRIPT");
+Promise.all([p1, p2, p3]).then(console.log);
+// ['HTML','CSS','JAVASCRIPT']
+
+Promise.allSettled([p1, Promise.reject("error"), p3]).then(console.log);
+// [{status:'fulfilled',...}, {status:'rejected',...}, {status:'fulfilled',...}]
+
+const slow = new Promise(res => setTimeout(() => res("First"), 3000));
+const fast = new Promise(res => setTimeout(() => res("Second"), 1000));
+Promise.race([slow, fast]).then(console.log);   // Second
+
+Promise.any([Promise.reject("Error"), fast]).then(console.log);  // Success`}]},
+{id:'asyncawait', t:'async / await & Top-level await', b:'async', src:'asyncawait.js', srcType:'js',
+ outputs:{"asyncawait.js":"Hello\nHeavy coding (after 2s)\nServer Error\nOrder placed successfully\n{...fetched data...}"},
+ concept:'<code class="inline">async</code> functions always return a promise; <code class="inline">await</code> pauses inside them until a promise settles — async code that <b>reads like synchronous</b> code. Wrap in <code class="inline">try/catch/finally</code> for error handling.',
+ points:[
+  '<code class="inline">async function getData(){ return "Hello" }</code> → consume with <code class="inline">.then(console.log)</code>.',
+  'Await a delayed <code class="inline">fetchUser()</code> promise — result arrives as if it were sync.',
+  'Sequential awaits: user (2s) then course (1s) — total 3s.',
+  '<code class="inline">try { await … } catch { … } finally { … }</code> — finally always runs ("Order placed successfully").',
+  '<b>Top-level await</b>: modern modules allow <code class="inline">await fetch(...)</code> outside any function.'],
+ code:[{title:'asyncawait.js', code:
+`// async fn returns a promise
+async function getData() { return "Hello"; }
+getData().then(console.log);          // Hello
+
+// awaiting a delayed promise
+function fetchUser() {
+    return new Promise((resolve) => {
+        setTimeout(() => resolve("Heavy coding"), 2000);
+    });
+}
+async function userData() {
+    const user = await fetchUser();
+    console.log(user);                // Heavy coding (after 2s)
+}
+userData();
+
+// sequential awaits
+async function showData() {
+    const user   = await getUser();    // 2s
+    const course = await getCourse();  // 1s
+    console.log(user, course);
+}
+
+// try / catch / finally
+function fetchData() {
+    return new Promise((resolve, reject) => reject("Server Error"));
+}
+async function getData() {
+    try {
+        const data = await fetchData();
+        console.log(data);              // skipped
+    } catch (error) {
+        console.log(error);             // Server Error
+    } finally {
+        console.log("Order placed successfully");   // always
+    }
+}
+getData();
+
+// top-level await (modules)
+try {
+    const response = await fetch("https://example.com/getpaymentList");
+    const data = await response.json();
+    console.log(data);
+} catch (error) { /* handle */ }`}]},
+]},
+{part:'IV · Browser, DOM & Events', items:[
+{id:'domselect', t:'DOM Selectors & Access', b:'dom', src:'dom.js', srcType:'js',
+ outputs:{"dom.js":"#<p> element + full DOM tree\nDom Started... (text on the page changes)\nItalic text 0\n<p id=\"para\">...</p>\n<i>Italic text 0</i>\n<i>Italic text 1</i>"},
+ concept:'The DOM is the browser\'s object representation of your HTML (<code class="inline">window.document</code>). Select elements to read or change them: old-school <code class="inline">getElementById / getElementsByClassName / getElementsByTagName</code> and the modern <code class="inline">querySelector / querySelectorAll</code>.',
+ points:[
+  '<code class="inline">innerText</code> — visible text · <code class="inline">innerHTML</code> — text + HTML tags.',
+  '<code class="inline">getElementsByClassName</code> / <code class="inline">getElementsByTagName</code> return live collections — index them <code class="inline">[0]</code>.',
+  '<code class="inline">querySelector("p" / "#para" / ".italic")</code> — first match, any CSS selector.',
+  '<code class="inline">querySelectorAll(...)</code> — all matches; it supports <code class="inline">forEach</code> directly.'],
+ code:[{title:'dom.js', code:
+`console.log(window);            // browser window object
+console.log(window.document);   // the DOM
+
+// ---------- access ----------
+let para = document.getElementById('para');
+console.log(para);                       // the <p> element
+console.log(para.innerText);             // its text
+para.innerText = "Dom Started...";       // change text
+para.innerHTML = "Dom Started...";       // change (can include tags)
+
+// ---------- collections ----------
+let italic = document.getElementsByClassName('italic');
+console.log(italic[0].innerText);
+
+let p = document.getElementsByTagName('p');
+console.log(p[0].innerText);
+
+// ---------- querySelector: FIRST match ----------
+let query  = document.querySelector('p');        // by tag
+let paraQ  = document.querySelector('#para');    // by id
+let paraQ2 = document.querySelector('.italic');  // by class
+
+// ---------- querySelectorAll: ALL matches ----------
+let items = document.querySelectorAll('.italic');
+items.forEach((item) => {
+    console.log(item.innerHTML);   // loops every match
+});`}]},
+{id:'domelements', t:'DOM Traversing & Creating Elements', b:'dom', src:'elements.js', srcType:'js',
+ outputs:{"elements.js":"HTMLCollection(4) [div.child, div.child, div.child, div.child]\ndiv.child (3rd)\ndiv#parent\n<div class=\"child\">child 4</div>\ndiv#parent\n<div class=\"child\">child 2</div>\n+ \"This is h6 created by DOM\" appears in #container, li 1 & li 2 in #ul, li 2 removed"},
+ concept:'Walk the DOM tree (<b>parent, children, siblings</b>) and build new elements dynamically with <code class="inline">createElement</code>, then attach/remove them with <code class="inline">append / appendChild / remove / removeChild</code>.',
+ points:[
+  'Down: <code class="inline">parent.children[2] · firstElementChild · lastElementChild</code>.',
+  'Up & sideways: <code class="inline">child.parentElement · child.nextElementSibling</code>.',
+  'Create: <code class="inline">document.createElement(\'h1\')</code> → set <code class="inline">innerText</code> → <code class="inline">container.append(el)</code>.',
+  'Remove: <code class="inline">container.remove()</code> / <code class="inline">ul.removeChild(li2)</code>.'],
+ code:[{title:'elements.js', code:
+`let parent = document.querySelector('#parent');
+let child  = document.querySelector('.child');
+
+// ---------- traversing ----------
+console.log(parent.children);          // HTMLCollection of kids
+console.log(parent.children[2]);       // 3rd child
+console.log(parent.firstElementChild);
+console.log(parent.lastElementChild);
+console.log(child.parentElement);      // walk UP
+console.log(child.nextElementSibling); // next sibling
+
+// ---------- creating & appending ----------
+let container = document.querySelector('#container');
+let ul = document.querySelector('#ul');
+
+let element = document.createElement('h1');
+element.innerText = "This is h6 created by DOM";
+
+let li  = document.createElement('li');
+let li2 = document.createElement('li');
+li.innerText  = "li 1";
+li2.innerText = "li 2";
+
+container.append(element);       // add to container
+ul.appendChild(li);
+ul.appendChild(li2);
+
+// ---------- removing ----------
+container.remove(element);   // remove the container itself
+ul.removeChild(li2);         // remove one child`}]},
+{id:'domattrs', t:'Attributes & Inline Styling', b:'dom', src:'attributes_styling.js', srcType:'js',
+ outputs:{"attributes_styling.js":"img2.jpg\n+ paragraph turns red, aqua background, 20px font, dotted border"},
+ concept:'Read, set and remove HTML attributes via <code class="inline">setAttribute / getAttribute / removeAttribute</code>. Styles go through <code class="inline">element.style</code> using <b>camelCase</b> CSS names.',
+ points:[
+  '<code class="inline">img.setAttribute(\'src\', \'img2.jpg\')</code> — swap an image.',
+  '<code class="inline">getAttribute(\'src\')</code> — read · <code class="inline">removeAttribute(\'id\')</code> — delete.',
+  'CSS <code class="inline">background-color</code> becomes JS <code class="inline">backgroundColor</code> — same for <code class="inline">fontSize</code>, <code class="inline">marginLeft</code>.'],
+ code:[{title:'attributes_styling.js', code:
+`// ---------- attributes ----------
+document.getElementById('image').setAttribute('src', 'img2.jpg');
+document.getElementById('image').removeAttribute('src');
+document.getElementById('image').removeAttribute('id');
+
+let image = document.getElementById('image').getAttribute('src');
+console.log(image);   // current src value
+
+// ---------- inline styling ----------
+let para = document.getElementById('para');
+para.style.color = 'red';
+para.style.backgroundColor = 'aqua';   // background-color -> backgroundColor
+para.style.fontSize = '20px';
+para.style.marginLeft = '50px';
+para.style.border = '1px dotted black';`}]},
+{id:'events', t:'Events & Event Object', b:'dom', src:'events.js', srcType:'js',
+ outputs:{"events.js":"hello js            (every click)\nHello event js      (named handler too)\nred/blue button after click\nright click disabled\nclick me            (e.target.innerText)\ndblclick\nmousedown / mouseup / mouseenter / mouseleave\n127 341            (mouse position)\na KeyA ctrl pressed\nsave success        (Ctrl+S)"},
+ concept:'<code class="inline">addEventListener(\'event\', handler)</code> reacts to user actions. The handler receives an <b>event object</b> with details like <code class="inline">target</code>, <code class="inline">type</code>, <code class="inline">clientX/clientY</code> and <code class="inline">key</code>. <code class="inline">e.preventDefault()</code> stops default browser behaviour.',
+ points:[
+  'Handler styles: anonymous function, named function (needed for <code class="inline">removeEventListener</code>), or arrow function.',
+  '<b>Mouse</b>: <code class="inline">click · dblclick · mousedown · mouseup · mouseenter/mouseleave · mouseover/mouseout · mousemove</code>.',
+  '<b>Keyboard</b>: <code class="inline">keydown · keyup · keypress</code> — check <code class="inline">e.key</code>, <code class="inline">e.code</code>, and modifier flags <code class="inline">e.ctrlKey · e.shiftKey · e.altKey</code>.',
+  'Classic combo: <code class="inline">e.ctrlKey && e.key === "s"</code> → custom save shortcut.',
+  'Highlight an input on <code class="inline">keydown</code>, reset it on <code class="inline">keyup</code>.'],
+ code:[{title:'events.js', code:
+`let btn = document.getElementById("btn");
+let input = document.getElementById("input");
+
+function message() { console.log("Hello event js"); }
+
+// three handler styles
+btn.addEventListener('click', function () { console.log("hello js"); });
+btn.addEventListener('click', message);          // named -> removable later
+btn.addEventListener('click', () => { console.log("hello js"); });
+
+// change styling on click
+btn.addEventListener('click', function () {
+    btn.style.backgroundColor = "red";
+    btn.style.color = "blue";
+});
+
+// event object + preventDefault
+document.addEventListener("contextmenu", function (e) {
+    e.preventDefault();
+    console.log("right click disabled");
+});
+btn.addEventListener('click',  e => console.log(e.target.innerText));
+btn.addEventListener('dblclick', e => console.log(e.type));
+
+// ---------- mouse events ----------
+btn.addEventListener('mousedown',  () => console.log("mousedown"));
+btn.addEventListener('mouseup',    () => console.log("mouseup"));
+btn.addEventListener('mouseenter', () => { btn.style.backgroundColor = "red"; });
+btn.addEventListener('mouseleave', () => { btn.style.backgroundColor = ""; });
+document.addEventListener('mousemove', e => console.log(e.clientX, e.clientY));
+
+// ---------- keyboard events ----------
+document.addEventListener('keypress', e => console.log(e.key));   // 'a'
+document.addEventListener('keydown',  e => console.log(e.code));  // 'KeyA'
+document.addEventListener('keydown', e => {
+    if (e.ctrlKey && e.key === "s") console.log("save success");
+    if (e.ctrlKey)  console.log("ctrl pressed");
+    if (e.shiftKey) console.log("shift pressed");
+    if (e.altKey)   console.log("altkey pressed");
+});
+
+// input focus highlight
+input.addEventListener('keydown', e => { input.style.backgroundColor = "aqua"; });
+input.addEventListener('keyup',   () => { input.style.backgroundColor = ""; });`}]},
+{id:'formevents', t:'Form Events (focus / blur / input / change / submit)', b:'dom', src:'formevents.js', srcType:'js',
+ outputs:{"formevents.js":"blue field while focused, clears on blur\n(para shows what you type, live)\nBMW            (dropdown changed)"},
+ concept:'Forms have their own event family: <code class="inline">focus / blur</code> (enter/leave a field), <code class="inline">input</code> (typing live), <code class="inline">change</code> (value committed, e.g. dropdown), <code class="inline">submit</code> (form sent — usually <code class="inline">preventDefault()</code>), and <code class="inline">invalid</code> (failed HTML validation).',
+ points:[
+  'Live mirror: on <code class="inline">input</code>, copy <code class="inline">text1.value</code> into a paragraph.',
+  'Highlight a field on <code class="inline">focus</code>, reset on <code class="inline">blur</code>.',
+  '<code class="inline">select.addEventListener(\'change\', …)</code> — react to dropdown choice.',
+  '<code class="inline">form.addEventListener(\'submit\', e => e.preventDefault())</code> — take control of submission (no page reload).'],
+ code:[{title:'formevents.js', code:
+`let text1 = document.querySelector('#text1');
+let para  = document.querySelector('#para');
+let choose = document.querySelector('#choose');
+
+// focus / blur = field highlight
+text1.addEventListener('focus', function () {
+    text1.style.backgroundColor = "blue";
+});
+text1.addEventListener('blur', function () {
+    text1.style.backgroundColor = "";
+});
+
+// live typing mirror
+text1.addEventListener('input', function () {
+    para.innerText = text1.value;
+});
+
+// dropdown change
+choose.addEventListener('change', function () {
+    console.log(choose.value);      // or selectCar(this.value) inline
+});
+
+// submit -> stop the page reload
+let myForm = document.querySelector('#myForm');
+myForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+});
+
+// fires when HTML validation fails
+text.addEventListener('invalid', function (e) {
+    alert("hello this field is required");
+});`}]},
+{id:'bubbling', t:'Bubbling, Capturing & Delegation', b:'dom', src:'eventBubblingCapturingDelegation.js', srcType:'js',
+ outputs:{"eventBubblingCapturingDelegation.js":"child event\nparent event      (bubbling: child first, then parent)\nparent event\nchild event       (capturing: parent FIRST)\nBMW               (delegation: one listener, any li)"},
+ concept:'Events travel in two phases: <b>capturing</b> (document → target) then <b>bubbling</b> (target → document). <code class="inline">e.stopPropagation()</code> halts the journey; <code class="inline">addEventListener(..., true)</code> listens in the capture phase. <b>Delegation</b> = one listener on the parent handling events from all children via <code class="inline">e.target</code>.',
+ points:[
+  'Click child → both handlers fire: "child event" then "parent event" (bubbling).',
+  '<code class="inline">e.stopPropagation()</code> in the child → parent never knows.',
+  'Third argument <code class="inline">true</code> → capture phase: parent fires BEFORE the child.',
+  '<b>Event delegation</b>: one <code class="inline">click</code> listener on <code class="inline">#list</code> handles every <code class="inline"><li></code> — even ones added later.'],
+ code:[{title:'eventBubblingCapturingDelegation.js', code:
+`// ---------- bubbling (default) ----------
+document.getElementById("parent").addEventListener('click', function () {
+    console.log("parent event");    // fires AFTER child
+});
+document.getElementById("child").addEventListener('click', function (e) {
+    e.stopPropagation();            // cut the bubble here
+    console.log("child event");
+});
+
+// ---------- capturing (3rd arg = true) ----------
+document.getElementById("parent").addEventListener('click', function () {
+    console.log("parent event");    // fires FIRST now
+}, true);
+document.getElementById("child").addEventListener('click', function () {
+    console.log("child event");
+}, true);
+
+// ---------- event delegation ----------
+// <ul id="list"><li>BMW</li><li>Audi</li><li>Toyota</li></ul>
+document.getElementById("list").addEventListener("click", function (e) {
+    console.log(e.target.innerText);   // whichever <li> was clicked
+});`}]},
+{id:'storage', t:'Web Storage (localStorage / sessionStorage)', b:'dom', src:'storage.js', srcType:'js',
+ outputs:{"storage.js":"{name: 'heavycoding', platform: 'Youtube'}\n{name: 'heavycoding', platform: 'Youtube'}"},
+ concept:'Browsers store key-value strings: <code class="inline">localStorage</code> persists across sessions; <code class="inline">sessionStorage</code> clears when the tab closes. Objects must go through <code class="inline">JSON.stringify</code> / <code class="inline">JSON.parse</code>.',
+ points:[
+  'API: <code class="inline">setItem(k, v) · getItem(k) · removeItem(k) · clear()</code> — same for both storages.',
+  'Only strings are stored → <code class="inline">JSON.stringify(user)</code> to save, <code class="inline">JSON.parse(...)</code> to get the object back.'],
+ code:[{title:'storage.js', code:
+`// ---------- localStorage (persists) ----------
+localStorage.setItem("username", "Shubham");
+localStorage.setItem("password", "1234567");
+
+const user = localStorage.getItem("username");  // Shubham
+localStorage.removeItem("password");
+localStorage.clear();                            // wipe all
+
+// ---------- sessionStorage (tab only) ----------
+sessionStorage.setItem("token", "abc123");
+sessionStorage.removeItem("token");
+sessionStorage.clear();
+
+// ---------- storing OBJECTS ----------
+const user = { name: "heavycoding", platform: "Youtube" };
+
+localStorage.setItem("userDetails", JSON.stringify(user));
+sessionStorage.setItem("userDetails", JSON.stringify(user));
+
+const userData  = JSON.parse(localStorage.getItem("userDetails"));
+const userData2 = JSON.parse(sessionStorage.getItem("userDetails"));
+console.log(userData);    // {name:'heavycoding', platform:'Youtube'}
+console.log(userData2);`}]},
+{id:'cookies', t:'Cookies', b:'dom', src:'cookie.js', srcType:'js',
+ outputs:{"cookie.js":"username=heavycoding  (age cookie already deleted via max-age=0)"},
+ concept:'<code class="inline">document.cookie</code> stores small key-value pairs sent to the server with every request. Set expiry with <code class="inline">expires=</code> (a date) or <code class="inline">max-age=</code> (seconds); <code class="inline">path=</code> limits where it\'s visible.',
+ points:[
+  '<code class="inline">document.cookie = "username=x; expires=DATE; path=/";</code>',
+  '<code class="inline">max-age=3600</code> → 1 hour · <code class="inline">max-age=0</code> (or a past date) → <b>delete</b> the cookie.',
+  'Read them all back from <code class="inline">document.cookie</code> (a single "k=v; k=v" string).'],
+ code:[{title:'cookie.js', code:
+`// set with expiry date + path
+document.cookie = "username=heavycoding; expires=Fri, 22 Aug 2026 12:00:00 GMT; path=/index.html";
+
+// set with max-age (seconds) instead
+// document.cookie = "age=50 max-age=3600";   // 1 hour
+
+// delete: max-age=0
+document.cookie = "age=50 max-age=0";
+
+console.log(document.cookie);   // read all cookies back`}]},
+{id:'json', t:'JSON (stringify / parse)', b:'dom', src:'json.js', srcType:'js',
+ outputs:{"json.js":"{\"name\":\"Shubham\",\"age\":22}\n{name: 'Shubham', age: 22}\nShubham"},
+ concept:'JSON is the text format of data exchange between client and server. <code class="inline">JSON.stringify(obj)</code> → object to string (to send/store); <code class="inline">JSON.parse(text)</code> → string back to object (to use).',
+ points:[
+  'Valid JSON: keys in double quotes, values can be strings, numbers, booleans, arrays, nested objects, or <code class="inline">null</code>.',
+  'This pair powers localStorage storage and every <code class="inline">fetch</code> response.'],
+ code:[
+ {title:'json.js', code:
+`const user = { name: "Shubham", age: 22 };
+
+const jsonData = JSON.stringify(user);   // object -> string
+console.log(jsonData);   // {"name":"Shubham","age":22}
+
+const text = '{"name":"Shubham","age":22}';
+const userData = JSON.parse(text);       // string -> object
+console.log(userData);   // {name:'Shubham', age:22}
+console.log(userData.name);   // Shubham`},
+ {title:'data.json — a typical JSON file', code:
+`{
+    "name": "Shubham",
+    "age": 22,
+    "isStudent": false,
+    "marks": [90, 85, 95],
+    "address": {
+        "city": "Delhi",
+        "country": "India"
+    },
+    "phone": null
+}`}]},
+{id:'http', t:'HTTP (requests, responses, methods)', b:'dom', src:'HTTP (HyperText Transfer Protocol).txt', srcType:'txt',
+ concept:'HTTP is the protocol for data exchange between <b>client</b> (browser/app) and <b>server</b> over a reliable <b>TCP connection</b>. Browser sends an <b>HTTP Request</b>, server returns an <b>HTTP Response</b> — every website visit and API call uses it.',
+ points:[
+  '<b>Request</b>: method + path (<code class="inline">GET /users</code>), headers (<code class="inline">Host, Authorization: Bearer token, Content-Type: application/json</code>), optional body.',
+  '<b>Response</b>: status line (<code class="inline">HTTP/1.1 200 OK</code>), headers, body (usually JSON).',
+  '<b>GET</b> — fetch data (users, products, profile, search).',
+  '<b>POST</b> — create (register, login, create order, add product).',
+  '<b>PUT</b> — replace the whole resource · <b>PATCH</b> — update only some fields (change password, email, photo, status).',
+  '<b>DELETE</b> — remove (account, product, order) → <code class="inline">200 OK</code>.'],
+ code:[
+ {title:'request / response structure', code:
+`// ---- REQUEST ----
+GET /users
+Host: example.com
+Authorization: Bearer token123
+Content-Type: application/json
+
+{ "name": "Shubham" }        // optional body
+
+// ---- RESPONSE ----
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{ "id": 1, "name": "Shubham" }`},
+ {title:'PUT vs PATCH example', code:
+`// Current data:  { "id":1, "name":"Shubham", "age":22, "city":"Delhi" }
+
+// PUT - full replace:
+{ "name": "Heavy Coding", "age": 25 }
+// Response: { "id":1, "name":"Heavy Coding", "age":25 }
+//   (city is GONE - whole object replaced)
+
+// PATCH - partial update:
+{ "city": "Jaipur" }
+// Response: { "id":1, "name":"Shubham", "age":22, "city":"Jaipur" }
+//   (only city changed)`}]},
+{id:'fetch', t:'Fetch API (GET / POST / error handling)', b:'dom', src:'fetchapi.js', srcType:'js',
+ outputs:{"fetchapi.js":"Array(10) [{id:1, name:\"Leanne Graham\", email:\"...\"}, ...]\n+ <li>Leanne Graham - leanne@april.biz</li> ... rendered in #userList"},
+ concept:'<code class="inline">fetch(url)</code> requests data from a server and returns a promise. The response body needs <code class="inline">response.json()</code> (also a promise). POST requests add a config object: <code class="inline">method, headers, body</code> with <code class="inline">JSON.stringify</code>.',
+ points:[
+  '<b>.then style</b>: <code class="inline">fetch(url).then(r => r.json()).then(data => ...).catch(...)</code>',
+  '<b>async/await style</b>: cleaner — two awaits (response, then json).',
+  '<b>POST</b>: <code class="inline">method: "POST", headers: {"content-type":"application/json"}, body: JSON.stringify({...})</code>.',
+  'Check <code class="inline">response.ok</code> and <code class="inline">throw</code> to trigger your catch block on bad statuses.',
+  'Real use: loop users and inject <code class="inline"><li>\${name} - \${email}</li></code> into the page.'],
+ code:[{title:'fetchapi.js', code:
+`// ---------- GET with .then ----------
+fetch("https://jsonplaceholder.typicode.com/users")
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.log(error));
+
+// ---------- GET with async/await ----------
+async function getUsers() {
+    const response = await fetch("https://jsonplaceholder.typicode.com/users");
+    const data = await response.json();
+    console.log(data);
+}
+getUsers();
+
+// ---------- POST (create) ----------
+fetch("https://jsonplaceholder.typicode.com/users", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+        id: 11,
+        name: "Shubham",
+        username: "shub123"
+    })
+}).then(r => r.json()).then(console.log).catch(console.log);
+
+// ---------- with error handling ----------
+async function getUsersSafe() {
+    try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/users");
+        if (!response.ok) {
+            throw new Error("user api failed to fetch data");
+        }
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+// ---------- render results into the DOM ----------
+async function showUsers() {
+    const response = await fetch("https://jsonplaceholder.typicode.com/users");
+    const data = await response.json();
+    let userList = document.getElementById("userList");
+    data.forEach(users => {
+        userList.innerHTML += \`<li>\${users.name} - \${users.email}</li>\`;
+    });
+}
+showUsers();`}]},
+]},
+{part:'V · Performance & Projects', items:[
+{id:'debouncing', t:'Debouncing', b:'proj', src:'debouncing.js', srcType:'js',
+ outputs:{"debouncing.js":"API Call searching..   (ONLY ONCE - 500ms after the last call)\n\nlive demo: raw events counts every keystroke,\ndebounced calls count only after you stop typing"},
+ concept:'Debouncing delays a function until the user <b>stops</b> triggering it for X ms. Every new trigger resets the timer — only the last call survives. Perfect for search boxes: one API call after typing pauses, not one per keystroke.',
+ points:[
+  'Closure keeps a <code class="inline">timer</code> id; each call does <code class="inline">clearTimeout(timer)</code> then sets a fresh one.',
+  '7 rapid <code class="inline">handleSearch()</code> calls → only ONE "API Call searching.." — 500ms after the last.',
+  'The debounce.html demo counts raw input events vs debounced calls side by side.'],
+ code:[
+ {title:'debouncing.js', code:
+`function debounce(fn, delay) {
+    let timer;                       // remembered via closure
+    return function () {
+        clearTimeout(timer);         // cancel previous schedule
+        timer = setTimeout(function () {
+            fn();                    // run only after quiet period
+        }, delay);
+    };
+}
+
+function search() {
+    console.log("API Call searching..");
+}
+
+let handleSearch = debounce(search, 500);
+
+handleSearch();   // \\
+handleSearch();   //  |
+handleSearch();   //  |  all reset the timer...
+handleSearch();   //  |  ...only the LAST one fires
+handleSearch();   //  |  -> ONE "API Call searching.."
+handleSearch();   //  |     500ms after this line
+handleSearch();   // /`},
+ {title:'live demo — type below', demo: 'debounce'}]},
+{id:'throttling', t:'Throttling', b:'proj', src:'throttling.js', srcType:'js',
+ outputs:{"throttling.js":"API Call...   (max 1 per second no matter how fast you scroll)\n\nlive demo: total clicks counts every click,\nthrottled calls max +1 per 1.5s"},
+ concept:'Throttling lets a function run <b>at most once per delay window</b> no matter how many events fire. Scroll/resize/click floods become a steady drumbeat. Debounce waits for silence; throttle guarantees a rate.',
+ points:[
+  'Closure keeps <code class="inline">lastTime = 0</code>; if <code class="inline">now - lastTime >= delay</code> → run & update, otherwise skip.',
+  'Used on <code class="inline">window.addEventListener("scroll", handleScroll)</code> — max 1 call per second.',
+  'The throttling.html demo shows Total Clicks vs Throttled Calls while clicking fast.'],
+ code:[
+ {title:'throttling.js', code:
+`function throttle(fn, delay) {
+    let lastTime = 0;                // closure state
+    return function () {
+        const now = Date.now();
+        if (now - lastTime >= delay) {   // window passed?
+            fn();                    // run
+            lastTime = now;          // restart window
+        }
+        // else: skipped silently
+    }
+}
+
+const handleScroll = throttle(() => {
+    console.log("API Call...")
+}, 1000);
+
+window.addEventListener("scroll", handleScroll);
+// scrolls 100x/s -> only ~1 call per second
+
+// ---- from throttling.html: click-flood demo ----
+function throttle2(fn, delay) {
+    let lastTime = 0;
+    return function (...args) {
+        const now = Date.now();
+        if (now - lastTime >= delay) {
+            lastTime = now;
+            fn.apply(this, args);    // keep context + args
+        }
+    };
+}
+const throttledFunction = throttle2(() => {
+    calls++;
+    document.getElementById("calls").textContent = calls;
+}, 1000);
+// button click -> clicks++ always, but throttledFunction runs max 1/s`},
+ {title:'live demo — click fast!', demo: 'throttle'}]},
+{id:'validation1', t:'Project: Form Validation — Level 1 (required fields)', b:'proj', src:'validationLevel1.js', srcType:'js',
+ outputs:{"validationLevel1.js":"Name is required / Email is required / ... in red spans\nreturn false -> form does NOT submit"},
+ concept:'Vanilla validation: on submit, clear all error spans, check every field (<code class="inline">value.trim() == ""</code>, radio <code class="inline">checked</code>, select value, checkbox), write messages into error spans, and <code class="inline">return isValid</code> — the form submits only when true.',
+ points:[
+  'Pattern: one <code class="inline">if</code> per field → set <code class="inline">document.getElementById("xError").innerText</code> and flip <code class="inline">isValid = false</code>.',
+  '<code class="inline">.trim()</code> so spaces alone don\'t pass.',
+  'Radios: <code class="inline">!male.checked && !female.checked</code> → neither picked.',
+  'Wire-up: <code class="inline"><form onsubmit="return validateForm()"></code> (formLevel1.html).'],
+ code:[{title:'validationLevel1.js', code:
+`function validateForm() {
+    let name = document.getElementById("name")
+    let email = document.getElementById("email")
+    let password = document.getElementById("password")
+    let male = document.getElementById("male")
+    let female = document.getElementById("female")
+    let country = document.getElementById("country")
+    let terms = document.getElementById("terms")
+
+    // reset previous errors
+    document.getElementById("nameError").innerText = ""
+    document.getElementById("emailError").innerText = ""
+    document.getElementById("passwordError").innerText = ""
+    document.getElementById("genderError").innerText = ""
+    document.getElementById("countryError").innerText = ""
+    document.getElementById("termsError").innerText = ""
+
+    let isValid = true;
+
+    if (name.value.trim() == "") {
+        document.getElementById("nameError").innerText = "Name is required"
+        isValid = false
+    }
+    if (email.value.trim() == "") {
+        document.getElementById("emailError").innerText = "Email is required"
+        isValid = false
+    }
+    if (password.value.trim() == "") {
+        document.getElementById("passwordError").innerText = "Password is required"
+        isValid = false
+    }
+    if (!male.checked && !female.checked) {
+        document.getElementById("genderError").innerText = "Gender is required"
+        isValid = false
+    }
+    if (country.value == "") {
+        document.getElementById("countryError").innerText = "Country is required"
+        isValid = false
+    }
+    if (!terms.checked) {
+        document.getElementById("termsError").innerText = "Terms is required"
+        isValid = false
+    }
+    return isValid;   // false blocks the submit
+}`}]},
+{id:'validation2', t:'Project: Form Validation — Level 2 (live feedback)', b:'proj', src:'validationLevel2.js', srcType:'js',
+ outputs:{"validationLevel2.js":"red border + message while invalid\ngreen border when the field becomes valid\nalert('form submitted') + form reset when all pass"},
+ concept:'Upgraded UX: reusable <code class="inline">showError / showSuccess</code> helpers toggle CSS classes (<code class="inline">.invalid</code> red border, <code class="inline">.success</code> green border), validation runs <b>live on every keystroke</b> via the <code class="inline">input</code> event, and submit re-checks everything.',
+ points:[
+  '<code class="inline">classList.add / remove</code> drive the visual state — no inline styles needed.',
+  'Length rule: <code class="inline">name.length < 3</code> → "Minimum 3 characters required".',
+  '<code class="inline">e.preventDefault()</code> on submit; only if ALL validators pass → <code class="inline">alert("form submitted") + form.reset()</code>.'],
+ code:[{title:'validationLevel2.js', code:
+`const form = document.getElementById("myForm")
+const nameInput = document.getElementById("name")
+const emailInput = document.getElementById("email")
+
+// ---- reusable helpers ----
+function showError(input, errorID, message) {
+    input.classList.add("invalid")      // red border
+    input.classList.remove("success")
+    document.getElementById(errorID).innerText = message
+}
+function showSuccess(input, errorID) {
+    input.classList.add("success")      // green border
+    input.classList.remove("invalid")
+    document.getElementById(errorID).innerText = ""
+}
+
+// ---- validators ----
+function validateName() {
+    const name = nameInput.value.trim();
+    if (name == "") {
+        showError(nameInput, "nameError", "Name is required")
+        return false
+    }
+    if (name.length < 3) {
+        showError(nameInput, "nameError", "Minimum 3 characters required")
+        return false
+    }
+    showSuccess(nameInput, "nameError")
+    return true
+}
+
+function validateEmail() {
+    const email = emailInput.value.trim();
+    if (email == "") {
+        showError(emailInput, "emailError", "Email is required")
+        return false
+    }
+    showSuccess(emailInput, "emailError")
+    return true
+}
+
+// ---- LIVE validation while typing ----
+nameInput.addEventListener('input', validateName)
+emailInput.addEventListener('input', validateEmail)
+
+// ---- submit gate ----
+form.addEventListener("submit", function (e) {
+    e.preventDefault()
+    const isNameValid = validateName();
+    const isEmailValid = validateEmail();
+    if (isNameValid && isEmailValid) {
+        alert("form submitted")
+        form.reset()
+        nameInput.classList.remove("success")
+        emailInput.classList.remove("success")
+    }
+})
+
+// CSS used by formLevel2.html:
+// .error { color: red }  .success { border: 2px solid green }  .invalid { border: 2px solid red }`}]},
+{id:'validation3', t:'Project: Form Validation — Level 3 (Regex)', b:'proj', src:'validationLevel3.js', srcType:'js',
+ outputs:{"validationLevel3.js":"Name: \"Minimum 3 characters required and max 30...\"\nEmail: \"Email format is incorrect\"\nPassword: \"Password format is incorrect\"\nalert('form submitted') when all regexes pass"},
+ concept:'Final level: <b>Regular Expressions</b> enforce real formats. <code class="inline">regex.test(value)</code> returns true/false. Name, email and password each get their own pattern, checked live on every keystroke.',
+ points:[
+  '<code class="inline">/^[A-Za-z ._@0-9]{3,30}$/</code> — name: allowed chars, length 3–30.',
+  '<code class="inline">/[A-Za-z#_.0-9]{3,30}@[A-Za-z.]{1,15}.[A-Za-z]/gm</code> — rough email shape: text <code class="inline">@</code> domain <code class="inline">.</code> tld.',
+  '<code class="inline">/[A-Za-z_.0-9#@]{8,30}/</code> — password: allowed chars, 8–30 long.',
+  'The commented line at the bottom is the famous strong-password regex: <code class="inline">/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$/</code> (needs lower + upper + digit + special).',
+  'Structure is identical to Level 2 — only the format rules changed.'],
+ code:[{title:'validationLevel3.js', code:
+`const form = document.getElementById("myForm")
+const nameInput = document.getElementById("name")
+const emailInput = document.getElementById("email")
+const passwordInput = document.getElementById("password")
+
+function showError(input, errorID, message) { /* same as level 2 */ }
+function showSuccess(input, errorID) { /* same as level 2 */ }
+
+function validateName() {
+    const name = nameInput.value.trim();
+    const regexName = /^[A-Za-z ._@0-9]{3,30}$/;   // 3-30 allowed chars
+    if (name == "") {
+        showError(nameInput, "nameError", "Name is required")
+        return false
+    }
+    if (!regexName.test(name)) {
+        showError(nameInput, "nameError", "Minimum 3 characters required and max 30 1 special 1 numeric with space")
+        return false
+    }
+    showSuccess(nameInput, "nameError")
+    return true
+}
+
+function validateEmail() {
+    const email = emailInput.value.trim();
+    const regexEmail = /[A-Za-z#_.0-9]{3,30}@[A-Za-z.]{1,15}.[A-Za-z]/gm;
+    if (email == "") {
+        showError(emailInput, "emailError", "Email is required")
+        return false
+    }
+    if (!regexEmail.test(email)) {
+        showError(emailInput, "emailError", "Email format is incorrect")
+        return false
+    }
+    showSuccess(emailInput, "emailError")
+    return true
+}
+
+function validatePassword() {
+    const password = passwordInput.value.trim();
+    const regexPass = /[A-Za-z_.0-9#@]{8,30}/;     // 8-30 allowed chars
+    if (!regexPass.test(password)) {
+        showError(passwordInput, "passwordError", "Password format is incorrect")
+        return false
+    }
+    showSuccess(passwordInput, "passwordError")
+    return true
+}
+
+// live validation
+nameInput.addEventListener('input', validateName)
+emailInput.addEventListener('input', validateEmail)
+passwordInput.addEventListener('input', validatePassword)
+
+form.addEventListener("submit", function (e) {
+    e.preventDefault()
+    if (validateName() && validateEmail() && validatePassword()) {
+        alert("form submitted")
+        form.reset()
+    }
+})
+
+// strong password pattern (from the file's last line):
+// /^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$/`}]},
+]},
+];
+
+/* ============================================================
+   BUILD UI
+   ============================================================ */
+const badges = {basics:'Basics', es6:'ES6+', adv:'Advanced', async:'Async', dom:'DOM', proj:'Project'};
+const partId = p => 'part-' + p.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+let idx = 0, allTopics = [];
+
+const sidebar = document.getElementById('sidebar');
+const content = document.getElementById('content');
+let navHTML = '', mainHTML = '';
+
+// hero
+mainHTML += `<div class="hero">
+  <h1>JavaScript — The Complete Refresher 🚀</h1>
+  <p>Every file of this tutorial, rewritten in learning order: concept → code → output. Click a topic in the sidebar, copy any code block, and try the live demos. Your reading progress is saved automatically.</p>
+  <div class="chips">
+    <span class="chip">54 topics</span><span class="chip">7 parts</span>
+    <span class="chip">code + output for every lesson</span><span class="chip">copy buttons</span>
+    <span class="chip">search</span><span class="chip">live demos</span><span class="chip">progress tracking</span>
+  </div>
+</div>`;
+
+COURSE.forEach(part => {
+  navHTML += `<div class="nav-section">${part.part}</div>`;
+  mainHTML += `<div class="part" id="${partId(part.part)}"><span class="roman">${part.part.split('·')[0].trim()}</span><h2>${part.part.split('·')[1] || part.part}</h2><div class="line"></div></div>`;
+  part.items.forEach(item => {
+    idx++;
+    const num = String(idx).padStart(2,'0');
+    allTopics.push({id:item.id, num, t:item.t});
+    navHTML += `<a class="nav-link" data-target="${item.id}"><span class="num">${num}</span><span>${item.t}</span></a>`;
+    let body = '';
+    if (item.concept) body += `<div class="concept">${item.concept}</div>`;
+    if (item.points) body += `<ul class="points">${item.points.map(p=>`<li>${p}</li>`).join('')}</ul>`;
+    (item.code||[]).forEach(block => {
+      if (block.demo) { body += demoHTML(block.demo); return; }
+      body += codeHTML(block.title, block.code);
+      body += outputHTML(item.outputs && item.outputs[block.title]);
+    });
+    mainHTML += `<div class="card" id="${item.id}">
+      <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
+        <span class="badge b-${item.b}">${badges[item.b]}</span>
+        <h3>${item.t}</h3>
+        <span class="link-source">📄 ${item.src}</span>
+        <span class="toggle">▶</span>
+      </div>
+      <div class="card-body">${body}</div>
+    </div>`;
+  });
+});
+
+/* ---------- code + copy + output ---------- */
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function hl(code){
+  // single-pass tokenizer: escapes every token exactly once and never re-scans
+  // generated HTML (the old sequential .replace chain was corrupting spans).
+  const KW = /^(?:const|let|var|function|return|if|else|for|while|do|switch|case|break|default|new|class|extends|super|constructor|this|typeof|instanceof|try|catch|finally|throw|async|await|export|import|from|of|in|delete|void|yield|static|get|set|true|false|null|undefined|NaN)$/;
+  function line(l){
+    let out = '', i = 0;
+    const push = (cls, txt) => { out += '<span class="' + cls + '">' + esc(txt) + '</span>'; };
+    while (i < l.length) {
+      const rest = l.slice(i);
+      let m;
+      if (rest.startsWith('//')) { push('cm', rest); break; }
+      if (rest.startsWith('/*')) {
+        const end = rest.indexOf('*/', 2);
+        const seg = end < 0 ? rest : rest.slice(0, end + 2);
+        push('cm', seg); i += seg.length; continue;
+      }
+      if ((m = rest.match(/^(?:"(?:[^"\\]|\\.)*"?|'(?:[^'\\]|\\.)*'?)/))) { push('str', m[0]); i += m[0].length; continue; }
+      if ((m = rest.match(/^`(?:[^`\\]|\\.)*/))) { push('str', m[0]); i += m[0].length; continue; }
+      if ((m = rest.match(/^[0-9]+(?:\.[0-9]+)?/))) { push('num', m[0]); i += m[0].length; continue; }
+      if ((m = rest.match(/^[A-Za-z_$][\w$]*/))) {
+        const w = m[0];
+        if (KW.test(w)) push('kw', w);
+        else if (/^\s*\(/.test(rest.slice(w.length))) push('fn', w);
+        else out += esc(w);
+        i += w.length; continue;
+      }
+      out += esc(l[i]); i++;
+    }
+    return out;
+  }
+  return code.split('\n').map((l, idx) => `<span class="ln">${idx + 1}</span>${line(l)}`).join('\n');
+}
+let copiedTimer;
+function copyCode(btn){
+  const pre = btn.closest('.codeblock').querySelector('pre');
+  const text = pre.dataset.raw;
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.classList.add('copied'); btn.innerHTML = '✓ Copied';
+    clearTimeout(copiedTimer);
+    copiedTimer = setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='📋 Copy';},1600);
+  }).catch(()=>{ /* fallback */ 
+    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
+    btn.classList.add('copied');btn.innerHTML='✓ Copied';
+    setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='📋 Copy';},1600);
+  });
+}
+function codeHTML(title, code){
+  return `<div class="codeblock">
+    <div class="cb-head"><span class="cb-title">${title || 'code'}</span>
+    <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button></div>
+    <pre data-raw="${esc(code).replace(/"/g,'&quot;')}">${hl(code)}</pre>
+  </div>`;
+}
+function outputHTML(out){
+  if(!out) return '';
+  return `<div class="outputblock"><div class="ob-head"><span class="ob-title">▸ OUTPUT</span></div><pre>${esc(out)}</pre></div>`;
+}
+
+/* ---------- live demos ---------- */
+function demoHTML(kind){
+  if(kind==='debounce') return `<div class="demo"><div class="demo-title">⚡ Live: Debounce — type & pause</div>
+    <div class="row"><input type="text" id="dbInput" placeholder="Type something..."><span class="stat">raw events: <b class="warn" id="dbRaw">0</b></span><span class="stat">debounced calls: <b id="dbDx">0</b></span></div></div>`;
+  if(kind==='throttle') return `<div class="demo"><div class="demo-title">⚡ Live: Throttle — click fast!</div>
+    <div class="row"><button id="thBtn">Click me fast!</button><span class="stat">total clicks: <b class="warn" id="thClicks">0</b></span><span class="stat">throttled calls: <b id="thCalls">0</b></span></div></div>`;
+  if(kind==='counter') return `<div class="demo"><div class="demo-title">⚡ Live: setInterval counter</div>
+    <div class="row"><button id="ctStart">▶ Start Counter</button><button id="ctStop">⏸ Stop Counter</button><span class="stat" style="font-size:22px"><b id="ctVal">0</b></span></div></div>`;
+  if(kind==='dialog') return `<div class="demo"><div class="demo-title">⚡ Live: Dialog boxes</div>
+    <div class="row"><button id="dlAlert">alert()</button><button id="dlPrompt">prompt()</button><button id="dlConfirm">confirm()</button><span class="stat" id="dlOut">click a button…</span></div></div>`;
+  return '';
+}
+function initDemos(){
+  // debounce
+  const dbI = document.getElementById('dbInput');
+  if(dbI){
+    let raw=0,dx=0,timer;
+    const debounced = fn => { clearTimeout(timer); timer=setTimeout(fn,800); };
+    dbI.addEventListener('input',()=>{
+      raw++; document.getElementById('dbRaw').textContent=raw;
+      debounced(()=>{ dx++; document.getElementById('dbDx').textContent=dx; });
+    });
+  }
+  // throttle
+  const thB = document.getElementById('thBtn');
+  if(thB){
+    let clicks=0,calls=0,last=0;
+    thB.addEventListener('click',()=>{
+      clicks++; document.getElementById('thClicks').textContent=clicks;
+      const now=Date.now();
+      if(now-last>=1500){ calls++; last=now; document.getElementById('thCalls').textContent=calls; }
+    });
+  }
+  // counter
+  const ctS = document.getElementById('ctStart');
+  if(ctS){
+    let id=null,c=0;
+    ctS.addEventListener('click',()=>{
+      if(!id){ id=setInterval(()=>{ c++; document.getElementById('ctVal').textContent=c; },1000); }
+    });
+    document.getElementById('ctStop').addEventListener('click',()=>{ clearInterval(id); id=null; });
+  }
+  // dialogs
+  const dlA = document.getElementById('dlAlert');
+  if(dlA){
+    const out=document.getElementById('dlOut');
+    dlA.addEventListener('click',()=>{ alert('Hello Javascript'); out.textContent='alert shown'; });
+    document.getElementById('dlPrompt').addEventListener('click',()=>{
+      const n=prompt('Enter your name'); out.textContent = n ? `you typed: ${n}` : 'cancelled';
+    });
+    document.getElementById('dlConfirm').addEventListener('click',()=>{
+      out.textContent = confirm('Are you sure want to delete?') ? 'user confirmed ✅' : 'user cancelled ❌';
+    });
+  }
+}
+
+/* ---------- write to DOM ---------- */
+sidebar.innerHTML = navHTML;
+content.innerHTML = mainHTML + `<div id="noresults">`;
+initDemos();
+
+/* ---------- open first cards of each part? just first card ---------- */
+content.querySelector('.card').classList.add('open');
+
+/* ---------- navigation & progress ---------- */
+const navLinks = [...document.querySelectorAll('.nav-link')];
+const cards = [...document.querySelectorAll('.card')];
+const read = new Set(JSON.parse(localStorage.getItem('js-guide-progress')||'[]'));
+
+function updateProgress(){
+  document.getElementById('progressText').textContent = `${read.size} / ${allTopics.length} read`;
+  navLinks.forEach(l=>l.classList.toggle('done', read.has(l.dataset.target)));
+}
+function markRead(id){
+  const card = document.getElementById(id);
+  if(!card) return;
+  card.addEventListener('scroll',()=>{});
+  const obs = new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting && e.intersectionRatio>0.55){ read.add(id); localStorage.setItem('js-guide-progress',JSON.stringify([...read])); updateProgress(); obs.disconnect(); } });
+  },{threshold:0.55});
+  obs.observe(card);
+}
+allTopics.forEach(t=>markRead(t.id));
+updateProgress();
+
+navLinks.forEach(link=>{
+  link.addEventListener('click',()=>{
+    const card = document.getElementById(link.dataset.target);
+    card.classList.add('open');
+    card.scrollIntoView({behavior:'smooth',block:'start'});
+    history.replaceState(null,'','#'+link.dataset.target);
+    if(window.innerWidth<=1024) sidebar.classList.remove('mobile-open');
+  });
+});
+// deep-link on load
+if(location.hash){
+  const c=document.getElementById(location.hash.slice(1));
+  if(c) c.classList.add('open');
+}
+
+// active link highlight on scroll
+const spy = new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      navLinks.forEach(l=>l.classList.toggle('active', l.dataset.target===e.target.id));
+    }
+  });
+},{rootMargin:'-20% 0px -70% 0px'});
+cards.forEach(c=>spy.observe(c));
+
+/* ---------- search ---------- */
+document.getElementById('searchInput').addEventListener('input',e=>{
+  const q=e.target.value.toLowerCase().trim();
+  let any=false;
+  cards.forEach(c=>{
+    const topic=allTopics.find(t=>t.id===c.id);
+    const match=!q || topic.t.toLowerCase().includes(q) || c.textContent.toLowerCase().includes(q);
+    c.style.display=match?'':'none';
+    if(match&&q) any=true;
+    if(q&&match) c.classList.add('open'); else if(q) c.classList.remove('open');
+  });
+  document.querySelectorAll('.part').forEach(p=>{
+    p.style.display=q?'none':'';
+  });
+  document.getElementById('noresults').style.display=(q&&!any)?'block':'none';
+});
+
+/* ---------- read bar + back to top ---------- */
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  const pct=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;
+  document.getElementById('readbar').style.width=pct+'%';
+  document.getElementById('backTop').classList.toggle('show',h.scrollTop>600);
+});
+document.getElementById('backTop').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+/* ---------- reset progress ---------- */
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  read.clear(); localStorage.removeItem('js-guide-progress'); updateProgress();
+});
+
+/* ---------- mobile sidebar ---------- */
+document.getElementById('burger').addEventListener('click',()=>sidebar.classList.toggle('mobile-open'));
+
+/* ---------- keyboard ---------- */
+document.addEventListener('keydown',e=>{
+  if(e.key==='/' && document.activeElement.tagName!=='INPUT'){ e.preventDefault(); document.getElementById('searchInput').focus(); }
+});
+</script>
+</body>
+</html>

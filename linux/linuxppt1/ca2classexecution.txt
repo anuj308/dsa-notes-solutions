@@ -1,0 +1,155 @@
+nmcli con show
+nmcli device status
+ip addr
+sudo nmcli con add con-name testing type ethernet ifname ens160
+sudo nmcli con mod testing ipv4.method manual
+sudo nmcli con mod testing ipv4.method manual
+sudo nmcli con mod testing ipv4.addresses 192.168.120.150/24
+sudo nmcli con mod testing ipv4.gateway 192.168.120.2
+sudo nmcli con mod testing ipv4.dns 8.8.8.8
+
+==============================================================================================
+
+
+# UNMOUNT
+cd ~
+sudo umount /home/sourav/test
+
+# PERSISTENT MOUNT
+sudo blkid /dev/nvme0n2p2
+sudo mkdir -p /home/sourav/test
+sudo nano /etc/fstab
+
+# Add:
+UUID=XXXX    /home/sourav/test    xfs    defaults    0 0
+
+# Test
+sudo mount -a
+findmnt /home/sourav/test
+
+# Permission
+sudo chown sourav:sourav /home/sourav/test
+
+# SWAP
+sudo mkswap /dev/nvme0n2p3
+sudo swapon /dev/nvme0n2p3
+swapon --show
+
+# Persistent swap
+sudo blkid /dev/nvme0n2p3
+sudo nano /etc/fstab
+
+# Add:
+UUID=XXXX    none    swap    defaults    0 0
+
+# Test
+sudo swapoff /dev/nvme0n2p3
+sudo swapon -a
+swapon --show
+
+sudo mkdir -p /home/sourav/test
+
+Now open fstab:
+
+sudo nano /etc/fstab
+
+
+Partion creation
+sudo fdisk /dev/nvme0n2
+
+
+Swap filesystem
+ & activate
+sudo mkswap /dev/nvme0n2p3
+
+sudo swapon /dev/nvme0n2p3
+
+
+uuid
+sudo blkid /dev/nvme0n2p3
+
+====================================================================================
+# 1. Identify disks
+lsblk
+sudo fdisk -l
+
+# 2. Partition new disk
+sudo fdisk /dev/nvme0n1
+
+# Inside fdisk
+n
+p
+1
+ENTER
++4G
+
+n
+p
+2
+ENTER
+ENTER
+
+p
+w
+
+# 3. Verify
+lsblk
+
+# 4. Create filesystemxf
+sudo mkfs.xfs /dev/nvme0n1p1
+sudo mkfs.xfs /dev/nvme0n1p2
+
+# 5. Create mount point
+mkdir -p /home/sourav/mountpoint
+
+# 6. Mount
+sudo mount /dev/nvme0n1p1 /home/sourav/mountpoint
+
+# 7. Verify
+df -hT
+findmnt /home/sourav/mountpoint
+lsblk -f
+
+FINDING THE EXITING MOUNT
+findmnt /dev/nvme0n2p2
+
+==================================================================================
+
+PASS OR FAIL CODE
+==================================
+#!/bin/bash
+
+read marks
+
+if [ $marks -ge 40 ]
+then
+    echo "PASS"
+else
+    echo "FAIL"
+fi
+
+=====================================
+LARGER OF THREE NUMBERS
+#!/bin/bash
+
+read a
+read b
+read c
+
+if [ $a -ge $b ] && [ $a -ge $c ]
+then
+    echo "$a is largest"
+elif [ $b -ge $a ] && [ $b -ge $c ]
+then
+    echo "$b is largest"
+else
+    echo "$c is largest"
+fi
+
+
+
+
+
+
+
+
